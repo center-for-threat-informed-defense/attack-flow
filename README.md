@@ -1,8 +1,10 @@
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/project-template/branch/main/graph/badge.svg?token=ygDiymg8y3)](https://codecov.io/gh/center-for-threat-informed-defense/project-template)
 TODO: Replace with project-specific CodeCov badge
 
-# TODO: Replace with Project Name
-TODO: Replace with project description
+# ATT&CK Flow
+ATT&CK Flow helps executives, SOC managers, and defenders easily understand how attackers compose ATT&CK techniques into attacks by developing a representation of attack flows, modeling attack flows for a small corpus of incidents, and creating visualization tools to display attack flows. 
+
+At the end of the project, the visualization tools will demonstrate how attack flows will help security leaders explain defensive posture to executives, help defenders understand lessons-learned in an incident, and help red-teamers easily compose realistic adversary emulation scenarios. 
 
 ## Questions and Feedback
 Please submit issues for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
