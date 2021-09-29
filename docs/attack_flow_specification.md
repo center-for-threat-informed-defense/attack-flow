@@ -103,11 +103,11 @@ A Report Object provides information on the intelligence report which provides t
 
 
 
+## Example Attack Flow 
+
 <img src="/data/tesla_diagram.png" width="528px">
 
 *Visualization of Tesla breach*
-
-## Example Attack Flow 
 
 ```
 {
