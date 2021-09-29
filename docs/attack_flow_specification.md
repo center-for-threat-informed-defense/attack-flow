@@ -2,7 +2,7 @@
 
 The attack flow format shown below represents the linkage of adversary behavior for a given attack flow with the accompanying data on the reports and relationships for the steps. The type, description, and required attributes of each field are provided in the subsequent sections along with an example.
 
-<img src="/data/flow_diagram.png" width="900px"
+<img src="/data/flow_diagram.png" width="900px">
 *Entity Diagram for Attack Flow Format*
 
 ## Data Dictionary
@@ -102,7 +102,7 @@ A Report Object provides information on the intelligence report which provides t
 
 
 
-<img src="data/tesla_diagram.png">
+<img src="data/tesla_diagram.png" width="528px">
 *Visualization of Tesla breach*
 
 ## Example Attack Flow 
