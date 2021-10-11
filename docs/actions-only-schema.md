@@ -110,6 +110,7 @@ A Report Object provides information on the intelligence report which provides t
 *Visualization of Tesla breach*
 
 ```
+```json
 {
    "type": "attack-flow",
    "spec_version" : "2.1",
