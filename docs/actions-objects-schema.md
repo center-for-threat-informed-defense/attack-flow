@@ -55,6 +55,7 @@ A relationship links an Action to an Object or an Object to an Action.
 |------|------|----------|-------------|
 | type | String | yes | The type of the object. MUST be `relationship`. |
 | id | String | yes | The UUID-formatted id of the relationship. |
+| label | String | yes | The type of the relationship. e.g., `modifies` |
 | source | String | yes | The source Action ID or Asset ID for this relationship. |
 | destination | String | yes | The destination Asset ID or Action ID for this relationship. |
 
