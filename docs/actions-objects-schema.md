@@ -37,8 +37,7 @@ An action object describes a discrete action for one step in an attack flow(ex: 
 | reference | String | no | A reference for the action. May be a URL to an ATT&CK technique. |
 | requirements | List of ids | yes | The list of action or asset objects that precede this action object in the attack flow. |
 | outputs | List of ids | yes | The list of action or asset objects that follow this action object in the attack flow. |
-| properties | List of Strings | no | The list of properties associated with this action object. | 
-| x-attack-flow-relative-time | String | yes | The relative time elapes between the first and last step linked by the relationship. |
+| properties | List of Strings | no | The list of properties associated with this action object. |
 
 ### Asset object Fields
 An asset object describes a resource or capability that is being acted on or is involved with an action object.
