@@ -1,8 +1,10 @@
 # Attack Flow Format
 
-The attack flow format shown below represents the linkage of adversary behavior for a given attack flow with the accompanying data on the reports and relationships for the steps. The type, description, and required attributes of each field are provided in the subsequent sections along with an example.
+Attack Flow represents the linkage of adversary behavior for a given attack flow . 
 
-<img src="/data/action-object-model.png" width="900px">
+The type, description, and required attributes of each field are provided in the subsequent sections along with an example.
+
+TODO: Visual for the Attack Flow model / Data Dictionary.
 
 *Entity Diagram for Attack Flow Format*
 
@@ -11,82 +13,54 @@ The attack flow format shown below represents the linkage of adversary behavior 
  
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| type | String | yes | The attack flow or attack flow pattern type |
-| id | String | yes | The unique identifier for this file. |
-| name | String | yes | The name of the attack flow or pattern represented in this file. |
-| version | String | yes | The version of the attack flow format used in this file. |
-| created | Timestamp | yes | Creation time of this file.<br /> Format:  2021-01-01 |
-| modified | Timestamp | no | Last modified time of this mapping file.<br /> Format:  2021-01-01 |
-| author | String | no | The author of this file. |
-| description | String | yes | The description of the attack flow |
-| tags | List of Strings | yes | The list of tags/key words for this attack flow to allow for aggregation and search of subsets of flows. |
-| start-step-id | String | yes | The ID for the starting point of the flow object. |
-| sightings | List of Report objects | yes	| A list of report objects that provide the intelligence used for generating the attack flow model represented in the file. |
-| actions | List of Action objects | yes | The list of actions that represent activity in the attack flow. |
-| assets | List of Asset objects | yes | The list of asset objects the represent resources in the attack flow. |
-| comments | String | no | Document any assumptions or comments on the attack flow. |
-
-
-
+| type | String | yes | One of `attack-flow` or `attack-flow-pattern` to indicate the type of this Attack Flow or Pattern. |
+| id | String | yes | The UUID-formatted identifier for this Attack Flow or Pattern. |
+| name | String | yes | The name of the Attack Flow or Pattern. |
+| version | String | yes | The version of the Attack Flow format used in this file. Currently `dev`. |
+| created | Timestamp | yes | Creation time of the Attack Flow or Pattern.<br /> Format:  2021-01-01 |
+| author | String | no | The author of the Attack Flow or Pattern. |
+| description | String | no | The description of the Attack Flow or Pattern. |
+| start-id | String | yes | The ID for the starting point of the Attack Flow or Pattern. |
+| actions | List of Action objects | yes | The list of Action Nodes in the Attack Flow or Pattern. |
+| assets | List of Asset objects | yes | The list of Asset Nodes in the Attack Flow or Pattern. |
+| relationships | List of Relationship objects | yes | The list of Relationship Edges in the Attack Flow or Pattern. |
 
 ### Action object Fields
 An action object describes a discrete action for one step in an attack flow(ex: ATT&CK technique).
  
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| type | String | yes | The type of the object, should be action. |
-| id | String | yes | The id of the action. |
-| name | String | yes | The name of the action, may be an ATT&CK technique name. |
+| type | String | yes | MUST be `action` |
+| id | String | yes | The UUID-formatted id of the action. |
+| name | String | yes | The name of the action. May be an ATT&CK technique name. |
 | description | String | yes | A description of the action. |
-| external_references | List of Reference objects | yes | A list of the references for the given action, may be a specific ATT&CK technique id |
-| x-attack-flow-relative-time | String | yes | The relative time elapes between the first and last step linked by the relationship. |
+| reference | String | no | A reference for the action. May be a URL to an ATT&CK technique. |
 | requirements | List of ids | yes | The list of action or asset objects that precede this action object in the attack flow. |
 | outputs | List of ids | yes | The list of action or asset objects that follow this action object in the attack flow. |
-| properties | List of Strings | no | The list of properties associated with this action object. | 
-
-
-
+| properties | List of Strings | no | The list of properties associated with this action object. |
 
 ### Asset object Fields
 An asset object describes a resource or capability that is being acted on or is involved with an action object.
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| type | String | yes | The type of the object, should be action. |
-| id | String | yes | The id of the action. |
-| properties | List of Strings | no | The list of properties associated with this asset object. | 
+| type | String | yes | The type of the object. MUST be `action`. |
+| id | String | yes | The UUID-formatted id of the action. |
+| properties | List of Strings | no | The list of properties associated with the asset. |
 
+### Relationship object Fields.
+A relationship links an Action to an Object or an Object to an Action.
 
-
-### Reference Object Fields
-A Reference object contains a reference that describes the given action, this may be an ATT&CK reference.
- 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| external_id | String | yes | The unique id for the object, may be a ATT&CK technique id. |
-| source_name | String | yes | The name of the reference, may be an ATT&CK technique name. |
-| url | String | yes | The URL link for the reference. |
-
-
-
-
-### Report Object Fields
-A Report Object provides information on the intelligence report which provides the data on the steps and relationships of the attack flow.
- 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| type | String | yes | The type of the object, should be report. |
-| id | String | yes | The ID of the report. |
-| name | String | yes |The name of the report. |
-| report-type | String | yes | The type of the report. Ex: [campaign] |
-| published | Date | yes | The time the report was published |
-| description | String | yes | The description of the report. |
-| object_refs	| List of IDs | no | The list of steps and relationships referred to by this report.|
-| external_references | List of URLs | yes | The list of links to the intelligence reports referenced in the report object |
-
-
+| type | String | yes | The type of the object. MUST be `relationship`. |
+| id | String | yes | The UUID-formatted id of the relationship. |
+| label | String | yes | The type of the relationship. e.g., `modifies` |
+| source | String | yes | The source Action ID or Asset ID for this relationship. |
+| destination | String | yes | The destination Asset ID or Action ID for this relationship. |
 
 ## Example Attack Flow 
+NOTE: Serialization format TBD. Could be JSON, YAML, CSV, or something else.
 
 <img src="/data/action-object-tesla.png" width="528px">
 
