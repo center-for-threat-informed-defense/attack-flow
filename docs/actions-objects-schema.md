@@ -20,7 +20,6 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 | created | Timestamp | yes | Creation time of the Attack Flow or Pattern.<br /> Format:  2021-01-01 |
 | author | String | no | The author of the Attack Flow or Pattern. |
 | description | String | no | The description of the Attack Flow or Pattern. |
-| start-id | String | yes | The ID for the starting point of the Attack Flow or Pattern. |
 | actions | List of Action objects | yes | The list of Action Nodes in the Attack Flow or Pattern. |
 | assets | List of Asset objects | yes | The list of Asset Nodes in the Attack Flow or Pattern. |
 | relationships | List of Relationship objects | yes | The list of Relationship Edges in the Attack Flow or Pattern. |
@@ -35,9 +34,11 @@ An action object describes a discrete action for one step in an attack flow(ex: 
 | name | String | yes | The name of the action. May be an ATT&CK technique name. |
 | description | String | yes | A description of the action. |
 | reference | String | no | A reference for the action. May be a URL to an ATT&CK technique. |
-| requirements | List of ids | yes | The list of action or asset objects that precede this action object in the attack flow. |
-| outputs | List of ids | yes | The list of action or asset objects that follow this action object in the attack flow. |
 | properties | List of Strings | no | The list of properties associated with this action object. |
+| succeeded | TBD | TBD | TBD |
+| confidence | TBD | TBD | TBD |
+| logic_operator | TBD | TBD | TBD |
+| state | TBD | TBD | TBD |
 
 ### Asset object Fields
 An asset object describes a resource or capability that is being acted on or is involved with an action object.
@@ -58,6 +59,14 @@ A relationship links an Action to an Object or an Object to an Action.
 | label | String | yes | The type of the relationship. e.g., `modifies` |
 | source | String | yes | The source Action ID or Asset ID for this relationship. |
 | destination | String | yes | The destination Asset ID or Action ID for this relationship. |
+
+### Relationships
+
+| Source | Label | Destination | Description |
+|--------|-------|-------------|-------------|
+| Action | actor_of | Asset | The person identified by the asset caused the action to happen |
+
+
 
 ## Example Attack Flow 
 NOTE: Serialization format TBD. Could be JSON, YAML, CSV, or something else.
