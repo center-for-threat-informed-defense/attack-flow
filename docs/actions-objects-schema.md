@@ -37,7 +37,6 @@ An action object describes a discrete action for one step in an attack flow(ex: 
 | properties | List of Strings | no | The list of properties associated with this action object. |
 | succeeded | TBD | TBD | TBD |
 | confidence | TBD | TBD | TBD |
-| logic_operator | TBD | TBD | TBD |
 | state | TBD | TBD | TBD |
 
 ### Asset object Fields
