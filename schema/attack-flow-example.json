@@ -1,0 +1,49 @@
+{
+    "$schema": "./attack-flow-schema.json",
+    "type": "flow",
+    "id": "7a56ffe7-1cb8-41a3-84fe-bf5e66cf3f7d",
+    "name": "Attack Flow Example",
+    "author": "Mark E. Haase <mhaase@mitre-engenuity.org>",
+    "created": "2021-10-13",
+    "start-id": "3a64147e-63d8-4d11-80ec-f1051b069ced",
+    "actions": [
+        {
+            "id": "5f0ccc42-fe68-4118-bed8-fccd5ea13602",
+            "name": "External Remote Services",
+            "description": "Adversary accesses unsecured Kubernetes dashboard, gaining administrative console access.",
+            "reference": "https://attack.mitre.org/techniques/T1133",
+            "properties": ["TODO"],
+            "succeeded": "TODO",
+            "confidence": "TODO",
+            "state": "TODO"
+        }
+    ],
+    "assets": [
+        {
+            "id": "3a64147e-63d8-4d11-80ec-f1051b069ced",
+            "properties": [
+                "Administrator credentials"
+            ]
+        },
+        {
+            "id": "b6d2332e-24fc-4b9b-8f2b-ec3363749811",
+            "properties": [
+                "Stolen data"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "id": "05f7a738-60d0-400f-bdb9-e2fd1ab6cd85",
+            "label": "modifies",
+            "source": "3a64147e-63d8-4d11-80ec-f1051b069ced",
+            "destination": "5f0ccc42-fe68-4118-bed8-fccd5ea13602"
+        },
+        {
+            "id": "05f7a738-60d0-400f-bdb9-e2fd1ab6cd85",
+            "label": "modifies",
+            "source": "5f0ccc42-fe68-4118-bed8-fccd5ea13602",
+            "destination": "b6d2332e-24fc-4b9b-8f2b-ec3363749811"
+        }
+    ]
+}
