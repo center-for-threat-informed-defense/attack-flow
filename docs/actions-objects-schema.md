@@ -17,7 +17,7 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 | id | String | yes | The UUID-formatted identifier for this Attack Flow or Pattern. |
 | name | String | yes | The name of the Attack Flow or Pattern. |
 | version | String | yes | The version of the Attack Flow format used in this file. Currently `dev`. |
-| created | Timestamp | yes | Creation time of the Attack Flow or Pattern.<br /> Format:  2021-01-01 |
+| created | Timestamp | yes | Creation time of the Attack Flow or Pattern.<br /> Format: `YYYY-MM-DDThh:mm:ss.ssssssZ` |
 | author | String | no | The author of the Attack Flow or Pattern. |
 | description | String | no | The description of the Attack Flow or Pattern. |
 | actions | List of Action objects | yes | The list of Action Nodes in the Attack Flow or Pattern. |
@@ -33,6 +33,7 @@ An action object describes a discrete action for one step in an attack flow(ex: 
 | id | String | yes | The UUID-formatted id of the action. |
 | name | String | yes | The name of the action. May be an ATT&CK technique name. |
 | description | String | yes | A description of the action. |
+| timestamp | Timestamp | no | The timestamp when this action was observed. Format: `YYYY-MM-DDThh:mm:ss.ssssssZ` |
 | reference | String | no | A reference for the action. May be a URL to an ATT&CK technique. |
 | properties | List of Strings | no | The list of properties associated with this action object. |
 | succeeded | TBD | TBD | TBD |
