@@ -18,7 +18,7 @@
         "created": {
             "description": "Creation time in RFC-3339 format (e.g. YYYY-MM-DDThh:mm:ssZ)",
             "type": "string",
-            "pattern": "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2})$"
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,})?(Z|[+-]\\d{2}:\\d{2})$"
         },
         "author": {
             "description": "The author of the attack flow",
@@ -43,6 +43,11 @@
                         "description": "A description of the action.",
                         "type": "string"
                     },
+                    "timestamp": {
+                        "description": "The timestamp when this action was observed in RFC-3339 format (e.g. YYYY-MM-DDThh:mm:ssZ)",
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,})?(Z|[+-]\\d{2}:\\d{2})$"
+                    },            
                     "reference": {
                         "description": "A description of the action.",
                         "type": "string"

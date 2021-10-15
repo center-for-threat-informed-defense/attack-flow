@@ -10,6 +10,7 @@
             "id": "5f0ccc42-fe68-4118-bed8-fccd5ea13602",
             "name": "External Remote Services",
             "description": "Adversary accesses unsecured Kubernetes dashboard, gaining administrative console access.",
+            "timestamp": "2020-07-04T09:00:00.123Z",
             "reference": "https://attack.mitre.org/techniques/T1133",
             "properties": ["TODO"],
             "succeeded": "TODO",
