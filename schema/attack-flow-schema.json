@@ -8,7 +8,7 @@
         "type": {
             "description": "Indicate whether this is an attack flow or an attack flow pattern",
             "type": "string",
-            "enum": ["flow", "pattern"]
+            "enum": ["attack-flow", "attack-flow-pattern"]
         },
         "id": {
             "description": "UUID for this attack flow or pattern.",
@@ -16,16 +16,12 @@
             "pattern": "^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
         },
         "created": {
-            "description": "Creation time YYYY-MM-DD",
+            "description": "Creation time in RFC-3339 format (e.g. YYYY-MM-DDThh:mm:ssZ)",
             "type": "string",
-            "pattern": "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+            "pattern": "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(Z|[+-]\\d{2}:\\d{2})$"
         },
         "author": {
             "description": "The author of the attack flow",
-            "type": "string"
-        },
-        "start-id": {
-            "description": "The ID for the starting point in the attack flow",
             "type": "string"
         },
         "actions": {
@@ -132,7 +128,6 @@
         "id", 
         "name", 
         "created", 
-        "start-id", 
         "actions", 
         "assets", 
         "relationships" 
