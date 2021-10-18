@@ -13,12 +13,12 @@
         "id": {
             "description": "UUID for this attack flow or pattern.",
             "type": "string",
-            "pattern": "^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
+            "format": "uuid"
         },
         "created": {
-            "description": "Creation time in RFC-3339 format (e.g. YYYY-MM-DDThh:mm:ssZ)",
+            "description": "Creation time.",
             "type": "string",
-            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,})?(Z|[+-]\\d{2}:\\d{2})$"
+            "format": "date-time"
         },
         "author": {
             "description": "The author of the attack flow",
@@ -33,7 +33,7 @@
                     "id": {
                         "description": "UUID for this action.",
                         "type": "string",
-                        "pattern": "^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
+                        "format": "uuid"
                     },
                     "name": {
                         "description": "The name of the action. May be an ATT&CK name.",
@@ -44,10 +44,10 @@
                         "type": "string"
                     },
                     "timestamp": {
-                        "description": "The timestamp when this action was observed in RFC-3339 format (e.g. YYYY-MM-DDThh:mm:ssZ)",
+                        "description": "The timestamp when this action was observed.",
                         "type": "string",
-                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,})?(Z|[+-]\\d{2}:\\d{2})$"
-                    },            
+                        "format": "date-time"
+                    },
                     "reference": {
                         "description": "A description of the action.",
                         "type": "string"
@@ -84,7 +84,7 @@
                     "id": {
                         "description": "UUID for this asset.",
                         "type": "string",
-                        "pattern": "^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
+                        "format": "uuid"
                     },
                     "properties": {
                         "description": "The list of properties associated with the asset.",
@@ -106,7 +106,7 @@
                     "id": {
                         "description": "UUID for this relationship.",
                         "type": "string",
-                        "pattern": "^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
+                        "format": "uuid"
                     },
                     "label": {
                         "description": "The type of relationship, e.g. 'modifies'.",
@@ -115,12 +115,12 @@
                     "source": {
                         "description": "UUID of the source action or asset.",
                         "type": "string",
-                        "pattern": "^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
+                        "format": "uuid"
                     },
                     "destination": {
                         "description": "UUID of the destination action or asset.",
                         "type": "string",
-                        "pattern": "^[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12}$"
+                        "format": "uuid"
                     }
                 },
                 "required": ["id", "label", "source", "destination"]
@@ -128,13 +128,13 @@
         }
     },
     "additionalProperties": true,
-    "required": [ 
-        "type", 
-        "id", 
-        "name", 
-        "created", 
-        "actions", 
-        "assets", 
-        "relationships" 
+    "required": [
+        "type",
+        "id",
+        "name",
+        "created",
+        "actions",
+        "assets",
+        "relationships"
     ]
 }
