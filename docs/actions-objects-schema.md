@@ -8,6 +8,9 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 
 *Entity Diagram for Attack Flow Format*
 
+## TODOs / Open Items
+1. Extension point for properties not defined on Actions/Assets
+
 ## Data Dictionary
 ### Top Level Metadata Fields
  
@@ -39,6 +42,7 @@ An action object describes a discrete action for one step in an attack flow(ex: 
 | succeeded | TBD | TBD | TBD |
 | confidence | TBD | TBD | TBD |
 | state | TBD | TBD | TBD |
+| logic_operator | String | yes | (TODO: Definition needs work) SHOULD be one of `AND` or `OR`. `AND` means that all input nodes/trees must be true in order for this Action to succeed. `OR` means that one input node/tree must be true in order for this Action to succeed. TBD extension point |
 
 ### Asset object Fields
 An asset object describes a resource or capability that is being acted on or is involved with an action object.
@@ -58,7 +62,7 @@ A relationship links an Action to an Object or an Object to an Action.
 | id | String | yes | The UUID-formatted id of the relationship. |
 | label | String | yes | The type of the relationship. e.g., `modifies` |
 | source | String | yes | The source Action ID or Asset ID for this relationship. |
-| destination | String | yes | The destination Asset ID or Action ID for this relationship. |
+| destination | String | yes | The destination Asset ID or Action ID for this relationship. If the source is an Action, this MUST be an Asset. If the source is an Asset, this MUST be an Action. |
 
 ### Relationships
 
