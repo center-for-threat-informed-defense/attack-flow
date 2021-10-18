@@ -8,6 +8,9 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 
 *Entity Diagram for Attack Flow Format*
 
+## TODOs / Open Items
+1. Extension point for properties not defined on Actions/Assets
+
 ## Data Dictionary
 ### Top Level Metadata Fields
  
@@ -36,9 +39,9 @@ An action object describes a discrete action for one step in an attack flow(ex: 
 | timestamp | Timestamp | no | The timestamp when this action was observed. Format: `YYYY-MM-DDThh:mm:ss.ssssssZ` |
 | reference | String | no | A reference for the action. May be a URL to an ATT&CK technique. |
 | properties | List of Strings | no | The list of properties associated with this action object. |
-| succeeded | TBD | TBD | TBD |
-| confidence | TBD | TBD | TBD |
-| state | TBD | TBD | TBD |
+| succeeded | Float | no | float from 0 (failed) to 1 (succeeded) or distribution representing the probability that action succeeded in its effects. Any effects which may be separable should be defined through a separate action. Assumed to be 1 (100% ~ TRUE) if not included. |
+| confidence | Float | no | float from 0 to 1 or distribution representing the confidence that the action succeeded. Assumed to be 1 (100% ~ ground truth) if not included. |
+| logic_operator | String | yes | `AND` means that all input nodes/trees must be true in order for this Action to succeed. `OR` means that one input node/tree must be true in order for this Action to succeed. The returned 'success' state should match the 'state' used on assets. TBD extension point |
 
 ### Asset object Fields
 An asset object describes a resource or capability that is being acted on or is involved with an action object.
@@ -47,6 +50,7 @@ An asset object describes a resource or capability that is being acted on or is 
 |------|------|----------|-------------|
 | type | String | yes | The type of the object. MUST be `action`. |
 | id | String | yes | The UUID-formatted id of the action. |
+| state | String | no | A property that may be used as a transient string representing the state of the object during a point in time representing the current state of the system. The sum of all object states is the state of the system. This may be as simple as "compromised", the Confidentiality, Integrity, Availability triad, DIMFUI (Degradation, Interruption, Modification, Fabrication, Unauthorized Use, and Interception), or it may even be an arbitrary string. If not included, it is assumed that the state is 'compromised' after a parent action succeeds. |
 | properties | List of Strings | no | The list of properties associated with the asset. |
 
 ### Relationship object Fields.
@@ -58,7 +62,7 @@ A relationship links an Action to an Object or an Object to an Action.
 | id | String | yes | The UUID-formatted id of the relationship. |
 | label | String | yes | The type of the relationship. e.g., `modifies` |
 | source | String | yes | The source Action ID or Asset ID for this relationship. |
-| destination | String | yes | The destination Asset ID or Action ID for this relationship. |
+| destination | String | yes | The destination Asset ID or Action ID for this relationship. If the source is an Action, this MUST be an Asset. If the source is an Asset, this MUST be an Action. |
 
 ### Relationships
 
