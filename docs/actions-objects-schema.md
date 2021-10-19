@@ -10,30 +10,40 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 
 ## TODOs / Open Items
 1. Extension point for properties not defined on Actions/Assets
+2. How should we capture detailed Action/Asset information?
+   1. Adversary Emulation plan properties in https://github.com/center-for-threat-informed-defense/adversary_emulation_library
+   2. Incident Reports
+3. Define an extension mechanism for properties on Assets
+   1. Namespace/JSON-LD mechanism?
 
 ## Data Dictionary
-### Top Level Metadata Fields
- 
+### Attack Flow Fields
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| meta | Object | yes | An Attack Flow Meta object |
+| actions | List | no | A list of Attack Flow Action objects. |
+| assets | List | no | A list of Attack Flow Asset objects. |
+| relationships | List | no | A list of Attack Flow Relationship objects. |
+
+
+### Attack Flow Meta Fields
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | type | String | yes | One of `attack-flow` or `attack-flow-pattern` to indicate the type of this Attack Flow or Pattern. |
-| id | String | yes | The UUID-formatted identifier for this Attack Flow or Pattern. |
+| id | String | yes | The identifier for this Attack Flow or Pattern. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization. |
 | name | String | yes | The name of the Attack Flow or Pattern. |
 | version | String | yes | The version of the Attack Flow format used in this file. Currently `dev`. |
 | created | Timestamp | yes | Creation time of the Attack Flow or Pattern.<br /> Format: `YYYY-MM-DDThh:mm:ss.ssssssZ` |
 | author | String | no | The author of the Attack Flow or Pattern. |
 | description | String | no | The description of the Attack Flow or Pattern. |
-| actions | List of Action objects | yes | The list of Action Nodes in the Attack Flow or Pattern. |
-| assets | List of Asset objects | yes | The list of Asset Nodes in the Attack Flow or Pattern. |
-| relationships | List of Relationship objects | yes | The list of Relationship Edges in the Attack Flow or Pattern. |
 
-### Action object Fields
+### Action Fields
 An action object describes a discrete action for one step in an attack flow(ex: ATT&CK technique).
  
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | type | String | yes | MUST be `action` |
-| id | String | yes | The UUID-formatted id of the action. |
+| id | String | yes | The identifier for this Action. MUST be unique within this document. |
 | name | String | yes | The name of the action. May be an ATT&CK technique name. |
 | description | String | yes | A description of the action. |
 | timestamp | Timestamp | no | The timestamp when this action was observed. Format: `YYYY-MM-DDThh:mm:ss.ssssssZ` |
@@ -43,28 +53,28 @@ An action object describes a discrete action for one step in an attack flow(ex: 
 | confidence | Float | no | float from 0 to 1 or distribution representing the confidence that the action succeeded. Assumed to be 1 (100% ~ ground truth) if not included. |
 | logic_operator | String | yes | `AND` means that all input nodes/trees must be true in order for this Action to succeed. `OR` means that one input node/tree must be true in order for this Action to succeed. The returned 'success' state should match the 'state' used on assets. TBD extension point |
 
-### Asset object Fields
+### Asset Fields
 An asset object describes a resource or capability that is being acted on or is involved with an action object.
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | type | String | yes | The type of the object. MUST be `action`. |
-| id | String | yes | The UUID-formatted id of the action. |
+| id | String | yes | The identifier for this Asset. MUST be unique within this document. |
 | state | String | no | A property that may be used as a transient string representing the state of the object during a point in time representing the current state of the system. The sum of all object states is the state of the system. This may be as simple as "compromised", the Confidentiality, Integrity, Availability triad, DIMFUI (Degradation, Interruption, Modification, Fabrication, Unauthorized Use, and Interception), or it may even be an arbitrary string. If not included, it is assumed that the state is 'compromised' after a parent action succeeds. |
 | properties | List of Strings | no | The list of properties associated with the asset. |
 
-### Relationship object Fields.
+### Relationship Fields.
 A relationship links an Action to an Object or an Object to an Action.
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | type | String | yes | The type of the object. MUST be `relationship`. |
-| id | String | yes | The UUID-formatted id of the relationship. |
+| id | String | yes | The identifier for this Relationship or Pattern. MUST be unique within this document. |
 | label | String | yes | The type of the relationship. e.g., `modifies` |
 | source | String | yes | The source Action ID or Asset ID for this relationship. |
 | destination | String | yes | The destination Asset ID or Action ID for this relationship. If the source is an Action, this MUST be an Asset. If the source is an Asset, this MUST be an Action. |
 
-### Relationships
+### Relationship Labels
 
 | Source | Label | Destination | Description |
 |--------|-------|-------------|-------------|
