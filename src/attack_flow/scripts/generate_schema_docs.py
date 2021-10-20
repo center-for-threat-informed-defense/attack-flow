@@ -25,10 +25,9 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    with open(args.documentation_file) as in_:
-        old_docs = in_.read()
-    new_docs = attack_flow.schema.generate_schema_docs(
-        args.schema_doc, old_docs)
+    with open(args.documentation_file) as old_doc:
+        new_docs = attack_flow.schema.generate_schema_docs(
+            args.schema_doc, old_doc)
     with open(args.documentation_file, 'w') as out:
         out.write(new_docs)
     print(f'Saved to {args.documentation_file}')
