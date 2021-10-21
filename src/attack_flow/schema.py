@@ -75,8 +75,12 @@ class SchemaProperty:
             else:
                 subtype_html = self.subtype
             return f'{html.escape(self.type)} of {subtype_html}'
-        elif self.type == 'enum':
-            return 'TODO ENUM'
+        elif self.type == 'object':
+            subtype_html = f'<a href="#{anchor(self.name)}">' + \
+                   f'{html.escape(self.name)}</a>'
+            return f'{subtype_html} object'
+        elif self.enum:
+            return 'enum'
         elif self.format:
             return html.escape(f'{self.type} (format: {self.format})')
         else:
@@ -88,6 +92,9 @@ class SchemaProperty:
         description = html.escape(self.description)
         if self.format == 'date-time':
             description += ' (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)'
+        if self.enum:
+            quoted_vals = ', '.join(f'"{v}"' for v in self.enum)
+            description += f' (Enum values: {quoted_vals})'
         return description
 
 
