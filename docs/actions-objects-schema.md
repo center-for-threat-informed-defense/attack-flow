@@ -1,6 +1,6 @@
 # Attack Flow Format
 
-Attack Flow represents the linkage of adversary behavior for a given attack flow . 
+Attack Flow represents the linkage of adversary behavior for a given attack flow .
 
 The type, description, and required attributes of each field are provided in the subsequent sections along with an example.
 
@@ -17,6 +17,7 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
    1. Namespace/JSON-LD mechanism?
 
 ## Data Dictionary
+
 ### Attack Flow Fields
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
@@ -39,7 +40,7 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 
 ### Action Fields
 An action object describes a discrete action for one step in an attack flow(ex: ATT&CK technique).
- 
+
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | type | String | yes | MUST be `action` |
@@ -82,7 +83,7 @@ A relationship links an Action to an Object or an Object to an Action.
 
 
 
-## Example Attack Flow 
+## Example Attack Flow
 NOTE: Serialization format TBD. Could be JSON, YAML, CSV, or something else.
 
 <img src="/data/action-object-tesla.png" width="528px">
