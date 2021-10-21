@@ -1,5 +1,3 @@
-from textwrap import dedent
-
 from attack_flow.schema import (
     anchor,
     generate_html,
@@ -74,31 +72,32 @@ def test_generate_html():
         }
     })
 
-    expected_html = r'''
-    <h3 id="TopLevelMetadata">Top Level Metadata Fields</h3>
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Required</th>
-        <th>Description</th>
-      </tr>
-      <tr>
-        <td>prop1</td>
-        <td>string</td>
-        <td>No</td>
-        <td>prop1 description</td>
-      </tr>
-      <tr>
-        <td>prop2</td>
-        <td>string</td>
-        <td>Yes</td>
-        <td>prop2 description</td>
-      </tr>
-    </table>
-    '''
+    expected_html = [
+        '<h3 id="TopLevelMetadata">Top Level Metadata Fields</h3>',
+        '<table>',
+        '  <tr>',
+        '    <th>Name</th>',
+        '    <th>Type</th>',
+        '    <th>Required</th>',
+        '    <th>Description</th>',
+        '  </tr>',
+        '  <tr>',
+        '    <td>prop1</td>',
+        '    <td>string</td>',
+        '    <td>No</td>',
+        '    <td>prop1 description</td>',
+        '  </tr>',
+        '  <tr>',
+        '    <td>prop2</td>',
+        '    <td>string</td>',
+        '    <td>Yes</td>',
+        '    <td>prop2 description</td>',
+        '  </tr>',
+        '</table>',
+        '',
+    ]
 
-    assert actual_html == dedent(expected_html).lstrip()
+    assert actual_html == expected_html
 
 
 def test_anchor():
