@@ -1,0 +1,438 @@
+{
+    "type": "attack-flow",
+    "id": "2",
+    "name": "Cobalt Kitty APT",
+    "created": "2021-10-15T00:00:00.0Z",
+    "actions": [
+      {
+        "id": "1",
+        "name": "Phishing: Spearphishing Attachment",
+        "description": "Link to a malicious site that downloads a fake Flash Installer delivering Cobalt Strike beacon.",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1566/002/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "2",
+        "name": "Phishing: Spearphishing Link",
+        "description": "Word documents with malicious macros downloading Cobalt Strike payloads",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1566/001/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "3",
+        "name": "Scheduled Task/Job: Scheduled Task",
+        "description": "Two scheduled tasks are created that download additional payloads",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1053/005/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "4",
+        "name": "Command and Scripting Interpreter: PowerShell",
+        "description": "Obfuscated PowerShell scripts delivering Cobalt Strike beacons are downloaded",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1059/001/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "5",
+        "name": "Command and Scripting Interpreter: Visual Basic",
+        "description": "Script that combines vbscript and PowerShell is downloaded",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1059/005/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "6",
+        "name": "Deobfuscate/Decode Files or Information",
+        "description": "Obfuscated and XOR'ed PowerShell is decoded to download additional obfuscated PowerShell payloads",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1140/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike",
+            "xor"
+        ]
+      },
+      {
+        "id": "7",
+        "name": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder",
+        "description": "Windows Registry Autorun is used to execute VBScript and PowerShell scripts residing in the ProgramData folder",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1547/001/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "8",
+        "name": "Hide Artifacts: NTFS File Attributes",
+        "description": "Payloads for persistence were hidden in NTFS Alternate Data Streams",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1564/004/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "9",
+        "name": "Command and Scripting Interpreter: PowerShell",
+        "description": "Obfuscated PowerShell scripts that executes a Cobalt Strike beacon",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1059/001/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "10",
+        "name": "Command and Scripting Interpreter: Visual Basic",
+        "description": "VBScript to launch Cobalt Strike PowerShell scripts",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1059/005/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "11",
+        "name": "Create or Modify System Process: Windows Service",
+        "description": "Windows services were created and/or modified to load PowerShell scripts",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1059/005/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "12",
+        "name": "Phantom DLL Hijacking",
+        "description": "A malicious DLL file was implanted where the Windows Search Service would run and load the DLL",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "13",
+        "name": "Scheduled Task/Job: Scheduled Task",
+        "description": "Scheduled tasks are created that load malicious PowerShell payloads",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1053/005/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "14",
+        "name": "Office Application Startup",
+        "description": "Malicious Outlook backdoor macroes were to used to communicate with C2 servers and exfiltrate data",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1137/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "15",
+        "name": "Signed Binary Proxy Execution: Regsvr32",
+        "description": "Regsvr32.exe is used to download COM scriplets for malicious execution",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1218/010/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "16",
+        "name": "Data Obfuscation: Protocol Impersonation",
+        "description": "Cobalt Strike's malleable C2 profiles were used to impersonate Amazon, Google Safe Browsing, Pandora, and OSCP traffic",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1001/003/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "17",
+        "name": "Application Layer Protocol: DNS",
+        "description": "DNS tunneling was used for C2 communication and data exfiltration",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1071/004/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "18",
+        "name": "Application Layer Protocol: Mail Protocols",
+        "description": "Malicious Outlook macroes were created to utilize email for C2 communication and data exfiltration",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1071/003/",
+        "succeeded": "yes",
+        "properties": [
+            "cobalt strike"
+        ]
+      },
+      {
+        "id": "19",
+        "name": "Remote System Discovery",
+        "description": "Network scanning was performed against entire ranges to gain information on open ports, services, and operating systems",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1018/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "20",
+        "name": "Network Service Scanning",
+        "description": "Network scanning was performed against entire ranges to gain information on open ports, services, and operating systems",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1046/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "21",
+        "name": "System Information Discovery",
+        "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1082/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "22",
+        "name": " System Network Connections Discovery ",
+        "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1049/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "23",
+        "name": "System Network Configuration Discovery",
+        "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1016/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "24",
+        "name": "OS Credential Dumping: LSA Secrets",
+        "description": "Modified version of Mimikatz was used to dump credentials",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1003/004/",
+        "succeeded": "yes",
+        "properties": [
+            "mimikatz"
+        ]
+      },
+      {
+        "id": "25",
+        "name": "Use Alternate Authentication Material: Pass the Hash",
+        "description": "The attackers deployed a customized Mimikatz using stolen credentials from an administrative account, which they used to carry out a pass-the-hash attack",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1550/002/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "26",
+        "name": "Use Alternate Authentication Material: Pass the Ticket",
+        "description": "The attackers deployed a customized Mimikatz using stolen credentials from an administrative account, which they used to carry out a pass-the-ticket attack",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1550/003/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "27",
+        "name": "Remote Services: SMB/Windows Admin Shares",
+        "description": "Net.exe was used to perform lateral movement via Windows Admin Shares",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1021/002/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      },
+      {
+        "id": "28",
+        "name": "Windows Management Instrumentation",
+        "description": "WMI and 'net user' commands were used to deploy tools on remote machines",
+        "state": "",
+        "confidence": "high",
+        "timestamp": "",
+        "reference": "https://attack.mitre.org/techniques/T1047/",
+        "succeeded": "yes",
+        "properties": [
+        ]
+      }
+    ],
+    "assets": [
+      {
+        "id": "50",
+        "properties": [
+          "Workstation",
+          "Windows",
+          "Outlook",
+          "Active Directory"
+        ]
+      },
+      {
+        "id": "51",
+        "properties": [
+          "Workstation",
+          "Windows",
+          "Outlook",
+          "Active Directory"
+        ]
+      }
+      {
+        "id": "52",
+        "properties": [
+          "Workstation",
+          "Windows",
+          "Outlook",
+          "Active Directory"
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "id": "101",
+        "label": "modifies",
+        "source": "1",
+        "destination": "50"
+      },
+      {
+        "id": "102",
+        "label": "executes",
+        "source": "50",
+        "destination": "3"
+      },
+      {
+        "id": "103",
+        "label": "modifies",
+        "source": "2",
+        "destination": "51"
+      },
+      {
+        "id": "104",
+        "label": "executes",
+        "source": "51",
+        "destination": "3"
+      },
+      {
+        "id": "105",
+        "label": "modifies",
+        "source": "3",
+        "destination": "50"
+      },
+      {
+        "id": "106",
+        "label": "executes",
+        "source": "50",
+        "destination": "4"
+      },
+      {
+        "id": "107",
+        "label": "modifies",
+        "source": "4",
+        "destination": "50"
+      },
+      {
+        "id": "108",
+        "label": "executes",
+        "source": "50",
+        "destination": "5"
+      }
+    ]
+  }
