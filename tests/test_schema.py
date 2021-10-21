@@ -58,6 +58,19 @@ def test_schema_property_array_of_string():
     assert sp.html_description == 'My description'
 
 
+def test_schema_property_enum():
+    sp = SchemaProperty('test-enum', True, {
+        'description': 'My description',
+        'type': 'string',
+        'enum': ['foo', 'bar']
+    })
+    assert sp.name == 'test-enum'
+    assert sp.type == 'string'
+    assert sp.required
+    assert sp.html_type == 'enum'
+    assert sp.html_description == 'My description (Enum values: "foo", "bar")'
+
+
 def test_generate_html():
     actual_html = generate_html({
         '__root__': {

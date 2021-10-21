@@ -1,5 +1,5 @@
 {
-    "$schema": "./attack-flow-schema.json",
+    "$schema": "./2021-10-13-draft.json",
     "type": "attack-flow",
     "id": "7a56ffe7-1cb8-41a3-84fe-bf5e66cf3f7d",
     "name": "Attack Flow Example",
