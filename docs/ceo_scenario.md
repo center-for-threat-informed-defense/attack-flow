@@ -193,6 +193,13 @@ This analysis is summarized in the following table.
   </tr>
 </table>
 
+The coverage of detection and mitigation for these techniques is visualized in
+the following diagram. ATT&CK techniques are displayed in the middle, detection
+coverage on the left side, and mitigation coverage on the right side.
+
+![Sankey diagram of current ATT&CK coverage](../data/ceo_scenario_before.png)
+
+
 ## CEO Presentation
 
 Based on the research and application of ATT&CK above, we make the following
@@ -205,6 +212,11 @@ recommendations to the CEO:
    segregrated VPCs with ACLs. This can be rolled out incrementally.
 4. In the long term, integrate Amazon SSO to ensure that all endpoints require
    2FA. This requires some custom development and integration with existing platforms.
+
+The following diagram visualizes the improvements to detection and mitigation
+achieved.
+
+![Sankey diagram of proposed ATT&CK coverage](../data/ceo_scenario_after.png)
 
 These recommendations provide a balance of immediate and effective action while
 also laying the groundwork for long-term investements in security posture.
