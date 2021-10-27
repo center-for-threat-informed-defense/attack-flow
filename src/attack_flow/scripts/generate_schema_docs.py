@@ -1,18 +1,18 @@
-'''
+"""
 Generate HTML documentation for Attack Flow schema.
 
 The script inserts the generated HTML between the <!--JSON_SCHEMA--> and
 <!--/JSON_SCHEMA--> tags (limited to one replacement per file).
-'''
+"""
 import argparse
 
 import attack_flow.schema
 
 
 def parse_args():
-    '''
+    """
     Parse command line arguments.
-    '''
+    """
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawTextHelpFormatter)

@@ -1,9 +1,9 @@
-'''
+"""
 Test entry points for command line tools.
 
 These tests are minimal: checking basic argument parsing and making sure that
 the entrypoints call into the appropriate places in the package.
-'''
+"""
 from tempfile import NamedTemporaryFile
 from unittest.mock import patch
 import runpy
