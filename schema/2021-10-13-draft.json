@@ -5,35 +5,35 @@
     "description": "This schema describes the Attack Flow JSON format.",
     "type": "object",
     "properties": {
-        "meta": {
+        "flow": {
             "description": "An Attack Flow Meta object",
             "type": "object",
             "properties": {
                 "type": {
-                    "description": "Indicate whether this is an Attack Flow or a Pattern.",
+                    "description": "Indicate that this is an Attack Flow.",
                     "type": "string",
-                    "enum": ["attack-flow", "attack-flow-pattern"]
+                    "enum": ["attack-flow"]
                 },
                 "id": {
-                    "description": "The identifier for this Attack Flow or Pattern. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
+                    "description": "The identifier for this Attack Flow. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
                     "type": "string",
                     "format": "uuid"
                 },
                 "name": {
-                    "description": "The name of the Attack Flow or Pattern.",
+                    "description": "The name of the Attack Flow.",
                     "type": "string"
                 },
                 "created": {
-                    "description": "Creation time of the Attack Flow or Pattern.",
+                    "description": "Creation time of the Attack Flow.",
                     "type": "string",
                     "format": "date-time"
                 },
                 "author": {
-                    "description": "The author of the Attack Flow or Pattern.",
+                    "description": "The author of the Attack Flow.",
                     "type": "string"
                 },
                 "description": {
-                    "description": "The description of the Attack Flow or Pattern.",
+                    "description": "The description of the Attack Flow.",
                     "type": "string"
                 }
             },
@@ -87,10 +87,14 @@
                         "description": "Float from 0 to 1 or distribution representing the confidence that the action succeeded. Assumed to be 1 (100% ~ ground truth) if not included.",
                         "type": "number"
                     },
+                    "logic_operator_language": {
+                        "description": "The language of the logic_operator. Defaults to flow-vTBD when left blank.",
+                        "type": "string"
+                    },
                     "logic_operator": {
-                        "description": "`AND` means that all input nodes/trees must be true in order for this Action to succeed. `OR` means that one input node/tree must be true in order for this Action to succeed. The returned 'success' state should match the 'state' used on assets. TBD extension point",
+                        "description": "The logic_operator may be any logic valid in the language defined by the logic_operator_language. If the logic_operator_language is undefined, the logic_operator may be AND or OR, representing the relative operation on all required-by relationships. The logic_operator must return the state changes to the provides relationships.",
                         "type": "string",
-                        "enum": ["attack-flow", "attack-flow-pattern"]
+                        "default": "AND"
                     }
                 },
                 "required": ["id", "name", "description", "logic_operator"]
