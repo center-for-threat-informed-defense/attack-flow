@@ -9,12 +9,13 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 *Entity Diagram for Attack Flow Format*
 
 ## TODOs / Open Items
-1. Extension point for properties not defined on Actions/Assets
 2. How should we capture detailed Action/Asset information?
    1. Adversary Emulation plan properties in https://github.com/center-for-threat-informed-defense/adversary_emulation_library
    2. Incident Reports
-3. Define an extension mechanism for properties on Assets
-   1. Namespace/JSON-LD mechanism?
+
+## Rules
+These are rules that cannot be captured in JSON schema.
+1. 
 
 ## Data Dictionary
 
@@ -273,12 +274,66 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 
 <!--/JSON_SCHEMA-->
 
-## Example Attack Flow
+## Relationships
+The following table contains the valid relationships in Attack Flow
+<table>
+  <tr>
+    <th>Source Type</th>
+    <th>Target Type</th>
+    <th>Valid Relationships</th>
+  </tr>
+  <tr>
+    <td>Asset</td>
+    <td>Action</td>
+    <td>TBD</td>
+  </tr>
+  <tr>
+    <td>Action</td>
+    <td>Asset</td>
+    <td>TBD</td>
+  </tr>
+  <tr>
+    <td>Action</td>
+    <td>Property</td>
+    <td>TBD</td>
+  </tr>
+  <tr>
+    <td>Asset</td>
+    <td>Property</td>
+    <td>TBD</td>
+  </tr>
+  <tr>
+    <td>Asset</td>
+    <td>Attack Flow</td>
+    <td>TBD</td>
+  </tr>
+  <tr>
+    <td>Action</td>
+    <td>Attack Flow</td>
+    <td>TBD</td>
+  </tr>
+  <tr>
+    <td>Property</td>
+    <td>Attack Flow</td>
+    <td>NOT RECOMMENDED</td>
+  </tr>
+  <tr>
+    <td>Action</td>
+    <td>Action</td>
+    <td>PROHIBITED</td>
+  </tr>
+  <tr>
+    <td>Asset</td>
+    <td>Asset</td>
+    <td>PROHIBITED</td>
+  </tr>
+</table>
 
+## Example Attack Flow
 <img src="/data/action-object-tesla.png" width="528px">
 
 *Visualization of Tesla breach*
-
+TODO: Migrate to JSON
 ```
 type: attack-flow
 id: attack-flow--00
