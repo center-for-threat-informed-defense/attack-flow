@@ -82,7 +82,7 @@ class SchemaProperty:
         elif self.enum:
             return 'enum'
         elif self.format:
-            return html.escape(f'{self.type} (format: {self.format})')
+            return html.escape(self.format)
         else:
             return html.escape(self.type)
 
