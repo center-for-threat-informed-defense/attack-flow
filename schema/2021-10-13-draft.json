@@ -163,7 +163,7 @@
                         "description": "The source action or asset for this property.",
                         "type": "string"
                     },
-                    "type": {
+                    "property_type": {
                         "description": "The type of property.",
                         "type": "string",
                         "format": "uri-reference"
