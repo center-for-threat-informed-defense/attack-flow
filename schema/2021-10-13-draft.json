@@ -70,13 +70,6 @@
                         "description": "A reference for the action. May be a URL to an ATT&CK technique.",
                         "type": "string"
                     },
-                    "properties": {
-                        "description": "The list of properties associated with this action object.",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
                     "succeeded": {
                         "description": "Float from 0 (failed) to 1 (succeeded) or distribution representing the probability that action succeeded in its effects. Any effects which may be separable should be defined through a separate action. Assumed to be 1 (100% ~ TRUE) if not included.",
                         "type": "number"
@@ -112,13 +105,6 @@
                     "state": {
                         "description": "A property that may be used as a transient string representing the state of the object during a point in time representing the current state of the system. The sum of all object states is the state of the system. This may be as simple as \"compromised\", the Confidentiality, Integrity, Availability triad, DIMFUI (Degradation, Interruption, Modification, Fabrication, Unauthorized Use, and Interception), or it may even be an arbitrary string. If not included, it is assumed that the state is 'compromised' after a parent action succeeds.",
                         "type": "string"
-                    },
-                    "properties": {
-                        "description": "The list of properties associated with the asset.",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
                     }
                 },
                 "required": ["id"]
