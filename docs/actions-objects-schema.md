@@ -9,13 +9,13 @@ TODO: Visual for the Attack Flow model / Data Dictionary.
 *Entity Diagram for Attack Flow Format*
 
 ## TODOs / Open Items
-2. How should we capture detailed Action/Asset information?
+1. How should we capture detailed Action/Asset information?
    1. Adversary Emulation plan properties in https://github.com/center-for-threat-informed-defense/adversary_emulation_library
    2. Incident Reports
 
 ## Rules
 These are rules that cannot be captured in JSON schema.
-1. 
+1. Relationships must be compliant with OWL (Note: what does this mean in practical terms?)
 
 ## Data Dictionary
 
