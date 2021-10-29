@@ -16,7 +16,8 @@
                 },
                 "id": {
                     "description": "The identifier for this Attack Flow. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
-                    "type": "string"
+                    "type": "string",
+                    "format": "uri-reference"
                 },
                 "name": {
                     "description": "The name of the Attack Flow.",
@@ -51,7 +52,8 @@
                 "properties": {
                     "id": {
                         "description": "The identifier for this Action. MUST be unique within this document.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "uri-reference"
                     },
                     "type": {
                         "description": "Indicate that this is an Action",
@@ -105,7 +107,8 @@
                 "properties": {
                     "id": {
                         "description": "The identifier for this Asset. MUST be unique within this document.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "uri-reference"
                     },
                     "type": {
                         "description": "Indicate that this is an Asset",
