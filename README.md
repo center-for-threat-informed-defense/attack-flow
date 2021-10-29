@@ -5,6 +5,11 @@ ATT&CK Flow helps executives, SOC managers, and defenders easily understand how 
 
 At the end of the project, the visualization tools will demonstrate how attack flows will help security leaders explain defensive posture to executives, help defenders understand lessons-learned in an incident, and help red-teamers easily compose realistic adversary emulation scenarios. 
 
+Resources:
+* [Attack Flow Specification](/center-for-threat-informed-defense/attack-flow/blob/main/docs/actions-objects-schema.md)
+* [Attack Flow JSON Schema](/center-for-threat-informed-defense/attack-flow/blob/main/schema/2021-10-13-draft.json)
+* [Attack Flow Example](/center-for-threat-informed-defense/attack-flow/blob/main/schema/attack-flow-example.json)
+
 ## Questions and Feedback
 Please submit issues for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
 
