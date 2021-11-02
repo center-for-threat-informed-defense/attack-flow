@@ -1,6 +1,6 @@
-'''
+"""
 Tools for working with the Attack Flow schema.
-'''
+"""
 import json
 from collections import OrderedDict
 from datetime import datetime
@@ -20,12 +20,16 @@ END_TAG = re.compile('<!--/JSON_SCHEMA-->')
 
 
 def validate_docs(schema_doc, attack_flow_docs):
-    '''
+    """
     Validate a list of Attack Flow files against the specified schema.
 
     Returns a list, where each contains an exception if the file is not valid
     or ``None`` if the file is valid.
-    '''
+
+    :param str schema_doc: path to schema doc
+    :param str|list[str] attack_flow_docs: path to attack flow doc[s]
+    :rtype: list[None|Exception]
+    """
     exceptions = list()
 
     if isinstance(attack_flow_docs, str):
@@ -49,9 +53,9 @@ def validate_docs(schema_doc, attack_flow_docs):
 
 
 class SchemaProperty:
-    '''
+    """
     Helper class for properties of schema objects.
-    '''
+    """
     def __init__(self, name, required, property_dict):
         self.name = name
         self.type = property_dict['type']
@@ -67,7 +71,7 @@ class SchemaProperty:
 
     @property
     def html_type(self):
-        ''' Return type field formatted as HTML. '''
+        """ Return type field formatted as HTML. """
         if self.type == 'array':
             if self.subtype == 'object':
                 subtype_html = f'<a href="#{anchor(self.name)}">' + \
@@ -88,7 +92,7 @@ class SchemaProperty:
 
     @property
     def html_description(self):
-        ''' Return description formatted as HTML. '''
+        """ Return description formatted as HTML. """
         description = html.escape(self.description)
         if self.format == 'date-time':
             description += ' (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)'
@@ -99,9 +103,13 @@ class SchemaProperty:
 
 
 def generate_schema_docs(schema_doc, old_doc):
-    '''
+    """
     Generate documentation for the schema and insert into the doc file.
-    '''
+
+    :param str schema_doc: path to schema file
+    :param iter[str] old_doc: iterator for existing doc file
+    :rtype: str
+    """
     with open(schema_doc) as schema_file:
         schema_json = json.load(schema_file)
     object_properties = get_properties(schema_json, node=ROOT_NODE)
@@ -111,13 +119,18 @@ def generate_schema_docs(schema_doc, old_doc):
 
 
 def get_properties(schema_json, node):
-    '''
+    """
     Return information about the properties of a JSON schema object.
 
     The properties are returned in a dictionary, where the key `node` contains
     properties of the top-level object. Nested objects are returned under
     keys corresponding to their property names.
-    '''
+
+    :param dict schema_json: a JSON schema object
+    :param str node: the name of the current node
+    :returns: properties
+    :rtype: dict
+    """
     assert schema_json['type'] == 'object'
     objects = OrderedDict()
     objects[node] = OrderedDict()
@@ -139,9 +152,12 @@ def get_properties(schema_json, node):
 
 
 def generate_html(object_properties):
-    '''
-    Generate HTML (as list of lines) for the dictionary of object properties.
-    '''
+    """
+    Generate HTML for the dictionary of object properties.
+
+    :param dict object_properties:
+    :rtype: list[str]
+    """
     html = list()
     root = object_properties.pop(ROOT_NODE)
     html.extend(generate_html_for_object('Top Level Metadata', root))
@@ -153,14 +169,24 @@ def generate_html(object_properties):
 
 
 def anchor(name):
-    ''' Generate a sanitized name to use as an HTML anchor. '''
+    """
+    Generate a sanitized name to use as an HTML anchor.
+
+    :param str name:
+    :rtype: str
+    """
     return re.sub(NON_ALPHA, '', name)
 
 
 def generate_html_for_object(name, properties):
-    '''
+    """
     Generate HTML for a single object's properties.
-    '''
+
+    :param str name: object name
+    :param dict properties: dictionary of object properties
+    :returns: HTML
+    :rtype: list[str]
+    """
     table = list()
     html_name = html.escape(string.capwords(name))
     table.append(f'<h3 id="{anchor(name)}">{html_name} Fields</h3>')
@@ -186,10 +212,15 @@ def generate_html_for_object(name, properties):
 
 
 def insert_html(old_doc, html):
-    '''
-    Scan through text in open file ``old_doc`` and return its contents with
+    """
+    Scan through lines of text in ``old_doc`` and return its contents with
     the <!--JSON_SCHEMA--> tags replaced with new text from ``html``.
-    '''
+
+    :param old_doc: iterator of strings
+    :param html: list of strings
+    :returns: the updated document
+    :rtype: str
+    """
     output = list()
 
     # Output up to (but not including) the start tag.
