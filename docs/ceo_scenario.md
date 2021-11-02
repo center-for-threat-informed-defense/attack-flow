@@ -8,14 +8,13 @@ Key Facts:
 
 * Company: Horoscope.com
 * Revenue: $10m monthly recurring revenue (MRR)
-* Environment: Production Linux servers in AWS Cloud Environment
+* Environment: Production Linux servers in Azure Cloud Environment
 
 *The CEO hears about Tesla breach on MSNBC, asks, “can that happen to us?”*
 
 This scenario adopts the perspective of the cybersecurity practitioners who
-must learn about the Tesla breach, reason about the same sort of attack being
-carried out against Horoscope.com, and present strategic advice back to the
-CEO.
+must research the Tesla breach, reason about the same sort of techniqew being
+carried out against Horoscope.com, and present strategic advice to the CEO.
 
 ## Attack Overview
 
@@ -49,22 +48,22 @@ on attacker *behavior* using a taxonomy such as ATT&CK.
 
 ## Identifying ATT&CK Techniques
 
-We can assemble a list of ATT&CK techniques based on public reporting. First,
-the attackers abused a Kubernetes (k8s) administrator console that was open to
-the internet and was not password-protected (T1133–External Remote Services).
-With access to the k8s cluster, the attackers mounted a cryptojacking campaign
-by deploying a new container (T1610–Deploy Container) and then running
+We first assemble a list of ATT&CK techniques based on public reporting. The
+attackers abused a Kubernetes (k8s) administrator console that was open to the
+internet and was not password-protected (T1133–External Remote Services). With
+access to the k8s cluster, the attackers mounted a cryptojacking campaign by
+deploying a new container (T1610–Deploy Container) and then running
 cryptomining software in those new containers (T1496–Resource Hijacking).
 
 In addition, analysts from RedLock noted that the k8s administrator console
-contains AWS access tokens for an S3 storage bucket containing "sensitive
+contains Azure access tokens for an S3 storage bucket containing "sensitive
 telemetry data". There is no public evidence that this data was accessed, or
 even that this threat actor was interested in collecting such data, but we
 should still consider the data breach scenario when reasoning about attacks on
 Horoscope.com.
 
 The data breach scenario would play out like this: attackers use the discovered
-AWS credentials (T1552.001–Unsecured Credentials: Credentials in Files) to
+Azure credentials (T1552.001–Unsecured Credentials: Credentials in Files) to
 access those accounts (T1078.004–Valid Accounts: Cloud Accounts),
 then access data in the S3 bucket (T1530–Data from Cloud Storage Object).
 
@@ -83,70 +82,61 @@ efforts.
 ## Visualizing Attack Flow
 
 As an alternative for organizing the ATT&CK techniques, we can visualize the
-two prongs of the attack graphically.
+two prongs of the attack graphically and assign an estimate of the business
+losses to each outcome.
 
-![Tesla breach visualization of techniques](../data/action-object-tesla.png)
+![Tesla breach visualization of techniques](../data/tesla-flow-costs.png)
 
-ATT&CK techniques are displayed in red and start with "T". Business outcomes
-are displayed at the bottom in green.
+ATT&CK techniques are displayed in grey boxes and start with "T". Business
+outcomes are displayed in red boxes. In betwen boxes, the pink areas represent
+dollar amounts associated with those sequences of techniques. E.g. in the Data
+Loss scenario the loss is $10M, while in the Resource Theft scenario the loss
+is $1M.
 
-The visualization highlights the separate business impacts of cryptojacking vs
-data theft. Based on public reports about [the Hildegard cryptojacking
-campaign](https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/), one
-threat actor has made ~$1,500 in cryptocurrency. If we assume that the cloud
-computing resources cost 10x more than the mined currency, then the monetary
-loss to Horoscope.com is -$15,000. On the other hand, we impute the value of a
-data breach at $10,000,000 in losses (an entire month of gross revenue).
+The boxes are sized proportional to the business loss. This visualization
+clearly shows how Data Loss is a much greater cost than Resource Theft.
 
-![Tesla breach visualization of outcomes](../data/action-object-tesla-outcomes.png)
+## Mitigations
 
-Based on this estimate of loss, we decide to prioritize the data breach outcome
-and put aside cryptojacking.
-
-This leaves 4 techniques arranged in causal order:
-
-1. T1133–External Remote Services
-2. T1552.001–Unsecured Credentials: Credentials In Files
-3. T1078.004–Valid Accounts: Cloud Accounts
-4. T1530–Data from Cloud Storage Object
-
-The sequence of techniques is an important factor in our analysis, because
-discovering the attack earlier generally reduces the amount of damages
-incurred.
-
-## Covering ATT&CK Techniques
-
-For each of the 4 selected ATT&CK techniques, we analyze Horoscope.com's
-existing security controls to understand level of coverage they have to detect
-and/or block each technique. Then we consult the following ATT&CK resources to
-gather more information on these techniques.
+For each of the ATT&CK techniques in the graph, we analyze Horoscope.com's
+mitigating controls to understand their ability to detect or block each
+technique. Then we consult the following ATT&CK resources to gather more
+information on these techniques.
 
 * [ATT&CK Matrix for Linux](https://attack.mitre.org/matrices/enterprise/linux/)
 * [ATT&CK Matrix for IaaS](https://attack.mitre.org/matrices/enterprise/cloud/iaas/)
-* [CTID Security Stack Mappings](https://center-for-threat-informed-defense.github.io/security-stack-mappings/AWS/README.html)
+* [CTID Security Stack Mappings](https://center-for-threat-informed-defense.github.io/security-stack-mappings/Azure/README.html)
 
 This analysis is summarized in the following table.
 
 <table>
   <tr>
     <th>Technique</th>
-    <th>Current State</th>
-    <th>ATT&CK Notes</th>
+    <th>Existing Controls</th>
+    <th>ATT&CK</th>
+    <th>Security Stack Mappings</th>
   </tr>
   <tr>
     <td>T1133–External Remote Services</td>
     <td>
       <ul>
         <li>Horoscope.com does not have Kubernetes console, but does have other external remote services, including SSH and Django console.</li>
-        <li>All external remote services have password authentication and do not have 2FA.</li>
+        <li>All external remote services have password authentication but do not have 2FA.</li>
       </ul>
-      </td>
+    </td>
     <td>
       <ul>
-        <li>Amazon Network Firewall can block traffic from untrusted origins to internal services. (Low cost, partial coverage)</li>
-        <li>Amazon VPC can segregate network access for internal services from the public internet. (Medium cost)</li>
-        <li>Amazon Monitor can audit Linux authentication settings. (Medium cost)</li>
-        <li>Amazon SSO includes 2FA and provides SAML integration for applications like Django. (High cost)</li>
+        <li><a href="https://attack.mitre.org/mitigations/M1035">M1035–Limit Access to Resource (Require use of VPN or other concentrator)</a></li>
+        <li><a href="https://attack.mitre.org/mitigations/M1032">M1032–Multi-factor Authentication</a></li>
+        <li><a href="https://attack.mitre.org/mitigations/M1030">M1030–Network Segmentation</a></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Azure Firewall (Partial)</li>
+        <li>Azure Network Traffic Analytics (Partial)</li>
+        <li>Just-in-Time VM Access (Significant)</li>
+        <li>Network Security Groups (Partial)</li>
       </ul>
     </td>
   </tr>
@@ -155,12 +145,18 @@ This analysis is summarized in the following table.
     <td>
       <ul>
         <li>SSH passwords are stored encrypted in <code>/etc/passwd</code> or use PKI.</li>
-        <li>Virtual machines access AWS S3 bucket using access token stored in <code>~/.aws/credentials</code>.</li>
+        <li>Virtual machines access Azure Storage container using access token stored in <code>~/.azure/accesstokens.json</code>.</li>
       </ul>
     </td>
     <td>
       <ul>
-        <li><em>No technical mitigations in ATT&CK.</em></li>
+        <li><a href="https://attack.mitre.org/mitigations/M1022">M1022–Restrict File And Directory Permissions</a></li>
+        <li><a href="https://attack.mitre.org/mitigations/M1027">M1027–Password Policies (Prohibit Password Storage In Files)</a></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>n/a</li>
       </ul>
     </td>
   </tr>
@@ -168,12 +164,18 @@ This analysis is summarized in the following table.
     <td>T1078.004–Valid Accounts: Cloud Accounts</td>
     <td>
       <ul>
-        <li>Virtual machines service accounts with access to S3 bucket.</li>
+        <li>Virtual machines use service accounts to access Azure Storage container.</li>
       </ul>
     </td>
     <td>
       <ul>
-        <li>AWS Guard Duty / Security Hub can detect abuse of AWS accounts. (Medium cost)</li>
+        <li><a href="https://attack.mitre.org/mitigations/M1032">M1032–Multi-factor Authentication</a></li>
+        <li><a href="https://attack.mitre.org/mitigations/M1018">M1018–User Account Management</a></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Azure AD Identity Protection (Partial)</li>
       </ul>
     </td>
   </tr>
@@ -181,51 +183,151 @@ This analysis is summarized in the following table.
     <td>T1530–Data from Cloud Storage Object</td>
     <td>
       <ul>
-        <li>S3 bucket does not allow public access; it requires valid credentials.</li>
+        <li>Storage container does not allow public access; it requires valid credentials.</li>
       </ul>
     </td>
     <td>
       <ul>
-        <li>Set fine-grained permissions on S3 bucket. (Low cost)</li>
-        <li>AWS Security Hub / Guard Duy / Macie can detect suspicious access patterns in S3 buckets. (Medium cost)</li>
+        <li><a href="https://attack.mitre.org/mitigations/M1037">M1037–Filter Network Traffic</a></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Azure Defender for Storage (Significant)</li>
+        <li>Azure Sentinel (Minimal)</li>
+        <li>Azure RBAC (Minimal)</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>T1610–Deploy Container</td>
+    <td>
+      <ul>
+        <li>n/a</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>n/a</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>n/a</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>T1496–Resource Hijacking</td>
+    <td>
+      <ul>
+        <li>Horoscope.com's financial team tracks cloud spending trend on a monthly basis.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>n/a</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Azure Sentinel (Partial)</li>
+      </ul>
+    </td>
+</table>
+
+Based on this analysis, we identify three security controls to focus on:
+
+1. Move DevTools from public facing posture into Azure Network Security Groups
+   (NSG).
+2. Enable Azure Defender for Storage.
+3. Enable Azure Sentinel to detect malicious Storage and Compute activity.
+
+Next, we estimate the efficacy of each security control and estimate the
+implementation cost and on-going operations and maintenance (O&M).
+
+<table>
+  <tr>
+    <th>Control</th>
+    <th>Efficacy</th>
+    <th>Implementation Cost</th>
+    <th>Monthly O&M</th>
+  </tr>
+  <tr>
+    <td>Azure Defender for Storage</td>
+    <td>30%</td>
+    <td>
+      <ul>
+        <li>1 FTE-Month to configure and test</li>
+        <li><strong>Total: $10,000</strong></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Azure Defender: $0.02/10k transactions</li>
+        <li>0.25 FTE to monitor Defender alerts</li>
+        <li>Horoscope generates 1bn storage transactions/day.</li>
+        <li><strong>Total: $8,500</strong></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Azure Sentinel</td>
+    <td>35%</td>
+    <td>
+      <ul>
+        <li>2 FTE-Months to configure and test</li>
+        <li><strong>Total: $20,000</strong></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Azure Sentinel: $2.96/GB/day of log data</li>
+        <li>0.25 FTE to monitor Sentinel alerts</li>
+        <li>Horoscope produces 100Gb of log data/day.</li>
+        <li>30 day retention</li>
+        <li><strong>Total: $11,380</strong></li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>Network Security Groups</td>
+    <td>25%</td>
+    <td>
+      <ul>
+        <li>3 FTE Months to rearchitect, deploy, and test</li>
+        <li><strong>Total: $30,000</strong></li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Azure NSG: included in the price for compute</li>
+        <li><strong>Total: $0</strong></li>
       </ul>
     </td>
   </tr>
 </table>
 
-The coverage of detection and mitigation for these techniques is visualized in
-the following diagram. ATT&CK techniques are displayed in the middle, detection
-coverage on the left side, and mitigation coverage on the right side.
+We update our ATT&CK Flow diagram to include these new security controls.
 
-![Sankey diagram of current ATT&CK coverage](../data/ceo_scenario_before.png)
+![Sankey diagram of current ATT&CK coverage](../data/tesla-flow-costs-controls.png)
 
+This diagram illustrates the impact of each control and the dramatic reduction
+in expected losses. (View a [live version of this
+diagram](https://observablehq.com/d/c698de34d77984df) online to experiment with
+different numbers.)
 
 ## CEO Presentation
 
-Based on the research and application of ATT&CK above, we make the following
-recommendations to the CEO:
+Based on the research and application of ATT&CK above, we put together the
+following presentation for the CEO.
 
-1. In the short term, review all external remote services and configure AWS
-   firewalls to restrict traffic to trusted origins.
-2. In the short term, use AWS Guard Duty to detect suspicious access patterns.
-3. In the medium term, migrate all existing infrastructure to use properly
-   segregrated VPCs with ACLs. This can be rolled out incrementally.
-4. In the long term, integrate Amazon SSO to ensure that all endpoints require
-   2FA. This requires some custom development and integration with existing platforms.
+Download Presentation: [[PDF]](./CEO_Scenario.pdf) [[PowerPoint]](../data/../docs/CEO_Scenario.pptx)
 
-The following diagram visualizes the improvements to detection and mitigation
-achieved.
+Slide 1:
 
-![Sankey diagram of proposed ATT&CK coverage](../data/ceo_scenario_after.png)
+![CEO presentation slide 1](../data/ceo-scenario-slide1.png)
 
-These recommendations provide a balance of immediate and effective action while
-also laying the groundwork for long-term investements in security posture.
+Slide 2:
 
-## ATT&CK Commentary
-
-Notes about limitations of using ATT&CK data in this analysis:
-
-* ATT&CK didn't offer much in the way of countermeasures or security controls
-  for the techniques covered in this scenario.
-* Security Stack Mappings offers limited or cryptic mitigations for some
-  techniques, e.g. T1078–Valid Accounts.
+![CEO presentation slide 2](../data/ceo-scenario-slide2.png)
