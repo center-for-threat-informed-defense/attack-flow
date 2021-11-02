@@ -17,7 +17,7 @@
                 "id": {
                     "description": "The identifier for this Attack Flow. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
                     "type": "string",
-                    "format": "uri-reference"
+                    "format": "uri"
                 },
                 "name": {
                     "description": "The name of the Attack Flow.",
@@ -53,7 +53,7 @@
                     "id": {
                         "description": "The identifier for this Action. MUST be unique within this document.",
                         "type": "string",
-                        "format": "uri-reference"
+                        "format": "uri"
                     },
                     "type": {
                         "description": "Indicate that this is an Action",
@@ -90,9 +90,8 @@
                         "type": "string"
                     },
                     "logic_operator": {
-                        "description": "The logic_operator may be any logic valid in the language defined by the logic_operator_language. If the logic_operator_language is undefined, the logic_operator may be AND or OR, representing the relative operation on all required-by relationships. The logic_operator must return the state changes to the provides relationships.",
+                        "description": "The logic_operator may be any logic valid in the language defined by the logic_operator_language. If the logic_operator_language is undefined, the logic_operator may be AND or OR, representing the relative operation on all required-by relationships. The logic_operator must return the state changes to the provides relationships. Inputs to the logic_operator are required-by Assets and their states; outputs of the logic_operator are provides Assets and their states updates.",
                         "type": "string",
-                        "enum": ["AND", "OR"],
                         "default": "AND"
                     }
                 },
@@ -108,7 +107,7 @@
                     "id": {
                         "description": "The identifier for this Asset. MUST be unique within this document.",
                         "type": "string",
-                        "format": "uri-reference"
+                        "format": "uri"
                     },
                     "type": {
                         "description": "Indicate that this is an Asset",
@@ -131,17 +130,13 @@
                 "properties": {
                     "source": {
                         "description": "The source flow, action, or asset for this relationship.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "uri"
                     },
                     "type": {
-                        "description": "Indicate that this is a Relationship",
-                        "type": "string",
-                        "enum": ["relationship"]
-                    },
-                    "relationship_type": {
                         "description": "The type of relationship.",
                         "type": "string",
-                        "format": "uri-reference"
+                        "format": "uri"
                     },
                     "target": {
                         "description": "The target asset, action, or property. If the target is an Action, the source MUST be an Asset. If the target is an Asset, the source MUST be an Action.",
@@ -158,18 +153,13 @@
                 "type": "object",
                 "properties": {
                     "type": {
-                        "description": "Indicate that this is a Property",
+                        "description": "The type of property.",
                         "type": "string",
-                        "enum": ["property"]
+                        "format": "uri"
                     },
                     "source": {
                         "description": "The source action or asset for this property.",
                         "type": "string"
-                    },
-                    "property_type": {
-                        "description": "The type of property.",
-                        "type": "string",
-                        "format": "uri-reference"
                     },
                     "target": {
                         "description": "The property's target.",
