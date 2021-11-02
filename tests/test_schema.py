@@ -70,7 +70,7 @@ def test_schema_property_uuid():
     assert sp.name == 'test-uuid'
     assert sp.type == 'string'
     assert sp.required
-    assert sp.html_type == 'string (format: uuid)'
+    assert sp.html_type == 'uuid'
     assert sp.html_description == 'My description :&gt;'
 
 
@@ -83,7 +83,7 @@ def test_schema_property_datetime():
     assert sp.name == 'test-datetime'
     assert sp.type == 'string'
     assert sp.required
-    assert sp.html_type == 'string (format: date-time)'
+    assert sp.html_type == 'date-time'
     assert sp.html_description == \
         'My description (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)'
 

@@ -5,35 +5,35 @@
     "description": "This schema describes the Attack Flow JSON format.",
     "type": "object",
     "properties": {
-        "meta": {
+        "flow": {
             "description": "An Attack Flow Meta object",
             "type": "object",
             "properties": {
                 "type": {
-                    "description": "Indicate whether this is an Attack Flow or a Pattern.",
+                    "description": "Indicate that this is an Attack Flow.",
                     "type": "string",
-                    "enum": ["attack-flow", "attack-flow-pattern"]
+                    "enum": ["attack-flow"]
                 },
                 "id": {
-                    "description": "The identifier for this Attack Flow or Pattern. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
+                    "description": "The identifier for this Attack Flow. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
                     "type": "string",
-                    "format": "uuid"
+                    "format": "uri"
                 },
                 "name": {
-                    "description": "The name of the Attack Flow or Pattern.",
+                    "description": "The name of the Attack Flow.",
                     "type": "string"
                 },
                 "created": {
-                    "description": "Creation time of the Attack Flow or Pattern.",
+                    "description": "Creation time of the Attack Flow.",
                     "type": "string",
                     "format": "date-time"
                 },
                 "author": {
-                    "description": "The author of the Attack Flow or Pattern.",
+                    "description": "The author of the Attack Flow.",
                     "type": "string"
                 },
                 "description": {
-                    "description": "The description of the Attack Flow or Pattern.",
+                    "description": "The description of the Attack Flow.",
                     "type": "string"
                 }
             },
@@ -53,7 +53,12 @@
                     "id": {
                         "description": "The identifier for this Action. MUST be unique within this document.",
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uri"
+                    },
+                    "type": {
+                        "description": "Indicate that this is an Action",
+                        "type": "string",
+                        "enum": ["action"]
                     },
                     "name": {
                         "description": "The name of the action. May be an ATT&CK technique name.",
@@ -72,13 +77,6 @@
                         "description": "A reference for the action. May be a URL to an ATT&CK technique.",
                         "type": "string"
                     },
-                    "properties": {
-                        "description": "The list of properties associated with this action object.",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
                     "succeeded": {
                         "description": "Float from 0 (failed) to 1 (succeeded) or distribution representing the probability that action succeeded in its effects. Any effects which may be separable should be defined through a separate action. Assumed to be 1 (100% ~ TRUE) if not included.",
                         "type": "number"
@@ -87,10 +85,14 @@
                         "description": "Float from 0 to 1 or distribution representing the confidence that the action succeeded. Assumed to be 1 (100% ~ ground truth) if not included.",
                         "type": "number"
                     },
+                    "logic_operator_language": {
+                        "description": "The language of the logic_operator. Defaults to flow-vTBD when left blank.",
+                        "type": "string"
+                    },
                     "logic_operator": {
-                        "description": "`AND` means that all input nodes/trees must be true in order for this Action to succeed. `OR` means that one input node/tree must be true in order for this Action to succeed. The returned 'success' state should match the 'state' used on assets. TBD extension point",
+                        "description": "The logic_operator may be any logic valid in the language defined by the logic_operator_language. If the logic_operator_language is undefined, the logic_operator may be AND or OR, representing the relative operation on all required-by relationships. The logic_operator must return the state changes to the provides relationships. Inputs to the logic_operator are required-by Assets and their states; outputs of the logic_operator are provides Assets and their states updates.",
                         "type": "string",
-                        "enum": ["attack-flow", "attack-flow-pattern"]
+                        "default": "AND"
                     }
                 },
                 "required": ["id", "name", "description", "logic_operator"]
@@ -105,55 +107,71 @@
                     "id": {
                         "description": "The identifier for this Asset. MUST be unique within this document.",
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uri"
+                    },
+                    "type": {
+                        "description": "Indicate that this is an Asset",
+                        "type": "string",
+                        "enum": ["asset"]
                     },
                     "state": {
                         "description": "A property that may be used as a transient string representing the state of the object during a point in time representing the current state of the system. The sum of all object states is the state of the system. This may be as simple as \"compromised\", the Confidentiality, Integrity, Availability triad, DIMFUI (Degradation, Interruption, Modification, Fabrication, Unauthorized Use, and Interception), or it may even be an arbitrary string. If not included, it is assumed that the state is 'compromised' after a parent action succeeds.",
                         "type": "string"
-                    },
-                    "properties": {
-                        "description": "The list of properties associated with the asset.",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
                     }
                 },
                 "required": ["id"]
             }
         },
         "relationships": {
-            "description": "The list of relationship edges in the attack flow",
+            "description": "The list of relationship edges in the attack flow. All Actions MUST have a relationship to the flow.",
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "description": "The identifier for this Relationship or Patter. MUST be unique within this document.",
-                        "type": "string",
-                        "format": "uuid"
-                    },
-                    "label": {
-                        "description": "The type of relationship, e.g. 'modifies'.",
-                        "type": "string"
-                    },
                     "source": {
-                        "description": "The source Action ID or Asset ID for this relationship.",
+                        "description": "The source flow, action, or asset for this relationship.",
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uri"
                     },
-                    "destination": {
-                        "description": "The destination Asset ID or Action ID for this relationship. If the source is an Action, this MUST be an Asset. If the source is an Asset, this MUST be an Action.",
+                    "type": {
+                        "description": "The type of relationship.",
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uri"
+                    },
+                    "target": {
+                        "description": "The target asset, action, or property. If the target is an Action, the source MUST be an Asset. If the target is an Asset, the source MUST be an Action.",
+                        "type": "string"
                     }
                 },
-                "required": ["id", "label", "source", "destination"]
+                "required": ["source", "type", "target"]
+            }
+        },
+        "properties": {
+            "description": "Properties of actions or assets",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "The type of property.",
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "source": {
+                        "description": "The source action or asset for this property.",
+                        "type": "string"
+                    },
+                    "target": {
+                        "description": "The property's target.",
+                        "type": "string"
+                    }
+                },
+                "required": ["source", "type", "target"]
             }
         }
     },
     "additionalProperties": true,
     "required": [
-        "meta"
+        "flow"
     ]
 }
