@@ -6,7 +6,7 @@ This hypothetical concerns a company that sells Horoscopes-as-a-Service (HaaS).
 
 Key Facts:
 
-* Company: Horoscope.com
+* Company: Horoscope.example.com
 * Revenue: $10m monthly recurring revenue (MRR)
 * Environment: Production Linux servers in Azure Cloud Environment
 
@@ -105,7 +105,7 @@ information on these techniques.
 
 * [ATT&CK Matrix for Linux](https://attack.mitre.org/matrices/enterprise/linux/)
 * [ATT&CK Matrix for IaaS](https://attack.mitre.org/matrices/enterprise/cloud/iaas/)
-* [CTID Security Stack Mappings](https://center-for-threat-informed-defense.github.io/security-stack-mappings/Azure/README.html)
+* [Security Stack Mappings - Azure](https://center-for-threat-informed-defense.github.io/security-stack-mappings/Azure/README.html)
 
 This analysis is summarized in the following table.
 
