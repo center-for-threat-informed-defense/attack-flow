@@ -6,15 +6,15 @@ This hypothetical concerns a company that sells Horoscopes-as-a-Service (HaaS).
 
 Key Facts:
 
-* Company: Horoscope.com
+* Company: Horoscope.example.com
 * Revenue: $10m monthly recurring revenue (MRR)
 * Environment: Production Linux servers in Azure Cloud Environment
 
 *The CEO hears about Tesla breach on MSNBC, asks, “can that happen to us?”*
 
 This scenario adopts the perspective of the cybersecurity practitioners who
-must research the Tesla breach, reason about the same sort of techniqew being
-carried out against Horoscope.com, and present strategic advice to the CEO.
+must research the Tesla breach, reason about the same sort of technique being
+carried out against Horoscope, and present strategic advice to the CEO.
 
 ## Attack Overview
 
@@ -60,7 +60,7 @@ contains Azure access tokens for an S3 storage bucket containing "sensitive
 telemetry data". There is no public evidence that this data was accessed, or
 even that this threat actor was interested in collecting such data, but we
 should still consider the data breach scenario when reasoning about attacks on
-Horoscope.com.
+Horoscope.
 
 The data breach scenario would play out like this: attackers use the discovered
 Azure credentials (T1552.001–Unsecured Credentials: Credentials in Files) to
@@ -98,14 +98,14 @@ clearly shows how Data Loss is a much greater cost than Resource Theft.
 
 ## Mitigations
 
-For each of the ATT&CK techniques in the graph, we analyze Horoscope.com's
+For each of the ATT&CK techniques in the graph, we analyze Horoscope's
 mitigating controls to understand their ability to detect or block each
 technique. Then we consult the following ATT&CK resources to gather more
 information on these techniques.
 
 * [ATT&CK Matrix for Linux](https://attack.mitre.org/matrices/enterprise/linux/)
 * [ATT&CK Matrix for IaaS](https://attack.mitre.org/matrices/enterprise/cloud/iaas/)
-* [CTID Security Stack Mappings](https://center-for-threat-informed-defense.github.io/security-stack-mappings/Azure/README.html)
+* [Security Stack Mappings - Azure](https://center-for-threat-informed-defense.github.io/security-stack-mappings/Azure/README.html)
 
 This analysis is summarized in the following table.
 
@@ -120,7 +120,7 @@ This analysis is summarized in the following table.
     <td>T1133–External Remote Services</td>
     <td>
       <ul>
-        <li>Horoscope.com does not have Kubernetes console, but does have other external remote services, including SSH and Django console.</li>
+        <li>Horoscope does not have Kubernetes console, but does have other external remote services, including SSH and Django console.</li>
         <li>All external remote services have password authentication but do not have 2FA.</li>
       </ul>
     </td>
@@ -221,7 +221,7 @@ This analysis is summarized in the following table.
     <td>T1496–Resource Hijacking</td>
     <td>
       <ul>
-        <li>Horoscope.com's financial team tracks cloud spending trend on a monthly basis.</li>
+        <li>Horoscope's financial team tracks cloud spending trend on a monthly basis.</li>
       </ul>
     </td>
     <td>
