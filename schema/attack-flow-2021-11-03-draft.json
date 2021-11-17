@@ -15,9 +15,10 @@
                     "enum": ["attack-flow"]
                 },
                 "id": {
-                    "description": "The identifier for this Attack Flow. MUST be unique within this document. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
+                    "description": "The identifier for this Attack Flow. MUST be unique within this document. MUST start with flow://. TODO: Ideally is unique among Attack Flows produced by a particular organization.",
                     "type": "string",
-                    "format": "uri"
+                    "format": "uri",
+                    "pattern": "^flow://.*"
                 },
                 "name": {
                     "description": "The name of the Attack Flow.",
@@ -35,6 +36,29 @@
                 "description": {
                     "description": "The description of the Attack Flow.",
                     "type": "string"
+                },
+                "sources": {
+                    "description": "Sources used to create this Attack Flow.",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "description": "The name of the source.",
+                                "type": "string"
+                            },
+                            "url": {
+                                "description": "URL for source document.",
+                                "type": "string"
+                            },
+                            "publication_date": {
+                                "description": "Publication date of source document.",
+                                "type": "string",
+                                "format": "date"
+                            }
+                        },
+                        "required": ["name"]
+                    }
                 }
             },
             "required": [
@@ -53,7 +77,8 @@
                     "id": {
                         "description": "The identifier for this Action. MUST be unique within this document.",
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "pattern": "^action://.*"
                     },
                     "type": {
                         "description": "Indicate that this is an Action",
@@ -95,7 +120,7 @@
                         "default": "AND"
                     }
                 },
-                "required": ["id", "name", "description", "logic_operator"]
+                "required": ["id", "name", "description"]
             }
         },
         "assets": {
@@ -105,9 +130,10 @@
                 "type": "object",
                 "properties": {
                     "id": {
-                        "description": "The identifier for this Asset. MUST be unique within this document.",
+                        "description": "The identifier for this Asset. MUST be unique within this document. MUST start with asset://",
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "pattern": "^asset://.*"
                     },
                     "type": {
                         "description": "Indicate that this is an Asset",
@@ -123,7 +149,7 @@
             }
         },
         "relationships": {
-            "description": "The list of relationship edges in the attack flow. All Actions MUST have a relationship to the flow.",
+            "description": "The list of relationship edges in the attack flow. See \"Relationships\" for permitted source and target object types.",
             "type": "array",
             "items": {
                 "type": "object",
@@ -131,7 +157,8 @@
                     "source": {
                         "description": "The source flow, action, or asset for this relationship.",
                         "type": "string",
-                        "format": "uri"
+                        "format": "uri",
+                        "pattern": "^(action|asset|flow|property)://.*"
                     },
                     "type": {
                         "description": "The type of relationship.",
@@ -139,8 +166,10 @@
                         "format": "uri"
                     },
                     "target": {
-                        "description": "The target asset, action, or property. If the target is an Action, the source MUST be an Asset. If the target is an Asset, the source MUST be an Action.",
-                        "type": "string"
+                        "description": "The target asset, action, or property.",
+                        "type": "string",
+                        "format": "uri",
+                        "pattern": "^(action|asset|flow|property)://.*"
                     }
                 },
                 "required": ["source", "type", "target"]

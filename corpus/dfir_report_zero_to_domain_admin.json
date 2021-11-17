@@ -2,131 +2,121 @@
     "$schema": "../schema/attack-flow-2021-11-03-draft.json",
     "flow": {
         "type": "attack-flow",
-        "id": "https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/",
+        "id": "flow://mitre.org/dfir-report-from-zero-to-domain-admin",
         "name": "The DFIR Report: ",
         "author": "Mark E. Haase <mhaase@mitre-engenuity.org>",
-        "created": "2021-11-08T11:57:00-05:00"
+        "created": "2021-11-08T11:57:00-05:00",
+        "sources": [
+            {
+                "name": "The DFIR Report: From Zero to Domain Admin",
+                "url": "https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/",
+                "publication_date": "2021-11-01"
+            }
+        ]
     },
     "actions": [
         {
             "id": "action://phishing",
             "name": "Phishing: Spearphishing Link",
             "description": "Phishing link to malicious Word Doc via Google Feed Proxy.",
-            "reference": "https://attack.mitre.org/techniques/T1566/002/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1566/002/"
         },
         {
             "id": "action://malicious-file",
             "name": "User Execution: Malicious File",
             "description": "Word document containing malicious macro.",
-            "reference": "https://attack.mitre.org/techniques/T1204/002/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1204/002/"
         },
         {
             "id": "action://macro",
             "name": "Command and Scripting Interpreter: Visual Basic",
             "description": "The macro downloads Hancitor DLL and runs it.",
-            "reference": "https://attack.mitre.org/techniques/T1059/005/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1059/005/"
         },
         {
             "id": "action://run-hancitor",
             "name": "Signed Binary Proxy Execution: Rundll32",
             "description": "Execute ier.dll (Hancitor).",
-            "reference": "https://attack.mitre.org/techniques/T1218/011/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1218/011/"
         },
         {
             "id": "action://hancitor-c2-beacon",
             "name": "Application Layer Protocol: Web Protocols",
             "description": "Hancitor uses HTTP protocol for C2.",
-            "reference": "https://attack.mitre.org/techniques/T1071/001/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1071/001/"
         },
         {
             "id": "action://process-injection",
             "name": "Process Injection",
             "description": "Process injection to run multiple scans and probes.",
-            "reference": "https://attack.mitre.org/techniques/T1055/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1055/"
         },
         {
             "id": "action://run-cor-dll",
             "name": "Signed Binary Proxy Execution: Rundll32",
             "description": "Execute cor.dll (Cobalt Strike stager).",
-            "reference": "https://attack.mitre.org/techniques/T1218/011/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1218/011/"
         },
         {
             "id": "action://cli-magic-number",
             "name": "Virtualization/Sandbox Evasion",
             "description": "Does not execute unless given a magic number argument.",
-            "reference": "https://attack.mitre.org/techniques/T1497/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1497/"
         },
         {
             "id": "action://run-agent-ps1",
             "name": "Command and Scripting Interpreter: Powershell",
             "description": "Execute agent1.ps1 to download and run beacon.",
-            "reference": "https://attack.mitre.org/techniques/T1059/001/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1059/001/"
         },
         {
             "id": "action://agent-ps1-base64",
             "name": "Obfuscated Files or Information",
             "description": "Powershell is base64-encoded.",
-            "reference": "https://attack.mitre.org/techniques/T1027/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1027/"
         },
         {
             "id": "action://agent-ps1-compile",
             "name": "Obfuscated Files or Information: Compile After Delivery",
             "description": "c# source code is compiled.",
-            "reference": "https://attack.mitre.org/techniques/T1027/004/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1027/004/"
         },
         {
             "id": "action://agent-ps1-beacon",
             "name": "Application Layer Protocol: Web Protocols",
             "description": "Agent.ps1 uses HTTP protocol for C2.",
-            "reference": "https://attack.mitre.org/techniques/T1071/001/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1071/001/"
         },
         {
             "id": "action://ingress-cobalt-strike",
             "name": "Ingress Tool Transfer",
             "description": "Download Cobalt Strike.",
-            "reference": "https://attack.mitre.org/techniques/T1105/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1105/"
         },
         {
             "id": "action://ingress-ficker",
             "name": "Ingress Tool Transfer",
             "description": "Download Ficker Stealer.",
-            "reference": "https://attack.mitre.org/techniques/T1105/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1105/"
         },
         {
             "id": "action://ficker-c2-beacon",
             "name": "Application Layer Protocol",
             "description": "Ficker beacon failed due to DNS resolution.",
             "reference": "https://attack.mitre.org/techniques/T1071/",
-            "logic_operator": "AND",
             "succeeded": 0
         },
         {
             "id": "action://scan-smb-backup",
             "name": "Network Service Scanning",
             "description": "Scan for SMB and backup products such as Synology.",
-            "reference": "https://attack.mitre.org/techniques/T1046/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1046/"
         },
         {
             "id": "action://enumerate-domain-accounts",
             "name": "Account Discovery: Domain Account",
             "description": "Enumerate domain administrator accounts.",
-            "reference": "https://attack.mitre.org/techniques/T1087/002/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1087/002/"
         },
         {
             "id": "action://enumerate-domain-groups",
@@ -139,50 +129,43 @@
             "id": "action://enumerate-smb-shares",
             "name": "Network Share Discovery",
             "description": "Search for c$ shares using discovered SMB.",
-            "reference": "https://attack.mitre.org/techniques/T1135/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1135/"
         },
         {
             "id": "action://lateral-tool-transfer",
             "name": "Lateral Tool Transfer",
             "description": "Copy cor.bat to \\\\${IP_ADDR}\\c$\\programdata.",
-            "reference": "https://attack.mitre.org/techniques/T1570/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1570/"
         },
         {
             "id": "action://zerologon-cve",
             "name": "Exploitation for Credential Access",
             "description": "Custom Zerologon (CVE-2020-1472) exploit to obtain domain administrator NTLM hash.",
-            "reference": "https://attack.mitre.org/techniques/T1212/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1212/"
         },
         {
             "id": "action://pass-the-hash",
             "name": "Use Alternate Authentication Material: Pass the Hash",
             "description": "PTH the domain administrator NTLM hash.",
-            "reference": "https://attack.mitre.org/techniques/T1550/002/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1550/002/"
         },
         {
             "id": "action://enumerate-machines",
             "name": "Command and Scripting Interpreter: Powershell",
             "description": "comp2.ps1 enumerates domain computers and stores in comps.txt.",
-            "reference": "https://attack.mitre.org/techniques/T1059/001/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1059/001/"
         },
         {
             "id": "action://discover-machines",
             "name": "Remote System Discovery",
             "description": "Discover domain copmputers using comps.txt.",
-            "reference": "https://attack.mitre.org/techniques/T1018/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1018/"
         },
         {
             "id": "action://scan-machines",
             "name": "Network Service Scanning",
             "description": "Check.exe pings machines in comps.txt and saves to check.txt.",
-            "reference": "https://attack.mitre.org/techniques/T1046/",
-            "logic_operator": "AND"
+            "reference": "https://attack.mitre.org/techniques/T1046/"
         }
     ],
     "assets": [
