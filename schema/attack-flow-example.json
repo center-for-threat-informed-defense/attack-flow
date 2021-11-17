@@ -9,7 +9,6 @@
     },
     "actions": [
         {
-            "id": "id://action-1",
             "type": "action",
             "name": "External Remote Services",
             "description": "Adversary accesses unsecured Kubernetes dashboard, gaining administrative console access.",
