@@ -1,68 +1,67 @@
 {
-    "$schema": "./2021-10-13-draft.json",
+    "$schema": "./attack-flow-2021-11-03-draft.json",
     "flow": {
         "type": "attack-flow",
-        "id": "flow-1",
+        "id": "id://flow-1",
         "name": "Attack Flow Example",
         "author": "Mark E. Haase <mhaase@mitre-engenuity.org>",
         "created": "2021-10-13T12:20:02-05:00"
     },
     "actions": [
         {
-            "id": "action-1",
+            "id": "id://action-1",
+            "type": "action",
             "name": "External Remote Services",
             "description": "Adversary accesses unsecured Kubernetes dashboard, gaining administrative console access.",
             "timestamp": "2020-07-04T09:00:00.123Z",
             "reference": "https://attack.mitre.org/techniques/T1133",
-            "properties": ["TODO"],
             "succeeded": 1.0,
             "confidence": 1.0,
+            "logic_operator_language": "flow-vTBD",
             "logic_operator": "AND"
         }
     ],
     "assets": [
         {
-            "id": "asset-1",
-            "properties": [
-                "Administrator credentials"
-            ]
+            "id": "id://asset-1",
+            "type": "asset",
+            "state": "compromised"
         },
         {
-            "id": "asset2",
-            "properties": [
-                "Stolen data"
-            ]
+            "id": "id://asset2",
+            "type": "asset",
+            "state": "compromised"
         }
     ],
     "relationships": [
         {
-            "source": "action-1",
-            "type": "flow-v1#provides",
+            "source": "id://action-1",
+            "type": "type://flow-v1#provides",
             "target":  "asset-1"
         },
         {
-            "source": "asset-1",
-            "type": "flow-v1#required-by",
+            "source": "id://asset-1",
+            "type": "type://flow-v1#required-by",
             "target":  "action-1"
         },
         {
-            "source": "action-1",
-            "type": "flow-v1#described-by"
-            , "target":  "property-2"
+            "source": "id://action-1",
+            "type": "type://flow-v1#described-by",
+            "target":  "property-2"
         },
         {
-            "source": "action-1",
-            "type": "flow-v1#described-by"
-            , "target":  "property-1"
+            "source": "id://ction-1",
+            "type": "type://flow-v1#described-by",
+            "target":  "property-1"
         },
         {
-            "source": "asset-1",
-            "type": "flow-v1#flow",
+            "source": "id://asset-1",
+            "type": "type://flow-v1#flow",
             "target":  "flow-1"
         }
     ],
     "properties": [
-        {"source":  "property-1", "type": "flow-v1#command", "target": "powershell.exe C:\\Users\\#{domain.admin.username}.#{domain}\\AppData\\Local\\takeScreenshot.ps1"},
-        {"source":  "property-2", "type":  "flow-v1#label", "target":  "cobalt strike"}
+        {"source":  "property-1", "type": "type://flow-v1#command", "target": "powershell.exe C:\\Users\\#{domain.admin.username}.#{domain}\\AppData\\Local\\takeScreenshot.ps1"},
+        {"source":  "property-2", "type":  "type://flow-v1#label", "target":  "cobalt strike"}
     ]
 }
