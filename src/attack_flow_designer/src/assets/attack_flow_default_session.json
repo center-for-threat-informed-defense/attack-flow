@@ -1,0 +1,11 @@
+{
+    "canvas": {
+        "cameraX": -1,
+        "cameraY": -1,
+        "padding": 45,
+        "pageSizeX": 800,
+        "pageSizeY": 800
+    },
+    "nodes": [],
+    "edges": []
+}

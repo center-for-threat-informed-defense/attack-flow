@@ -1,0 +1,43 @@
+{
+    "lists": {
+        "technique": [
+            { "tactic": "None", "technique": "None", "id": "T0000"},
+            { "tactic": "Lateral Movement", "technique": "Lateral Tool Transfer", "id": "T1570" },
+            { "tactic": "Persistence", "technique": "Account Manipulation", "id": "T1098" },
+            { "tactic": "Persistence", "technique": "Create Account", "id": "T1136" }
+        ]
+    },
+    "nodes": {
+        "action": {
+            "color"   : "#637bc9",
+            "outline" : "#708ce6",
+            "subtype" : { "type": "dropdown", "list": "technique", "textKey": "technique", "default": 0 }, 
+            "fields"  : {
+                "confidence" : { "type": "number",  "default": 1.0  },
+                "timestamp"  : { "type": "string",  "default": "Origin" },
+                "succeeded"  : { "type": "boolean", "default": true },
+                "comment"    : { "type": "string",  "default": ""   },
+                "cost"       : { "type": "number",  "default": 0.0  }
+            }
+        },
+        "file": {
+            "color"   : "#c26130",
+            "outline" : "#e57339",
+            "subtype" : null, 
+            "fields"  : {
+                "filename"   : { "type": "string",  "default": ""  },
+                "comment"    : { "type": "string",  "default": ""  }
+            }
+        }
+    },
+    "edges": {
+        "generic": {
+            "color": "#fff",
+            "fields"  : {
+                "confidence" : { "type": "string",  "default": 1.0  },
+                "timestamp"  : { "type": "string",  "default": "Origin" },
+                "succeeded"  : { "type": "boolean", "default": true }
+            }
+        }
+    }
+}
