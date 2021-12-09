@@ -143,7 +143,7 @@ export default defineComponent({
       return [menu];
     },
     focusedEdge(): Types.CanvasEdge | null {
-      if(this.selectedEdges.length === 1) {
+      if(this.selectedEdges.length === 1 && this.selectedNodes.length === 0) {
         return this.edges.get(this.selectedEdges[0])!;
       } else {
         return null;
