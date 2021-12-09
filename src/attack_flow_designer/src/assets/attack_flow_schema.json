@@ -31,10 +31,10 @@
         }
     },
     "edges": {
-        "generic": {
-            "color": "#fff",
+        "transfer": {
+            "color": "#a766cc",
             "fields"  : {
-                "confidence" : { "type": "string",  "default": 1.0  },
+                "confidence" : { "type": "number",  "default": 1.0  },
                 "timestamp"  : { "type": "string",  "default": "Origin" },
                 "succeeded"  : { "type": "boolean", "default": true }
             }

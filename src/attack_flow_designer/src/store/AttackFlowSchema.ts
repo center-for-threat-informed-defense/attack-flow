@@ -1,7 +1,8 @@
-export class AttackFlowSchema {
+export class AttackFlowSchema implements Types.IAttackFlowSchema {
     
     public lists: Map<string, Array<any>>;
-    public nodes: Map<string, Types.INodeSchema>;
+    public nodes: Map<string, Types.NodeSchema>;
+    public edges: Map<string, Types.EdgeSchema>;
     
     /**
      * Creates a new Attack Flow Schema
@@ -10,7 +11,8 @@ export class AttackFlowSchema {
     public constructor(schema: any) {
         // Define Maps
         this.lists = new Map<string, Array<any>>();
-        this.nodes = new Map<string, Types.INodeSchema>();
+        this.nodes = new Map<string, Types.NodeSchema>();
+        this.edges = new Map<string, Types.EdgeSchema>();
         // Parse Lists
         for(let key in schema.lists) {
             this.lists.set(key, schema.lists[key]);
@@ -25,6 +27,14 @@ export class AttackFlowSchema {
                 fieldsText : schema.nodes[key].fields
             })
         }
+        // Parse Edge Schemas
+        for(let key in schema.edges) {
+            this.edges.set(key, {
+              color      : schema.edges[key].color,
+              fields     : this.parseFields(schema.edges[key].fields),
+              fieldsText : schema.edges[key].fields
+            })
+        }
     }
 
     /**
@@ -32,8 +42,8 @@ export class AttackFlowSchema {
      * @param fields The object of fields to parse and flatten.
      * @returns The list of parsed fields.
      */
-    private parseFields(fields: any): Map<string, Types.INodeField> {
-        let list = new Map<string, Types.INodeField>();
+    private parseFields(fields: any): Map<string, Types.NodeField> {
+        let list = new Map<string, Types.NodeField>();
         (function getFields(this: any, fields: any, namespace: string){
             for(let key in fields) {
                 if(fields[key].type.toLocaleLowerCase() === "object") {

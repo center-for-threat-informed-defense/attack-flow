@@ -10,27 +10,22 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "TextField",
   props: {
-    default     : { default: "" },
-    align       : { type: String, default: "left" },
-    typeTimeout : { type: Number, default: 300 },
+    value: { default: "" },
+    align: { type: String, default: "left" },
   },
-  data() {
-    return {
-      text    : this.default,
-      timeout : undefined as number | undefined,
-    };
+  computed: {
+    text: {
+      get() { 
+        return this.value;
+      },
+      set(text: string) {
+        this.$emit("change", text);
+      }
+    }
   },
   emits: {
     change: (value: string) => true,
-  },
-  methods: {
-    onKeyDown() {
-      clearTimeout(this.timeout);
-      this.timeout = setTimeout(() => {
-        this.$emit("change", this.text);
-      }, this.typeTimeout);
-    },
-  },
+  }
 });
 </script>
 

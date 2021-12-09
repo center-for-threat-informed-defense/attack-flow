@@ -1,30 +1,27 @@
 <template>
   <div class="attack-flow-canvas-container">
     <div class="attack-flow-canvas-context" @wheel.passive="onCanvasMouseWheel" @contextmenu="$event.preventDefault()" ref="context">
-      <div @pointerdown="on">
-        <div class="attack-flow-canvas-panel" :style="canvasStyle" @pointerdown="startCanvasDrag" ref="panel">
-          <svg>
-            <AttackFlowEdge 
-              v-for="edge of getEdges" :key="edge.id" 
-              :source="edge.source" :target="edge.target" color="#4d4d4d"
-            />
-            <AttackFlowEdge 
-              :source="startLink.source" :target="startLink.target ?? startLink.cursor" color="#4d4d4d" 
-            />
-          </svg>
-        </div>
-        <div class="floating-elements" ref="nodes">
+      <div @pointerdown="contextMenu">
+        <div class="attack-flow-canvas-panel" :style="panelSize" @pointerdown="startCanvasDrag" ref="panel"></div>
+        <svg class="edges" :style="panelSize">
+          <AttackFlowEdge 
+            v-for="[id, edge] of edges" :key="id" 
+            :source="edge.source" :target="edge.target"
+            :color="selected.has(id) ? '#e6d845' : getEdgeColor(edge.type)"
+            @pointerdown="fullSelectItem($event, id)"
+          />
+          <AttackFlowEdge :source="startLink.source" :target="startLink.target ?? startLink.cursor" color="#4d4d4d"/>
+        </svg>
+        <div class="nodes" ref="nodes">
           <div
-            v-for="node of getNodes" :key="node.id" :id="node.id"
-            :class="['attack-flow-node-wrapper', selected.get(node.id)]"
+            v-for="[id, node] of nodes" :key="id" :id="id"
+            :class="['attack-flow-node-wrapper', selected.get(id)]"
             :style="{ top: `${ node.y0 }px`, left: `${ node.x0 }px` }"
           >
             <AttackFlowNode
               class="attack-flow-node"
-              :config="node" :schema="getNodeSchema(node.type)"
-              @fieldUpdate="(field, value) => setNodeField({ id: node.id, field, value })"
-              @subtypeUpdate="(value) => setNodeSubtype({ id: node.id, value })"
-              @pointerdown="fullSelectNode($event, node.id)"
+              :id="node.id"
+              @pointerdown="fullSelectItem($event, node.id)"
               @dragStart="evt => startNodeDrag(evt, node.id)"
               @linkStart="evt => startNodeLink(evt, node)"
               @mouseenter="nodeMouseEnter(node)"
@@ -33,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="floating-menus">
+      <div class="menus">
         <ContextMenu
           class="canvas-context-menu"
           :options="coreContextMenu"
@@ -41,6 +38,12 @@
           @select="onContextMenuSelection"
           @unfocus="showCtxMenu = false"
           v-show="showCtxMenu"
+        />
+        <AttackFlowEdgeMenu
+          class="attack-flow-edge-menu"
+          v-if="focusedEdge !== null" 
+          :id="focusedEdge.id"
+          :style="{ top:`${lastClick[1] + 5}px`, left:`${lastClick[0]}px` }"
         />
         <transition name="pop-in">
           <div 
@@ -56,12 +59,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
+import { capitalize } from "@/assets/StringTools";
 
+import AttackFlowEdgeMenu from "./AttackFlowEdgeMenu.vue";
 import AttackFlowNode from "./AttackFlowNode.vue";
-import AttackFlowEdge from "./AttackFlowEdge.vue";
-import ContextMenu from "./menus/ContextMenu.vue";
-import PlugIcon from "./svgs/PlugIcon.vue";
+import AttackFlowEdge from "@/components/Vectors/AttackFlowEdge.vue";
+import ContextMenu from "@/components/Controls/Menus/ContextMenu.vue";
+import PlugIcon from "@/components/Vectors/PlugIcon.vue";
 
 export default defineComponent({
   name: "AttackFlowCanvas",
@@ -77,8 +82,8 @@ export default defineComponent({
       },
       startLink: {
         show   : false as boolean,
-        source : null as Types.ICanvasNode | null,
-        target : null  as Types.ICanvasNode | null,
+        source : null as Types.CanvasNode | null,
+        target : null  as Types.CanvasNode | null,
         cursor : { x0: 0, x1: 0, y0: 0, y1: 0  } as Types.IBox
       },
       lastClick: [0, 0] as Array<number>,
@@ -86,76 +91,99 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapGetters(["getNodes", "getEdges"]),
-    canvasStyle(): Object {
+    ...mapState({
+      nodes(state: Types.DesignerStore): Map<string, Types.CanvasNode> {
+        return state.session.nodes;
+      },
+      edges(state: Types.DesignerStore): Map<string, Types.CanvasEdge> {
+        return state.session.edges;
+      },
+      schemas(state: Types.DesignerStore): Types.IAttackFlowSchema {
+        return state.schema;
+      },
+      canvas(state: Types.DesignerStore): Types.CanvasMetadata {
+        return state.session.canvas;
+      }
+    }),
+    panelSize(): Object {
       return {
         width  : `${ this.canvasWidth }px`,
         height : `${ this.canvasHeight }px`
       }
     },
-    coreContextMenu(): Object {
-      // Use canvas context menu if nothing selected
+    coreContextMenu(): Array<Array<Types.IContextMenuOption>> {
       if(this.selected.size === 0) {
         return this.canvasContextMenu;
-      } else if (this.selected.size === 1) {
-        return [[
-          { id: "delete-node", text: "Delete Node" },
-          { id: "duplicate-node", text: "Duplicate Node" }
-        ]]
       } else {
-        return [[
-          { id: "delete-node", text: `Delete ${ this.selected.size } Nodes` },
-          { id: "duplicate-node", text: `Duplicate ${ this.selected.size } Nodes` }
-        ]]
+        let options: Array<Array<Types.IContextMenuOption>> = [[]];
+        let nLen = this.selectedNodes.length;
+        let eLen = this.selectedEdges.length;
+        // Delete option
+        let nodeText = nLen === 0 ? '' : nLen === 1 ? "Node" : "Nodes";
+        let edgeText = eLen === 0 ? '' : eLen === 1 ? "Edge" : "Edges";
+        let text = nodeText && edgeText ? "Items" : `${ nodeText }${ edgeText }` 
+        options[0].push({ id: "delete-item", text: `Delete ${ text }` });
+        // Duplicate option
+        if(nLen > 0) {
+          let text = `Duplicate ${ nLen > 1 ? 'Sequence' : 'Node' }`
+          options[0].push({ id: "duplicate-node", text })
+        }
+        return options;
       }
     },
     canvasContextMenu(): Array<Array<Types.IContextMenuOption>> {
       let menu: Array<Types.IContextMenuOption> = [];
-      for(let [type, _] of this.getNodeSchemas()) {
+      for(let [type, _] of this.schemas.nodes) {
         menu.push({
           id: `create-node`, 
-          text: `Create ${ this.capitalize(type) } Node`, 
+          text: `Create ${ capitalize(type) } Node`, 
           data: { type }
         })
       }
       return [menu];
+    },
+    focusedEdge(): Types.CanvasEdge | null {
+      if(this.selectedEdges.length === 1) {
+        return this.edges.get(this.selectedEdges[0])!;
+      } else {
+        return null;
+      }
+    },
+    selectedNodes(): Array<string> {
+      let nodes: Array<string> = [];
+      for(let [id, select] of [...this.selected.entries()]) {
+        if(/^[0-9]+$/.test(id) && select === "select-full")
+          nodes.push(id);
+      }
+      return nodes;
+    },
+    selectedEdges(): Array<string> {
+      let edges: Array<string> = [];
+      for(let [id, select] of [...this.selected.entries()]) {
+        if(/^[0-9]+\.[0-9]+$/.test(id) && select === "select-full")
+          edges.push(id);
+      }
+      return edges;
     }
   },
   methods: {
-    ...mapGetters([
-      "getPageSize", 
-      "getNodeSchemas", 
-      "getCameraPosition",
-      "getCanvasPadding"
-    ]),
     ...mapActions([
       "createNode",
       "createEdge",
-      "deleteNodes",
+      "deleteItems",
       "duplicateNodes",
-      "offsetNode", 
-      "setNodeField", 
-      "setNodeSubtype",
+      "offsetNode",
       "setNodeLowerBound",
       "setCameraPosition",
       "recalculatePages"
-    ]),
-
-    on(event: PointerEvent) {
-      this.storeClickCoordinates(event);
-      if(event.button === 2) {
-        this.showCtxMenu = true;
-      } else {
-        this.showCtxMenu = false;
-      }
-    },      
+    ]),   
 
     /**
      * Canvas Click / Drag / Scroll
      */
 
     startCanvasDrag(event: PointerEvent) {
-      this.deselectNode();
+      this.deselectItem();
       // Setup drag state
       this.drag.position = [this.$el.scrollLeft, this.$el.scrollTop];
       this.drag.origin = [event.x, event.y];
@@ -224,7 +252,7 @@ export default defineComponent({
       this.drag.target.releasePointerCapture(event.pointerId);
       // Recalculate Pages
       this.recalculatePages();
-      // Recalcuate layout on the next tick
+      // Recalculate layout on the next tick
       this.$nextTick(() => {
         this.recalculateLayout();
       })
@@ -234,10 +262,10 @@ export default defineComponent({
      * Node Link
      */
 
-    startNodeLink(event: PointerEvent, source: Types.ICanvasNode) {
+    startNodeLink(event: PointerEvent, source: Types.CanvasNode) {
       event.preventDefault();
       // Select node
-      this.fullSelectNode(event, source.id, true);
+      this.fullSelectItem(event, source.id, true);
       // Setup drag state
       this.storeClickCoordinates(event);
       this.drag.origin = [event.x, event.y];
@@ -284,7 +312,7 @@ export default defineComponent({
       // Deselect nodes
       this.startLink.source = null;
       this.startLink.target = null;
-      this.deselectNode();
+      this.deselectItem();
     },
 
     /**
@@ -302,11 +330,14 @@ export default defineComponent({
           let y1 = y0 + child.clientHeight;
           x = Math.max(x, x1);
           y = Math.max(y, y1);
-          this.setNodeLowerBound({ id: parseInt(node.id), x1, y1 })
+          this.setNodeLowerBound({ id: node.id, x1, y1 })
       }
       // Get canvas size parameters
-      let { width, height } = this.getPageSize();
-      let padding = this.getCanvasPadding();
+      let [width, height, padding] = [
+          this.canvas.pageSizeX,
+          this.canvas.pageSizeY,
+          this.canvas.padding
+      ];
       // Compute canvas dimensions
       this.canvasWidth = Math.ceil((x + padding)/width) * width;
       this.canvasHeight = Math.ceil((y + padding)/height) * height;
@@ -314,7 +345,7 @@ export default defineComponent({
       this.canvasHeight = Math.max(this.canvasHeight, this.$el.clientHeight + 10);
       // Reset camera on the next tick
       this.$nextTick(() => {
-        let { x: cameraX, y: cameraY } = this.getCameraPosition();
+        let [cameraX, cameraY] = [this.canvas.cameraX, this.canvas.cameraY];
         // Center camera if coordinate is unset
         if(cameraX === -1)
           cameraX = (this.$el.scrollWidth - this.$el.clientWidth) / 2;
@@ -335,20 +366,29 @@ export default defineComponent({
      * Context Menus
      */
 
+    contextMenu(event: PointerEvent) {
+      this.storeClickCoordinates(event);
+      if(event.button === 2) {
+        this.showCtxMenu = true;
+      } else {
+        this.showCtxMenu = false;
+      }
+    },   
+
     onContextMenuSelection(id: string, data: any): void {
       switch(id) {
         case "create-node":
           this.createNode({ type: data.type, location: this.lastClick });
           break;
-        case "delete-node":
-          this.deleteNodes([...this.selected.keys()]);
-          this.deselectNode();
+        case "delete-item":
+          this.deleteItems([...this.selected.keys()]);
+          this.deselectItem();
           break;
         case "duplicate-node":
-          this.duplicateNodes([...this.selected.keys()])
+          this.duplicateNodes(this.selectedNodes);
           break;
       }
-      // Recalcuate layout on the next tick
+      // Recalculate layout on the next tick
       this.$nextTick(() => {
         this.recalculateLayout();
       })
@@ -358,27 +398,27 @@ export default defineComponent({
      * Node Mouse Over
      */
 
-    nodeMouseEnter(node: Types.ICanvasNode) {
+    nodeMouseEnter(node: Types.CanvasNode) {
       if(!this.startLink.show || this.startLink.source?.id === node.id) 
         return;
       this.startLink.target = node;
-      this.partialSelectNode(node.id);
+      this.partialSelectItem(node.id);
     },
 
-    nodeMouseLeave(node: Types.ICanvasNode) {
+    nodeMouseLeave(node: Types.CanvasNode) {
       if(!this.startLink.show || this.startLink.source?.id === node.id)
         return;
       this.startLink.target = null;
-      this.deselectNode(node.id);
+      this.deselectItem(node.id);
     },
 
     /**
      * Node Selection
      */
 
-    fullSelectNode(event: PointerEvent, id: number, exclusive: boolean = false) {
+    fullSelectItem(event: PointerEvent, id: string, exclusive: boolean = false) {
       if(exclusive) {
-          this.deselectNode();
+          this.deselectItem();
           this.selected.set(id, "select-full");
           return;
       }
@@ -387,21 +427,21 @@ export default defineComponent({
       }
       if(event.ctrlKey) {
         if(this.selected.has(id)) {
-          this.deselectNode(id);
+          this.deselectItem(id);
         } else {
           this.selected.set(id, "select-full");
         }
       } else {
-        this.deselectNode();
+        this.deselectItem();
         this.selected.set(id, "select-full");
       }
     },
 
-    partialSelectNode(id: number) {
+    partialSelectItem(id: string) {
       this.selected.set(id, "select-partial");
     },
     
-    deselectNode(id?: number) {
+    deselectItem(id?: string) {
       if(id === undefined) {
         this.selected.clear();
       } else {
@@ -412,24 +452,27 @@ export default defineComponent({
     /**
      * Helpers
      */
-
-    getNodeSchema(type: string): Types.INodeSchema {
-      return this.getNodeSchemas().get(type);
-    },
-
+    
     storeClickCoordinates(event: PointerEvent) {
       let bounds = (this.$refs.panel as any).getBoundingClientRect();
       this.lastClick[0] = event.x - bounds.left;
       this.lastClick[1] = event.y - bounds.top;
     },
 
-    capitalize(text: string): string {
-      return `${ text[0].toLocaleUpperCase() }${ text.substring(1) }`
+    getEdgeColor(type: string | null): string {
+      if(type === null) {
+        return "#4d4d4d"
+      } else {
+        return this.schemas.edges.get(type)?.color ?? "#4d4d4d";
+      }
     }
 
   },
   mounted() { this.recalculateLayout(); },
-  components: { AttackFlowNode, AttackFlowEdge, ContextMenu, PlugIcon },
+  components: { 
+    AttackFlowEdgeMenu, AttackFlowNode, 
+    AttackFlowEdge, ContextMenu, PlugIcon
+  }
 });
 </script>
 
@@ -445,7 +488,9 @@ export default defineComponent({
   display: inline-block;
 }
 
-.floating-elements, .floating-menus {
+.edges, 
+.nodes,
+.menus {
   position: absolute;
   top:50px;
   left: 50px;
@@ -465,12 +510,11 @@ export default defineComponent({
   overflow: visible;
 }
 
-.attack-flow-canvas-panel svg {
-  width: 100%;
-  height: 100%;
+.edges {
+  pointer-events: none;
 }
-
-.attack-flow-canvas-panel svg path {
+.edges path {
+  pointer-events: all;
   cursor: pointer;
 }
 
@@ -493,8 +537,14 @@ export default defineComponent({
   border: dashed 1px #e6d845;
 }
 
+.attack-flow-edge-menu,
 .canvas-context-menu {
   position: absolute;
+}
+
+.attack-flow-edge-menu {
+  min-width: 250px;
+  transform:translateX(-50%);
 }
 
 .start-link-icon {

@@ -1,31 +1,27 @@
 namespace Types {
     
-    export interface IBox {
+    export type IBox = {
         x0: number,
         y0: number,
         x1: number,
         y1: number,
     }
 
-    export interface ICanvasNode extends IBox {
-        id: number;
+    export type CanvasNode = IBox & {
+        id: string;
         type: string;
         subtype: any;
         payload: any;
     }
 
-    export interface ICanvasEdge {
+    export type CanvasEdge = {
         id: string,
-        sourceId: number,
-        targetId: number,
+        sourceId: string,
+        targetId: string,
         source: IBox,
         target: IBox,
-        type: ICanvasEdgeDescriptor | null
-    }
-
-    export interface ICanvasEdgeDescriptor {
-        type: string,
-        payload: any
+        type: string | null;
+        payload: any;
     }
 
 }

@@ -1,12 +1,8 @@
 import { createStore } from 'vuex'
 import { AttackFlowSchema } from './AttackFlowSchema';
 
-export default createStore({
+export default createStore<Types.DesignerStore>({
     state: {
-        meta: {
-            idToNodeMap: new Map<number, Types.ICanvasNode>(),
-            idToEdgeMap: new Map<string, Types.ICanvasEdge>()
-        },
         session: {
             canvas: {
                 cameraX   : 0,
@@ -15,29 +11,15 @@ export default createStore({
                 pageSizeX : 0,
                 pageSizeY : 0
             },
-            nodes: [] as Array<Types.ICanvasNode>,
-            edges: [] as Array<Types.ICanvasEdge>,
+            nodes: new Map() as Map<string, Types.CanvasNode>,
+            edges: new Map() as Map<string, Types.CanvasEdge>,
         },
-        schema: null as AttackFlowSchema | null,
+        schema: {
+            nodes: new Map(),
+            edges: new Map(),
+            lists: new Map()
+        } as Types.IAttackFlowSchema,
         nodeIdCounter: 0,
-    },
-    getters: {
-        getNodes: (state) => 
-            state.session.nodes,
-        getEdges: (state) => 
-            state.session.edges,
-        getNodeSchemas: (state) => 
-            state.schema?.nodes,
-        getCanvasPadding: (state) =>
-            state.session.canvas.padding,
-        getPageSize: (state) => ({ 
-            width: state.session.canvas.pageSizeX, 
-            height: state.session.canvas.pageSizeY
-        }),
-        getCameraPosition: (state) => ({
-            x: state.session.canvas.cameraX,
-            y: state.session.canvas.cameraY,
-        })
     },
     actions: {
 
@@ -49,8 +31,8 @@ export default createStore({
                 for(let [name, field] of schema.fields)
                     payload[name] = field?.default
                 // Create node
-                let node: Types.ICanvasNode = {
-                    id: -1, 
+                let node: Types.CanvasNode = {
+                    id: "-1", 
                     type: type, 
                     subtype: schema.subtype?.default,
                     x0: location[0],
@@ -65,22 +47,23 @@ export default createStore({
             commit("recalculatePages");
         },
 
-        createEdge({ commit, state }, { source, targets }: { source: number, targets: Array<number> }) {
+        createEdge({ commit, state }, { source, targets }: { source: string, targets: Array<string> }) {
             // Get Nodes
-            let srcNode = state.meta.idToNodeMap.get(source);
+            let srcNode = state.session.nodes.get(source);
             if(srcNode != undefined) {
                 for(let id of targets) {
-                    let trgNode = state.meta.idToNodeMap.get(id);
+                    let trgNode = state.session.nodes.get(id);
                     if(trgNode === undefined)
                         continue;
                     // Create Link
-                    let link: Types.ICanvasEdge = {
+                    let link: Types.CanvasEdge = {
                         id: `${ srcNode.id }.${ trgNode.id }`,
                         sourceId: srcNode.id,
                         targetId: trgNode.id,
                         source: srcNode,
                         target: trgNode,
-                        type: null
+                        type: null,
+                        payload: {}
                     }
                     commit("createEdge", link);
                 }
@@ -89,12 +72,12 @@ export default createStore({
 
         async duplicateNodes({ commit, dispatch, state }, ids) {
             // Duplicate nodes
-            let newNodeMap = new Map<number, Types.ICanvasNode>()
+            let newNodeMap = new Map<string, Types.CanvasNode>()
             for(let id of ids) {
-                let base = state.meta.idToNodeMap.get(id);
+                let base = state.session.nodes.get(id);
                 if(base !== undefined) {
-                    let node: Types.ICanvasNode = {
-                        id: -1,
+                    let node: Types.CanvasNode = {
+                        id: "-1",
                         type: base.type,
                         subtype: base.subtype,
                         x0: base.x0 + 100,
@@ -108,33 +91,40 @@ export default createStore({
                 }
             }
             // Duplicate dependent edges
-            let edges = await dispatch("_getDependantEdges", { ids, allowWeakLinks: false });
+            let edges = await dispatch("_getDependantEdges", { ids, includeWeakLinks: false });
             for(let id of edges) {
-                let base = state.meta.idToEdgeMap.get(id);
+                let base = state.session.edges.get(id);
                 if(base === undefined) continue;
                 let source = newNodeMap.get(base!.sourceId);
                 let target = newNodeMap.get(base!.targetId);
                 if(source === undefined || target === undefined) 
                     continue;
-                let type: Types.ICanvasEdgeDescriptor | null = null;
-                if(base.type !== null) {
-                    type = { type: base.type.type, payload: { ...base.type.payload } }
-                }
-                let edge: Types.ICanvasEdge = {
+                let edge: Types.CanvasEdge = {
                     id: `${ source.id }.${ target.id }`,
                     sourceId: source.id,
                     targetId: target.id,
-                    source, target, type
+                    source, target,
+                    type: base.type,
+                    payload: { ...base.payload }
                 }
                 commit("createEdge", edge);
             }
         },
 
-        async deleteNodes({ commit, dispatch }, ids) {
+        async deleteItems({ commit, dispatch }, ids) {
+            // Partition ids
+            let nodeIds: Array<string> = [];
+            let edgeIds: Array<string> = [];
+            for(let id of ids)
+                (/^[0-9]+$/.test(id) ? nodeIds : edgeIds).push(id);
+            // Delete edges
+            commit("deleteEdges", edgeIds);
             // Delete nodes
-            commit("deleteNodes", ids);
+            commit("deleteNodes", nodeIds);
             // Delete dependent edges
-            let edges = await dispatch("_getDependantEdges", { ids, allowWeakLinks: true });
+            let edges = await dispatch("_getDependantEdges", { 
+                ids: nodeIds, includeWeakLinks: true 
+            });
             commit("deleteEdges", edges);
             // Recalculate pages
             commit("recalculatePages");
@@ -153,14 +143,11 @@ export default createStore({
             commit("setCameraPosition", args);
         },
 
-        addEdge({ state, commit }, { src, dst }: { src: Number, dst: Number }) {
-
+        setEdgeType({ commit }, args) {
+            commit("setEdgeType", args);
         },
-        delNode({ state, commit }, id: Number) {
-
-        },
-        delEdge({ state, commit }, id: Number) {
-
+        setEdgeField({ commit }, args) {
+            commit("setEdgeField", args);
         },
 
         setNodeSubtype({ commit }, args) {
@@ -173,7 +160,7 @@ export default createStore({
             commit("setNodeLowerBound", args)
         },
         offsetNode({ state, commit }, { id, x, y }) {
-            let node = state.meta.idToNodeMap.get(id);
+            let node = state.session.nodes.get(id);
             if(node !== undefined) {
                 commit("setNodePosition", { 
                     id, 
@@ -197,16 +184,17 @@ export default createStore({
                 commit("createNode", node);
             }
             for(let edge of session.edges) {
-                let source = state.meta.idToNodeMap.get(edge.sourceId);
-                let target = state.meta.idToNodeMap.get(edge.targetId);
+                let source = state.session.nodes.get(edge.sourceId);
+                let target = state.session.nodes.get(edge.targetId);
                 if(source === undefined || target === undefined)
                     continue;
-                let edgeObj: Types.ICanvasEdge = { 
+                let edgeObj: Types.CanvasEdge = { 
                     id: edge.id, 
                     sourceId: edge.sourceId, 
                     targetId: edge.targetId, 
                     source, target, 
-                    type: edge.type
+                    type: edge.type,
+                    payload: edge.payload
                 }
                 // Add Edge
                 commit("createEdge", edgeObj);                
@@ -223,14 +211,14 @@ export default createStore({
             
         },
 
-        _getDependantEdges({ state }, { ids, allowWeakLinks }: { ids: Array<number>, allowWeakLinks: boolean }) {
+        _getDependantEdges({ state }, { ids, includeWeakLinks }: { ids: Array<string>, includeWeakLinks: boolean }) {
             // Not ideal, graph traversal would be better, but this will work for now.
             let idsSet = new Set(ids);
             let edges: Array<string> = [];
-            for(let [_, edge] of state.meta.idToEdgeMap) {
+            for(let [_, edge] of state.session.edges) {
                 let isFullLink = idsSet.has(edge.sourceId) && idsSet.has(edge.targetId);
                 let isWeakLink = idsSet.has(edge.sourceId) || idsSet.has(edge.targetId);
-                if(isFullLink || (allowWeakLinks && isWeakLink)) {
+                if(isFullLink || (includeWeakLinks && isWeakLink)) {
                     edges.push(edge.id);
                 }
             }
@@ -247,46 +235,62 @@ export default createStore({
         },
 
         // Canvas Operations
-        createNode(state, node: Types.ICanvasNode) {
+        createNode(state, node: Types.CanvasNode) {
             // Assign ID if none set
-            if(node.id === -1) {
-                node.id = ++state.nodeIdCounter;
+            if(node.id === "-1") {
+                node.id = `${ ++state.nodeIdCounter }`;
             } else {
-                state.nodeIdCounter = Math.max(state.nodeIdCounter, node.id);
+                state.nodeIdCounter = Math.max(state.nodeIdCounter, parseInt(node.id));
             }
-            if(!state.meta.idToNodeMap.has(node.id)) {
-                state.meta.idToNodeMap.set(node.id, node);
-                state.session.nodes.push(node);
-            }
-        },
-
-        createEdge(state, edge: Types.ICanvasEdge) {
-            if(!state.meta.idToEdgeMap.has(edge.id)) {
-                state.meta.idToEdgeMap.set(edge.id, edge); 
-                state.session.edges.push(edge);
+            if(!state.session.nodes.has(node.id)) {
+                state.session.nodes.set(node.id, node);
             }
         },
 
-        deleteNodes(state, ids: Array<number>) {
+        createEdge(state, edge: Types.CanvasEdge) {
+            if(!state.session.edges.has(edge.id)) {
+                state.session.edges.set(edge.id, edge);
+            }
+        },
+
+        deleteNodes(state, ids: Array<string>) {
             for(let id of ids) {
-                state.meta.idToNodeMap.delete(id);
+                state.session.nodes.delete(id);
             }
-            state.session.nodes = [...state.meta.idToNodeMap.values()]
         },
 
         deleteEdges(state, ids: Array<string>) {
             for(let id of ids) {
-                state.meta.idToEdgeMap.delete(id);
+                state.session.edges.delete(id);
             }
-            state.session.edges = [...state.meta.idToEdgeMap.values()];
         },
 
-        duplicateNode(state, id: Number) {
-
+        setEdgeType(state, { id, value }) {
+            let edge = state.session.edges.get(id);
+            if(edge !== undefined) {
+                if(edge.type === value)
+                    return;
+                // Update edge type
+                edge.type = value;
+                // Initialize default payload
+                edge.payload = {}
+                let schema = edge.type ? state.schema.edges.get(edge.type) : undefined;
+                if(schema) {
+                    for(let [name, field] of schema.fields) {
+                       edge.payload[name] = field?.default
+                    }
+                }
+            }
+        },
+        setEdgeField(state, { id, field, value }) {
+            let edge = state.session.edges.get(id);
+            if(edge !== undefined) {
+                edge.payload[field] = value
+            }
         },
 
-        setNodePosition(state, { id, x0, y0, x1, y1 }: { id: number, x0: number, y0: number, x1: number, y1: number }) {
-            let node = state.meta.idToNodeMap.get(id);
+        setNodePosition(state, { id, x0, y0, x1, y1 }: { id: string, x0: number, y0: number, x1: number, y1: number }) {
+            let node = state.session.nodes.get(id);
             if(node !== undefined) {
                 node.x0 = x0;
                 node.y0 = y0;
@@ -294,21 +298,21 @@ export default createStore({
                 node.y1 = y1;
             }
         },
-        setNodeLowerBound(state, { id, x1, y1 }: { id: number, x1: number, y1: number }){
-            let node = state.meta.idToNodeMap.get(id);
+        setNodeLowerBound(state, { id, x1, y1 }: { id: string, x1: number, y1: number }){
+            let node = state.session.nodes.get(id);
             if(node !== undefined) {
                 node.x1 = x1;
                 node.y1 = y1;
             }
         },
         setNodeSubtype(state, { id, value }) {
-            let node = state.meta.idToNodeMap.get(id);
+            let node = state.session.nodes.get(id);
             if(node !== undefined) {
                 node.subtype = value;
             }
         },
         setNodeField(state, { id, field, value }) {
-            let node = state.meta.idToNodeMap.get(id);
+            let node = state.session.nodes.get(id);
             if(node !== undefined) {
                 node.payload[field] = value
             }
@@ -324,11 +328,11 @@ export default createStore({
 
         recalculatePages(state) {
             // Skip if no nodes
-            if(state.session.nodes.length === 0)
+            if(state.session.nodes.size === 0)
                 return;
             // Compute upper-left bound
             let [x, y] = [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY];
-            for(let node of state.session.nodes) {
+            for(let [_, node] of state.session.nodes) {
                 x = Math.min(node.x0, x);
                 y = Math.min(node.y0, y);
             }
@@ -342,7 +346,7 @@ export default createStore({
             let yOffset = y - (yRemaining + padding);
             // If offset correction required:
             if(xOffset !== 0 || yOffset !== 0) {
-                for(let node of state.session.nodes) {
+                for(let [_, node] of state.session.nodes) {
                     node.x0 -= xOffset;
                     node.y0 -= yOffset;
                     node.x1 -= xOffset;

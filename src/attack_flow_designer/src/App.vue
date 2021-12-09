@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import AttackFlowDesigner from './components/AttackFlowDesigner.vue';
+import AttackFlowDesigner from '@/components/Elements/AttackFlowDesigner.vue';
 
 export default defineComponent({
   name: 'App',

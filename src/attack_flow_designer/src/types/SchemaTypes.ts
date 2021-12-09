@@ -1,35 +1,38 @@
 namespace Types { 
     
-    export interface INodeSchema {
+    export type NodeSchema = {
         color      : string; 
         outline    : string;
-        subtype    : INodeField;
-        fields     : Map<string, INodeField>;
+        subtype    : NodeField | null;
+        fields     : Map<string, NodeField>;
         fieldsText : string;
     }
 
-    export interface IEdgeSchema {
-        color      : string,
-        fields     : Map<string, INodeField>;
+    export type EdgeSchema = {
+        color      : string;
+        fields     : Map<string, NodeField>;
+        fieldsText : string;
     }
     
-    export interface INodeField {
-        type    : string;
+    type FieldTypes = "number" | "string" | "boolean" | "dropdown" | "object"
+
+    export interface NodeFieldBase<T extends FieldTypes> {
+        type    : T;
         default : any;
     }
     
-    export interface IDropDownField extends INodeField {
-        type    : "Dropdown";
+    export interface DropDownField extends NodeFieldBase<"dropdown"> {
         list    : string;
         textKey : string,
         default : Number;
         options : Array<any>;
     }
     
-    export interface IObjectField extends INodeField {
-        type    : "Object";
+    export interface ObjectField extends NodeFieldBase<"object"> {
         object  : Object;
         default : null;
     }
+
+    export type NodeField = ObjectField | DropDownField | NodeFieldBase<FieldTypes> 
 
 }

@@ -4,7 +4,7 @@
       class="attack-flow-node-header" :style="headerStyle"
       @pointerdown="$emit('dragStart', $event)"
     >
-      {{ config.type.toLocaleUpperCase() }}
+      {{ node.type.toLocaleUpperCase() }}
       <div class="link-area">
           <div class="link-icon" @mousedown="$emit('linkStart', $event)" @pointerdown.stop><PlugIcon /></div>
           <div class="link-chip" :style="{ background: this.schema.color }"></div>
@@ -15,12 +15,12 @@
       <div class="subtype" v-if="schema.subtype !== null">
         <TextField
           v-if="schema.subtype.type === 'string'"
-          :default="config.subtype"
+          :value="node.subtype"
           @change="onSubtypeUpdate"
         />
         <Dropdown 
           v-if="schema.subtype.type === 'dropdown'"
-          :default="config.subtype"
+          :value="node.subtype"
           :textKey="schema.subtype.textKey"
           :options="schema.subtype.options"
           @change="onSubtypeUpdate"
@@ -34,13 +34,13 @@
         </Dropdown>
         <Dropdown 
           v-if="schema.subtype.type === 'boolean'"
-          :default="config.subtype ? 1 : 0"
+          :value="node.subtype ? 1 : 0"
           :options="[{ text: 'false' }, { text: 'true' }]"
           @change="value => onSubtypeUpdate(value === 1)"
         />
         <NumberField
           v-if="schema.subtype.type === 'number'"
-          :default="config.subtype"
+          :value="node.subtype"
           @change="onSubtypeUpdate"
         />
       </div>
@@ -53,20 +53,20 @@
             <TextField
               v-if="field.type === 'string'"
               @change="(value) => onFieldUpdate(name, value)"
-              :default="config.payload[name]"
+              :value="node.payload[name]"
               align="right"
             />
             <Dropdown
               v-if="field.type === 'boolean'"
               @change="value => onFieldUpdate(name, value === 1)"
-              :default="config.payload[name] ? 1 : 0"
+              :value="node.payload[name] ? 1 : 0"
               :options="[{ text: 'false' }, { text: 'true' }]"
               align="right"
             />
             <Dropdown
               v-if="field.type === 'dropdown'"
               @change="(value) => onFieldUpdate(name, value)"
-              :default="config.payload[name]"
+              :value="node.payload[name]"
               :textKey="field.textKey"
               :options="field.options"
               align="right"
@@ -74,32 +74,64 @@
             <NumberField
               v-if="field.type === 'number'"
               @change="(value) => onFieldUpdate(name, value)"
-              :default="config.payload[name]"
+              :value="node.payload[name]"
               align="right"
             />
           </span>
         </div>
       </div>
+      <!--------- Fields List --------->
+      <div class="empty-type" v-if="!schema.subtype && !schema.fields.size">
+        <p>[ Missing Type Definition ]</p>
+      </div>
     </div>
-    <!--------- Fields List --------->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState, mapActions } from "vuex";
 
-import PlugIcon from "./svgs/PlugIcon.vue";
-import TextField from "./fields/TextField.vue";
-import Dropdown from "./fields/Dropdown.vue";
-import NumberField from "./fields/NumberField.vue";
+import PlugIcon from "@/components/Vectors/PlugIcon.vue";
+import TextField from "@/components/Controls/Fields/TextField.vue";
+import Dropdown from "@/components/Controls/Fields/Dropdown.vue";
+import NumberField from "@/components/Controls/Fields/NumberField.vue";
 
 export default defineComponent({
   name: "AttackFlowNode",
   props: {
-    schema : { type: Object, required: true  },
-    config : { type: Object, required: true  }
+    id : {
+      type: String,
+      required: true
+    }
   },
   computed: {
+    ...mapState({
+      node(state: Types.DesignerStore): Types.CanvasNode {
+        return state.session.nodes.get(this.id) ?? {
+          id: this.id,
+          type: `UNKNOWN NODE: '${ this.id }'`,
+          subtype: 0,
+          payload: {},
+          x0: 0,
+          x1: 0,
+          y0: 0,
+          y1: 0
+        };
+      },
+      schemas(state: Types.DesignerStore): Map<string, Types.NodeSchema> {
+        return state.schema.nodes;
+      },
+    }),
+    schema() : Types.NodeSchema {
+      return this.schemas.get(this.node.type) ?? {
+        color: "#1f1f1f", 
+        outline: "#383838",
+        subtype: null,
+        fields: new Map(),
+        fieldsText : ""
+      };
+    },
     headerStyle(): Object {
       return {
         background: this.schema.color,
@@ -108,17 +140,16 @@ export default defineComponent({
     },
   },
   emits: {
-    subtypeUpdate : (value: any) => true,
-    fieldUpdate   : (field: string, value: any) => true,
-    dragStart     : (event: PointerEvent) => true,
-    linkStart     : (event: PointerEvent) => true
+    dragStart: (event: PointerEvent) => true,
+    linkStart: (event: PointerEvent) => true
   },
   methods: {
+    ...mapActions(["setNodeSubtype", "setNodeField"]),
     onSubtypeUpdate(value: any) {
-      this.$emit("subtypeUpdate", value);
+      this.setNodeSubtype({ id: this.id, value })
     },
     onFieldUpdate(field: string, value: any) {
-      this.$emit("fieldUpdate", field, value);
+      this.setNodeField({ id: this.id, value, field })
     },
   },
   components: { PlugIcon, TextField, NumberField, Dropdown },
@@ -229,7 +260,7 @@ export default defineComponent({
   position: absolute;
   top: -1px;
   right: -1px;
-  width: 57px;
+  width: 55px;
   height: 22px;
   overflow: hidden;
 }
@@ -248,13 +279,20 @@ export default defineComponent({
 }
 .link-chip {
   position: absolute;
-  top: 6px;
-  left: -18px;
+  top: 7px;
+  left: -15px;
   height: 30px;
-  width: 40px;
+  width: 33px;
   transform: rotate(45deg);
   border-top: solid 1px #383838;
 }
 
 p { margin: 0px }
+
+.empty-type {
+  color: #999999;
+  font-size: 11pt;
+  padding: 5px;
+}
+
 </style>

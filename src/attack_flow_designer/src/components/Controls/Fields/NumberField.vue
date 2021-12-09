@@ -14,11 +14,32 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "NumberField",
   props: {
-    default : { type: Number, default: 0 },
-    align   : { type: String, default: "left" },
+    value: { type: Number, default: 0 },
+    align: { type: String, default: "left" },
   },
   data() {
-    return { text: `${this.default}` };
+    return {
+      refreshText: true as boolean,
+      forceEmptyField: false as boolean
+    }
+  },
+  computed: {
+    text: {
+      get(): string {
+        return this.forceEmptyField ? "" : `${ this.refreshText ? this.value : this.value }`;
+      },
+      set(text: string) {
+        if(text === "") {
+          this.forceEmptyField = true;
+          this.$emit("change", 0);
+        } else {
+          this.forceEmptyField = false;
+          let number = parseFloat(text);
+          let value = Number.isNaN(number) ? "0" : `${number}`
+          this.$emit("change", parseFloat(value));
+        }
+      }
+    }
   },
   emits: {
     change: (value: number) => true,
@@ -37,19 +58,16 @@ export default defineComponent({
       }
     },
     onUnfocus() {
-      let number = parseFloat(this.text);
-      this.text = Number.isNaN(number) ? "0" : `${number}`
-      this.$emit("change", parseFloat(this.text))
+      this.forceEmptyField = false;
+      this.refreshText = !this.refreshText;
     },
     increment() {
-      let number = parseFloat(this.text);
-      this.text = Number.isNaN(number) ? "0" : `${ number + 1 }`;
-      this.$emit("change", parseFloat(this.text));
+      let number = Number.isNaN(this.value) ? "0" : `${ this.value + 1 }`;
+      this.$emit("change", parseFloat(number));
     },
     decrement() {
-      let number = parseFloat(this.text);
-      this.text = Number.isNaN(number) ? "0" : `${ number - 1 }`
-      this.$emit("change", parseFloat(this.text));
+      let number = Number.isNaN(this.value) ? "0" : `${ this.value - 1 }`
+      this.$emit("change", parseFloat(number));
     }
   },
 });

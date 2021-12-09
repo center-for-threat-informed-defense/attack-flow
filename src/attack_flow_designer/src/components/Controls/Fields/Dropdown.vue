@@ -22,7 +22,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "Dropdown",
   props: {
-    default    : { type: Number, default: 0 },
+    value      : { type: Number, default: 0 },
     textKey    : { type: String, default: "text" },
     options    : { type: Array, required: true },
     align      : { type: String, default: "left" },
@@ -30,10 +30,19 @@ export default defineComponent({
   },
   data() {
     return {
-      selection           : Math.min(this.default, this.options.length - 1),
-      showDropdown        : false,
-      clickOutsideHandler : (event: MouseEvent) => {}
+      showDropdown: false,
+      clickOutsideHandler: (event: MouseEvent) => {}
     };
+  },
+  computed: {
+    selection: {
+      get() {
+        return Math.min(this.value, this.options.length - 1);
+      },
+      set(index: number) {
+        this.$emit("change", index);
+      }
+    }
   },
   emits: {
     change: (value: number) => true,
@@ -42,7 +51,6 @@ export default defineComponent({
     select(selection: number) {
       this.selection = selection;
       this.showDropdown = false;
-      this.$emit("change", this.selection);
     },
   },
   mounted() {
