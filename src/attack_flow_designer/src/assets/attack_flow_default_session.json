@@ -6,40 +6,6 @@
         "pageSizeX": 800,
         "pageSizeY": 800
     },
-    "nodes": [{
-        "id": "0",
-        "type": "action",
-        "x0": 45,
-        "y0": 45,
-        "x1": 0,
-        "y1": 0,
-        "subtype": 1,
-        "payload": {
-            "confidence": 1,
-            "timestamp": "Origin",
-            "succeeded": true,
-            "cost": 10
-        }
-    },{
-        "id": "1",
-        "type": "action",
-        "x0": 75,
-        "y0": 75,
-        "x1": 0,
-        "y1": 0,
-        "subtype": 2,
-        "payload": {
-            "confidence": 0.5,
-            "timestamp": "Origin",
-            "succeeded": false,
-            "cost": 20000
-        }
-    }],
-    "edges": [{
-        "id": "0.1",
-        "sourceId": "0",
-        "targetId": "1",
-        "type": null,
-        "payload": {}
-    }]
+    "nodes": [],
+    "edges": []
 }
