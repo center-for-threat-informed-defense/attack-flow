@@ -1,49 +1,67 @@
 {
-    "$schema": "./attack-flow-schema.json",
-    "type": "attack-flow",
-    "id": "7a56ffe7-1cb8-41a3-84fe-bf5e66cf3f7d",
-    "name": "Attack Flow Example",
-    "author": "Mark E. Haase <mhaase@mitre-engenuity.org>",
-    "created": "2021-10-13T12:20:02-05:00",
+    "$schema": "./attack-flow-2021-11-03-draft.json",
+    "flow": {
+        "type": "attack-flow",
+        "id": "id://flow-1",
+        "name": "Attack Flow Example",
+        "author": "Mark E. Haase <mhaase@mitre-engenuity.org>",
+        "created": "2021-10-13T12:20:02-05:00"
+    },
     "actions": [
         {
-            "id": "5f0ccc42-fe68-4118-bed8-fccd5ea13602",
+            "id": "id://action-1",
+            "type": "action",
             "name": "External Remote Services",
             "description": "Adversary accesses unsecured Kubernetes dashboard, gaining administrative console access.",
             "timestamp": "2020-07-04T09:00:00.123Z",
             "reference": "https://attack.mitre.org/techniques/T1133",
-            "properties": ["TODO"],
-            "succeeded": "TODO",
-            "confidence": "TODO",
-            "state": "TODO"
+            "succeeded": 1.0,
+            "confidence": 1.0,
+            "logic_operator_language": "flow-vTBD",
+            "logic_operator": "AND"
         }
     ],
     "assets": [
         {
-            "id": "3a64147e-63d8-4d11-80ec-f1051b069ced",
-            "properties": [
-                "Administrator credentials"
-            ]
+            "id": "id://asset-1",
+            "type": "asset",
+            "state": "compromised"
         },
         {
-            "id": "b6d2332e-24fc-4b9b-8f2b-ec3363749811",
-            "properties": [
-                "Stolen data"
-            ]
+            "id": "id://asset2",
+            "type": "asset",
+            "state": "compromised"
         }
     ],
     "relationships": [
         {
-            "id": "05f7a738-60d0-400f-bdb9-e2fd1ab6cd85",
-            "label": "modifies",
-            "source": "3a64147e-63d8-4d11-80ec-f1051b069ced",
-            "destination": "5f0ccc42-fe68-4118-bed8-fccd5ea13602"
+            "source": "id://action-1",
+            "type": "type://flow-v1#provides",
+            "target":  "asset-1"
         },
         {
-            "id": "05f7a738-60d0-400f-bdb9-e2fd1ab6cd85",
-            "label": "modifies",
-            "source": "5f0ccc42-fe68-4118-bed8-fccd5ea13602",
-            "destination": "b6d2332e-24fc-4b9b-8f2b-ec3363749811"
+            "source": "id://asset-1",
+            "type": "type://flow-v1#required-by",
+            "target":  "action-1"
+        },
+        {
+            "source": "id://action-1",
+            "type": "type://flow-v1#described-by",
+            "target":  "property-2"
+        },
+        {
+            "source": "id://ction-1",
+            "type": "type://flow-v1#described-by",
+            "target":  "property-1"
+        },
+        {
+            "source": "id://asset-1",
+            "type": "type://flow-v1#flow",
+            "target":  "flow-1"
         }
+    ],
+    "properties": [
+        {"source":  "property-1", "type": "type://flow-v1#command", "target": "powershell.exe C:\\Users\\#{domain.admin.username}.#{domain}\\AppData\\Local\\takeScreenshot.ps1"},
+        {"source":  "property-2", "type":  "type://flow-v1#label", "target":  "cobalt strike"}
     ]
 }

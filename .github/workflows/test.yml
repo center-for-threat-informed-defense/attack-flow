@@ -22,6 +22,14 @@ jobs:
     - name: Test and lint with pytest
       run: |
         pytest --cov=src/ --cov-report=xml --flake8
+    - name: Validate Corpus
+      env:
+        PYTHONPATH: src/
+      run: |
+        python -m attack_flow.scripts.validate_doc \
+          schema/attack-flow-2021-11-03-draft.json \
+          schema/attack-flow-example.json \
+          corpus/*
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:

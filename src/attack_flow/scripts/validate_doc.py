@@ -1,6 +1,6 @@
-'''
+"""
 Validate that JSON documents conform to Attack Flow schema.
-'''
+"""
 import argparse
 import sys
 

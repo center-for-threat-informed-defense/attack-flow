@@ -1,0 +1,426 @@
+{
+    "$schema": "../schema/attack-flow-2021-11-03-draft.json",
+    "flow": {
+        "type": "attack-flow",
+        "id": "https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/",
+        "name": "The DFIR Report: ",
+        "author": "Mark E. Haase <mhaase@mitre-engenuity.org>",
+        "created": "2021-11-08T11:57:00-05:00"
+    },
+    "actions": [
+        {
+            "id": "action://phishing",
+            "name": "Phishing: Spearphishing Link",
+            "description": "Phishing link to malicious Word Doc via Google Feed Proxy.",
+            "reference": "https://attack.mitre.org/techniques/T1566/002/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://malicious-file",
+            "name": "User Execution: Malicious File",
+            "description": "Word document containing malicious macro.",
+            "reference": "https://attack.mitre.org/techniques/T1204/002/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://macro",
+            "name": "Command and Scripting Interpreter: Visual Basic",
+            "description": "The macro downloads Hancitor DLL and runs it.",
+            "reference": "https://attack.mitre.org/techniques/T1059/005/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://run-hancitor",
+            "name": "Signed Binary Proxy Execution: Rundll32",
+            "description": "Execute ier.dll (Hancitor).",
+            "reference": "https://attack.mitre.org/techniques/T1218/011/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://hancitor-c2-beacon",
+            "name": "Application Layer Protocol: Web Protocols",
+            "description": "Hancitor uses HTTP protocol for C2.",
+            "reference": "https://attack.mitre.org/techniques/T1071/001/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://process-injection",
+            "name": "Process Injection",
+            "description": "Process injection to run multiple scans and probes.",
+            "reference": "https://attack.mitre.org/techniques/T1055/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://run-cor-dll",
+            "name": "Signed Binary Proxy Execution: Rundll32",
+            "description": "Execute cor.dll (Cobalt Strike stager).",
+            "reference": "https://attack.mitre.org/techniques/T1218/011/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://cli-magic-number",
+            "name": "Virtualization/Sandbox Evasion",
+            "description": "Does not execute unless given a magic number argument.",
+            "reference": "https://attack.mitre.org/techniques/T1497/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://run-agent-ps1",
+            "name": "Command and Scripting Interpreter: Powershell",
+            "description": "Execute agent1.ps1 to download and run beacon.",
+            "reference": "https://attack.mitre.org/techniques/T1059/001/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://agent-ps1-base64",
+            "name": "Obfuscated Files or Information",
+            "description": "Powershell is base64-encoded.",
+            "reference": "https://attack.mitre.org/techniques/T1027/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://agent-ps1-compile",
+            "name": "Obfuscated Files or Information: Compile After Delivery",
+            "description": "c# source code is compiled.",
+            "reference": "https://attack.mitre.org/techniques/T1027/004/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://agent-ps1-beacon",
+            "name": "Application Layer Protocol: Web Protocols",
+            "description": "Agent.ps1 uses HTTP protocol for C2.",
+            "reference": "https://attack.mitre.org/techniques/T1071/001/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://ingress-cobalt-strike",
+            "name": "Ingress Tool Transfer",
+            "description": "Download Cobalt Strike.",
+            "reference": "https://attack.mitre.org/techniques/T1105/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://ingress-ficker",
+            "name": "Ingress Tool Transfer",
+            "description": "Download Ficker Stealer.",
+            "reference": "https://attack.mitre.org/techniques/T1105/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://ficker-c2-beacon",
+            "name": "Application Layer Protocol",
+            "description": "Ficker beacon failed due to DNS resolution.",
+            "reference": "https://attack.mitre.org/techniques/T1071/",
+            "logic_operator": "AND",
+            "succeeded": 0
+        },
+        {
+            "id": "action://scan-smb-backup",
+            "name": "Network Service Scanning",
+            "description": "Scan for SMB and backup products such as Synology.",
+            "reference": "https://attack.mitre.org/techniques/T1046/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://enumerate-domain-accounts",
+            "name": "Account Discovery: Domain Account",
+            "description": "Enumerate domain administrator accounts.",
+            "reference": "https://attack.mitre.org/techniques/T1087/002/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://enumerate-domain-groups",
+            "name": "Permission Groups Discovery: Domain Groups",
+            "description": "Execute agent1.ps1 to download and run beacon.",
+            "reference": "https://attack.mitre.org/techniques/T1069/002/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://enumerate-smb-shares",
+            "name": "Network Share Discovery",
+            "description": "Search for c$ shares using discovered SMB.",
+            "reference": "https://attack.mitre.org/techniques/T1135/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://lateral-tool-transfer",
+            "name": "Lateral Tool Transfer",
+            "description": "Copy cor.bat to \\\\${IP_ADDR}\\c$\\programdata.",
+            "reference": "https://attack.mitre.org/techniques/T1570/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://zerologon-cve",
+            "name": "Exploitation for Credential Access",
+            "description": "Custom Zerologon (CVE-2020-1472) exploit to obtain domain administrator NTLM hash.",
+            "reference": "https://attack.mitre.org/techniques/T1212/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://pass-the-hash",
+            "name": "Use Alternate Authentication Material: Pass the Hash",
+            "description": "PTH the domain administrator NTLM hash.",
+            "reference": "https://attack.mitre.org/techniques/T1550/002/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://enumerate-machines",
+            "name": "Command and Scripting Interpreter: Powershell",
+            "description": "comp2.ps1 enumerates domain computers and stores in comps.txt.",
+            "reference": "https://attack.mitre.org/techniques/T1059/001/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://discover-machines",
+            "name": "Remote System Discovery",
+            "description": "Discover domain copmputers using comps.txt.",
+            "reference": "https://attack.mitre.org/techniques/T1018/",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "action://scan-machines",
+            "name": "Network Service Scanning",
+            "description": "Check.exe pings machines in comps.txt and saves to check.txt.",
+            "reference": "https://attack.mitre.org/techniques/T1046/",
+            "logic_operator": "AND"
+        }
+    ],
+    "assets": [
+        {"id": "asset://word-doc"},
+        {"id": "asset://ier.dll"},
+        {"id": "asset://domain-admin-ntlm-hash"},
+        {"id": "asset://domain-admin-account"},
+        {"id": "asset://cobalt-strike"},
+        {"id": "asset://ficker"},
+        {"id": "asset://placeholder1"},
+        {"id": "asset://placeholder2"},
+        {"id": "asset://placeholder3"},
+        {"id": "asset://placeholder4"},
+        {"id": "asset://placeholder5"},
+        {"id": "asset://placeholder6"},
+        {"id": "asset://smb-host-discovery"},
+        {"id": "asset://smb-share-discovery"},
+        {"id": "asset://placeholder10"},
+        {"id": "asset://c2-instruction-source-code"},
+        {"id": "asset://c2-instruction-compiled"}
+    ],
+    "relationships": [
+        {
+            "source": "action://phishing",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://word-doc"
+        },
+        {
+            "source": "asset://word-doc",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://malicious-file"
+        },
+        {
+            "source": "action://malicious-file",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://placeholder1"
+        },
+        {
+            "source": "asset://placeholder1",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://macro"
+        },
+        {
+            "source": "action://macro",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://ier.dll"
+        },
+        {
+            "source": "asset://ier.dll",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://run-hancitor"
+        },
+        {
+            "source": "action://run-hancitor",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://placeholder2"
+        },
+        {
+            "source": "asset://placeholder2",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://hancitor-c2-beacon"
+        },
+        {
+            "source": "asset://placeholder2",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://process-injection"
+        },
+        {
+            "source": "action://process-injection",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://placeholder3"
+        },
+        {
+            "source": "asset://cobalt-strike",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://run-cor-dll"
+        },
+        {
+            "source": "action://run-cor-dll",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://placeholder4"
+        },
+        {
+            "source": "asset://placeholder4",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://cli-magic-number"
+        },
+        {
+            "source": "action://cli-magic-number",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://placeholder5"
+        },
+        {
+            "source": "asset://placeholder5",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://run-agent-ps1"
+        },
+        {
+            "source": "action://run-agent-ps1",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://placeholder6"
+        },
+        {
+            "source": "asset://placeholder6",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://agent-ps1-base64"
+        },
+        {
+            "source": "action://agent-ps1-base64",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://c2-instruction-source-code"
+        },
+        {
+            "source": "asset://c2-instruction-source-code",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://agent-ps1-compile"
+        },
+        {
+            "source": "action://agent-ps1-compile",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://c2-instruction-compiled"
+        },
+        {
+            "source": "asset://c2-instruction-compiled",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://agent-ps1-beacon"
+        },
+        {
+            "source": "asset://placeholder3",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://ingress-cobalt-strike"
+        },
+        {
+            "source": "asset://placeholder3",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://ingress-ficker"
+        },
+        {
+            "source": "action://ingress-cobalt-strike",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://cobalt-strike"
+        },
+        {
+            "source": "action://ingress-ficker",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://ficker"
+        },
+        {
+            "source": "asset://ficker",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://ficker-c2-beacon"
+        },
+        {
+            "source": "asset://cobalt-strike",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://scan-smb-backup"
+        },
+        {
+            "source": "action://scan-smb-backup",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://smb-host-discovery"
+        },
+        {
+            "source": "asset://cobalt-strike",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://enumerate-domain-accounts"
+        },
+        {
+            "source": "asset://cobalt-strike",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://enumerate-domain-groups"
+        },
+        {
+            "source": "asset://smb-host-discovery",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://enumerate-smb-shares"
+        },
+        {
+            "source": "action://enumerate-smb-shares",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://smb-share-discovery"
+        },
+        {
+            "source": "asset://smb-share-discovery",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://lateral-tool-transfer"
+        },
+        {
+            "source": "asset://cobalt-strike",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://zerologon-cve"
+        },
+        {
+            "source": "action://zerologon-cve",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://domain-admin-ntlm-hash"
+        },
+        {
+            "source": "asset://domain-admin-ntlm-hash",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://pass-the-hash"
+        },
+        {
+            "source": "action://pass-the-hash",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://domain-admin-account"
+        },
+        {
+            "source": "asset://domain-admin-account",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://enumerate-machines"
+        },
+        {
+            "source": "action://enumerate-machines",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://machine-list"
+        },
+        {
+            "source": "asset://machine-list",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://discover-machines"
+        },
+        {
+            "source": "action://discover-machines",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://machine-discovery"
+        },
+        {
+            "source": "asset://machine-discovery",
+            "type": "relationship://flow-v1#required-by",
+            "target":  "action://scan-machines"
+        },
+        {
+            "source": "action://scan-machines",
+            "type": "relationship://flow-v1#provides",
+            "target":  "asset://reachable-machine-list"
+        }
+    ],
+    "properties": [
+    ]
+}
