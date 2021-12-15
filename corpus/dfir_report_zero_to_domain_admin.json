@@ -202,7 +202,10 @@
         {"id": "asset://smb-share-discovery"},
         {"id": "asset://placeholder10"},
         {"id": "asset://c2-instruction-source-code"},
-        {"id": "asset://c2-instruction-compiled"}
+        {"id": "asset://c2-instruction-compiled"},
+        {"id": "asset://machine-discovery"},
+        {"id": "asset://machine-list"},
+        {"id": "asset://reachable-machine-list"}
     ],
     "relationships": [
         {

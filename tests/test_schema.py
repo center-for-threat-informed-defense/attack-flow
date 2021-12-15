@@ -302,3 +302,38 @@ def test_insert_html_no_end_tag():
 
     with pytest.raises(Exception):
         insert_html(old_doc, []).splitlines()
+
+
+def test_validate_rules():
+    flow = {
+        "actions": [
+            {
+                "id": "action1",
+                "name": "action-one",
+            },
+            {
+                "id": "action2",
+                "name": "action-two",
+            },
+        ],
+        "assets": [
+            {"id": "asset1"},
+            {"id": "asset2"},
+        ],
+        "relationships": [
+            {
+                "source": "action1",
+                "target": "asset1",
+            },
+            {
+                "source": "asset1",
+                "target": "action2",
+            },
+            {
+                "source": "action2",
+                "target": "asset2",
+            },
+        ],
+    }
+
+    #TODO

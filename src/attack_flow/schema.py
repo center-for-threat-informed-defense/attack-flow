@@ -10,7 +10,7 @@ import re
 import string
 import sys
 
-from jsonschema import validate, draft202012_format_checker
+from jsonschema import validate as validate_schema, draft202012_format_checker
 
 
 ROOT_NODE = '__root__'
@@ -43,13 +43,60 @@ def validate_docs(schema_doc, attack_flow_docs):
             attack_flow_json = json.load(attack_flow_file)
 
         try:
-            validate(instance=attack_flow_json, schema=schema_json,
-                     format_checker=draft202012_format_checker)
+            validate_schema(instance=attack_flow_json, schema=schema_json,
+                            format_checker=draft202012_format_checker)
+            validate_rules(attack_flow_json)
             exceptions.append(None)
         except Exception as e:
             exceptions.append(e)
 
     return exceptions
+
+
+class InvalidRelationshipsError(Exception):
+    """
+    This class indicates an attack flow relationship has a source or target ID
+    that is invalid.
+    """
+    def __init__(self, errors):
+        """
+        Constructor
+        :param list[Str] errors:
+        """
+        self.message = "Invalid relationship"
+        self.errors = errors
+
+    def __str__(self):
+        """Print errors as a formatted list."""
+        return '\n'.join(" - {}".format(e) for e in self.errors)
+
+
+def validate_rules(attack_flow):
+    """
+    Validate the Attack Flow rules that are not covered by the JSON Schema.
+    Covers the following rules:
+
+        - Verify that relationships' sources and targets exist.
+
+    :param dict attack_flow:
+    :raises Exception: if any Attack Flow rules are violated.
+    """
+    object_ids = {action["id"] for action in attack_flow["actions"]} | \
+                 {asset["id"] for asset in attack_flow["assets"]}
+    invalid = list()
+
+    for relationship in attack_flow["relationships"]:
+        if relationship["source"] not in object_ids:
+            invalid.append(
+                'Relationship source ID "{}" does not exist.'
+                .format(relationship["source"]))
+        if relationship["target"] not in object_ids:
+            invalid.append(
+                'Relationship target ID "{}" does not exist.'
+                .format(relationship["target"]))
+
+    if invalid:
+        raise InvalidRelationshipsError(invalid)
 
 
 class SchemaProperty:
