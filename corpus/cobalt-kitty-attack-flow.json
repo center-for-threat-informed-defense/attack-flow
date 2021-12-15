@@ -215,7 +215,7 @@
       {"id": "asset://registry-key"},
       {"id": "asset://SndVolSSO.ps1"},
       {"id": "asset://msfte.dll"},
-      {"id": "asset://com-scriplet"},
+      {"id": "asset://com-scriptlet"},
       {"id": "asset://denis-backdoor"},
       {"id": "asset://outlook-macro"},
       {"id": "asset://netcat"},
@@ -254,14 +254,14 @@
           "target": "asset://powershell-script"
         },
         {
-          "source": "action://scheduled-task",
+          "source": "action://scheduledtask",
           "type": "relationship://flow-v1#provides",
           "target": "asset://scheduled-task"
         },
         {
           "source": "asset://powershell-script",
           "type": "relationship://flow-v1#required-by",
-          "target": "action://dobfuscation"
+          "target": "action://deobfuscation"
         },
         {
           "source": "asset://scheduled-task",
@@ -361,25 +361,25 @@
         {
           "source": "asset://placeholder2",
           "type": "relationship://flow-v1#required-by",
-          "target": "action://comscriplet"
+          "target": "action://comscriptlet"
         },
         {
-          "source": "action://comscriplet",
+          "source": "action://comscriptlet",
           "type": "relationship://flow-v1#provides",
-          "target": "asset://com-scriplet"
+          "target": "asset://com-scriptlet"
         },
         {
-          "source": "asset://com-scriplet",
+          "source": "asset://com-scriptlet",
           "type": "relationship://flow-v1#required-by",
           "target": "action://malleablec2"
         },
         {
-          "source": "asset://com-scriplet",
+          "source": "asset://com-scriptlet",
           "type": "relationship://flow-v1#required-by",
           "target": "action://denisbackdoor"
         },
         {
-          "source": "asset://com-scriplet",
+          "source": "asset://com-scriptlet",
           "type": "relationship://flow-v1#required-by",
           "target": "action://emailc2"
         },
@@ -394,7 +394,7 @@
           "target": "asset://outlook-macro"
         },
         {
-          "source": "action://comscriplet",
+          "source": "action://comscriptlet",
           "type": "relationship://flow-v1#provides",
           "target": "asset://netcat"
         },
@@ -414,7 +414,7 @@
           "target": "asset://placeholder3"
         },
         {
-          "source": "action://comscriplet",
+          "source": "action://comscriptlet",
           "type": "relationship://flow-v1#provides",
           "target": "asset://placeholder3"
         },
