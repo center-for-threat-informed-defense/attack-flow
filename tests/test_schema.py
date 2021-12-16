@@ -1,5 +1,6 @@
 import json
 from tempfile import NamedTemporaryFile
+from textwrap import dedent
 
 import pytest
 
@@ -8,8 +9,10 @@ from attack_flow.schema import (
     generate_html,
     get_properties,
     insert_html,
+    InvalidRelationshipsError,
     SchemaProperty,
     validate_docs,
+    validate_rules,
 )
 
 
@@ -311,14 +314,10 @@ def test_validate_rules():
                 "id": "action1",
                 "name": "action-one",
             },
-            {
-                "id": "action2",
-                "name": "action-two",
-            },
+
         ],
         "assets": [
             {"id": "asset1"},
-            {"id": "asset2"},
         ],
         "relationships": [
             {
@@ -336,4 +335,10 @@ def test_validate_rules():
         ],
     }
 
-    #TODO
+    with pytest.raises(InvalidRelationshipsError) as exc_info:
+        validate_rules(flow)
+    exc = exc_info.value
+    assert str(exc) == dedent("""\
+    - Relationship target ID "action2" does not exist.
+    - Relationship source ID "action2" does not exist.
+    - Relationship target ID "asset2" does not exist.""")

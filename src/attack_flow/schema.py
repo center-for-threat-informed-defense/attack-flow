@@ -68,7 +68,7 @@ class InvalidRelationshipsError(Exception):
 
     def __str__(self):
         """Print errors as a formatted list."""
-        return '\n'.join(" - {}".format(e) for e in self.errors)
+        return '\n'.join("- {}".format(e) for e in self.errors)
 
 
 def validate_rules(attack_flow):
@@ -81,11 +81,11 @@ def validate_rules(attack_flow):
     :param dict attack_flow:
     :raises Exception: if any Attack Flow rules are violated.
     """
-    object_ids = {action["id"] for action in attack_flow["actions"]} | \
-                 {asset["id"] for asset in attack_flow["assets"]}
+    object_ids = {action["id"] for action in attack_flow.get("actions", [])} | \
+                 {asset["id"] for asset in attack_flow.get("assets", [])}
     invalid = list()
 
-    for relationship in attack_flow["relationships"]:
+    for relationship in attack_flow.get("relationships", []):
         if relationship["source"] not in object_ids:
             invalid.append(
                 'Relationship source ID "{}" does not exist.'
