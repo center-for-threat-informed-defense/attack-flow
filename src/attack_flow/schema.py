@@ -81,11 +81,13 @@ def validate_rules(attack_flow):
     :param dict attack_flow:
     :raises Exception: if any Attack Flow rules are violated.
     """
-    object_ids = {action["id"] for action in attack_flow.get("actions", [])} | \
-                 {asset["id"] for asset in attack_flow.get("assets", [])}
+    object_ids = set()
+    object_ids.add(attack_flow["flow"]["id"])
+    object_ids |= {action["id"] for action in attack_flow["actions"]}
+    object_ids |= {asset["id"] for asset in attack_flow["assets"]}
     invalid = list()
 
-    for relationship in attack_flow.get("relationships", []):
+    for relationship in attack_flow["relationships"]:
         if relationship["source"] not in object_ids:
             invalid.append(
                 'Relationship source ID "{}" does not exist.'

@@ -37,31 +37,21 @@
         {
             "source": "id://action-1",
             "type": "type://flow-v1#provides",
-            "target":  "asset-1"
+            "target":  "id://asset-1"
         },
         {
             "source": "id://asset-1",
             "type": "type://flow-v1#required-by",
-            "target":  "action-1"
-        },
-        {
-            "source": "id://action-1",
-            "type": "type://flow-v1#described-by",
-            "target":  "property-2"
-        },
-        {
-            "source": "id://ction-1",
-            "type": "type://flow-v1#described-by",
-            "target":  "property-1"
+            "target":  "id://action-1"
         },
         {
             "source": "id://asset-1",
             "type": "type://flow-v1#flow",
-            "target":  "flow-1"
+            "target":  "id://flow-1"
         }
     ],
     "properties": [
-        {"source":  "property-1", "type": "type://flow-v1#command", "target": "powershell.exe C:\\Users\\#{domain.admin.username}.#{domain}\\AppData\\Local\\takeScreenshot.ps1"},
-        {"source":  "property-2", "type":  "type://flow-v1#label", "target":  "cobalt strike"}
+        {"source":  "id://action-1", "type": "type://flow-v1#command", "target": "powershell.exe C:\\Users\\#{domain.admin.username}.#{domain}\\AppData\\Local\\takeScreenshot.ps1"},
+        {"source":  "id://asset-2", "type":  "type://flow-v1#label", "target":  "cobalt strike"}
     ]
 }
