@@ -123,7 +123,7 @@
             }
         },
         "relationships": {
-            "description": "The list of relationship edges in the attack flow. All Actions MUST have a relationship to the flow.",
+            "description": "The list of relationship edges in the attack flow. All Actions MUST have a relationship to the flow. See Relationships table for valid pairs of source and target entities.",
             "type": "array",
             "items": {
                 "type": "object",
@@ -139,39 +139,69 @@
                         "format": "uri"
                     },
                     "target": {
-                        "description": "The target asset, action, or property. If the target is an Action, the source MUST be an Asset. If the target is an Asset, the source MUST be an Action.",
+                        "description": "The target asset or action. If the target is an Action, the source MUST be an Asset. If the target is an Asset, the source MUST be an Action.",
                         "type": "string"
                     }
                 },
                 "required": ["source", "type", "target"]
             }
         },
-        "properties": {
-            "description": "Properties of actions or assets",
+        "data_properties": {
+            "description": "Data properties associate actions, assets, or flows with a piece of data.",
             "type": "array",
             "items": {
                 "type": "object",
                 "properties": {
                     "type": {
-                        "description": "The type of property.",
+                        "description": "Type (or \"name\") of property.",
                         "type": "string",
                         "format": "uri"
                     },
                     "source": {
-                        "description": "The source action or asset for this property.",
-                        "type": "string"
+                        "description": "The source flow, action, asset, or property for this property.",
+                        "type": "string",
+                        "format": "uri"
                     },
                     "target": {
-                        "description": "The property's target.",
+                        "description": "Value for the specific type for the source object.",
                         "type": "string"
                     }
                 },
                 "required": ["source", "type", "target"]
             }
+        },
+        "object_properties": {
+            "description": "Object properties relate, actions, assets, or flows to other actions, assets, or flows.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "Type (or \"name\") of property.",
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "source": {
+                        "description": "The source action or asset for this property.",
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "target": {
+                        "description": "Target flow, action, asset, or property for this property.",
+                        "type": "string",
+                        "format": "uri"
+                    }
+                },
+                "required": ["source", "type", "target"]
+            }
         }
+
     },
     "additionalProperties": true,
     "required": [
-        "flow"
+        "flow",
+        "actions",
+        "assets",
+        "relationships"
     ]
 }
