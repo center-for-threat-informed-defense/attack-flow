@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from textwrap import dedent
 
@@ -16,28 +17,38 @@ from attack_flow.schema import (
 )
 
 
-def test_validate_docs():
-    schema_json = {
-        '$schema': 'https://json-schema.org/draft/2020-12/schema',
-        'title': 'Test schema',
-        'type': 'object',
-        'properties': {
-            'name': {'type': 'string'}
-        }
-    }
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+SCHEMA_PATH = PROJECT_ROOT / "schema" / "attack-flow-2021-11-03-draft.json"
 
+
+def test_validate_docs():
     doc1_json = {
-        'name': 'Foo'
+        "flow": {
+            "type": "attack-flow",
+            "id": "https://flow-v1/doc1",
+            "name": "Test Attack Flow",
+            "created": "2021-12-17T08:31:22.320133-05:00"
+        },
+        "actions": [],
+        "assets": [],
+        "relationships": [],
     }
 
     doc2_json = {
-        'name': 1234
+        # Missing required name field:
+        "flow": {
+            "type": "attack-flow",
+            "id": "https://flow-v1/doc1",
+            "created": "bogus date",
+        },
+        "actions": [],
+        "assets": [],
+        "relationships": [],
     }
 
-    with NamedTemporaryFile('w+') as schema_file, \
+    with SCHEMA_PATH.open() as schema_file, \
          NamedTemporaryFile('w+') as doc1_file, \
          NamedTemporaryFile('w+') as doc2_file:
-        json.dump(schema_json, schema_file)
         json.dump(doc1_json, doc1_file)
         json.dump(doc2_json, doc2_file)
 
@@ -309,12 +320,17 @@ def test_insert_html_no_end_tag():
 
 def test_validate_rules():
     flow = {
+        "flow": {
+            "type": "attack-flow",
+            "id": "https://flow-v1",
+            "name": "Test Attack Flow",
+            "created": "2021-12-17T08:31:22.320133-05:00"
+        },
         "actions": [
             {
                 "id": "action1",
                 "name": "action-one",
             },
-
         ],
         "assets": [
             {"id": "asset1"},
