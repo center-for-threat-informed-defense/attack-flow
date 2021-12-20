@@ -182,7 +182,7 @@
                         "format": "uri"
                     },
                     "source": {
-                        "description": "The source action or asset for this property.",
+                        "description": "The source flow, action, asset, or property for this property.",
                         "type": "string",
                         "format": "uri"
                     },
