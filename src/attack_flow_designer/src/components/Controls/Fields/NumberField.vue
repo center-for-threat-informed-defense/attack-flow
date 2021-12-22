@@ -10,12 +10,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { clamp } from "@/assets/Math";
 
 export default defineComponent({
   name: "NumberField",
   props: {
     value: { type: Number, default: 0 },
     align: { type: String, default: "left" },
+    range: { type: Object, default: { min: -Infinity, max: Infinity } }
   },
   data() {
     return {
@@ -31,12 +33,10 @@ export default defineComponent({
       set(text: string) {
         if(text === "") {
           this.forceEmptyField = true;
-          this.$emit("change", 0);
+          this.$emit("change", this.parseInput("0"));
         } else {
           this.forceEmptyField = false;
-          let number = parseFloat(text);
-          let value = Number.isNaN(number) ? "0" : `${number}`
-          this.$emit("change", parseFloat(value));
+          this.$emit("change", this.parseInput(text));
         }
       }
     }
@@ -63,11 +63,23 @@ export default defineComponent({
     },
     increment() {
       let number = Number.isNaN(this.value) ? "0" : `${ this.value + 1 }`;
-      this.$emit("change", parseFloat(number));
+      this.$emit("change", this.parseInput(number));
     },
     decrement() {
       let number = Number.isNaN(this.value) ? "0" : `${ this.value - 1 }`
-      this.$emit("change", parseFloat(number));
+      this.$emit("change", this.parseInput(number));
+    },
+    parseInput(text: string): number {
+      let number = parseFloat(text);
+      if(Number.isNaN(number)) {
+        if(this.range.min <= 0 && 0 <= this.range.max) {
+          return 0;
+        } else {
+          return this.range.min
+        }
+      } else {
+        return clamp(number, this.range.min, this.range.max);
+      }
     }
   },
 });

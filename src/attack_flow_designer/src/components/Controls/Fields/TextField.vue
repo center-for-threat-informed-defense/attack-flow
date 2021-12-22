@@ -1,5 +1,6 @@
 <template>
   <div class="text-field-input">
+    <p class="warning-icon" v-if="required && text.length === 0">⚠</p>
     <input :class="`align-${align}`" type="text" v-model="text" @keydown="onKeyDown" />
   </div>
 </template>
@@ -10,8 +11,9 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "TextField",
   props: {
-    value: { default: "" },
+    value: { type: String, default: "" },
     align: { type: String, default: "left" },
+    required: { type: Boolean, default: false }
   },
   computed: {
     text: {
@@ -30,6 +32,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.text-field-input {
+  display: flex;
+  align-items: center;
+}
 input {
   box-sizing: border-box;
   background: none;
@@ -48,5 +54,14 @@ input:focus {
 }
 .align-right {
   text-align: right;
+}
+.warning-icon {
+  position: absolute;
+  display: inline-block;
+  margin: 0px;
+  font-size: 12pt;
+  color: #d0ad43;
+  margin: 0px 12px;
+  user-select: none;
 }
 </style>

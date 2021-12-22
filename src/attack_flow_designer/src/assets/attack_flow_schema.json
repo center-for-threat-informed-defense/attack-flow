@@ -1,43 +1,80 @@
 {
-    "lists": {
-        "technique": [
-            { "tactic": "None", "technique": "None", "id": "T0000"},
-            { "tactic": "Lateral Movement", "technique": "Lateral Tool Transfer", "id": "T1570" },
-            { "tactic": "Persistence", "technique": "Account Manipulation", "id": "T1098" },
-            { "tactic": "Persistence", "technique": "Create Account", "id": "T1136" }
-        ]
-    },
+    "lists": {},
     "nodes": {
         "action": {
             "color"   : "#637bc9",
             "outline" : "#708ce6",
-            "subtype" : { "type": "dropdown", "list": "technique", "textKey": "technique", "default": 0 }, 
+            "subtype" : null, 
             "fields"  : {
-                "confidence" : { "type": "number",  "default": 1.0  },
-                "timestamp"  : { "type": "string",  "default": "Origin" },
-                "succeeded"  : { "type": "boolean", "default": true },
-                "comment"    : { "type": "string",  "default": ""   },
-                "cost"       : { "type": "number",  "default": 0.0  }
+                "name"  : { "type": "string",  "default": "", "required": true },
+                "description" : { "type": "string", "default": "", "required": true },
+                "timestamp" : { "type": "string", "default": "" },
+                "reference" : { "type": "string", "default": "" },
+                "succeeded" : { "type": "number", "default": 0, "range": { "min": 0, "max": 1 } },
+                "confidence" : { "type": "number", "default": 0, "range": { "min": 0, "max": 1 } },
+                "logic_operator_language" : { "type": "string", "default": "" },
+                "logic_operator" : { "type": "string", "default": "", "required": true }
             }
         },
-        "file": {
+        "asset": {
             "color"   : "#c26130",
             "outline" : "#e57339",
             "subtype" : null, 
             "fields"  : {
-                "filename"   : { "type": "string",  "default": ""  },
-                "comment"    : { "type": "string",  "default": ""  }
+                "state": { "type": "string",  "default": ""  }
+            }
+        },
+        "object_property": {
+            "color"   : "#b62020",
+            "outline" : "#d62727",
+            "subtype" : null,
+            "fields"  : {
+                "type": { "type": "string",  "default": ""  }
+            }
+        },
+        "data_property": {
+            "color"   : "#31347c",
+            "outline" : "#4246a6",
+            "subtype" : null, 
+            "fields"  : {
+                "type": { "type": "string",  "default": ""  },
+                "value": { "type": "string",  "default": ""  }
             }
         }
     },
     "edges": {
-        "transfer": {
-            "color": "#a766cc",
-            "fields"  : {
-                "confidence" : { "type": "number",  "default": 1.0  },
-                "timestamp"  : { "type": "string",  "default": "Origin" },
-                "succeeded"  : { "type": "boolean", "default": true }
+        "source": {
+            "color": "#099",
+            "outline" : "#099",
+            "hasArrow": false,
+            "hasDash": false,
+            "fields": {}
+        },
+        "target": {
+            "color": "#099",
+            "outline" : "#099",
+            "hasArrow": false,
+            "hasDash": true,
+            "fields": {}
+
+        },
+        "relationship": {
+            "color": "#4d4d4d",
+            "outline": "#696969",
+            "hasArrow": true,
+            "hasDash": false,
+            "fields": {
+                "type" : { "type": "string",  "default": "", "required": true }
             }
         }
-    }
+    }, 
+    "edgeRules": [
+        { "source": "action", "target": "asset", "type": "relationship" },
+        { "source": "action", "target": "data_property", "type": "source" },
+        { "source": "action", "target": "object_property", "type": "source" },
+        { "source": "asset", "target": "action", "type": "relationship" },
+        { "source": "asset", "target": "data_property", "type": "source" },
+        { "source": "asset", "target": "object_property", "type": "source" },
+        { "source": "object_property", "target": "*", "type": "target" }
+    ]
 }

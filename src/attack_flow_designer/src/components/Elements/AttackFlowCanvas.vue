@@ -2,15 +2,24 @@
   <div class="attack-flow-canvas-container">
     <div class="attack-flow-canvas-context" @wheel.passive="onCanvasMouseWheel" @contextmenu="$event.preventDefault()" ref="context">
       <div @pointerdown="contextMenu">
-        <div class="attack-flow-canvas-panel" :style="panelSize" @pointerdown="startCanvasDrag" ref="panel"></div>
-        <svg class="edges" :style="panelSize">
+        <div class="attack-flow-canvas-panel" :style="canvasSize" @pointerdown="startCanvasDrag" ref="panel"></div>
+        <svg class="edges" :style="canvasSize">
           <AttackFlowEdge 
             v-for="[id, edge] of edges" :key="id" 
-            :source="edge.source" :target="edge.target"
+            :source="edge.source" 
+            :target="edge.target" 
             :color="selected.has(id) ? '#e6d845' : getEdgeColor(edge.type)"
+            :arrow="getEdgeArrow(edge.type)"
+            :dash="getEdgeDash(edge.type)"
             @pointerdown="fullSelectItem($event, id)"
           />
-          <AttackFlowEdge :source="startLink.source" :target="startLink.target ?? startLink.cursor" color="#4d4d4d"/>
+          <AttackFlowEdge 
+            :source="startLink.source" 
+            :target="startLink.target ?? startLink.cursor" 
+            :color="startLink.color"
+            :arrow="startLink.arrow"
+            :dash="startLink.dash"
+          />
         </svg>
         <div class="nodes" ref="nodes">
           <div
@@ -33,7 +42,7 @@
       <div class="menus">
         <ContextMenu
           class="canvas-context-menu"
-          :options="coreContextMenu"
+          :sections="coreContextMenu"
           :style="{ top:`${lastClick[1]}px`, left:`${lastClick[0]}px`}"
           @select="onContextMenuSelection"
           @unfocus="showCtxMenu = false"
@@ -41,7 +50,7 @@
         />
         <AttackFlowEdgeMenu
           class="attack-flow-edge-menu"
-          v-if="focusedEdge !== null" 
+          v-if="Object.keys(focusedEdge?.payload ?? {}).length > 0" 
           :id="focusedEdge.id"
           :style="{ top:`${lastClick[1] + 5}px`, left:`${lastClick[0]}px` }"
         />
@@ -60,8 +69,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState, mapActions } from "vuex";
-import { capitalize } from "@/assets/StringTools";
-
+import * as Store from "@/store/StoreTypes";
+import { titleCase } from "@/assets/String";
 import AttackFlowEdgeMenu from "./AttackFlowEdgeMenu.vue";
 import AttackFlowNode from "./AttackFlowNode.vue";
 import AttackFlowEdge from "@/components/Vectors/AttackFlowEdge.vue";
@@ -82,9 +91,12 @@ export default defineComponent({
       },
       startLink: {
         show   : false as boolean,
-        source : null as Types.CanvasNode | null,
-        target : null  as Types.CanvasNode | null,
-        cursor : { x0: 0, x1: 0, y0: 0, y1: 0  } as Types.IBox
+        source : null as Store.CanvasNode | null,
+        target : null  as Store.CanvasNode | null,
+        cursor : { x0: 0, x1: 0, y0: 0, y1: 0  } as Store.IBox,
+        color  : "#4d4d4d",
+        arrow  : true,
+        dash   : false
       },
       lastClick: [0, 0] as Array<number>,
       showCtxMenu: false
@@ -92,63 +104,89 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      nodes(state: Types.DesignerStore): Map<string, Types.CanvasNode> {
-        return state.session.nodes;
+      nodes(state: Store.ModuleStore): Map<string, Store.CanvasNode> {
+        return state.SessionStore.session.nodes;
       },
-      edges(state: Types.DesignerStore): Map<string, Types.CanvasEdge> {
-        return state.session.edges;
+      edges(state: Store.ModuleStore): Map<string, Store.CanvasEdge> {
+        return state.SessionStore.session.edges;
       },
-      schemas(state: Types.DesignerStore): Types.IAttackFlowSchema {
-        return state.schema;
+      schemas(state: Store.ModuleStore): Store.SchemaStore {
+        return state.SchemaStore;
       },
-      canvas(state: Types.DesignerStore): Types.CanvasMetadata {
-        return state.session.canvas;
+      canvas(state: Store.ModuleStore): Store.CanvasMetadata {
+        return state.SessionStore.session.canvas;
+      },
+      layoutTrigger(state: Store.ModuleStore): number {
+        return state.SessionStore.layoutTrigger;
       }
     }),
-    panelSize(): Object {
+
+    /**
+     * Returns the current canvas size.
+     */
+    canvasSize(): Object {
       return {
         width  : `${ this.canvasWidth }px`,
         height : `${ this.canvasHeight }px`
       }
     },
-    coreContextMenu(): Array<Array<Types.IContextMenuOption>> {
+    
+    /**
+     * Returns the current (context-dependant) context menu configuration.
+     */
+    coreContextMenu(): Array<Types.ContextMenuItem> {
       if(this.selected.size === 0) {
         return this.canvasContextMenu;
       } else {
-        let options: Array<Array<Types.IContextMenuOption>> = [[]];
+        let options: Array<Types.ContextMenuItem> = [];
         let nLen = this.selectedNodes.length;
         let eLen = this.selectedEdges.length;
         // Delete option
         let nodeText = nLen === 0 ? '' : nLen === 1 ? "Node" : "Nodes";
         let edgeText = eLen === 0 ? '' : eLen === 1 ? "Edge" : "Edges";
         let text = nodeText && edgeText ? "Items" : `${ nodeText }${ edgeText }` 
-        options[0].push({ id: "delete-item", text: `Delete ${ text }` });
+        options.push({ id: "delete-item", text: `Delete ${ text }`, type: "action" });
         // Duplicate option
         if(nLen > 0) {
           let text = `Duplicate ${ nLen > 1 ? 'Sequence' : 'Node' }`
-          options[0].push({ id: "duplicate-node", text })
+          options.push({ id: "duplicate-node", text, type: "action" })
         }
         return options;
       }
     },
-    canvasContextMenu(): Array<Array<Types.IContextMenuOption>> {
-      let menu: Array<Types.IContextMenuOption> = [];
-      for(let [type, _] of this.schemas.nodes) {
-        menu.push({
-          id: `create-node`, 
-          text: `Create ${ capitalize(type) } Node`, 
-          data: { type }
-        })
+
+    /**
+     * Returns the current context menu configuration for the canvas.
+     */
+    canvasContextMenu(): Array<Types.ContextMenuItem> {
+      let menu: Array<Types.ContextMenuItem> = [];
+      for(let [type, _] of this.schemas.nodeSchemas) {
+        menu.push(
+            {
+                id: `create-node`, 
+                text: `Create ${ titleCase(type) } Node`,
+                type: "action",
+                data: { type }
+            }
+        )
       }
-      return [menu];
+      return menu;
     },
-    focusedEdge(): Types.CanvasEdge | null {
+
+    /**
+     * Returns the currently focused edge. (If there is one.)
+     */
+    focusedEdge(): Store.CanvasEdge | null {
       if(this.selectedEdges.length === 1 && this.selectedNodes.length === 0) {
         return this.edges.get(this.selectedEdges[0])!;
       } else {
         return null;
       }
     },
+
+    /**
+     * Returns all nodes that are currently selected.
+     */
     selectedNodes(): Array<string> {
       let nodes: Array<string> = [];
       for(let [id, select] of [...this.selected.entries()]) {
@@ -157,6 +195,10 @@ export default defineComponent({
       }
       return nodes;
     },
+
+    /**
+     * Returns all edges that are currently selected.
+     */
     selectedEdges(): Array<string> {
       let edges: Array<string> = [];
       for(let [id, select] of [...this.selected.entries()]) {
@@ -165,23 +207,33 @@ export default defineComponent({
       }
       return edges;
     }
+
   },
   methods: {
+    
     ...mapActions([
+      "offsetNode",
       "createNode",
       "createEdge",
       "deleteItems",
-      "duplicateNodes",
-      "offsetNode",
+      "getEdgeType",
+      "duplicateSequence",
       "setNodeLowerBound",
       "setCameraPosition",
       "recalculatePages"
     ]),   
 
-    /**
-     * Canvas Click / Drag / Scroll
-     */
 
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Canvas Click / Drag / Scroll  //////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Canvas drag start behavior.
+     * @param event
+     *  The pointer event.
+     */
     startCanvasDrag(event: PointerEvent) {
       this.deselectItem();
       // Setup drag state
@@ -194,6 +246,12 @@ export default defineComponent({
       // Capture pointer
       this.drag.target!.setPointerCapture(event.pointerId);
     },
+
+    /**
+     * Canvas drag behavior.
+     * @param event
+     *  The pointer event.
+     */
     onCanvasDrag(event: PointerEvent) {
       event.preventDefault();
       let deltaX = event.x - this.drag.origin[0];
@@ -201,6 +259,12 @@ export default defineComponent({
       this.$el.scrollTop = this.drag.position[1] - deltaY;
       this.$el.scrollLeft = this.drag.position[0] - deltaX;
     },
+
+    /**
+     * Canvas drag stop behavior.
+     * @param event
+     *  The pointer event.
+     */
     stopCanvasDrag(event: PointerEvent) {
       event.preventDefault()
       this.drag.target.onpointermove = null;
@@ -212,6 +276,11 @@ export default defineComponent({
       })
     },
 
+    /**
+     * Canvas scroll behavior.
+     * @param event
+     *  The wheel event.
+     */
     onCanvasMouseWheel(event: WheelEvent) {
       this.$el.scrollLeft += event.altKey ? event.deltaY : event.deltaX;
       this.$el.scrollTop += event.altKey ? event.deltaX : event.deltaY;
@@ -221,10 +290,19 @@ export default defineComponent({
       })
     },
 
-    /**
-     * Node Dragging
-     */
 
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Node Dragging  /////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Node drag start behavior.
+     * @param event
+     *  The pointer event.
+     * @param id
+     *  The id of the node being dragged.
+     */
     startNodeDrag(event: PointerEvent, id: number) {
       event.preventDefault();
       // Setup drag state
@@ -238,6 +316,14 @@ export default defineComponent({
       // Capture pointer
       this.drag.target!.setPointerCapture(event.pointerId);
     },
+
+    /**
+     * Node drag behavior.
+     * @param event
+     *  The pointer event.
+     * @param id
+     *  The id of the node being dragged.
+     */
     onNodeDrag(event: PointerEvent, id: number) {
       let deltaX = event.x - this.drag.origin[0];
       let deltaY = event.y - this.drag.origin[1];
@@ -245,6 +331,14 @@ export default defineComponent({
       this.drag.origin[0] = event.x;
       this.drag.origin[1] = event.y;
     },
+
+    /**
+     * Node drag stop behavior.
+     * @param event
+     *  The pointer event.
+     * @param id
+     *  The id of the node being dragged.
+     */
     stopNodeDrag(event: PointerEvent) {
       event.preventDefault();
       this.drag.target.onpointermove = null;
@@ -258,11 +352,20 @@ export default defineComponent({
       })
     },
 
-    /**
-     * Node Link
-     */
 
-    startNodeLink(event: PointerEvent, source: Types.CanvasNode) {
+    ///////////////////////////////////////////////////////////////////////////
+    //  3. Node Linking  //////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Node start link behavior.
+     * @param event
+     *  The pointer event.
+     * @param source
+     *  The link's source node.
+     */
+    startNodeLink(event: PointerEvent, source: Store.CanvasNode) {
       event.preventDefault();
       // Select node
       this.fullSelectItem(event, source.id, true);
@@ -284,6 +387,12 @@ export default defineComponent({
       context.onmouseup =
         (evt: PointerEvent) => this.stopNodeLink(evt);
     },
+
+    /**
+     * Node link drag behavior.
+     * @param event
+     *  The pointer event.
+     */
     onNodeLinkDrag(event: PointerEvent) {
       let deltaX = event.x - this.drag.origin[0];
       let deltaY = event.y - this.drag.origin[1];
@@ -294,6 +403,12 @@ export default defineComponent({
       this.drag.origin[0] = event.x;
       this.drag.origin[1] = event.y;
     },
+
+    /**
+     * Node link end behavior.
+     * @param event
+     *  The pointer event.
+     */
     stopNodeLink(event: PointerEvent) {
       event.preventDefault();
       // Clear event callbacks
@@ -305,20 +420,33 @@ export default defineComponent({
       // Create Link
       let source = this.startLink.source?.id;
       let target = this.startLink.target?.id;
-      if(target !== undefined) {
-        let targets = [target];
-        this.createEdge({ source, targets })
+      let isInvalidTarget = this.selected.get(target) === "select-invalid";
+      if(target !== undefined && !isInvalidTarget) {
+        this.createEdge({ source, target })
       }
       // Deselect nodes
       this.startLink.source = null;
       this.startLink.target = null;
+      this.startLink.color = this.getEdgeColor(null);
+      this.startLink.arrow = this.getEdgeArrow(null);
+      this.startLink.dash = this.getEdgeDash(null);
       this.deselectItem();
     },
 
-    /**
-     * Canvas Page Calculation
-     */
 
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Canvas Page Calculation  ///////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Recalculates the canvas size and the camera's position over it.
+     * 
+     * NOTE:
+     * This function should be called after adding, moving, or removing nodes
+     * from the canvas.
+     * 
+     */
     recalculateLayout(): void {
       // Compute lower-right bounds
       let [x, y] = [Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY];
@@ -362,10 +490,17 @@ export default defineComponent({
       })
     },
 
-    /**
-     * Context Menus
-     */
 
+    ///////////////////////////////////////////////////////////////////////////
+    //  5. Context Menu  //////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Context menu behavior.
+     * @param event
+     *  The pointer event.
+     */
     contextMenu(event: PointerEvent) {
       this.storeClickCoordinates(event);
       if(event.button === 2) {
@@ -375,6 +510,9 @@ export default defineComponent({
       }
     },   
 
+    /**
+     * The context menu selection callback.
+     */
     onContextMenuSelection(id: string, data: any): void {
       switch(id) {
         case "create-node":
@@ -385,62 +523,124 @@ export default defineComponent({
           this.deselectItem();
           break;
         case "duplicate-node":
-          this.duplicateNodes(this.selectedNodes);
+          this.duplicateSequence(this.selectedNodes);
           break;
       }
-      // Recalculate layout on the next tick
-      this.$nextTick(() => {
-        this.recalculateLayout();
-      })
     },
 
-    /**
-     * Node Mouse Over
-     */
 
-    nodeMouseEnter(node: Types.CanvasNode) {
+    ///////////////////////////////////////////////////////////////////////////
+    //  6. Node Mouse Over  ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Node mouseover behavior.
+     * @param node
+     *  The node that is being moused over.
+     */
+    async nodeMouseEnter(node: Store.CanvasNode) {
       if(!this.startLink.show || this.startLink.source?.id === node.id) 
         return;
       this.startLink.target = node;
-      this.partialSelectItem(node.id);
-    },
-
-    nodeMouseLeave(node: Types.CanvasNode) {
-      if(!this.startLink.show || this.startLink.source?.id === node.id)
-        return;
-      this.startLink.target = null;
-      this.deselectItem(node.id);
+      let type = await this.getEdgeType({
+        source: this.startLink.source!.type,
+        target: this.startLink.target.type
+      });
+      if(type === null) {
+        this.invalidSelect(node.id);
+      } else {
+        this.startLink.color = this.getEdgeColor(type);
+        this.startLink.arrow = this.getEdgeArrow(type);
+        this.startLink.dash = this.getEdgeDash(type);
+        this.partialSelectItem(node.id);
+      }
     },
 
     /**
-     * Node Selection
+     * Node mouse exit behavior
+     * @param node
+     *  The node that was left.
      */
+    nodeMouseLeave(node: Store.CanvasNode) {
+      if(!this.startLink.show || this.startLink.source?.id === node.id)
+        return;
+      this.startLink.target = null;
+      this.startLink.color = this.getEdgeColor(null);
+      this.startLink.arrow = this.getEdgeArrow(null);
+      this.startLink.dash = this.getEdgeDash(null);
+      this.deselectItem(node.id);
+    },
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  7. Node Selection  ////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Primary item selection behavior.
+     * @param event
+     *  The pointer event.
+     * @param id
+     *  The id of the item clicked.
+     * @param exclusive
+     *  If true, the specified item will be selected and everything else will
+     *  be unselected, no matter what.
+     */
     fullSelectItem(event: PointerEvent, id: string, exclusive: boolean = false) {
       if(exclusive) {
           this.deselectItem();
           this.selected.set(id, "select-full");
           return;
       }
+      // If right click and item is already selected, do nothing.
       if(event.button === 2 && this.selected.has(id)) {
         return;
       }
+      // If control key is pressed:
       if(event.ctrlKey) {
+        // and item is selected: remove it from the current selection.
         if(this.selected.has(id)) {
           this.deselectItem(id);
-        } else {
+        }
+        // and item is not selected: add it to the current selection.
+        else {
           this.selected.set(id, "select-full");
         }
-      } else {
+      } 
+      // If control key is not pressed:
+      // unselect everything and add the current item to the selection.
+      else {
         this.deselectItem();
         this.selected.set(id, "select-full");
       }
     },
 
+    /**
+     * Adds an item to the current selection with the "partial" selection type.
+     * @param id
+     *  The id of the item to select.
+     */
     partialSelectItem(id: string) {
       this.selected.set(id, "select-partial");
     },
+
+    /**
+     * Adds an item to the current selection with the "invalid" selection type.
+     * @param id
+     *  The id of the item to select.
+     */
+    invalidSelect(id: string) {
+        this.selected.set(id, "select-invalid");
+    },
     
+    /**
+     * Deselects an item.
+     * @param id
+     *  The id of the node to deselect. If no id is specified, all nodes will
+     *  be deselected.
+     */
     deselectItem(id?: string) {
       if(id === undefined) {
         this.selected.clear();
@@ -449,24 +649,75 @@ export default defineComponent({
       }
     },
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  7. Misc Helpers  //////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
     /**
-     * Helpers
+     * Stores the coordinates from a mouse event in the component's store.
      */
-    
-    storeClickCoordinates(event: PointerEvent) {
+    storeClickCoordinates(event: MouseEvent) {
       let bounds = (this.$refs.panel as any).getBoundingClientRect();
       this.lastClick[0] = event.x - bounds.left;
       this.lastClick[1] = event.y - bounds.top;
     },
 
+    /**
+     * Looks up an edge's color based on type.
+     * @param type
+     *  The type of the edge.
+     * @returns
+     *  The edge's color.
+     */
     getEdgeColor(type: string | null): string {
       if(type === null) {
         return "#4d4d4d"
       } else {
-        return this.schemas.edges.get(type)?.color ?? "#4d4d4d";
+        return this.schemas.edgeSchemas.get(type)?.color ?? "#4d4d4d";
+      }
+    },
+
+    /**
+     * Looks up an edge's arrow style based on type.
+     * @param type
+     *  The type of the edge.
+     * @returns
+     *  The edge's arrow style.
+     */
+    getEdgeArrow(type: string | null): boolean {
+      if(type === null) {
+        return true;
+      } else {
+        return this.schemas.edgeSchemas.get(type)?.hasArrow ?? true;
+      }
+    },
+
+    /**
+     * Looks up an edge's dash style based on type.
+     * @param type
+     *  The type of the edge.
+     * @returns
+     *  The edge's dash style.
+     */
+    getEdgeDash(type: string | null): boolean {
+      if(type === null) {
+        return false;
+      } else {
+        console.log(this.schemas.edgeSchemas.get(type)?.hasDash)
+        return this.schemas.edgeSchemas.get(type)?.hasDash ?? false;
       }
     }
 
+  },
+  watch: {
+    layoutTrigger() {
+      // Recalculate layout on the next tick
+      this.$nextTick(() => {
+        this.recalculateLayout();
+      })
+    }
   },
   mounted() { this.recalculateLayout(); },
   components: { 
@@ -478,6 +729,8 @@ export default defineComponent({
 
 <style scoped>
 
+/** === Main Element === */
+
 .attack-flow-canvas-container {
   position: relative;
   overflow: hidden;
@@ -486,16 +739,6 @@ export default defineComponent({
 .attack-flow-canvas-context {
   padding: 50px;
   display: inline-block;
-}
-
-.edges, 
-.nodes,
-.menus {
-  position: absolute;
-  top:50px;
-  left: 50px;
-  width: 0px;
-  height: 0px;
 }
 
 .attack-flow-canvas-panel {
@@ -510,13 +753,17 @@ export default defineComponent({
   overflow: visible;
 }
 
-.edges {
-  pointer-events: none;
+.edges, 
+.nodes,
+.menus {
+  position: absolute;
+  top:50px;
+  left: 50px;
+  width: 0px;
+  height: 0px;
 }
-.edges path {
-  pointer-events: all;
-  cursor: pointer;
-}
+
+/** === Nodes === */
 
 .attack-flow-node-wrapper {
   position: absolute;
@@ -524,7 +771,8 @@ export default defineComponent({
 }
 
 .attack-flow-node-wrapper.select-full, 
-.attack-flow-node-wrapper.select-partial {
+.attack-flow-node-wrapper.select-partial,
+.attack-flow-node-wrapper.select-invalid {
   border-radius: 8px;
   padding: 4px;
   margin-left: -5px;
@@ -536,16 +784,38 @@ export default defineComponent({
 .attack-flow-node-wrapper.select-partial {
   border: dashed 1px #e6d845;
 }
+.attack-flow-node-wrapper.select-invalid {
+  border: solid 1px #f62323;
+}
 
-.attack-flow-edge-menu,
-.canvas-context-menu {
+/** === Edges === */
+
+.edges {
+  pointer-events: none;
+}
+
+.edges path {
+  pointer-events: all;
+  cursor: pointer;
+}
+
+/** === Menus === */
+
+.canvas-context-menu,
+.attack-flow-edge-menu {
   position: absolute;
 }
 
+.canvas-context-menu {
+  z-index:9999;
+}
+
 .attack-flow-edge-menu {
-  min-width: 250px;
+  width: max-content;
   transform:translateX(-50%);
 }
+
+/** === Start Link Floating Icon === */
 
 .start-link-icon {
   position: absolute;

@@ -15,7 +15,7 @@ export default defineComponent({
 <style>
 html, body { 
     width: 100%; height: 100%; 
-    margin: 0px; padding: 10px; 
+    margin: 0px; padding: 0px; 
     box-sizing: border-box;
 }
 #app { height: 100%; width: 100%; }

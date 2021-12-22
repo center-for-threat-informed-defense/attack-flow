@@ -1,11 +1,13 @@
 <template>
   <div class="attack-flow-node-element">
     <div 
-      class="attack-flow-node-header" :style="headerStyle"
+      class="attack-flow-node-header" 
+      :style="headerStyle"
+      :class="{ 'has-link-tab': displayLinkTab }"
       @pointerdown="$emit('dragStart', $event)"
     >
-      {{ node.type.toLocaleUpperCase() }}
-      <div class="link-area">
+      {{ node.type.toLocaleUpperCase().replace(/_/g, " ") }}
+      <div v-if="displayLinkTab" class="link-tab">
           <div class="link-icon" @mousedown="$emit('linkStart', $event)" @pointerdown.stop><PlugIcon /></div>
           <div class="link-chip" :style="{ background: this.schema.color }"></div>
       </div>
@@ -16,6 +18,7 @@
         <TextField
           v-if="schema.subtype.type === 'string'"
           :value="node.subtype"
+          
           @change="onSubtypeUpdate"
         />
         <Dropdown 
@@ -41,6 +44,7 @@
         <NumberField
           v-if="schema.subtype.type === 'number'"
           :value="node.subtype"
+          :range="field.range"
           @change="onSubtypeUpdate"
         />
       </div>
@@ -54,6 +58,7 @@
               v-if="field.type === 'string'"
               @change="(value) => onFieldUpdate(name, value)"
               :value="node.payload[name]"
+              :required="field.required"
               align="right"
             />
             <Dropdown
@@ -75,6 +80,7 @@
               v-if="field.type === 'number'"
               @change="(value) => onFieldUpdate(name, value)"
               :value="node.payload[name]"
+              :range="field.range"
               align="right"
             />
           </span>
@@ -91,7 +97,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState, mapActions } from "vuex";
-
+import * as Store from "@/store/StoreTypes"
 import PlugIcon from "@/components/Vectors/PlugIcon.vue";
 import TextField from "@/components/Controls/Fields/TextField.vue";
 import Dropdown from "@/components/Controls/Fields/Dropdown.vue";
@@ -107,8 +113,8 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      node(state: Types.DesignerStore): Types.CanvasNode {
-        return state.session.nodes.get(this.id) ?? {
+      node(state: Store.ModuleStore): Store.CanvasNode {
+        return state.SessionStore.session.nodes.get(this.id) ?? {
           id: this.id,
           type: `UNKNOWN NODE: '${ this.id }'`,
           subtype: 0,
@@ -119,46 +125,81 @@ export default defineComponent({
           y1: 0
         };
       },
-      schemas(state: Types.DesignerStore): Map<string, Types.NodeSchema> {
-        return state.schema.nodes;
+      nodeSchemas(state: Store.ModuleStore): Map<string, Store.NodeSchema> {
+        return state.SchemaStore.nodeSchemas;
       },
+      edgeRules(state: Store.ModuleStore): Map<string, Map<string, string>> {
+        return state.SchemaStore.edgeRules;
+      }
     }),
-    schema() : Types.NodeSchema {
-      return this.schemas.get(this.node.type) ?? {
+
+    /**
+     *  Returns the node's schema from the schema store.
+     */
+    schema() : Store.NodeSchema {
+      return this.nodeSchemas.get(this.node.type) ?? {
+        type: `UNKNOWN NODE: '${ this.id }'`,
         color: "#1f1f1f", 
         outline: "#383838",
         subtype: null,
-        fields: new Map(),
-        fieldsText : ""
+        fields: new Map()
       };
     },
+
+    /**
+     * Returns true if the link tab should be displayed, false otherwise.
+     */
+    displayLinkTab(): boolean {
+      return this.edgeRules.has("*") || this.edgeRules.has(this.schema.type)
+    },
+
+    /**
+     * Returns the node's header style.
+     */
     headerStyle(): Object {
       return {
         background: this.schema.color,
         borderColor: this.schema.outline,
       };
     },
+
   },
-  emits: {
-    dragStart: (event: PointerEvent) => true,
-    linkStart: (event: PointerEvent) => true
-  },
+  emits: ["dragStart", "linkStart"],
   methods: {
     ...mapActions(["setNodeSubtype", "setNodeField"]),
+    
+    /**
+     * Updates the subtype of the node in the session store.
+     * @param value
+     *  The new subtype value.
+     */
     onSubtypeUpdate(value: any) {
       this.setNodeSubtype({ id: this.id, value })
     },
+
+    /**
+     * Updates a node's field value in the session store.
+     * @param field
+     *  The field to update.
+     * @param value
+     *  The field's new value.
+     */
     onFieldUpdate(field: string, value: any) {
       this.setNodeField({ id: this.id, value, field })
     },
+
   },
   components: { PlugIcon, TextField, NumberField, Dropdown },
 });
 </script>
 
 <style scoped>
+
+/** === Main Element === */
+
+p { margin: 0px }
+
 .attack-flow-node-element {
-  font-family: "Inter";
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -167,54 +208,60 @@ export default defineComponent({
 
 .attack-flow-node-header {
   position: relative;
-  border: solid 1px;
-  font-weight: 800;
-  font-size: 10pt;
   color: #d8d8d8;
+  font-size: 10pt;
+  font-weight: 800;
   padding: 6px 10px;
-  box-sizing: border-box;
+  border: solid 1px;
   border-top-left-radius: 4px;
-  border-top-right-radius: 10px;
+  border-top-right-radius: 4px;
+  box-sizing: border-box;
   user-select: none;
   cursor: pointer;
 }
 
+.attack-flow-node-header.has-link-tab {
+  border-top-right-radius: 10px;
+}
+
 .attack-flow-node-content {
-  padding: 12px;
   flex: 1;
-  background: #1f1f1f;
+  padding: 12px;
   border: solid 1px #383838;
   border-top: none;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+  background: #1f1f1f;
 }
 
 .subtype {
-  background: #242424;
   border: solid 1px #383838;
   border-radius: 3px;
+  background: #242424;
 }
+
+/** === Technique Dropdown === */
 
 .technique-selection {
   padding: 4px 12px;
 }
 
 .technique-selection .tactic-badge {
-  font-size: 8.5pt;
-  background: #383838;
+  display: inline-block;
   color: #999999;
+  font-size: 8.5pt;
   font-weight: 500;
   padding: 3px 5px;
-  display: inline-block;
   border-radius: 2px;
   margin-bottom: 5px;
+  background: #383838;
 }
 
 .technique-selection .technique {
+  display: block;
   color: #bfbfbf;
   font-weight: 700;
   font-size: 12pt;
-  display: block;
   padding: 0px 2px;
 }
 
@@ -222,6 +269,8 @@ export default defineComponent({
   color: #a1a1a1;
   font-size: 10pt;
 }
+
+/** === Fields Table === */
 
 .fields-list {
   display: table;
@@ -244,19 +293,21 @@ export default defineComponent({
 }
 
 .field-name {
-  padding: 7px 8px;
-  background: #242424;
-  border-right: solid 1px #383838;
+  color: #999999;
   font-family: "Inconsolata";
   font-size: 11pt;
-  color: #999999;
+  padding: 7px 8px;
+  border-right: solid 1px #383838;
+  background: #242424;
 }
 
 .subtype + .fields-list {
     margin-top: 10px;
 }
 
-.link-area {
+/** === Link Tab === */
+
+.link-tab {
   position: absolute;
   top: -1px;
   right: -1px;
@@ -272,10 +323,10 @@ export default defineComponent({
   height: 100%;
   width: 100%;
   padding-right: 12px;
-  background: #1f1f1f;
   border: solid 1px #383838;
   border-top-right-radius: 4px;
   box-sizing: border-box;
+  background: #1f1f1f;
 }
 .link-chip {
   position: absolute;
@@ -287,7 +338,7 @@ export default defineComponent({
   border-top: solid 1px #383838;
 }
 
-p { margin: 0px }
+/** === Empty Type === */
 
 .empty-type {
   color: #999999;

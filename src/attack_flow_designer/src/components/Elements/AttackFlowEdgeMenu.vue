@@ -1,18 +1,9 @@
 <template>
   <div class="attack-flow-edge-element">
+    <div class="attack-flow-edge-header" :style="headerStyle">
+      {{ schema.type.toLocaleUpperCase().replace(/_/g, " ") }}
+    </div>
     <div class="attack-flow-edge-content">
-      <!-------- Type Field -------->
-      <div class="type"> 
-        <Dropdown :value="type" :options="types" @change="onTypeUpdate">
-          <template v-slot:default="{ selected }">
-            <div class="type-info">
-              <div class="type-color"><span :style="{ background: schema.color }"></span></div>
-              <p class="type-text">{{ selected.text }}</p>
-            </div>
-          </template>
-        </Dropdown>
-      </div>
-      <!-------- Type Field -------->
       <!--------- Fields List --------->
       <div class="fields-list" v-if="schema.fields.size !== 0">
         <div class="field-row" v-for="[name, field] of schema.fields" :key="name">
@@ -22,6 +13,7 @@
               v-if="field.type === 'string'"
               @change="(value) => onFieldUpdate(name, value)"
               :value="edge.payload[name]"
+              :required="field.required"
               align="right"
             />
             <Dropdown
@@ -43,27 +35,30 @@
               v-if="field.type === 'number'"
               @change="(value) => onFieldUpdate(name, value)"
               :value="edge.payload[name]"
+              :range="field.range"
               align="right"
             />
           </span>
         </div>
       </div>
+      <!--------- Fields List --------->
+      <div class="empty-type" v-if="!schema.fields.size">
+        <p>[ No Fields Defined ]</p>
+      </div>
     </div>
-    <!--------- Fields List --------->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState, mapActions } from "vuex";
-import { sentenceCase } from "@/assets/StringTools";
-
+import * as Store from "@/store/StoreTypes";
 import TextField from "@/components/Controls/Fields/TextField.vue";
 import Dropdown from "@/components/Controls/Fields/Dropdown.vue";
 import NumberField from "@/components/Controls/Fields/NumberField.vue";
 
 export default defineComponent({
-  name: "AttackFlowNode",
+  name: "AttackFlowEdgeMenu",
   props: {
     id : { 
       type: String, 
@@ -72,8 +67,8 @@ export default defineComponent({
   },
   computed: {
     ...mapState({
-      edge(state: Types.DesignerStore): Types.CanvasEdge {
-        return state.session.edges.get(this.id) ?? {
+      edge(state: Store.ModuleStore): Store.CanvasEdge {
+        return state.SessionStore.session.edges.get(this.id) ?? {
           id: this.id,
           sourceId: "-1",
           targetId: "-1",
@@ -83,46 +78,53 @@ export default defineComponent({
           payload: {}
         };
       },
-      schemas(state: Types.DesignerStore): Map<string, Types.EdgeSchema> {
-        return state.schema.edges;
+      schemas(state: Store.ModuleStore): Map<string, Store.EdgeSchema> {
+        return state.SchemaStore.edgeSchemas;
       },
     }),
-    schema(): Types.EdgeSchema {
-      if(this.edge.type === null) {
-        return { 
-          color: "#4d4d4d", 
-          fields: new Map(), 
-          fieldsText: "" 
-        };
-      } else {
-        return this.schemas.get(this.edge.type) ?? { 
-          color: "#4d4d4d", 
-          fields: new Map(), 
-          fieldsText: ""
+
+    /**
+     * Returns the edge's schema from the schema store.
+     */
+    schema(): Store.EdgeSchema {
+      if(this.edge.type === null || !this.schemas.has(this.edge.type)) {
+        return {
+          type: "Unknown Node Schema",
+          color: "#4d4d4d",
+          outline: "#fff",
+          hasArrow: true,
+          hasDash: false,
+          fields: new Map()
         };
       }
+      return this.schemas.get(this.edge.type)!;
     },
-    types() {
-      return ["no edge type", ...this.schemas.keys()].map(type => ({ 
-        text: sentenceCase(type),
-        value: type
-      }))
+
+    /**
+     * Returns the node's header style.
+     */
+    headerStyle(): Object {
+      return {
+        background: this.schema.color,
+        borderColor: this.schema.outline,
+      };
     },
-    type() {
-      let type = this.edge.type ?? "no edge type";
-      let index = this.types.findIndex(o => o.value === type);
-      return index === -1 ? 0 : index;
-    }
+    
   },
   methods: {
-    ...mapActions(["setEdgeType", "setEdgeField"]),
-    onTypeUpdate(index: number) {
-      let value = index === 0 ? null : this.types[index].value;
-      this.setEdgeType({ id: this.id, value });
-    },
+    ...mapActions(["setEdgeField"]),
+
+    /**
+     * Updates an edge's field value in the session store.
+     * @param field
+     *  The field to update.
+     * @param value
+     *  The field's new value.
+     */
     onFieldUpdate(field: string, value: any) {
       this.setEdgeField({ id: this.id, field, value })
     }
+
   },
   components: { TextField, NumberField, Dropdown },
 });
@@ -130,51 +132,42 @@ export default defineComponent({
 
 <style scoped>
 
+/** === Main Element === */
+
+p { margin: 0px }
+
 .attack-flow-edge-element {
-  font-family: "Inter";
   display: flex;
   flex-direction: column;
   border-radius: 5px;
   box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 0.3);
-	padding: 12px;
+}
+
+.attack-flow-edge-header {
+  position: relative;
+  color: #d8d8d8;
+  font-size: 10pt;
+  font-weight: 800;
+  padding: 6px 10px;
+  border: solid 1px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  box-sizing: border-box;
+  user-select: none;
+  cursor: pointer;
+}
+
+.attack-flow-edge-content {
+  flex: 1;
+  padding: 12px;
+  border: solid 1px #383838;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   background: #1f1f1f;
-  border: solid 1px #383838;
-  border-radius: 4px;
 }
 
-.type {
-  background: #242424;
-  border: solid 1px #383838;
-  border-radius: 3px;
-}
-
-.type-info {
-  display: flex;
-  align-items: center;
-  padding: 2px 10px;
-}
-
-.type-info .type-text {
-  color: #bfbfbf;
-  font-weight: 700;
-  font-size: 11pt;
-  display: block;
-  padding: 0px 2px;
-}
-
-.type-info .type-color{
-  border-radius: 4px;
-  margin-right: 6px;
-  border: solid 1px #4d4d4d;
-  padding: 1px;
-  overflow: hidden;
-}
-.type-info .type-color span {
-  width: 12px;
-  height: 12px;
-  display: block;
-  border-radius: 2px;
-}
+/** === Fields Table === */
 
 .fields-list {
   display: table;
@@ -205,9 +198,12 @@ export default defineComponent({
   color: #999999;
 }
 
-.type + .fields-list {
-    margin-top: 10px;
+/** === Empty Type === */
+
+.empty-type {
+  color: #999999;
+  font-size: 11pt;
+  padding: 5px;
 }
 
-p { margin: 0px }
 </style>
