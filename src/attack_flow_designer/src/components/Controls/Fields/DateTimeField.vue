@@ -43,21 +43,21 @@
         <div class="time-column-container">
           <div class="hour time-column" :style="{ right: `-${sbw}px` }"  @wheel.passive.stop ref="hour">
             <li :class="{ select: i === hour }" v-for="i in 12" :key="i" @click="setHours(i)">
-              {{ i < 10 ? `0${ i }` : `${ i }` }}
+              {{ `${ i }`.padStart(2, "0") }}
             </li>
           </div>
         </div>
         <div class="time-column-container">
           <div class="minute time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop ref="mins">
             <li :class="{ select: i - 1 === mins }" v-for="i in 60" :key="i" @click="setMinute(i - 1)">
-              {{ i < 11 ? `0${ i - 1 }` : `${ i - 1 }` }}
+              {{ `${ i - 1 }`.padStart(2, "0") }}
             </li>
           </div>
         </div>
         <div class="time-column-container">
           <div class="second time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop ref="secs">
             <li :class="{ select: i - 1 === secs }" v-for="i in 60" :key="i" @click="setSecond(i - 1)">
-              {{ i < 11 ? `0${ i - 1 }` : `${ i - 1 }` }}
+              {{ `${ i - 1 }`.padStart(2, "0")  }}
             </li>
           </div>
         </div>
