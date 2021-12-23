@@ -51,6 +51,7 @@ export default {
         saveAttackFlow({ state, dispatch, rootState }, name: string) {
             if(state.session.nodes.size !== 0) {
                 let session = {
+                    namespace: state.session.namespace,
                     canvas: state.session.canvas,
                     nodes: [...state.session.nodes.values()],
                     edges: [...state.session.edges.values()],
@@ -80,6 +81,8 @@ export default {
          */
         async publishAttackFlow({ state, dispatch, rootState }, { name, date }: { name: string, date: Date}) {
             let namespace = state.session.namespace;
+
+            // Export
             let $schema = `./${ name }`
             let flow = {
                 type: "attack-flow",
@@ -116,13 +119,33 @@ export default {
                 // schema, changing the schema may break publish functionality.
                 ///////////////////////////////////////////////////////////////
                 
+                // Uri Formatter
+                let format = (str?: string | null) => str?.replace(/\s+|_/g, "-") ?? null;
+                let getUri = (node?: CanvasNode | CanvasEdge) => {
+                    let n = `http://${ namespace }`;
+                    switch (node?.type) {
+                        case "action":
+                        case "asset":
+                            return `${ n }/${ format(node.type) }-${ node.id }`
+                        case "data_property":
+                        case "object_property_target":
+                            return `${ n }#${ format(node.payload.target) ?? null }`
+                        case "relationship":
+                        case "data_property_type":
+                        case "object_property_type":
+                            return `${ n }#${ format(node.payload.type) ?? null }`
+                        default:
+                            return n;
+                    }
+                }
+
                 // Actions
                 let _actions = n.filter(o => o.type === "action");
                 let actions = [];
                 for(let action of _actions) {
                     actions.push({
-                        id: `http://${ namespace }/action-${ action.id }`,
-                        type: "action",
+                        id: getUri(action),
+                        type: action.type,
                         name: action.payload.name ?? null,
                         description: action.payload.description ?? null,
                         timestamp: action.payload.timestamp ?? null,
@@ -133,26 +156,60 @@ export default {
                         logic_operator: action.payload.logic_operator ?? null
                     })
                 }
+
                 // Assets
                 let _assets = n.filter(o => o.type === "asset");
                 let assets = [];
                 for(let asset of _assets) {
                     assets.push({
-                        id: `http://${ namespace }/asset-${ asset.id }`,
-                        type: "asset",
+                        id: getUri(asset),
+                        type: asset.type,
                         state: asset.payload.state ?? null
                     })
                 }
-                // Relationships
+                
+                // Edges
+                let generateEdges = (type: string, targetIsUri: boolean) => {
+                    let _edges = e.filter(o => o.type === type);
+                    let edges = [];
+                    for(let e of _edges) {
+                        // Get source and target
+                        let src = state.session.nodes.get(e.sourceId);
+                        let trg = state.session.nodes.get(e.targetId);
+                        if(src === undefined || trg === undefined)
+                            throw `Broken ${ e.type } edge '${ src?.id ?? '?' } -> ${ trg?.id ?? '?' }'`;
+                        // Generate props
+                        edges.push({
+                            source: getUri(src),
+                            type: getUri(e),
+                            target: targetIsUri ? getUri(trg) : trg.payload.target
+                        })
+                    }
+                    return edges;
+                }                
+                let relationships = generateEdges("relationship", true);
+                let object_properties = generateEdges("object_property_type", true);
+                let data_properties = generateEdges("data_property_type", false);
 
-                // TODO
+                // Links to flow
+                let nodes = _actions.concat(_assets);
+                for(let node of nodes) {
+                    relationships.push({
+                        source: getUri(),
+                        type: `${ getUri() }#flow-edge`,
+                        target: getUri(node)
+                    })
+                }
 
                 // Download
                 let file = JSON.stringify({ 
                     $schema,
                     flow,
                     actions,
-                    assets
+                    assets,
+                    relationships,
+                    object_properties,
+                    data_properties
                 });
                 dispatch("_downloadFile", { filename: name, text: file })
 
