@@ -37,7 +37,7 @@
             "outline" : "#4246a6",
             "subtype" : null, 
             "fields"  : {
-                "value": { "type": "string",  "default": "", "required": true  }
+                "target": { "type": "string",  "default": "", "required": true  }
             }
         }
     },
