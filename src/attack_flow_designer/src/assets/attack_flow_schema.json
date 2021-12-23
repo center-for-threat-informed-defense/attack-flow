@@ -66,8 +66,7 @@
             "hasArrow": true,
             "hasDash": false,
             "fields": {
-                "type" : { "type": "string",  "default": "", "required": true },
-                "timestamp" : { "type": "datetime", "default": "" }
+                "type" : { "type": "string",  "default": "", "required": true }
             }
         }
     }, 
