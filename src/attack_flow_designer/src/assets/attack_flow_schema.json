@@ -29,7 +29,7 @@
             "outline" : "#d62727",
             "subtype" : null,
             "fields"  : {
-                "target": { "type": "string",  "default": ""  }
+                "target": { "type": "string",  "default": "", "required": true  }
             }
         },
         "data_property": {
@@ -37,14 +37,23 @@
             "outline" : "#4246a6",
             "subtype" : null, 
             "fields"  : {
-                "value": { "type": "string",  "default": ""  }
+                "value": { "type": "string",  "default": "", "required": true  }
             }
         }
     },
     "edges": {
+        "relationship": {
+            "color": "#4d4d4d",
+            "outline": "#696969",
+            "hasArrow": true,
+            "hasDash": false,
+            "fields": {
+                "type" : { "type": "string",  "default": "", "required": true }
+            }
+        },
         "object_property_type": {
             "color": "#099",
-            "outline" : "#099",
+            "outline" : "#00b8b8",
             "hasArrow": true,
             "hasDash": false,
             "fields": {
@@ -53,16 +62,7 @@
         },
         "data_property_type": {
             "color": "#31347c",
-            "outline" : "#31347c",
-            "hasArrow": true,
-            "hasDash": false,
-            "fields": {
-                "type" : { "type": "string",  "default": "", "required": true }
-            }
-        },
-        "relationship": {
-            "color": "#4d4d4d",
-            "outline": "#696969",
+            "outline" : "#4246a6",
             "hasArrow": true,
             "hasDash": false,
             "fields": {
