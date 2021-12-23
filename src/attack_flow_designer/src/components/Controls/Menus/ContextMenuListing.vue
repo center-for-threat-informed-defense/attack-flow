@@ -149,12 +149,14 @@ export default defineComponent({
     parseId(id: string) {
       let parts = id.split(/#/);
       id = parts[0];
-      let params = parts[1].split(/::/);
       let data: any = {};
-      // Only parse valid parameters list
-      if(params.length % 2 === 0) {
-        for(let i = 0; i < params.length; i += 2){
-          data[params[i]] = params[i + 1];
+      if(parts.length === 2) {
+        let params = parts[1].split(/::/);
+        // Only parse valid parameters list
+        if(params.length % 2 === 0) {
+          for(let i = 0; i < params.length; i += 2){
+            data[params[i]] = params[i + 1];
+          }
         }
       }
       return { id, data };
