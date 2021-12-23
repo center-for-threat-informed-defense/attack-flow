@@ -16,6 +16,7 @@ export type SessionStore = {
 }
 
 export type AppSession = {
+    namespace: string,
     canvas: CanvasMetadata,
     nodes: Map<string, CanvasNode>,
     edges: Map<string, CanvasEdge>,
@@ -138,6 +139,7 @@ export type CanvasEdge = {
 ///////////////////////////////////////////////////////////////////////////////
 //  4. Notification Types  ////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
+
 
 export type NotificationType = "info" | "error"
 

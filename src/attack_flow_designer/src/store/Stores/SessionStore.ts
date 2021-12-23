@@ -1,9 +1,12 @@
 import { Module } from "vuex"
-import { AppSession, CanvasEdge, CanvasNode, ModuleStore, SessionStore } from "../StoreTypes";
+import { AppSession, CanvasEdge, CanvasNode, EdgeSchema, ModuleStore, NodeSchema, SessionStore } from "../StoreTypes";
+import { toIsoString } from "@/assets/Math"
+import { titleCase } from "@/assets/String";
 
 export default {
     state: {
         session: {
+            namespace: "",
             canvas: {
                 cameraX   : 0,
                 cameraY   : 0,
@@ -69,15 +72,97 @@ export default {
          * Compiles and downloads the current attack flow session.
          * @param ctx
          *  The Vuex context.
-         * @param name
-         *  The save file's name
+         * @param saveParams
+         *  [name]
+         *   The save file's name.
+         *  [date]
+         *   The save date.
          */
-        publishAttackFlow({ state, dispatch }, name: string) {
-            dispatch("pushNotification", {
-                type: "error",
-                title: "ERROR",
-                description: "Can't export, don't know how."
-            })
+        async publishAttackFlow({ state, dispatch, rootState }, { name, date }: { name: string, date: Date}) {
+            let namespace = state.session.namespace;
+            let $schema = `./${ name }`
+            let flow = {
+                type: "attack-flow",
+                id: `http://${ namespace }`,
+                name: "Attack Flow Export",
+                author: "Unspecified",
+                created: toIsoString(date)
+            }
+            try {
+                // Validate schema
+                let { nodeSchemas } = rootState.SchemaStore;
+                let n = [...state.session.nodes.values()];
+                for(let [type, schema] of nodeSchemas) {
+                    let nodes = n.filter(o => o.type === type);
+                    for(let node of nodes) {
+                        if(!await dispatch("_validateObj", { obj: node, schema })) {
+                            throw `Required '${ titleCase(type) }' node fields are missing.`
+                        }
+                    }
+                }
+                let { edgeSchemas } = rootState.SchemaStore;
+                let e = [...state.session.edges.values()];
+                for(let [type, schema] of edgeSchemas) {
+                    let edges = e.filter(o => o.type === type);
+                    for(let edge of edges) {
+                        if(!await dispatch("_validateObj", { obj: edge, schema })) {
+                            throw `Required '${ titleCase(type) }' edge fields are missing.`
+                        }
+                    }
+                }
+
+                ///////////////////////////////////////////////////////////////
+                // The following code is designed specifically for the current
+                // schema, changing the schema may break publish functionality.
+                ///////////////////////////////////////////////////////////////
+                
+                // Actions
+                let _actions = n.filter(o => o.type === "action");
+                let actions = [];
+                for(let action of _actions) {
+                    actions.push({
+                        id: `http://${ namespace }/action-${ action.id }`,
+                        type: "action",
+                        name: action.payload.name ?? null,
+                        description: action.payload.description ?? null,
+                        timestamp: action.payload.timestamp ?? null,
+                        reference: action.payload.reference ?? null,
+                        succeeded: action.payload.succeeded ?? null,
+                        confidence: action.payload.confidence ?? null,
+                        logic_operator_language: action.payload.logic_operator_language ?? null,
+                        logic_operator: action.payload.logic_operator ?? null
+                    })
+                }
+                // Assets
+                let _assets = n.filter(o => o.type === "asset");
+                let assets = [];
+                for(let asset of _assets) {
+                    assets.push({
+                        id: `http://${ namespace }/asset-${ asset.id }`,
+                        type: "asset",
+                        state: asset.payload.state ?? null
+                    })
+                }
+                // Relationships
+
+                // TODO
+
+                // Download
+                let file = JSON.stringify({ 
+                    $schema,
+                    flow,
+                    actions,
+                    assets
+                });
+                dispatch("_downloadFile", { filename: name, text: file })
+
+            } catch(ex) {
+                dispatch("pushNotification", {
+                    type: "error",
+                    title: "Export Failed",
+                    description: ex
+                })
+            }
         },
 
         /**
@@ -95,6 +180,7 @@ export default {
             // Load Schema
             await dispatch("loadSchema", schema);
             // Load Session
+            commit("setSessionNamespace", session.namespace);
             commit("setCanvasState", session.canvas);
             commit("setSessionSchema", schema);
             for(let node of session.nodes) {
@@ -119,6 +205,32 @@ export default {
             }
             commit("recalculatePages");
             commit("incrementLayoutTrigger");
+        },
+
+        /**
+         * [INTERNAL USE ONLY]
+         * Validates an object against its schema.
+         * @param ctx
+         *  The Vuex context.
+         * @param nodeParams
+         *  [node]
+         *   The object to validate.
+         *  [schema]
+         *   The schema to validate against.
+         * @returns
+         *  True if the object matches the schema, false otherwise.
+         */
+        _validateObj(ctx, { obj, schema }: SchemaValidationParams) {
+            for(let [name, field] of schema.fields) {
+                switch(field.type) {
+                    case "string":
+                    case "datetime":
+                        if(field.required && !obj.payload[name]) {
+                            return false;
+                        }
+                }
+            }
+            return true;
         },
 
         /**
@@ -456,6 +568,17 @@ export default {
         },
 
         /**
+         * Sets the session's namespace.
+         * @param state
+         *  The Vuex state.
+         * @param namespace
+         *  The session's namespace. 
+         */
+        setSessionNamespace(state, namespace: string) {
+            state.session.namespace = namespace;
+        },
+
+        /**
          * Sets the canvas state.
          * @param state
          *  The Vuex state.
@@ -698,3 +821,4 @@ type NodeParams = { type: string, location: Array<number> }
 type SubTypeUpdate = { id: string, value: any };
 type FieldUpdate  = { id: string, field: string, value: any };
 type NodePosition = { id: string, x0: number, y0: number, x1: number, y1: number };
+type SchemaValidationParams = { obj: CanvasNode | CanvasEdge, schema: NodeSchema | EdgeSchema }

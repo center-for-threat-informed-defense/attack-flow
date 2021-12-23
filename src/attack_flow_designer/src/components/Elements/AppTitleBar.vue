@@ -75,13 +75,14 @@ export default defineComponent({
           this.saveAttackFlow(name);
           break;
         case "publish_attack_flow":
-          date = new Date()
+          date = new Date(); 
+          let dateParse = date
             .toISOString()
             .split(".")[0]
             .replace(/:/g, "-")
             .replace(/T/, "_");
-          name = `attack_flow_${date}.json`;
-          this.publishAttackFlow(name);
+          name = `attack_flow_${dateParse}.json`;
+          this.publishAttackFlow({ name, date });
         default:
           break;
       }

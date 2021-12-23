@@ -20,6 +20,8 @@ export default {
         async loadSchema({ commit, dispatch }, schema: any) {
             // Clear Maps
             commit("clearSchema");
+            // Set namespace
+            commit("setNamespace", schema.namespace);
             // Parse Lists
             for(let key in schema.lists) {
                 commit("addListSchema", {

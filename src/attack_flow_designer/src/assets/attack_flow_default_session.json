@@ -1,4 +1,5 @@
 {
+    "namespace": "flow-1",
     "canvas": {
         "cameraX": -1,
         "cameraY": -1,
