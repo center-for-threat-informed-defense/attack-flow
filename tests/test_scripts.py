@@ -40,7 +40,7 @@ def test_generate(generate_mock):
 
 
 @patch('attack_flow.graphviz.convert')
-def test_graphviz(convert_mock):
+def test_graphviz_script_calls_convert_with_correct_arguments(convert_mock):
     """
     Test that the script parses a JSON file and passes the resulting object
     to convert().
