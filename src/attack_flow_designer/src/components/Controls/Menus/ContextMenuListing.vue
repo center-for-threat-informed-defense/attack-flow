@@ -93,20 +93,19 @@ export default defineComponent({
     fireAction(item: Types.ContextMenuItem) {
       if(item.disabled)
         return;
+      let { id, data } = this.parseId(item.id);
       switch(item.type) {
         case "file":
           (this.$refs.file as any).click();
-          this.selectedFileId = item.id;
-          this.select(`__preload_${ item.id }`);
+          this.selectedFileId = id;
+          this.select(`__preload_${ id }`, data);
           break;
         case "toggle":
-          this.select(item.id, { value: item.value });
-          break;
-        case "action":
-          this.select(item.id, { ...item.data });
+          this.select(id, { ...data, value: item.value });
           break;
         default:
-          this.select(item.id)
+          this.select(id, data);
+          break;
       }
     },
     readFile(event: Event) {
@@ -138,6 +137,27 @@ export default defineComponent({
           .map(c => c in SHORTCUT_KEY_TO_TEXT ? SHORTCUT_KEY_TO_TEXT[c] : c)
           .join("+");
       }
+    },
+
+    /**
+     * Parses a context menu id and extracts id parameters.
+     * @param id
+     *  The context menu id.
+     * @returns
+     *  The parsed id and id parameters.
+     */
+    parseId(id: string) {
+      let parts = id.split(/#/);
+      id = parts[0];
+      let params = parts[1].split(/::/);
+      let data: any = {};
+      // Only parse valid parameters list
+      if(params.length % 2 === 0) {
+        for(let i = 0; i < params.length; i += 2){
+          data[params[i]] = params[i + 1];
+        }
+      }
+      return { id, data };
     }
   
   },

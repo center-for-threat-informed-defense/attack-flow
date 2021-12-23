@@ -14,8 +14,7 @@ namespace Types {
     }
 
     interface ContextMenuAction extends ContextMenuBase<"action"> {
-        shortcut?: string,
-        data?: Object
+        shortcut?: string
     }
 
     interface ContextMenuFileAction extends ContextMenuBase<"file"> {

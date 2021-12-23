@@ -163,10 +163,9 @@ export default defineComponent({
       for(let [type, _] of this.schemas.nodeSchemas) {
         menu.push(
             {
-                id: `create-node`, 
-                text: `Create ${ titleCase(type) } Node`,
-                type: "action",
-                data: { type }
+              id: `create-node#type::${ type }`, 
+              text: `Create ${ titleCase(type) } Node`,
+              type: "action"
             }
         )
       }
