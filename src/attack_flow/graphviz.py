@@ -2,24 +2,11 @@ def convert(attack_flow):
     """
     Convert an Attack Flow object into Graphviz format.
     """
-    graph = list()
-    graph.append("digraph {")
-
-    for action in attack_flow['actions']:
-        id_ = action['id']
-        name = action['name']
-        graph.append(f'  "{id_}" [shape=box,label="{name}"]')
+    graph = ["digraph {"]
+    graph.extend([f'  "{act["id"]}" [shape=box,label="{act["name"]}"]' for act in attack_flow['actions']])
     graph.append("")
-
-    for asset in attack_flow['assets']:
-        id_ = asset['id']
-        graph.append(f'  "{id_}" [shape=oval]')
+    graph.extend([f'  "{asset["id"]}" [shape=oval]' for asset in attack_flow['assets']])
     graph.append("")
-
-    for relationship in attack_flow['relationships']:
-        source = relationship['source']
-        target = relationship['target']
-        graph.append(f'  "{source}" -> "{target}"')
-
+    graph.extend([f'  "{rel["source"]}" -> "{rel["target"]}"' for rel in attack_flow['relationships']])
     graph.append("}")
     return "\n".join(graph)

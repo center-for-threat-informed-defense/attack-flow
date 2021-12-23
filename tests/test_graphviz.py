@@ -3,7 +3,7 @@ from textwrap import dedent
 import attack_flow.graphviz
 
 
-def test_convert():
+def test_convert_attack_flow_to_dot():
     flow = {
         "actions": [
             {
