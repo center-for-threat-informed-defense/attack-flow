@@ -8,7 +8,7 @@
             "fields"  : {
                 "name"  : { "type": "string",  "default": "", "required": true },
                 "description" : { "type": "string", "default": "", "required": true },
-                "timestamp" : { "type": "string", "default": "" },
+                "timestamp" : { "type": "datetime", "default": "" },
                 "reference" : { "type": "string", "default": "" },
                 "succeeded" : { "type": "number", "default": 0, "range": { "min": 0, "max": 1 } },
                 "confidence" : { "type": "number", "default": 0, "range": { "min": 0, "max": 1 } },
@@ -24,12 +24,12 @@
                 "state": { "type": "string",  "default": ""  }
             }
         },
-        "object_property": {
+        "object_property_target": {
             "color"   : "#b62020",
             "outline" : "#d62727",
             "subtype" : null,
             "fields"  : {
-                "type": { "type": "string",  "default": ""  }
+                "target": { "type": "string",  "default": ""  }
             }
         },
         "data_property": {
@@ -37,26 +37,28 @@
             "outline" : "#4246a6",
             "subtype" : null, 
             "fields"  : {
-                "type": { "type": "string",  "default": ""  },
                 "value": { "type": "string",  "default": ""  }
             }
         }
     },
     "edges": {
-        "source": {
+        "object_property_type": {
             "color": "#099",
             "outline" : "#099",
-            "hasArrow": false,
+            "hasArrow": true,
             "hasDash": false,
-            "fields": {}
+            "fields": {
+                "type" : { "type": "string",  "default": "", "required": true }
+            }
         },
-        "target": {
-            "color": "#099",
-            "outline" : "#099",
-            "hasArrow": false,
-            "hasDash": true,
-            "fields": {}
-
+        "data_property_type": {
+            "color": "#31347c",
+            "outline" : "#31347c",
+            "hasArrow": true,
+            "hasDash": false,
+            "fields": {
+                "type" : { "type": "string",  "default": "", "required": true }
+            }
         },
         "relationship": {
             "color": "#4d4d4d",
@@ -64,17 +66,18 @@
             "hasArrow": true,
             "hasDash": false,
             "fields": {
-                "type" : { "type": "string",  "default": "", "required": true }
+                "type" : { "type": "string",  "default": "", "required": true },
+                "timestamp" : { "type": "datetime", "default": "" }
             }
         }
     }, 
     "edgeRules": [
         { "source": "action", "target": "asset", "type": "relationship" },
-        { "source": "action", "target": "data_property", "type": "source" },
-        { "source": "action", "target": "object_property", "type": "source" },
+        { "source": "action", "target": "data_property", "type": "data_property_type" },
+        { "source": "action", "target": "object_property_target", "type": "object_property_type" },
         { "source": "asset", "target": "action", "type": "relationship" },
-        { "source": "asset", "target": "data_property", "type": "source" },
-        { "source": "asset", "target": "object_property", "type": "source" },
-        { "source": "object_property", "target": "*", "type": "target" }
+        { "source": "asset", "target": "data_property", "type": "data_property_type" },
+        { "source": "asset", "target": "object_property_target", "type": "object_property_type" },
+        { "source": "asset", "target": "asset", "type": "object_property_type" }
     ]
 }
