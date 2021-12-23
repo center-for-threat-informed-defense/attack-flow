@@ -4,10 +4,12 @@ Test entry points for command line tools.
 These tests are minimal: checking basic argument parsing and making sure that
 the entrypoints call into the appropriate places in the package.
 """
-from tempfile import NamedTemporaryFile
-from unittest.mock import patch
+import os
 import runpy
 import sys
+from tempfile import NamedTemporaryFile
+from textwrap import dedent
+from unittest.mock import patch
 
 from jsonschema.exceptions import ValidationError
 
@@ -35,3 +37,22 @@ def test_generate(generate_mock):
         runpy.run_module('attack_flow.scripts.generate_schema_docs',
                          run_name='__main__')
     generate_mock.assert_called()
+
+
+@patch('attack_flow.graphviz.convert')
+def test_graphviz_script_calls_convert_with_correct_arguments(convert_mock):
+    """
+    Test that the script parses a JSON file and passes the resulting object
+    to convert().
+    """
+    convert_mock.return_value = dedent(r"""\
+        graph {
+            "node1" -> "node2";
+        }
+    """)
+    with NamedTemporaryFile() as input, NamedTemporaryFile() as output:
+        input.write(b'{"foo":"bar"}')
+        input.seek(0, os.SEEK_SET)
+        sys.argv = ['graphviz.py', input.name, output.name]
+        runpy.run_module('attack_flow.scripts.graphviz', run_name='__main__')
+    convert_mock.assert_called_with({"foo": "bar"})
