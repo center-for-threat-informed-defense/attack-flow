@@ -82,6 +82,10 @@ export interface StringField extends NodeFieldBase<"string"> {
     required?: boolean
 }
 
+export interface DateTimeField extends NodeFieldBase<"datetime"> {
+    required?: boolean
+}
+
 export interface NumberField extends NodeFieldBase<"number"> {
     range?: { min: 0, max: 0 }
 }
@@ -98,7 +102,7 @@ export interface ObjectField extends NodeFieldBase<"object"> {
     default : null;
 }
 
-export type NodeField = NumberField | StringField | NodeFieldBase<"boolean"> | NodeFieldBase<"datetime"> | DropDownField | ObjectField 
+export type NodeField = NumberField | StringField | NodeFieldBase<"boolean"> | DateTimeField | DropDownField | ObjectField 
 
 
 ///////////////////////////////////////////////////////////////////////////////

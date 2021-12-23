@@ -38,6 +38,13 @@
               :range="field.range"
               align="right"
             />
+            <DateTimeField
+              v-if="field.type === 'datetime'"
+              @change="(value) => onFieldUpdate(name, value)"
+              :value="edge.payload[name]"
+              :required="field.required"
+              align="right"
+            />
           </span>
         </div>
       </div>
@@ -56,6 +63,7 @@ import * as Store from "@/store/StoreTypes";
 import TextField from "@/components/Controls/Fields/TextField.vue";
 import Dropdown from "@/components/Controls/Fields/Dropdown.vue";
 import NumberField from "@/components/Controls/Fields/NumberField.vue";
+import DateTimeField from "@/components/Controls/Fields/DateTimeField.vue";
 
 export default defineComponent({
   name: "AttackFlowEdgeMenu",
@@ -126,7 +134,7 @@ export default defineComponent({
     }
 
   },
-  components: { TextField, NumberField, Dropdown },
+  components: { TextField, NumberField, Dropdown, DateTimeField },
 });
 </script>
 

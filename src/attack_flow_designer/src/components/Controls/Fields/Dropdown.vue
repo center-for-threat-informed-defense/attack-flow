@@ -8,7 +8,7 @@
       </div>
       <div class="dropdown-arrow">▼</div>
     </div>
-    <div :class="['dropdown-options',`align-${align}`]" ref="a" v-show="showDropdown" :style="{ marginTop: `${dropMargin}px` }">
+    <div :class="['dropdown-options',`align-${align}`]" v-show="showDropdown" :style="{ marginTop: `${dropMargin}px` }">
       <li v-for="(option, i) of options" :key="option.text" :class="`align-${align}`" @click.stop="select(i)">
         {{ option[textKey] }}
       </li>
@@ -61,7 +61,7 @@ export default defineComponent({
     }.bind(this);
     document.body.addEventListener("click", this.clickOutsideHandler);
   },
-  beforeUnmount() {
+  destroyed() {
     document.body.removeEventListener("click", this.clickOutsideHandler);
   }
 });

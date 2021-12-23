@@ -58,7 +58,6 @@ input:focus {
 .warning-icon {
   position: absolute;
   display: inline-block;
-  margin: 0px;
   font-size: 12pt;
   color: #d0ad43;
   margin: 0px 12px;

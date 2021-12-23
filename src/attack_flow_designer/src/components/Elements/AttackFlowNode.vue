@@ -18,7 +18,7 @@
         <TextField
           v-if="schema.subtype.type === 'string'"
           :value="node.subtype"
-          
+          :required="schema.subtype.required"
           @change="onSubtypeUpdate"
         />
         <Dropdown 
@@ -44,7 +44,13 @@
         <NumberField
           v-if="schema.subtype.type === 'number'"
           :value="node.subtype"
-          :range="field.range"
+          :range="schema.subtype.range"
+          @change="onSubtypeUpdate"
+        />
+        <DateTimeField
+          v-if="schema.subtype.type === 'datetime'"
+          :value="node.subtype"
+          :required="schema.subtype.required"
           @change="onSubtypeUpdate"
         />
       </div>
@@ -83,6 +89,13 @@
               :range="field.range"
               align="right"
             />
+            <DateTimeField
+              v-if="field.type === 'datetime'"
+              @change="(value) => onFieldUpdate(name, value)"
+              :value="node.payload[name]"
+              :required="field.required"
+              align="right"
+            />
           </span>
         </div>
       </div>
@@ -102,6 +115,7 @@ import PlugIcon from "@/components/Vectors/PlugIcon.vue";
 import TextField from "@/components/Controls/Fields/TextField.vue";
 import Dropdown from "@/components/Controls/Fields/Dropdown.vue";
 import NumberField from "@/components/Controls/Fields/NumberField.vue";
+import DateTimeField from "@/components/Controls/Fields/DateTimeField.vue"
 
 export default defineComponent({
   name: "AttackFlowNode",
@@ -189,7 +203,7 @@ export default defineComponent({
     },
 
   },
-  components: { PlugIcon, TextField, NumberField, Dropdown },
+  components: { PlugIcon, TextField, NumberField, Dropdown, DateTimeField },
 });
 </script>
 

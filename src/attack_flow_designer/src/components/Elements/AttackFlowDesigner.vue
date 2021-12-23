@@ -32,7 +32,8 @@ export default defineComponent({
     this.pushNotification({
       type: "info",
       title: "Notice",
-      description: "The Attack Flow schema and this designer are still under active development. Both are subject to change. "
+      description: "The Attack Flow schema and this designer are still under active development, both are subject to change.",
+      time: 8000
     })
   },
   components: { AppTitleBar, AppNotifications, AttackFlowCanvas },
