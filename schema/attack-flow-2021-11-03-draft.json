@@ -119,7 +119,8 @@
                         "type": "string"
                     }
                 },
-                "required": ["id"]
+                "required": ["id"],
+                "additionalProperties": false
             }
         },
         "relationships": {
@@ -139,15 +140,16 @@
                         "format": "uri"
                     },
                     "target": {
-                        "description": "The target asset or action. If the target is an Action, the source MUST be an Asset. If the target is an Asset, the source MUST be an Action.",
+                        "description": "The target flow, action, or asset.",
                         "type": "string"
                     }
                 },
-                "required": ["source", "type", "target"]
+                "required": ["source", "type", "target"],
+                "additionalProperties": false
             }
         },
         "data_properties": {
-            "description": "Data properties associate actions, assets, or flows with a piece of data.",
+            "description": "Data properties associate actions, assets, properties, or flows with a piece of data.",
             "type": "array",
             "items": {
                 "type": "object",
@@ -171,7 +173,7 @@
             }
         },
         "object_properties": {
-            "description": "Object properties relate, actions, assets, or flows to other actions, assets, or flows.",
+            "description": "Object properties relate, actions, assets, properties, or flows to other assets, properties, or flows. (Some rules apply.)",
             "type": "array",
             "items": {
                 "type": "object",
@@ -187,12 +189,13 @@
                         "format": "uri"
                     },
                     "target": {
-                        "description": "Target flow, action, asset, or property for this property.",
+                        "description": "Target flow, asset, or property for this property.",
                         "type": "string",
                         "format": "uri"
                     }
                 },
-                "required": ["source", "type", "target"]
+                "required": ["source", "type", "target"],
+                "additionalProperties": false
             }
         }
 
