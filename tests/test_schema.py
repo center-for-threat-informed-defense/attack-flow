@@ -33,6 +33,8 @@ def test_validate_docs():
         "actions": [],
         "assets": [],
         "relationships": [],
+        "object_properties": [],
+        "data_properties": [],
     }
 
     doc2_json = {
@@ -45,6 +47,8 @@ def test_validate_docs():
         "actions": [],
         "assets": [],
         "relationships": [],
+        "object_properties": [],
+        "data_properties": [],
     }
 
     with SCHEMA_PATH.open() as schema_file, \
