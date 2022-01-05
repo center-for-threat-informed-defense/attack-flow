@@ -489,5 +489,6 @@
           "target": "http://flow-v1/wmi"
         }
     ],
-    "properties": []
+    "data_properties": [],
+    "object_properties": []
   }

@@ -424,6 +424,6 @@
             "target":  "http://flow-v1/reachable-machine-list"
         }
     ],
-    "properties": [
-    ]
+    "object_properties": [],
+    "data_properties": []
 }

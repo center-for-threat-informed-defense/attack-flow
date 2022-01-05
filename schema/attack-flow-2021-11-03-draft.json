@@ -169,7 +169,8 @@
                         "type": "string"
                     }
                 },
-                "required": ["source", "type", "target"]
+                "required": ["source", "type", "target"],
+                "additionalProperties": false
             }
         },
         "object_properties": {
@@ -205,6 +206,8 @@
         "flow",
         "actions",
         "assets",
-        "relationships"
+        "relationships",
+        "data_properties",
+        "object_properties"
     ]
 }

@@ -50,8 +50,9 @@
             "target":  "http://flow-v1/flow-1"
         }
     ],
-    "properties": [
+    "data_properties": [
         {"source":  "http://flow-v1/action-1", "type": "type://flow-v1#command", "target": "powershell.exe C:\\Users\\#{domain.admin.username}.#{domain}\\AppData\\Local\\takeScreenshot.ps1"},
         {"source":  "http://flow-v1/asset-2", "type":  "type://flow-v1#label", "target":  "cobalt strike"}
-    ]
+    ],
+    "object_properties": []
 }
