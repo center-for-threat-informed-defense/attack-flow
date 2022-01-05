@@ -8,13 +8,13 @@ To validate an ATT&CK Flow document, you need to choose a schema version to
 validate against. Then run the following command, replacing the
 
 ```
-$ python -m attack_flow.scripts.validate_doc schema/attack-flow-2021-11-03-draft.json <ATTACK_FLOW_JSON>
+$ python -m attack_flow.scripts.validate_doc schema/attack-flow-2022-01-05-draft.json <ATTACK_FLOW_JSON>
 ```
 
 This command can validate multiple files at once, e.g.:
 
 ```
-$ python -m attack_flow.scripts.validate_doc schema/attack-flow-2021-11-03-draft.json schema/attack-flow-example.json corpus/*
+$ python -m attack_flow.scripts.validate_doc schema/attack-flow-2022-01-05-draft.json schema/attack-flow-example.json corpus/*
 schema/attack-flow-example.json is valid
 corpus/dfir_report_zero_to_domain_admin.json is valid
 ```

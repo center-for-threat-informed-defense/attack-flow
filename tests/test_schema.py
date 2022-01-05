@@ -19,7 +19,7 @@ from attack_flow.schema import (
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SCHEMA_PATH = PROJECT_ROOT / "schema" / "attack-flow-2021-11-03-draft.json"
+SCHEMA_PATH = PROJECT_ROOT / "schema" / "attack-flow-2022-01-05-draft.json"
 
 
 def test_validate_docs():

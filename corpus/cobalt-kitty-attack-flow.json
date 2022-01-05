@@ -1,5 +1,5 @@
 {
-    "$schema": "../schema/attack-flow-2021-11-03-draft.json",
+    "$schema": "../schema/attack-flow-2022-01-05-draft.json",
     "flow": {
         "type": "attack-flow",
         "id": "https://www.cybereason.com/blog/operation-cobalt-kitty-apt",
