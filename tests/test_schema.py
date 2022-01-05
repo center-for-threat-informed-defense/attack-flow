@@ -9,6 +9,7 @@ from attack_flow.schema import (
     anchor,
     generate_html,
     get_properties,
+    html_name,
     insert_html,
     InvalidRelationshipsError,
     SchemaProperty,
@@ -18,7 +19,7 @@ from attack_flow.schema import (
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-SCHEMA_PATH = PROJECT_ROOT / "schema" / "attack-flow-2021-11-03-draft.json"
+SCHEMA_PATH = PROJECT_ROOT / "schema" / "attack-flow-2022-01-05-draft.json"
 
 
 def test_validate_docs():
@@ -32,6 +33,8 @@ def test_validate_docs():
         "actions": [],
         "assets": [],
         "relationships": [],
+        "object_properties": [],
+        "data_properties": [],
     }
 
     doc2_json = {
@@ -44,6 +47,8 @@ def test_validate_docs():
         "actions": [],
         "assets": [],
         "relationships": [],
+        "object_properties": [],
+        "data_properties": [],
     }
 
     with SCHEMA_PATH.open() as schema_file, \
@@ -56,11 +61,13 @@ def test_validate_docs():
         doc1_file.seek(0)
         doc2_file.seek(0)
 
-        results = validate_docs(schema_file.name,
-                                [doc1_file.name, doc2_file.name])
+        results_one_file = validate_docs(schema_file.name, doc1_file.name)
+        results_two_files = validate_docs(schema_file.name,
+                                          [doc1_file.name, doc2_file.name])
 
-    assert results[0] is None
-    assert isinstance(results[1], Exception)
+    assert results_one_file[0] is None
+    assert results_two_files[0] is None
+    assert isinstance(results_two_files[1], Exception)
 
 
 def test_schema_property_string():
@@ -170,6 +177,23 @@ def test_get_properties():
                 'type': 'array',
                 'items': {'type': 'string'}
             },
+            'cars': {
+                'description': 'My cars',
+                'type': 'array',
+                'items': {
+                    'type': 'object',
+                    'properties': {
+                        'make': {
+                            'description': 'The auto manufacturer',
+                            'type': 'string',
+                        },
+                        'model': {
+                            'description': 'The model name',
+                            'type': 'string',
+                        },
+                    }
+                }
+            },
             'address': {
                 'description': 'My address',
                 'type': 'object',
@@ -217,7 +241,7 @@ def test_generate_html():
     })
 
     expected_html = [
-        '<h3 id="TopLevelMetadata">Top Level Metadata Fields</h3>',
+        '<h3 id="TopLevel">Top Level Fields</h3>',
         '<table>',
         '  <tr>',
         '    <th>Name</th>',
@@ -358,3 +382,8 @@ def test_validate_rules():
     - Relationship target ID "action2" does not exist.
     - Relationship source ID "action2" does not exist.
     - Relationship target ID "asset2" does not exist.""")
+
+
+def test_html_name():
+    assert html_name("foo") == "Foo"
+    assert html_name("foo_bar") == "Foo Bar"

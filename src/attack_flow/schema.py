@@ -209,7 +209,7 @@ def generate_html(object_properties):
     """
     html = list()
     root = object_properties.pop(ROOT_NODE)
-    html.extend(generate_html_for_object('Top Level Metadata', root))
+    html.extend(generate_html_for_object('Top Level', root))
     for object_, properties in object_properties.items():
         html.append('')
         html.extend(generate_html_for_object(object_, properties))
@@ -227,6 +227,16 @@ def anchor(name):
     return re.sub(NON_ALPHA, '', name)
 
 
+def html_name(name):
+    """
+    Convert an object name to a human-readable, escaped name.
+
+    :param str name: object name
+    :rtype: str
+    """
+    return html.escape(string.capwords(name.replace("_", " ")))
+
+
 def generate_html_for_object(name, properties):
     """
     Generate HTML for a single object's properties.
@@ -237,8 +247,7 @@ def generate_html_for_object(name, properties):
     :rtype: list[str]
     """
     table = list()
-    html_name = html.escape(string.capwords(name))
-    table.append(f'<h3 id="{anchor(name)}">{html_name} Fields</h3>')
+    table.append(f'<h3 id="{anchor(name)}">{html_name(name)} Fields</h3>')
     table.append('<table>')
     table.append('  <tr>')
     table.append('    <th>Name</th>')
