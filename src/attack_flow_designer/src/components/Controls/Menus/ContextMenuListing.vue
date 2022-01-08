@@ -231,6 +231,8 @@ a {
   display: flex;
   padding: 4px 0px;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 li.disabled a {
   color: #949494;
@@ -263,11 +265,6 @@ li.disabled a {
   border-top: solid 1px;
   border-right: solid 1px;
   transform: rotate(45deg);
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
 }
 
 </style>
