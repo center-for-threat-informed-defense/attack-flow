@@ -11,6 +11,9 @@ export function capitalize(text: string): string {
 
 /**
  * Casts a string to title case.
+ * 
+ * ex. "foo_bar" -> "Foo Bar" 
+ * 
  * @param text
  *  The string to cast to title case.
  * @returns
