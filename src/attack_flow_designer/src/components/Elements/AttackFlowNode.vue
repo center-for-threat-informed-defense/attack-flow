@@ -54,7 +54,6 @@
           @change="onSubtypeUpdate"
         />
       </div>
-      <!-------- Subtype Field -------->
       <!--------- Fields List --------->
       <div class="fields-list" v-if="schema.fields.size !== 0">
         <div class="field-row" v-for="[name, field] of schema.fields" :key="name">
@@ -99,7 +98,7 @@
           </span>
         </div>
       </div>
-      <!--------- Fields List --------->
+      <!--------- Missing Type Definition --------->
       <div class="empty-type" v-if="!schema.subtype && !schema.fields.size">
         <p>[ Missing Type Definition ]</p>
       </div>
