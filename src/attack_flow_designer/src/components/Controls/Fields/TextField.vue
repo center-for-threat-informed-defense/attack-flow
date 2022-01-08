@@ -1,7 +1,7 @@
 <template>
   <div class="text-field-input">
     <p class="warning-icon" v-if="required && text.length === 0">⚠</p>
-    <input :class="`align-${align}`" type="text" v-model="text" @keydown="onKeyDown" />
+    <input :class="`align-${align}`" type="text" v-model="text"/>
   </div>
 </template>
 
