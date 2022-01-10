@@ -10,7 +10,7 @@ npm install
 npm run serve
 ```
 
-### Compile and Minify for production
+### Compile and Minify for Production
 ```
 npm run build
 ```
