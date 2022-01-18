@@ -1,19 +1,16 @@
 # attack-flow-designer
 
-## Project setup
+## Project Setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Compile and Run
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compile and Minify for Production
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
