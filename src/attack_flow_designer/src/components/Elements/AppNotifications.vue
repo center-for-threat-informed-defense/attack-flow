@@ -71,7 +71,7 @@ export default defineComponent({
   justify-content: center;
   height: 14px;
   width: 14px;
-  font-family: 'Inconsolata';
+  font-family: 'Inconsolata', monospace;
   color: #fff;
   font-size: 14pt;
   font-weight: 600;

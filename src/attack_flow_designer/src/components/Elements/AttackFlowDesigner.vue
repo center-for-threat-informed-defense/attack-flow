@@ -42,7 +42,7 @@ export default defineComponent({
 
 <style scoped>
 .attack-flow-designer-container {
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #121212;

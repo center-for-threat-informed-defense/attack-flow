@@ -41,31 +41,31 @@
       </div>
       <div class="time">
         <div class="time-column-container">
-          <div class="hour time-column" :style="{ right: `-${sbw}px` }"  @wheel.passive.stop ref="hour">
+          <ul class="hour time-column" :style="{ right: `-${sbw}px` }"  @wheel.passive.stop ref="hour">
             <li :class="{ select: i === hour }" v-for="i in 12" :key="i" @click="setHours(i)">
               {{ `${ i }`.padStart(2, "0") }}
             </li>
-          </div>
+          </ul>
         </div>
         <div class="time-column-container">
-          <div class="minute time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop ref="mins">
+          <ul class="minute time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop ref="mins">
             <li :class="{ select: i - 1 === mins }" v-for="i in 60" :key="i" @click="setMinute(i - 1)">
               {{ `${ i - 1 }`.padStart(2, "0") }}
             </li>
-          </div>
+          </ul>
         </div>
         <div class="time-column-container">
-          <div class="second time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop ref="secs">
+          <ul class="second time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop ref="secs">
             <li :class="{ select: i - 1 === secs }" v-for="i in 60" :key="i" @click="setSecond(i - 1)">
               {{ `${ i - 1 }`.padStart(2, "0")  }}
             </li>
-          </div>
+          </ul>
         </div>
         <div class="time-column-container">
-          <div class="meridiem time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop>
+          <ul class="meridiem time-column" :style="{ right: `-${sbw}px` }" @wheel.passive.stop>
             <li :class="{ select: 'AM' === meri }" @click="setMeridiem('AM')">AM</li>
             <li :class="{ select: 'PM' === meri }" @click="setMeridiem('PM')">PM</li>
-          </div>
+          </ul>
         </div>
       </div>
     </div>
@@ -358,7 +358,7 @@ export default defineComponent({
 
 input {
   box-sizing: border-box;
-  font-family: "Inconsolata";
+  font-family: "Inconsolata", monospace;
   color: #bfbfbf;
   height: 100%;
   width: 100%;
@@ -556,6 +556,8 @@ input:focus {
   position: absolute;
   left: 0;
   height: 100%;
+  margin: 0px;
+  padding: 0px;
   overflow-x: hidden;
 }
 

@@ -201,7 +201,7 @@ p { margin: 0px }
   padding: 7px 8px;
   background: #242424;
   border-right: solid 1px #383838;
-  font-family: "Inconsolata";
+  font-family: "Inconsolata", monospace;
   font-size: 11pt;
   color: #999999;
 }

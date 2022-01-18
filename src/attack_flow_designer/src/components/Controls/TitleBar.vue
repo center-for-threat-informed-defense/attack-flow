@@ -1,20 +1,22 @@
 <template>
   <FocusBox class="title-bar-control" @unfocus="menuClickOut">
-    <li class="icon"><slot name="icon"></slot></li>
-    <li 
+    <ul>
+      <li class="icon"><slot name="icon"></slot></li>
+      <li 
       v-for="menu of menus" :key="menu.id"
       :class="{ focused: menu.id === focusedMenu }"
       @click="menuClickIn(menu.id)"
       @mouseenter="menuMouseEnter(menu.id)"
-    >
+      >
       <p>{{ menu.text }}</p>
       <ContextMenuListing 
-        v-if="menu.id === focusedMenu"
-        class="menu-listing" 
-        :sections="menu.sections"
-        @select="menuSelect"
+          v-if="menu.id === focusedMenu"
+          class="menu-listing" 
+          :sections="menu.sections"
+          @select="menuSelect"
       />
-    </li>
+      </li>
+    </ul>
   </FocusBox> 
 </template>
 
@@ -75,6 +77,11 @@ export default defineComponent({
   list-style: none;
   font-size: 10pt;
   font-weight: 500;
+}
+
+ul {
+  padding: 0px;
+  margin: 0px;
 }
 
 /** === Menu Items === */

@@ -1,7 +1,7 @@
 <template>
   <div class="context-menu-listing-control" :style="offset">
     <input type="file" ref="file" style="display:none" @change="readFile">
-    <div class="section" v-for="section of sections" :key="section.name">
+    <ul class="section" v-for="section of sections" :key="section.name">
       <template v-for="item of section.items" :key="item.id">
         <li 
           v-if="item.type === 'submenu'"
@@ -26,7 +26,7 @@
         </li>
       </template>
       <a class="section-divider"></a>
-    </div>
+    </ul>
   </div>
 </template>
 
@@ -191,6 +191,11 @@ export default defineComponent({
   box-sizing: border-box;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
   background: #333333;
+}
+
+.section {
+  padding: 0px;
+  margin: 0px;
 }
 
 /** === Section Divider === */

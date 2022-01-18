@@ -307,7 +307,7 @@ p { margin: 0px }
 
 .field-name {
   color: #999999;
-  font-family: "Inconsolata";
+  font-family: "Inconsolata", monospace;
   font-size: 11pt;
   padding: 7px 8px;
   border-right: solid 1px #383838;

@@ -8,11 +8,11 @@
       </div>
       <div class="dropdown-arrow">▼</div>
     </div>
-    <div :class="['dropdown-options',`align-${align}`]" v-show="showDropdown" :style="{ marginTop: `${dropMargin}px` }">
+    <ul :class="['dropdown-options',`align-${align}`]" v-show="showDropdown" :style="{ marginTop: `${dropMargin}px` }">
       <li v-for="(option, i) of options" :key="option.text" :class="`align-${align}`" @click.stop="select(i)">
         {{ option[textKey] }}
       </li>
-    </div>
+    </ul>
   </div>
 </template>
 
@@ -86,7 +86,7 @@ export default defineComponent({
   padding: 6px 0px;
 }
 .dropdown-arrow {
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   font-size: 7pt;
   color: #666666;
   padding-right: 10px;
@@ -97,7 +97,7 @@ export default defineComponent({
   width: 100%;
   padding: 0px 8px 0px 12px;
   box-sizing: border-box;
-  font-family: "Inconsolata";
+  font-family: "Inconsolata", monospace;
   color: #bfbfbf;
   font-size: 10pt;
 }
@@ -110,6 +110,7 @@ export default defineComponent({
   padding: 8px;
   background: #0f0f0f;
   border-radius: 3px;
+  margin: 0px;
   box-shadow: 2px 2px 0px 0px rgb(0 0 0 / 30%);
   box-sizing: border-box;
   z-index: 10;
@@ -124,7 +125,7 @@ export default defineComponent({
 .dropdown-options li {
   list-style: none;
   user-select: none;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   font-size: 10pt;
   color: #999999;
   padding: 4px 12px;

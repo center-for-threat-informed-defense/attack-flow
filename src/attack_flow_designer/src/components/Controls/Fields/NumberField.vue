@@ -94,7 +94,7 @@ export default defineComponent({
 input {
   box-sizing: border-box;
   background: none;
-  font-family: "Inconsolata";
+  font-family: "Inconsolata", monospace;
   border: none;
   color: #bfbfbf;
   height: 100%;
@@ -114,7 +114,7 @@ input:focus {
 .increment-arrows {
   display: flex;
   flex-direction: column;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   font-size: 7pt;
   color: #666666;
   padding-right: 8px;

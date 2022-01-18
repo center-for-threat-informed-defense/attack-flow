@@ -39,7 +39,7 @@ export default defineComponent({
 input {
   box-sizing: border-box;
   background: none;
-  font-family: "Inconsolata";
+  font-family: "Inconsolata", monospace;
   border: none;
   color: #bfbfbf;
   height: 100%;

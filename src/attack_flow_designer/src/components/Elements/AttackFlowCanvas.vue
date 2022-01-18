@@ -823,7 +823,6 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #000;
   border-radius: 3px;
   border: solid 1px #1f1f1f;
   box-sizing: border-box;
