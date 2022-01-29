@@ -105,12 +105,12 @@
             "target": "http://flow-1/asset-4"
         }
     ],
-    "object_properties": [],
-    "data_properties": [
+    "object_properties": [
         {
-            "source": "http://flow-1/action-5",
-            "type": "http://flow-1#modifies",
-            "target": "Base64 Obfuscated"
+        "source": "http://flow-1/action-5",
+        "type": "http://flow-1#modifies",
+        "target": "Base64 Obfuscated"
         }
-    ]
+    ],
+    "data_properties": []
 }
