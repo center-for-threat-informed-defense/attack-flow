@@ -2,7 +2,7 @@
     "$schema": "../schema/attack-flow-2022-01-05-draft.json",
     "flow": {
         "type": "attack-flow",
-        "id": "https://h-isac.org/cyber-threat-actors-leveraging-right-to-left-override-rtlo-in-recent-attacks/",
+        "id": "http://flow-1",
         "name": "Right to Left Override (RTLO)",
         "author": "Eric Kannampuzha",
         "created": "2022-01-26T14:47:53-08:00"
@@ -105,12 +105,12 @@
             "target": "http://flow-1/asset-4"
         }
     ],
-    "object_properties": [
+    "object_properties": [],
+    "data_properties": [
         {
-        "source": "http://flow-1/action-5",
-        "type": "http://flow-1#modifies",
-        "target": "Base64 Obfuscated"
+            "source": "http://flow-1/action-5",
+            "type": "http://flow-1#state",
+            "target": "Base64 Obfuscated"
         }
-    ],
-    "data_properties": []
+    ]
 }
