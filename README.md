@@ -1,15 +1,19 @@
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow/branch/main/graph/badge.svg?token=MSGpc9mM6U)](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow)
 
 # Attack Flow
-Attack Flow helps executives, SOC managers, and defenders easily understand how attackers compose adversary techniques into attacks by developing a representation of attack flows, modeling attack flows for a small corpus of incidents, and creating visualization tools to display attack flows.
+The Attack Flow project helps defenders move from tracking adversary behaviors individually to the sequence of techniques adversaries use to achieve their goals. Understanding the context within those sequences, as well as the relationships among them, enables additional defensive capabilities that make defenders much more effective. 
 
-At the end of the project, the visualization tools will demonstrate how attack flows will help security leaders explain defensive posture to executives, help defenders understand lessons-learned in an incident, and help red-teamers easily compose realistic adversary emulation scenarios.
+At a high level, Attack Flow is a machine-readable representation of a sequence of actions and assets along with knowledge properties about those actions and assets. This representation is composed of five main objects: the *flow* itself, a list of *actions*, a list of *assets*, a list of knowledge *properties*, and a list of causal *relationships* between the actions and assets. Each of these five objects includes a set of *required* and *optional* fields. Attack Flow uses MITRE ATT&CK to describe specific adversary behaviors.
 
-Resources:
-* [Attack Flow Specification](/docs/attack-flow-schema.md)
-* [Attack Flow JSON Schema](/schema/attack-flow-2022-01-05-draft.json)
-* [Attack Flow JSON Example Document](/schema/attack-flow-example.json)
-* Attack Flow Designer: A GUI tool for building Attack Flows. (See "Getting Started".)
+## Resources
+The below resources demonstrate how attack flows can explain defensive posture to executives, aid defenders understand lessons-learned from an incident, and support red-teamers easily compose realistic adversary emulation scenarios.
+
+| Resource | Description |
+|----------|-------------|
+| [Attack Flow Specification](/docs/attack-flow-schema.md) | An overview of the Attack Flow format and corresponding data dictionary. |
+| [Attack Flow JSON Schema](/schema/attack-flow-2022-01-05-draft.json) | The JSON of the Attack Flow schema. |
+| [Attack Flow JSON Example Document](/schema/attack-flow-example.json) | A JSON example of an Attack Flow. |
+| Attack Flow Designer | A GUI tool for building Attack Flows. (See "Getting Started" below)|
 
 ## Getting Started
 Once you familiarize yourself with [the Attack Flow specification](/docs/attack-flow-schema.md), try using the
