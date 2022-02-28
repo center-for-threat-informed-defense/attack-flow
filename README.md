@@ -1,12 +1,11 @@
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow/branch/main/graph/badge.svg?token=MSGpc9mM6U)](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow)
 
 # Attack Flow
-The Attack Flow project helps defenders move from tracking adversary behaviors individually to the sequence of techniques adversaries use to achieve their goals. Understanding the context within those sequences, as well as the relationships among them, enables additional defensive capabilities that make defenders much more effective. 
+The Attack Flow project helps defenders move from tracking adversary behaviors individually to the sequence of techniques adversaries use to achieve their goals. Understanding the context within those sequences, as well as the relationships among them, enables additional defensive capabilities that make defenders much more effective. The project seeks to demonstrate how attack flows can explain defensive posture to executives, aid defenders understand lessons-learned from an incident, and support red-teamers easily compose realistic adversary emulation scenarios.
 
-At a high level, Attack Flow is a machine-readable representation of a sequence of actions and assets along with knowledge properties about those actions and assets. This representation is composed of five main objects: the *flow* itself, a list of *actions*, a list of *assets*, a list of knowledge *properties*, and a list of causal *relationships* between the actions and assets. Each of these five objects includes a set of *required* and *optional* fields. Attack Flow uses MITRE ATT&CK to describe specific adversary behaviors.
 
 ## Resources
-The below resources demonstrate how attack flows can explain defensive posture to executives, aid defenders understand lessons-learned from an incident, and support red-teamers easily compose realistic adversary emulation scenarios.
+
 
 | Resource | Description |
 |----------|-------------|
@@ -16,6 +15,8 @@ The below resources demonstrate how attack flows can explain defensive posture t
 | Attack Flow Designer | A GUI tool for building Attack Flows. (See "Getting Started" below)|
 
 ## Getting Started
+At a high level, Attack Flow is a machine-readable representation of a sequence of actions and assets along with knowledge properties about those actions and assets. This representation is composed of five main objects: the *flow* itself, a list of *actions*, a list of *assets*, a list of knowledge *properties*, and a list of causal *relationships* between the actions and assets. Each of these five objects includes a set of *required* and *optional* fields. Attack Flow uses MITRE ATT&CK to describe specific adversary behaviors.
+
 Once you familiarize yourself with [the Attack Flow specification](/docs/attack-flow-schema.md), try using the
 Attack Flow Designer GUI to view or create your own Attack Flow. To get started:
 
