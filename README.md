@@ -3,9 +3,7 @@
 # Attack Flow
 The Attack Flow project helps defenders move from tracking adversary behaviors individually to the sequence of techniques adversaries use to achieve their goals. Understanding the context within those sequences, as well as the relationships among them, enables additional defensive capabilities that make defenders much more effective. The project seeks to demonstrate how attack flows can explain defensive posture to executives, aid defenders understand lessons-learned from an incident, and support red-teamers easily compose realistic adversary emulation scenarios.
 
-
 ## Resources
-
 
 | Resource | Description |
 |----------|-------------|
@@ -45,6 +43,13 @@ There are several ways that you can get involved with this project and help adva
 Please submit issues for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
 
 Also see the guidance for contributors if are you interested in contributing or simply reporting issues.
+
+## How Do I Contribute?
+We welcome your feedback and contributions to help advance Attack Flow. Please see the guidance for
+contributors if are you interested in [contributing or simply reporting issues.](/CONTRIBUTING.md)
+
+Please submit [issues](https://github.com/center-for-threat-informed-defense/attack-flow/issues) for any
+technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
 
 ## Notice
 Copyright 2021 MITRE Engenuity. Approved for public release. Document number CT0040
