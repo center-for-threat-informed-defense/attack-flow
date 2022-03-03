@@ -1,7 +1,7 @@
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow/branch/main/graph/badge.svg?token=MSGpc9mM6U)](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow)
 
 # Attack Flow
-The Attack Flow project helps defenders move from tracking adversary behaviors individually to the sequence of techniques adversaries use to achieve their goals. Understanding the context within those sequences, as well as the relationships among them, enables additional defensive capabilities that make defenders much more effective. The project seeks to demonstrate how attack flows can explain defensive posture to executives, aid defenders understand lessons-learned from an incident, and support red-teamers easily compose realistic adversary emulation scenarios.
+The Attack Flow project helps defenders move from tracking adversary behaviors individually to the sequence of techniques adversaries use to achieve their goals. Understanding the context within those sequences, as well as the relationships among them, enables additional defensive capabilities that make defenders much more effective. The project seeks to demonstrate how attack flows can explain defensive posture to executives, aid defenders to understand lessons-learned from an incident, and support red-teamers to easily compose realistic adversary emulation scenarios.
 
 ## Resources
 
