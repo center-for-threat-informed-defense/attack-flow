@@ -37,7 +37,7 @@ Attack Flow Designer GUI to view or create your own Attack Flow. To get started:
 There are several ways that you can get involved with this project and help advance threat-informed defense: 
 - **Review the schema, use the builder, and tell us what you think.**  We welcome your review and feedback on the data model and our methodology.
 - **Help us prioritize additional example flows to create.** Let us know what examples you would like to turned into an Attack Flow. Your input will help us prioritize how we expand our corpus.
-- **Share your use cases.** We are interested in developing additional tools and resources to help the community understand and make threat-informed decisions in their risk management programs. If you have ideas or suggestions, we consider them as explore additional research projects. 
+- **Share your use cases.** We are interested in developing additional tools and resources to help the community understand and make threat-informed decisions in their risk management programs. If you have ideas or suggestions, we consider them as we explore additional research projects. 
 
 ## Questions and Feedback
 Please submit issues for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
