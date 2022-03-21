@@ -21,7 +21,7 @@ Attack Flow Designer GUI to view or create your own Attack Flow. To get started:
 1. Go to the [release page](https://github.com/center-for-threat-informed-defense/attack-flow/releases) and
    download `attack_flow_designer.zip` as well as `corpus.zip`.
 2. Unzip these two files.
-3. In the `attack_flow_builder` directory, double click on `index.html` to open it in a web browser.
+3. In the `attack_flow_designer` directory, double click on `index.html` to open it in a web browser.
 4. Inside the Attack Flow Designer, go to File → Open Attack Flow. Navigate to the `corpus` directory and
    open one of the `*.afd` files.
 5. To create your own Attack Flow, refresh the page. Right-click in the Attack Flow workspace to create a
@@ -35,7 +35,7 @@ Attack Flow Designer GUI to view or create your own Attack Flow. To get started:
 
 ## Getting Involved
 There are several ways that you can get involved with this project and help advance threat-informed defense: 
-- **Review the schema, use the builder, and tell us what you think.**  We welcome your review and feedback on the data model and our methodology.
+- **Review the schema, use the designer, and tell us what you think.**  We welcome your review and feedback on the data model and our methodology.
 - **Help us prioritize additional example flows to create.** Let us know what examples you would like to turned into an Attack Flow. Your input will help us prioritize how we expand our corpus.
 - **Share your use cases.** We are interested in developing additional tools and resources to help the community understand and make threat-informed decisions in their risk management programs. If you have ideas or suggestions, we consider them as we explore additional research projects. 
 
