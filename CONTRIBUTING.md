@@ -6,7 +6,7 @@ Thanks for contributing to Attack Flow!
 
 You are welcome to comment on issues, open new issues, and open pull requests.
 
-Pull requests should target the **main** branch of the repository.
+Pull requests should target the **main** branch of the repository, and should pass all tests.
 
 Also, if you contribute any source code, we need you to agree to the following Developer's Certificate of
 Origin below.
