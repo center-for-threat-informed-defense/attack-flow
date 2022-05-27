@@ -1,1 +1,0 @@
-jsonschema[format]~=4.1

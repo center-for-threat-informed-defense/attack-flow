@@ -133,3 +133,5 @@ dmypy.json
 
 # MacOS
 .DS_Store
+
+TODO.*

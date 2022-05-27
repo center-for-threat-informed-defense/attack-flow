@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "attack-flow"
+version = "1.0.0"
+description = "Attack Flow helps executives, SOC managers, and defenders easily understand how attackers compose ATT&CK techniques into attacks by developing a representation of attack flows, modeling attack flows for a small corpus of incidents, and creating visualization tools to display attack flows."
+authors = [
+    "Desiree Beck <dbeck@mitre.org>",
+    "Jackie Lasky <jlasky@mitre.org>",
+    "Lauren Parker <lparker@mitre.org>",
+    "Mark Haase <mhaase@mitre.org>",
+    "Mia Sanchez <msanchez@mitre.org>",
+    "Michael Carenzo <mcarenzo@mitre.org>",
+    "Ron Alford <ralford@mitre.org>",
+]
+packages = [
+    { include = "attack_flow", from = "src" },
+]
+license = "Apache"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+jsonschema = {version = "~=4.1", extras = ["format"]}
+Sphinx = "^4.5.0"
+sphinx-autobuild = "^2021.3.14"
+
+[tool.poetry.dev-dependencies]
+bandit = "1.7.0"
+pytest = "^7.1.2"
+pytest-cov = "2.11.1"
+pytest-flake8 = "1.0.7"
+flake8 = "3.9.2"
+pytest-mock = "3.5.1"
+safety = "1.10.3"
+sphinx-rtd-theme = "^1.0.0"
+black = "^22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -14,19 +14,17 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
+    - name: Install Poetry
+      run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements/test-requirements.txt
-        pip install -r requirements/requirements.txt
+      run: poetry install
     - name: Test and lint with pytest
-      run: |
-        pytest --cov=src/ --cov-report=xml --flake8
+      run: poetry run pytest --cov=src/ --cov-report=xml --flake8
     - name: Validate Corpus
       env:
         PYTHONPATH: src/
       run: |
-        python -m attack_flow.scripts.validate_doc \
+        poetry run python -m attack_flow.scripts.validate_doc \
           schema/attack-flow-2022-01-05-draft.json \
           schema/attack-flow-example.json \
           corpus/*.json
@@ -38,7 +36,7 @@ jobs:
         verbose: true
     - name: Bandit Security Check
       run: |
-        bandit -r src/ -ll -ii
+        poetry run bandit -r src/ -ll -ii
     - name: Safety Vulnerability Check
       run: |
-        safety check --file requirements/requirements.txt
+        poetry run safety check --file requirements/requirements.txt
