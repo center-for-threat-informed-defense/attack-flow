@@ -1,6 +1,10 @@
 Overview
 ========
 
+..
+  Whenever you update overview.rst, also look at README.md and consider whether
+  you should make a corresponding update there.
+
 Introduction
 ------------
 

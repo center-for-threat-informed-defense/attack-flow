@@ -47,12 +47,18 @@ body {
     }
 }
 
+strong {
+    background-color: var(--me-core-yellow);
+    padding: 5px;
+}
+
 /* Anchor styles */
 
 .wy-nav-content a,
 .wy-nav-content a:active,
 .wy-nav-content a:visited {
     color: var(--me-core-purple);
+    font-weight: bold;
 }
 
 .wy-nav-content a:hover {

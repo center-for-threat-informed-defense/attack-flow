@@ -60,10 +60,8 @@ html_show_sourcelink = False
 html_show_sphinx = False
 
 html_theme_options = {
-    "analytics_id": "G-XXXXXXXXXX",  #  Provided by Google in your dashboard
-    #     "logo_only": False,
-    #     "display_version": True,
-    #     "prev_next_buttons_location": "bottom",
+    # "analytics_id": "G-XXXXXXXXXX", TODO
+    "logo_only": True,
+    "prev_next_buttons_location": "top",
     "style_external_links": True,
-    #     "vcs_pageview_mode": "",
 }

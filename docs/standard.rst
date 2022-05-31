@@ -4,7 +4,7 @@ Standard
 Overview
 --------
 
-Attack Flow represents the linkage of adversary behavior for a given attack
+Attack Flow *represents* the linkage of adversary **behavior** for a given attack
 flow. The type, description, and required attributes of each field are provided
 in the subsequent sections along with an example.
 
