@@ -41,4 +41,4 @@ jobs:
         poetry run bandit -r src/ -ll -ii
     - name: Safety Vulnerability Check
       run: |
-        poetry run safety check --file requirements/requirements.txt
+        poetry export -f requirements.txt | poetry run safety check --stdin
