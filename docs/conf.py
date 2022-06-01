@@ -62,6 +62,5 @@ html_show_sphinx = False
 html_theme_options = {
     # "analytics_id": "G-XXXXXXXXXX", TODO
     "logo_only": True,
-    "prev_next_buttons_location": "top",
     "style_external_links": True,
 }

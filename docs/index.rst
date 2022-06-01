@@ -9,6 +9,7 @@ Attack Flow Documentation
     example_flows
     builder
     standard
+    best_practices
     developers
     theme
 
