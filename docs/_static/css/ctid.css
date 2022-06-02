@@ -98,14 +98,18 @@ strong {
 
 /* Admonition styles */
 
-.admonition.attention {
-    background-color: var(--me-ext-yellow-highlighter);
+.admonition {
+    background-color: var(--me-core-gray-light) !important;
     color: var(--text-color);
 }
 
-.admonition.attention a,
-.admonition.attention a.reference.external:after {
-    color: var(--text-color);
+.admonition .admonition-title {
+    padding: 0.8em 1em !important;
+}
+
+.admonition a,
+.admonition a.reference.external:after {
+    color: var(--text-color) !important;
 }
 
 .admonition.attention .admonition-title {
@@ -113,93 +117,31 @@ strong {
     color: var(--text-color);
 }
 
-.admonition.caution,
-.admonition.warning {
+.admonition.caution .admonition-title,
+.admonition.warning .admonition-title {
     background-color: var(--me-ext-orange-highlighter);
     color: var(--text-color);
 }
 
-.admonition.caution a,
-.admonition.caution a.reference.external:after,
-.admonition.warning a,
-.admonition.warning a.reference.external:after {
-    color: var(--text-color);
-}
-
-.admonition.caution .admonition-title,
-.admonition.warning .admonition-title {
-    background-color: var(--me-ext-orange-dark);
-    color: var(--text-color);
-}
-
-.admonition.danger,
-.admonition.error {
+.admonition.danger .admonition-title,
+.admonition.error .admonition-title {
     background-color: var(--me-ext-cranberry-highlighter);
     color: var(--text-color-inverse);
 }
 
-.admonition.danger a,
-.admonition.danger a.reference.external:after,
-.admonition.error a,
-.admonition.error a.reference.external:after {
-    color: var(--text-color-inverse);
-}
-
-.admonition.danger .admonition-title,
-.admonition.error .admonition-title {
-    background-color: var(--me-ext-cranberry-dark);
-    color: var(--text-color-inverse);
-}
-
-.admonition.important {
+.admonition.important .admonition-title {
     background-color: var(--me-ext-gray-green);
     color: var(--text-color-inverse);
 }
 
-.admonition.important a,
-.admonition.important a.reference.external:after {
-    color: var(--text-color-inverse);
-}
-
-.admonition.important .admonition-title {
-    background-color: var(--me-ext-gray-green-dark);
-    color: var(--text-color-inverse);
-}
-
-.admonition.hint,
-.admonition.tip {
-    background-color: var(--me-ext-navy);
-    color: #ffffff;
-}
-
-.admonition.hint a,
-.admonition.hint a.reference.external:after,
-.admonition.tip a,
-.admonition.tip a.reference.external:after {
-    color: #ffffff;
-}
-
 .admonition.hint .admonition-title,
 .admonition.tip .admonition-title {
-    background-color: var(--me-ext-navy-dark);
-    color: #ffffff;
-}
-
-.admonition.note,
-.admonition.seealso {
     background-color: var(--me-ext-blue);
-    color: #ffffff;
-}
-
-.admonition.note a,
-.admonition.note a.reference.external:after,
-.admonition.seealso a,
-.admonition.seealso a.reference.external:after {
-    color: #ffffff;
+    color: var(--text-color-inverse);
 }
 
 .admonition.note .admonition-title,
 .admonition.seealso .admonition-title {
-    background-color: var(--me-ext-blue-dark);
-    color: #ffffff;
+    background-color: var(--me-ext-teal-highlighter);
+    color: var(--text-color);
 }

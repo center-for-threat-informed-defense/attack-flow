@@ -35,7 +35,8 @@ def test_convert_attack_flow_to_dot():
         ],
     }
     output = attack_flow.graphviz.convert(flow)
-    assert output == dedent('''\
+    assert output == dedent(
+        """\
         digraph {
           node [shape=box,style="rounded,filled,fixedsize=true,width=2,height=1"]
 
@@ -47,7 +48,8 @@ def test_convert_attack_flow_to_dot():
 
 
 
-        }''')
+        }"""
+    )
 
 
 def test_convert_complex_attack_flow_to_dot():
@@ -57,7 +59,7 @@ def test_convert_complex_attack_flow_to_dot():
             "id": "flow-1",
             "name": "Attack Flow Export",
             "author": "Unspecified",
-            "created": "2022-01-14T13:59:42-05:00"
+            "created": "2022-01-14T13:59:42-05:00",
         },
         "actions": [
             {
@@ -69,7 +71,7 @@ def test_convert_complex_attack_flow_to_dot():
                 "succeeded": 1,
                 "confidence": 1,
                 "logic_operator_language": "",
-                "logic_operator": "AND"
+                "logic_operator": "AND",
             },
             {
                 "id": "flow-1/action-11",
@@ -80,7 +82,7 @@ def test_convert_complex_attack_flow_to_dot():
                 "succeeded": 1,
                 "confidence": 1,
                 "logic_operator_language": "",
-                "logic_operator": "AND"
+                "logic_operator": "AND",
             },
             {
                 "id": "flow-1/action-12",
@@ -91,7 +93,7 @@ def test_convert_complex_attack_flow_to_dot():
                 "succeeded": 1,
                 "confidence": 0,
                 "logic_operator_language": "",
-                "logic_operator": "AND"
+                "logic_operator": "AND",
             },
             {
                 "id": "flow-1/action-17",
@@ -102,7 +104,7 @@ def test_convert_complex_attack_flow_to_dot():
                 "succeeded": 1,
                 "confidence": 1,
                 "logic_operator_language": "",
-                "logic_operator": "AND"
+                "logic_operator": "AND",
             },
             {
                 "id": "flow-1/action-18",
@@ -113,7 +115,7 @@ def test_convert_complex_attack_flow_to_dot():
                 "succeeded": 1,
                 "confidence": 0,
                 "logic_operator_language": "",
-                "logic_operator": "AND"
+                "logic_operator": "AND",
             },
             {
                 "id": "flow-1/action-23",
@@ -124,245 +126,206 @@ def test_convert_complex_attack_flow_to_dot():
                 "succeeded": 1,
                 "confidence": 0,
                 "logic_operator_language": "",
-                "logic_operator": "AND"
-            }
+                "logic_operator": "AND",
+            },
         ],
         "assets": [
-            {
-                "id": "flow-1/asset-1",
-                "type": "asset",
-                "state": "compromised"
-            },
-            {
-                "id": "flow-1/asset-7",
-                "type": "asset",
-                "state": "compromised"
-            },
-            {
-                "id": "flow-1/asset-9",
-                "type": "asset",
-                "state": "compromised"
-            },
-            {
-                "id": "flow-1/asset-13",
-                "type": "asset",
-                "state": "compromised"
-            },
-            {
-                "id": "flow-1/asset-15",
-                "type": "asset",
-                "state": "compromised"
-            },
-            {
-                "id": "flow-1/asset-19",
-                "type": "asset",
-                "state": "compromised"
-            },
-            {
-                "id": "flow-1/asset-21",
-                "type": "asset",
-                "state": "compromised"
-            },
-            {
-                "id": "flow-1/asset-24",
-                "type": "asset",
-                "state": "compromised"
-            }
+            {"id": "flow-1/asset-1", "type": "asset", "state": "compromised"},
+            {"id": "flow-1/asset-7", "type": "asset", "state": "compromised"},
+            {"id": "flow-1/asset-9", "type": "asset", "state": "compromised"},
+            {"id": "flow-1/asset-13", "type": "asset", "state": "compromised"},
+            {"id": "flow-1/asset-15", "type": "asset", "state": "compromised"},
+            {"id": "flow-1/asset-19", "type": "asset", "state": "compromised"},
+            {"id": "flow-1/asset-21", "type": "asset", "state": "compromised"},
+            {"id": "flow-1/asset-24", "type": "asset", "state": "compromised"},
         ],
         "relationships": [
             {
                 "source": "flow-1/asset-1",
                 "type": "flow-1#state",
-                "target": "flow-1/action-3"
+                "target": "flow-1/action-3",
             },
             {
                 "source": "flow-1/action-3",
                 "type": "flow-1#state-change",
-                "target": "flow-1/asset-7"
+                "target": "flow-1/asset-7",
             },
             {
                 "source": "flow-1/action-3",
                 "type": "flow-1#state-change",
-                "target": "flow-1/asset-9"
+                "target": "flow-1/asset-9",
             },
             {
                 "source": "flow-1/asset-7",
                 "type": "flow-1#state",
-                "target": "flow-1/action-11"
+                "target": "flow-1/action-11",
             },
             {
                 "source": "flow-1/asset-9",
                 "type": "flow-1#state",
-                "target": "flow-1/action-12"
+                "target": "flow-1/action-12",
             },
             {
                 "source": "flow-1/action-11",
                 "type": "flow-1#state-change",
-                "target": "flow-1/asset-13"
+                "target": "flow-1/asset-13",
             },
             {
                 "source": "flow-1/action-12",
                 "type": "flow-1#state-change",
-                "target": "flow-1/asset-15"
+                "target": "flow-1/asset-15",
             },
             {
                 "source": "flow-1/asset-13",
                 "type": "flow-1#state",
-                "target": "flow-1/action-17"
+                "target": "flow-1/action-17",
             },
             {
                 "source": "flow-1/asset-15",
                 "type": "flow-1#state",
-                "target": "flow-1/action-18"
+                "target": "flow-1/action-18",
             },
             {
                 "source": "flow-1/action-17",
                 "type": "flow-1#state-change",
-                "target": "flow-1/asset-19"
+                "target": "flow-1/asset-19",
             },
             {
                 "source": "flow-1/action-18",
                 "type": "flow-1#state-change",
-                "target": "flow-1/asset-21"
+                "target": "flow-1/asset-21",
             },
             {
                 "source": "flow-1/asset-21",
                 "type": "flow-1#state",
-                "target": "flow-1/action-23"
+                "target": "flow-1/action-23",
             },
             {
                 "source": "flow-1/action-23",
                 "type": "flow-1#state-change",
-                "target": "flow-1/asset-24"
+                "target": "flow-1/asset-24",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/action-3"
+                "target": "flow-1/action-3",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/action-11"
+                "target": "flow-1/action-11",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/action-12"
+                "target": "flow-1/action-12",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/action-17"
+                "target": "flow-1/action-17",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/action-18"
+                "target": "flow-1/action-18",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/action-23"
+                "target": "flow-1/action-23",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-1"
+                "target": "flow-1/asset-1",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-7"
+                "target": "flow-1/asset-7",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-9"
+                "target": "flow-1/asset-9",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-13"
+                "target": "flow-1/asset-13",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-15"
+                "target": "flow-1/asset-15",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-19"
+                "target": "flow-1/asset-19",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-21"
+                "target": "flow-1/asset-21",
             },
             {
                 "source": "flow-1",
                 "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-24"
-            }
+                "target": "flow-1/asset-24",
+            },
         ],
         "object_properties": [],
         "data_properties": [
             {
                 "source": "flow-1/asset-1",
                 "type": "flow-1#description",
-                "target": "Kubernetes Dashboard"
+                "target": "Kubernetes Dashboard",
             },
-            {
-                "source": "flow-1/asset-1",
-                "type": "flow-1#state",
-                "target": "exposed"
-            },
-            {
-                "source": "flow-1/asset-1",
-                "type": "flow-1#state",
-                "target": "unsecured"
-            },
+            {"source": "flow-1/asset-1", "type": "flow-1#state", "target": "exposed"},
+            {"source": "flow-1/asset-1", "type": "flow-1#state", "target": "unsecured"},
             {
                 "source": "flow-1/asset-7",
                 "type": "flow-1#description",
-                "target": "Kubernetes Cluster"
+                "target": "Kubernetes Cluster",
             },
             {
                 "source": "flow-1/asset-9",
                 "type": "flow-1#description",
-                "target": "Kubernetes Admin Priv"
+                "target": "Kubernetes Admin Priv",
             },
             {
                 "source": "flow-1/asset-13",
                 "type": "flow-1#description",
-                "target": "Kubernetes Container"
+                "target": "Kubernetes Container",
             },
             {
                 "source": "flow-1/asset-15",
                 "type": "flow-1#description",
-                "target": "AWS Credentials"
+                "target": "AWS Credentials",
             },
             {
                 "source": "flow-1/asset-19",
                 "type": "flow-1#description",
-                "target": "Cryptocurrency"
+                "target": "Cryptocurrency",
             },
             {
                 "source": "flow-1/asset-21",
                 "type": "flow-1#description",
-                "target": "AWS Access"
+                "target": "AWS Access",
             },
             {
                 "source": "flow-1/asset-24",
                 "type": "flow-1#description",
-                "target": "Data"
-            }
-        ]
+                "target": "Data",
+            },
+        ],
     }
 
     output = attack_flow.graphviz.convert(flow)
-    assert output == dedent('''\
+    assert output == dedent(
+        """\
         digraph {
           node [shape=box,style="rounded,filled,fixedsize=true,width=2,height=1"]
 
@@ -401,7 +364,8 @@ def test_convert_complex_attack_flow_to_dot():
 
           "flow-1/asset-1-exposed-state" -> "flow-1/asset-1" [dir=none,style=dashed]
           "flow-1/asset-1-unsecured-state" -> "flow-1/asset-1" [dir=none,style=dashed]
-        }''')  # noqa: E501
+        }"""
+    )  # noqa: E501
 
 
 def test_align_node_label_one_liner():
@@ -409,8 +373,14 @@ def test_align_node_label_one_liner():
 
 
 def test_align_node_label_multiline():
-    assert attack_flow.graphviz.align_node_label("multi liner label example", width=15) == "multi liner\\nlabel example"
+    assert (
+        attack_flow.graphviz.align_node_label("multi liner label example", width=15)
+        == "multi liner\\nlabel example"
+    )
 
 
 def test_align_node_label_string_escaping():
-    assert attack_flow.graphviz.align_node_label("a \"tricky\" example") == 'a \\"tricky\\" example'
+    assert (
+        attack_flow.graphviz.align_node_label('a "tricky" example')
+        == 'a \\"tricky\\" example'
+    )

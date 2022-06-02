@@ -121,7 +121,15 @@ look something like this:
 Generate schema documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO
+The Attack Flow Library can convert the JSON schema file into human-readable documentation
+and insert it into ``standard.rst``.
+
+.. code:: bash
+
+    $ af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
+
+This is automatically done at build time when publishing documentation, but you may want
+to run this locally while modifying the JSON schema.
 
 Build documentation
 ~~~~~~~~~~~~~~~~~~~
@@ -204,5 +212,4 @@ an XML file.
 Attack Flow Builder
 -------------------
 
-asdf
-
+TODO in AF-28
