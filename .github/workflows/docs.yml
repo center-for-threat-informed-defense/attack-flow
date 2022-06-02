@@ -23,7 +23,7 @@ jobs:
     - name: Generate schema docs
       run: poetry run af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
     - name: Build HTML docs
-      run: poetry run sphinx-build -M html d docs/_build -W --keep-going
+      run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
     - name: Upload HTML docs
       uses: actions/upload-artifact@v3
       with:
@@ -38,3 +38,21 @@ jobs:
       with:
         name: attack_flow_docs_pdf
         path: docs/_build/latex/attackflow.pdf
+
+  deploy_gh_pages:
+    # This job only runs when committing or merging to main branch.
+    if: github.ref_name == 'main'
+    needs: build_docs
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download HTML docs
+      uses: actions/download-artifact@v3
+      with:
+        name: attack_flow_docs_html
+        path: docs
+    - name: Publish to GitHub pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
