@@ -1,0 +1,38 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install TeX Live
+      run: apt install -y texlive
+    - name: Install Poetry
+      run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+    - name: Add Poetry to PATH
+      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+    - name: Install Dependencies
+      run: poetry install
+    - name: Build HTML Docs
+      run: poetry run sphinx-build -M html -W docs/ docs/_build/
+    - name: Upload HTML Docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_docs_html
+        path: docs/_build/html/
+    - name: Build PDF Docs
+      run: poetry run sphinx-build -M latexpdf -W docs/ docs/_build/
+    - name: Upload PDF Docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_docs_pdf
+        path: docs/_build/latex/attackflow.pdf

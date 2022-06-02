@@ -4,19 +4,17 @@ Tools for working with the Attack Flow schema.
 import json
 from collections import OrderedDict
 from datetime import datetime
-import html
-from pathlib import Path
 import re
 import string
-import sys
+import textwrap
 
 from jsonschema import validate as validate_schema, draft202012_format_checker
 
 
-ROOT_NODE = '__root__'
-NON_ALPHA = re.compile('[^a-zA-Z0-9]')
-START_TAG = re.compile('<!--JSON_SCHEMA.*-->')
-END_TAG = re.compile('<!--/JSON_SCHEMA-->')
+ROOT_NODE = "__root__"
+NON_ALPHA = re.compile(r"[^a-zA-Z0-9]")
+START_TAG = re.compile(r"\.\. JSON_SCHEMA")
+END_TAG = re.compile(r"\.\. /JSON_SCHEMA")
 
 
 def validate_docs(schema_doc, attack_flow_docs):
@@ -43,8 +41,11 @@ def validate_docs(schema_doc, attack_flow_docs):
             attack_flow_json = json.load(attack_flow_file)
 
         try:
-            validate_schema(instance=attack_flow_json, schema=schema_json,
-                            format_checker=draft202012_format_checker)
+            validate_schema(
+                instance=attack_flow_json,
+                schema=schema_json,
+                format_checker=draft202012_format_checker,
+            )
             validate_rules(attack_flow_json)
             exceptions.append(None)
         except Exception as e:
@@ -58,6 +59,7 @@ class InvalidRelationshipsError(Exception):
     This class indicates an attack flow relationship has a source or target ID
     that is invalid.
     """
+
     def __init__(self, errors):
         """
         Constructor
@@ -68,7 +70,7 @@ class InvalidRelationshipsError(Exception):
 
     def __str__(self):
         """Print errors as a formatted list."""
-        return '\n'.join("- {}".format(e) for e in self.errors)
+        return "\n".join("- {}".format(e) for e in self.errors)
 
 
 def validate_rules(attack_flow):
@@ -90,12 +92,16 @@ def validate_rules(attack_flow):
     for relationship in attack_flow["relationships"]:
         if relationship["source"] not in object_ids:
             invalid.append(
-                'Relationship source ID "{}" does not exist.'
-                .format(relationship["source"]))
+                'Relationship source ID "{}" does not exist.'.format(
+                    relationship["source"]
+                )
+            )
         if relationship["target"] not in object_ids:
             invalid.append(
-                'Relationship target ID "{}" does not exist.'
-                .format(relationship["target"]))
+                'Relationship target ID "{}" does not exist.'.format(
+                    relationship["target"]
+                )
+            )
 
     if invalid:
         raise InvalidRelationshipsError(invalid)
@@ -105,49 +111,47 @@ class SchemaProperty:
     """
     Helper class for properties of schema objects.
     """
+
     def __init__(self, name, required, property_dict):
         self.name = name
-        self.type = property_dict['type']
-        if self.type == 'array':
-            self.subtype = property_dict['items']['type']
+        self.type = property_dict["type"]
+        if self.type == "array":
+            self.subtype = property_dict["items"]["type"]
         else:
-            self.subtype = ''
-        self.description = property_dict['description']
-        self.format = property_dict.get('format', '')
-        self.pattern = property_dict.get('pattern', '')
-        self.enum = property_dict.get('enum', '')
+            self.subtype = ""
+        self.description = property_dict["description"]
+        self.format = property_dict.get("format", "")
+        self.pattern = property_dict.get("pattern", "")
+        self.enum = property_dict.get("enum", "")
         self.required = required
 
     @property
-    def html_type(self):
-        """ Return type field formatted as HTML. """
-        if self.type == 'array':
-            if self.subtype == 'object':
-                subtype_html = f'<a href="#{anchor(self.name)}">' + \
-                   f'{html.escape(self.name)}</a>'
+    def type_markup(self):
+        """Return object type markup."""
+        if self.type == "array":
+            if self.subtype == "object":
+                subtype_html = make_ref(self.name)
             else:
                 subtype_html = self.subtype
-            return f'{html.escape(self.type)} of {subtype_html}'
-        elif self.type == 'object':
-            subtype_html = f'<a href="#{anchor(self.name)}">' + \
-                   f'{html.escape(self.name)}</a>'
-            return f'{subtype_html} object'
+            return f"{self.type} of {subtype_html}"
+        elif self.type == "object":
+            return make_ref(self.name)
         elif self.enum:
-            return 'enum'
+            return "enum"
         elif self.format:
-            return html.escape(self.format)
+            return self.format
         else:
-            return html.escape(self.type)
+            return self.type
 
     @property
-    def html_description(self):
-        """ Return description formatted as HTML. """
-        description = html.escape(self.description)
-        if self.format == 'date-time':
-            description += ' (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)'
+    def description_markup(self):
+        """Render description markup."""
+        description = self.description
+        if self.format == "date-time":
+            description += " (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)"
         if self.enum:
-            quoted_vals = ', '.join(f'"{v}"' for v in self.enum)
-            description += f' (Enum values: {quoted_vals})'
+            quoted_vals = ", ".join(f'"{v}"' for v in self.enum)
+            description += f" (Enum values: {quoted_vals})"
         return description
 
 
@@ -162,8 +166,8 @@ def generate_schema_docs(schema_doc, old_doc):
     with open(schema_doc) as schema_file:
         schema_json = json.load(schema_file)
     object_properties = get_properties(schema_json, node=ROOT_NODE)
-    html = generate_html(object_properties)
-    doc = insert_html(old_doc, html)
+    schema_lines = generate_schema(object_properties)
+    doc = insert_schema(old_doc, schema_lines)
     return doc
 
 
@@ -180,18 +184,18 @@ def get_properties(schema_json, node):
     :returns: properties
     :rtype: dict
     """
-    assert schema_json['type'] == 'object'
+    assert schema_json["type"] == "object"
     objects = OrderedDict()
     objects[node] = OrderedDict()
 
-    for name, property_dict in schema_json['properties'].items():
-        required = name in schema_json.get('required', [])
+    for name, property_dict in schema_json["properties"].items():
+        required = name in schema_json.get("required", [])
         prop = SchemaProperty(name, required, property_dict)
 
-        if prop.type == 'array' and prop.subtype == 'object':
-            nested_objects = get_properties(property_dict['items'], node=name)
+        if prop.type == "array" and prop.subtype == "object":
+            nested_objects = get_properties(property_dict["items"], node=name)
             objects.update(nested_objects)
-        elif prop.type == 'object':
+        elif prop.type == "object":
             nested_objects = get_properties(property_dict, node=name)
             objects.update(nested_objects)
 
@@ -200,79 +204,94 @@ def get_properties(schema_json, node):
     return objects
 
 
-def generate_html(object_properties):
+def generate_schema(object_properties):
     """
-    Generate HTML for the dictionary of object properties.
+    Generate schema docs for the dictionary of object properties.
 
     :param dict object_properties:
     :rtype: list[str]
     """
-    html = list()
+    schema_lines = list()
     root = object_properties.pop(ROOT_NODE)
-    html.extend(generate_html_for_object('Top Level', root))
+    schema_lines.extend(generate_schema_for_object("Top Level", root))
     for object_, properties in object_properties.items():
-        html.append('')
-        html.extend(generate_html_for_object(object_, properties))
-    html.append('')
-    return html
+        schema_lines.append("")
+        schema_lines.extend(generate_schema_for_object(object_, properties))
+    schema_lines.append("")
+    return schema_lines
 
 
-def anchor(name):
+def make_target(name):
     """
-    Generate a sanitized name to use as an HTML anchor.
+    Generate a reStructuredText target directive.
+
+    E.g. "My Target" -> ".. _my_target:", which can later be referenced as
+    ":ref:`my_target`".
 
     :param str name:
     :rtype: str
     """
-    return re.sub(NON_ALPHA, '', name)
+    return ".. _schema_{}:".format(re.sub(NON_ALPHA, "", name).lower())
 
 
-def html_name(name):
+def make_ref(name):
+    """
+    Generate a reStructuredText ref directive.
+
+    E.g. "My Target" -> ":ref:`my_target`".
+
+    :param str name:
+    :rtype: str
+    """
+    return ":ref:`schema_{}`".format(re.sub(NON_ALPHA, "", name).lower())
+
+
+def human_name(name):
     """
     Convert an object name to a human-readable, escaped name.
 
     :param str name: object name
     :rtype: str
     """
-    return html.escape(string.capwords(name.replace("_", " ")))
+    return string.capwords(name.replace("_", " "))
 
 
-def generate_html_for_object(name, properties):
+def generate_schema_for_object(name, properties):
     """
-    Generate HTML for a single object's properties.
+    Generate schema docs for a single object's properties.
 
     :param str name: object name
     :param dict properties: dictionary of object properties
-    :returns: HTML
+    :returns: schema doc lines
     :rtype: list[str]
     """
-    table = list()
-    table.append(f'<h3 id="{anchor(name)}">{html_name(name)} Fields</h3>')
-    table.append('<table>')
-    table.append('  <tr>')
-    table.append('    <th>Name</th>')
-    table.append('    <th>Type</th>')
-    table.append('    <th>Required</th>')
-    table.append('    <th>Description</th>')
-    table.append('  </tr>')
+    obj_lines = list()
+    human = human_name(name)
+    obj_lines.append(make_target(name))
+    obj_lines.append("")
+    obj_lines.append(human)
+    obj_lines.append("~" * len(human))
+    obj_lines.append("")
 
     for prop_name, prop in properties.items():
-        required = 'Yes' if prop.required else 'No'
-        table.append('  <tr>')
-        table.append(f'    <td>{html.escape(prop_name)}</td>')
-        table.append(f'    <td>{prop.html_type}</td>')
-        table.append(f'    <td>{required}</td>')
-        table.append(f'    <td>{prop.html_description}</td>')
-        table.append('  </tr>')
+        is_required = "yes" if prop.required else "no"
+        obj_lines.append(f"{prop_name} : {prop.type_markup}")
+        obj_lines.append(f"  *Required: {is_required}*")
+        obj_lines.append("")
+        obj_lines.extend(
+            textwrap.wrap(
+                prop.description_markup, initial_indent="  ", subsequent_indent="  "
+            )
+        )
+        obj_lines.append("")
 
-    table.append('</table>')
-    return table
+    return obj_lines
 
 
-def insert_html(old_doc, html):
+def insert_schema(old_doc, schema_lines):
     """
-    Scan through lines of text in ``old_doc`` and return its contents with
-    the <!--JSON_SCHEMA--> tags replaced with new text from ``html``.
+    Scan through lines of text in ``old_doc``, find the start and end tags for the
+    schema definition, and replace the contents with ``schema_lines``.
 
     :param old_doc: iterator of strings
     :param html: list of strings
@@ -285,26 +304,27 @@ def insert_html(old_doc, html):
     for line in old_doc:
         if START_TAG.search(line):
             break
-        output.append(line.rstrip('\n'))
+        output.append(line.rstrip("\n"))
     else:
-        raise Exception('Did not find start tag')
+        raise Exception("Did not find start tag")
 
-    # Output new start tag, new HTML, and new end tag.
+    # Output new start tag, new schema lines, and new end tag.
     now = datetime.now().isoformat()
-    name = Path(sys.argv[0]).name
-    output.append(f'<!--JSON_SCHEMA Generated by `{name}` at {now}Z-->')
-    output.extend(html)
-    output.append('<!--/JSON_SCHEMA-->')
+    output.append(f".. JSON_SCHEMA Generated by at {now}Z")
+    output.append("")
+    output.extend(schema_lines)
+    output.append(".. /JSON_SCHEMA")
 
-    # Scan to end tag but don't output any lines--this is the old HTML.
+    # Scan to end tag but don't output any lines (this is the previous contents between
+    # the schema tags).
     for line in old_doc:
         if END_TAG.search(line):
             break
     else:
-        raise Exception('Did not find end tag')
+        raise Exception("Did not find end tag")
 
     # Output the rest of the lines in the file.
     for line in old_doc:
-        output.append(line.rstrip('\n'))
+        output.append(line.rstrip("\n"))
 
-    return '\n'.join(output)
+    return "\n".join(output)

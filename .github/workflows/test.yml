@@ -2,7 +2,7 @@ name: test
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
 
 jobs:
@@ -21,15 +21,9 @@ jobs:
     - name: Install Dependencies
       run: poetry install
     - name: Test and lint with pytest
-      run: poetry run pytest --cov=src/ --cov-report=xml --flake8
+      run: poetry run make test-ci
     - name: Validate Corpus
-      env:
-        PYTHONPATH: src/
-      run: |
-        poetry run python -m attack_flow.scripts.validate_doc \
-          schema/attack-flow-2022-01-05-draft.json \
-          schema/attack-flow-example.json \
-          corpus/*.json
+      run: poetry run make validate
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:
