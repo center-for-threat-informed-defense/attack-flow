@@ -1,4 +1,4 @@
-name: test
+name: docs
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  build_docs:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,23 +14,25 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-    - name: Install TeX Live
-      run: apt install -y texlive
     - name: Install Poetry
       run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     - name: Add Poetry to PATH
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
     - name: Install Dependencies
       run: poetry install
+    - name: Generate Schema Docs
+      run: poetry run af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
     - name: Build HTML Docs
-      run: poetry run sphinx-build -M html -W docs/ docs/_build/
+      run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
     - name: Upload HTML Docs
       uses: actions/upload-artifact@v3
       with:
         name: attack_flow_docs_html
         path: docs/_build/html/
+    - name: Install TeX Live
+      run: sudo apt install -y latexmk texlive texlive-latex-extra
     - name: Build PDF Docs
-      run: poetry run sphinx-build -M latexpdf -W docs/ docs/_build/
+      run: poetry run sphinx-build -M latexpdf docs docs/_build
     - name: Upload PDF Docs
       uses: actions/upload-artifact@v3
       with:
