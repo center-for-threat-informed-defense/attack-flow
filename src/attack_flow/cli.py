@@ -87,7 +87,7 @@ def doc_schema(args):
 def _parse_args():
     """Parse command line arguments"""
     parser = argparse.ArgumentParser(description=__doc__)
-    subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers(required=True)
     parser.add_argument(
         "--log-level",
         help="Set logging level (default: warning)",
