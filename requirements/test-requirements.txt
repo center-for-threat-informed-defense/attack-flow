@@ -1,8 +1,0 @@
-bandit==1.7.0
-pytest
-pytest-cov==2.11.1
-pytest-flake8==1.0.7
-flake8==3.9.2 # Cannot use flake8 4.0 because of this bug: https://github.com/tholo/pytest-flake8/issues/81
-pytest-pythonpath
-pytest-mock==3.5.1
-safety==1.10.3
