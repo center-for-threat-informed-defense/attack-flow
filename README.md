@@ -5,12 +5,12 @@ The Attack Flow project helps defenders move from tracking adversary behaviors i
 
 ## Resources
 
-| Resource | Description |
-|----------|-------------|
-| [Attack Flow Specification](/docs/attack-flow-schema.md) | An overview of the Attack Flow format and corresponding data dictionary. |
-| [Attack Flow JSON Schema](/schema/attack-flow-2022-01-05-draft.json) | The JSON of the Attack Flow schema. |
-| [Attack Flow JSON Example Document](/schema/attack-flow-example.json) | A JSON example of an Attack Flow. |
-| Attack Flow Designer | A GUI tool for building Attack Flows. (See "Getting Started" below)|
+| Resource                                                              | Description                                                              |
+| --------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [Attack Flow Specification](/docs/attack-flow-schema.md)              | An overview of the Attack Flow format and corresponding data dictionary. |
+| [Attack Flow JSON Schema](/schema/attack-flow-2022-01-05-draft.json)  | The JSON of the Attack Flow schema.                                      |
+| [Attack Flow JSON Example Document](/schema/attack-flow-example.json) | A JSON example of an Attack Flow.                                        |
+| Attack Flow Designer                                                  | A GUI tool for building Attack Flows. (See "Getting Started" below)      |
 
 ## Getting Started
 At a high level, Attack Flow is a machine-readable representation of a sequence of actions and assets along with knowledge properties about those actions and assets. This representation is composed of five main objects: the *flow* itself, a list of *actions*, a list of *assets*, a list of knowledge *properties*, and a list of causal *relationships* between the actions and assets. Each of these five objects includes a set of *required* and *optional* fields. Attack Flow uses MITRE ATT&CK to describe specific adversary behaviors.
@@ -33,11 +33,18 @@ Attack Flow Designer GUI to view or create your own Attack Flow. To get started:
     2. File → Publish Attack Flow: saves a `*.json` file that conforms to the Attack Flow specification; this
        file is interoperable with other Attack Flow tools.
 
+## Docker
+
+The builder tool can be run as a Docker container. Run `make docker-build` to
+build the container image initially, then `make docker-run` to start the
+container. Once the image is running, open your browser to http://localhost:8080
+to view the builder.
+
 ## Getting Involved
-There are several ways that you can get involved with this project and help advance threat-informed defense: 
+There are several ways that you can get involved with this project and help advance threat-informed defense:
 - **Review the schema, use the designer, and tell us what you think.**  We welcome your review and feedback on the data model and our methodology.
 - **Help us prioritize additional example flows to create.** Let us know what examples you would like to turned into an Attack Flow. Your input will help us prioritize how we expand our corpus.
-- **Share your use cases.** We are interested in developing additional tools and resources to help the community understand and make threat-informed decisions in their risk management programs. If you have ideas or suggestions, we consider them as we explore additional research projects. 
+- **Share your use cases.** We are interested in developing additional tools and resources to help the community understand and make threat-informed decisions in their risk management programs. If you have ideas or suggestions, we consider them as we explore additional research projects.
 
 ## Questions and Feedback
 Please submit issues for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
