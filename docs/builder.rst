@@ -36,7 +36,7 @@ for viewing it in Attack Flow Builder.
 .. raw:: html
 
     <p>
-        <a class="btn btn-primary" target="_blank" href="/builder/">
+        <a class="btn btn-primary" target="_blank" href="builder/index.html">
          Open Attack Flow Builder <i class="fa fa-external-link"></i></a>
     </p>
 

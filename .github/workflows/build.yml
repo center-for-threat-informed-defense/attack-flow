@@ -1,4 +1,4 @@
-name: docs
+name: build
 
 on:
   push:
@@ -19,6 +19,9 @@ jobs:
       run: npm ci
     - name: Build
       working-directory: ./src/attack_flow_designer/
+      env:
+        # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+        NODE_OPTIONS: "--openssl-legacy-provider"
       run: npm run build
     - name: Upload artifact
       uses: actions/upload-artifact@v3
@@ -27,6 +30,7 @@ jobs:
         path: src/attack_flow_designer/dist/
 
   docs:
+    needs: attack_flow_builder
     runs-on: ubuntu-latest
 
     steps:
@@ -42,13 +46,13 @@ jobs:
       run: poetry install
     - name: Generate schema docs
       run: poetry run af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
-    - name: Download HTML docs
+    - name: Create client directory
+      run: mkdir docs/extra/builder
+    - name: Download Attack Flow Builder
       uses: actions/download-artifact@v3
       with:
         name: attack_flow_builder
-        path: docs/extra/
-    - name: Rename client directory
-      run: mv docs/extra/dist docs/extra/builder
+        path: docs/extra/builder
     - name: Build HTML docs
       run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
     - name: Upload HTML docs
@@ -70,7 +74,7 @@ jobs:
   # github_pages:
   #   # This job only runs when committing or merging to main branch.
   #   if: github.ref_name == 'main'
-  #   needs: build_docs
+  #   needs: docs
   #   runs-on: ubuntu-latest
 
   #   steps:

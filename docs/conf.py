@@ -59,6 +59,7 @@ html_css_files = [
 html_copy_source = False
 html_show_sourcelink = False
 html_show_sphinx = False
+html_use_smartypants = False
 
 html_theme_options = {
     # "analytics_id": "G-XXXXXXXXXX", TODO
