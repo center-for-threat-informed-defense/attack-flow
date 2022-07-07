@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  qa:
+  python_lib:
     runs-on: ubuntu-latest
 
     steps:

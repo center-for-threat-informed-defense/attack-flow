@@ -203,13 +203,44 @@ Run the unit tests using Pytest:
 .. code:: bash
 
     $ poetry run pytest --cov=src/ --cov-report term-missing
-    poetry run pytest --flake8 --cov=src/ --cov-report term-missing
 
 There is a Makefile target ``make test`` that is a shortcut for the command above, as
 well as ``make test-ci`` which runs the same tests but exports the code coverage data to
 an XML file.
 
+.. _builder_dev:
+
 Attack Flow Builder
 -------------------
 
-TODO in AF-28
+The Attack Flow Builder is written in JavaScript. To set up a development environment,
+you first need `to install Node.js and npm
+<https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>`__. Then, perform
+the following setup steps:
+
+.. code:: shell
+
+    $ cd src/attack_flow_builder
+    $ npm install
+    ...
+
+This will download all of the dependencies needed. To run the application, do this:
+
+.. code:: shell
+
+    $ npm run serve
+    DONE  Compiled successfully in 3342ms                                                                                                              3:02:19 PM
+
+      App running at:
+      - Local:   http://localhost:8080/
+      - Network: unavailable
+
+      Note that the development build is not optimized.
+      To create a production build, run npm run build.
+
+    Issues checking in progress...
+    No issues found.
+
+If this starts up successfully, then you can access the application at
+http://localhost:8080/. As you edit source code and save, the server will automatically
+rebuild the application and you can refresh the browser to run it again.
