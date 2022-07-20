@@ -2,11 +2,11 @@ name: test
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
 
 jobs:
-  test:
+  qa:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,27 +18,23 @@ jobs:
       run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     - name: Add Poetry to PATH
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-    - name: Install Dependencies
+    - name: Install dependencies
       run: poetry install
-    - name: Test and lint with pytest
-      run: poetry run pytest --cov=src/ --cov-report=xml --flake8
+    - name: Check code formatting
+      run: poetry run black --check src/attack_flow/
+    - name: Run unit tests
+      run: poetry run make test-ci
     - name: Validate Corpus
-      env:
-        PYTHONPATH: src/
-      run: |
-        poetry run python -m attack_flow.scripts.validate_doc \
-          schema/attack-flow-2022-01-05-draft.json \
-          schema/attack-flow-example.json \
-          corpus/*.json
-    - name: Upload Coverage to CodeCov
+      run: poetry run make validate
+    - name: Upload coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_SECRET }}
         files: coverage.xml
         verbose: true
-    - name: Bandit Security Check
+    - name: Bandit security check
       run: |
         poetry run bandit -r src/ -ll -ii
-    - name: Safety Vulnerability Check
+    - name: Safety vulnerability check
       run: |
         poetry export -f requirements.txt | poetry run safety check --stdin
