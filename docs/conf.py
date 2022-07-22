@@ -22,7 +22,7 @@ copyright = "2022, Center for Threat-Informed Defense"
 author = "Center for Threat-Informed Defense"
 
 # The full version, including alpha/beta/rc tags
-release = "1.0.0"
+release = "2.0.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -50,6 +50,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 #
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+html_extra_path = ["extra"]
 html_favicon = "_static/favicon.ico"
 html_logo = "_static/ctid_logo_white.png"
 html_css_files = [
@@ -58,6 +59,7 @@ html_css_files = [
 html_copy_source = False
 html_show_sourcelink = False
 html_show_sphinx = False
+html_use_smartypants = False
 
 html_theme_options = {
     # "analytics_id": "G-XXXXXXXXXX", TODO

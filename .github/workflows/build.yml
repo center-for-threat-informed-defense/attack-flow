@@ -1,0 +1,90 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  attack_flow_builder:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    - name: Install dependencies
+      working-directory: ./src/attack_flow_designer/
+      run: npm ci
+    - name: Build
+      working-directory: ./src/attack_flow_designer/
+      env:
+        # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+        NODE_OPTIONS: "--openssl-legacy-provider"
+      run: npm run build
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_builder
+        path: src/attack_flow_designer/dist/
+
+  docs:
+    needs: attack_flow_builder
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install Poetry
+      run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+    - name: Add Poetry to PATH
+      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+    - name: Install dependencies
+      run: poetry install
+    - name: Generate schema docs
+      run: poetry run af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
+    - name: Create client directory
+      run: mkdir docs/extra/builder
+    - name: Download Attack Flow Builder
+      uses: actions/download-artifact@v3
+      with:
+        name: attack_flow_builder
+        path: docs/extra/builder
+    - name: Build HTML docs
+      run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
+    - name: Upload HTML docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_docs_html
+        path: docs/_build/html/
+    - name: Install TeX Live
+      run: sudo apt install -y latexmk texlive texlive-latex-extra
+    - name: Build PDF docs
+      run: poetry run sphinx-build -M latexpdf docs docs/_build
+    - name: Upload PDF docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_docs_pdf
+        path: docs/_build/latex/attackflow.pdf
+
+  # TODO: re-enable this when the repository goes public.
+  # github_pages:
+  #   # This job only runs when committing or merging to main branch.
+  #   if: github.ref_name == 'main'
+  #   needs: docs
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Download HTML docs
+  #     uses: actions/download-artifact@v3
+  #     with:
+  #       name: attack_flow_docs_html
+  #       path: docs
+  #   - name: Publish to GitHub pages
+  #     uses: peaceiris/actions-gh-pages@v3
+  #     with:
+  #       github_token: ${{ secrets.GITHUB_TOKEN }}
+  #       publish_dir: ./docs

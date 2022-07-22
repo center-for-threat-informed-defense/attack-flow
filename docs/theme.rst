@@ -1,6 +1,36 @@
 Theme
 =====
 
+Buttons
+-------
+
+.. raw:: html
+
+    <p>
+        <button class="btn btn-primary">Primary Button</button>
+    </p>
+    <p>
+        <button class="btn btn-secondary">Secondary Button</button>
+    </p>
+    <p>
+        <button class="btn btn-success">Success Button</button>
+    </p>
+    <p>
+        <button class="btn btn-danger">Danger Button</button>
+    </p>
+    <p>
+        <button class="btn btn-warning">Warning Button</button>
+    </p>
+    <p>
+        <button class="btn btn-info">Info Button</button>
+    </p>
+    <p>
+        <button class="btn btn-link">Link Button</button>
+    </p>
+
+Admonitions
+-----------
+
 .. attention:: This is attention. `A link <https://google.com>`__. This is attention. This is attention. This is attention. This is attention. This is attention.
 
 .. caution:: This is caution. `A link <https://google.com>`__. This is caution. This is caution. This is caution. This is caution. This is caution.

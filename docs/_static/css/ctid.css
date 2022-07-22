@@ -54,20 +54,68 @@ strong {
 
 /* Anchor styles */
 
-.wy-nav-content a,
-.wy-nav-content a:active,
-.wy-nav-content a:visited {
+.rst-content a,
+.rst-content a:active,
+.rst-content a:visited {
     color: var(--me-core-purple);
     font-weight: bold;
 }
 
-.wy-nav-content a:hover {
+.rst-content a:hover {
     color: var(--me-core-purple-dark);
 }
 
 .rst-content.style-external-links a.reference.external:after {
     font-size: 100%;
     vertical-align: initial;
+}
+
+/* Bootstrap button styles */
+
+.btn,
+.btn:focus,
+.btn-primary,
+.btn-primary:focus {
+    background-color: var(--me-core-purple);
+}
+
+.btn:hover,
+.btn-primary:hover {
+    background-color: var(--me-core-purple-light);
+}
+
+.btn-secondary,
+.btn-secondary:focus {
+    background-color: var(--text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #737373;
+}
+
+.btn-link,
+.btn-link:focus {
+    color: var(--me-core-purple);
+}
+
+.btn-link:hover {
+    color: var(--me-core-purple-dark) !important;
+}
+
+.rst-content a.btn,
+.rst-content a.btn:active,
+.rst-content a.btn:visited {
+    color: var(--text-color-inverse);
+    font-weight: normal;
+}
+
+/* Table of contents styles */
+.rst-content .toctree-wrapper a {
+    font-weight: normal;
+}
+
+.rst-content .toctree-wrapper ul li ul {
+    margin-top: 0;
 }
 
 /* Side bar styles */
