@@ -1,494 +1,537 @@
 {
-    "$schema": "../schema/attack-flow-2022-01-05-draft.json",
-    "flow": {
-        "type": "attack-flow",
-        "id": "https://www.cybereason.com/blog/operation-cobalt-kitty-apt",
-        "name": "Cobalt Kitty APT",
-        "created": "2021-10-15T00:00:00.0Z"
+  "$schema": "../schema/attack-flow-2022-01-05-draft.json",
+  "flow": {
+    "type": "attack-flow",
+    "id": "https://www.cybereason.com/blog/operation-cobalt-kitty-apt",
+    "author": "Eric Kannampuzha",
+    "name": "Cobalt Kitty APT",
+    "created": "2021-10-15T00:00:00.0Z"
+  },
+  "actions": [
+    {
+      "id": "http://flow-v1/phishinglink",
+      "name": "Phishing: Spearphishing Link",
+      "description": "Link to a malicious site that downloads a fake Flash Installer delivering Cobalt Strike beacon.",
+      "reference": "https://attack.mitre.org/techniques/T1566/002/",
+      "logic_operator": "AND"
     },
-    "actions": [
-      {
-        "id": "http://flow-v1/phishinglink",
-        "name": "Phishing: Spearphishing Link",
-        "description": "Link to a malicious site that downloads a fake Flash Installer delivering Cobalt Strike beacon.",
-        "reference": "https://attack.mitre.org/techniques/T1566/002/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/phishingattachment",
-        "name": "Phishing: Spearphishing Attachment",
-        "description": "Word documents with malicious macros downloading Cobalt Strike payloads",
-        "reference": "https://attack.mitre.org/techniques/T1566/001/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/scheduledtask",
-        "name": "Scheduled Task/Job: Scheduled Task",
-        "description": "Two scheduled tasks are created that download additional payloads",
-        "reference": "https://attack.mitre.org/techniques/T1053/005/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/cobaltstrikeps",
-        "name": "Command and Scripting Interpreter: PowerShell",
-        "description": "Obfuscated PowerShell scripts delivering Cobalt Strike beacons are downloaded",
-        "reference": "https://attack.mitre.org/techniques/T1059/001/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/cobaltstrikevb",
-        "name": "Command and Scripting Interpreter: Visual Basic",
-        "description": "Script that combines vbscript and PowerShell is downloaded",
-        "reference": "https://attack.mitre.org/techniques/T1059/005/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/deobfuscation",
-        "name": "Deobfuscate/Decode Files or Information",
-        "description": "Obfuscated and XOR'ed PowerShell is decoded to download additional obfuscated PowerShell payloads",
-        "reference": "https://attack.mitre.org/techniques/T1140/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/runkeys",
-        "name": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder",
-        "description": "Windows Registry Autorun is used to execute VBScript and PowerShell scripts residing in the ProgramData folder",
-        "reference": "https://attack.mitre.org/techniques/T1547/001/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/ads",
-        "name": "Hide Artifacts: NTFS File Attributes",
-        "description": "Payloads for persistence were hidden in NTFS Alternate Data Streams",
-        "reference": "https://attack.mitre.org/techniques/T1564/004/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/cobaltstrikeobf",
-        "name": "Command and Scripting Interpreter: PowerShell",
-        "description": "Obfuscated PowerShell scripts that executes a Cobalt Strike beacon",
-        "reference": "https://attack.mitre.org/techniques/T1059/001/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/cobaltstrikevbps",
-        "name": "Command and Scripting Interpreter: Visual Basic",
-        "description": "VBScript to launch Cobalt Strike PowerShell scripts",
-        "reference": "https://attack.mitre.org/techniques/T1059/005/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/wsearch",
-        "name": "Create or Modify System Process: Windows Service",
-        "description": "Windows services were created and/or modified to load PowerShell scripts",
-        "reference": "https://attack.mitre.org/techniques/T1059/005/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/phantomdll",
-        "name": "Phantom DLL Hijacking",
-        "description": "A malicious DLL file was implanted where the Windows Search Service would run and load the DLL",
-        "reference": "http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/googleupdate",
-        "name": "Scheduled Task/Job: Scheduled Task",
-        "description": "Scheduled tasks are created that load malicious PowerShell payloads using DLL hijacking with a Google Update binary",
-        "reference": "https://attack.mitre.org/techniques/T1053/005/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/outlook",
-        "name": "Office Application Startup",
-        "description": "Malicious Outlook backdoor macroes were to used to communicate with C2 servers and exfiltrate data",
-        "reference": "https://attack.mitre.org/techniques/T1137/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/comscriptlet",
-        "name": "Signed Binary Proxy Execution: Regsvr32",
-        "description": "Regsvr32.exe is used to download COM scriplets for malicious execution",
-        "reference": "https://attack.mitre.org/techniques/T1218/010/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/malleablec2",
-        "name": "Data Obfuscation: Protocol Impersonation",
-        "description": "Cobalt Strike's malleable C2 profiles were used to impersonate Amazon, Google Safe Browsing, Pandora, and OSCP traffic",
-        "reference": "https://attack.mitre.org/techniques/T1001/003/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/denisbackdoor",
-        "name": "Application Layer Protocol: DNS",
-        "description": "DNS tunneling was used for C2 communication and data exfiltration",
-        "reference": "https://attack.mitre.org/techniques/T1071/004/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/emailc2",
-        "name": "Application Layer Protocol: Mail Protocols",
-        "description": "Malicious Outlook macroes were created to utilize email for C2 communication and data exfiltration",
-        "reference": "https://attack.mitre.org/techniques/T1071/003/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/networkscan",
-        "name": "Remote System Discovery",
-        "description": "Network scanning was performed against entire ranges to gain information on open ports, services, and operating systems",
-        "reference": "https://attack.mitre.org/techniques/T1018/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/servicescan",
-        "name": "Network Service Scanning",
-        "description": "Network scanning was performed against entire ranges to gain information on open ports, services, and operating systems",
-        "reference": "https://attack.mitre.org/techniques/T1046/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/systeminfo",
-        "name": "System Information Discovery",
-        "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
-        "reference": "https://attack.mitre.org/techniques/T1082/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/netstat",
-        "name": " System Network Connections Discovery ",
-        "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
-        "reference": "https://attack.mitre.org/techniques/T1049/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/net",
-        "name": "System Network Configuration Discovery",
-        "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
-        "reference": "https://attack.mitre.org/techniques/T1016/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/mimikatz",
-        "name": "OS Credential Dumping: LSA Secrets",
-        "description": "Modified version of Mimikatz was used to dump credentials",
-        "reference": "https://attack.mitre.org/techniques/T1003/004/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/passthehash",
-        "name": "Use Alternate Authentication Material: Pass the Hash",
-        "description": "The attackers deployed a customized Mimikatz using stolen credentials from an administrative account, which they used to carry out a pass-the-hash attack",
-        "reference": "https://attack.mitre.org/techniques/T1550/002/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/passtheticket",
-        "name": "Use Alternate Authentication Material: Pass the Ticket",
-        "description": "The attackers deployed a customized Mimikatz using stolen credentials from an administrative account, which they used to carry out a pass-the-ticket attack",
-        "reference": "https://attack.mitre.org/techniques/T1550/003/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/adminshares",
-        "name": "Remote Services: SMB/Windows Admin Shares",
-        "description": "Net.exe was used to perform lateral movement via Windows Admin Shares",
-        "reference": "https://attack.mitre.org/techniques/T1021/002/",
-        "logic_operator": "AND"
-      },
-      {
-        "id": "http://flow-v1/wmi",
-        "name": "Windows Management Instrumentation",
-        "description": "WMI and 'net user' commands were used to deploy tools on remote machines",
-        "reference": "https://attack.mitre.org/techniques/T1047/",
-        "logic_operator": "AND"
-      }
-    ],
-    "assets": [
-      {"id": "http://flow-v1/flash-installer"},
-      {"id": "http://flow-v1/word-doc"},
-      {"id": "http://flow-v1/fileless-powershell"},
-      {"id": "http://flow-v1/cobalt-strike"},
-      {"id": "http://flow-v1/scheduled-task"},
-      {"id": "http://flow-v1/powershell-script"},
-      {"id": "http://flow-v1/vbscript"},
-      {"id": "http://flow-v1/registry-key"},
-      {"id": "http://flow-v1/SndVolSSO.ps1"},
-      {"id": "http://flow-v1/msfte.dll"},
-      {"id": "http://flow-v1/com-scriptlet"},
-      {"id": "http://flow-v1/denis-backdoor"},
-      {"id": "http://flow-v1/outlook-macro"},
-      {"id": "http://flow-v1/netcat"},
-      {"id": "http://flow-v1/placeholder1"},
-      {"id": "http://flow-v1/placeholder2"},
-      {"id": "http://flow-v1/placeholder3"},
-      {"id": "http://flow-v1/credentials"},
-      {"id": "http://flow-v1/outlook-credentials"},
-      {"id": "http://flow-v1/ntlm-hash"},
-      {"id": "http://flow-v1/kerberos-ticket"}
-    ],
-    "relationships": [
-        {
-            "source": "http://flow-v1/phishinglink",
-            "type": "relationship://flow-v1#provides",
-            "target": "http://flow-v1/flash-installer"
-        },
-        {
-            "source": "http://flow-v1/phishingattachment",
-            "type": "relationship://flow-v1#provides",
-            "target": "http://flow-v1/word-doc"
-        },
-        {
-          "source": "http://flow-v1/flash-installer",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/cobaltstrikeps"
-        },
-        {
-          "source": "http://flow-v1/word-doc",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/scheduledtask"
-        },
-        {
-          "source": "http://flow-v1/cobaltstrikeps",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/powershell-script"
-        },
-        {
-          "source": "http://flow-v1/scheduledtask",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/scheduled-task"
-        },
-        {
-          "source": "http://flow-v1/powershell-script",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/deobfuscation"
-        },
-        {
-          "source": "http://flow-v1/scheduled-task",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/deobfuscation"
-        },
-        {
-          "source": "http://flow-v1/deobfuscation",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/fileless-powershell"
-        },
-        {
-          "source": "http://flow-v1/fileless-powershell",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/cobaltstrikeobf"
-        },
-        {
-          "source": "http://flow-v1/cobaltstrikeobf",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/cobalt-strike"
-        },
-        {
-          "source": "http://flow-v1/cobalt-strike",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/runkeys"
-        },
-        {
-          "source": "http://flow-v1/runkeys",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/registry-key"
-        },
-        {
-          "source": "http://flow-v1/runkeys",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/vbscript"
-        },
-        {
-          "source": "http://flow-v1/cobalt-strike",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/ads"
-        },
-        {
-          "source": "http://flow-v1/ads",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/SndVolSSO.ps1"
-        },
-        {
-          "source": "http://flow-v1/cobalt-strike",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/wsearch"
-        },
-        {
-          "source": "http://flow-v1/wsearch",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/msfte.dll"
-        },
-        {
-          "source": "http://flow-v1/msfte.dll",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/phantomdll"
-        },
-        {
-          "source": "http://flow-v1/cobalt-strike",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/googleupdate"
-        },
-        {
-          "source": "http://flow-v1/cobalt-strike",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/outlook"
-        },
-        {
-          "source": "http://flow-v1/runkeys",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder2"
-        },
-        {
-          "source": "http://flow-v1/ads",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder2"
-        },
-        {
-          "source": "http://flow-v1/phantomdll",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder2"
-        },
-        {
-          "source": "http://flow-v1/googleupdate",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder2"
-        },
-        {
-          "source": "http://flow-v1/outlook",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder2"
-        },
-        {
-          "source": "http://flow-v1/placeholder2",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/comscriptlet"
-        },
-        {
-          "source": "http://flow-v1/comscriptlet",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/com-scriptlet"
-        },
-        {
-          "source": "http://flow-v1/com-scriptlet",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/malleablec2"
-        },
-        {
-          "source": "http://flow-v1/com-scriptlet",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/denisbackdoor"
-        },
-        {
-          "source": "http://flow-v1/com-scriptlet",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/emailc2"
-        },
-        {
-          "source": "http://flow-v1/denisbackdoor",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/denis-backdoor"
-        },
-        {
-          "source": "http://flow-v1/emailc2",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/outlook-macro"
-        },
-        {
-          "source": "http://flow-v1/comscriptlet",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/netcat"
-        },
-        {
-          "source": "http://flow-v1/emailc2",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder3"
-        },
-        {
-          "source": "http://flow-v1/denisbackdoor",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder3"
-        },
-        {
-          "source": "http://flow-v1/malleablec2",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder3"
-        },
-        {
-          "source": "http://flow-v1/comscriptlet",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/placeholder3"
-        },
-        {
-          "source": "http://flow-v1/placeholder3",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/networkscan"
-        },
-        {
-          "source": "http://flow-v1/placeholder3",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/servicescan"
-        },
-        {
-          "source": "http://flow-v1/placeholder3",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/systeminfo"
-        },
-        {
-          "source": "http://flow-v1/placeholder3",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/netstat"
-        },
-        {
-          "source": "http://flow-v1/placeholder3",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/net"
-        },
-        {
-          "source": "http://flow-v1/placeholder3",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/mimikatz"
-        },
-        {
-          "source": "http://flow-v1/mimikatz",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/credentials"
-        },
-        {
-          "source": "http://flow-v1/mimikatz",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/outlook-credentials"
-        },
-        {
-          "source": "http://flow-v1/mimikatz",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/ntlm-hash"
-        },
-        {
-          "source": "http://flow-v1/mimikatz",
-          "type": "relationship://flow-v1#provides",
-          "target": "http://flow-v1/kerberos-ticket"
-        },
-        {
-          "source": "http://flow-v1/ntlm-hash",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/passthehash"
-        },
-        {
-          "source": "http://flow-v1/kerberos-ticket",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/passtheticket"
-        },
-        {
-          "source": "http://flow-v1/credentials",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/adminshares"
-        },
-        {
-          "source": "http://flow-v1/credentials",
-          "type": "relationship://flow-v1#required-by",
-          "target": "http://flow-v1/wmi"
-        }
-    ],
-    "data_properties": [],
-    "object_properties": []
-  }
+    {
+      "id": "http://flow-v1/phishingattachment",
+      "name": "Phishing: Spearphishing Attachment",
+      "description": "Word documents with malicious macros downloading Cobalt Strike payloads",
+      "reference": "https://attack.mitre.org/techniques/T1566/001/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/scheduledtask",
+      "name": "Scheduled Task/Job: Scheduled Task",
+      "description": "Two scheduled tasks are created that download additional payloads",
+      "reference": "https://attack.mitre.org/techniques/T1053/005/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/cobaltstrikeps",
+      "name": "Command and Scripting Interpreter: PowerShell",
+      "description": "Obfuscated PowerShell scripts delivering Cobalt Strike beacons are downloaded",
+      "reference": "https://attack.mitre.org/techniques/T1059/001/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/cobaltstrikevb",
+      "name": "Command and Scripting Interpreter: Visual Basic",
+      "description": "Script that combines vbscript and PowerShell is downloaded",
+      "reference": "https://attack.mitre.org/techniques/T1059/005/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/deobfuscation",
+      "name": "Deobfuscate/Decode Files or Information",
+      "description": "Obfuscated and XOR'ed PowerShell is decoded to download additional obfuscated PowerShell payloads",
+      "reference": "https://attack.mitre.org/techniques/T1140/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/runkeys",
+      "name": "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder",
+      "description": "Windows Registry Autorun is used to execute VBScript and PowerShell scripts residing in the ProgramData folder",
+      "reference": "https://attack.mitre.org/techniques/T1547/001/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/ads",
+      "name": "Hide Artifacts: NTFS File Attributes",
+      "description": "Payloads for persistence were hidden in NTFS Alternate Data Streams",
+      "reference": "https://attack.mitre.org/techniques/T1564/004/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/cobaltstrikeobf",
+      "name": "Command and Scripting Interpreter: PowerShell",
+      "description": "Obfuscated PowerShell scripts that executes a Cobalt Strike beacon",
+      "reference": "https://attack.mitre.org/techniques/T1059/001/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/cobaltstrikevbps",
+      "name": "Command and Scripting Interpreter: Visual Basic",
+      "description": "VBScript to launch Cobalt Strike PowerShell scripts",
+      "reference": "https://attack.mitre.org/techniques/T1059/005/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/wsearch",
+      "name": "Create or Modify System Process: Windows Service",
+      "description": "Windows services were created and/or modified to load PowerShell scripts",
+      "reference": "https://attack.mitre.org/techniques/T1059/005/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/phantomdll",
+      "name": "Phantom DLL Hijacking",
+      "description": "A malicious DLL file was implanted where the Windows Search Service would run and load the DLL",
+      "reference": "http://www.hexacorn.com/blog/2013/12/08/beyond-good-ol-run-key-part-5/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/googleupdate",
+      "name": "Scheduled Task/Job: Scheduled Task",
+      "description": "Scheduled tasks are created that load malicious PowerShell payloads using DLL hijacking with a Google Update binary",
+      "reference": "https://attack.mitre.org/techniques/T1053/005/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/outlook",
+      "name": "Office Application Startup",
+      "description": "Malicious Outlook backdoor macroes were to used to communicate with C2 servers and exfiltrate data",
+      "reference": "https://attack.mitre.org/techniques/T1137/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/comscriptlet",
+      "name": "Signed Binary Proxy Execution: Regsvr32",
+      "description": "Regsvr32.exe is used to download COM scriplets for malicious execution",
+      "reference": "https://attack.mitre.org/techniques/T1218/010/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/malleablec2",
+      "name": "Data Obfuscation: Protocol Impersonation",
+      "description": "Cobalt Strike's malleable C2 profiles were used to impersonate Amazon, Google Safe Browsing, Pandora, and OSCP traffic",
+      "reference": "https://attack.mitre.org/techniques/T1001/003/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/denisbackdoor",
+      "name": "Application Layer Protocol: DNS",
+      "description": "DNS tunneling was used for C2 communication and data exfiltration",
+      "reference": "https://attack.mitre.org/techniques/T1071/004/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/emailc2",
+      "name": "Application Layer Protocol: Mail Protocols",
+      "description": "Malicious Outlook macroes were created to utilize email for C2 communication and data exfiltration",
+      "reference": "https://attack.mitre.org/techniques/T1071/003/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/networkscan",
+      "name": "Remote System Discovery",
+      "description": "Network scanning was performed against entire ranges to gain information on open ports, services, and operating systems",
+      "reference": "https://attack.mitre.org/techniques/T1018/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/servicescan",
+      "name": "Network Service Scanning",
+      "description": "Network scanning was performed against entire ranges to gain information on open ports, services, and operating systems",
+      "reference": "https://attack.mitre.org/techniques/T1046/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/systeminfo",
+      "name": "System Information Discovery",
+      "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
+      "reference": "https://attack.mitre.org/techniques/T1082/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/netstat",
+      "name": " System Network Connections Discovery ",
+      "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
+      "reference": "https://attack.mitre.org/techniques/T1049/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/net",
+      "name": "System Network Configuration Discovery",
+      "description": "The attackers used several tools built into the Windows OS to gather information on the environment’s network and its users. Those tools included  netsh, ipconfig, netstat, arp, net user/group/localgroup, nslookup and Windows Management Instrumentation (WMI).",
+      "reference": "https://attack.mitre.org/techniques/T1016/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/mimikatz",
+      "name": "OS Credential Dumping: LSA Secrets",
+      "description": "Modified version of Mimikatz was used to dump credentials",
+      "reference": "https://attack.mitre.org/techniques/T1003/004/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/passthehash",
+      "name": "Use Alternate Authentication Material: Pass the Hash",
+      "description": "The attackers deployed a customized Mimikatz using stolen credentials from an administrative account, which they used to carry out a pass-the-hash attack",
+      "reference": "https://attack.mitre.org/techniques/T1550/002/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/passtheticket",
+      "name": "Use Alternate Authentication Material: Pass the Ticket",
+      "description": "The attackers deployed a customized Mimikatz using stolen credentials from an administrative account, which they used to carry out a pass-the-ticket attack",
+      "reference": "https://attack.mitre.org/techniques/T1550/003/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/adminshares",
+      "name": "Remote Services: SMB/Windows Admin Shares",
+      "description": "Net.exe was used to perform lateral movement via Windows Admin Shares",
+      "reference": "https://attack.mitre.org/techniques/T1021/002/",
+      "logic_operator": "AND"
+    },
+    {
+      "id": "http://flow-v1/wmi",
+      "name": "Windows Management Instrumentation",
+      "description": "WMI and 'net user' commands were used to deploy tools on remote machines",
+      "reference": "https://attack.mitre.org/techniques/T1047/",
+      "logic_operator": "AND"
+    }
+  ],
+  "assets": [
+    {
+      "id": "http://flow-v1/flash-installer"
+    },
+    {
+      "id": "http://flow-v1/word-doc"
+    },
+    {
+      "id": "http://flow-v1/fileless-powershell"
+    },
+    {
+      "id": "http://flow-v1/cobalt-strike"
+    },
+    {
+      "id": "http://flow-v1/scheduled-task"
+    },
+    {
+      "id": "http://flow-v1/powershell-script"
+    },
+    {
+      "id": "http://flow-v1/vbscript"
+    },
+    {
+      "id": "http://flow-v1/registry-key"
+    },
+    {
+      "id": "http://flow-v1/SndVolSSO.ps1"
+    },
+    {
+      "id": "http://flow-v1/msfte.dll"
+    },
+    {
+      "id": "http://flow-v1/com-scriptlet"
+    },
+    {
+      "id": "http://flow-v1/denis-backdoor"
+    },
+    {
+      "id": "http://flow-v1/outlook-macro"
+    },
+    {
+      "id": "http://flow-v1/netcat"
+    },
+    {
+      "id": "http://flow-v1/placeholder1"
+    },
+    {
+      "id": "http://flow-v1/placeholder2"
+    },
+    {
+      "id": "http://flow-v1/placeholder3"
+    },
+    {
+      "id": "http://flow-v1/credentials"
+    },
+    {
+      "id": "http://flow-v1/outlook-credentials"
+    },
+    {
+      "id": "http://flow-v1/ntlm-hash"
+    },
+    {
+      "id": "http://flow-v1/kerberos-ticket"
+    }
+  ],
+  "relationships": [
+    {
+      "source": "http://flow-v1/phishinglink",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/flash-installer"
+    },
+    {
+      "source": "http://flow-v1/phishingattachment",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/word-doc"
+    },
+    {
+      "source": "http://flow-v1/flash-installer",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/cobaltstrikeps"
+    },
+    {
+      "source": "http://flow-v1/word-doc",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/scheduledtask"
+    },
+    {
+      "source": "http://flow-v1/cobaltstrikeps",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/powershell-script"
+    },
+    {
+      "source": "http://flow-v1/scheduledtask",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/scheduled-task"
+    },
+    {
+      "source": "http://flow-v1/powershell-script",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/deobfuscation"
+    },
+    {
+      "source": "http://flow-v1/scheduled-task",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/deobfuscation"
+    },
+    {
+      "source": "http://flow-v1/deobfuscation",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/fileless-powershell"
+    },
+    {
+      "source": "http://flow-v1/fileless-powershell",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/cobaltstrikeobf"
+    },
+    {
+      "source": "http://flow-v1/cobaltstrikeobf",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/cobalt-strike"
+    },
+    {
+      "source": "http://flow-v1/cobalt-strike",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/runkeys"
+    },
+    {
+      "source": "http://flow-v1/runkeys",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/registry-key"
+    },
+    {
+      "source": "http://flow-v1/runkeys",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/vbscript"
+    },
+    {
+      "source": "http://flow-v1/cobalt-strike",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/ads"
+    },
+    {
+      "source": "http://flow-v1/ads",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/SndVolSSO.ps1"
+    },
+    {
+      "source": "http://flow-v1/cobalt-strike",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/wsearch"
+    },
+    {
+      "source": "http://flow-v1/wsearch",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/msfte.dll"
+    },
+    {
+      "source": "http://flow-v1/msfte.dll",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/phantomdll"
+    },
+    {
+      "source": "http://flow-v1/cobalt-strike",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/googleupdate"
+    },
+    {
+      "source": "http://flow-v1/cobalt-strike",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/outlook"
+    },
+    {
+      "source": "http://flow-v1/runkeys",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder2"
+    },
+    {
+      "source": "http://flow-v1/ads",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder2"
+    },
+    {
+      "source": "http://flow-v1/phantomdll",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder2"
+    },
+    {
+      "source": "http://flow-v1/googleupdate",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder2"
+    },
+    {
+      "source": "http://flow-v1/outlook",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder2"
+    },
+    {
+      "source": "http://flow-v1/placeholder2",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/comscriptlet"
+    },
+    {
+      "source": "http://flow-v1/comscriptlet",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/com-scriptlet"
+    },
+    {
+      "source": "http://flow-v1/com-scriptlet",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/malleablec2"
+    },
+    {
+      "source": "http://flow-v1/com-scriptlet",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/denisbackdoor"
+    },
+    {
+      "source": "http://flow-v1/com-scriptlet",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/emailc2"
+    },
+    {
+      "source": "http://flow-v1/denisbackdoor",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/denis-backdoor"
+    },
+    {
+      "source": "http://flow-v1/emailc2",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/outlook-macro"
+    },
+    {
+      "source": "http://flow-v1/comscriptlet",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/netcat"
+    },
+    {
+      "source": "http://flow-v1/emailc2",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder3"
+    },
+    {
+      "source": "http://flow-v1/denisbackdoor",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder3"
+    },
+    {
+      "source": "http://flow-v1/malleablec2",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder3"
+    },
+    {
+      "source": "http://flow-v1/comscriptlet",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/placeholder3"
+    },
+    {
+      "source": "http://flow-v1/placeholder3",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/networkscan"
+    },
+    {
+      "source": "http://flow-v1/placeholder3",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/servicescan"
+    },
+    {
+      "source": "http://flow-v1/placeholder3",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/systeminfo"
+    },
+    {
+      "source": "http://flow-v1/placeholder3",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/netstat"
+    },
+    {
+      "source": "http://flow-v1/placeholder3",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/net"
+    },
+    {
+      "source": "http://flow-v1/placeholder3",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/mimikatz"
+    },
+    {
+      "source": "http://flow-v1/mimikatz",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/credentials"
+    },
+    {
+      "source": "http://flow-v1/mimikatz",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/outlook-credentials"
+    },
+    {
+      "source": "http://flow-v1/mimikatz",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/ntlm-hash"
+    },
+    {
+      "source": "http://flow-v1/mimikatz",
+      "type": "relationship://flow-v1#provides",
+      "target": "http://flow-v1/kerberos-ticket"
+    },
+    {
+      "source": "http://flow-v1/ntlm-hash",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/passthehash"
+    },
+    {
+      "source": "http://flow-v1/kerberos-ticket",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/passtheticket"
+    },
+    {
+      "source": "http://flow-v1/credentials",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/adminshares"
+    },
+    {
+      "source": "http://flow-v1/credentials",
+      "type": "relationship://flow-v1#required-by",
+      "target": "http://flow-v1/wmi"
+    }
+  ],
+  "data_properties": [],
+  "object_properties": []
+}

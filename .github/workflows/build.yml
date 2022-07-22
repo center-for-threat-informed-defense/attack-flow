@@ -45,7 +45,7 @@ jobs:
     - name: Install dependencies
       run: poetry install
     - name: Generate schema docs
-      run: poetry run af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
+      run: make docs-schema
     - name: Create client directory
       run: mkdir docs/extra/builder
     - name: Download Attack Flow Builder
@@ -53,6 +53,8 @@ jobs:
       with:
         name: attack_flow_builder
         path: docs/extra/builder
+    - name: Copy corpus into docs
+      run: make docs-examples
     - name: Build HTML docs
       run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
     - name: Upload HTML docs

@@ -3,8 +3,8 @@
     "flow": {
         "type": "attack-flow",
         "id": "https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/",
-        "name": "The DFIR Report: ",
-        "author": "Mark E. Haase <mhaase@mitre-engenuity.org>",
+        "name": "The DFIR Report: From Zero to Domain Admin",
+        "author": "Mark E. Haase",
         "created": "2021-11-08T11:57:00-05:00"
     },
     "actions": [
@@ -186,242 +186,282 @@
         }
     ],
     "assets": [
-        {"id": "http://flow-v1/word-doc"},
-        {"id": "http://flow-v1/ier.dll"},
-        {"id": "http://flow-v1/domain-admin-ntlm-hash"},
-        {"id": "http://flow-v1/domain-admin-account"},
-        {"id": "http://flow-v1/cobalt-strike"},
-        {"id": "http://flow-v1/ficker"},
-        {"id": "http://flow-v1/placeholder1"},
-        {"id": "http://flow-v1/placeholder2"},
-        {"id": "http://flow-v1/placeholder3"},
-        {"id": "http://flow-v1/placeholder4"},
-        {"id": "http://flow-v1/placeholder5"},
-        {"id": "http://flow-v1/placeholder6"},
-        {"id": "http://flow-v1/smb-host-discovery"},
-        {"id": "http://flow-v1/smb-share-discovery"},
-        {"id": "http://flow-v1/placeholder10"},
-        {"id": "http://flow-v1/c2-instruction-source-code"},
-        {"id": "http://flow-v1/c2-instruction-compiled"},
-        {"id": "http://flow-v1/machine-discovery"},
-        {"id": "http://flow-v1/machine-list"},
-        {"id": "http://flow-v1/reachable-machine-list"}
+        {
+            "id": "http://flow-v1/word-doc"
+        },
+        {
+            "id": "http://flow-v1/ier.dll"
+        },
+        {
+            "id": "http://flow-v1/domain-admin-ntlm-hash"
+        },
+        {
+            "id": "http://flow-v1/domain-admin-account"
+        },
+        {
+            "id": "http://flow-v1/cobalt-strike"
+        },
+        {
+            "id": "http://flow-v1/ficker"
+        },
+        {
+            "id": "http://flow-v1/placeholder1"
+        },
+        {
+            "id": "http://flow-v1/placeholder2"
+        },
+        {
+            "id": "http://flow-v1/placeholder3"
+        },
+        {
+            "id": "http://flow-v1/placeholder4"
+        },
+        {
+            "id": "http://flow-v1/placeholder5"
+        },
+        {
+            "id": "http://flow-v1/placeholder6"
+        },
+        {
+            "id": "http://flow-v1/smb-host-discovery"
+        },
+        {
+            "id": "http://flow-v1/smb-share-discovery"
+        },
+        {
+            "id": "http://flow-v1/placeholder10"
+        },
+        {
+            "id": "http://flow-v1/c2-instruction-source-code"
+        },
+        {
+            "id": "http://flow-v1/c2-instruction-compiled"
+        },
+        {
+            "id": "http://flow-v1/machine-discovery"
+        },
+        {
+            "id": "http://flow-v1/machine-list"
+        },
+        {
+            "id": "http://flow-v1/reachable-machine-list"
+        }
     ],
     "relationships": [
         {
             "source": "http://flow-v1/phishing",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/word-doc"
+            "target": "http://flow-v1/word-doc"
         },
         {
             "source": "http://flow-v1/word-doc",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/malicious-file"
+            "target": "http://flow-v1/malicious-file"
         },
         {
             "source": "http://flow-v1/malicious-file",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/placeholder1"
+            "target": "http://flow-v1/placeholder1"
         },
         {
             "source": "http://flow-v1/placeholder1",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/macro"
+            "target": "http://flow-v1/macro"
         },
         {
             "source": "http://flow-v1/macro",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/ier.dll"
+            "target": "http://flow-v1/ier.dll"
         },
         {
             "source": "http://flow-v1/ier.dll",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/run-hancitor"
+            "target": "http://flow-v1/run-hancitor"
         },
         {
             "source": "http://flow-v1/run-hancitor",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/placeholder2"
+            "target": "http://flow-v1/placeholder2"
         },
         {
             "source": "http://flow-v1/placeholder2",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/hancitor-c2-beacon"
+            "target": "http://flow-v1/hancitor-c2-beacon"
         },
         {
             "source": "http://flow-v1/placeholder2",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/process-injection"
+            "target": "http://flow-v1/process-injection"
         },
         {
             "source": "http://flow-v1/process-injection",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/placeholder3"
+            "target": "http://flow-v1/placeholder3"
         },
         {
             "source": "http://flow-v1/cobalt-strike",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/run-cor-dll"
+            "target": "http://flow-v1/run-cor-dll"
         },
         {
             "source": "http://flow-v1/run-cor-dll",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/placeholder4"
+            "target": "http://flow-v1/placeholder4"
         },
         {
             "source": "http://flow-v1/placeholder4",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/cli-magic-number"
+            "target": "http://flow-v1/cli-magic-number"
         },
         {
             "source": "http://flow-v1/cli-magic-number",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/placeholder5"
+            "target": "http://flow-v1/placeholder5"
         },
         {
             "source": "http://flow-v1/placeholder5",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/run-agent-ps1"
+            "target": "http://flow-v1/run-agent-ps1"
         },
         {
             "source": "http://flow-v1/run-agent-ps1",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/placeholder6"
+            "target": "http://flow-v1/placeholder6"
         },
         {
             "source": "http://flow-v1/placeholder6",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/agent-ps1-base64"
+            "target": "http://flow-v1/agent-ps1-base64"
         },
         {
             "source": "http://flow-v1/agent-ps1-base64",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/c2-instruction-source-code"
+            "target": "http://flow-v1/c2-instruction-source-code"
         },
         {
             "source": "http://flow-v1/c2-instruction-source-code",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/agent-ps1-compile"
+            "target": "http://flow-v1/agent-ps1-compile"
         },
         {
             "source": "http://flow-v1/agent-ps1-compile",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/c2-instruction-compiled"
+            "target": "http://flow-v1/c2-instruction-compiled"
         },
         {
             "source": "http://flow-v1/c2-instruction-compiled",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/agent-ps1-beacon"
+            "target": "http://flow-v1/agent-ps1-beacon"
         },
         {
             "source": "http://flow-v1/placeholder3",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/ingress-cobalt-strike"
+            "target": "http://flow-v1/ingress-cobalt-strike"
         },
         {
             "source": "http://flow-v1/placeholder3",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/ingress-ficker"
+            "target": "http://flow-v1/ingress-ficker"
         },
         {
             "source": "http://flow-v1/ingress-cobalt-strike",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/cobalt-strike"
+            "target": "http://flow-v1/cobalt-strike"
         },
         {
             "source": "http://flow-v1/ingress-ficker",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/ficker"
+            "target": "http://flow-v1/ficker"
         },
         {
             "source": "http://flow-v1/ficker",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/ficker-c2-beacon"
+            "target": "http://flow-v1/ficker-c2-beacon"
         },
         {
             "source": "http://flow-v1/cobalt-strike",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/scan-smb-backup"
+            "target": "http://flow-v1/scan-smb-backup"
         },
         {
             "source": "http://flow-v1/scan-smb-backup",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/smb-host-discovery"
+            "target": "http://flow-v1/smb-host-discovery"
         },
         {
             "source": "http://flow-v1/cobalt-strike",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/enumerate-domain-accounts"
+            "target": "http://flow-v1/enumerate-domain-accounts"
         },
         {
             "source": "http://flow-v1/cobalt-strike",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/enumerate-domain-groups"
+            "target": "http://flow-v1/enumerate-domain-groups"
         },
         {
             "source": "http://flow-v1/smb-host-discovery",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/enumerate-smb-shares"
+            "target": "http://flow-v1/enumerate-smb-shares"
         },
         {
             "source": "http://flow-v1/enumerate-smb-shares",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/smb-share-discovery"
+            "target": "http://flow-v1/smb-share-discovery"
         },
         {
             "source": "http://flow-v1/smb-share-discovery",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/lateral-tool-transfer"
+            "target": "http://flow-v1/lateral-tool-transfer"
         },
         {
             "source": "http://flow-v1/cobalt-strike",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/zerologon-cve"
+            "target": "http://flow-v1/zerologon-cve"
         },
         {
             "source": "http://flow-v1/zerologon-cve",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/domain-admin-ntlm-hash"
+            "target": "http://flow-v1/domain-admin-ntlm-hash"
         },
         {
             "source": "http://flow-v1/domain-admin-ntlm-hash",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/pass-the-hash"
+            "target": "http://flow-v1/pass-the-hash"
         },
         {
             "source": "http://flow-v1/pass-the-hash",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/domain-admin-account"
+            "target": "http://flow-v1/domain-admin-account"
         },
         {
             "source": "http://flow-v1/domain-admin-account",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/enumerate-machines"
+            "target": "http://flow-v1/enumerate-machines"
         },
         {
             "source": "http://flow-v1/enumerate-machines",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/machine-list"
+            "target": "http://flow-v1/machine-list"
         },
         {
             "source": "http://flow-v1/machine-list",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/discover-machines"
+            "target": "http://flow-v1/discover-machines"
         },
         {
             "source": "http://flow-v1/discover-machines",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/machine-discovery"
+            "target": "http://flow-v1/machine-discovery"
         },
         {
             "source": "http://flow-v1/machine-discovery",
             "type": "relationship://flow-v1#required-by",
-            "target":  "http://flow-v1/scan-machines"
+            "target": "http://flow-v1/scan-machines"
         },
         {
             "source": "http://flow-v1/scan-machines",
             "type": "relationship://flow-v1#provides",
-            "target":  "http://flow-v1/reachable-machine-list"
+            "target": "http://flow-v1/reachable-machine-list"
         }
     ],
     "object_properties": [],
