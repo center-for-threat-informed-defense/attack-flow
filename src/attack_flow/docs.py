@@ -254,9 +254,9 @@ def generate_example_flows(jsons, afds):
         formats = list()
         formats.extend(
             [
-                f'<a href="/corpus/{html.escape(stem)}.json"><i class="fa fa-file-text"></i> JSON</a>',
-                f'<a href="/corpus/{html.escape(stem)}.dot"><i class="fa fa-snowflake-o"></i> Graphviz</a>',
-                f'<a href="/corpus/{html.escape(stem)}.dot.png"><i class="fa fa-picture-o"></i> Image</a>',
+                f'<a href="corpus/{html.escape(stem)}.json"><i class="fa fa-file-text"></i> JSON</a>',
+                f'<a href="corpus/{html.escape(stem)}.dot"><i class="fa fa-snowflake-o"></i> Graphviz</a>',
+                f'<a href="corpus/{html.escape(stem)}.dot.png"><i class="fa fa-picture-o"></i> Image</a>',
             ]
         )
         if stem in afd_stems:
@@ -276,6 +276,12 @@ def generate_example_flows(jsons, afds):
                 "        " + " | ".join(formats) + "<br>",
                 f"        <b>Description:</b> {html.escape(description)}",
                 "    </p>",
+                "",
+                ".. raw:: latex",
+                "",
+                f"    \\textbf{{Authors:}} {author}\\newline",
+                "    \\textbf{Formats:} \\textit{You must view this document on the web to see the available formats.}\\newline",
+                f"    \\textbf{{Description:}} {description}",
                 "",
             ]
         )
