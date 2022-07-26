@@ -51,6 +51,13 @@ palette of options.
 For example, you can select "Create Action Node" to create a new action, and then fill
 in the details of the action.
 
+.. image:: _static/builder7.png
+  :width: 400
+  :alt: An example of an action this is missing a required attribute.
+
+Some fields are required. If you see the yellow warning icon, it means that you need
+to enter something into that field.
+
 .. image:: _static/builder3.png
   :width: 400
   :alt: An example of an action with filled-in attributes.
@@ -68,6 +75,12 @@ line to another item.
 .. image:: _static/builder5.png
   :alt: The finished flow with connections between items.
 
+The arrows between objects also have required fields. Click on an arrow to view the
+fields and then fill in the missing items.
+
+.. image:: _static/builder8.png
+  :alt: An example of a relationship that is missing a required attribute.
+
 Continue to build out your flow by adding nodes, filling in the attributes, and drawing
 arrows between nodes. When you are done, you go to the File menu to save your flow.
 
@@ -81,6 +94,13 @@ Save Attack Flow…
 Publish Attack Flow…
    Saves the file in \*.json format, which is the standard format for exchanging and
    processing Attack Flows.
+
+.. warning::
+
+   The Attack Flow Builder does not automatically save your work. If you accidentally
+   close the tab or navigate forward or backward, you will lose any unsaved work.
+   Remember to save your work frequently. (This issue will be addressed in Attack Flow
+   2.)
 
 Docker
 ------
