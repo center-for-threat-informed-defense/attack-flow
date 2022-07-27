@@ -47,9 +47,11 @@ body {
     }
 }
 
-strong {
+em.newsgroup {
     background-color: var(--me-core-yellow);
     padding: 5px;
+    font-style: normal;
+    font-weight: 700;
 }
 
 /* Anchor styles */
