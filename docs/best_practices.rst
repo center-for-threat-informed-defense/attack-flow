@@ -70,39 +70,39 @@ Report Used: Cisco Talos; January, 31, 2022; `"Iranian APT MuddyWater targets Tu
 
 Initial Access
 ~~~~~~~~~~~~~~~
-.. image:: SpearPhishing.png
+.. image:: _static/SpearPhishing.png
 
 Execution
 ~~~~~~~~~~
 The malware requires user-interaction to execute
 
-.. image:: MaliciousLink.png
+.. image:: _static/MaliciousLink.png
 
 Command and Control
 ~~~~~~~~~~~~~~~~~~~~
 This report downloads two variants of the infection chain. The PDF either downloads malicious XLS files or a Windows executable from an attacker-hosted website. In an attack flow, multiple paths would be passed using an operator "OR"/"AND." However, for the sake of this example, we will only map the first variation.
  
-.. image:: IngressTool.png 
+.. image:: _static/IngressTool.png 
 
 Infection Chain
 ~~~~~~~~~~~~~~~~
 The malicious XLS file variation executes via VBA macros and establishes persistence 
 
-.. image:: VBAMacros.png 
+.. image:: _static/VBAMacros.png 
 
 There was no ATT&CK technique associated with this Canary Token technique that may have served as a means of defense evasion or anti-analysis. The action was simply named "Canary Token Execution"
 
-.. image:: CanaryToken.png 
+.. image:: _static/CanaryToken.png 
 
 This variation of the malware concludes with the PowerShell downloader reaching out to a remote location for the final payload, which Cisco was unable to obtain 
 
-.. image:: PowerShell.png
+.. image:: _static/PowerShell.png
 
 Impact
 ~~~~~~~
 Because Cisco was unable to obtain the final payload, we cannot determine the objective of the attack. However, we can assess possible impact with moderate confidence based on information in the report on Muddy Water's observed behavior in past campaigns. We will reflect this uncertainty in our flow in the Action descriptions and confidence property and by using an OR operator. 
 
-.. image:: Impact.png
+.. image:: _static/Impact.png
 
 Flow Structure
 --------------
@@ -111,7 +111,7 @@ Flow Structure
           Note: If the Initial Access vector is unknown, begin the flow with an Action with the description that the Initial Access is unknown, along with any other details on the compromised state of the system.  If there are multiple possible Initial Access vectors, depict them using an OR operator.  
 * Use preconditions to enhance human understanding of the flow. If a set of actions are self-explanatory, omit the precondition and connect the actions to each other directly. For example, the NotPetya encryption routine does not require preconditions in between the actions. 
 
-.. image:: Nopreconditions.png
+.. image:: _static/Nopreconditions.png
 
 * If two actions stemming from one action happen simultaneously, an AND operator is not needed
 *  End each flow with an *Impact* Technique 
