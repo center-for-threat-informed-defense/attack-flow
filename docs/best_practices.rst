@@ -28,7 +28,7 @@ Key Takeaways for Selecting a Report:
 Reports to Avoid
 ~~~~~~~~~~~~~~~~~
 
-Conversely, sources that do not meet the above standard should be avoided. Sources that do not have technical expertise and the ability to analyze the malware or attack themselves (for example, news sites) are not considered credible for creating attack flows. 
+Conversely, sources that do not meet the above standard should be avoided. Sources that do not have technical expertise and the ability to analyze the malware or attack themselves (for example, news sites) are not considered optimal for creating attack flows. 
 
 Characteristics of Reports to Avoid:
 
@@ -137,7 +137,7 @@ This variation of the malware concludes with the PowerShell downloader reaching 
 
 Impact
 ~~~~~~~
-Because Cisco was unable to obtain the final payload, we cannot determine the objective of the attack. However, we can assess possible impact with moderate confidence based on information in the report on Muddy Water's observed behavior in past campaigns. We will reflect this uncertainty in our flow in the Action descriptions and confidence property and by using an OR operator. 
+Because Cisco was unable to obtain the final payload, we cannot determine the objective of the attack. However, we can assess possible impact based on information in the report on Muddy Water's observed behavior in past campaigns. We will reflect this uncertainty in our flow in the Action descriptions and confidence property and by using an OR operator. 
 
 .. image:: _static/Impact.png
    :alt: Screenshot from Cisco report of the MuddyWater Threat Actor section. The section says "Campaigns carried out by the threat actor aim to achieve either of three outcomes." Each outcome is underlined: Espionage, Intellectual Property Theft, and Ransomware attacks. The three techniques labeled correspond to those outcomes and are TA0009 Collection, TA0010 Exfiltration, and T1486 Data Encrypted for Impact. 
