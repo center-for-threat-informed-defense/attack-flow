@@ -90,11 +90,13 @@ The MITRE ATT&CK framework is a catalogue of observed adversary tactics, techniq
 
 .. note::
     
-    ATT&CK techniques do not have to be used for mapping, and there will be cases when a behavior does not align with an ATT&CK technique. Attack Flows was designed to support the use of all actions, and other sources, such as VERIS, can also be used. 
+    ATT&CK techniques do not have to be used for mapping, and there will be cases when a behavior does not align with an ATT&CK technique. Attack Flow was designed to support the use of all actions, and other sources, such as VERIS, can also be used. 
 
 Example Technique Mapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-Report Used: Cisco Talos; January, 31, 2022; `"Iranian APT MuddyWater targets Turkish users via malicious PDFs, executables" <https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html>`_
+This section provides an example of mapping a report to illustrate the process.
+
+Report used: Cisco Talos; January, 31, 2022; `"Iranian APT MuddyWater targets Turkish users via malicious PDFs, executables" <https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html>`_
 `MuddyWater Attack Flow <https://github.com/center-for-threat-informed-defense/attack-flow-private/blob/main/corpus/MuddyWater.afd>`_
 
 Initial Access
