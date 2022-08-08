@@ -1,0 +1,314 @@
+{
+    "type": "bundle",
+    "id": "bundle--e8d6416b-feb8-4e3b-833c-cb6b79dfd922",
+    "objects": [
+        {
+            "type": "extension-definition",
+            "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+            "spec_version": "2.1",
+            "name": "Attack Flow",
+            "description": "Extends STIX 2.1 with features to create Attack Flows.",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "schema": "./attack-flow-schema-2.0.0.json",
+            "version": "2.0.0",
+            "extension_types": [
+                "new-sdo",
+                "property-extension"
+            ],
+            "external_references": [
+                {
+                    "source_name": "Documentation",
+                    "description": "Documentation for Attack Flow",
+                    "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+                },
+                {
+                    "source_name": "GitHub",
+                    "description": "Source code repository for Attack Flow",
+                    "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+                }
+            ]
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "MITRE Engenuity Center for Threat-Informed Defense",
+            "identity_class": "organization"
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
+            "created_by_ref": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "John Doe",
+            "contact_information": "jdoe@mitre.org",
+            "identity_class": "individual"
+        },
+        {
+            "type": "attack-flow",
+            "spec_version": "2.1",
+            "id": "flow--e9ec3a4b-f787-4e81-a3d9-4cfe017ebc2f",
+            "created_by_ref": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Example Flow",
+            "foobar": "asdf",
+            "description": "This Attack Flow example demonstrates some of the key concepts of the Attack Flow standard.",
+            "scope": "incident",
+            "start_refs": [
+                "action--37345417-3ee0-4e11-b421-1d4be68e6f15",
+                "action--3ea0de71-67a6-426e-bb2f-86375c620478",
+                "action--4f541c4c-b7bb-4b14-befd-ca8e8fe12599"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--b2a17314-ca48-4604-9d9e-197d3d66ffb8",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Fictitious Corp.",
+            "identity_class": "organization"
+        },
+        {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--b6f56804-d99a-4755-aac6-332fa615a3e1",
+            "created_by_ref": "identity--b2a17314-ca48-4604-9d9e-197d3d66ffb8",
+            "created": "2015-12-21T19:59:11.000Z",
+            "modified": "2015-12-21T19:59:11.000Z",
+            "name": "APT X Campaign Report",
+            "description": "A report about APT X",
+            "published": "2016-01-20T17:00:00.000Z",
+            "report_types": [
+                "campaign"
+            ],
+            "object_refs": [
+                "flow--e9ec3a4b-f787-4e81-a3d9-4cfe017ebc2f"
+            ]
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--455988a3-9076-4d19-977d-29b61034a8d4",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Imaginary LLC",
+            "identity_class": "organization"
+        },
+        {
+            "type": "report",
+            "spec_version": "2.1",
+            "id": "report--863557e0-aada-4b16-83de-a08b85531d87",
+            "created_by_ref": "identity--455988a3-9076-4d19-977d-29b61034a8d4",
+            "created": "2015-12-21T19:59:11.000Z",
+            "modified": "2015-12-21T19:59:11.000Z",
+            "name": "APT X Threat Actor Report",
+            "description": "A report about APT X",
+            "published": "2016-01-20T17:00:00.000Z",
+            "report_types": [
+                "threat-actor"
+            ],
+            "object_refs": [
+                "flow--e9ec3a4b-f787-4e81-a3d9-4cfe017ebc2f"
+            ]
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "action--37345417-3ee0-4e11-b421-1d4be68e6f15",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1583.002",
+            "technique_name": "Acquire Infrastructure: Domains",
+            "technique_ref": "attack-pattern--40f5caa0-4cb7-4117-89fc-d421bb493df3",
+            "description": "The attacker obtains a phishing domain similar to the target company.",
+            "effect_refs": [
+                "state--7e809f5b-319a-4b3f-82fe-e4dc09af5088"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--962081ff-716c-444c-a5fa-c581fbb500a7",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "relationship_type": "related-to",
+            "target_ref": "action--37345417-3ee0-4e11-b421-1d4be68e6f15",
+            "source_ref": "infrastructure--0048e01d-260f-4af2-8ebc-90377f520830"
+        },
+        {
+            "type": "infrastructure",
+            "spec_version": "2.1",
+            "id": "infrastructure--0048e01d-260f-4af2-8ebc-90377f520830",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Phishing infra: m1tre.org",
+            "description": "The phishing domain uses a homoglyphic variant of mitre.org.",
+            "infrastructure_types": [
+                "phishing"
+            ]
+        },
+        {
+            "type": "attack-state",
+            "spec_version": "2.1",
+            "id": "state--7e809f5b-319a-4b3f-82fe-e4dc09af5088",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "description": "Adversary possesses a phishing domain.",
+            "effect_refs": [
+                "operator--609d7adf-a3d2-44e8-82de-4b30e3fb97be"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "action--3ea0de71-67a6-426e-bb2f-86375c620478",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1583.003",
+            "technique_name": "Acquire Infrastructure: Virtual Private Server",
+            "technique_ref": "attack-pattern--79da0971-3147-4af6-a4f5-e8cd447cd795",
+            "description": "The attacker obtains a VPC for hosting phishing sites.",
+            "effect_refs": [
+                "state--a9416f58-3fd1-4743-bd4c-6272dfd8c4e2"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "relationship",
+            "spec_version": "2.1",
+            "id": "relationship--a41c5033-da75-44cd-9bcb-632a7a165d11",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "relationship_type": "related-to",
+            "target_ref": "action--3ea0de71-67a6-426e-bb2f-86375c620478",
+            "source_ref": "infrastructure--0048e01d-260f-4af2-8ebc-90377f520830"
+        },
+        {
+            "type": "attack-state",
+            "spec_version": "2.1",
+            "id": "state--a9416f58-3fd1-4743-bd4c-6272dfd8c4e2",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "description": "Adversary possesses phishing server.",
+            "effect_refs": [
+                "operator--609d7adf-a3d2-44e8-82de-4b30e3fb97be"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "action--4f541c4c-b7bb-4b14-befd-ca8e8fe12599",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1589.002",
+            "technique_name": "Gather Victim Identity Information: Email",
+            "technique_ref": "attack-pattern--69f897fd-12a9-4c89-ad6a-46d2f3c38262",
+            "description": "The attacker scrapes email addresses from the corporate web site.",
+            "effect_refs": [
+                "state--3ace48ed-24fd-4d24-a399-62202ae6356b"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-state",
+            "spec_version": "2.1",
+            "id": "state--3ace48ed-24fd-4d24-a399-62202ae6356b",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "description": "Adversary possesses phishing server.",
+            "effect_refs": [
+                "operator--609d7adf-a3d2-44e8-82de-4b30e3fb97be"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-operator",
+            "spec_version": "2.1",
+            "id": "operator--609d7adf-a3d2-44e8-82de-4b30e3fb97be",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "operator": "AND",
+            "effect_refs": [
+                "action--d68e5201-796c-469c-b012-290b7040db02"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "action--d68e5201-796c-469c-b012-290b7040db02",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "1598.003",
+            "technique_name": "Phishing: Spearphishing Link",
+            "technique_ref": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
+            "description": "The email says that the users's Outlook credentials have been compromised and contain a fake link to reset the credentials.",
+            "effect_refs": [
+                "state--2277d494-031e-4d79-b557-f31e4451a305"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-state",
+            "spec_version": "2.1",
+            "id": "state--2277d494-031e-4d79-b557-f31e4451a305",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "description": "Adversary has plaintext passwords for one or more employees.",
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        }
+    ]
+}

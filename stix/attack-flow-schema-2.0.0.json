@@ -1,0 +1,234 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://center-for-threat-informed-defense.github.io/attack-flow/schema/attack-flow-schema-2.0.0.json",
+    "title": "Attack Flow STIX 2.1 Extension",
+    "description": "This schema is the normative definition of the STIX 2.1 extension `extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4`. It extends STIX with additional STIX Data Objects (SDOs) and SDO properties to implement Attack Flow concepts, i.e. generalized graphs of adversary behaviors.",
+    "type": "object",
+    "allOf": [
+        {
+            "$comment": "All Attack Flow SDOs implement the required common properties.",
+            "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/core.json"
+        },
+        {
+            "$comment": "Attack Flow SDOs must reference the extension definition.",
+            "type": "object",
+            "properties": {
+                "extensions": {
+                    "type": "object",
+                    "properties": {
+                        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                            "type": "object",
+                            "properties": {
+                                "extension_type": {
+                                    "type": "string",
+                                    "const": "new-sdo"
+                                }
+                            },
+                            "required": [
+                                "extension_type"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4"
+                    ]
+                }
+            },
+            "required": [
+                "extensions"
+            ]
+        },
+        {
+            "$comment": "Link to the Attack Flow SDO subschemas based on object type.",
+            "if": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "const": "attack-flow"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/$defs/attack-flow"
+            },
+            "else": {
+                "if": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "attack-action"
+                        }
+                    }
+                },
+                "then": {
+                    "$ref": "#/$defs/attack-action"
+                },
+                "else": {
+                    "if": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "const": "attack-state"
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "#/$defs/attack-state"
+                    },
+                    "else": {
+                        "if": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "const": "attack-operator"
+                                }
+                            }
+                        },
+                        "then": {
+                            "$ref": "#/$defs/attack-operator"
+                        },
+                        "else": true
+                    }
+                }
+            }
+        }
+    ],
+    "$defs": {
+        "attack-flow": {
+            "description": "An `attack-flow` object represents the Attack Flow overall. It provides metadata such as name and description; it provides starting points for the flow of actions to begin; and it is an object that can be referenced from other STIX objects.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "The name of the Attack Flow.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "A description of the overall Attack Flow.",
+                    "type": "string"
+                },
+                "scope": {
+                    "description": "Indicates what type of behavior the Attack Flow describes: a specific incident, a campaign, etc.",
+                    "type": "string",
+                    "enum": [
+                        "incident",
+                        "campaign",
+                        "threat-actor",
+                        "malware",
+                        "other"
+                    ]
+                },
+                "start_refs": {
+                    "description": "A list of `attack-action` or `attack-state` objects that start the flow.",
+                    "type": "array",
+                    "x-refTypes": [
+                        "attack-action",
+                        "attack-state"
+                    ],
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "name",
+                "start_refs",
+                "scope"
+            ]
+        },
+        "attack-action": {
+            "description": "An `attack-action` object represents a discrete unit of adverary behavior.",
+            "type": "object",
+            "properties": {
+                "technique_id": {
+                    "description": "A technique identifier or shortname that may reference an authoritative collection of techniques, e.g. ATT&CK.",
+                    "type": "string"
+                },
+                "technique_name": {
+                    "description": "The name of the technique.",
+                    "type": "string"
+                },
+                "technique_ref": {
+                    "description": "A reference to the technique's STIX representation.",
+                    "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effect_refs": {
+                    "description": "a list of `attack-action` objects that are enabled when this technique is executed successfully, or a list of `attack-state` objects that become true when this technique is executed successfully.",
+                    "type": "array",
+                    "x-refTypes": [
+                        "attack-action",
+                        "attack-state"
+                    ],
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "technique_name"
+            ]
+        },
+        "attack-state": {
+            "description": "An `attack-state` object represents some state (i.e. outcome, condition, effect, etc.) that results from successful execution of a technique.",
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "A description of the state that results from successful execution of a technique.",
+                    "type": "string"
+                },
+                "effect_refs": {
+                    "description": "A list of `attack-action` objects that are enabled when this state is true, or list of `attack-state` objects that become true when this state is true.",
+                    "type": "array",
+                    "x-refTypes": [
+                        "attack-action",
+                        "attack-state"
+                    ],
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "description"
+            ]
+        },
+        "attack-operator": {
+            "description": "An `attack-operator` object aggregates multiple effects into a single effect using boolean logic.",
+            "type": "object",
+            "properties": {
+                "operator": {
+                    "description": "The logical operator to apply to the input effects.",
+                    "type": "string",
+                    "enum": [
+                        "AND",
+                        "OR"
+                    ]
+                },
+                "effect_refs": {
+                    "description": "A list of `attack-action` objects that are enabled when this operator evaluates to true, or list of `attack-state` objects that become true when this operator evaluates to true.",
+                    "type": "array",
+                    "x-refTypes": [
+                        "attack-action",
+                        "attack-state"
+                    ],
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "operator"
+            ]
+        }
+    }
+}

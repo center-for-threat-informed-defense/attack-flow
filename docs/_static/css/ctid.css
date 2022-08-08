@@ -66,6 +66,14 @@ em.newsgroup {
     text-decoration: underline;
 }
 
+/* Don't underline font awesome icons in links. */
+.rst-content a .fa,
+.rst-content a:active .fa,
+.rst-content a:visited .fa {
+    text-decoration: none;
+    padding-right: 0.25em;
+}
+
 .rst-content a:hover {
     color: var(--me-text-color);
 }

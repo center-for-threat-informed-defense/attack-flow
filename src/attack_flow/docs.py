@@ -254,14 +254,14 @@ def generate_example_flows(jsons, afds):
         formats = list()
         formats.extend(
             [
-                f'<a href="corpus/{html.escape(stem)}.json"><i class="fa fa-file-text"></i> JSON</a>',
-                f'<a href="corpus/{html.escape(stem)}.dot"><i class="fa fa-snowflake-o"></i> Graphviz</a>',
-                f'<a href="corpus/{html.escape(stem)}.dot.png"><i class="fa fa-picture-o"></i> Image</a>',
+                f'<a href="../corpus/{html.escape(stem)}.json"><i class="fa fa-file-text"></i>JSON</a>',
+                f'<a href="../corpus/{html.escape(stem)}.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a>',
+                f'<a href="../corpus/{html.escape(stem)}.dot.png"><i class="fa fa-picture-o"></i>Image</a>',
             ]
         )
         if stem in afd_stems:
             formats.append(
-                f'<a href="/builder/?load=%2fcorpus%2f{html.escape(stem)}.afd"><i class="fa fa-wrench"></i> Attack Flow Builder</a> (* TODO fix builder link in AF2)'
+                f'<a href="/builder/?load=%2fcorpus%2f{html.escape(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (* TODO fix builder link in AF2)'
             )
         doc_lines.extend(
             [

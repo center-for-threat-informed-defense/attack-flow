@@ -1,11 +1,11 @@
 ROOTDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SOURCEDIR = docs/
-BUILDDIR = docs/_build
+BUILDDIR = docs/_build/
 
 .PHONY: docs
 
 docs:
-	sphinx-build -M html "$(SOURCEDIR)" "$(BUILDDIR)"
+	sphinx-build -M dirhtml "$(SOURCEDIR)" "$(BUILDDIR)"
 
 docs-examples:
 	mkdir -p docs/extra/corpus
@@ -17,7 +17,7 @@ docs-schema:
 	af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
 
 docs-server:
-	sphinx-autobuild -a "$(SOURCEDIR)" "$(BUILDDIR)"
+	sphinx-autobuild -b dirhtml -a "$(SOURCEDIR)" "$(BUILDDIR)"
 
 docs-pdf:
 	poetry export --dev --without-hashes -f requirements.txt -o docs/requirements.txt
