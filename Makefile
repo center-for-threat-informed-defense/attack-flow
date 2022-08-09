@@ -10,14 +10,11 @@ docs:
 docs-examples:
 	mkdir -p docs/extra/corpus
 	cp -r corpus.af1/*.json docs/extra/corpus
-	ls -1 corpus.af1/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -I {} af graphviz "corpus.af1/{}.json" "docs/extra/corpus/{}.dot"
+	ls -1 corpus.af1/*.json | sed 's/corpus\.af1\/\(.*\)\.json/\1/' | xargs -I {} af graphviz "corpus.af1/{}.json" "docs/extra/corpus/{}.dot"
 	ls -1 docs/extra/corpus/*.dot | xargs -I {} dot -Tpng -O -q1 "{}"
 
 docs-schema:
-	af doc-schema schema/attack-flow-2022-01-05-draft.json docs/language.rst
-
-docs-common:
-	af doc-common schema/stix-core.json docs/language.rst
+	af doc-schema stix/attack-flow-schema-2.0.0.json docs/language.rst
 
 docs-server:
 	sphinx-autobuild -b dirhtml -a "$(SOURCEDIR)" "$(BUILDDIR)"
