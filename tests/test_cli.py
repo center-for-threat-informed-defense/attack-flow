@@ -30,18 +30,18 @@ def test_validate(validate_mock, exit_mock, capsys):
 
 @patch("sys.exit")
 @patch("attack_flow.docs.insert_docs")
-@patch("attack_flow.docs.generate_schema")
-@patch("attack_flow.docs.get_properties")
-def test_doc_schema(properties_mock, generate_mock, insert_mock, exit_mock):
-    properties_mock.return_value = {}
+@patch("attack_flow.docs.generate_schema_docs")
+@patch("attack_flow.docs.Schema")
+def test_doc_schema(schema_mock, generate_mock, insert_mock, exit_mock):
+    schema_mock.return_value = {}
     generate_mock.return_value = ["Sample input"]
     insert_mock.return_value = "Sample output"
     with NamedTemporaryFile() as schema, NamedTemporaryFile() as docs:
-        schema.write(b"{}")  # Empty JSON object
+        schema.write(b'{"$defs": {"foo": "bar"}}')
         schema.seek(0, os.SEEK_SET)
         sys.argv = ["af", "--log-level", "debug", "doc-schema", schema.name, docs.name]
         runpy.run_module("attack_flow.cli", run_name="__main__")
-    properties_mock.assert_called()
+    schema_mock.assert_called()
     generate_mock.assert_called()
     insert_mock.assert_called()
     exit_mock.assert_called_with(0)

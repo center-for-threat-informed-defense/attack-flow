@@ -144,7 +144,7 @@ make HTML:
 .. code:: bash
 
     $ make docs
-    sphinx-build -M html "docs/" "docs/_build"
+    sphinx-build -M dirhtml "docs/" "docs/_build"
     Running Sphinx v4.5.0
     making output directory... done
     building [mo]: targets for 0 po files that are out of date
@@ -164,7 +164,7 @@ server:
 .. code:: bash
 
     $ make docs-server
-    [sphinx-autobuild] > sphinx-build -a /Volumes/Code/ctid/attack-flow-private/docs /Volumes/Code/ctid/attack-flow-private/docs/_build
+    [sphinx-autobuild] > sphinx-build -b dirhtml -a /Volumes/Code/ctid/attack-flow-private/docs /Volumes/Code/ctid/attack-flow-private/docs/_build
     Running Sphinx v4.5.0
     loading pickled environment... done
     building [mo]: all of 0 po files

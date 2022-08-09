@@ -3,9 +3,9 @@ Example Flows
 
 The Attack Flow project includes a corpus of example flows that may be useful for
 learning about Attack Flow, practicing how to create flows, or mining the data for
-interesting patterns. You can download the entire corpus from `Attack Flow release page
-<https://github.com/center-for-threat-informed-defense/attack-flow/releases>`__, or you
-can view individual flows on this page.
+interesting patterns. You can download the entire corpus from the `Attack Flow release
+page <https://github.com/center-for-threat-informed-defense/attack-flow/releases>`__, or
+you can view individual flows on this page.
 
 List of Examples
 ----------------

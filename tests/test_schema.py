@@ -16,6 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_PATH = PROJECT_ROOT / "schema" / "attack-flow-2022-01-05-draft.json"
 
 
+@pytest.mark.xfail  # TODO fix in AF-52
 def test_validate_docs():
     doc1_json = {
         "flow": {

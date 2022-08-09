@@ -29,6 +29,8 @@ STIX Datatypes
 STIX has built-in datatypes that are used in Attack Flow. The datatypes that are most
 relevant to Attack Flow are summarized below.
 
+TODO
+
 .. list-table::
   :widths: 20 30 50
   :header-rows: 1

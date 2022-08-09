@@ -14,7 +14,7 @@ import string
 import textwrap
 from urllib.parse import quote_plus
 
-NON_ALPHA = re.compile(r"[^a-zA-Z0-9]")
+NON_ALPHA = re.compile(r"[^a-zA-Z0-9]+")
 
 
 class RefType:
@@ -90,10 +90,10 @@ class SchemaProperty:
         """Return object type markup."""
         if self.type == "array":
             if self.subtype == "object":
-                subtype_html = make_ref(self.name)
+                subtype_rst = make_ref(self.name)
             else:
-                subtype_html = self.subtype
-            return f"``list`` of {subtype_html}"
+                subtype_rst = f"``{self.subtype}``"
+            return f"``list`` of {subtype_rst}"
         elif self.type == "object":
             return make_ref(self.name)
         elif self.enum:
@@ -178,7 +178,7 @@ def make_target(name):
     :param str name:
     :rtype: str
     """
-    return ".. _schema_{}:".format(re.sub(NON_ALPHA, "_", name).lower())
+    return ".. _schema_{}:".format(re.sub(NON_ALPHA, "_", name).lower().strip("_"))
 
 
 def make_ref(name):
@@ -276,7 +276,7 @@ def generate_example_flows(jsons, afds):
         "  :widths: 25 25 50",
         "  :header-rows: 1",
         "",
-        "  * - Name",
+        "  * - Report",
         "    - Authors",
         "    - Description",
     ]
@@ -290,7 +290,7 @@ def generate_example_flows(jsons, afds):
         ]
         if stem in afd_stems:
             formats.append(
-                f'<p><a href="/builder/?load=%2fcorpus%2f{quote_plus(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>'
+                f'<p><a target="_blank" href="/builder/?load=%2fcorpus%2f{quote_plus(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>'
             )
         doc_lines.append(f"  * - **{name}**")
         doc_lines.append("")
