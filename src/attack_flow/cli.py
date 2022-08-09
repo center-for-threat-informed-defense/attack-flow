@@ -5,6 +5,7 @@ import argparse
 from pathlib import Path
 import json
 import logging
+import os
 import sys
 
 import pkg_resources
@@ -82,23 +83,27 @@ def graphviz(args):
 
 def doc_schema(args):
     """
-    Generate schema documentation.
+    Generate schema documentation for Attack Flow.
 
     :param args: argparse arguments
     :returns: exit code
     """
-    with open(args.schema_doc) as schema_file, open(args.documentation_file) as old_doc:
+    with open(args.schema_doc) as schema_file:
         schema_json = json.load(schema_file)
-        object_properties = attack_flow.docs.get_properties(
-            schema_json, node=attack_flow.docs.ROOT_NODE
+
+    schema_lines = list()
+    for name, subschema in schema_json["$defs"].items():
+        schema = attack_flow.docs.Schema(name, subschema)
+        schema_lines.extend(attack_flow.docs.generate_schema_docs(schema))
+
+    with open(args.documentation_file) as old_doc:
+        new_doc = attack_flow.docs.insert_docs(
+            old_doc, schema_lines, tag="ATTACK_FLOW_SCHEMA"
         )
-        schema_lines = attack_flow.docs.generate_schema(object_properties)
-        new_docs = attack_flow.docs.insert_docs(
-            old_doc, schema_lines, tag="JSON_SCHEMA"
-        )
-        print("new_docs", new_docs)
+
     with open(args.documentation_file, "w") as out:
-        out.write(new_docs)
+        out.write(new_doc)
+
     print(f"Saved to {args.documentation_file}")
     return 0
 
@@ -170,6 +175,16 @@ def _parse_args():
     # Schema subcommand
     doc_schema_cmd = subparsers.add_parser(
         "doc-schema", help="Generate schema documentation."
+    )
+    doc_schema_cmd.set_defaults(command=doc_schema)
+    doc_schema_cmd.add_argument("schema_doc", help="The schema to document.")
+    doc_schema_cmd.add_argument(
+        "documentation_file", help="Insert generated RST into the specified file."
+    )
+
+    # Common properties subcommand
+    doc_schema_cmd = subparsers.add_parser(
+        "doc-common", help="Generate common properties documentation."
     )
     doc_schema_cmd.set_defaults(command=doc_schema)
     doc_schema_cmd.add_argument("schema_doc", help="The schema to document.")

@@ -2,18 +2,52 @@
 Tools for generating Attack Flow documentation.
 """
 
+from cgitb import text
 from collections import OrderedDict
 from datetime import datetime
-import html
 import json
+from multiprocessing.sharedctypes import Value
 import operator
 from pydoc import doc
 import re
 import string
 import textwrap
+from urllib.parse import quote_plus
 
-ROOT_NODE = "__root__"
 NON_ALPHA = re.compile(r"[^a-zA-Z0-9]")
+
+
+class RefType:
+    """Helper class for JSON Schema references."""
+
+    ALL_TYPES = object()
+
+    def __init__(self, schema, ref_types):
+        self.schema = schema
+        self.ref_types = ref_types
+
+    def __str__(self):
+        if self.ref_types is self.ALL_TYPES:
+            return "``identifier``"
+        else:
+            types = " or ".join(f"``{rt}``" for rt in self.ref_types)
+            return f"``identifier`` (of type {types})"
+
+
+class Schema:
+    """
+    Helper class for a schema or subschema.
+    """
+
+    def __init__(self, name, schema_dict):
+        self.name = name
+        self.description = schema_dict["description"]
+        self.properties = OrderedDict()
+
+        for name, property_dict in schema_dict["properties"].items():
+            required = name in schema_dict.get("required", [])
+            prop = SchemaProperty(name, required, property_dict)
+            self.properties[name] = prop
 
 
 class SchemaProperty:
@@ -23,12 +57,29 @@ class SchemaProperty:
 
     def __init__(self, name, required, property_dict):
         self.name = name
-        self.type = property_dict["type"]
-        if self.type == "array":
-            self.subtype = property_dict["items"]["type"]
+        if "$ref" in property_dict:
+            self.type = RefType(
+                property_dict["$ref"], property_dict.get("xRefType", RefType.ALL_TYPES)
+            )
         else:
-            self.subtype = ""
-        self.description = property_dict["description"]
+            self.type = property_dict["type"]
+        if self.type == "array":
+            if "$ref" in property_dict["items"]:
+                self.subtype = RefType(
+                    property_dict["items"]["$ref"], property_dict["items"]["xRefType"]
+                )
+            else:
+                self.subtype = property_dict["items"]["type"]
+                if self.subtype == "object":
+                    raise ValueError(
+                        "Arrays of objects are not supported; use a $def/$ref instead."
+                    )
+        else:
+            self.subtype = None
+        try:
+            self.description = property_dict["description"]
+        except KeyError:
+            raise ValueError(f"description is required for `{name}` property")
         self.format = property_dict.get("format", "")
         self.pattern = property_dict.get("pattern", "")
         self.enum = property_dict.get("enum", "")
@@ -42,15 +93,17 @@ class SchemaProperty:
                 subtype_html = make_ref(self.name)
             else:
                 subtype_html = self.subtype
-            return f"{self.type} of {subtype_html}"
+            return f"``list`` of {subtype_html}"
         elif self.type == "object":
             return make_ref(self.name)
         elif self.enum:
-            return "enum"
+            return "``enum``"
         elif self.format:
-            return self.format
+            return f"``{self.format}``"
+        elif isinstance(self.type, RefType):
+            return str(self.type)
         else:
-            return self.type
+            return f"``{self.type}``"
 
     @property
     def description_markup(self):
@@ -64,54 +117,55 @@ class SchemaProperty:
         return description
 
 
-def get_properties(schema_json, node):
+def generate_schema_docs(schema):
+    # """
+    # Generate schema docs for a given schema.
+
+    # Outputs a schema formatted as an RST table.
+
+    # :param Schema schema:
+    # :rtype: list[str]
+    # """
     """
-    Return information about the properties of a JSON schema object.
+    Generate schema docs for a single object's properties.
 
-    The properties are returned in a dictionary, where the key `node` contains
-    properties of the top-level object. Nested objects are returned under
-    keys corresponding to their property names.
-
-    :param dict schema_json: a JSON schema object
-    :param str node: the name of the current node
-    :returns: properties
-    :rtype: dict
-    """
-    assert schema_json["type"] == "object"
-    objects = OrderedDict()
-    objects[node] = OrderedDict()
-
-    for name, property_dict in schema_json["properties"].items():
-        required = name in schema_json.get("required", [])
-        prop = SchemaProperty(name, required, property_dict)
-
-        if prop.type == "array" and prop.subtype == "object":
-            nested_objects = get_properties(property_dict["items"], node=name)
-            objects.update(nested_objects)
-        elif prop.type == "object":
-            nested_objects = get_properties(property_dict, node=name)
-            objects.update(nested_objects)
-
-        objects[node][name] = prop
-
-    return objects
-
-
-def generate_schema(object_properties):
-    """
-    Generate schema docs for the dictionary of object properties.
-
-    :param dict object_properties:
+    :param str name: object name
+    :param dict properties: dictionary of object properties
+    :returns: schema doc lines
     :rtype: list[str]
     """
-    schema_lines = list()
-    root = object_properties.pop(ROOT_NODE)
-    schema_lines.extend(generate_schema_for_object("Top Level", root))
-    for object_, properties in object_properties.items():
-        schema_lines.append("")
-        schema_lines.extend(generate_schema_for_object(object_, properties))
-    schema_lines.append("")
-    return schema_lines
+    obj_lines = list()
+    human = human_name(schema.name)
+    obj_lines.append(make_target(schema.name))
+    obj_lines.append("")
+    obj_lines.append(human)
+    obj_lines.append("~" * len(human))
+    obj_lines.append("")
+    obj_lines.extend(textwrap.wrap(schema.description, width=80))
+    obj_lines.append("")
+    obj_lines.append(f".. list-table::")
+    obj_lines.append("   :widths: 20 30 50")
+    obj_lines.append("   :header-rows: 1")
+    obj_lines.append("")
+    obj_lines.append("   * - Property Name")
+    obj_lines.append("     - Type")
+    obj_lines.append("     - Description")
+    obj_lines.append("   * - **type**")
+    obj_lines.append("     - ``string``")
+    obj_lines.append(
+        f"     - The value of this property **must** be ``{schema.name}``."
+    )
+
+    for prop_name, prop in schema.properties.items():
+        required = "(required)" if prop.required else "(optional)"
+        desc = textwrap.wrap(prop.description, width=80)
+        obj_lines.append(f"   * - **{prop_name}** *{required}*")
+        obj_lines.append(f"     - {prop.type_markup}")
+        obj_lines.append(f"     - {desc[0]}")
+        obj_lines.extend(f"       {d}" for d in desc[1:])
+
+    obj_lines.append("")
+    return obj_lines
 
 
 def make_target(name):
@@ -124,7 +178,7 @@ def make_target(name):
     :param str name:
     :rtype: str
     """
-    return ".. _schema_{}:".format(re.sub(NON_ALPHA, "", name).lower())
+    return ".. _schema_{}:".format(re.sub(NON_ALPHA, "_", name).lower())
 
 
 def make_ref(name):
@@ -136,7 +190,7 @@ def make_ref(name):
     :param str name:
     :rtype: str
     """
-    return ":ref:`schema_{}`".format(re.sub(NON_ALPHA, "", name).lower())
+    return ":ref:`schema_{}`".format(re.sub(NON_ALPHA, "_", name).lower())
 
 
 def human_name(name):
@@ -146,39 +200,7 @@ def human_name(name):
     :param str name: object name
     :rtype: str
     """
-    return string.capwords(name.replace("_", " "))
-
-
-def generate_schema_for_object(name, properties):
-    """
-    Generate schema docs for a single object's properties.
-
-    :param str name: object name
-    :param dict properties: dictionary of object properties
-    :returns: schema doc lines
-    :rtype: list[str]
-    """
-    obj_lines = list()
-    human = human_name(name)
-    obj_lines.append(make_target(name))
-    obj_lines.append("")
-    obj_lines.append(human)
-    obj_lines.append("~" * len(human))
-    obj_lines.append("")
-
-    for prop_name, prop in properties.items():
-        is_required = "yes" if prop.required else "no"
-        obj_lines.append(f"{prop_name} : {prop.type_markup}")
-        obj_lines.append(f"  *Required: {is_required}*")
-        obj_lines.append("")
-        obj_lines.extend(
-            textwrap.wrap(
-                prop.description_markup, initial_indent="  ", subsequent_indent="  "
-            )
-        )
-        obj_lines.append("")
-
-    return obj_lines
+    return string.capwords(name.replace("-", " "))
 
 
 def insert_docs(old_doc, doc_lines, tag):
@@ -187,7 +209,7 @@ def insert_docs(old_doc, doc_lines, tag):
     schema definition, and replace the contents with ``doc_lines``.
 
     :param old_doc: iterator of strings
-    :param html: list of strings
+    :param doc_lines: list of strings
     :returns: the updated document
     :rtype: str
     """
@@ -221,6 +243,7 @@ def insert_docs(old_doc, doc_lines, tag):
     # Output the rest of the lines in the file.
     for line in old_doc:
         output.append(line.rstrip("\n"))
+    output.append("")
 
     return "\n".join(output)
 
@@ -233,7 +256,6 @@ def generate_example_flows(jsons, afds):
     :param set[Path] afd: set of .afd file paths
     :rtype: List[str]
     """
-    doc_lines = []
 
     afd_stems = {p.stem for p in afds}
     reports = list()
@@ -249,41 +271,36 @@ def generate_example_flows(jsons, afds):
             )
         )
 
+    doc_lines = [
+        ".. list-table::",
+        "  :widths: 25 25 50",
+        "  :header-rows: 1",
+        "",
+        "  * - Name",
+        "    - Authors",
+        "    - Description",
+    ]
+
     for report in sorted(reports, key=operator.itemgetter(1)):
         stem, name, author, description = report
-        formats = list()
-        formats.extend(
-            [
-                f'<a href="../corpus/{html.escape(stem)}.json"><i class="fa fa-file-text"></i>JSON</a>',
-                f'<a href="../corpus/{html.escape(stem)}.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a>',
-                f'<a href="../corpus/{html.escape(stem)}.dot.png"><i class="fa fa-picture-o"></i>Image</a>',
-            ]
-        )
+        formats = [
+            f'<p><a href="../corpus/{quote_plus(stem)}.json"><i class="fa fa-file-text"></i>JSON</a></p>',
+            f'<p><a href="../corpus/{quote_plus(stem)}.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
+            f'<p><a href="../corpus/{quote_plus(stem)}.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
+        ]
         if stem in afd_stems:
             formats.append(
-                f'<a href="/builder/?load=%2fcorpus%2f{html.escape(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (* TODO fix builder link in AF2)'
+                f'<p><a href="/builder/?load=%2fcorpus%2f{quote_plus(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>'
             )
-        doc_lines.extend(
-            [
-                name,
-                "~" * len(name),
-                "",
-                ".. raw:: html",
-                "",
-                "    <p>",
-                f"        <b>Authors:</b> {html.escape(author)}<br>",
-                "        <b>Formats:</b>",
-                "        " + " | ".join(formats) + "<br>",
-                f"        <b>Description:</b> {html.escape(description)}",
-                "    </p>",
-                "",
-                ".. raw:: latex",
-                "",
-                f"    \\textbf{{Authors:}} {author}\\newline",
-                "    \\textbf{Formats:} \\textit{You must view this document on the web to see the available formats.}\\newline",
-                f"    \\textbf{{Description:}} {description}",
-                "",
-            ]
-        )
+        doc_lines.append(f"  * - **{name}**")
+        doc_lines.append("")
+        doc_lines.append("      .. raw:: html")
+        doc_lines.append("")
+        for f in formats:
+            doc_lines.append(f"        {f}")
+        doc_lines.append("")
+        doc_lines.append(f"    - {author}")
+        doc_lines.append(f"    - {description}")
 
+    doc_lines.append("")
     return doc_lines

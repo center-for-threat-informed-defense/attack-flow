@@ -74,6 +74,13 @@ em.newsgroup {
     padding-right: 0.25em;
 }
 
+/* Don't underline the permalink icon next to headers. */
+.rst-content a.headerlink,
+.rst-content a.headerlink:active,
+.rst-content a.headerlink:visited {
+    text-decoration: none;
+}
+
 .rst-content a:hover {
     color: var(--me-text-color);
 }
@@ -120,6 +127,27 @@ em.newsgroup {
 .rst-content a.btn:visited {
     color: var(--text-color-inverse);
     font-weight: normal;
+}
+
+/* Table styles */
+.rst-content div.wy-table-responsive table.docutils {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.rst-content div.wy-table-responsive table.docutils thead th,
+.rst-content div.wy-table-responsive table.docutils tbody td {
+    white-space: normal;
+}
+
+.rst-content div.wy-table-responsive table.docutils thead th p,
+.rst-content div.wy-table-responsive table.docutils tbody td p {
+    margin: 0.5em 0;
+}
+
+.rst-content div.wy-table-responsive table.docutils thead th code.docutils,
+.rst-content div.wy-table-responsive table.docutils tbody td code.docutils {
+    white-space: no-wrap;
 }
 
 /* Table of contents styles */

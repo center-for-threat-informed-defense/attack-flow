@@ -99,7 +99,7 @@
     ],
     "$defs": {
         "attack-flow": {
-            "description": "An `attack-flow` object represents the Attack Flow overall. It provides metadata such as name and description; it provides starting points for the flow of actions to begin; and it is an object that can be referenced from other STIX objects.",
+            "description": "An ``attack-flow`` object represents the Attack Flow overall. It provides metadata for name and description; it provides starting points for the flow of actions; and it is an object that can be referenced from other STIX objects.",
             "type": "object",
             "properties": {
                 "name": {
@@ -122,14 +122,14 @@
                     ]
                 },
                 "start_refs": {
-                    "description": "A list of `attack-action` or `attack-state` objects that start the flow.",
+                    "description": "A list of ``attack-action`` or ``attack-state`` objects that start the flow.",
                     "type": "array",
-                    "x-refTypes": [
-                        "attack-action",
-                        "attack-state"
-                    ],
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "xRefType": [
+                            "attack-action",
+                            "attack-state"
+                        ]
                     },
                     "minItems": 1
                 }
@@ -141,7 +141,7 @@
             ]
         },
         "attack-action": {
-            "description": "An `attack-action` object represents a discrete unit of adverary behavior.",
+            "description": "An ``attack-action`` object represents the execution of a particular technique, i.e. a discrete unit of adverary behavior.",
             "type": "object",
             "properties": {
                 "technique_id": {
@@ -157,17 +157,18 @@
                     "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
                 },
                 "description": {
+                    "description": "A description of the adversary behavior.",
                     "type": "string"
                 },
                 "effect_refs": {
-                    "description": "a list of `attack-action` objects that are enabled when this technique is executed successfully, or a list of `attack-state` objects that become true when this technique is executed successfully.",
+                    "description": "A list of ``attack-action`` objects that are enabled when this technique is executed successfully or ``attack-state`` objects that become true when this technique is executed successfully.",
                     "type": "array",
-                    "x-refTypes": [
-                        "attack-action",
-                        "attack-state"
-                    ],
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "xRefType": [
+                            "attack-action",
+                            "attack-state"
+                        ]
                     },
                     "minItems": 1
                 }
@@ -177,7 +178,7 @@
             ]
         },
         "attack-state": {
-            "description": "An `attack-state` object represents some state (i.e. outcome, condition, effect, etc.) that results from successful execution of a technique.",
+            "description": "An ``attack-state`` object represents some state (i.e. outcome, condition, effect, etc.) that results from successful execution of a technique.",
             "type": "object",
             "properties": {
                 "description": {
@@ -185,14 +186,14 @@
                     "type": "string"
                 },
                 "effect_refs": {
-                    "description": "A list of `attack-action` objects that are enabled when this state is true, or list of `attack-state` objects that become true when this state is true.",
+                    "description": "A list of ``attack-action`` objects that are enabled when this state is true or ``attack-state`` objects that become true when this state is true.",
                     "type": "array",
-                    "x-refTypes": [
-                        "attack-action",
-                        "attack-state"
-                    ],
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "xRefType": [
+                            "attack-action",
+                            "attack-state"
+                        ]
                     },
                     "minItems": 1
                 }
@@ -202,7 +203,7 @@
             ]
         },
         "attack-operator": {
-            "description": "An `attack-operator` object aggregates multiple effects into a single effect using boolean logic.",
+            "description": "An ``attack-operator`` object aggregates multiple effects into a single effect using boolean logic.",
             "type": "object",
             "properties": {
                 "operator": {
@@ -214,14 +215,14 @@
                     ]
                 },
                 "effect_refs": {
-                    "description": "A list of `attack-action` objects that are enabled when this operator evaluates to true, or list of `attack-state` objects that become true when this operator evaluates to true.",
+                    "description": "A list of ``attack-action`` objects that are enabled when this operator evaluates to true or ``attack-state`` objects that become true when this operator evaluates to true.",
                     "type": "array",
-                    "x-refTypes": [
-                        "attack-action",
-                        "attack-state"
-                    ],
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "xRefType": [
+                            "attack-action",
+                            "attack-state"
+                        ]
                     },
                     "minItems": 1
                 }

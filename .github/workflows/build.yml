@@ -55,6 +55,10 @@ jobs:
       with:
         name: attack_flow_builder
         path: docs/extra/builder
+    - name: Make Attack Flow schema
+      run: poetry run make docs-schema
+    - name: Make STIX common schema
+      run: poetry run make docs-common
     - name: Copy corpus into docs
       run: poetry run make docs-examples
     - name: Build HTML docs

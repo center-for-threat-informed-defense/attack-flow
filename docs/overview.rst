@@ -38,7 +38,7 @@ Get Involved
 There are several ways that you can get involved with this project and help
 advance threat-informed defense:
 
-- :newsgroup:`Tell us what you think.` Check out the :doc:`standard`, take the
+- :newsgroup:`Tell us what you think.` Check out the :doc:`language`, take the
   :doc:`builder` for a spin, and review the :doc:`example_flows`.
 - :newsgroup:`Help us prioritize additional example flows to create.` Let us know what
   examples you would like to turned into an Attack Flow. Your input will help us
