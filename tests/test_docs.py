@@ -1,7 +1,6 @@
 from pathlib import Path
 from textwrap import dedent
 import pytest
-import attack_flow
 
 from attack_flow.docs import (
     generate_example_flows,
@@ -28,7 +27,17 @@ def test_schema_property_string():
     assert sp.type == "string"
     assert not sp.required
     assert sp.type_markup == "``string``"
-    assert sp.description_markup == "My description"
+
+
+def test_schema_property_requires_description():
+    with pytest.raises(ValueError):
+        SchemaProperty(
+            "test-prop",
+            False,
+            {
+                "type": "string",
+            },
+        )
 
 
 def test_schema_property_uuid():
@@ -45,7 +54,6 @@ def test_schema_property_uuid():
     assert sp.type == "string"
     assert sp.required
     assert sp.type_markup == "``uuid``"
-    assert sp.description_markup == "My description"
 
 
 def test_schema_property_datetime():
@@ -62,10 +70,6 @@ def test_schema_property_datetime():
     assert sp.type == "string"
     assert sp.required
     assert sp.type_markup == "``date-time``"
-    assert (
-        sp.description_markup
-        == "My description (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)"
-    )
 
 
 def test_schema_property_array_of_string():
@@ -79,7 +83,6 @@ def test_schema_property_array_of_string():
     assert sp.subtype == "string"
     assert sp.required
     assert sp.type_markup == "``list`` of ``string``"
-    assert sp.description_markup == "My description"
 
 
 def test_schema_property_array_of_object():
@@ -111,7 +114,6 @@ def test_schema_property_object():
     assert sp.subtype is None
     assert sp.required
     assert sp.type_markup == ":ref:`schema_test_object`"
-    assert sp.description_markup == "My description"
 
 
 def test_schema_property_enum():
@@ -123,8 +125,56 @@ def test_schema_property_enum():
     assert sp.name == "test-enum"
     assert sp.type == "string"
     assert sp.required
-    assert sp.type_markup == "``enum``"
-    assert sp.description_markup == 'My description (Enum values: "foo", "bar")'
+    assert sp.type_markup == "``enum[foo,bar]``"
+
+
+def test_schema_property_ref():
+    sp = SchemaProperty(
+        "test-ref",
+        True,
+        {
+            "description": "My identity ref",
+            "$ref": "./identifier.json",
+            "xRefType": ["identity"],
+        },
+    )
+    assert sp.name == "test-ref"
+    assert isinstance(sp.type, RefType)
+    assert sp.required
+    assert sp.type_markup == "``identifier`` (of type ``identity``)"
+
+
+def test_schema_property_untyped_ref():
+    sp = SchemaProperty(
+        "test-ref",
+        True,
+        {
+            "description": "My generic ref",
+            "$ref": "./identifier.json",
+        },
+    )
+    assert sp.name == "test-ref"
+    assert isinstance(sp.type, RefType)
+    assert sp.required
+    assert sp.type_markup == "``identifier``"
+
+
+def test_schema_property_list_of_ref():
+    sp = SchemaProperty(
+        "test-ref-list",
+        True,
+        {
+            "description": "My generic ref",
+            "type": "array",
+            "items": {
+                "$ref": "./identifier.json",
+            },
+        },
+    )
+    assert sp.name == "test-ref-list"
+    assert sp.type == "array"
+    assert sp.required
+    assert sp.type_markup == "``list`` of ``identifier``"
 
 
 def test_schema():
@@ -237,14 +287,13 @@ def test_insert_docs_no_start_tag():
         [
             "old text 1",
             "old text 2",
-            ".. /JSON_SCHEMA",
             "old text 3",
             "old text 4",
         ]
     )
 
-    with pytest.raises(Exception):
-        insert_docs(old_doc, []).splitlines()
+    with pytest.raises(RuntimeError):
+        insert_docs(old_doc, [], tag="JSON_SCHEMA")
 
 
 def test_insert_docs_no_end_tag():
@@ -258,8 +307,8 @@ def test_insert_docs_no_end_tag():
         ]
     )
 
-    with pytest.raises(Exception):
-        insert_docs(old_doc, []).splitlines()
+    with pytest.raises(RuntimeError):
+        insert_docs(old_doc, [], tag="JSON_SCHEMA")
 
 
 def test_human_name():
@@ -269,7 +318,7 @@ def test_human_name():
 
 def test_generate_example_flows():
     jsons = [Path("tests/fixtures/flow1.json"), Path("tests/fixtures/flow2.json")]
-    afds = [Path("fixtures/does-not-exist.afd")]
+    afds = [Path("tests/fixtures/flow1.afd")]
     result = generate_example_flows(jsons, afds)
     assert result == [
         ".. list-table::",
@@ -286,6 +335,7 @@ def test_generate_example_flows():
         '        <p><a href="../corpus/flow1.json"><i class="fa fa-file-text"></i>JSON</a></p>',
         '        <p><a href="../corpus/flow1.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
         '        <p><a href="../corpus/flow1.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
+        '        <p><a target="_blank" href="/builder/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
         "",
         "    - Center for Threat-Informed Defense",
         "    - TODO: fix description field in AF2.",

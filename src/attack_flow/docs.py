@@ -22,9 +22,9 @@ class RefType:
 
     ALL_TYPES = object()
 
-    def __init__(self, schema, ref_types):
-        self.schema = schema
-        self.ref_types = ref_types
+    def __init__(self, ref):
+        self.schema = ref["$ref"]
+        self.ref_types = ref.get("xRefType", RefType.ALL_TYPES)
 
     def __str__(self):
         if self.ref_types is self.ALL_TYPES:
@@ -58,16 +58,12 @@ class SchemaProperty:
     def __init__(self, name, required, property_dict):
         self.name = name
         if "$ref" in property_dict:
-            self.type = RefType(
-                property_dict["$ref"], property_dict.get("xRefType", RefType.ALL_TYPES)
-            )
+            self.type = RefType(property_dict)
         else:
             self.type = property_dict["type"]
         if self.type == "array":
             if "$ref" in property_dict["items"]:
-                self.subtype = RefType(
-                    property_dict["items"]["$ref"], property_dict["items"]["xRefType"]
-                )
+                self.subtype = RefType(property_dict["items"])
             else:
                 self.subtype = property_dict["items"]["type"]
                 if self.subtype == "object":
@@ -89,32 +85,22 @@ class SchemaProperty:
     def type_markup(self):
         """Return object type markup."""
         if self.type == "array":
-            if self.subtype == "object":
-                subtype_rst = make_ref(self.name)
+            if isinstance(self.subtype, RefType):
+                subtype_rst = str(self.subtype)
             else:
                 subtype_rst = f"``{self.subtype}``"
             return f"``list`` of {subtype_rst}"
         elif self.type == "object":
             return make_ref(self.name)
         elif self.enum:
-            return "``enum``"
+            enum_vals = ",".join(self.enum)
+            return f"``enum[{enum_vals}]``"
         elif self.format:
             return f"``{self.format}``"
         elif isinstance(self.type, RefType):
             return str(self.type)
         else:
             return f"``{self.type}``"
-
-    @property
-    def description_markup(self):
-        """Render description markup."""
-        description = self.description
-        if self.format == "date-time":
-            description += " (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)"
-        if self.enum:
-            quoted_vals = ", ".join(f'"{v}"' for v in self.enum)
-            description += f" (Enum values: {quoted_vals})"
-        return description
 
 
 def generate_schema_docs(schema):
@@ -223,7 +209,7 @@ def insert_docs(old_doc, doc_lines, tag):
             break
         output.append(line.rstrip("\n"))
     else:
-        raise Exception("Did not find start tag")
+        raise RuntimeError("Did not find start tag")
 
     # Output new start tag, new schema lines, and new end tag.
     now = datetime.now().isoformat()
@@ -238,7 +224,7 @@ def insert_docs(old_doc, doc_lines, tag):
         if end_tag.search(line):
             break
     else:
-        raise Exception("Did not find end tag")
+        raise RuntimeError("Did not find end tag")
 
     # Output the rest of the lines in the file.
     for line in old_doc:
