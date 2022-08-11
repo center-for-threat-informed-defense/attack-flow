@@ -22,7 +22,8 @@ copyright = "2022, Center for Threat-Informed Defense"
 author = "Center for Threat-Informed Defense"
 
 # The full version, including alpha/beta/rc tags
-release = "2.0.0"
+version = "v2.0.0"
+release = version
 
 
 # -- General configuration ---------------------------------------------------
@@ -63,6 +64,7 @@ html_use_smartypants = False
 
 html_theme_options = {
     # "analytics_id": "G-XXXXXXXXXX", TODO
+    "display_version": True,
     "logo_only": True,
     "style_external_links": True,
 }

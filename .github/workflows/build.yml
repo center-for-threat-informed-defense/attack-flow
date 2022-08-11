@@ -60,7 +60,7 @@ jobs:
     - name: Copy corpus into docs
       run: poetry run make docs-examples
     - name: Build HTML docs
-      run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
+      run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
     - name: Upload HTML docs
       uses: actions/upload-artifact@v3
       with:

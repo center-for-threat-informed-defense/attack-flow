@@ -161,12 +161,13 @@
                     "type": "string"
                 },
                 "effect_refs": {
-                    "description": "When an effect is an ``attack-action``, that means successful execution of this action enables execution of the following action. When an effect is an ``attack-state``, that means the state exists after this action executes successfully.",
+                    "description": "The effects, outcomes, or states that result successful execution of this action. If the execution fails, then the flow halts. (See: :ref:`effects`.)",
                     "type": "array",
                     "items": {
                         "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
                         "xRefType": [
                             "attack-action",
+                            "attack-operator",
                             "attack-state"
                         ]
                     },
@@ -178,7 +179,7 @@
             ]
         },
         "attack-state": {
-            "description": "An ``attack-state`` object represents some state (i.e. outcome, condition, effect, etc.) that results from successful execution of a technique.",
+            "description": "An ``attack-state`` object represents some state (i.e. effect, outcome, etc.) that results from successful execution of one or more techniques.",
             "type": "object",
             "properties": {
                 "description": {
@@ -186,12 +187,13 @@
                     "type": "string"
                 },
                 "effect_refs": {
-                    "description": "When an effect is an ``attack-action``, that means when this states exists, it enables execution of the following action. When an effect is an ``attack-state``, that means the following state exists when this state exists.",
+                    "description": "The effects, outcomes, or states that result when this state exists. If the state does not exist, then the flow halts. (See: :ref:`effects`.)",
                     "type": "array",
                     "items": {
                         "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
                         "xRefType": [
                             "attack-action",
+                            "attack-operator",
                             "attack-state"
                         ]
                     },
@@ -215,12 +217,13 @@
                     ]
                 },
                 "effect_refs": {
-                    "description": "When an effect is an ``attack-action``, that means this operator evaluating to ``true`` enables execution of the following action. When an effect is an ``attack-state``, that means the state exists when this operator evaluates to ``true``.",
+                    "description": "The effects, outcomes, or states that result when this operator evaluates to ``true``. If the operator evaluates to ``false``, then the flow halts. (See: :ref:`effects`.)",
                     "type": "array",
                     "items": {
                         "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
                         "xRefType": [
                             "attack-action",
+                            "attack-operator",
                             "attack-state"
                         ]
                     },
