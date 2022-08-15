@@ -14,7 +14,7 @@ docs-examples:
 	ls -1 docs/extra/corpus/*.dot | xargs -I {} dot -Tpng -O -q1 "{}"
 
 docs-schema:
-	af doc-schema stix/attack-flow-schema-2.0.0.json docs/language.rst
+	af doc-schema stix/attack-flow-schema-2.0.0.json stix/attack-flow-example.json docs/language.rst
 
 docs-server:
 	sphinx-autobuild -b dirhtml -a "$(SOURCEDIR)" "$(BUILDDIR)"

@@ -85,9 +85,13 @@ em.newsgroup {
     color: var(--me-text-color);
 }
 
+.rst-content.style-external-links a.reference.external {
+    padding-right: 1em;
+}
+
 .rst-content.style-external-links a.reference.external:after {
-    font-size: 100%;
-    vertical-align: initial;
+    font-size: 80%;
+    position: absolute;
 }
 
 /* Bootstrap button styles */
@@ -147,7 +151,7 @@ em.newsgroup {
 
 .rst-content div.wy-table-responsive table.docutils thead th code.docutils,
 .rst-content div.wy-table-responsive table.docutils tbody td code.docutils {
-    white-space: no-wrap;
+    white-space: nowrap;
 }
 
 /* Table of contents styles */

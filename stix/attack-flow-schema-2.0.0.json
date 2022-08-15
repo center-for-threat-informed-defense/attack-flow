@@ -71,12 +71,12 @@
                         "properties": {
                             "type": {
                                 "type": "string",
-                                "const": "attack-state"
+                                "const": "attack-condition"
                             }
                         }
                     },
                     "then": {
-                        "$ref": "#/$defs/attack-state"
+                        "$ref": "#/$defs/attack-condition"
                     },
                     "else": {
                         "if": {
@@ -126,9 +126,9 @@
                     "type": "array",
                     "items": {
                         "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "xRefType": [
+                        "x-referenceType": [
                             "attack-action",
-                            "attack-state"
+                            "attack-condition"
                         ]
                     },
                     "minItems": 1
@@ -138,7 +138,8 @@
                 "name",
                 "start_refs",
                 "scope"
-            ]
+            ],
+            "x-exampleObject": "attack-flow--e9ec3a4b-f787-4e81-a3d9-4cfe017ebc2f"
         },
         "attack-action": {
             "description": "An ``attack-action`` object represents the execution of a particular technique, i.e. a discrete unit of adverary behavior.",
@@ -161,14 +162,14 @@
                     "type": "string"
                 },
                 "effect_refs": {
-                    "description": "The effects, outcomes, or states that result successful execution of this action. If the execution fails, then the flow halts. (See: :ref:`effects`.)",
+                    "description": "The potential effects that result from executing this action. (See: :ref:`effects`.)",
                     "type": "array",
                     "items": {
                         "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "xRefType": [
+                        "x-referenceType": [
                             "attack-action",
                             "attack-operator",
-                            "attack-state"
+                            "attack-condition"
                         ]
                     },
                     "minItems": 1
@@ -176,25 +177,39 @@
             },
             "required": [
                 "technique_name"
-            ]
+            ],
+            "x-exampleObject": "attack-action--37345417-3ee0-4e11-b421-1d4be68e6f15"
         },
-        "attack-state": {
-            "description": "An ``attack-state`` object represents some state (i.e. effect, outcome, etc.) that results from successful execution of one or more techniques.",
+        "attack-condition": {
+            "description": "An ``attack-condition`` object represents some possible condition, outcome, or state that could occur. Conditions can be used to split flows based on the success or failure of an action, or to provide further description of an action's results.",
             "type": "object",
             "properties": {
                 "description": {
-                    "description": "A description of the state that results from successful execution of a technique.",
+                    "description": "The condition that is evaluated, usually based on the success or failure of the preceding action.",
                     "type": "string"
                 },
-                "effect_refs": {
-                    "description": "The effects, outcomes, or states that result when this state exists. If the state does not exist, then the flow halts. (See: :ref:`effects`.)",
+                "on_true_refs": {
+                    "description": "When the condition is ``true``, the flow continues to these objects.",
                     "type": "array",
                     "items": {
                         "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "xRefType": [
+                        "x-referenceType": [
                             "attack-action",
                             "attack-operator",
-                            "attack-state"
+                            "attack-condition"
+                        ]
+                    },
+                    "minItems": 1
+                },
+                "on_false_refs": {
+                    "description": "When the condition is ``false``, the flow continues to these objects. (If there are no objects, then the flow halts at this node.)",
+                    "type": "array",
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "x-referenceType": [
+                            "attack-action",
+                            "attack-operator",
+                            "attack-condition"
                         ]
                     },
                     "minItems": 1
@@ -202,10 +217,11 @@
             },
             "required": [
                 "description"
-            ]
+            ],
+            "x-exampleObject": "attack-condition--7e809f5b-319a-4b3f-82fe-e4dc09af5088"
         },
         "attack-operator": {
-            "description": "An ``attack-operator`` object aggregates multiple effects into a single effect using boolean logic.",
+            "description": "An ``attack-operator`` object joins multiple attack paths together using boolean logic.",
             "type": "object",
             "properties": {
                 "operator": {
@@ -221,10 +237,10 @@
                     "type": "array",
                     "items": {
                         "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "xRefType": [
+                        "x-referenceType": [
                             "attack-action",
                             "attack-operator",
-                            "attack-state"
+                            "attack-condition"
                         ]
                     },
                     "minItems": 1
@@ -232,7 +248,8 @@
             },
             "required": [
                 "operator"
-            ]
+            ],
+            "x-exampleObject": "attack-operator--609d7adf-a3d2-44e8-82de-4b30e3fb97be"
         }
     }
 }

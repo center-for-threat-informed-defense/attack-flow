@@ -91,10 +91,14 @@ def doc_schema(args):
     with open(args.schema_doc) as schema_file:
         schema_json = json.load(schema_file)
 
+    with open(args.example_doc) as example_file:
+        example_json = json.load(example_file)
+        examples = {obj["id"]: obj for obj in example_json["objects"]}
+
     schema_lines = list()
     for name, subschema in schema_json["$defs"].items():
         schema = attack_flow.docs.Schema(name, subschema)
-        schema_lines.extend(attack_flow.docs.generate_schema_docs(schema))
+        schema_lines.extend(attack_flow.docs.generate_schema_docs(schema, examples))
 
     with open(args.documentation_file) as old_doc:
         new_doc = attack_flow.docs.insert_docs(
@@ -178,6 +182,9 @@ def _parse_args():
     )
     doc_schema_cmd.set_defaults(command=doc_schema)
     doc_schema_cmd.add_argument("schema_doc", help="The schema to document.")
+    doc_schema_cmd.add_argument(
+        "example_doc", help="The STIX document containing example objects."
+    )
     doc_schema_cmd.add_argument(
         "documentation_file", help="Insert generated RST into the specified file."
     )

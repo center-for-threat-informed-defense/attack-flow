@@ -24,7 +24,7 @@ class RefType:
 
     def __init__(self, ref):
         self.schema = ref["$ref"]
-        self.ref_types = ref.get("xRefType", RefType.ALL_TYPES)
+        self.ref_types = ref.get("x-referenceType", RefType.ALL_TYPES)
 
     def __str__(self):
         if self.ref_types is self.ALL_TYPES:
@@ -42,6 +42,7 @@ class Schema:
     def __init__(self, name, schema_dict):
         self.name = name
         self.description = schema_dict["description"]
+        self.example_id = schema_dict.get("x-exampleObject")
         self.properties = OrderedDict()
 
         for name, property_dict in schema_dict["properties"].items():
@@ -93,8 +94,8 @@ class SchemaProperty:
         elif self.type == "object":
             return make_ref(self.name)
         elif self.enum:
-            enum_vals = ",".join(self.enum)
-            return f"``enum[{enum_vals}]``"
+            enum_vals = '", "'.join(self.enum)
+            return f'``string`` Allowed values: "{enum_vals}"'
         elif self.format:
             return f"``{self.format}``"
         elif isinstance(self.type, RefType):
@@ -103,21 +104,14 @@ class SchemaProperty:
             return f"``{self.type}``"
 
 
-def generate_schema_docs(schema):
-    # """
-    # Generate schema docs for a given schema.
-
-    # Outputs a schema formatted as an RST table.
-
-    # :param Schema schema:
-    # :rtype: list[str]
-    # """
+def generate_schema_docs(schema, examples):
     """
-    Generate schema docs for a single object's properties.
+    Generate schema docs for a given schema.
 
-    :param str name: object name
-    :param dict properties: dictionary of object properties
-    :returns: schema doc lines
+    Outputs a schema as an RST table.
+
+    :param Schema schema:
+    :param dict[str,object] examples:
     :rtype: list[str]
     """
     obj_lines = list()
@@ -151,6 +145,15 @@ def generate_schema_docs(schema):
         obj_lines.extend(f"       {d}" for d in desc[1:])
 
     obj_lines.append("")
+    if example := examples.get(schema.example_id):
+        ex_json = textwrap.indent(json.dumps(example, indent=2), "    ")
+        obj_lines.append("*Example:*")
+        obj_lines.append("")
+        obj_lines.append(".. code:: json")
+        obj_lines.append("")
+        obj_lines.extend(ex_json.split("\n"))
+        obj_lines.append("")
+
     return obj_lines
 
 
