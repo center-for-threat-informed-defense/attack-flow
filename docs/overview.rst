@@ -6,7 +6,16 @@ Overview
   you should make a corresponding update there.
 
 Introduction
-------------
+-------------
+.. epigraph::
+
+   Defenders think in lists. Attackers think in graphs. As long as this is true, 
+   attackers will win. 
+   
+   -- John Lambert
+   
+. . _target name: https://github.com/JohnLaTwC/Shared/blob/master/Defenders%20think%20in%20lists.%20Attackers%20think%20in%20graphs.%20As%20long%20as%20this%20is%20true%2C%20attackers%20win.md
+   
 
 The Attack Flow project helps defenders move from tracking adversary behaviors
 individually to the sequence of techniques adversaries use to achieve their
@@ -16,6 +25,79 @@ defenders much more effective. The project seeks to demonstrate how attack flows
 can explain defensive posture to executives, aid defenders to understand
 lessons-learned from an incident, and support red-teamers to easily compose
 realistic adversary emulation scenarios.
+
+Who is Attack Flow For?
+-------------------------
+This project is meant for any cyber defender or leader in any industry seeking 
+to understand how adversaries operate, the impact on their organization, and 
+how to most effectively improve their defense posture to address those threats.  
+Threat intelligence analysts, security operations and incident response teams, 
+red team members, and risk assessors are some of the groups that may benefit 
+from Attack Flow. This shareable model helps users understand how adversaries 
+target and exploit vulnerabilities by revealing the relationships 
+within chains of techniques. With this information, users can perform 
+realistic threat and risk assessments. Attack Flow also provides an easy way to
+share threat intelligence with other defenders, as well as an effective means 
+for users to present leadership with actionable information that can be used 
+for defense improvement and resource prioritization.
+
+Use Cases
+----------
+Attack Flow can be used for a variety of use cases. 
+
+Adversary Emulation
+-------------------
+Offensive operators and defenders can use Attack Flow to create 
+adversary emulation plans that focus their security testing on observed behavior
+by adversaries targeting their organization. Defenders can follow the scenario 
+laid out in the flow and select tests that will effectively assess their 
+defenses against the chains of attack. Having a large corpus of common attack 
+paths and TTP sequences can help with the creation of adversary emulation plans.
+
+Defensive Posture
+----------------- 
+Defenders can use Attack Flow to assess and improve their defensive posture, 
+as well as provide leadership with a data-driven case for resource allocation.
+Attack Flow allows for a realistic risk assessment based on observed adversary 
+chains of attack, rather than hypothetical or isolated behaviors. 
+Defenders can overlay controls over chains of TTPs to determine gaps in coverage, 
+as well as chokeholds where defenses should be prioritized. Attack Flow can also 
+be used to investigate an ongoing intrusion, as it provides a framework for 
+understanding the TTP sequences that led to the attack.
+
+Lessons Learned
+---------------
+Defenders can use Attack Flow to improve their incident response planning capabilities
+and organizational security posture. After a security incident has occurred, 
+defenders can create flows to understand how their defenses failed and where they
+can apply controls to reduce future risk and enhance threat containment.
+Mapping a flow will also allow defenders to see where their defenses succeeded 
+and what they should continue to do going forward. Creating attack flows is an 
+easy way to ensure the incident is documented and organizational knowledge is 
+retained for future use. Over time, this will improve defenders ability to 
+mitigate and recover from incidents more efficiently. 
+
+Threat Hunting
+---------------
+Defenders can use Attack Flow to help outline and analyze critical infrastructure 
+and determine assets, sensors, and threats facing their environment. Attack Flow can 
+be used to correlate threat indicators and to help analyze and mitigate against 
+specific threats based on certain flows. These flows can also help guide 
+investigative searches, piecing together techniques and timestamps to construct 
+detailed timelines. Attack Flow can showcase the adversary tools and TTPs that 
+are being used, which can help aid in writing detections against common behaviors 
+and/or adversary toolsets, as well as prioritizing those detections.
+
+Threat Intelligence
+--------------------
+Defenders can use Attack Flow to create a variety of threat intelligence products
+that are shareable with other defenders and leaders. Users can track adversary 
+TTPs and campaigns over time, as well as document single incidents. Attack Flow can 
+also be used to explain how adversaries use OffSec tools, e.g. Mimikatz, to 
+achieve their objectives. This allows the analyst to tell a full story of an 
+incident and gain deeper insight into how they can defend against on-going threats. 
+
+
 
 Get Started
 -----------
