@@ -13,7 +13,7 @@ This section walks through various scenarios using the Attack Flow standard. Eac
 Actions
 -------
 
-The backbone of each attack flow is actions. Actions describe the tactics and techniques used by malware or an attacker. When building an attack flow, the simpliest form uses actions connected to other actions. 
+The backbone of each attack flow is actions. Actions describe the tactics and techniques used by malware or an attacker. When building an attack flow, the simplest form uses actions connected to other actions. 
 
 .. figure:: _static/action_to_action.png
    :alt: Screenshot of action to action nodes in the Attack Flow Builder.
@@ -45,13 +45,13 @@ A state may require its own state before running properly. In this case, states 
 
    States connected to each other.
 
-If possible, it is recommended to combine states or have two states connected to one action node. 
+If possible, it is recommended to combine states. 
 
-.. figure:: _static/state_alternative.png
-   :alt: Screenshot of an alternative option instead of connecting states together.
+.. figure:: _static/state_alternative2.png
+   :alt: Screenshot of an alternative option combining states together.
    :align: center
 
-   Alternative option. Two states leading into one action. 
+   Alternative option. Two states combined. 
 
 Operators
 ---------
@@ -62,7 +62,7 @@ In complex scenarios, operators are used to combine states or actions. Approved 
    :alt: Screenshot of an OR operator between two states.
    :align: center
 
-   OR operator between two states, indicating that at least one state but be present for the attack flow to continue successfully.
+   OR operator between two states, indicating that at least one state must be present for the attack flow to continue successfully.
 
 .. figure:: _static/action_OR_operator.png
    :alt: Screenshot of an OR operator between two actions. 
@@ -85,7 +85,7 @@ In complex scenarios, operators are used to combine states or actions. Approved 
 Operator to State
 -----------------
 
-For complex attack flows, a state may be added after an operator. 
+For complex attack flows, a state may be added after an OR operator. 
 
 .. figure:: _static/operator_to_state.png
    :alt: Screenshot of an OR operator connected to a state.  
@@ -93,15 +93,7 @@ For complex attack flows, a state may be added after an operator.
 
    OR operator separating different states.
 
-In this scenario, one of two states but be present for the attack flow to continue; then, another additional state is needed before the action can occur.
-
-A scenario where a state is connected to another state with an operator will only use an OR operator. If an AND operator needs to be used, then all states can precede the operator.
-
-.. figure:: _static/state_AND_operator_action.png
-   :alt: Screenshot of an AND operator connecting states to an action.  
-   :align: center
-
-   AND operator connecting multiple states to one action. 
+In this scenario, one of two states must be present for the attack flow to continue; then, another additional state is needed before the action can occur.
 
 States to Action
 ----------------
@@ -124,7 +116,7 @@ By adding the above techniques together, unique attack flows can be created.
    :alt: Screenshot of a complex part of an attack flow.  
    :align: center
 
-   An example of part of an attack flow. Only one action must occur all three states must be present for the end action to be successful.
+   An example of part of an attack flow. Only one action must occur for the subsequent state and action to be successful.
 
 .. figure:: _static/example2.png
    :alt: Screenshot of a complex part of an attack flow.  
