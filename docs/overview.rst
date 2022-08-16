@@ -38,15 +38,15 @@ Get Involved
 There are several ways that you can get involved with this project and help
 advance threat-informed defense:
 
-- **Tell us what you think.** Check out the :doc:`standard`, take the
+- :newsgroup:`Tell us what you think.` Check out the :doc:`standard`, take the
   :doc:`builder` for a spin, and review the :doc:`example_flows`.
-- **Help us prioritize additional example flows to create.** Let us know what
+- :newsgroup:`Help us prioritize additional example flows to create.` Let us know what
   examples you would like to turned into an Attack Flow. Your input will help us
   prioritize how we expand our corpus.
-- **Share your use cases.** We are interested in developing additional tools and
-  resources to help the community understand and make threat-informed decisions
-  in their risk management programs. If you have ideas or suggestions, we
-  consider them as we explore additional research projects.
+- :newsgroup:`Share your use cases.` We are interested in developing additional tools
+  and resources to help the community understand and make threat-informed decisions in
+  their risk management programs. If you have ideas or suggestions, we consider them as
+  we explore additional research projects.
 
 Send your feedback to ctid@mitre-engenuity.org or post on `GitHub issues
 <https://github.com/center-for-threat-informed-defense/attack-flow-private/issues>`__.

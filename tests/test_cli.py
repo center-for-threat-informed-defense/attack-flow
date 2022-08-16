@@ -7,7 +7,7 @@ the entrypoints call into the appropriate places in the package.
 import os
 import runpy
 import sys
-from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile, TemporaryDirectory
 from textwrap import dedent
 from unittest.mock import patch
 
@@ -29,13 +29,21 @@ def test_validate(validate_mock, exit_mock, capsys):
 
 
 @patch("sys.exit")
-@patch("attack_flow.schema.generate_schema_docs")
-def test_doc_schema(generate_mock, exit_mock):
-    generate_mock.return_value = "Sample text"
+@patch("attack_flow.docs.insert_docs")
+@patch("attack_flow.docs.generate_schema")
+@patch("attack_flow.docs.get_properties")
+def test_doc_schema(properties_mock, generate_mock, insert_mock, exit_mock):
+    properties_mock.return_value = {}
+    generate_mock.return_value = ["Sample input"]
+    insert_mock.return_value = "Sample output"
     with NamedTemporaryFile() as schema, NamedTemporaryFile() as docs:
-        sys.argv = ["af", "doc-schema", schema.name, docs.name]
+        schema.write(b"{}")  # Empty JSON object
+        schema.seek(0, os.SEEK_SET)
+        sys.argv = ["af", "--log-level", "debug", "doc-schema", schema.name, docs.name]
         runpy.run_module("attack_flow.cli", run_name="__main__")
+    properties_mock.assert_called()
     generate_mock.assert_called()
+    insert_mock.assert_called()
     exit_mock.assert_called_with(0)
 
 
@@ -59,4 +67,37 @@ def test_graphviz(convert_mock, exit_mock):
         sys.argv = ["af", "graphviz", input.name, output.name]
         runpy.run_module("attack_flow.cli", run_name="__main__")
     convert_mock.assert_called_with({"foo": "bar"})
+    exit_mock.assert_called_with(0)
+
+
+@patch("sys.exit")
+@patch("attack_flow.docs.generate_example_flows")
+@patch("attack_flow.docs.insert_docs")
+def test_doc_examples(insert_mock, generate_mock, exit_mock):
+    generate_mock.return_value = "Sample input"
+    insert_mock.return_value = "Sample output"
+    with TemporaryDirectory() as corpus_dir, NamedTemporaryFile() as docs:
+        sys.argv = ["af", "doc-examples", corpus_dir, docs.name]
+        runpy.run_module("attack_flow.cli", run_name="__main__")
+    generate_mock.assert_called()
+    insert_mock.assert_called()
+    exit_mock.assert_called_with(0)
+
+
+@patch("sys.exit")
+@patch("attack_flow.docs.generate_example_flows")
+@patch("attack_flow.docs.insert_docs")
+def test_doc_examples_bad_dir(insert_mock, generate_mock, exit_mock):
+    with NamedTemporaryFile() as corpus_dir, NamedTemporaryFile() as docs:
+        sys.argv = ["af", "doc-examples", corpus_dir.name, docs.name]
+        runpy.run_module("attack_flow.cli", run_name="__main__")
+    insert_mock.assert_not_called()
+    generate_mock.assert_not_called()
+    exit_mock.assert_called_with(1)
+
+
+@patch("sys.exit")
+def test_version(exit_mock):
+    sys.argv = ["af", "version"]
+    runpy.run_module("attack_flow.cli", run_name="__main__")
     exit_mock.assert_called_with(0)

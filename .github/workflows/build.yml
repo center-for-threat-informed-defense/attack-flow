@@ -38,6 +38,8 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
+    - name: Install dependencies
+      run: sudo apt install graphviz
     - name: Install Poetry
       run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
     - name: Add Poetry to PATH
@@ -45,7 +47,7 @@ jobs:
     - name: Install dependencies
       run: poetry install
     - name: Generate schema docs
-      run: poetry run af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
+      run: poetry run make docs-schema
     - name: Create client directory
       run: mkdir docs/extra/builder
     - name: Download Attack Flow Builder
@@ -53,6 +55,8 @@ jobs:
       with:
         name: attack_flow_builder
         path: docs/extra/builder
+    - name: Copy corpus into docs
+      run: poetry run make docs-examples
     - name: Build HTML docs
       run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
     - name: Upload HTML docs

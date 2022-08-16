@@ -3,8 +3,8 @@
     "flow": {
         "type": "attack-flow",
         "id": "http://flow-1",
-        "name": "Attack Flow Export",
-        "author": "Unspecified",
+        "name": "Tesla Breach",
+        "author": "Center for Threat-Informed Defense",
         "created": "2022-01-14T13:59:42-05:00"
     },
     "actions": [

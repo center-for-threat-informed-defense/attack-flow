@@ -2,12 +2,14 @@
 Attack Flow command line tool for validation and visualization.
 """
 import argparse
+from pathlib import Path
 import json
 import logging
 import sys
 
 import pkg_resources
 
+import attack_flow.docs
 import attack_flow.graphviz
 import attack_flow.schema
 
@@ -16,7 +18,15 @@ def main():
     """Main entry point for `af` command line."""
     args = _parse_args()
     _setup_logging(args.log_level)
-    sys.exit(args.command(args))
+    try:
+        result = args.command(args)
+    except Exception as e:
+        if args.log_level == "debug":
+            raise
+        else:
+            sys.stderr.write(f"error: {str(e)}\n")
+            result = 1
+    sys.exit(result)
 
 
 def version(args):
@@ -28,6 +38,7 @@ def version(args):
     """
     version = pkg_resources.get_distribution("attack-flow").version
     print(f"Attack Flow version {version}")
+    return 0
 
 
 def validate(args):
@@ -76,8 +87,37 @@ def doc_schema(args):
     :param args: argparse arguments
     :returns: exit code
     """
+    with open(args.schema_doc) as schema_file, open(args.documentation_file) as old_doc:
+        schema_json = json.load(schema_file)
+        object_properties = attack_flow.docs.get_properties(
+            schema_json, node=attack_flow.docs.ROOT_NODE
+        )
+        schema_lines = attack_flow.docs.generate_schema(object_properties)
+        new_docs = attack_flow.docs.insert_docs(
+            old_doc, schema_lines, tag="JSON_SCHEMA"
+        )
+        print("new_docs", new_docs)
+    with open(args.documentation_file, "w") as out:
+        out.write(new_docs)
+    print(f"Saved to {args.documentation_file}")
+    return 0
+
+
+def doc_examples(args):
+    """
+    Generate example flows documentation.
+
+    :param args: argparse arguments
+    :returns: exit code
+    """
+    corpus_path = Path(args.corpus_path)
+    if not corpus_path.is_dir():
+        raise Exception("corpus_path must be a directory")
+    doc_lines = attack_flow.docs.generate_example_flows(
+        jsons=corpus_path.glob("*.json"), afds=corpus_path.glob("*.afd")
+    )
     with open(args.documentation_file) as old_doc:
-        new_docs = attack_flow.schema.generate_schema_docs(args.schema_doc, old_doc)
+        new_docs = attack_flow.docs.insert_docs(old_doc, doc_lines, tag="EXAMPLE_FLOWS")
     with open(args.documentation_file, "w") as out:
         out.write(new_docs)
     print(f"Saved to {args.documentation_file}")
@@ -134,7 +174,17 @@ def _parse_args():
     doc_schema_cmd.set_defaults(command=doc_schema)
     doc_schema_cmd.add_argument("schema_doc", help="The schema to document.")
     doc_schema_cmd.add_argument(
-        "documentation_file", help="Insert generated HTML into the specified file."
+        "documentation_file", help="Insert generated RST into the specified file."
+    )
+
+    # Examples subcommand
+    doc_examples_cmd = subparsers.add_parser(
+        "doc-examples", help="Generate example flows documentation."
+    )
+    doc_examples_cmd.set_defaults(command=doc_examples)
+    doc_examples_cmd.add_argument("corpus_path", help="The path to the corpus.")
+    doc_examples_cmd.add_argument(
+        "documentation_file", help="Insert generated RST into the specified file."
     )
 
     return parser.parse_args()
