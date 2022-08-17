@@ -65,7 +65,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: attack_flow_docs_html
-        path: docs/_build/html/
+        path: docs/_build/dirhtml/
     - name: Install TeX Live
       run: sudo apt install -y latexmk texlive texlive-latex-extra
     - name: Build PDF docs
