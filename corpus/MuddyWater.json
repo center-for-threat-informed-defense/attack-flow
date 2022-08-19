@@ -1,1 +1,755 @@
-{"$schema":"./attack_flow_2022-06-16_13-12-39.json","flow":{"type":"attack-flow","id":"http://flow-1","name":"Attack Flow Export","author":"Unspecified","created":"2022-06-16T09:12:39-04:00"},"actions":[{"id":"http://flow-1/action-1","type":"action","name":"T1566.001 Spearphishing Attachment","description":"This November 2021 campaign targeted Turkish organizations (government industry). This campaign begins by delivering malicious PDF attachments to victims via email ","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1566/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-5","type":"action","name":"T1059.005 Command and Scripting Interpreter: Visual Basic","description":"The PDF retrieves malicious XLS file from a file-hosting domain. The XLS file contains VBA Macros that are meant to execute the infection chain","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1059/005/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"OR"},{"id":"http://flow-1/action-6","type":"action","name":"T1105 Ingress Tool Transfer","description":"The PDF points to a URL that retrieves a malicious executable from a file-hosting domain. This is a recently observed variation of the campaign ","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1566/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"OR"},{"id":"http://flow-1/action-9","type":"action","name":"T1036 Masquerading","description":"The Windows executable drops a text file in the victim's temporary folder. This document is a decoy PDF or Office document that is then displayed to the victim by the system PDF or document reader","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1036/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-10","type":"action","name":"Canary  Token Execution","description":"The latest versions of the VBA macros could make HTTP requests to a canary token from canarytokens.com and would typically be silently executed twice during macro execution. According to Cisco, this was likely an anti-analysis technique. ","timestamp":"","reference":"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-12","type":"action","name":"T1547.001 Boot or Logon Autostart Execution: Registry Run Keys/Startup Folder","description":"The VBA macros create persistence with a VBScript that creates a malicious Registry Run for the infected endpoint","timestamp":"","reference":"\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\", \"https://attack.mitre.org/techniques/T1547/001/\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-15","type":"action","name":"T1218 System Binary Process Execution","description":"The campaign uses a LolBin DLL to execute the VBScript on reboot or re-login","timestamp":"","reference":"\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\" \"https://attack.mitre.org/techniques/T1218/\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-16","type":"action","name":"T1059.005 Command and Scripting Interpreter: Visual Basic","description":"The macro drops a malicious VBScript, and its main purpose is to provide the campaign with persistence and execute a malicious PowerShell downloader script","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1059/005/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-20","type":"action","name":"T1059.001 Command and Scripting Interpreter: PowerShell","description":"The VBScript executes a PowerShell downloader script. The downloader script resides in the metadata of the malodoc. The script is obfuscated in newer versions of the attack. ","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1059/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-22","type":"action","name":"T1105 Ingress Tool Transfer","description":"The downloader reaches out to a remote location to download another PowerShell script. It tries twice with a custom timeout of 40 seconds. Cisco assesses this is likely because the C2 may need more time to check if the canary tokens have been accessed before the final payload is delivered. ","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1105/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-24","type":"action","name":"T1486 Data Encrypted for Impact","description":"Typical MuddyWater campaigns aim to achieve either of three objectives: Espionage, Intellectual Property Theft, or Ransomware","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1486/\"","succeeded":0,"confidence":0,"logic_operator_language":"","logic_operator":"OR"},{"id":"http://flow-1/action-25","type":"action","name":"TA0010 Exfiltration","description":" Typical MuddyWater campaigns aim to achieve either of three objectives: Espionage, Intellectual Property Theft, or Ransomware","timestamp":"","reference":"\"https://attack.mitre.org/tactics/TA0010/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":0,"confidence":0,"logic_operator_language":"","logic_operator":"OR"},{"id":"http://flow-1/action-26","type":"action","name":"TA0009 Collection","description":"Typical MuddyWater campaigns aim to achieve either of three objectives: Espionage, Intellectual Property Theft, or Ransomware","timestamp":"","reference":"\"https://attack.mitre.org/tactics/TA0009/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":0,"confidence":0,"logic_operator_language":"","logic_operator":"OR"},{"id":"http://flow-1/action-30","type":"action","name":"T1105 Ingress Tool Transfer","description":"After the decoy document is displayed, the executable starts to download malicious PowerShell scripts served to it by a remote location","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1105/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-31","type":"action","name":"T1547.001 Boot or Logon Autostart Execution: Registry Run Keys/Startup Folder","description":"A registry key is created for persistence","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1547/001/\" \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-34","type":"action","name":"T1218 System Binary Process Execution","description":"The campaign uses a LolBin DLL to execute the first PowerShell instrumentor script on reboot or re-login ","timestamp":"","reference":"\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\" \"https://attack.mitre.org/techniques/T1218/\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-36","type":"action","name":"T1059.001 Command and Scripting Interpreter: PowerShell","description":"The executable begins to execute the malicious PowerShell scripts. The scripts will create a directory in the user's home folder to store two PowerShell scripts. One of the scripts is an instrumentor script used to activate the next stage from disk called \".CloudCache.conf.\" It decodes and executes the second PowerShell script. ","timestamp":"","reference":"\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\", \"https://attack.mitre.org/techniques/T1059/001/\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-41","type":"action","name":"T1059.001 Command and Scripting Interpreter: PowerShell","description":"The script downloads the next stage of the malware from a remote location and executes it ","timestamp":"","reference":"\"https://attack.mitre.org/techniques/T1059/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-43","type":"action","name":"T1105 Ingress Tool Transfer","description":"The next stage of the malware is downloaded from a remote location and executed.","timestamp":"","reference":"\"\"https://attack.mitre.org/techniques/T1105/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-144","type":"action","name":"T1204.001 User Execution: Malicious Link","description":"The user opens the PDF, and the PDF has an error message  prompting them to click on a link in the PDF","timestamp":"","reference":"\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-145","type":"action","name":"TA0002 Execution","description":"The Windows executable executes","timestamp":"","reference":"\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"}],"assets":[{"id":"http://flow-1/asset-4","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-11","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-14","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-17","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-18","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-21","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-23","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-28","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-29","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-33","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-35","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-39","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-40","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-42","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-143","type":"asset","state":"Compromised"},{"id":"http://flow-1/asset-146","type":"asset","state":"Compromised"}],"relationships":[{"source":"http://flow-1/asset-4","type":"http://flow-1#State","target":"http://flow-1/action-5"},{"source":"http://flow-1/asset-4","type":"http://flow-1#State","target":"http://flow-1/action-6"},{"source":"http://flow-1/action-5","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-11"},{"source":"http://flow-1/asset-11","type":"http://flow-1#State","target":"http://flow-1/action-10"},{"source":"http://flow-1/asset-11","type":"http://flow-1#State","target":"http://flow-1/action-12"},{"source":"http://flow-1/action-12","type":"http://flow-1#Compromises","target":"http://flow-1/asset-14"},{"source":"http://flow-1/asset-14","type":"http://flow-1#State","target":"http://flow-1/action-15"},{"source":"http://flow-1/asset-11","type":"http://flow-1#State","target":"http://flow-1/action-16"},{"source":"http://flow-1/action-15","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-17"},{"source":"http://flow-1/asset-17","type":"http://flow-1#State","target":"http://flow-1/action-16"},{"source":"http://flow-1/action-16","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-18"},{"source":"http://flow-1/asset-18","type":"http://flow-1#State","target":"http://flow-1/action-20"},{"source":"http://flow-1/action-20","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-21"},{"source":"http://flow-1/asset-21","type":"http://flow-1#State","target":"http://flow-1/action-22"},{"source":"http://flow-1/action-22","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-23"},{"source":"http://flow-1/asset-23","type":"http://flow-1#State","target":"http://flow-1/action-24"},{"source":"http://flow-1/asset-23","type":"http://flow-1#State","target":"http://flow-1/action-25"},{"source":"http://flow-1/asset-23","type":"http://flow-1#State","target":"http://flow-1/action-26"},{"source":"http://flow-1/action-9","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-29"},{"source":"http://flow-1/asset-29","type":"http://flow-1#State","target":"http://flow-1/action-30"},{"source":"http://flow-1/asset-29","type":"http://flow-1#State","target":"http://flow-1/action-31"},{"source":"http://flow-1/action-31","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-33"},{"source":"http://flow-1/asset-33","type":"http://flow-1#State","target":"http://flow-1/action-34"},{"source":"http://flow-1/action-30","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-35"},{"source":"http://flow-1/asset-35","type":"http://flow-1#State","target":"http://flow-1/action-36"},{"source":"http://flow-1/asset-39","type":"http://flow-1#State","target":"http://flow-1/action-36"},{"source":"http://flow-1/action-34","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-39"},{"source":"http://flow-1/action-36","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-40"},{"source":"http://flow-1/asset-40","type":"http://flow-1#State","target":"http://flow-1/action-41"},{"source":"http://flow-1/action-41","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-42"},{"source":"http://flow-1/asset-42","type":"http://flow-1#State","target":"http://flow-1/action-43"},{"source":"http://flow-1/action-43","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-23"},{"source":"http://flow-1/action-1","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-143"},{"source":"http://flow-1/asset-143","type":"http://flow-1#State","target":"http://flow-1/action-144"},{"source":"http://flow-1/action-144","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-4"},{"source":"http://flow-1/action-6","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-28"},{"source":"http://flow-1/asset-28","type":"http://flow-1#State","target":"http://flow-1/action-145"},{"source":"http://flow-1/action-145","type":"http://flow-1#State-Changed","target":"http://flow-1/asset-146"},{"source":"http://flow-1/asset-146","type":"http://flow-1#State","target":"http://flow-1/action-9"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-1"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-5"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-6"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-9"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-10"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-12"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-15"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-16"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-20"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-22"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-24"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-25"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-26"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-30"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-31"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-34"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-36"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-41"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-43"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-144"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-145"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-4"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-11"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-14"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-17"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-18"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-21"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-23"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-28"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-29"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-33"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-35"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-39"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-40"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-42"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-143"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-146"}],"object_properties":[],"data_properties":[{"source":"http://flow-1/action-1","type":"http://flow-1#Description-","target":"PDF"},{"source":"http://flow-1/action-5","type":"http://flow-1#Description-","target":"XLS File "},{"source":"http://flow-1/action-36","type":"http://flow-1#Description-","target":"\".CloudCache.conf.\""},{"source":"http://flow-1/action-41","type":"http://flow-1#Description-","target":"\".CloudDrive.conf.\""},{"source":"http://flow-1/asset-33","type":"http://flow-1#Description","target":"Registry"},{"source":"http://flow-1/asset-39","type":"http://flow-1#Description","target":"Local Binaries"},{"source":"http://flow-1/asset-23","type":"http://flow-1#Description","target":"Data"},{"source":"http://flow-1/asset-14","type":"http://flow-1#Description","target":"Registry"},{"source":"http://flow-1/asset-17","type":"http://flow-1#Description","target":"Local Binaries"}]}
+{
+    "$schema": "./attack_flow_2022-06-16_13-12-39.json",
+    "flow": {
+        "type": "attack-flow",
+        "id": "http://flow-1",
+        "name": "Attack Flow Export",
+        "author": "Unspecified",
+        "created": "2022-06-16T09:12:39-04:00"
+    },
+    "actions": [
+        {
+            "id": "http://flow-1/action-1",
+            "type": "action",
+            "name": "T1566.001 Spearphishing Attachment",
+            "description": "This November 2021 campaign targeted Turkish organizations (government industry). This campaign begins by delivering malicious PDF attachments to victims via email ",
+            "reference": "\"https://attack.mitre.org/techniques/T1566/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-5",
+            "type": "action",
+            "name": "T1059.005 Command and Scripting Interpreter: Visual Basic",
+            "description": "The PDF retrieves malicious XLS file from a file-hosting domain. The XLS file contains VBA Macros that are meant to execute the infection chain",
+            "reference": "\"https://attack.mitre.org/techniques/T1059/005/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "OR"
+        },
+        {
+            "id": "http://flow-1/action-6",
+            "type": "action",
+            "name": "T1105 Ingress Tool Transfer",
+            "description": "The PDF points to a URL that retrieves a malicious executable from a file-hosting domain. This is a recently observed variation of the campaign ",
+            "reference": "\"https://attack.mitre.org/techniques/T1566/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "OR"
+        },
+        {
+            "id": "http://flow-1/action-9",
+            "type": "action",
+            "name": "T1036 Masquerading",
+            "description": "The Windows executable drops a text file in the victim's temporary folder. This document is a decoy PDF or Office document that is then displayed to the victim by the system PDF or document reader",
+            "reference": "\"https://attack.mitre.org/techniques/T1036/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-10",
+            "type": "action",
+            "name": "Canary  Token Execution",
+            "description": "The latest versions of the VBA macros could make HTTP requests to a canary token from canarytokens.com and would typically be silently executed twice during macro execution. According to Cisco, this was likely an anti-analysis technique. ",
+            "reference": "https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-12",
+            "type": "action",
+            "name": "T1547.001 Boot or Logon Autostart Execution: Registry Run Keys/Startup Folder",
+            "description": "The VBA macros create persistence with a VBScript that creates a malicious Registry Run for the infected endpoint",
+            "reference": "\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\", \"https://attack.mitre.org/techniques/T1547/001/\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-15",
+            "type": "action",
+            "name": "T1218 System Binary Process Execution",
+            "description": "The campaign uses a LolBin DLL to execute the VBScript on reboot or re-login",
+            "reference": "\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\" \"https://attack.mitre.org/techniques/T1218/\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-16",
+            "type": "action",
+            "name": "T1059.005 Command and Scripting Interpreter: Visual Basic",
+            "description": "The macro drops a malicious VBScript, and its main purpose is to provide the campaign with persistence and execute a malicious PowerShell downloader script",
+            "reference": "\"https://attack.mitre.org/techniques/T1059/005/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-20",
+            "type": "action",
+            "name": "T1059.001 Command and Scripting Interpreter: PowerShell",
+            "description": "The VBScript executes a PowerShell downloader script. The downloader script resides in the metadata of the malodoc. The script is obfuscated in newer versions of the attack. ",
+            "reference": "\"https://attack.mitre.org/techniques/T1059/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-22",
+            "type": "action",
+            "name": "T1105 Ingress Tool Transfer",
+            "description": "The downloader reaches out to a remote location to download another PowerShell script. It tries twice with a custom timeout of 40 seconds. Cisco assesses this is likely because the C2 may need more time to check if the canary tokens have been accessed before the final payload is delivered. ",
+            "reference": "\"https://attack.mitre.org/techniques/T1105/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-24",
+            "type": "action",
+            "name": "T1486 Data Encrypted for Impact",
+            "description": "Typical MuddyWater campaigns aim to achieve either of three objectives: Espionage, Intellectual Property Theft, or Ransomware",
+            "reference": "\"https://attack.mitre.org/techniques/T1486/\"",
+            "succeeded": 0,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "OR"
+        },
+        {
+            "id": "http://flow-1/action-25",
+            "type": "action",
+            "name": "TA0010 Exfiltration",
+            "description": " Typical MuddyWater campaigns aim to achieve either of three objectives: Espionage, Intellectual Property Theft, or Ransomware",
+            "reference": "\"https://attack.mitre.org/tactics/TA0010/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 0,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "OR"
+        },
+        {
+            "id": "http://flow-1/action-26",
+            "type": "action",
+            "name": "TA0009 Collection",
+            "description": "Typical MuddyWater campaigns aim to achieve either of three objectives: Espionage, Intellectual Property Theft, or Ransomware",
+            "reference": "\"https://attack.mitre.org/tactics/TA0009/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 0,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "OR"
+        },
+        {
+            "id": "http://flow-1/action-30",
+            "type": "action",
+            "name": "T1105 Ingress Tool Transfer",
+            "description": "After the decoy document is displayed, the executable starts to download malicious PowerShell scripts served to it by a remote location",
+            "reference": "\"https://attack.mitre.org/techniques/T1105/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-31",
+            "type": "action",
+            "name": "T1547.001 Boot or Logon Autostart Execution: Registry Run Keys/Startup Folder",
+            "description": "A registry key is created for persistence",
+            "reference": "\"https://attack.mitre.org/techniques/T1547/001/\" \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-34",
+            "type": "action",
+            "name": "T1218 System Binary Process Execution",
+            "description": "The campaign uses a LolBin DLL to execute the first PowerShell instrumentor script on reboot or re-login ",
+            "reference": "\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\" \"https://attack.mitre.org/techniques/T1218/\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-36",
+            "type": "action",
+            "name": "T1059.001 Command and Scripting Interpreter: PowerShell",
+            "description": "The executable begins to execute the malicious PowerShell scripts. The scripts will create a directory in the user's home folder to store two PowerShell scripts. One of the scripts is an instrumentor script used to activate the next stage from disk called \".CloudCache.conf.\" It decodes and executes the second PowerShell script. ",
+            "reference": "\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\", \"https://attack.mitre.org/techniques/T1059/001/\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-41",
+            "type": "action",
+            "name": "T1059.001 Command and Scripting Interpreter: PowerShell",
+            "description": "The script downloads the next stage of the malware from a remote location and executes it ",
+            "reference": "\"https://attack.mitre.org/techniques/T1059/001/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-43",
+            "type": "action",
+            "name": "T1105 Ingress Tool Transfer",
+            "description": "The next stage of the malware is downloaded from a remote location and executed.",
+            "reference": "\"\"https://attack.mitre.org/techniques/T1105/\", \"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-144",
+            "type": "action",
+            "name": "T1204.001 User Execution: Malicious Link",
+            "description": "The user opens the PDF, and the PDF has an error message  prompting them to click on a link in the PDF",
+            "reference": "\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-145",
+            "type": "action",
+            "name": "TA0002 Execution",
+            "description": "The Windows executable executes",
+            "reference": "\"https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html\"",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        }
+    ],
+    "assets": [
+        {
+            "id": "http://flow-1/asset-4",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-11",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-14",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-17",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-18",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-21",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-23",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-28",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-29",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-33",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-35",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-39",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-40",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-42",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-143",
+            "type": "asset",
+            "state": "Compromised"
+        },
+        {
+            "id": "http://flow-1/asset-146",
+            "type": "asset",
+            "state": "Compromised"
+        }
+    ],
+    "relationships": [
+        {
+            "source": "http://flow-1/asset-4",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-5"
+        },
+        {
+            "source": "http://flow-1/asset-4",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-6"
+        },
+        {
+            "source": "http://flow-1/action-5",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-11"
+        },
+        {
+            "source": "http://flow-1/asset-11",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-10"
+        },
+        {
+            "source": "http://flow-1/asset-11",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-12"
+        },
+        {
+            "source": "http://flow-1/action-12",
+            "type": "http://flow-1#Compromises",
+            "target": "http://flow-1/asset-14"
+        },
+        {
+            "source": "http://flow-1/asset-14",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-15"
+        },
+        {
+            "source": "http://flow-1/asset-11",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-16"
+        },
+        {
+            "source": "http://flow-1/action-15",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-17"
+        },
+        {
+            "source": "http://flow-1/asset-17",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-16"
+        },
+        {
+            "source": "http://flow-1/action-16",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-18"
+        },
+        {
+            "source": "http://flow-1/asset-18",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-20"
+        },
+        {
+            "source": "http://flow-1/action-20",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-21"
+        },
+        {
+            "source": "http://flow-1/asset-21",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-22"
+        },
+        {
+            "source": "http://flow-1/action-22",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-23"
+        },
+        {
+            "source": "http://flow-1/asset-23",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-24"
+        },
+        {
+            "source": "http://flow-1/asset-23",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-25"
+        },
+        {
+            "source": "http://flow-1/asset-23",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-26"
+        },
+        {
+            "source": "http://flow-1/action-9",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-29"
+        },
+        {
+            "source": "http://flow-1/asset-29",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-30"
+        },
+        {
+            "source": "http://flow-1/asset-29",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-31"
+        },
+        {
+            "source": "http://flow-1/action-31",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-33"
+        },
+        {
+            "source": "http://flow-1/asset-33",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-34"
+        },
+        {
+            "source": "http://flow-1/action-30",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-35"
+        },
+        {
+            "source": "http://flow-1/asset-35",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-36"
+        },
+        {
+            "source": "http://flow-1/asset-39",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-36"
+        },
+        {
+            "source": "http://flow-1/action-34",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-39"
+        },
+        {
+            "source": "http://flow-1/action-36",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-40"
+        },
+        {
+            "source": "http://flow-1/asset-40",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-41"
+        },
+        {
+            "source": "http://flow-1/action-41",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-42"
+        },
+        {
+            "source": "http://flow-1/asset-42",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-43"
+        },
+        {
+            "source": "http://flow-1/action-43",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-23"
+        },
+        {
+            "source": "http://flow-1/action-1",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-143"
+        },
+        {
+            "source": "http://flow-1/asset-143",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-144"
+        },
+        {
+            "source": "http://flow-1/action-144",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-4"
+        },
+        {
+            "source": "http://flow-1/action-6",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-28"
+        },
+        {
+            "source": "http://flow-1/asset-28",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-145"
+        },
+        {
+            "source": "http://flow-1/action-145",
+            "type": "http://flow-1#State-Changed",
+            "target": "http://flow-1/asset-146"
+        },
+        {
+            "source": "http://flow-1/asset-146",
+            "type": "http://flow-1#State",
+            "target": "http://flow-1/action-9"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-1"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-5"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-6"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-9"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-10"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-12"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-15"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-16"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-20"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-22"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-24"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-25"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-26"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-30"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-31"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-34"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-36"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-41"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-43"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-144"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-145"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-4"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-11"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-14"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-17"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-18"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-21"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-23"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-28"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-29"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-33"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-35"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-39"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-40"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-42"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-143"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-146"
+        }
+    ],
+    "object_properties": [],
+    "data_properties": [
+        {
+            "source": "http://flow-1/action-1",
+            "type": "http://flow-1#Description-",
+            "target": "PDF"
+        },
+        {
+            "source": "http://flow-1/action-5",
+            "type": "http://flow-1#Description-",
+            "target": "XLS File "
+        },
+        {
+            "source": "http://flow-1/action-36",
+            "type": "http://flow-1#Description-",
+            "target": "\".CloudCache.conf.\""
+        },
+        {
+            "source": "http://flow-1/action-41",
+            "type": "http://flow-1#Description-",
+            "target": "\".CloudDrive.conf.\""
+        },
+        {
+            "source": "http://flow-1/asset-33",
+            "type": "http://flow-1#Description",
+            "target": "Registry"
+        },
+        {
+            "source": "http://flow-1/asset-39",
+            "type": "http://flow-1#Description",
+            "target": "Local Binaries"
+        },
+        {
+            "source": "http://flow-1/asset-23",
+            "type": "http://flow-1#Description",
+            "target": "Data"
+        },
+        {
+            "source": "http://flow-1/asset-14",
+            "type": "http://flow-1#Description",
+            "target": "Registry"
+        },
+        {
+            "source": "http://flow-1/asset-17",
+            "type": "http://flow-1#Description",
+            "target": "Local Binaries"
+        }
+    ]
+}

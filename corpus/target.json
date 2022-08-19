@@ -1,1 +1,644 @@
-{"$schema":"./attack_flow_2022-06-14_18-52-41.json","flow":{"type":"attack-flow","id":"http://flow-1","name":"Attack Flow Export","author":"Unspecified","created":"2022-06-14T14:52:41-04:00"},"actions":[{"id":"http://flow-1/action-1","type":"action","name":"T1199 Trusted Relationship","description":"Targeted third-party supplier to gain access to Target's internal systems","timestamp":"","reference":"https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-5","type":"action","name":"T1592.004 Gather Victim Host Information: Client Configurations","description":"gathered information on Target network configurations","timestamp":"","reference":"https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-6","type":"action","name":"T1593.002 Search Open Websites/Domains: Search Engines","description":"Googled information on Target systems for reconnaissance","timestamp":"","reference":"https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-9","type":"action","name":"T1566 Phishing","description":"phishing attempts toward Fazio employess","timestamp":"","reference":"https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-12","type":"action","name":"T1078.002 Valid Accounts: Domain Accounts","description":"Successful phishing attempts allowed attackers to compromise AD credentials (most likely used by Fazio employees to access the Ariba system)","timestamp":"","reference":"https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-15","type":"action","name":"T1078.001 Valid Accounts: Default Accounts","description":"default account compromised","timestamp":"","reference":"https://sansorg.egnyte.com/dl/g5ykEMZpIk; https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883","succeeded":1,"confidence":0,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-19","type":"action","name":"T1105 Ingress Tool Transfer","description":"added malware to POS systems","timestamp":"","reference":"https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-25","type":"action","name":"T1072 Software Deployment Tools; T1078 Valid Accounts; T1505 Server Software Component; T1203 Exploitation for Client Execution","description":"attackers potentially compromised additional servers using vulnerabilities in installed software and valid accounts","timestamp":"","reference":"https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883","succeeded":1,"confidence":0,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-29","type":"action","name":"T1029 Scheduled Transfer","description":"Every seven hours the Trojan checks to see if the local time is between the hours of 10 AM and 5 PM","timestamp":"","reference":"https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-32","type":"action","name":"T1557.001 Adversary-in-the-Middle: LLMNR/NBT-NS Poisoning and SMB Relay","description":"establishes temporary NetBIOS share to transfer POS data to internal dump server","timestamp":"","reference":"https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-33","type":"action","name":"T1074.002 Data Staged: Remote Data Staging","description":"Collects POS information from multiple systems via NetBIOS share. Stores data in an internal dump server","timestamp":"","reference":"https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-34","type":"action","name":"Utilizing common protocols","description":"uses common protocols to transfer data to internal dump server","timestamp":"","reference":"https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-35","type":"action","name":"T1570 Lateral Tool Transfer","description":"If the local machine time is between 10am - 5pm, then winxml.dll is sent over a temporary NetBIOS share","timestamp":"","reference":"https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-46","type":"action","name":"T1095 Non-Application Layer Protocol","description":"ICMP packet sent to remote server to indicated that data was located on the internal dump server","timestamp":"","reference":"https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"},{"id":"http://flow-1/action-50","type":"action","name":"Exfiltration of data via unknown means","description":"exfiltration of data from internal dump server to off-site FTP servers","timestamp":"","reference":"https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/","succeeded":1,"confidence":1,"logic_operator_language":"","logic_operator":"AND"}],"assets":[{"id":"http://flow-1/asset-2","type":"asset","state":"identified "},{"id":"http://flow-1/asset-7","type":"asset","state":"target"},{"id":"http://flow-1/asset-10","type":"asset","state":"compromised"},{"id":"http://flow-1/asset-13","type":"asset","state":"compromised"},{"id":"http://flow-1/asset-17","type":"asset","state":"compromised"},{"id":"http://flow-1/asset-20","type":"asset","state":"compromised"},{"id":"http://flow-1/asset-27","type":"asset","state":"compromised"},{"id":"http://flow-1/asset-30","type":"asset","state":"identification"},{"id":"http://flow-1/asset-36","type":"asset","state":"compromised"},{"id":"http://flow-1/asset-42","type":"asset","state":"established"},{"id":"http://flow-1/asset-43","type":"asset","state":"established"},{"id":"http://flow-1/asset-47","type":"asset","state":" alert"},{"id":"http://flow-1/asset-52","type":"asset","state":"exfiltration"},{"id":"http://flow-1/asset-54","type":"asset","state":"recon"}],"relationships":[{"source":"http://flow-1/asset-2","type":"http://flow-1#state","target":"http://flow-1/action-1"},{"source":"http://flow-1/action-5","type":"http://flow-1#state-change","target":"http://flow-1/asset-2"},{"source":"http://flow-1/action-6","type":"http://flow-1#state-change","target":"http://flow-1/asset-2"},{"source":"http://flow-1/action-1","type":"http://flow-1#state-change","target":"http://flow-1/asset-7"},{"source":"http://flow-1/asset-7","type":"http://flow-1#state","target":"http://flow-1/action-9"},{"source":"http://flow-1/action-9","type":"http://flow-1#state-change","target":"http://flow-1/asset-10"},{"source":"http://flow-1/action-12","type":"http://flow-1#state-change","target":"http://flow-1/asset-13"},{"source":"http://flow-1/asset-10","type":"http://flow-1#state","target":"http://flow-1/action-12"},{"source":"http://flow-1/asset-13","type":"http://flow-1#state","target":"http://flow-1/action-15"},{"source":"http://flow-1/action-15","type":"http://flow-1#state-change","target":"http://flow-1/asset-17"},{"source":"http://flow-1/action-19","type":"http://flow-1#state-change","target":"http://flow-1/asset-20"},{"source":"http://flow-1/asset-13","type":"http://flow-1#state","target":"http://flow-1/action-19"},{"source":"http://flow-1/asset-13","type":"http://flow-1#state","target":"http://flow-1/action-25"},{"source":"http://flow-1/action-25","type":"http://flow-1#state-change","target":"http://flow-1/asset-27"},{"source":"http://flow-1/asset-20","type":"http://flow-1#state","target":"http://flow-1/action-29"},{"source":"http://flow-1/action-29","type":"http://flow-1#state-change","target":"http://flow-1/asset-30"},{"source":"http://flow-1/asset-30","type":"http://flow-1#state","target":"http://flow-1/action-35"},{"source":"http://flow-1/asset-36","type":"http://flow-1#state","target":"http://flow-1/action-32"},{"source":"http://flow-1/action-32","type":"http://flow-1#state-change","target":"http://flow-1/asset-42"},{"source":"http://flow-1/asset-42","type":"http://flow-1#state","target":"http://flow-1/action-33"},{"source":"http://flow-1/action-33","type":"http://flow-1#state-change","target":"http://flow-1/asset-43"},{"source":"http://flow-1/asset-43","type":"http://flow-1#state","target":"http://flow-1/action-34"},{"source":"http://flow-1/asset-43","type":"http://flow-1#state","target":"http://flow-1/action-46"},{"source":"http://flow-1/action-46","type":"http://flow-1#state-change","target":"http://flow-1/asset-47"},{"source":"http://flow-1/action-50","type":"http://flow-1#state-change","target":"http://flow-1/asset-52"},{"source":"http://flow-1/asset-47","type":"http://flow-1#state","target":"http://flow-1/action-50"},{"source":"http://flow-1/asset-54","type":"http://flow-1#state","target":"http://flow-1/action-5"},{"source":"http://flow-1/asset-54","type":"http://flow-1#state","target":"http://flow-1/action-6"},{"source":"http://flow-1/action-35","type":"http://flow-1#state-change","target":"http://flow-1/asset-36"},{"source":"http://flow-1/action-34","type":"http://flow-1#state-change","target":"http://flow-1/asset-30"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-1"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-5"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-6"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-9"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-12"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-15"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-19"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-25"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-29"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-32"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-33"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-34"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-35"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-46"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/action-50"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-2"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-7"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-10"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-13"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-17"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-20"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-27"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-30"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-36"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-42"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-43"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-47"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-52"},{"source":"http://flow-1","type":"http://flow-1#flow-edge","target":"http://flow-1/asset-54"}],"object_properties":[],"data_properties":[{"source":"http://flow-1/asset-2","type":"http://flow-1#description","target":"technical configurations"},{"source":"http://flow-1/asset-2","type":"http://flow-1#description","target":"3rd party Suppliers "},{"source":"http://flow-1/asset-7","type":"http://flow-1#description","target":"Fazio Mechanical"},{"source":"http://flow-1/asset-10","type":"http://flow-1#description","target":"employee system"},{"source":"http://flow-1/asset-13","type":"http://flow-1#description","target":"Ariba system"},{"source":"http://flow-1/asset-13","type":"http://flow-1#description","target":"credentials"},{"source":"http://flow-1/asset-17","type":"http://flow-1#description","target":"BMC Software management system"},{"source":"http://flow-1/asset-20","type":"http://flow-1#description","target":"POS systems"},{"source":"http://flow-1/action-19","type":"http://flow-1#description","target":"BlackPOS malware"},{"source":"http://flow-1/asset-27","type":"http://flow-1#description","target":"Target servers"},{"source":"http://flow-1/asset-30","type":"http://flow-1#description","target":"POS local time between 10AM - 5PM"},{"source":"http://flow-1/asset-43","type":"http://flow-1#description","target":"internal dump server"},{"source":"http://flow-1/asset-47","type":"http://flow-1#description","target":"ICMP ping"},{"source":"http://flow-1/asset-52","type":"http://flow-1#description","target":"data from internal dump server"},{"source":"http://flow-1/asset-54","type":"http://flow-1#description","target":"Target"},{"source":"http://flow-1/asset-42","type":"http://flow-1#description","target":"temporary NetBIOS share"},{"source":"http://flow-1/action-35","type":"http://flow-1#description","target":"winxml.dll"},{"source":"http://flow-1/action-34","type":"http://flow-1#description","target":"ports 139, 443, or 80"},{"source":"http://flow-1/action-50","type":"http://flow-1#description","target":"FTP servers"}]}
+{
+    "$schema": "./attack_flow_2022-06-14_18-52-41.json",
+    "flow": {
+        "type": "attack-flow",
+        "id": "http://flow-1",
+        "name": "Attack Flow Export",
+        "author": "Unspecified",
+        "created": "2022-06-14T14:52:41-04:00"
+    },
+    "actions": [
+        {
+            "id": "http://flow-1/action-1",
+            "type": "action",
+            "name": "T1199 Trusted Relationship",
+            "description": "Targeted third-party supplier to gain access to Target's internal systems",
+            "reference": "https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-5",
+            "type": "action",
+            "name": "T1592.004 Gather Victim Host Information: Client Configurations",
+            "description": "gathered information on Target network configurations",
+            "reference": "https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-6",
+            "type": "action",
+            "name": "T1593.002 Search Open Websites/Domains: Search Engines",
+            "description": "Googled information on Target systems for reconnaissance",
+            "reference": "https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-9",
+            "type": "action",
+            "name": "T1566 Phishing",
+            "description": "phishing attempts toward Fazio employess",
+            "reference": "https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-12",
+            "type": "action",
+            "name": "T1078.002 Valid Accounts: Domain Accounts",
+            "description": "Successful phishing attempts allowed attackers to compromise AD credentials (most likely used by Fazio employees to access the Ariba system)",
+            "reference": "https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-15",
+            "type": "action",
+            "name": "T1078.001 Valid Accounts: Default Accounts",
+            "description": "default account compromised",
+            "reference": "https://sansorg.egnyte.com/dl/g5ykEMZpIk; https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883",
+            "succeeded": 1,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-19",
+            "type": "action",
+            "name": "T1105 Ingress Tool Transfer",
+            "description": "added malware to POS systems",
+            "reference": "https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-25",
+            "type": "action",
+            "name": "T1072 Software Deployment Tools; T1078 Valid Accounts; T1505 Server Software Component; T1203 Exploitation for Client Execution",
+            "description": "attackers potentially compromised additional servers using vulnerabilities in installed software and valid accounts",
+            "reference": "https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883",
+            "succeeded": 1,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-29",
+            "type": "action",
+            "name": "T1029 Scheduled Transfer",
+            "description": "Every seven hours the Trojan checks to see if the local time is between the hours of 10 AM and 5 PM",
+            "reference": "https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-32",
+            "type": "action",
+            "name": "T1557.001 Adversary-in-the-Middle: LLMNR/NBT-NS Poisoning and SMB Relay",
+            "description": "establishes temporary NetBIOS share to transfer POS data to internal dump server",
+            "reference": "https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-33",
+            "type": "action",
+            "name": "T1074.002 Data Staged: Remote Data Staging",
+            "description": "Collects POS information from multiple systems via NetBIOS share. Stores data in an internal dump server",
+            "reference": "https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-34",
+            "type": "action",
+            "name": "Utilizing common protocols",
+            "description": "uses common protocols to transfer data to internal dump server",
+            "reference": "https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-35",
+            "type": "action",
+            "name": "T1570 Lateral Tool Transfer",
+            "description": "If the local machine time is between 10am - 5pm, then winxml.dll is sent over a temporary NetBIOS share",
+            "reference": "https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-46",
+            "type": "action",
+            "name": "T1095 Non-Application Layer Protocol",
+            "description": "ICMP packet sent to remote server to indicated that data was located on the internal dump server",
+            "reference": "https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-50",
+            "type": "action",
+            "name": "Exfiltration of data via unknown means",
+            "description": "exfiltration of data from internal dump server to off-site FTP servers",
+            "reference": "https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        }
+    ],
+    "assets": [
+        {
+            "id": "http://flow-1/asset-2",
+            "type": "asset",
+            "state": "identified "
+        },
+        {
+            "id": "http://flow-1/asset-7",
+            "type": "asset",
+            "state": "target"
+        },
+        {
+            "id": "http://flow-1/asset-10",
+            "type": "asset",
+            "state": "compromised"
+        },
+        {
+            "id": "http://flow-1/asset-13",
+            "type": "asset",
+            "state": "compromised"
+        },
+        {
+            "id": "http://flow-1/asset-17",
+            "type": "asset",
+            "state": "compromised"
+        },
+        {
+            "id": "http://flow-1/asset-20",
+            "type": "asset",
+            "state": "compromised"
+        },
+        {
+            "id": "http://flow-1/asset-27",
+            "type": "asset",
+            "state": "compromised"
+        },
+        {
+            "id": "http://flow-1/asset-30",
+            "type": "asset",
+            "state": "identification"
+        },
+        {
+            "id": "http://flow-1/asset-36",
+            "type": "asset",
+            "state": "compromised"
+        },
+        {
+            "id": "http://flow-1/asset-42",
+            "type": "asset",
+            "state": "established"
+        },
+        {
+            "id": "http://flow-1/asset-43",
+            "type": "asset",
+            "state": "established"
+        },
+        {
+            "id": "http://flow-1/asset-47",
+            "type": "asset",
+            "state": " alert"
+        },
+        {
+            "id": "http://flow-1/asset-52",
+            "type": "asset",
+            "state": "exfiltration"
+        },
+        {
+            "id": "http://flow-1/asset-54",
+            "type": "asset",
+            "state": "recon"
+        }
+    ],
+    "relationships": [
+        {
+            "source": "http://flow-1/asset-2",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-1"
+        },
+        {
+            "source": "http://flow-1/action-5",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-2"
+        },
+        {
+            "source": "http://flow-1/action-6",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-2"
+        },
+        {
+            "source": "http://flow-1/action-1",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-7"
+        },
+        {
+            "source": "http://flow-1/asset-7",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-9"
+        },
+        {
+            "source": "http://flow-1/action-9",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-10"
+        },
+        {
+            "source": "http://flow-1/action-12",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-13"
+        },
+        {
+            "source": "http://flow-1/asset-10",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-12"
+        },
+        {
+            "source": "http://flow-1/asset-13",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-15"
+        },
+        {
+            "source": "http://flow-1/action-15",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-17"
+        },
+        {
+            "source": "http://flow-1/action-19",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-20"
+        },
+        {
+            "source": "http://flow-1/asset-13",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-19"
+        },
+        {
+            "source": "http://flow-1/asset-13",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-25"
+        },
+        {
+            "source": "http://flow-1/action-25",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-27"
+        },
+        {
+            "source": "http://flow-1/asset-20",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-29"
+        },
+        {
+            "source": "http://flow-1/action-29",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-30"
+        },
+        {
+            "source": "http://flow-1/asset-30",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-35"
+        },
+        {
+            "source": "http://flow-1/asset-36",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-32"
+        },
+        {
+            "source": "http://flow-1/action-32",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-42"
+        },
+        {
+            "source": "http://flow-1/asset-42",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-33"
+        },
+        {
+            "source": "http://flow-1/action-33",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-43"
+        },
+        {
+            "source": "http://flow-1/asset-43",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-34"
+        },
+        {
+            "source": "http://flow-1/asset-43",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-46"
+        },
+        {
+            "source": "http://flow-1/action-46",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-47"
+        },
+        {
+            "source": "http://flow-1/action-50",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-52"
+        },
+        {
+            "source": "http://flow-1/asset-47",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-50"
+        },
+        {
+            "source": "http://flow-1/asset-54",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-5"
+        },
+        {
+            "source": "http://flow-1/asset-54",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-6"
+        },
+        {
+            "source": "http://flow-1/action-35",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-36"
+        },
+        {
+            "source": "http://flow-1/action-34",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-30"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-1"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-5"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-6"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-9"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-12"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-15"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-19"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-25"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-29"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-32"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-33"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-34"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-35"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-46"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-50"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-2"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-7"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-10"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-13"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-17"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-20"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-27"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-30"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-36"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-42"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-43"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-47"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-52"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-54"
+        }
+    ],
+    "object_properties": [],
+    "data_properties": [
+        {
+            "source": "http://flow-1/asset-2",
+            "type": "http://flow-1#description",
+            "target": "technical configurations"
+        },
+        {
+            "source": "http://flow-1/asset-2",
+            "type": "http://flow-1#description",
+            "target": "3rd party Suppliers "
+        },
+        {
+            "source": "http://flow-1/asset-7",
+            "type": "http://flow-1#description",
+            "target": "Fazio Mechanical"
+        },
+        {
+            "source": "http://flow-1/asset-10",
+            "type": "http://flow-1#description",
+            "target": "employee system"
+        },
+        {
+            "source": "http://flow-1/asset-13",
+            "type": "http://flow-1#description",
+            "target": "Ariba system"
+        },
+        {
+            "source": "http://flow-1/asset-13",
+            "type": "http://flow-1#description",
+            "target": "credentials"
+        },
+        {
+            "source": "http://flow-1/asset-17",
+            "type": "http://flow-1#description",
+            "target": "BMC Software management system"
+        },
+        {
+            "source": "http://flow-1/asset-20",
+            "type": "http://flow-1#description",
+            "target": "POS systems"
+        },
+        {
+            "source": "http://flow-1/action-19",
+            "type": "http://flow-1#description",
+            "target": "BlackPOS malware"
+        },
+        {
+            "source": "http://flow-1/asset-27",
+            "type": "http://flow-1#description",
+            "target": "Target servers"
+        },
+        {
+            "source": "http://flow-1/asset-30",
+            "type": "http://flow-1#description",
+            "target": "POS local time between 10AM - 5PM"
+        },
+        {
+            "source": "http://flow-1/asset-43",
+            "type": "http://flow-1#description",
+            "target": "internal dump server"
+        },
+        {
+            "source": "http://flow-1/asset-47",
+            "type": "http://flow-1#description",
+            "target": "ICMP ping"
+        },
+        {
+            "source": "http://flow-1/asset-52",
+            "type": "http://flow-1#description",
+            "target": "data from internal dump server"
+        },
+        {
+            "source": "http://flow-1/asset-54",
+            "type": "http://flow-1#description",
+            "target": "Target"
+        },
+        {
+            "source": "http://flow-1/asset-42",
+            "type": "http://flow-1#description",
+            "target": "temporary NetBIOS share"
+        },
+        {
+            "source": "http://flow-1/action-35",
+            "type": "http://flow-1#description",
+            "target": "winxml.dll"
+        },
+        {
+            "source": "http://flow-1/action-34",
+            "type": "http://flow-1#description",
+            "target": "ports 139, 443, or 80"
+        },
+        {
+            "source": "http://flow-1/action-50",
+            "type": "http://flow-1#description",
+            "target": "FTP servers"
+        }
+    ]
+}
