@@ -198,3 +198,31 @@ em.newsgroup {
     background-color: var(--me-ext-teal-highlighter);
     color: var(--text-color);
 }
+
+/* Figure styles */
+
+.rst-content figcaption p span.caption-text {
+    font-size: 10pt;
+    font-style: initial;
+    color: #999;
+}
+
+/* Epigraph styles */
+
+blockquote.epigraph {
+    background-color: var(--me-core-gray-light);
+    margin: 2em 0;
+    padding: 1em;
+    border-top: 3px solid #c9c9c9;
+    border-bottom: 3px solid #c9c9c9;
+}
+
+blockquote.epigraph p {
+    font-size: 16pt;
+}
+
+blockquote.epigraph p.attribution {
+    margin: 0;
+    font-size: 12pt;
+    font-style: italic;
+}
