@@ -26,9 +26,9 @@ realistic adversary emulation scenarios.
 
 Who is Attack Flow For?
 -------------------------
-This project is meant for any IT professional or leader in any industry seeking 
-to understand how adversaries operate, the impact on their organization, and 
-how to most effectively improve their defensive posture to address those threats.  
+This project is meant for any cyber security professional or leader in any industry 
+seeking to understand how adversaries operate, the impact on their organization, 
+and how to most effectively improve their defensive posture to address those threats.  
 Threat intelligence analysts, security operations, incident response teams, 
 red team members, and risk assessors are some of the groups that may benefit 
 from Attack Flow. This shareable model helps users understand how adversaries 
