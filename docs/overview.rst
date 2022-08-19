@@ -16,7 +16,7 @@ Introduction
       
 
 The Attack Flow project helps defenders move from tracking adversary behaviors
-individually to the sequence of techniques adversaries use to achieve their
+individually, to the sequence of techniques adversaries use, to achieve their
 goals. Understanding the context within those sequences, as well as the
 relationships among them, enables additional defensive capabilities that make
 defenders much more effective. The project seeks to demonstrate how attack flows
@@ -26,14 +26,14 @@ realistic adversary emulation scenarios.
 
 Who is Attack Flow For?
 -------------------------
-This project is meant for any cyber defender or leader in any industry seeking 
+This project is meant for any IT professional or leader in any industry seeking 
 to understand how adversaries operate, the impact on their organization, and 
 how to most effectively improve their defensive posture to address those threats.  
 Threat intelligence analysts, security operations, incident response teams, 
 red team members, and risk assessors are some of the groups that may benefit 
 from Attack Flow. This shareable model helps users understand how adversaries 
 target and exploit vulnerabilities by revealing the relationships 
-within chains of techniques. With this information, users can perform 
+within sequences of techniques. With this information, users can perform 
 realistic threat and risk assessments. Attack Flow also provides an easy way to
 share threat intelligence with other defenders, as well as an effective means 
 for users to present leadership with actionable information that can be used 
@@ -49,7 +49,7 @@ Offensive operators and defenders can use Attack Flow to create
 adversary emulation plans that focus their security testing on observed behavior
 by adversaries targeting their organization. Defenders can follow the scenario 
 laid out in the flow and select tests that will effectively assess their 
-defenses against the chains of attack. Having a large corpus of common attack 
+defenses against paths of attack. Having a large corpus of common attack 
 paths and TTP sequences can help with the creation of adversary emulation plans.
 
 **Defensive Posture**
@@ -57,9 +57,9 @@ paths and TTP sequences can help with the creation of adversary emulation plans.
 Defenders can use Attack Flow to assess and improve their defensive posture, 
 as well as provide leadership with a data-driven case for resource allocation.
 Attack Flow allows for a realistic risk assessment based on observed adversary 
-chains of attack, rather than hypothetical or isolated behaviors. 
+sequences of attack, rather than hypothetical or isolated behaviors. 
 Defenders can overlay controls over chains of TTPs to determine gaps in coverage, 
-as well as chokeholds where defenses should be prioritized. Attack Flow can also 
+as well as choke points where defenses should be prioritized. Attack Flow can also 
 be used to investigate an ongoing intrusion, as it provides a framework for 
 understanding the TTP sequences that led to the attack.
 
