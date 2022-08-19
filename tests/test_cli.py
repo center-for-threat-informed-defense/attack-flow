@@ -36,10 +36,20 @@ def test_doc_schema(schema_mock, generate_mock, insert_mock, exit_mock):
     schema_mock.return_value = {}
     generate_mock.return_value = ["Sample input"]
     insert_mock.return_value = "Sample output"
-    with NamedTemporaryFile() as schema, NamedTemporaryFile() as docs:
+    with NamedTemporaryFile() as schema, NamedTemporaryFile() as example, NamedTemporaryFile() as docs:
         schema.write(b'{"$defs": {"foo": "bar"}}')
         schema.seek(0, os.SEEK_SET)
-        sys.argv = ["af", "--log-level", "debug", "doc-schema", schema.name, docs.name]
+        example.write(b'{"objects": [{"id": "foo"}]}')
+        example.seek(0, os.SEEK_SET)
+        sys.argv = [
+            "af",
+            "--log-level",
+            "debug",
+            "doc-schema",
+            schema.name,
+            example.name,
+            docs.name,
+        ]
         runpy.run_module("attack_flow.cli", run_name="__main__")
     schema_mock.assert_called()
     generate_mock.assert_called()

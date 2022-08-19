@@ -125,7 +125,7 @@ def test_schema_property_enum():
     assert sp.name == "test-enum"
     assert sp.type == "string"
     assert sp.required
-    assert sp.type_markup == "``enum[foo,bar]``"
+    assert sp.type_markup == '``string`` Allowed values: "foo", "bar"'
 
 
 def test_schema_property_ref():
@@ -135,7 +135,7 @@ def test_schema_property_ref():
         {
             "description": "My identity ref",
             "$ref": "./identifier.json",
-            "xRefType": ["identity"],
+            "x-referenceType": ["identity"],
         },
     )
     assert sp.name == "test-ref"
@@ -214,9 +214,11 @@ def test_generate_schema_docs():
                     "items": {"type": "string"},
                 },
             },
+            "x-exampleObject": "my-object--6b44da40-c357-4eed-83b6-5b183c6de006",
         },
     )
-    actual_markup = generate_schema_docs(schema)
+    examples = {"my-object--6b44da40-c357-4eed-83b6-5b183c6de006": {"foo": "bar"}}
+    actual_markup = generate_schema_docs(schema, examples)
     expected_markup = [
         ".. _schema_my_object:",
         "",
@@ -241,6 +243,14 @@ def test_generate_schema_docs():
         "   * - **hobbies** *(optional)*",
         "     - ``list`` of ``string``",
         "     - My hobbies",
+        "",
+        "*Example:*",
+        "",
+        ".. code:: json",
+        "",
+        "    {",
+        '      "foo": "bar"',
+        "    }",
         "",
     ]
 
