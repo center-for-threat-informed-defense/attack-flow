@@ -1,0 +1,55 @@
+{
+    "$schema": "../../schema/attack-flow-2022-01-05-draft.json",
+    "flow": {
+        "type": "attack-flow",
+        "id": "urn:test-fixtures-flow2",
+        "name": "Test Fixture 2",
+        "author": "Center for Threat-Informed Defense",
+        "created": "2022-07-25T10:51:00-05:00"
+    },
+    "actions": [
+        {
+            "id": "urn:action1",
+            "type": "action",
+            "name": "T1552.001: Unsecured Credentials: Credentials In Files",
+            "description": "Harvest AWS service credentials.",
+            "reference": "",
+            "succeeded": 1,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "urn:action2",
+            "type": "action",
+            "name": "T1078.004: Valid Accounts: Cloud Accounts",
+            "description": "Use harvested AWS credentials",
+            "reference": "",
+            "succeeded": 1,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        }
+    ],
+    "assets": [
+        {
+            "id": "urn:asset1",
+            "type": "asset",
+            "state": "compromised"
+        }
+    ],
+    "relationships": [
+        {
+            "source": "urn:action1",
+            "type": "urn:compromises",
+            "target": "urn:asset1"
+        },
+        {
+            "source": "urn:asset1",
+            "type": "urn:enables",
+            "target": "urn:action2"
+        }
+    ],
+    "object_properties": [],
+    "data_properties": []
+}

@@ -1,9 +1,11 @@
 /* Document styles */
 
 body {
-    --text-color: #404040;
+    --text-color: #0B2338;
     --text-color-inverse: #FFFFFF;
     --text-background: #FFFFFF;
+    --side-nav-background: #404040;
+
     color: var(--text-color);
     font-family: Arial, Helvetica, sans-serif;
 
@@ -17,6 +19,7 @@ body {
     --me-core-blue-darker: #0F1538;
     --me-core-gray-light: #F0F1F2;
     --me-core-gray: #B2B2B2;
+    --me-hyperlink: #005B94;
 
     /* MITRE Engenuity Extended Colors */
     --me-ext-navy: #212C5E;
@@ -47,12 +50,11 @@ body {
     }
 }
 
-strong {
-    /*
-    Remove me during merge conflict -- MEH
+em.newsgroup {
     background-color: var(--me-core-yellow);
     padding: 5px;
-    */
+    font-style: normal;
+    font-weight: 700;
 }
 
 /* Anchor styles */
@@ -60,12 +62,12 @@ strong {
 .rst-content a,
 .rst-content a:active,
 .rst-content a:visited {
-    color: var(--me-core-purple);
-    font-weight: bold;
+    color: var(--me-hyperlink);
+    text-decoration: underline;
 }
 
 .rst-content a:hover {
-    color: var(--me-core-purple-dark);
+    color: var(--me-text-color);
 }
 
 .rst-content.style-external-links a.reference.external:after {
@@ -124,7 +126,7 @@ strong {
 /* Side bar styles */
 
 .wy-nav-side {
-    background-color: var(--text-color);
+    background-color: var(--side-nav-background);
 }
 
 .wy-side-nav-search a {
@@ -140,7 +142,7 @@ strong {
 }
 
 .wy-menu-vertical p.caption {
-    color: var(--me-core-purple-light);
+    color: var(--text-color-inverse);
 }
 
 .wy-menu-vertical li.current {
