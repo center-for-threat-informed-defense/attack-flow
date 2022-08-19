@@ -36,6 +36,13 @@ uses MITRE ATT&CK to describe specific adversary behaviors.
 For more information, refer to the
 [documentation](https://center-for-threat-informed-defense.github.io/attack-flow-private/).
 
+## Docker
+
+The builder tool can be run as a Docker container. Run `make docker-build` to
+build the container image initially, then `make docker-run` to start the
+container. Once the image is running, open your browser to http://localhost:8080
+to view the builder.
+
 ## Getting Involved
 
 There are several ways that you can get involved with this project and help

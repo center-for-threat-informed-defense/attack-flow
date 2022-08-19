@@ -1,0 +1,331 @@
+{
+    "$schema": "./attack_flow_2022-06-16_20-31-26.json",
+    "flow": {
+        "type": "attack-flow",
+        "id": "http://flow-1",
+        "name": "Attack Flow Export",
+        "author": "Unspecified",
+        "created": "2022-06-16T16:31:26-04:00"
+    },
+    "actions": [
+        {
+            "id": "http://flow-1/action-1",
+            "type": "action",
+            "name": "T1566 Phishing",
+            "description": "Potential phishing to gain access to Starwood brands reservation system",
+            "reference": "https://hoteltechreport.com/news/marriott-data-breach; https://www.csoonline.com/article/3441220/marriott-data-breach-faq-how-did-it-happen-and-what-was-the-impact.html",
+            "succeeded": 1,
+            "confidence": 0,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-5",
+            "type": "action",
+            "name": "T1555 Credentials from Password Stores",
+            "description": "Obtained valid passwords/accounts to move laterally within the network",
+            "reference": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-6",
+            "type": "action",
+            "name": "remote access trojan",
+            "description": "a remote access trojan was found during investigation. RATs allow an attacker to covertly access, surveil, and even gain control over a computer",
+            "reference": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-14",
+            "type": "action",
+            "name": "T1590.004 Gather Victim Network Information: Network Topology",
+            "description": "used administrator account to query for data within network to find databases with relevant information",
+            "reference": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-17",
+            "type": "action",
+            "name": "TA0010 Exfiltration",
+            "description": "exfiltrated data through unknown means",
+            "reference": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-20",
+            "type": "action",
+            "name": "T1070.004 Indicator Removal on Host: File Deletion",
+            "description": "deleted exfiltrated files for defense evasion",
+            "reference": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        },
+        {
+            "id": "http://flow-1/action-23",
+            "type": "action",
+            "name": "T1001 Data Obfuscation; T1560 Archive Collected Data",
+            "description": "attackers obfuscate data that they removed from the network by compressing and encrypting files ",
+            "reference": "https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf",
+            "succeeded": 1,
+            "confidence": 1,
+            "logic_operator_language": "",
+            "logic_operator": "AND"
+        }
+    ],
+    "assets": [
+        {
+            "id": "http://flow-1/asset-2",
+            "type": "asset",
+            "state": "compromised"
+        },
+        {
+            "id": "http://flow-1/asset-3",
+            "type": "asset",
+            "state": "compromise"
+        },
+        {
+            "id": "http://flow-1/asset-7",
+            "type": "asset",
+            "state": "obtained"
+        },
+        {
+            "id": "http://flow-1/asset-10",
+            "type": "asset",
+            "state": "compromise"
+        },
+        {
+            "id": "http://flow-1/asset-12",
+            "type": "asset",
+            "state": "collection"
+        },
+        {
+            "id": "http://flow-1/asset-15",
+            "type": "asset",
+            "state": "discovery"
+        },
+        {
+            "id": "http://flow-1/asset-18",
+            "type": "asset",
+            "state": "exfiltrated"
+        },
+        {
+            "id": "http://flow-1/asset-21",
+            "type": "asset",
+            "state": "delete"
+        }
+    ],
+    "relationships": [
+        {
+            "source": "http://flow-1/action-1",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-2"
+        },
+        {
+            "source": "http://flow-1/asset-3",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-1"
+        },
+        {
+            "source": "http://flow-1/asset-2",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-5"
+        },
+        {
+            "source": "http://flow-1/asset-2",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-6"
+        },
+        {
+            "source": "http://flow-1/action-5",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-7"
+        },
+        {
+            "source": "http://flow-1/action-6",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-10"
+        },
+        {
+            "source": "http://flow-1/asset-7",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-14"
+        },
+        {
+            "source": "http://flow-1/asset-10",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-14"
+        },
+        {
+            "source": "http://flow-1/asset-12",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-17"
+        },
+        {
+            "source": "http://flow-1/action-17",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-18"
+        },
+        {
+            "source": "http://flow-1/asset-18",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-20"
+        },
+        {
+            "source": "http://flow-1/action-20",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-21"
+        },
+        {
+            "source": "http://flow-1/action-14",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-15"
+        },
+        {
+            "source": "http://flow-1/asset-15",
+            "type": "http://flow-1#state",
+            "target": "http://flow-1/action-23"
+        },
+        {
+            "source": "http://flow-1/action-23",
+            "type": "http://flow-1#state-change",
+            "target": "http://flow-1/asset-12"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-1"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-5"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-6"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-14"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-17"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-20"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/action-23"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-2"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-3"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-7"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-10"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-12"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-15"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-18"
+        },
+        {
+            "source": "http://flow-1",
+            "type": "http://flow-1#flow-edge",
+            "target": "http://flow-1/asset-21"
+        }
+    ],
+    "object_properties": [],
+    "data_properties": [
+        {
+            "source": "http://flow-1/asset-3",
+            "type": "http://flow-1#description",
+            "target": "Starwood network"
+        },
+        {
+            "source": "http://flow-1/asset-7",
+            "type": "http://flow-1#description",
+            "target": "credentials"
+        },
+        {
+            "source": "http://flow-1/asset-15",
+            "type": "http://flow-1#description",
+            "target": "database"
+        },
+        {
+            "source": "http://flow-1/asset-12",
+            "type": "http://flow-1#description",
+            "target": "guest data"
+        },
+        {
+            "source": "http://flow-1/asset-18",
+            "type": "http://flow-1#description",
+            "target": "encrypted files"
+        },
+        {
+            "source": "http://flow-1/asset-21",
+            "type": "http://flow-1#description",
+            "target": "exfiltrated data and files generate on the network"
+        },
+        {
+            "source": "http://flow-1/asset-18",
+            "type": "http://flow-1#description",
+            "target": "guest data"
+        },
+        {
+            "source": "http://flow-1/asset-18",
+            "type": "http://flow-1#description",
+            "target": "passport information"
+        },
+        {
+            "source": "http://flow-1/action-5",
+            "type": "http://flow-1#description",
+            "target": "Mimikatz"
+        }
+    ]
+}
