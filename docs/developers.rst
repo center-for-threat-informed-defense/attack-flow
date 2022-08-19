@@ -138,33 +138,13 @@ The technical documentation (i.e. what you're reading right now) is written in a
 language called `reStructuredText
 <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html>`__ (which is
 similar to Markdown but with more features) and compiled using `Sphinx
-<https://www.sphinx-doc.org/>`__ to produce documentation in HTML or PDF format. To
-make HTML:
-
-.. code:: bash
-
-    $ make docs
-    sphinx-build -M html "docs/" "docs/_build"
-    Running Sphinx v4.5.0
-    making output directory... done
-    building [mo]: targets for 0 po files that are out of date
-    building [html]: targets for 8 source files that are out of date
-    updating environment: [new config] 8 added, 0 changed, 0 removed
-    reading sources... [100%] theme
-
-    ...
-
-    The HTML pages are in docs/_build/html.
-
-You can then go open ``docs/_build/index.html`` in your browser to view the result. When
-you are writing documentation it is helpful to have a short cycle time between editing
-the documents and seeing the result in the browser. For this scenario, there is a "live"
-server:
+<https://www.sphinx-doc.org/>`__ to produce documentation in HTML or PDF format. To build
+and view the documentation:
 
 .. code:: bash
 
     $ make docs-server
-    [sphinx-autobuild] > sphinx-build -a /Volumes/Code/ctid/attack-flow-private/docs /Volumes/Code/ctid/attack-flow-private/docs/_build
+    [sphinx-autobuild] > sphinx-build -b dirhtml -a /Volumes/Code/ctid/attack-flow-private/docs /Volumes/Code/ctid/attack-flow-private/docs/_build
     Running Sphinx v4.5.0
     loading pickled environment... done
     building [mo]: all of 0 po files
@@ -178,9 +158,9 @@ server:
     [I 220601 13:35:21 handlers:64] Start detecting changes
 
 Once the server is running, you can open http://localhost:8000 in your browser to view
-the documentation. The advantage of using the live server is that when you edit and save
-any ``.rst`` document, the live server will recompile it and refresh the browser so that
-you can see the changes almost immediately.
+the documentation. When you edit and save any ``.rst`` document, the docslive server
+will recompile it and refresh the browser so that you can see the changes almost
+immediately. This makes for an efficient editing workflow.
 
 The documentation can also be built into PDF, but it's a slower and more complicated
 process. You will need to have `Docker installed

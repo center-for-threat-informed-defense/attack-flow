@@ -55,15 +55,17 @@ jobs:
       with:
         name: attack_flow_builder
         path: docs/extra/builder
+    - name: Make Attack Flow schema
+      run: poetry run make docs-schema
     - name: Copy corpus into docs
       run: poetry run make docs-examples
     - name: Build HTML docs
-      run: poetry run sphinx-build -M html docs docs/_build -W --keep-going
+      run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
     - name: Upload HTML docs
       uses: actions/upload-artifact@v3
       with:
         name: attack_flow_docs_html
-        path: docs/_build/html/
+        path: docs/_build/dirhtml/
     - name: Install TeX Live
       run: sudo apt install -y latexmk texlive texlive-latex-extra
     - name: Build PDF docs

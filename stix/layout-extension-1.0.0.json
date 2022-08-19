@@ -1,0 +1,31 @@
+{
+    "type": "bundle",
+    "id": "bundle--04b240c8-e8ec-4530-984e-25ab4a97bd23",
+    "objects": [
+        {
+            "type": "extension-definition",
+            "spec_version": "2.1",
+            "id": "extension-definition--a7357236-2dfb-4af5-b4dd-3d097dcdbf13",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created": "2022-08-07T14:54:01.000Z",
+            "modified": "2022-08-07T14:54:01.000Z",
+            "name": "Layout Extension",
+            "description": "This STIX extension definition provides coordinates for laying out STIX objects in Cartesian space, e.g. for visualization.",
+            "version": "1.0.0",
+            "schema": "./layout-schema-1.0.0.json",
+            "extension_types": [
+                "property-extension"
+            ]
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "MITRE Engenuity Center for Threat-Informed Defense",
+            "identity_class": "organization"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
-Attack Flow Documentation
-=========================
+Attack Flow |version|
+=====================
 
 Attack Flow is a standard for describing sequences of adversary behaviors to help
 defenders and leaders under how adversaries operate and to better understand defensive
@@ -17,7 +17,7 @@ threat-informed defense globally. The project is funded by our `research partici
     example_flows
     walkthrough
     builder
-    standard
+    language
     best_practices
     developers
     theme

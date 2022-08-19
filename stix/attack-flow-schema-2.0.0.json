@@ -1,0 +1,255 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://center-for-threat-informed-defense.github.io/attack-flow/schema/attack-flow-schema-2.0.0.json",
+    "title": "Attack Flow STIX 2.1 Extension",
+    "description": "This schema is the normative definition of the STIX 2.1 extension `extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4`. It extends STIX with additional STIX Data Objects (SDOs) and SDO properties to implement Attack Flow concepts, i.e. generalized graphs of adversary behaviors.",
+    "type": "object",
+    "allOf": [
+        {
+            "$comment": "All Attack Flow SDOs implement the required common properties.",
+            "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/core.json"
+        },
+        {
+            "$comment": "Attack Flow SDOs must reference the extension definition.",
+            "type": "object",
+            "properties": {
+                "extensions": {
+                    "type": "object",
+                    "properties": {
+                        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                            "type": "object",
+                            "properties": {
+                                "extension_type": {
+                                    "type": "string",
+                                    "const": "new-sdo"
+                                }
+                            },
+                            "required": [
+                                "extension_type"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4"
+                    ]
+                }
+            },
+            "required": [
+                "extensions"
+            ]
+        },
+        {
+            "$comment": "Link to the Attack Flow SDO subschemas based on object type.",
+            "if": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "const": "attack-flow"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/$defs/attack-flow"
+            },
+            "else": {
+                "if": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "attack-action"
+                        }
+                    }
+                },
+                "then": {
+                    "$ref": "#/$defs/attack-action"
+                },
+                "else": {
+                    "if": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "const": "attack-condition"
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "#/$defs/attack-condition"
+                    },
+                    "else": {
+                        "if": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "const": "attack-operator"
+                                }
+                            }
+                        },
+                        "then": {
+                            "$ref": "#/$defs/attack-operator"
+                        },
+                        "else": true
+                    }
+                }
+            }
+        }
+    ],
+    "$defs": {
+        "attack-flow": {
+            "description": "An ``attack-flow`` object represents the Attack Flow overall. It provides metadata for name and description; it provides starting points for the flow of actions; and it is an object that can be referenced from other STIX objects.",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "The name of the Attack Flow.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "A description of the overall Attack Flow.",
+                    "type": "string"
+                },
+                "scope": {
+                    "description": "Indicates what type of behavior the Attack Flow describes: a specific incident, a campaign, etc.",
+                    "type": "string",
+                    "enum": [
+                        "incident",
+                        "campaign",
+                        "threat-actor",
+                        "malware",
+                        "other"
+                    ]
+                },
+                "start_refs": {
+                    "description": "A list of objects that start the flow.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "x-referenceType": [
+                            "attack-action",
+                            "attack-condition"
+                        ]
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "name",
+                "start_refs",
+                "scope"
+            ],
+            "x-exampleObject": "attack-flow--e9ec3a4b-f787-4e81-a3d9-4cfe017ebc2f"
+        },
+        "attack-action": {
+            "description": "An ``attack-action`` object represents the execution of a particular technique, i.e. a discrete unit of adverary behavior.",
+            "type": "object",
+            "properties": {
+                "technique_id": {
+                    "description": "A technique identifier or shortname that may reference an authoritative collection of techniques, e.g. ATT&CK.",
+                    "type": "string"
+                },
+                "technique_name": {
+                    "description": "The name of the technique.",
+                    "type": "string"
+                },
+                "technique_ref": {
+                    "description": "A reference to the technique's STIX representation.",
+                    "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                },
+                "description": {
+                    "description": "A description of the adversary behavior.",
+                    "type": "string"
+                },
+                "effect_refs": {
+                    "description": "The potential effects that result from executing this action. (See: :ref:`effects`.)",
+                    "type": "array",
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "x-referenceType": [
+                            "attack-action",
+                            "attack-operator",
+                            "attack-condition"
+                        ]
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "technique_name"
+            ],
+            "x-exampleObject": "attack-action--37345417-3ee0-4e11-b421-1d4be68e6f15"
+        },
+        "attack-condition": {
+            "description": "An ``attack-condition`` object represents some possible condition, outcome, or state that could occur. Conditions can be used to split flows based on the success or failure of an action, or to provide further description of an action's results.",
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "The condition that is evaluated, usually based on the success or failure of the preceding action.",
+                    "type": "string"
+                },
+                "on_true_refs": {
+                    "description": "When the condition is ``true``, the flow continues to these objects.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "x-referenceType": [
+                            "attack-action",
+                            "attack-operator",
+                            "attack-condition"
+                        ]
+                    },
+                    "minItems": 1
+                },
+                "on_false_refs": {
+                    "description": "When the condition is ``false``, the flow continues to these objects. (If there are no objects, then the flow halts at this node.)",
+                    "type": "array",
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "x-referenceType": [
+                            "attack-action",
+                            "attack-operator",
+                            "attack-condition"
+                        ]
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "description"
+            ],
+            "x-exampleObject": "attack-condition--7e809f5b-319a-4b3f-82fe-e4dc09af5088"
+        },
+        "attack-operator": {
+            "description": "An ``attack-operator`` object joins multiple attack paths together using boolean logic.",
+            "type": "object",
+            "properties": {
+                "operator": {
+                    "description": "The logical operator to apply to the input effects.",
+                    "type": "string",
+                    "enum": [
+                        "AND",
+                        "OR"
+                    ]
+                },
+                "effect_refs": {
+                    "description": "The effects, outcomes, or states that result when this operator evaluates to ``true``. If the operator evaluates to ``false``, then the flow halts. (See: :ref:`effects`.)",
+                    "type": "array",
+                    "items": {
+                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                        "x-referenceType": [
+                            "attack-action",
+                            "attack-operator",
+                            "attack-condition"
+                        ]
+                    },
+                    "minItems": 1
+                }
+            },
+            "required": [
+                "operator"
+            ],
+            "x-exampleObject": "attack-operator--609d7adf-a3d2-44e8-82de-4b30e3fb97be"
+        }
+    }
+}

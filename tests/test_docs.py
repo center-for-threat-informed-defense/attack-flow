@@ -1,17 +1,15 @@
-from io import StringIO
-import json
 from pathlib import Path
 from textwrap import dedent
 import pytest
-import attack_flow
 
 from attack_flow.docs import (
     generate_example_flows,
-    generate_schema_for_object,
-    get_properties,
+    generate_schema_docs,
     human_name,
     insert_docs,
     make_target,
+    RefType,
+    Schema,
     SchemaProperty,
 )
 
@@ -28,8 +26,18 @@ def test_schema_property_string():
     assert sp.name == "test-prop"
     assert sp.type == "string"
     assert not sp.required
-    assert sp.type_markup == "string"
-    assert sp.description_markup == "My description"
+    assert sp.type_markup == "``string``"
+
+
+def test_schema_property_requires_description():
+    with pytest.raises(ValueError):
+        SchemaProperty(
+            "test-prop",
+            False,
+            {
+                "type": "string",
+            },
+        )
 
 
 def test_schema_property_uuid():
@@ -45,8 +53,7 @@ def test_schema_property_uuid():
     assert sp.name == "test-uuid"
     assert sp.type == "string"
     assert sp.required
-    assert sp.type_markup == "uuid"
-    assert sp.description_markup == "My description"
+    assert sp.type_markup == "``uuid``"
 
 
 def test_schema_property_datetime():
@@ -62,11 +69,7 @@ def test_schema_property_datetime():
     assert sp.name == "test-datetime"
     assert sp.type == "string"
     assert sp.required
-    assert sp.type_markup == "date-time"
-    assert (
-        sp.description_markup
-        == "My description (RFC-3339 format, e.g. YYYY-MM-DDThh:mm:ssZ)"
-    )
+    assert sp.type_markup == "``date-time``"
 
 
 def test_schema_property_array_of_string():
@@ -79,22 +82,21 @@ def test_schema_property_array_of_string():
     assert sp.type == "array"
     assert sp.subtype == "string"
     assert sp.required
-    assert sp.type_markup == "array of string"
-    assert sp.description_markup == "My description"
+    assert sp.type_markup == "``list`` of ``string``"
 
 
 def test_schema_property_array_of_object():
-    sp = SchemaProperty(
-        "test-array2",
-        True,
-        {"description": "My description", "type": "array", "items": {"type": "object"}},
-    )
-    assert sp.name == "test-array2"
-    assert sp.type == "array"
-    assert sp.subtype == "object"
-    assert sp.required
-    assert sp.type_markup == "array of :ref:`schema_testarray2`"
-    assert sp.description_markup == "My description"
+    """Array of objects is not allowed."""
+    with pytest.raises(ValueError):
+        sp = SchemaProperty(
+            "test-array2",
+            True,
+            {
+                "description": "My description",
+                "type": "array",
+                "items": {"type": "object"},
+            },
+        )
 
 
 def test_schema_property_object():
@@ -109,10 +111,9 @@ def test_schema_property_object():
     )
     assert sp.name == "test-object"
     assert sp.type == "object"
-    assert sp.subtype == ""
+    assert sp.subtype is None
     assert sp.required
-    assert sp.type_markup == ":ref:`schema_testobject`"
-    assert sp.description_markup == "My description"
+    assert sp.type_markup == ":ref:`schema_test_object`"
 
 
 def test_schema_property_enum():
@@ -124,95 +125,132 @@ def test_schema_property_enum():
     assert sp.name == "test-enum"
     assert sp.type == "string"
     assert sp.required
-    assert sp.type_markup == "enum"
-    assert sp.description_markup == 'My description (Enum values: "foo", "bar")'
+    assert sp.type_markup == '``string`` Allowed values: "foo", "bar"'
 
 
-def test_get_properties():
-    schema = {
-        "type": "object",
-        "properties": {
-            "name": {"description": "My name", "type": "string"},
-            "hobbies": {
-                "description": "My hobbies",
-                "type": "array",
-                "items": {"type": "string"},
-            },
-            "cars": {
-                "description": "My cars",
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "make": {
-                            "description": "The auto manufacturer",
-                            "type": "string",
-                        },
-                        "model": {
-                            "description": "The model name",
-                            "type": "string",
-                        },
-                    },
-                },
-            },
-            "address": {
-                "description": "My address",
-                "type": "object",
-                "properties": {
-                    "city": {"description": "My city", "type": "string"},
-                    "state": {"description": "My state", "type": "string"},
-                },
-            },
-        },
-    }
-    props = get_properties(schema, node="root")
-    assert "root" in props
-    root = props["root"]
-    assert root["name"].type == "string"
-
-    assert "address" in props
-    address = props["address"]
-    assert address["city"].type == "string"
-
-
-def test_generate_schema_for_object():
-    actual_markup = generate_schema_for_object(
-        "footype",
+def test_schema_property_ref():
+    sp = SchemaProperty(
+        "test-ref",
+        True,
         {
-            "prop1": SchemaProperty(
-                "prop1",
-                False,
-                {
-                    "description": "prop1 description",
-                    "type": "string",
-                },
-            ),
-            "prop2": SchemaProperty(
-                "prop2",
-                True,
-                {
-                    "description": "prop2 description",
-                    "type": "string",
-                },
-            ),
+            "description": "My identity ref",
+            "$ref": "./identifier.json",
+            "x-referenceType": ["identity"],
         },
     )
+    assert sp.name == "test-ref"
+    assert isinstance(sp.type, RefType)
+    assert sp.required
+    assert sp.type_markup == "``identifier`` (of type ``identity``)"
 
+
+def test_schema_property_untyped_ref():
+    sp = SchemaProperty(
+        "test-ref",
+        True,
+        {
+            "description": "My generic ref",
+            "$ref": "./identifier.json",
+        },
+    )
+    assert sp.name == "test-ref"
+    assert isinstance(sp.type, RefType)
+    assert sp.required
+    assert sp.type_markup == "``identifier``"
+
+
+def test_schema_property_list_of_ref():
+    sp = SchemaProperty(
+        "test-ref-list",
+        True,
+        {
+            "description": "My generic ref",
+            "type": "array",
+            "items": {
+                "$ref": "./identifier.json",
+            },
+        },
+    )
+    assert sp.name == "test-ref-list"
+    assert sp.type == "array"
+    assert sp.required
+    assert sp.type_markup == "``list`` of ``identifier``"
+
+
+def test_schema():
+    schema = Schema(
+        "my-object",
+        {
+            "type": "object",
+            "description": "My Schema",
+            "properties": {
+                "name": {"description": "My name", "type": "string"},
+                "hobbies": {
+                    "description": "My hobbies",
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+        },
+    )
+    assert schema.name == "my-object"
+    assert schema.description == "My Schema"
+    assert schema.properties["name"].type == "string"
+    assert schema.properties["hobbies"].type == "array"
+    assert schema.properties["hobbies"].subtype == "string"
+
+
+def test_generate_schema_docs():
+    schema = Schema(
+        "my-object",
+        {
+            "type": "object",
+            "description": "My Schema",
+            "properties": {
+                "name": {"description": "My name", "type": "string"},
+                "hobbies": {
+                    "description": "My hobbies",
+                    "type": "array",
+                    "items": {"type": "string"},
+                },
+            },
+            "x-exampleObject": "my-object--6b44da40-c357-4eed-83b6-5b183c6de006",
+        },
+    )
+    examples = {"my-object--6b44da40-c357-4eed-83b6-5b183c6de006": {"foo": "bar"}}
+    actual_markup = generate_schema_docs(schema, examples)
     expected_markup = [
-        ".. _schema_footype:",
+        ".. _schema_my_object:",
         "",
-        "Footype",
-        "~~~~~~~",
+        "My Object",
+        "~~~~~~~~~",
         "",
-        "prop1 : string",
-        "  *Required: no*",
+        "My Schema",
         "",
-        "  prop1 description",
+        ".. list-table::",
+        "   :widths: 20 30 50",
+        "   :header-rows: 1",
         "",
-        "prop2 : string",
-        "  *Required: yes*",
+        "   * - Property Name",
+        "     - Type",
+        "     - Description",
+        "   * - **type**",
+        "     - ``string``",
+        "     - The value of this property **must** be ``my-object``.",
+        "   * - **name** *(optional)*",
+        "     - ``string``",
+        "     - My name",
+        "   * - **hobbies** *(optional)*",
+        "     - ``list`` of ``string``",
+        "     - My hobbies",
         "",
-        "  prop2 description",
+        "*Example:*",
+        "",
+        ".. code:: json",
+        "",
+        "    {",
+        '      "foo": "bar"',
+        "    }",
         "",
     ]
 
@@ -220,7 +258,7 @@ def test_generate_schema_for_object():
 
 
 def test_make_target():
-    assert make_target("? ASDF; 123 ") == ".. _schema_asdf123:"
+    assert make_target("? ASDF; 123 ") == ".. _schema_asdf_123:"
 
 
 def test_insert_docs():
@@ -259,14 +297,13 @@ def test_insert_docs_no_start_tag():
         [
             "old text 1",
             "old text 2",
-            ".. /JSON_SCHEMA",
             "old text 3",
             "old text 4",
         ]
     )
 
-    with pytest.raises(Exception):
-        insert_docs(old_doc, []).splitlines()
+    with pytest.raises(RuntimeError):
+        insert_docs(old_doc, [], tag="JSON_SCHEMA")
 
 
 def test_insert_docs_no_end_tag():
@@ -280,80 +317,47 @@ def test_insert_docs_no_end_tag():
         ]
     )
 
-    with pytest.raises(Exception):
-        insert_docs(old_doc, []).splitlines()
+    with pytest.raises(RuntimeError):
+        insert_docs(old_doc, [], tag="JSON_SCHEMA")
 
 
 def test_human_name():
     assert human_name("foo") == "Foo"
-    assert human_name("foo_bar") == "Foo Bar"
-
-
-def test_generate_schema():
-    props = {
-        attack_flow.docs.ROOT_NODE: {
-            "my_prop": attack_flow.docs.SchemaProperty(
-                "my_prop",
-                required=True,
-                property_dict={"type": "string", "description": "Sample property"},
-            )
-        }
-    }
-    schema_lines = attack_flow.docs.generate_schema(props)
-    assert schema_lines == [
-        ".. _schema_toplevel:",
-        "",
-        "Top Level",
-        "~~~~~~~~~",
-        "",
-        "my_prop : string",
-        "  *Required: yes*",
-        "",
-        "  Sample property",
-        "",
-        "",
-    ]
+    assert human_name("foo-bar") == "Foo Bar"
 
 
 def test_generate_example_flows():
     jsons = [Path("tests/fixtures/flow1.json"), Path("tests/fixtures/flow2.json")]
-    afds = [Path("fixtures/does-not-exist.afd")]
+    afds = [Path("tests/fixtures/flow1.afd")]
     result = generate_example_flows(jsons, afds)
     assert result == [
-        "Test Fixture 1",
-        "~~~~~~~~~~~~~~",
+        ".. list-table::",
+        "  :widths: 25 25 50",
+        "  :header-rows: 1",
         "",
-        ".. raw:: html",
+        "  * - Report",
+        "    - Authors",
+        "    - Description",
+        "  * - **Test Fixture 1**",
         "",
-        "    <p>",
-        "        <b>Authors:</b> Center for Threat-Informed Defense<br>",
-        "        <b>Formats:</b>",
-        '        <a href="corpus/flow1.json"><i class="fa fa-file-text"></i> JSON</a> | <a href="corpus/flow1.dot"><i class="fa fa-snowflake-o"></i> Graphviz</a> | <a href="corpus/flow1.dot.png"><i class="fa fa-picture-o"></i> Image</a><br>',
-        "        <b>Description:</b> TODO: fix description field in AF2.",
-        "    </p>",
+        "      .. raw:: html",
         "",
-        ".. raw:: latex",
+        '        <p><a href="../corpus/flow1.json"><i class="fa fa-file-text"></i>JSON</a></p>',
+        '        <p><a href="../corpus/flow1.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
+        '        <p><a href="../corpus/flow1.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
+        '        <p><a target="_blank" href="/builder/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
         "",
-        r"    \textbf{Authors:} Center for Threat-Informed Defense\newline",
-        r"    \textbf{Formats:} \textit{You must view this document on the web to see the available formats.}\newline",
-        r"    \textbf{Description:} TODO: fix description field in AF2.",
+        "    - Center for Threat-Informed Defense",
+        "    - TODO: fix description field in AF2.",
+        "  * - **Test Fixture 2**",
         "",
-        "Test Fixture 2",
-        "~~~~~~~~~~~~~~",
+        "      .. raw:: html",
         "",
-        ".. raw:: html",
+        '        <p><a href="../corpus/flow2.json"><i class="fa fa-file-text"></i>JSON</a></p>',
+        '        <p><a href="../corpus/flow2.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
+        '        <p><a href="../corpus/flow2.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
         "",
-        "    <p>",
-        "        <b>Authors:</b> Center for Threat-Informed Defense<br>",
-        "        <b>Formats:</b>",
-        '        <a href="corpus/flow2.json"><i class="fa fa-file-text"></i> JSON</a> | <a href="corpus/flow2.dot"><i class="fa fa-snowflake-o"></i> Graphviz</a> | <a href="corpus/flow2.dot.png"><i class="fa fa-picture-o"></i> Image</a><br>',
-        "        <b>Description:</b> TODO: fix description field in AF2.",
-        "    </p>",
-        "",
-        ".. raw:: latex",
-        "",
-        r"    \textbf{Authors:} Center for Threat-Informed Defense\newline",
-        r"    \textbf{Formats:} \textit{You must view this document on the web to see the available formats.}\newline",
-        r"    \textbf{Description:} TODO: fix description field in AF2.",
+        "    - Center for Threat-Informed Defense",
+        "    - TODO: fix description field in AF2.",
         "",
     ]
