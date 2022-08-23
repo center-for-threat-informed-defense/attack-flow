@@ -1,0 +1,74 @@
+{
+    "api_version": "0.1.0",
+    "name": "Attack Flow Test File",
+    "schema": {
+        "page_template": "@__builtin__page",
+        "templates": [
+            {
+                "name": "action",
+                "type": 1,
+                "color": "#fff",
+                "fields": {
+                    "reference"   : { "type": "string", "value": "" },
+                    "succeeded"   : { "type": "boolean", "value": false },
+                    "confidence"  : { "type": "int", "value": 0 },
+                    "description" : { "type": "string", "value": "" }
+                },
+                "anchor_template": "@__builtin__anchor"
+            }
+        ]
+    },
+    "page": "f5aaaf77-9904-4e9f-b7c4-6125b69b7234",
+    "objects": [
+        {
+            "id": "f5aaaf77-9904-4e9f-b7c4-6125b69b7234",
+            "x": 0,
+            "y": 0,
+            "template": "@__builtin__page",
+            "children":[
+                "f9ef3a04-2842-4b7a-bfd3-7b1f2269eb41",
+                "cd0d3b1e-3f49-40d6-8b77-04aed5e5256a"
+            ],
+            "camera": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        {
+            "id": "f9ef3a04-2842-4b7a-bfd3-7b1f2269eb41",
+            "x": 0,
+            "y": 0,
+            "template": "action",
+            "fields": {
+                "reference"   : "google.com",
+                "succeeded"   : true,
+                "confidence"  : 1,
+                "description" : "Test Node"
+            },
+            "children": [
+                "80971082-d180-490c-85b6-4b0c050f821d"
+            ]
+        },
+        {
+            "id": "cd0d3b1e-3f49-40d6-8b77-04aed5e5256a",
+            "x": 100,
+            "y": 0,
+            "template": "action",
+            "fields": {
+                "reference"   : "google.com",
+                "succeeded"   : true,
+                "confidence"  : 1,
+                "description" : "Test Node"
+            },
+            "children": []
+        },
+        {
+            "id": "80971082-d180-490c-85b6-4b0c050f821d",
+            "radius": 5,
+            "position": 0,
+            "template": "@__builtin__anchor",
+            "children": []
+        }
+    ]
+}
