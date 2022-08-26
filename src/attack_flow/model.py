@@ -24,6 +24,7 @@ VIZ_IGNORE_COMMON_PROPERTIES = (
     "revoked",
 )
 
+
 @CustomObject(
     "attack-flow",
     [

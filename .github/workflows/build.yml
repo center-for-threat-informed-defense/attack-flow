@@ -50,7 +50,7 @@ jobs:
     - name: Install dependencies
       run: poetry install
     - name: Install Mermaid
-      run: npm install -g mermaid
+      run: npm install -g @mermaid-js/mermaid-cli
     - name: Generate schema docs
       run: poetry run make docs-schema
     - name: Create client directory
