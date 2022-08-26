@@ -345,7 +345,7 @@ def test_generate_example_flows():
         '        <p><a href="../corpus/flow1.json"><i class="fa fa-file-text"></i>JSON</a></p>',
         '        <p><a href="../corpus/flow1.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
         '        <p><a href="../corpus/flow1.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
-        '        <p><a target="_blank" href="/builder/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
+        '        <p><a target="_blank" href="../ui/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
         "",
         "    - Center for Threat-Informed Defense",
         "    - TODO: fix description field in AF2.",

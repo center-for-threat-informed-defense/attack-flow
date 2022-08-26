@@ -155,7 +155,8 @@
                 },
                 "technique_ref": {
                     "description": "A reference to the technique's STIX representation.",
-                    "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                    "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
+                    "x-referenceType": "attack-pattern"
                 },
                 "description": {
                     "description": "A description of the adversary behavior.",

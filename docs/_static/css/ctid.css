@@ -131,6 +131,7 @@ em.newsgroup {
 .rst-content a.btn:visited {
     color: var(--text-color-inverse);
     font-weight: normal;
+    text-decoration: none;
 }
 
 /* Table styles */

@@ -279,7 +279,7 @@ def generate_example_flows(jsons, afds):
         ]
         if stem in afd_stems:
             formats.append(
-                f'<p><a target="_blank" href="/builder/?load=%2fcorpus%2f{quote_plus(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>'
+                f'<p><a target="_blank" href="../ui/?load=%2fcorpus%2f{quote_plus(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>'
             )
         doc_lines.append(f"  * - **{name}**")
         doc_lines.append("")

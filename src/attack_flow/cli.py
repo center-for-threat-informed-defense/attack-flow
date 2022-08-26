@@ -12,6 +12,7 @@ import pkg_resources
 
 import attack_flow.docs
 import attack_flow.graphviz
+import attack_flow.model
 import attack_flow.schema
 
 
@@ -73,9 +74,9 @@ def graphviz(args):
     :param args: argparse arguments
     :returns: exit code
     """
-    with open(args.attack_flow, "r") as af:
-        attack_flow_doc = json.load(af)
-    converted = attack_flow.graphviz.convert(attack_flow_doc)
+    path = Path(args.attack_flow)
+    flow = attack_flow.model.load_attack_flow(path)
+    converted = attack_flow.graphviz.convert(flow)
     with open(args.graphviz, "w") as gv:
         gv.write(converted)
     return 0

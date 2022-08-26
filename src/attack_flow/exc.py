@@ -1,0 +1,2 @@
+class InvalidFlowError(Exception):
+    pass

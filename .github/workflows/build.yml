@@ -49,12 +49,12 @@ jobs:
     - name: Generate schema docs
       run: poetry run make docs-schema
     - name: Create client directory
-      run: mkdir docs/extra/builder
+      run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder
       uses: actions/download-artifact@v3
       with:
         name: attack_flow_builder
-        path: docs/extra/builder
+        path: docs/extra/ui
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
     - name: Copy corpus into docs

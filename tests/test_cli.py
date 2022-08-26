@@ -12,6 +12,7 @@ from textwrap import dedent
 from unittest.mock import patch
 
 from jsonschema.exceptions import ValidationError
+import stix2
 
 
 @patch("sys.exit")
@@ -59,7 +60,8 @@ def test_doc_schema(schema_mock, generate_mock, insert_mock, exit_mock):
 
 @patch("sys.exit")
 @patch("attack_flow.graphviz.convert")
-def test_graphviz(convert_mock, exit_mock):
+@patch("attack_flow.model.load_attack_flow")
+def test_graphviz(load_mock, convert_mock, exit_mock):
     """
     Test that the script parses a JSON file and passes the resulting object
     to convert().
@@ -71,12 +73,14 @@ def test_graphviz(convert_mock, exit_mock):
         }
     """
     )
-    with NamedTemporaryFile() as input, NamedTemporaryFile() as output:
-        input.write(b'{"foo":"bar"}')
-        input.seek(0, os.SEEK_SET)
-        sys.argv = ["af", "graphviz", input.name, output.name]
+    bundle = stix2.Bundle()
+    load_mock.return_value = bundle
+    with NamedTemporaryFile() as flow, NamedTemporaryFile() as graphviz:
+        sys.argv = ["af", "graphviz", flow.name, graphviz.name]
         runpy.run_module("attack_flow.cli", run_name="__main__")
-    convert_mock.assert_called_with({"foo": "bar"})
+    load_mock.assert_called()
+    assert str(load_mock.call_args[0][0]) == flow.name
+    convert_mock.assert_called_with(bundle)
     exit_mock.assert_called_with(0)
 
 
