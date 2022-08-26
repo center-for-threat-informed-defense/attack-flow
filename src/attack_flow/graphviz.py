@@ -1,92 +1,154 @@
-def convert(attack_flow):
+import textwrap
+
+import graphviz
+
+from .exc import InvalidFlowError
+from .model import (
+    confidence_num_to_label,
+    get_flow_object,
+    get_viz_ignored_ids,
+    VIZ_IGNORE_COMMON_PROPERTIES,
+)
+
+
+def convert(bundle):
     """
-    Convert an Attack Flow object into Graphviz format.
+    Convert an Attack Flow STIX bundle into Graphviz format.
+
+    :param stix2.Bundle flow:
+    :rtype: str
     """
 
-    asset_descriptions = {
-        data_property["source"]: data_property["target"]
-        for data_property in attack_flow.get("data_properties", [])
-        if data_property["type"].endswith("#description")
-    }
+    gv = graphviz.Digraph()
+    gv.body = _get_body_label(bundle)
+    ignored_ids = get_viz_ignored_ids(bundle)
 
-    graph = ["digraph {"]
-    graph.append(
-        '  node [shape=box,style="rounded,filled,fixedsize=true,width=2,height=1"]'
+    for o in bundle.objects:
+        if o.type == "attack-action":
+            gv.node(
+                o.id,
+                _get_action_label(o),
+                shape="plaintext",
+            )
+            for ref in o.get("effect_refs", []):
+                gv.edge(o.id, ref, "effect")
+        elif o.type == "attack-condition":
+            gv.node(o.id, _get_condition_label(o), shape="plaintext")
+            for ref in o.get("on_true_refs", []):
+                gv.edge(o.id, ref, "on_true")
+            for ref in o.get("on_false_refs", []):
+                gv.edge(o.id, ref, "on_false")
+        elif o.type == "attack-operator":
+            gv.node(
+                o.id,
+                o.operator,
+                shape="circle",
+                style="filled",
+                fillcolor="#ff9900",
+            )
+            for ref in o.get("effect_refs", []):
+                gv.edge(o.id, ref, "effect")
+        elif o.type == "relationship":
+            gv.edge(o.source_ref, o.target_ref, o.relationship_type)
+        elif o.id not in ignored_ids:
+            gv.node(o.id, _get_builtin_label(o), shape="plaintext")
+
+    return gv.source
+
+
+def _get_body_label(bundle):
+    flow = get_flow_object(bundle)
+
+    try:
+        author = bundle.get_obj(flow.created_by_ref)[0]
+    except KeyError:
+        raise InvalidFlowError(f"Unable to load author object: `{flow.created_by_ref}`")
+
+    description = "<br/>".join(
+        textwrap.wrap(
+            graphviz.escape(flow.get("description", "(missing description)")), width=100
+        )
     )
-    graph.append("")
+    lines = [
+        f'<font point-size="24">{graphviz.escape(flow["name"])}</font>',
+        f"<i>{description}</i>",
+        f'<font point-size="10">Author: {graphviz.escape(author.get("name", "(missing)"))} &lt;{graphviz.escape(author.get("contact_information", "n/a"))}&gt;</font>',
+        f'<font point-size="10">Created: {flow.get("created", "(missing)")}</font>',
+        f'<font point-size="10">Modified: {flow.get("modified", "(missing)")}</font>',
+    ]
+    label = "<br/>".join(lines)
 
-    # action nodes (pink)
-    for act in attack_flow["actions"]:
-        source = act["id"]
-        attributes = f'fillcolor=pink,label="{align_node_label(act["name"])}"'
-        graph.append(f'  "{source}" [{attributes}]')
-    graph.append("")
-
-    # asset nodes (blue)
-    for asset in attack_flow["assets"]:
-        if asset["id"] in asset_descriptions:
-            label = f',label="{align_node_label(asset_descriptions[asset["id"]])}"'
-        else:
-            label = ""
-        source = asset["id"]
-        attributes = f"fillcolor=lightblue1{label}"
-        graph.append(f'  "{source}" [{attributes}]')
-    graph.append("")
-
-    # action <-> asset arrows
-    for rel in attack_flow["relationships"]:
-        if "#state" in rel.get("type", ""):
-            if rel["type"].endswith("#state-change"):
-                label_text = "provides"
-            else:
-                label_text = "requires"
-            source = rel["source"]
-            target = rel["target"]
-            attributes = f'label="{label_text}"'
-            graph.append(f'  "{source}" -> "{target}" [{attributes}]')
-    graph.append("")
-
-    # asset property (green)
-    for data_property in attack_flow.get("data_properties", []):
-        if data_property["type"].endswith("#state"):
-            label_text = align_node_label(data_property["target"])
-            source = f'{data_property["source"]}-{data_property["target"]}-state'
-            attributes = f'fillcolor=lightgreen,label="{label_text}"'
-            graph.append(f'  "{source}" [{attributes}]')
-    graph.append("")
-
-    # asset property -> property arrows
-    for data_property in attack_flow.get("data_properties", []):
-        if data_property["type"].endswith("#state"):
-            source = f'{data_property["source"]}-{data_property["target"]}-state'
-            target = data_property["source"]
-            attributes = "dir=none,style=dashed"
-            graph.append(f'  "{source}" -> "{target}" [{attributes}]')
-
-    graph.append("}")
-
-    return "\n".join(graph)
+    return [f"\tlabel=<{label}>;\n", '\tlabelloc="t";\n']
 
 
-def align_node_label(label: str, width=20) -> str:
+def _get_action_label(action):
     """
-    Format Graphviz node labels to fit within fixed width.
+    Generate the GraphViz label for an action node as a table.
+
+    :param action:
+    :rtype: str
     """
-    words = label.split(" ")
-    result = ""
-    line_width = 0
-    for word in words:
-        if len(word) < width and line_width + len(word) > width:
-            result += "\\n"
-            line_width = 0
-        else:
-            if line_width > 0:
-                result += " "
-            line_width += 1
+    if tid := action.get("technique_id", None):
+        heading = f"Action: {tid}"
+    else:
+        heading = "Action"
+    description = "<br/>".join(
+        textwrap.wrap(graphviz.escape(action.description), width=40)
+    )
+    confidence = confidence_num_to_label(action.get("confidence", 95))
+    return "".join(
+        [
+            '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
+            f'<TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>{heading}</B></TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{graphviz.escape(action.technique_name)}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{confidence}</TD></TR>',
+            "</TABLE>>",
+        ]
+    )
 
-        result += word
-        line_width += len(word)
 
-    escaped_result = result.replace('"', '\\"')
+def _get_builtin_label(builtin):
+    """
+    Generate the GraphViz label for a builtin STIX object.
 
-    return escaped_result
+    :param builtin:
+    :rtype: str
+    """
+    title = builtin.type.replace("-", " ").title()
+    lines = [
+        '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
+        f'<TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>{title}</B></TD></TR>',
+    ]
+    for key, value in builtin.items():
+        if key in VIZ_IGNORE_COMMON_PROPERTIES:
+            continue
+        pretty_key = key.replace("_", " ").title()
+        if isinstance(value, list):
+            value = ", ".join(value)
+        pretty_value = graphviz.escape(value)
+        lines.append(
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>{pretty_key}</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{pretty_value}</TD></TR>'
+        )
+    lines.append("</TABLE>>")
+    return "".join(lines)
+
+
+def _get_condition_label(condition):
+    """
+    Generate the GraphViz label for a condition node as a table.
+
+    :param condition:
+    :rtype: str
+    """
+    description = "<br/>".join(
+        textwrap.wrap(graphviz.escape(condition.description), width=40)
+    )
+    return "".join(
+        [
+            '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
+            '<TR><TD BGCOLOR="#99ff99" COLSPAN="2"><B>Condition</B></TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>'
+            "</TABLE>>",
+        ]
+    )

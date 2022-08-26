@@ -38,6 +38,9 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18'
     - name: Install dependencies
       run: sudo apt install graphviz
     - name: Install Poetry
@@ -46,15 +49,17 @@ jobs:
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: poetry install
+    - name: Install Mermaid
+      run: npm install -g @mermaid-js/mermaid-cli
     - name: Generate schema docs
       run: poetry run make docs-schema
     - name: Create client directory
-      run: mkdir docs/extra/builder
+      run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder
       uses: actions/download-artifact@v3
       with:
         name: attack_flow_builder
-        path: docs/extra/builder
+        path: docs/extra/ui
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
     - name: Copy corpus into docs

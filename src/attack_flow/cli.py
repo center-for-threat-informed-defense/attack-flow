@@ -12,6 +12,8 @@ import pkg_resources
 
 import attack_flow.docs
 import attack_flow.graphviz
+import attack_flow.mermaid
+import attack_flow.model
 import attack_flow.schema
 
 
@@ -68,16 +70,31 @@ def validate(args):
 
 def graphviz(args):
     """
-    Convert Attack Flow JSON file to.
+    Convert Attack Flow JSON file to GraphViz format.
 
     :param args: argparse arguments
     :returns: exit code
     """
-    with open(args.attack_flow, "r") as af:
-        attack_flow_doc = json.load(af)
-    converted = attack_flow.graphviz.convert(attack_flow_doc)
-    with open(args.graphviz, "w") as gv:
-        gv.write(converted)
+    path = Path(args.attack_flow)
+    flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
+    converted = attack_flow.graphviz.convert(flow_bundle)
+    with open(args.output, "w") as out:
+        out.write(converted)
+    return 0
+
+
+def mermaid(args):
+    """
+    Convert Attack Flow JSON file to Mermaid format.
+
+    :param args: argparse arguments
+    :returns: exit code
+    """
+    path = Path(args.attack_flow)
+    flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
+    converted = attack_flow.mermaid.convert(flow_bundle)
+    with open(args.output, "w") as out:
+        out.write(converted)
     return 0
 
 
@@ -172,9 +189,15 @@ def _parse_args():
     graphviz_cmd.add_argument(
         "attack_flow", help="The Attack Flow document to convert."
     )
-    graphviz_cmd.add_argument(
-        "graphviz", help="The path to write the converted file to."
+    graphviz_cmd.add_argument("output", help="The path to write the converted file to.")
+
+    # Mermaid subcommand
+    mermaid_cmd = subparsers.add_parser(
+        "mermaid", help="Convert JSON file to Mermaid format."
     )
+    mermaid_cmd.set_defaults(command=mermaid)
+    mermaid_cmd.add_argument("attack_flow", help="The Attack Flow document to convert.")
+    mermaid_cmd.add_argument("output", help="The path to write the converted file to.")
 
     # Schema subcommand
     doc_schema_cmd = subparsers.add_parser(

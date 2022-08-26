@@ -12,6 +12,7 @@ from attack_flow.docs import (
     Schema,
     SchemaProperty,
 )
+from attack_flow.exc import InvalidFlowError
 
 
 def test_schema_property_string():
@@ -332,32 +333,46 @@ def test_generate_example_flows():
     result = generate_example_flows(jsons, afds)
     assert result == [
         ".. list-table::",
-        "  :widths: 25 25 50",
+        "  :widths: 30 20 50",
         "  :header-rows: 1",
         "",
         "  * - Report",
         "    - Authors",
         "    - Description",
-        "  * - **Test Fixture 1**",
+        "  * - **Test Flow 1**",
         "",
         "      .. raw:: html",
         "",
         '        <p><a href="../corpus/flow1.json"><i class="fa fa-file-text"></i>JSON</a></p>',
-        '        <p><a href="../corpus/flow1.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
-        '        <p><a href="../corpus/flow1.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
-        '        <p><a target="_blank" href="/builder/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
+        '        <p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/flow1.dot">Text</a> | <a href="../corpus/flow1.dot.png">PNG</a></p>',
+        '        <p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/flow1.mmd">Text</a> | <a href="../corpus/flow1.mmd.png">PNG</a></p>',
+        '        <p><a target="_blank" href="../ui/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
         "",
-        "    - Center for Threat-Informed Defense",
-        "    - TODO: fix description field in AF2.",
-        "  * - **Test Fixture 2**",
+        "    - John Doe",
+        "    - Test flow 1 is used for unit tests.",
+        "  * - **Test Flow 2**",
         "",
         "      .. raw:: html",
         "",
         '        <p><a href="../corpus/flow2.json"><i class="fa fa-file-text"></i>JSON</a></p>',
-        '        <p><a href="../corpus/flow2.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
-        '        <p><a href="../corpus/flow2.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
+        '        <p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/flow2.dot">Text</a> | <a href="../corpus/flow2.dot.png">PNG</a></p>',
+        '        <p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/flow2.mmd">Text</a> | <a href="../corpus/flow2.mmd.png">PNG</a></p>',
         "",
-        "    - Center for Threat-Informed Defense",
-        "    - TODO: fix description field in AF2.",
+        "    - Jane Doe",
+        "    - Test flow 2 is used for unit tests.",
         "",
     ]
+
+
+def test_generate_example_flow_without_author():
+    jsons = [Path("tests/fixtures/badflow1.json")]
+    afds = []
+    with pytest.raises(InvalidFlowError):
+        generate_example_flows(jsons, afds)
+
+
+def test_generate_example_flow_without_description():
+    jsons = [Path("tests/fixtures/badflow2.json")]
+    afds = []
+    with pytest.raises(InvalidFlowError):
+        generate_example_flows(jsons, afds)
