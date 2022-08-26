@@ -60,7 +60,7 @@ def test_doc_schema(schema_mock, generate_mock, insert_mock, exit_mock):
 
 @patch("sys.exit")
 @patch("attack_flow.graphviz.convert")
-@patch("attack_flow.model.load_attack_flow")
+@patch("attack_flow.model.load_attack_flow_bundle")
 def test_graphviz(load_mock, convert_mock, exit_mock):
     """
     Test that the script parses a JSON file and passes the resulting object

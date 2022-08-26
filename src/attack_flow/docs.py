@@ -8,11 +8,16 @@ from datetime import datetime
 import json
 from multiprocessing.sharedctypes import Value
 import operator
+from plistlib import load
 from pydoc import doc
 import re
 import string
 import textwrap
 from urllib.parse import quote_plus
+from attack_flow.exc import InvalidFlowError
+
+from attack_flow.model import get_flow_object, load_attack_flow_bundle
+
 
 NON_ALPHA = re.compile(r"[^a-zA-Z0-9]+")
 
@@ -249,14 +254,31 @@ def generate_example_flows(jsons, afds):
     afd_stems = {p.stem for p in afds}
     reports = list()
     for path in jsons:
-        with path.open() as file:
-            flow = json.load(file)
+        flow_bundle = load_attack_flow_bundle(path)
+        flow = get_flow_object(flow_bundle)
+
+        try:
+            author = flow_bundle.get_obj(flow["created_by_ref"])[0]
+            author_name = author["name"]
+        except (KeyError, IndexError):
+            raise InvalidFlowError(
+                "All flows in the corpus must contain an author name."
+            )
+
+        try:
+            flow_name = flow["name"]
+            flow_description = flow["description"]
+        except KeyError:
+            raise InvalidFlowError(
+                "All flows in the corpus must contain a name and description."
+            )
+
         reports.append(
             (
                 path.stem,
-                flow["flow"].get("name", "n/a"),
-                flow["flow"].get("author", "n/a"),
-                "TODO: fix description field in AF2.",
+                flow_name,
+                author_name,
+                flow_description,
             )
         )
 

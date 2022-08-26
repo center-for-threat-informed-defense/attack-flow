@@ -4,12 +4,13 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 import pytest
+import stix2
 
 from attack_flow.exc import InvalidFlowError
 import attack_flow.model
 
 
-def test_load_attack_flow():
+def test_load_attack_flow_bundle():
     bundle_json = {
         "type": "bundle",
         "id": "bundle--3b210ed6-4aac-4620-9e75-79a9b7ae99c5",
@@ -30,8 +31,8 @@ def test_load_attack_flow():
     with NamedTemporaryFile("w") as f:
         json.dump(bundle_json, f)
         f.seek(0, os.SEEK_SET)
-        flow = attack_flow.model.load_attack_flow(Path(f.name))
-        assert flow.id == "bundle--3b210ed6-4aac-4620-9e75-79a9b7ae99c5"
+        flow_bundle = attack_flow.model.load_attack_flow_bundle(Path(f.name))
+        assert flow_bundle.id == "bundle--3b210ed6-4aac-4620-9e75-79a9b7ae99c5"
 
 
 def test_load_attack_flow_without_bundle():
@@ -50,7 +51,7 @@ def test_load_attack_flow_without_bundle():
         json.dump(flow_json, f)
         f.seek(0, os.SEEK_SET)
         with pytest.raises(InvalidFlowError):
-            attack_flow.model.load_attack_flow(Path(f.name))
+            attack_flow.model.load_attack_flow_bundle(Path(f.name))
 
 
 def test_confidence_label_to_num():
@@ -74,3 +75,29 @@ def test_confidence_label_num_to_label_with_invalid_num():
 
     with pytest.raises(ValueError):
         assert attack_flow.model.confidence_num_to_label(110)
+
+
+def test_get_flow_object():
+    bundle = stix2.Bundle(
+        attack_flow.model.AttackFlow(
+            id="attack-flow--0c545a6f-3da2-4fa8-9789-68fd98257d10",
+            name="Test Flow",
+        ),
+        id="bundle--b704f0ad-5df9-4386-b0f4-3317859fd4e0",
+    )
+    flow = attack_flow.model.get_flow_object(bundle)
+    assert flow.id == "attack-flow--0c545a6f-3da2-4fa8-9789-68fd98257d10"
+
+
+def test_get_flow_object_missing():
+    author = stix2.Identity(
+        id="identity--bbe39bd7-9c12-41de-b5c0-dcd3fb98b360",
+        name="Jane Doe",
+        contact_information="jdoe@company.com",
+    )
+    bundle = stix2.Bundle(
+        author,
+        id="bundle--77479df6-dc8c-4b87-8a73-63d97910c272",
+    )
+    with pytest.raises(InvalidFlowError):
+        attack_flow.model.get_flow_object(bundle)

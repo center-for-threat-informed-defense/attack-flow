@@ -94,9 +94,9 @@ class AttackOperator:
     pass
 
 
-def load_attack_flow(path):
+def load_attack_flow_bundle(path):
     """
-    Load an attack flow from a given path.
+    Load an Attack Flow STIX bundle from a given path.
 
     :param pathlib.Path path:
     :rtype: stix2.Bundle
@@ -106,6 +106,19 @@ def load_attack_flow(path):
     if not isinstance(bundle, Bundle):
         raise InvalidFlowError(f"Path '{path}' does not contain a STIX bundle.")
     return bundle
+
+
+def get_flow_object(flow_bundle):
+    """
+    Given an Attack Flow STIX bundle, extract the ``attack-flow`` object.
+
+    :param flow_bundle stix.Bundle:
+    :rtype: AttackFlow
+    """
+    for obj in flow_bundle.objects:
+        if obj.type == "attack-flow":
+            return obj
+    raise InvalidFlowError("The bundle does not contain an `attack-flow` object.")
 
 
 _CONFIDENCE_NUM_TO_LABEL = [

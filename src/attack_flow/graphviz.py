@@ -3,7 +3,7 @@ import textwrap
 import graphviz
 
 from .exc import InvalidFlowError
-from .model import confidence_num_to_label
+from .model import confidence_num_to_label, get_flow_object
 
 
 def convert(bundle):
@@ -51,13 +51,7 @@ def convert(bundle):
 
 
 def _get_body_label(bundle):
-    # Find the attack-flow object (if there are multiple flows in this bundle, this
-    # grabs only the first one):
-    for flow in bundle.objects:
-        if flow.type == "attack-flow":
-            break
-    else:
-        raise InvalidFlowError("The bundle does not contain an `attack-flow` object.")
+    flow = get_flow_object(bundle)
 
     try:
         author = bundle.get_obj(flow.created_by_ref)[0]

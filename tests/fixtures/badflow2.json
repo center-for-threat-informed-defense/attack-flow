@@ -42,26 +42,25 @@
         {
             "type": "identity",
             "spec_version": "2.1",
-            "id": "identity--e684fc71-8e5e-490d-92a7-b6b699683566",
-            "created_by_ref": "identity--e684fc71-8e5e-490d-92a7-b6b699683566",
+            "id": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
+            "created_by_ref": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "name": "John Doe",
-            "contact_information": "johndoe@mitre.org",
+            "name": "Jane Doe",
+            "contact_information": "janedoe@mitre.org",
             "identity_class": "individual"
         },
         {
             "type": "attack-flow",
             "spec_version": "2.1",
-            "id": "attack-flow--9526d08b-c98a-46e6-8109-35e92fb62038",
-            "created_by_ref": "identity--e684fc71-8e5e-490d-92a7-b6b699683566",
+            "id": "attack-flow--e8762846-15fb-4cef-a11d-0c623304478c",
+            "created_by_ref": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "name": "Test Flow 1",
-            "description": "Test flow 1 is used for unit tests.",
+            "name": "Test Flow 2",
             "scope": "incident",
             "start_refs": [
-                "attack-action--0d54aaa2-1cd9-4de6-8bb1-bd95ae6eb3cd"
+                "attack-action--e6e77cd8-f66f-4b84-aebb-801af6e10e68"
             ],
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
@@ -72,14 +71,14 @@
         {
             "type": "attack-action",
             "spec_version": "2.1",
-            "id": "attack-action--0d54aaa2-1cd9-4de6-8bb1-bd95ae6eb3cd",
+            "id": "attack-action--e6e77cd8-f66f-4b84-aebb-801af6e10e68",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_id": "T1133",
-            "technique_name": "External Remote Services",
-            "description": "Kubernetes dashboard",
+            "technique_id": "T1552.001",
+            "technique_name": "Unsecured Credentials: Credentials In Files",
+            "description": "Use harvested AWS credentials.",
             "effect_refs": [
-                "attack-action--a80be4f5-be42-48eb-8ade-b10820015e96"
+                "attack-action--f8a853c1-aae6-4a82-9b13-e9d391dd3309"
             ],
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
@@ -90,11 +89,11 @@
         {
             "type": "attack-action",
             "spec_version": "2.1",
-            "id": "attack-action--a80be4f5-be42-48eb-8ade-b10820015e96",
+            "id": "attack-action--f8a853c1-aae6-4a82-9b13-e9d391dd3309",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_id": "T1610",
-            "technique_name": "Deploy Container",
+            "technique_id": "T1078.004",
+            "technique_name": "Valid Accounts: Cloud Accounts",
             "description": "Deploy cryptomining container",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {

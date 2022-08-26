@@ -75,8 +75,8 @@ def graphviz(args):
     :returns: exit code
     """
     path = Path(args.attack_flow)
-    flow = attack_flow.model.load_attack_flow(path)
-    converted = attack_flow.graphviz.convert(flow)
+    flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
+    converted = attack_flow.graphviz.convert(flow_bundle)
     with open(args.graphviz, "w") as gv:
         gv.write(converted)
     return 0

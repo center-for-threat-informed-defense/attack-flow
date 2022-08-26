@@ -104,20 +104,6 @@ def test_convert_attack_flow_to_graphviz():
     )
 
 
-def test_convert_attack_flow_to_graphviz_fails_on_missing_flow_object():
-    author = stix2.Identity(
-        id="identity--bbe39bd7-9c12-41de-b5c0-dcd3fb98b360",
-        name="Jane Doe",
-        contact_information="jdoe@company.com",
-    )
-    bundle = stix2.Bundle(
-        author,
-        id="bundle--77479df6-dc8c-4b87-8a73-63d97910c272",
-    )
-    with pytest.raises(InvalidFlowError):
-        attack_flow.graphviz.convert(bundle)
-
-
 def test_convert_attack_flow_to_graphviz_fails_on_missing_author():
     flow = AttackFlow(
         id="attack-flow--f8d196b3-5331-4554-99d5-064c239c1714",

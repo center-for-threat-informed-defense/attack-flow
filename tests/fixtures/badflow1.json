@@ -40,21 +40,9 @@
             "identity_class": "organization"
         },
         {
-            "type": "identity",
-            "spec_version": "2.1",
-            "id": "identity--e684fc71-8e5e-490d-92a7-b6b699683566",
-            "created_by_ref": "identity--e684fc71-8e5e-490d-92a7-b6b699683566",
-            "created": "2022-08-02T19:34:35.143Z",
-            "modified": "2022-08-02T19:34:35.143Z",
-            "name": "John Doe",
-            "contact_information": "johndoe@mitre.org",
-            "identity_class": "individual"
-        },
-        {
             "type": "attack-flow",
             "spec_version": "2.1",
             "id": "attack-flow--9526d08b-c98a-46e6-8109-35e92fb62038",
-            "created_by_ref": "identity--e684fc71-8e5e-490d-92a7-b6b699683566",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "name": "Test Flow 1",
