@@ -98,7 +98,7 @@ def test_convert_attack_flow_to_graphviz():
         \t"attack-operator--8932b181-be87-4f81-851a-ab0b4288406a" -> "attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" [label=effect]
         \t"attack-operator--8932b181-be87-4f81-851a-ab0b4288406a" -> "attack-action--a0847849-a533-4b1f-a94a-720bbd25fc17" [label=effect]
         \t"infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>Infrastructure</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Test Infra</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Infrastructure Types</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">workstation</TD></TR></TABLE>> shape=plaintext]
-        \t"attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" -> "infrastructure--a75c83f7-147e-4695-b173-0981521b2f01"
+        \t"attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" -> "infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label="related-to"]
         }
         """
     )

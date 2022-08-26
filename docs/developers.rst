@@ -95,28 +95,58 @@ There is a Makefile target ``make validate`` that validates the corpus.
 Visualize JSON files
 ~~~~~~~~~~~~~~~~~~~~
 
-Convert Attack Flow JSON files into `GraphViz <https://graphviz.org/>`__ format:
+In addition to the Attack Flow Builder, there are a couple other options for visualizing
+Attack Flows. The first approach is converting to `GraphViz <https://graphviz.org/>`__
+format:
 
 .. code:: bash
 
     $ af graphviz corpus/tesla.json tesla.dot
 
-The example command converts the Attack Flow ``tesla.json`` into GraphViz format ``tesla.dot``. If you have GraphViz installed,
-you can use one of its layout tools to create an image:
+The example command converts the Attack Flow ``tesla.json`` into GraphViz format
+``tesla.dot``. If you have GraphViz installed, you can use one of its layout tools to
+create an image:
 
 .. code:: bash
 
     $ dot -Tpng -O tesla.dot
 
-This command will render ``tesla.dot`` as a PNG graphics file called ``tesla.dot.png``. It will
-look something like this:
+This command will render ``tesla.dot`` as a PNG graphics file called ``tesla.dot.png``.
+It will look something like this:
 
 .. figure:: _static/tesla.dot.png
-   :alt: Example of converting tesla.json into a PNG graphic.
-   :scale: 60%
+   :alt: Example of converting tesla.dot into a PNG graphic.
+   :scale: 40%
    :align: center
 
    The result of converting ``tesla.json`` into ``tesla.dot.png``.
+
+Another approach for visualizing flows is to convert to `Mermaid
+<https://mermaid-js.github.io/mermaid/#/>`__ format. Mermaid is a newer format with
+fewer features than GraphViz, but does have the benefit that it can be embedded directly
+into `GitHub-Flavored Markdown
+<https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/>`__.
+
+.. code:: bash
+
+    $ af mermaid corpus/tesla.json tesla.mmd
+
+You can copy/paste the resulting graph into a Markdown file, or if you have Mermaid
+installed locally, you can render it as an image.
+
+.. code:: bash
+
+    $ mmdc -i tesla.mmd -o tesla.mmd.png
+
+This command will render ``tesla.mmd`` as a PNG graphics file called ``tesla.mmd.png``.
+It will look something like this:
+
+.. figure:: _static/tesla.mmd.png
+   :alt: Example of converting tesla.mmd into a PNG graphic.
+   :scale: 70%
+   :align: center
+
+   The result of converting ``tesla.json`` into ``tesla.mmd.png``.
 
 Generate schema documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

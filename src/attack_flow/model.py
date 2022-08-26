@@ -11,6 +11,19 @@ from stix2.properties import ListProperty, ReferenceProperty, StringProperty
 from .exc import InvalidFlowError
 
 
+# SDO types to ignore when making visualizations.
+VIZ_IGNORE_SDOS = ("attack-flow", "extension-definition")
+
+# Common properties to ignore when making visualizations.
+VIZ_IGNORE_COMMON_PROPERTIES = (
+    "type",
+    "spec_version",
+    "id",
+    "created",
+    "modified",
+    "revoked",
+)
+
 @CustomObject(
     "attack-flow",
     [
@@ -155,3 +168,29 @@ def confidence_label_to_num(label):
         return _CONFIDENCE_LABEL_TO_NUM[label]
     except KeyError:
         raise ValueError(f"Invalid confidence label: `{label}`")
+
+
+def get_viz_ignored_ids(flow_bundle):
+    """
+    Process a flow bundle and return a set of IDs that the visualizer should ignore,
+    e.g. the extension object, the extension creator identity, etc.
+    """
+    ignored = set()
+
+    # Ignore flow creator identity:
+    flow = get_flow_object(flow_bundle)
+    if flow_creator := flow.get("created_by_ref", None):
+        ignored.add(flow_creator)
+
+    # Ignore by SDO type:
+    for obj in flow_bundle.objects:
+        if obj.type in VIZ_IGNORE_SDOS:
+            ignored.add(obj.id)
+
+        # Ignore extension creator identity:
+        if obj.type == "extension-definition" and (
+            ext_creator := obj.get("created_by_ref", None)
+        ):
+            ignored.add(ext_creator)
+
+    return ignored

@@ -38,6 +38,9 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18'
     - name: Install dependencies
       run: sudo apt install graphviz
     - name: Install Poetry
@@ -46,6 +49,8 @@ jobs:
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: poetry install
+    - name: Install Mermaid
+      run: npm install -g mermaid
     - name: Generate schema docs
       run: poetry run make docs-schema
     - name: Create client directory

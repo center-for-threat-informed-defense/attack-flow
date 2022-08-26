@@ -85,6 +85,31 @@ def test_graphviz(load_mock, convert_mock, exit_mock):
 
 
 @patch("sys.exit")
+@patch("attack_flow.mermaid.convert")
+@patch("attack_flow.model.load_attack_flow_bundle")
+def test_mermaid(load_mock, convert_mock, exit_mock):
+    """
+    Test that the script parses a JSON file and passes the resulting object
+    to convert().
+    """
+    convert_mock.return_value = dedent(
+        r"""\
+        graph TB
+            node1 ---> node2
+    """
+    )
+    bundle = stix2.Bundle()
+    load_mock.return_value = bundle
+    with NamedTemporaryFile() as flow, NamedTemporaryFile() as graphviz:
+        sys.argv = ["af", "mermaid", flow.name, graphviz.name]
+        runpy.run_module("attack_flow.cli", run_name="__main__")
+    load_mock.assert_called()
+    assert str(load_mock.call_args[0][0]) == flow.name
+    convert_mock.assert_called_with(bundle)
+    exit_mock.assert_called_with(0)
+
+
+@patch("sys.exit")
 @patch("attack_flow.docs.generate_example_flows")
 @patch("attack_flow.docs.insert_docs")
 def test_doc_examples(insert_mock, generate_mock, exit_mock):

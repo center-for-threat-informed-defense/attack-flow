@@ -284,7 +284,7 @@ def generate_example_flows(jsons, afds):
 
     doc_lines = [
         ".. list-table::",
-        "  :widths: 25 25 50",
+        "  :widths: 30 20 50",
         "  :header-rows: 1",
         "",
         "  * - Report",
@@ -296,8 +296,8 @@ def generate_example_flows(jsons, afds):
         stem, name, author, description = report
         formats = [
             f'<p><a href="../corpus/{quote_plus(stem)}.json"><i class="fa fa-file-text"></i>JSON</a></p>',
-            f'<p><a href="../corpus/{quote_plus(stem)}.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
-            f'<p><a href="../corpus/{quote_plus(stem)}.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
+            f'<p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/{quote_plus(stem)}.dot">Text</a> | <a href="../corpus/{quote_plus(stem)}.dot.png">PNG</a></p>',
+            f'<p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/{quote_plus(stem)}.mmd">Text</a> | <a href="../corpus/{quote_plus(stem)}.mmd.png">PNG</a></p>',
         ]
         if stem in afd_stems:
             formats.append(

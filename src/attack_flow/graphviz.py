@@ -3,7 +3,12 @@ import textwrap
 import graphviz
 
 from .exc import InvalidFlowError
-from .model import confidence_num_to_label, get_flow_object
+from .model import (
+    confidence_num_to_label,
+    get_flow_object,
+    get_viz_ignored_ids,
+    VIZ_IGNORE_COMMON_PROPERTIES,
+)
 
 
 def convert(bundle):
@@ -16,6 +21,7 @@ def convert(bundle):
 
     gv = graphviz.Digraph()
     gv.body = _get_body_label(bundle)
+    ignored_ids = get_viz_ignored_ids(bundle)
 
     for o in bundle.objects:
         if o.type == "attack-action":
@@ -42,10 +48,10 @@ def convert(bundle):
             )
             for ref in o.get("effect_refs", []):
                 gv.edge(o.id, ref, "effect")
-        elif o.type in ("infrastructure",):
-            gv.node(o.id, _get_builtin_label(o), shape="plaintext")
         elif o.type == "relationship":
-            gv.edge(o.source_ref, o.target_ref)
+            gv.edge(o.source_ref, o.target_ref, o.relationship_type)
+        elif o.id not in ignored_ids:
+            gv.node(o.id, _get_builtin_label(o), shape="plaintext")
 
     return gv.source
 
@@ -102,16 +108,6 @@ def _get_action_label(action):
     )
 
 
-_IGNORE_COMMON_PROPERTIES = (
-    "type",
-    "spec_version",
-    "id",
-    "created",
-    "modified",
-    "revoked",
-)
-
-
 def _get_builtin_label(builtin):
     """
     Generate the GraphViz label for a builtin STIX object.
@@ -125,7 +121,7 @@ def _get_builtin_label(builtin):
         f'<TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>{title}</B></TD></TR>',
     ]
     for key, value in builtin.items():
-        if key in _IGNORE_COMMON_PROPERTIES:
+        if key in VIZ_IGNORE_COMMON_PROPERTIES:
             continue
         pretty_key = key.replace("_", " ").title()
         if isinstance(value, list):
