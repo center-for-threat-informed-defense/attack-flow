@@ -98,9 +98,9 @@
             "id": "attack-action--fcd630b0-9958-43ad-977e-d9e236c14a29",
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
-            "technique_id": "T1133",
-            "technique_name": "External Remote Services",
-            "technique_ref": "attack-pattern--40f5caa0-4cb7-4117-89fc-d421bb493df3",
+            "technique_id": "T1190",
+            "technique_name": "Exploit Public-Facing Application",
+            "technique_ref": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
             "description": "The adversary logs into the Kubernetes console.",
             "confidence": 90,
             "effect_refs": [

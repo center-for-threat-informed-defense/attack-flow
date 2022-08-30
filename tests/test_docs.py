@@ -135,14 +135,28 @@ def test_schema_property_ref():
         True,
         {
             "description": "My identity ref",
-            "$ref": "./identifier.json",
-            "x-referenceType": ["identity"],
+            "allOf": [
+                {"$ref": "./identifier.json"},
+                {"pattern": "^identity--"},
+            ],
         },
     )
     assert sp.name == "test-ref"
     assert isinstance(sp.type, RefType)
     assert sp.required
-    assert sp.type_markup == "``identifier`` (of type ``identity``)"
+    assert sp.type_markup == "``id of identity``"
+
+
+def test_schema_property_ref_bad_regex():
+    """
+    Cannot parse the ref types from the regex.
+
+    The regex must start with ^ and end with --. If multiple types, they must be in a
+    capture group.
+    """
+    rt = RefType({"$ref": "./identifier.json", "pattern": "identity--"})
+    with pytest.raises(ValueError):
+        str(rt)
 
 
 def test_schema_property_untyped_ref():
@@ -157,10 +171,31 @@ def test_schema_property_untyped_ref():
     assert sp.name == "test-ref"
     assert isinstance(sp.type, RefType)
     assert sp.required
-    assert sp.type_markup == "``identifier``"
+    assert sp.type_markup == "``any id``"
 
 
 def test_schema_property_list_of_ref():
+    sp = SchemaProperty(
+        "test-ref-list",
+        True,
+        {
+            "description": "My generic ref",
+            "type": "array",
+            "items": {
+                "allOf": [
+                    {"$ref": "./identifier.json"},
+                    {"pattern": "^(foo-object|bar-object)--"},
+                ],
+            },
+        },
+    )
+    assert sp.name == "test-ref-list"
+    assert sp.type == "array"
+    assert sp.required
+    assert sp.type_markup == "``list`` of ``id of foo-object / bar-object``"
+
+
+def test_schema_property_list_of_untyped_ref():
     sp = SchemaProperty(
         "test-ref-list",
         True,
@@ -175,7 +210,7 @@ def test_schema_property_list_of_ref():
     assert sp.name == "test-ref-list"
     assert sp.type == "array"
     assert sp.required
-    assert sp.type_markup == "``list`` of ``identifier``"
+    assert sp.type_markup == "``list`` of ``any id``"
 
 
 def test_schema():
@@ -208,6 +243,11 @@ def test_generate_schema_docs():
             "type": "object",
             "description": "My Schema",
             "properties": {
+                "type": {
+                    "description": "The type **must** be ``my-object``.",
+                    "type": "string",
+                    "const": "my-object",
+                },
                 "name": {"description": "My name", "type": "string"},
                 "hobbies": {
                     "description": "My hobbies",
@@ -215,6 +255,9 @@ def test_generate_schema_docs():
                     "items": {"type": "string"},
                 },
             },
+            "required": [
+                "type",
+            ],
             "x-exampleObject": "my-object--6b44da40-c357-4eed-83b6-5b183c6de006",
         },
     )
@@ -235,9 +278,9 @@ def test_generate_schema_docs():
         "   * - Property Name",
         "     - Type",
         "     - Description",
-        "   * - **type**",
+        "   * - **type** *(required)*",
         "     - ``string``",
-        "     - The value of this property **must** be ``my-object``.",
+        "     - The type **must** be ``my-object``.",
         "   * - **name** *(optional)*",
         "     - ``string``",
         "     - My name",

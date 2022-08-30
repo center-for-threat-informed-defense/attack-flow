@@ -20,6 +20,8 @@ from attack_flow.model import get_flow_object, load_attack_flow_bundle
 
 
 NON_ALPHA = re.compile(r"[^a-zA-Z0-9]+")
+EXTRACT_ONE_TYPE_FROM_RE = re.compile("\^([-a-z]+)--")
+EXTRACT_MULTIPLE_TYPES_FROM_RE = re.compile("\^\(([-a-z-\|]+)\)--")
 
 
 class RefType:
@@ -29,14 +31,22 @@ class RefType:
 
     def __init__(self, ref):
         self.schema = ref["$ref"]
-        self.ref_types = ref.get("x-referenceType", RefType.ALL_TYPES)
+        self.pattern = ref.get("pattern", None)
 
     def __str__(self):
-        if self.ref_types is self.ALL_TYPES:
-            return "``identifier``"
+        if self.pattern is None:
+            return "``any id``"
+        elif match := EXTRACT_ONE_TYPE_FROM_RE.match(self.pattern or ""):
+            # Pretty hacky: get the identifier types by regexing the pattern property
+            # (which is itself a regex).
+            type_ = match.group(1)
+            return f"``id of {type_}``"
+        elif match := EXTRACT_MULTIPLE_TYPES_FROM_RE.match(self.pattern or ""):
+            # More hacky:
+            types = " / ".join(match.group(1).split("|"))
+            return f"``id of {types}``"
         else:
-            types = " or ".join(f"``{rt}``" for rt in self.ref_types)
-            return f"``identifier`` (of type {types})"
+            raise ValueError(f"Unable to parse ref types from pattern: {self.pattern}")
 
 
 class Schema:
@@ -63,13 +73,25 @@ class SchemaProperty:
 
     def __init__(self, name, required, property_dict):
         self.name = name
-        if "$ref" in property_dict:
-            self.type = RefType(property_dict)
+        if ref := property_dict.get("$ref"):
+            # JSON Schema doesn't allow other schema keywords next to a $ref
+            self.type = RefType({"$ref": ref})
+        elif allOf := property_dict.get("allOf"):
+            props = dict()
+            for subschema in allOf:
+                props.update(subschema)
+            self.type = RefType(props)
         else:
             self.type = property_dict["type"]
         if self.type == "array":
-            if "$ref" in property_dict["items"]:
-                self.subtype = RefType(property_dict["items"])
+            if ref := property_dict["items"].get("$ref"):
+                # JSON Schema doesn't allow other schema keywords next to a $ref
+                self.subtype = RefType({"$ref": ref})
+            elif allOf := property_dict["items"].get("allOf"):
+                props = dict()
+                for subschema in allOf:
+                    props.update(subschema)
+                self.subtype = RefType(props)
             else:
                 self.subtype = property_dict["items"]["type"]
                 if self.subtype == "object":
@@ -126,7 +148,9 @@ def generate_schema_docs(schema, examples):
     obj_lines.append(human)
     obj_lines.append("~" * len(human))
     obj_lines.append("")
-    obj_lines.extend(textwrap.wrap(schema.description, width=80))
+    obj_lines.extend(
+        textwrap.wrap(schema.description, width=80, replace_whitespace=False)
+    )
     obj_lines.append("")
     obj_lines.append(f".. list-table::")
     obj_lines.append("   :widths: 20 30 50")
@@ -135,11 +159,6 @@ def generate_schema_docs(schema, examples):
     obj_lines.append("   * - Property Name")
     obj_lines.append("     - Type")
     obj_lines.append("     - Description")
-    obj_lines.append("   * - **type**")
-    obj_lines.append("     - ``string``")
-    obj_lines.append(
-        f"     - The value of this property **must** be ``{schema.name}``."
-    )
 
     for prop_name, prop in schema.properties.items():
         required = "(required)" if prop.required else "(optional)"

@@ -45,8 +45,14 @@ Graphviz (.dot)
     advantage of other tool ecosystems. Must install `Graphviz
     <https://graphviz.org/>`__ to use this format.
 
+Mermaid (.mmd)
+    An alternative to GraphViz, Mermaid is `supported natively
+    <https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/>`__ in
+    GitHub-flavored Markdown.
+
 Image (.png)
-    The Graphviz format rendered to a PNG image using a hierarchical layout.
+    The Graphviz and Mermaid formats can be rendered to PNG format using force-directed
+    layouts.
 
 Builder (.afd)
     The format used for creating and editing in the Attack Flow Builder.

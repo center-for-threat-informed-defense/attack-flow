@@ -11,7 +11,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
-            "schema": "./attack-flow-schema-2.0.0.json",
+            "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
             "version": "2.0.0",
             "extension_types": [
                 "new-sdo"

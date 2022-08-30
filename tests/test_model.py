@@ -93,7 +93,7 @@ def test_get_flow_object_missing():
     author = stix2.Identity(
         id="identity--bbe39bd7-9c12-41de-b5c0-dcd3fb98b360",
         name="Jane Doe",
-        contact_information="jdoe@company.com",
+        contact_information="jdoe@example.com",
     )
     bundle = stix2.Bundle(
         author,
