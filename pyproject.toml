@@ -20,7 +20,7 @@ license = "Apache"
 af = "attack_flow.cli:main"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 jsonschema = {version = "~=4.1", extras = ["format"]}
 Sphinx = "^4.5.0"
 sphinx-autobuild = "^2021.3.14"
@@ -28,6 +28,7 @@ stix2 = "^3.0.1"
 stix2-validator = "^3.0.2"
 sphinx_design = "^0.2.0"
 graphviz = "^0.20.1"
+networkx = "^2.8.6"
 
 [tool.poetry.dev-dependencies]
 bandit = "1.7.0"
