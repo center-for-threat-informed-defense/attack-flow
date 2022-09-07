@@ -9,10 +9,10 @@ rendering of the matrix, but in the interest of time this simpler approach will 
 from collections import namedtuple
 import logging
 import math
-import random
 import re
 from xml.etree import ElementTree
 
+from defusedxml.ElementTree import parse as defusedxml_parse
 
 import attack_flow.graph
 
@@ -41,7 +41,7 @@ def render(matrix_file, flow_bundle, out_file, show_control_points=False):
         arrows' curves.
     """
     ElementTree.register_namespace("", "http://www.w3.org/2000/svg")
-    tree = ElementTree.parse(matrix_file)
+    tree = defusedxml_parse(matrix_file)
 
     # Build a lookup table from technique ID -> translation coordinates for that
     # technique's <g> element.
