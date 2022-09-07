@@ -16,7 +16,7 @@ The Attack Flow Library is written in Python and contains tools for:
 
 - Validating Attack Flow JSON files
 - Generating schema documentation
-- Generating GraphViz visualizations
+- Visualizing Attack Flows using GraphViz, Mermaid, or ATT&CK matrix
 - Running unit tests
 
 Set up
