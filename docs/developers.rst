@@ -188,8 +188,8 @@ on top of it, and writes the resulting image to ``matrix-example.svg``.
 
 The output of the command will look something like this:
 
-.. figure:: _static/matrix-example.svg
-    :alt: A Navigator layer with the the Tesa flow rendered as an overlay.
+.. figure:: _static/matrix-example.png
+    :alt: A Navigator layer with the the Tesla flow rendered as an overlay.
     :align: center
 
     A Navigator layer with the the Tesa flow rendered as an overlay.

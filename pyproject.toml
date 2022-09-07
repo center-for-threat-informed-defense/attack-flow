@@ -27,8 +27,9 @@ sphinx-autobuild = "^2021.3.14"
 stix2 = "^3.0.1"
 stix2-validator = "^3.0.2"
 sphinx_design = "^0.2.0"
-graphviz = "^0.20.1"
 networkx = "^2.8.6"
+pygraphviz = "^1.10"
+graphviz = "^0.20.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "1.7.0"
