@@ -50,10 +50,6 @@ def test_convert_flow_to_graph():
     )
     assert action_asset_edge == {"type": "asset"}
 
-    import networkx as nx
-
-    nx.nx_agraph.write_dot(graph, "unittest.dot")
-
 
 def test_induce_action_graph():
     flow_bundle = get_flow_bundle()
@@ -62,7 +58,3 @@ def test_induce_action_graph():
 
     assert len(graph.nodes) == 4
     assert len(graph.edges) == 3
-
-    import networkx as nx
-
-    nx.nx_agraph.write_dot(graph, "unittest2.dot")

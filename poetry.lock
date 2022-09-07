@@ -520,14 +520,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "pygraphviz"
-version = "1.10"
-description = "Python interface to Graphviz"
-category = "main"
-optional = false
-python-versions = ">=3.8"
-
-[[package]]
 name = "pyparsing"
 version = "3.0.9"
 description = "pyparsing module - Classes and methods to define and execute parsing grammars"
@@ -1060,7 +1052,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9b8b592b5d49c8628c70081ca31941ff27e65f9e521b5a500655ef3e2378bd96"
+content-hash = "a28bcbb4ff3ee4f4d341d33531a1a2e45b5cafdebcec696dadf47a9aebf408e6"
 
 [metadata.files]
 alabaster = [
@@ -1325,7 +1317,6 @@ pygments = [
     {file = "Pygments-2.12.0-py3-none-any.whl", hash = "sha256:dc9c10fb40944260f6ed4c688ece0cd2048414940f1cea51b8b226318411c519"},
     {file = "Pygments-2.12.0.tar.gz", hash = "sha256:5eb116118f9612ff1ee89ac96437bb6b49e8f04d8a13b514ba26f620208e26eb"},
 ]
-pygraphviz = []
 pyparsing = [
     {file = "pyparsing-3.0.9-py3-none-any.whl", hash = "sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc"},
     {file = "pyparsing-3.0.9.tar.gz", hash = "sha256:2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb"},
