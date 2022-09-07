@@ -482,7 +482,7 @@ Actions can produce effects, and subsequent actions may *depend* on those effect
 2. The attacker wants to log in remotely, which depends on knowing the password.
 3. The attacker wants to run a C2 implant, which depends on having code execution.
 
-While an action is being executed, it's effect is an *indeterminate* state, i.e. we
+While an *action* is being executed, it's effect is an *indeterminate* state, i.e. we
 cannot make any statement about the outcome or result. Once the action concludes, then
 we can evaluate its effects, whether it succeeded or failed, etc. When one action is
 chained to another, the latter depends on the effects of the former, i.e. the second one
@@ -504,8 +504,8 @@ desired outcome, as well as how they handle individual technique failure.
 Confidence
 ----------
 
-The ``confidence`` property is a built-in feature of STIX that establishes the
-confidence in the correctness of the data in a particular object, e.g. in a particular
+The ``confidence`` property is STIX common property that establishes the confidence in
+the correctness of the data in a particular object, e.g. in a particular
 ``attack-action``. In STIX, the value is defined as a number from 0 to 100 (inclusive),
 i.e. a percentage. It is often difficult or impossible to estimate confidence to that
 level of precision, because Attack Flow typically describes real-world behavior that may

@@ -5,13 +5,13 @@ import argparse
 from pathlib import Path
 import json
 import logging
-import os
 import sys
 
 import pkg_resources
 
 import attack_flow.docs
 import attack_flow.graphviz
+import attack_flow.matrix
 import attack_flow.mermaid
 import attack_flow.model
 import attack_flow.schema
@@ -95,6 +95,26 @@ def mermaid(args):
     converted = attack_flow.mermaid.convert(flow_bundle)
     with open(args.output, "w") as out:
         out.write(converted)
+    return 0
+
+
+def matrix(args):
+    """
+    Draw an Attack Flow on stop of an ATT&CK matrix SVG.
+
+    :param args: argparse arguments
+    :returns: exit code
+    """
+    path = Path(args.attack_flow)
+    flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
+    debug = logging.getLogger().level == logging.DEBUG
+    with open(args.matrix_svg) as matrix_file, open(args.output, "wb") as out_file:
+        attack_flow.matrix.render(
+            matrix_file,
+            flow_bundle,
+            out_file,
+            show_control_points=debug,
+        )
     return 0
 
 
@@ -198,6 +218,17 @@ def _parse_args():
     mermaid_cmd.set_defaults(command=mermaid)
     mermaid_cmd.add_argument("attack_flow", help="The Attack Flow document to convert.")
     mermaid_cmd.add_argument("output", help="The path to write the converted file to.")
+
+    # Matrix subcommand
+    matrix_cmd = subparsers.add_parser(
+        "matrix", help="Draw a flow on top of an ATT&CK matrix SVG."
+    )
+    matrix_cmd.set_defaults(command=matrix)
+    matrix_cmd.add_argument(
+        "matrix_svg", help="The ATT&CK matrix SVG to use as a base."
+    )
+    matrix_cmd.add_argument("attack_flow", help="The Attack Flow document to render.")
+    matrix_cmd.add_argument("output", help="The path to write the output SVG to.")
 
     # Schema subcommand
     doc_schema_cmd = subparsers.add_parser(

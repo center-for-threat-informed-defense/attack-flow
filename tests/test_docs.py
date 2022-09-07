@@ -252,7 +252,7 @@ def test_generate_schema_docs():
             "description": "My Schema",
             "properties": {
                 "type": {
-                    "description": "The type **must** be ``my-object``.",
+                    "description": "The type **MUST** be ``my-object``.",
                     "type": "string",
                     "const": "my-object",
                 },
@@ -288,7 +288,7 @@ def test_generate_schema_docs():
         "     - Description",
         "   * - **type** *(required)*",
         "     - ``string``",
-        "     - The type **must** be ``my-object``.",
+        "     - The type **MUST** be ``my-object``.",
         "   * - **name** *(optional)*",
         "     - ``string``",
         "     - My name",

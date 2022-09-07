@@ -180,8 +180,8 @@
             "id": "attack-action--16002983-8519-46d6-9a2b-7a983557e3a9",
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
-            "technique_id": "T0884",
-            "technique_name": "Connection Proxy",
+            "technique_id": "T1090.002",
+            "technique_name": "Proxy: External Proxy",
             "technique_ref": "attack-pattern--cd25c1b4-935c-4f0e-ba8d-552f28bc4783",
             "description": "The adversary proxies their mining pool through Cloudflare CDN.",
             "effect_refs": [

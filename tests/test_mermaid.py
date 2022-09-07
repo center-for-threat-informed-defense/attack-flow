@@ -6,7 +6,7 @@ from .fixtures import get_flow_bundle
 import attack_flow.mermaid
 
 
-def test_convert_attack_flow_to_graphviz():
+def test_convert_attack_flow_to_mermaid():
     output = attack_flow.mermaid.convert(get_flow_bundle())
     assert output == dedent(
         """\

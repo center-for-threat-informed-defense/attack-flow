@@ -16,13 +16,13 @@ The Attack Flow Library is written in Python and contains tools for:
 
 - Validating Attack Flow JSON files
 - Generating schema documentation
-- Generating GraphViz visualizations
+- Visualizing Attack Flows using GraphViz, Mermaid, or ATT&CK matrix
 - Running unit tests
 
 Set up
 ~~~~~~
 
-The Attack Flow Library requires Python >=3.7. You will also need to install `Python
+The Attack Flow Library requires Python >=3.8. You will also need to install `Python
 Poetry <https://python-poetry.org/>`__ in order to handle dependencies and setting up a
 virtualenv. Clone the repository as follows:
 
@@ -92,10 +92,10 @@ Validate one or more Attack Flow JSON files:
 
 There is a Makefile target ``make validate`` that validates the corpus.
 
-Visualize JSON files
-~~~~~~~~~~~~~~~~~~~~
+Visualize with GraphViz
+~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to the Attack Flow Builder, there are a couple other options for visualizing
+In addition to the Attack Flow Builder, there are a few other options for visualizing
 Attack Flows. The first approach is converting to `GraphViz <https://graphviz.org/>`__
 format:
 
@@ -120,6 +120,9 @@ It will look something like this:
    :align: center
 
    The result of converting ``tesla.json`` into ``tesla.dot.png``.
+
+Visualize with Mermaid
+~~~~~~~~~~~~~~~~~~~~~~
 
 Another approach for visualizing flows is to convert to `Mermaid
 <https://mermaid-js.github.io/mermaid/#/>`__ format. Mermaid is a newer format with
@@ -147,6 +150,49 @@ It will look something like this:
    :align: center
 
    The result of converting ``tesla.json`` into ``tesla.mmd.png``.
+
+Visualize with ATT&CK Navigator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can also visualize an Attack Flow as an overlay on top of an `ATT&CK navigator
+<https://mitre-attack.github.io/attack-navigator/>`__ layer. In order to do this, you
+must open your layer in Navigator and export it to SVG:
+
+* Open your layer in Navigator.
+* Click the camera icon to open the SVG settings screen.
+* Adjust the options as you like.
+* Click the download icon to save as a ``.svg`` file.
+
+.. figure:: _static/navigator-export.png
+    :alt: Screenshot of exporting SVG file from ATT&CK Navigator.
+    :align: center
+
+    How to export SVG from ATT&CK Navigator.
+
+Here is an example of an SVG file -- this one has several columns cropped out.
+
+With your SVG file prepared, let's call it ``base_matrix.svg`` you can now render any
+flow on top of it:
+
+.. code:: bash
+
+    $ af matrix matrix-base.svg corpus/tesla.json matrix-example.svg
+
+This command reads in ``matrix-base.svg``, renders the ``corpus/tesla.json`` Attack Flow
+on top of it, and writes the resulting image to ``matrix-example.svg``.
+
+.. note::
+
+    If your flow references subtechniques that are not displayed in the Navigator layer,
+    then the script will automatically try to use the parent technique.
+
+The output of the command will look something like this:
+
+.. figure:: _static/matrix-example.png
+    :alt: A Navigator layer with the the Tesla flow rendered as an overlay.
+    :align: center
+
+    A Navigator layer with the the Tesa flow rendered as an overlay.
 
 Generate schema documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

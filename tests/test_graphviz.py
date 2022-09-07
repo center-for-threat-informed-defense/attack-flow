@@ -7,10 +7,8 @@ from attack_flow.exc import InvalidFlowError
 import attack_flow.graphviz
 from attack_flow.model import (
     AttackAction,
-    AttackAsset,
     AttackCondition,
     AttackFlow,
-    AttackOperator,
 )
 from .fixtures import get_flow_bundle
 

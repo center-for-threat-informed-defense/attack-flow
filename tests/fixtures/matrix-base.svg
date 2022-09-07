@@ -1,0 +1,442 @@
+<?xml version="1.0" standalone="no"?>
+<svg width="1056" height="816"
+    xmlns="http://www.w3.org/2000/svg" id="svgvm1">
+    <g transform="translate(5,5)" style="font-family: sans-serif;">
+        <g transform="translate(0,1)">
+            <g>
+                <g class="tactic initial-access" transform="translate(0, 0)">
+                    <g class="techniques">
+                        <g class="technique T1189" transform="translate(0, 31)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Drive-by</tspan>
+                                <tspan x="4" y="26.25">Compromise</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1190" transform="translate(0, 62)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Exploit</tspan>
+                                <tspan x="4" y="18">Public-Facing</tspan>
+                                <tspan x="4" y="28">Application</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1133" transform="translate(0, 93)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">External</tspan>
+                                <tspan x="4" y="18">Remote</tspan>
+                                <tspan x="4" y="28">Services</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1200" transform="translate(0, 124)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Hardware</tspan>
+                                <tspan x="4" y="26.25">Additions</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1566" transform="translate(0, 155)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="19">Phishing</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1195" transform="translate(0, 186)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="10.75">Supply Chain</tspan>
+                                <tspan x="4" y="25.25">Compromise</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1199" transform="translate(0, 217)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="10.75">Trusted</tspan>
+                                <tspan x="4" y="25.25">Relationship</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1078" transform="translate(0, 248)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Valid</tspan>
+                                <tspan x="4" y="26.25">Accounts</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g class="subtechniques"/>
+                    <g class="tactic-label">
+                        <text font-size="8.59236694677871" fill="black" font-weight="bold">
+                            <tspan text-anchor="middle" x="39.554621848739494" y="11.75">Initial</tspan>
+                            <tspan text-anchor="middle" x="39.554621848739494" y="26.25">Access</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g class="tactic execution" transform="translate(87.89915966386555, 0)">
+                    <g class="techniques">
+                        <g class="technique T1059" transform="translate(0, 31)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Command and</tspan>
+                                <tspan x="4" y="18">Scripting</tspan>
+                                <tspan x="4" y="28">Interpreter</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1609" transform="translate(0, 62)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Container</tspan>
+                                <tspan x="4" y="18">Administration</tspan>
+                                <tspan x="4" y="28">Command</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1610" transform="translate(0, 93)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Deploy</tspan>
+                                <tspan x="4" y="26.25">Container</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1203" transform="translate(0, 124)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Exploitation</tspan>
+                                <tspan x="4" y="18">for Client</tspan>
+                                <tspan x="4" y="28">Execution</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1559" transform="translate(0, 155)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="10.75">Inter-Process</tspan>
+                                <tspan x="4" y="25.25">Communication</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1106" transform="translate(0, 186)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Native</tspan>
+                                <tspan x="4" y="26.25">API</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1053" transform="translate(0, 217)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Scheduled</tspan>
+                                <tspan x="4" y="26.25">Task/Job</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1072" transform="translate(0, 248)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Software</tspan>
+                                <tspan x="4" y="18">Deployment</tspan>
+                                <tspan x="4" y="28">Tools</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1569" transform="translate(0, 279)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">System</tspan>
+                                <tspan x="4" y="26.25">Services</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1204" transform="translate(0, 310)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">User</tspan>
+                                <tspan x="4" y="26.25">Execution</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g class="subtechniques"/>
+                    <g class="tactic-label">
+                        <text font-size="8.59236694677871" fill="black" font-weight="bold">
+                            <tspan text-anchor="middle" x="39.554621848739494" y="19">Execution</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g class="tactic persistence" transform="translate(175.7983193277311, 0)">
+                    <g class="techniques">
+                        <g class="technique T1098" transform="translate(0, 31)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="10.75">Account</tspan>
+                                <tspan x="4" y="25.25">Manipulation</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1547" transform="translate(0, 62)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Boot or Logon</tspan>
+                                <tspan x="4" y="18">Autostart</tspan>
+                                <tspan x="4" y="28">Execution</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1037" transform="translate(0, 93)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Boot or Logon</tspan>
+                                <tspan x="4" y="18">Initialization</tspan>
+                                <tspan x="4" y="28">Scripts</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1176" transform="translate(0, 124)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Browser</tspan>
+                                <tspan x="4" y="26.25">Extensions</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1554" transform="translate(0, 155)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Compromise</tspan>
+                                <tspan x="4" y="18">Client</tspan>
+                                <tspan x="4" y="28">Software Binary</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1136" transform="translate(0, 186)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Create</tspan>
+                                <tspan x="4" y="26.25">Account</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1543" transform="translate(0, 217)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Create or</tspan>
+                                <tspan x="4" y="18">Modify System</tspan>
+                                <tspan x="4" y="28">Process</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1546" transform="translate(0, 248)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Event</tspan>
+                                <tspan x="4" y="18">Triggered</tspan>
+                                <tspan x="4" y="28">Execution</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1133" transform="translate(0, 279)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">External</tspan>
+                                <tspan x="4" y="18">Remote</tspan>
+                                <tspan x="4" y="28">Services</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1574" transform="translate(0, 310)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Hijack</tspan>
+                                <tspan x="4" y="18">Execution</tspan>
+                                <tspan x="4" y="28">Flow</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1525" transform="translate(0, 341)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Implant</tspan>
+                                <tspan x="4" y="18">Internal</tspan>
+                                <tspan x="4" y="28">Image</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1556" transform="translate(0, 372)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Modify</tspan>
+                                <tspan x="4" y="18">Authentication</tspan>
+                                <tspan x="4" y="28">Process</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1542" transform="translate(0, 403)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Pre-OS</tspan>
+                                <tspan x="4" y="26.25">Boot</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1053" transform="translate(0, 434)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Scheduled</tspan>
+                                <tspan x="4" y="26.25">Task/Job</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1505" transform="translate(0, 464.99999999999994)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Server</tspan>
+                                <tspan x="4" y="18">Software</tspan>
+                                <tspan x="4" y="28">Component</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1205" transform="translate(0, 496)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Traffic</tspan>
+                                <tspan x="4" y="26.25">Signaling</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1078" transform="translate(0, 527)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Valid</tspan>
+                                <tspan x="4" y="26.25">Accounts</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g class="subtechniques"/>
+                    <g class="tactic-label">
+                        <text font-size="8.59236694677871" fill="black" font-weight="bold">
+                            <tspan text-anchor="middle" x="39.554621848739494" y="18">Persistence</tspan>
+                        </text>
+                    </g>
+                </g>
+                <g class="tactic privilege-escalation" transform="translate(263.69747899159665, 0)">
+                    <g class="techniques">
+                        <g class="technique T1548" transform="translate(0, 31)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Abuse Elevation</tspan>
+                                <tspan x="4" y="18">Control</tspan>
+                                <tspan x="4" y="28">Mechanism</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1547" transform="translate(0, 62)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Boot or Logon</tspan>
+                                <tspan x="4" y="18">Autostart</tspan>
+                                <tspan x="4" y="28">Execution</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1037" transform="translate(0, 93)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Boot or Logon</tspan>
+                                <tspan x="4" y="18">Initialization</tspan>
+                                <tspan x="4" y="28">Scripts</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1543" transform="translate(0, 124)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Create or</tspan>
+                                <tspan x="4" y="18">Modify System</tspan>
+                                <tspan x="4" y="28">Process</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1611" transform="translate(0, 155)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Escape</tspan>
+                                <tspan x="4" y="26.25">to Host</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1546" transform="translate(0, 186)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Event</tspan>
+                                <tspan x="4" y="18">Triggered</tspan>
+                                <tspan x="4" y="28">Execution</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1068" transform="translate(0, 217)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,0" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Exploitation</tspan>
+                                <tspan x="4" y="18">for Privilege</tspan>
+                                <tspan x="4" y="28">Escalation</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1574" transform="translate(0, 248)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="8">Hijack</tspan>
+                                <tspan x="4" y="18">Execution</tspan>
+                                <tspan x="4" y="28">Flow</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1055" transform="translate(0, 279)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Process</tspan>
+                                <tspan x="4" y="26.25">Injection</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1053" transform="translate(0, 310)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Scheduled</tspan>
+                                <tspan x="4" y="26.25">Task/Job</tspan>
+                            </text>
+                        </g>
+                        <g class="technique T1078" transform="translate(0, 341)">
+                            <rect class="cell" height="31" width="79.10924369747899" fill="white" stroke="#6B7279"/>
+                            <polygon class="sidebar" transform="translate(0, 31)" points="0,0 12,0 12,12" fill="#6B7279" visibility="hidden"/>
+                            <text font-size="4.4829740591888925" fill="black">
+                                <tspan x="4" y="11.75">Valid</tspan>
+                                <tspan x="4" y="26.25">Accounts</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g class="subtechniques"/>
+                    <g class="tactic-label">
+                        <text font-size="8.59236694677871" fill="black" font-weight="bold">
+                            <tspan text-anchor="middle" x="39.554621848739494" y="11.75">Privilege</tspan>
+                            <tspan text-anchor="middle" x="39.554621848739494" y="26.25">Escalation</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
