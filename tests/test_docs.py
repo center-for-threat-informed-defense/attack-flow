@@ -83,7 +83,7 @@ def test_schema_property_array_of_string():
     assert sp.type == "array"
     assert sp.subtype == "string"
     assert sp.required
-    assert sp.type_markup == "``list`` of ``string``"
+    assert sp.type_markup == "``list`` of type ``string``"
 
 
 def test_schema_property_array_of_object():
@@ -126,7 +126,12 @@ def test_schema_property_enum():
     assert sp.name == "test-enum"
     assert sp.type == "string"
     assert sp.required
-    assert sp.type_markup == '``string`` Allowed values: "foo", "bar"'
+    assert sp.type_markup == "``enum``"
+    assert sp.description_markup == [
+        "My description",
+        "",
+        'The value of this property **MUST** be one of: "foo", "bar".',
+    ]
 
 
 def test_schema_property_ref():
@@ -144,7 +149,7 @@ def test_schema_property_ref():
     assert sp.name == "test-ref"
     assert isinstance(sp.type, RefType)
     assert sp.required
-    assert sp.type_markup == "``id of identity``"
+    assert sp.type_markup == "``identifier`` (of type ``identity``)"
 
 
 def test_schema_property_ref_bad_regex():
@@ -171,7 +176,7 @@ def test_schema_property_untyped_ref():
     assert sp.name == "test-ref"
     assert isinstance(sp.type, RefType)
     assert sp.required
-    assert sp.type_markup == "``any id``"
+    assert sp.type_markup == "``identifier``"
 
 
 def test_schema_property_list_of_ref():
@@ -192,7 +197,10 @@ def test_schema_property_list_of_ref():
     assert sp.name == "test-ref-list"
     assert sp.type == "array"
     assert sp.required
-    assert sp.type_markup == "``list`` of ``id of foo-object / bar-object``"
+    assert (
+        sp.type_markup
+        == "``list`` of type ``identifier`` (of type ``foo-object`` or ``bar-object``)"
+    )
 
 
 def test_schema_property_list_of_untyped_ref():
@@ -210,7 +218,7 @@ def test_schema_property_list_of_untyped_ref():
     assert sp.name == "test-ref-list"
     assert sp.type == "array"
     assert sp.required
-    assert sp.type_markup == "``list`` of ``any id``"
+    assert sp.type_markup == "``list`` of type ``identifier``"
 
 
 def test_schema():
@@ -285,7 +293,7 @@ def test_generate_schema_docs():
         "     - ``string``",
         "     - My name",
         "   * - **hobbies** *(optional)*",
-        "     - ``list`` of ``string``",
+        "     - ``list`` of type ``string``",
         "     - My hobbies",
         "",
         "*Example:*",

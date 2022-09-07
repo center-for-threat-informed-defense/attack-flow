@@ -35,16 +35,16 @@ class RefType:
 
     def __str__(self):
         if self.pattern is None:
-            return "``any id``"
+            return "``identifier``"
         elif match := EXTRACT_ONE_TYPE_FROM_RE.match(self.pattern or ""):
             # Pretty hacky: get the identifier types by regexing the pattern property
             # (which is itself a regex).
             type_ = match.group(1)
-            return f"``id of {type_}``"
+            return f"``identifier`` (of type ``{type_}``)"
         elif match := EXTRACT_MULTIPLE_TYPES_FROM_RE.match(self.pattern or ""):
             # More hacky:
-            types = " / ".join(match.group(1).split("|"))
-            return f"``id of {types}``"
+            types = " or ".join(f"``{t}``" for t in match.group(1).split("|"))
+            return f"``identifier`` (of type {types})"
         else:
             raise ValueError(f"Unable to parse ref types from pattern: {self.pattern}")
 
@@ -117,18 +117,32 @@ class SchemaProperty:
                 subtype_rst = str(self.subtype)
             else:
                 subtype_rst = f"``{self.subtype}``"
-            return f"``list`` of {subtype_rst}"
+            return f"``list`` of type {subtype_rst}"
         elif self.type == "object":
             return make_ref(self.name)
         elif self.enum:
-            enum_vals = '", "'.join(self.enum)
-            return f'``string`` Allowed values: "{enum_vals}"'
+            return "``enum``"
         elif self.format:
             return f"``{self.format}``"
         elif isinstance(self.type, RefType):
             return str(self.type)
         else:
             return f"``{self.type}``"
+
+    @property
+    def description_markup(self):
+        """Return description as a list of lines."""
+        text = self.description
+        text_lines = textwrap.wrap(
+            self.description, width=80, break_on_hyphens=False, replace_whitespace=False
+        )
+        if self.enum:
+            values = '"' + '", "'.join(self.enum) + '"'
+            text_lines.append("")
+            text_lines.append(
+                f"The value of this property **MUST** be one of: {values}."
+            )
+        return text_lines
 
 
 def generate_schema_docs(schema, examples):
@@ -162,7 +176,7 @@ def generate_schema_docs(schema, examples):
 
     for prop_name, prop in schema.properties.items():
         required = "(required)" if prop.required else "(optional)"
-        desc = textwrap.wrap(prop.description, width=80)
+        desc = prop.description_markup
         obj_lines.append(f"   * - **{prop_name}** *{required}*")
         obj_lines.append(f"     - {prop.type_markup}")
         obj_lines.append(f"     - {desc[0]}")

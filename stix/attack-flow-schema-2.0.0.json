@@ -66,12 +66,12 @@
             "type": "object",
             "properties": {
                 "type": {
-                    "description": "The type must be ``attack-flow``.",
+                    "description": "The type **MUST** be ``attack-flow``.",
                     "type": "string",
                     "const": "attack-flow"
                 },
                 "spec_version": {
-                    "description": "The version must be ``2.1``.",
+                    "description": "The version **MUST** be ``2.1``.",
                     "type": "string",
                     "const": "2.1"
                 },
@@ -124,12 +124,12 @@
             "type": "object",
             "properties": {
                 "type": {
-                    "description": "The type must be ``attack-action``.",
+                    "description": "The type **MUST** be ``attack-action``.",
                     "type": "string",
                     "const": "attack-action"
                 },
                 "spec_version": {
-                    "description": "The version must be ``2.1``.",
+                    "description": "The version **MUST** be ``2.1``.",
                     "type": "string",
                     "const": "2.1"
                 },
@@ -210,12 +210,12 @@
             "type": "object",
             "properties": {
                 "type": {
-                    "description": "The type must be ``attack-asset``.",
+                    "description": "The type **MUST** be ``attack-asset``.",
                     "type": "string",
                     "const": "attack-asset"
                 },
                 "spec_version": {
-                    "description": "The version must be ``2.1``.",
+                    "description": "The version **MUST** be ``2.1``.",
                     "type": "string",
                     "const": "2.1"
                 },
@@ -244,12 +244,12 @@
             "type": "object",
             "properties": {
                 "type": {
-                    "description": "The type must be ``attack-condition``.",
+                    "description": "The type **MUST** be ``attack-condition``.",
                     "type": "string",
                     "const": "attack-condition"
                 },
                 "spec_version": {
-                    "description": "The version must be ``2.1``.",
+                    "description": "The version **MUST** be ``2.1``.",
                     "type": "string",
                     "const": "2.1"
                 },
@@ -312,12 +312,12 @@
             "type": "object",
             "properties": {
                 "type": {
-                    "description": "The type must be ``attack-operator``.",
+                    "description": "The type **MUST** be ``attack-operator``.",
                     "type": "string",
                     "const": "attack-operator"
                 },
                 "spec_version": {
-                    "description": "The version must be ``2.1``.",
+                    "description": "The version **MUST** be ``2.1``.",
                     "type": "string",
                     "const": "2.1"
                 },
