@@ -16,12 +16,13 @@ VIZ_IGNORE_SDOS = ("attack-flow", "extension-definition")
 
 # Common properties to ignore when making visualizations.
 VIZ_IGNORE_COMMON_PROPERTIES = (
-    "type",
-    "spec_version",
-    "id",
     "created",
+    "external_references",
+    "id",
     "modified",
     "revoked",
+    "spec_version",
+    "type",
 )
 
 
@@ -44,12 +45,31 @@ class AttackFlow:
 
 
 @CustomObject(
+    "attack-asset",
+    [
+        ("name", StringProperty(required=True)),
+        ("description", StringProperty()),
+        (
+            "object_ref",
+            ReferenceProperty(invalid_types=[]),
+        ),
+    ],
+)
+class AttackAsset:
+    pass
+
+
+@CustomObject(
     "attack-action",
     [
         ("technique_id", StringProperty()),
         ("technique_name", StringProperty(required=True)),
         ("technique_ref", ReferenceProperty(valid_types="attack-pattern")),
         ("description", StringProperty()),
+        (
+            "asset_refs",
+            ListProperty(ReferenceProperty(valid_types="attack-asset")),
+        ),
         (
             "effect_refs",
             ListProperty(

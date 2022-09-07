@@ -14,8 +14,8 @@ threat-informed defense globally. The project is funded by our `research partici
     :caption: Contents
 
     overview
-    example_flows
     walkthrough
+    example_flows
     builder
     language
     best_practices

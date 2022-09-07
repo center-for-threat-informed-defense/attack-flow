@@ -152,7 +152,7 @@ em.newsgroup {
 
 .rst-content div.wy-table-responsive table.docutils thead th code.docutils,
 .rst-content div.wy-table-responsive table.docutils tbody td code.docutils {
-    white-space: nowrap;
+    white-space: pre-wrap;
 }
 
 /* Table of contents styles */

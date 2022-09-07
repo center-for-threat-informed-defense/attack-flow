@@ -30,8 +30,14 @@ def convert(bundle):
                 _get_action_label(o),
                 shape="plaintext",
             )
+            for ref in o.get("asset_refs", []):
+                gv.edge(o.id, ref, "asset")
             for ref in o.get("effect_refs", []):
                 gv.edge(o.id, ref, "effect")
+        elif o.type == "attack-asset":
+            gv.node(o.id, _get_asset_label(o), shape="plaintext")
+            if object_ref := o.get("object_ref"):
+                gv.edge(o.id, object_ref, "object")
         elif o.type == "attack-condition":
             gv.node(o.id, _get_condition_label(o), shape="plaintext")
             for ref in o.get("on_true_refs", []):
@@ -108,6 +114,27 @@ def _get_action_label(action):
     )
 
 
+def _get_asset_label(asset):
+    """
+    Generate the GraphViz label for an asset node as a table.
+
+    :param asset:
+    :rtype: str
+    """
+    name = graphviz.escape(asset.name)
+    description = "<br/>".join(
+        textwrap.wrap(graphviz.escape(asset.get("description", "")), width=40)
+    )
+    return "".join(
+        [
+            '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
+            f'<TR><TD BGCOLOR="#cc99ff" COLSPAN="2"><B>Asset: {name}</B></TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>',
+            "</TABLE>>",
+        ]
+    )
+
+
 def _get_builtin_label(builtin):
     """
     Generate the GraphViz label for a builtin STIX object.
@@ -126,7 +153,7 @@ def _get_builtin_label(builtin):
         pretty_key = key.replace("_", " ").title()
         if isinstance(value, list):
             value = ", ".join(value)
-        pretty_value = graphviz.escape(value)
+        pretty_value = graphviz.escape(str(value))
         lines.append(
             f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>{pretty_key}</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{pretty_value}</TD></TR>'
         )
