@@ -1,0 +1,159 @@
+{
+    "api_version": "0.1.0",
+    "name": "Attack Flow Test File",
+    "schema": {
+        "page_template": "@__builtin__page",
+        "templates": [
+            {
+                "id": "action",
+                "name": "Action Block",
+                "role": 8192,
+                "type": 1,
+                "fields": {
+                    "reference"   : { "type": "string", "value": "" },
+                    "succeeded"   : { "type": "boolean", "value": false },
+                    "confidence"  : { "type": "int", "value": 0 },
+                    "description" : { "type": "string", "value": "" }
+                },
+                "title_key": "description",
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#637bc9",
+                        "stroke_color": "#708ce6",
+                        "title": {
+                            "font": { "family": "Inter", "size": "8pt", "weight": 600 },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle":  {
+                            "font": { "family": "Inter", "size": "13pt", "weight": 800 },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": { "family": "Inter", "size": "8pt", "weight": 600 },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": { "family": "Inter", "size": "10.5pt" },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            }
+        ]
+    },
+    "page": "f5aaaf77-9904-4e9f-b7c4-6125b69b7234",
+    "objects": [
+        {
+            "id": "f5aaaf77-9904-4e9f-b7c4-6125b69b7234",
+            "x": 0,
+            "y": 0,
+            "template": "@__builtin__page",
+            "children":[
+                "f9ef3a04-2842-4b7a-bfd3-7b1f2269eb41",
+                "cd0d3b1e-3f49-40d6-8b77-04aed5e5256a"
+            ],
+            "location": {
+                "type": 0,
+                "x": 0,
+                "y": 0,
+                "k": 1
+            }
+        },
+        {
+            "id": "f9ef3a04-2842-4b7a-bfd3-7b1f2269eb41",
+            "x": -200,
+            "y": 0,
+            "template": "action",
+            "fields": {
+                "reference"   : "google.com",
+                "succeeded"   : true,
+                "confidence"  : 1,
+                "description" : "Test Node"
+            },
+            "children": [
+                
+            ]
+        },
+        {
+            "id": "cd0d3b1e-3f49-40d6-8b77-04aed5e5256a",
+            "x": 100,
+            "y": 0,
+            "template": "action",
+            "fields": {
+                "reference"   : "This is a really really long string that's just gotta wrap around. Yep no doubt in my mind. This line? It's gonna wrap.",
+                "succeeded"   : true,
+                "confidence"  : 1,
+                "description" : "Test Node"
+            },
+            "children": [
+                
+            ]
+        },
+        {
+            "id": "fd5ac4d4-35be-40b0-9a52-382958cfb67e",
+            "x": 80,
+            "y": 0,
+            "template": "@__builtin__anchor",
+            "radius": 5,
+            "angle": 0,
+            "children": []
+        },
+        {
+            "id": "80971082-d180-490c-85b6-4b0c050f821d",
+            "x": 20,
+            "y": 0,
+            "template": "@__builtin__anchor",
+            "radius": 5,
+            "angle": 0,
+            "children": []
+        },
+        {
+            "id": "dedf321b-ba26-479a-a59b-dba22868fad7",
+            "x": 50,
+            "y": 0,
+            "template": "@__builtin__line_horizontal_elbow",
+            "children": [
+            ]
+        },
+        {
+            "id": "accaa379-1c95-494d-9a5b-7aae096c9300",
+            "x": 50,
+            "y": 0,
+            "template": "@__builtin__line_handle",
+            "children": []
+        },
+        {
+            "id": "4f4f8dcc-096b-47c9-8d05-e53826eb7840",
+            "x": 50,
+            "y": 20,
+            "template": "@__builtin__line_cap",
+            "children": [],
+            "fields": {}
+        }
+    ]
+}

@@ -1,0 +1,186 @@
+import { drawArrowHead } from "../Utilities";
+import { RasterCache } from "../Diagram/RasterCache";
+import { ViewportRegion } from "../Diagram";
+import { LineVerticalElbowModel } from "../DiagramModelTypes";
+import { 
+    DictionaryLineView,
+    DiagramLineEndingView
+} from ".";
+import { Select, SelectMask } from "../Attributes";
+
+export class LineVerticalElbowView extends DictionaryLineView {
+    
+    /**
+     * The underlying model.
+     */
+    public override el: LineVerticalElbowModel;
+
+
+    /**
+     * Creates a new {@link LineVerticalElbowView}.
+     * @param el
+     *  The underlying model.
+     * @param rasterCache
+     *  The view's raster cache.
+     */
+    constructor(el: LineVerticalElbowModel, rasterCache: RasterCache) {
+        super(el, rasterCache);
+        this.el = el;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Movement  //////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Moves one of the line's children relative to its current position. 
+     * @param id
+     *  The id of the child.
+     * @param dx
+     *  The change in x.
+     * @param dy
+     *  The change in y.
+     * @param attrs
+     *  If specified, this set of attributes will override the object's
+     *  underlying attributes.
+     */
+    public moveChild(id: string, dx: number, dy: number, attrs?: number): void {
+        // Select child
+        let obj = this.children.find(o => o.el.id === id)!;
+        if(!obj)
+            return;
+        // Move ending
+        if(obj instanceof DiagramLineEndingView) {
+            obj.moveBy(dx, dy, undefined, true);
+        }
+        let [e1, h1, e2] = this.children;
+        // Move handle
+        let hdx = ((e1.x + e2.x) / 2) - h1.x,
+            hdy = ((e1.y + e2.y) / 2) - h1.y;
+        // attrs must ONLY override the child being moved, we 
+        // can't override h1 unless we're explicitly moving h1
+        if(!h1.el.hasUserSetPosition(obj === h1 ? attrs : undefined)) {
+            h1.moveBy(0, hdy, undefined, true);
+        } else if(obj === h1) {
+            h1.moveBy(0, dy, undefined, true);
+        }
+        h1.moveBy(hdx, 0, undefined, true);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Render  ////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Renders the object to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param vr
+     *  The context's viewport.
+     * @param dsx
+     *  The drop shadow's x-offset.
+     *  (Default: 0)
+     * @param dsy
+     *  The drop shadow's y-offset.
+     *  (Default: 0)
+     * @param attrs
+     *  If specified, these attributes will override the object's underlying
+     *  attributes.
+     */
+    public override renderTo(
+        ctx: CanvasRenderingContext2D, vr: ViewportRegion,
+        dsx: number = 0, dsy: number = 0, attrs?: number
+    ) { 
+        if(!this.isVisible(vr)) {
+            return;
+        }
+
+        // Init
+        let {
+            children: c
+        } = this;        
+        let {
+            cap_size: cs,
+            width,
+            color,
+            select_colors: sc
+        } = this.el.style;
+
+        // Configure line
+        ctx.lineWidth = width;
+        let lineColor;
+        switch(this.el.attrs & SelectMask) {            
+            case Select.Single:
+                lineColor = sc.solo_color;
+                break;
+            case Select.Multi:
+                lineColor = sc.many_color;
+                break;
+            case Select.Unselected:
+            default:
+                lineColor = color;
+                break;
+        }
+        ctx.fillStyle = lineColor;
+        ctx.strokeStyle = lineColor;
+
+        // Line width offset
+        let wo = width % 2 ? 0.5 : 0;
+        // End offset
+        let eo = Math.sign(c[1].y - c[2].y) * (cs >> 1);
+        
+        // Draw line
+        ctx.beginPath();
+        ctx.moveTo(c[0].x + wo, c[0].y);
+        ctx.lineTo(c[0].x + wo, c[1].y + wo);
+        ctx.lineTo(c[2].x + wo, c[1].y + wo);
+        ctx.lineTo(c[2].x + wo, c[2].y + eo);
+        ctx.stroke();
+
+        // Draw arrow head
+        drawArrowHead(
+            ctx, 
+            c[2].x + wo, c[1].y,
+            c[2].x + wo, c[2].y,
+            cs
+        );
+        ctx.fill();
+
+        // Draw handles and ends
+        if(this.el.isSelected(attrs)) {
+            super.renderTo(ctx, vr, dsx, dsy);
+        }
+
+    }
+
+    /**
+     * Renders the object's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param vr
+     *  The context's viewport.
+     */
+    public override renderDebugTo(ctx: CanvasRenderingContext2D, vr: ViewportRegion) {
+        if(!this.isVisible(vr)) {
+            return;
+        }
+        let radius = 2;
+        let p = Math.PI * 2;
+        // Draw hitbox points
+        ctx.beginPath();
+        for(let hitbox of this.el.hitboxes) {
+            for(let i = 0; i < hitbox.length; i += 2) {
+                ctx.moveTo(hitbox[i] + radius, hitbox[i + 1]);
+                ctx.arc(hitbox[i], hitbox[i + 1], radius, 0, p);
+            }
+        }
+        ctx.fill();
+        // Draw bounding box
+        super.renderDebugTo(ctx, vr);
+    }
+
+}

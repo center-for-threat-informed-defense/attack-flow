@@ -1,0 +1,578 @@
+{
+    "api_version": "0.1.0",
+    "name": "Attack Flow Test File",
+    "schema": {
+        "page_template": "@__builtin__page",
+        "templates": [
+            {
+                "id": "@__builtin__page",
+                "name": "Page",
+                "type": 6,
+                "role": 0,
+                "grid": [
+                    10,
+                    10
+                ],
+                "style": {
+                    "grid_color": "#1d1d1d",
+                    "background_color": "#141414",
+                    "drop_shadow": {
+                        "color": "rgba(0,0,0,.4)",
+                        "offset": [
+                            3,
+                            3
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "@__builtin__anchor",
+                "name": "Anchor",
+                "type": 0,
+                "role": 0,
+                "radius": 10,
+                "line_templates": {
+                    "0": "@__builtin__line_horizontal_elbow",
+                    "1": "@__builtin__line_vertical_elbow"
+                },
+                "style": {
+                    "color": "rgba(255, 255, 255, 0.25)"
+                }
+            },
+            {
+                "id": "@__builtin__line_handle",
+                "name": "Line Handle",
+                "type": 3,
+                "role": 0,
+                "style": {
+                    "radius": 6,
+                    "fill_color": "#fedb22",
+                    "stroke_color": "#141414",
+                    "stroke_width": 1.5
+                }
+            },
+            {
+                "id": "@__builtin__line_source",
+                "name": "Line Source",
+                "type": 2,
+                "role": 24576,
+                "style": {
+                    "radius": 6,
+                    "fill_color": "#fedb22",
+                    "stroke_color": "#141414",
+                    "stroke_width": 1.5
+                }
+            },
+            {
+                "id": "@__builtin__line_target",
+                "name": "Line Target",
+                "type": 2,
+                "role": 32768,
+                "style": {
+                    "radius": 6,
+                    "fill_color": "#fedb22",
+                    "stroke_color": "#141414",
+                    "stroke_width": 1.5
+                }
+            },
+            {
+                "id": "@__builtin__line_horizontal_elbow",
+                "name": "Horizontal Elbow",
+                "type": 4,
+                "role": 16384,
+                "hitbox_width": 20,
+                "line_handle_template": "@__builtin__line_handle",
+                "line_ending_template": {
+                    "source": "@__builtin__line_source",
+                    "target": "@__builtin__line_target"
+                },
+                "style": {
+                    "width": 5,
+                    "cap_size": 16,
+                    "color": "#646464",
+                    "select_colors": {
+                        "solo_color": "#646464",
+                        "many_color": "#646464"
+                    }
+                },
+                "fields": {}
+            },
+            {
+                "id": "@__builtin__line_vertical_elbow",
+                "name": "Vertical Elbow",
+                "type": 5,
+                "role": 16384,
+                "hitbox_width": 20,
+                "line_handle_template": "@__builtin__line_handle",
+                "line_ending_template": {
+                    "source": "@__builtin__line_source",
+                    "target": "@__builtin__line_target"
+                },
+                "style": {
+                    "width": 5,
+                    "cap_size": 16,
+                    "color": "#646464",
+                    "select_colors": {
+                        "solo_color": "#646464",
+                        "many_color": "#646464"
+                    }
+                },
+                "fields": {}
+            },
+            {
+                "id": "action",
+                "name": "Action Block",
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "fields": {
+                    "name": {
+                        "type": "string",
+                        "value": ""
+                    },
+                    "technique_id": {
+                        "type": "string",
+                        "value": ""
+                    },
+                    "technique_stix_id": {
+                        "type": "string",
+                        "value": ""
+                    },
+                    "description": {
+                        "type": "string",
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#637bc9",
+                        "stroke_color": "#708ce6",
+                        "title": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "13pt",
+                                "weight": 800
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "10.5pt"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "asset",
+                "name": "Asset Block",
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "fields": {
+                    "name": {
+                        "type": "string",
+                        "value": ""
+                    },
+                    "description": {
+                        "type": "string",
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#c26130",
+                        "stroke_color": "#e57339",
+                        "title": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "13pt",
+                                "weight": 800
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "10.5pt"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            }
+        ]
+    },
+    "page": "7fa02907-d545-48d4-a039-6bfe596c7dde",
+    "objects": [
+        {
+            "id": "7fa02907-d545-48d4-a039-6bfe596c7dde",
+            "x": -21,
+            "y": -30,
+            "attrs": 0,
+            "template": "@__builtin__page",
+            "children": [
+                "c4860b34-fff5-4b75-8b7d-faeaf5db98e9",
+                "eefed6c8-616d-4d1f-a5d6-4160b3cd38c3"
+            ],
+            "location": {
+                "type": 0,
+                "x": 0,
+                "y": 0,
+                "k": 1
+            }
+        },
+        {
+            "id": "c4860b34-fff5-4b75-8b7d-faeaf5db98e9",
+            "x": -240,
+            "y": -30,
+            "attrs": 256,
+            "template": "action",
+            "children": [
+                "18a25f52-256c-44d8-99dd-3513b93046ea",
+                "fa983415-fe67-4389-b97b-6730d9279ffd",
+                "9562c9b0-b0b4-4bee-9d12-76734c8b8f55",
+                "f05f0736-5e7f-4240-9ab3-a81d03958959",
+                "e11e1231-3cd1-4d21-82a6-2d48eb02a340",
+                "398a1443-7fbf-4c2b-8c1d-f5ba97d5a9c3",
+                "995c8603-e668-421b-9413-b44c6e6eedeb",
+                "3ffc57e3-d637-4833-9c69-cd7b3d98b464",
+                "614b3efd-0ed3-4736-aad2-cad82e03c8a8",
+                "52f65709-6fe6-4123-a292-5d4741c2bf22",
+                "21d46517-4260-4d09-8793-59ebbc3dd80c",
+                "07244a2b-5fa1-428a-a30f-ecb506791194"
+            ],
+            "fields": {
+                "name": "Valid Accounts",
+                "technique_id": "T1078",
+                "technique_stix_id": "attack-pattern--edfe3386-25c3-432a-902c-0ed32f6735bb",
+                "description": "This is a long description to prove that word wrapping works on long strings. I'm just going to add one more sentence to really pad things out."
+            }
+        },
+        {
+            "id": "eefed6c8-616d-4d1f-a5d6-4160b3cd38c3",
+            "x": 200,
+            "y": -30,
+            "attrs": 256,
+            "template": "asset",
+            "children": [
+                "30643f58-4033-42da-8c1c-528f34edafa2",
+                "3facfb13-28ae-44af-8357-4891ba846fde",
+                "f7829b6c-f251-4a86-bad7-79e177661984",
+                "e9825f12-eda4-413a-93f6-a6800563a822",
+                "b4d84f2c-ddc0-46a2-804f-046dd8024de8",
+                "e05f3902-cf90-4ea2-a9db-edcab3bdaa3d",
+                "13f71b0d-0a93-4311-b748-952ca074c71e",
+                "c506853a-8b48-47c8-bea9-6cef82f92ded",
+                "c8e3da1c-e716-4296-9cf6-8aba2bff437f",
+                "aab173da-7bc3-4112-9d1d-a4856634aabd",
+                "e0e9a9c3-06d9-4517-bad0-40b406906aa2",
+                "47615283-356c-4187-957c-2b8a0294f8e5"
+            ],
+            "fields": {
+                "name": "Admin Passwords",
+                "description": "I bet you're wondering how I got these. Well, I'm not telling. It's a secret."
+            }
+        },
+        {
+            "id": "18a25f52-256c-44d8-99dd-3513b93046ea",
+            "x": -330.5,
+            "y": -182,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "fa983415-fe67-4389-b97b-6730d9279ffd",
+            "x": -240,
+            "y": -182,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "9562c9b0-b0b4-4bee-9d12-76734c8b8f55",
+            "x": -149.5,
+            "y": -182,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "f05f0736-5e7f-4240-9ab3-a81d03958959",
+            "x": -59,
+            "y": -106,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "e11e1231-3cd1-4d21-82a6-2d48eb02a340",
+            "x": -59,
+            "y": -30,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "398a1443-7fbf-4c2b-8c1d-f5ba97d5a9c3",
+            "x": -59,
+            "y": 46,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "995c8603-e668-421b-9413-b44c6e6eedeb",
+            "x": -149.5,
+            "y": 122,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "3ffc57e3-d637-4833-9c69-cd7b3d98b464",
+            "x": -240,
+            "y": 122,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "614b3efd-0ed3-4736-aad2-cad82e03c8a8",
+            "x": -330.5,
+            "y": 122,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "52f65709-6fe6-4123-a292-5d4741c2bf22",
+            "x": -421,
+            "y": 46,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "21d46517-4260-4d09-8793-59ebbc3dd80c",
+            "x": -421,
+            "y": -30,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "07244a2b-5fa1-428a-a30f-ecb506791194",
+            "x": -421,
+            "y": -106,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "30643f58-4033-42da-8c1c-528f34edafa2",
+            "x": 110.5,
+            "y": -106,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "3facfb13-28ae-44af-8357-4891ba846fde",
+            "x": 200,
+            "y": -106,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "f7829b6c-f251-4a86-bad7-79e177661984",
+            "x": 289.5,
+            "y": -106,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "e9825f12-eda4-413a-93f6-a6800563a822",
+            "x": 379,
+            "y": -68,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "b4d84f2c-ddc0-46a2-804f-046dd8024de8",
+            "x": 379,
+            "y": -30,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "e05f3902-cf90-4ea2-a9db-edcab3bdaa3d",
+            "x": 379,
+            "y": 8,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "13f71b0d-0a93-4311-b748-952ca074c71e",
+            "x": 289.5,
+            "y": 46,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "c506853a-8b48-47c8-bea9-6cef82f92ded",
+            "x": 200,
+            "y": 46,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "c8e3da1c-e716-4296-9cf6-8aba2bff437f",
+            "x": 110.5,
+            "y": 46,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 1
+        },
+        {
+            "id": "aab173da-7bc3-4112-9d1d-a4856634aabd",
+            "x": 21,
+            "y": 8,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "e0e9a9c3-06d9-4517-bad0-40b406906aa2",
+            "x": 21,
+            "y": -30,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        },
+        {
+            "id": "47615283-356c-4187-957c-2b8a0294f8e5",
+            "x": 21,
+            "y": -68,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "angle": 0
+        }
+    ]
+}
