@@ -1,4 +1,4 @@
-# attack-flow-designer
+# attack-flow-builder
 
 ## Project setup
 ```
