@@ -20,4 +20,4 @@ threat-informed defense globally. The project is funded by our `research partici
     language
     best_practices
     developers
-    theme
+    changelog

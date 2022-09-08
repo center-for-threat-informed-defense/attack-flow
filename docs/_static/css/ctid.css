@@ -170,6 +170,10 @@ em.newsgroup {
     color: var(--text-color-inverse);
 }
 
+.wy-nav-top {
+    background-color: var(--me-core-purple-dark);
+}
+
 .wy-nav-side {
     background-color: var(--side-nav-background);
 }
