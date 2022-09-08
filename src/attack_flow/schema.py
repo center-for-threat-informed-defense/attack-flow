@@ -28,13 +28,15 @@ def validate_docs(schema_doc, attack_flow_docs):
     for attack_flow_doc in attack_flow_docs:
         with open(attack_flow_doc) as attack_flow_file:
             attack_flow_json = json.load(attack_flow_file)
-
+            
         try:
-            validate_schema(
-                instance=attack_flow_json,
-                schema=schema_json,
-                format_checker=draft202012_format_checker,
-            )
+            for item in attack_flow_json["objects"]:
+                if 'attack' in item["type"]:
+                    validate_schema(
+                        instance=item,
+                        schema=schema_json,
+                        format_checker=draft202012_format_checker,
+                    )
             validate_rules(attack_flow_json)
             exceptions.append(None)
         except Exception as e:
@@ -62,6 +64,7 @@ class InvalidRelationshipsError(Exception):
         return "\n".join("- {}".format(e) for e in self.errors)
 
 
+# Needs updated to use the new schema when checkign the relationships
 def validate_rules(attack_flow):
     """
     Validate the Attack Flow rules that are not covered by the JSON Schema.
@@ -73,24 +76,29 @@ def validate_rules(attack_flow):
     :raises Exception: if any Attack Flow rules are violated.
     """
     object_ids = set()
-    object_ids.add(attack_flow["flow"]["id"])
-    object_ids |= {action["id"] for action in attack_flow["actions"]}
-    object_ids |= {asset["id"] for asset in attack_flow["assets"]}
+    object_ids |= {object["id"] for object in attack_flow["objects"]}
     invalid = list()
 
-    for relationship in attack_flow["relationships"]:
-        if relationship["source"] not in object_ids:
+    relationships = list()
+    for item in attack_flow["objects"]:
+        if item["type"] == "relationship":
+            relationships.append(item)
+
+    for relationship in relationships:
+        if relationship["source_ref"] not in object_ids:
             invalid.append(
                 'Relationship source ID "{}" does not exist.'.format(
-                    relationship["source"]
+                    relationship["source_ref"]
                 )
             )
-        if relationship["target"] not in object_ids:
+        if relationship["target_ref"] not in object_ids:
             invalid.append(
                 'Relationship target ID "{}" does not exist.'.format(
-                    relationship["target"]
+                    relationship["target_ref"]
                 )
             )
 
     if invalid:
         raise InvalidRelationshipsError(invalid)
+
+
