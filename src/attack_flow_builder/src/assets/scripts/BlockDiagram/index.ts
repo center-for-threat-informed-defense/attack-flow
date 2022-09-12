@@ -1,5 +1,6 @@
 export * from "./Attributes";
 export * from "./Utilities";
+export * from "./Property"
 export * from "./DiagramModelTypes";
 export * from "./DiagramFactory";
 export * from "./SemanticAnalyzer"

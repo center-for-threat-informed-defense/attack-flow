@@ -13,12 +13,12 @@ export class DictionaryBlockView extends DiagramObjectView {
     public override el: DictionaryBlockModel;
 
     /**
-     * The block's top-left corner.
+     * The block's top-left x coordinate.
      */
     public tlx: number;
 
     /**
-     * The block's top-right corner.
+     * The block's top-left y coordinate.
      */
     public tly: number;
 

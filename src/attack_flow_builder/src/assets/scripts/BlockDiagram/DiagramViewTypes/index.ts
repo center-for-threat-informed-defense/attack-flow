@@ -1,5 +1,4 @@
 export * from "./BaseTypes/BaseViews";
-export * from "./DictionaryLineView"
 export * from "./LineEndingPointView";
 export * from "./LineHandlePointView";
 export * from "./LineHorizontalElbowView";

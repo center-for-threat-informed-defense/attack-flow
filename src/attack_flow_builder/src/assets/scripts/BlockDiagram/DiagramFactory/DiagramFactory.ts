@@ -225,7 +225,7 @@ export class DiagramFactory {
                 return new LineHorizontalElbowModel(this, temp, vals);
             default:
                 throw new DiagramFactoryError(
-                    `Unknown template type: '${ temp.type }'.`
+                    `Unknown template type: '${ (temp as any).type }'.`
                 );
         }
     }
@@ -275,7 +275,7 @@ export class DiagramFactory {
         if(object instanceof DiagramAnchorModel) {
             let clone = this.createObject({
                 ...object.toExport(),
-                id: (crypto as any).randomUUID(),
+                id: crypto.randomUUID(),
                 children: []
             }) as DiagramAnchorModel;
             clones.set(object.id, clone);
@@ -290,7 +290,7 @@ export class DiagramFactory {
         // Clone object
         let clone = this.createObject({
             ...object.toExport(),
-            id: (crypto as any).randomUUID(),
+            id: crypto.randomUUID(),
             children
         });
         clones.set(object.id, clone);

@@ -19,9 +19,15 @@ import { Priority } from "../../Attributes";
 export abstract class DiagramAnchorModel extends DiagramObjectModel {
 
     /**
-     * The anchor's radius.
+     * The anchor's children.
      */
-    public readonly radius: number;
+    // @ts-ignore Children will be initialized in DiagramObjectModel
+    public override readonly children: DiagramAnchorableModel[];
+
+    /**
+     * The template the object was configured with.
+     */
+    public override readonly template: AnchorTemplate;
 
     /**
      * The anchor's angle.
@@ -29,15 +35,14 @@ export abstract class DiagramAnchorModel extends DiagramObjectModel {
     public angle: AnchorAngle;
 
     /**
+     * The anchor's radius.
+     */
+    public readonly radius: number;
+
+    /**
      * The anchor's line templates.
      */
     public readonly lineTemplates: { [key: number]: string }
-
-    /**
-     * The anchor's children.
-     */
-    // @ts-ignore Children will be initialized in DiagramObjectModel
-    public readonly override children: DiagramAnchorableModel[];
 
 
     /**
@@ -56,6 +61,7 @@ export abstract class DiagramAnchorModel extends DiagramObjectModel {
     ) {
         super(factory, template, values);
         this.radius = template.radius;
+        this.template = template;
         this.lineTemplates = template.line_templates;
         this.angle = values?.angle ?? AnchorAngle.DEG_0;
     }

@@ -16,6 +16,11 @@ import { Cursor } from "../Attributes";
 export class LineHandlePointModel extends DiagramLineHandleModel {
     
     /**
+     * The template the object was configured with.
+     */
+    public override readonly template: LineHandlePointTemplate;
+
+    /**
      * The line handle's style.
      */
     public readonly style: LineHandlePointStyle;
@@ -39,6 +44,7 @@ export class LineHandlePointModel extends DiagramLineHandleModel {
         this.setCursor(Cursor.Move);
         // Template configuration
         this.setSemanticRole(template.role);
+        this.template = template;
         this.style = template.style;
         // Update Layout
         this.updateLayout(LayoutUpdateReason.ObjectInit);

@@ -1,6 +1,7 @@
 import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
 import { AppConfiguration } from "@/store/StoreTypes";
+import { PropertyType } from "./scripts/BlockDiagram/Property";
 import { SemanticRole, TemplateType } from "./scripts/BlockDiagram/DiagramFactory";
 
 /**
@@ -67,6 +68,13 @@ ActionBlockStyle.head.stroke_color = "#708ce6"
  AssetBlockStyle.head.fill_color = "#c26130";
  AssetBlockStyle.head.stroke_color = "#e57339"
 
+/**
+ * Condition Block Style
+ */
+const ConditionBlockStyle = structuredClone(StandardDictionaryBlockStyle);
+ConditionBlockStyle.head.fill_color = "#2a9642";
+ConditionBlockStyle.head.stroke_color = "#32b34e"
+
  /**
   * App Configuration
   */
@@ -81,12 +89,13 @@ const config: AppConfiguration = {
                 name: "Action Block",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
-                title_key: "name",
-                fields: {
-                    name              : { type: "string", value: "" },
-                    technique_id      : { type: "string", value: "" },
-                    technique_stix_id : { type: "string", value: "" },
-                    description       : { type: "string", value: "" }
+                title_key: "technique_name",
+                properties: {
+                    spec_version   : { type: PropertyType.String, value: "2.1" },
+                    technique_id   : { type: PropertyType.String, value: "" },
+                    technique_name : { type: PropertyType.String, value: "" },
+                    technique_ref  : { type: PropertyType.String, value: "" },
+                    description    : { type: PropertyType.String, value: "" }
                 },
                 anchor_template: "@__builtin__anchor",
                 style: ActionBlockStyle
@@ -97,12 +106,29 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 title_key: "name",
-                fields: {
-                    name        : { type: "string", value: "" },
-                    description : { type: "string", value: "" }
+                properties: {
+                    spec_version : { type: PropertyType.String, value: "2.1" },
+                    name         : { type: PropertyType.String, value: "" },
+                    description  : { type: PropertyType.String, value: "" }
                 },
                 anchor_template: "@__builtin__anchor",
                 style: AssetBlockStyle
+            },
+            {
+                id: "condition",
+                name: "Condition Block",
+                type: TemplateType.DictionaryBlock,
+                role: SemanticRole.Node,
+                title_key: "description",
+                properties: {
+                    spec_version    : { type: PropertyType.String, value: "2.1" },
+                    description     : { type: PropertyType.String, value: "" },
+                    pattern         : { type: PropertyType.String, value: "" },
+                    pattern_type    : { type: PropertyType.String, value: "" },
+                    pattern_version : { type: PropertyType.String, value: "" },
+                },
+                anchor_template: "@__builtin__anchor",
+                style: ConditionBlockStyle
             },
         ]
     },

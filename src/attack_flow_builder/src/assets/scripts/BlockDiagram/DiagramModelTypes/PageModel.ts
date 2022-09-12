@@ -17,6 +17,11 @@ import {
 export class PageModel extends DiagramRootModel {
 
     /**
+     * The template the object was configured with.
+     */
+    public override readonly template: PageTemplate;
+
+    /**
      * The page's camera location.
      */
     public location: CameraLocation;
@@ -49,6 +54,7 @@ export class PageModel extends DiagramRootModel {
         super(factory, template, values);
         // Template configuration
         this.setSemanticRole(template.role);
+        this.template = template;
         this.grid = template.grid;
         this.style = template.style;
         // Value configuration

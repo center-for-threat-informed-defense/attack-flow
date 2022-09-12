@@ -2,20 +2,25 @@ import { RasterCache } from "../Diagram/RasterCache";
 import { LineHorizontalElbowView } from "../DiagramViewTypes";
 import { getLineHitbox, isInsideRegion } from "../Utilities";
 import {
+    DiagramLineModel,
     DiagramObjectModel,
-    DictionaryLineModel,
     LayoutUpdateReason,
     LineEndingPointModel,
     LineHandlePointModel
 } from ".";
 import {
     DiagramFactory,
-    DictionaryLineValues,
+    DiagramObjectValues,
     LineHorizontalElbowTemplate
 } from "../DiagramFactory";
 import { Cursor } from "../Attributes";
 
-export class LineHorizontalElbowModel extends DictionaryLineModel {
+export class LineHorizontalElbowModel extends DiagramLineModel {
+
+    /**
+     * The template the object was configured with.
+     */
+    public override readonly template: LineHorizontalElbowTemplate;
 
     /**
      * The line's hitboxes.
@@ -38,13 +43,14 @@ export class LineHorizontalElbowModel extends DictionaryLineModel {
      constructor(
         factory: DiagramFactory, 
         template: LineHorizontalElbowTemplate,
-        values?: DictionaryLineValues
+        values?: DiagramObjectValues
     ) {
         super(factory, template, values);
         this.hitboxes = [[],[],[]];
         this.setCursor(Cursor.Move);
         // Template configuration
         this.setSemanticRole(template.role);
+        this.template = template;
         // Define children 
         if(!this.children.length) {
             let x = this.boundingBox.xMid;

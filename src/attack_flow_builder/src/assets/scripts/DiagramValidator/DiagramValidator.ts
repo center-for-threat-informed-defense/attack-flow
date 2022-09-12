@@ -8,11 +8,6 @@ import {
 export class DiagramValidator {
 
     /**
-     * The validator's list of templates.
-     */
-    private _templates: Map<string, Template>;
-
-    /**
      * The validator's error list.
      */
     private _errors: ValidationErrorResult[];
@@ -22,7 +17,6 @@ export class DiagramValidator {
      * Creates a new {@link DiagramValidator}.
      */
     constructor() {
-        this._templates = new Map();
         this._errors = [];
     } 
 
@@ -43,17 +37,6 @@ export class DiagramValidator {
      *  The diagram to validate.
      */
     protected validate(diagram: DiagramObjectModel) {}
-    
-    /**
-     * Returns the specified diagram object template.
-     * @param template
-     *  The id of the template.
-     * @returns
-     *  The template. `undefined` if no template with that id exists.
-     */
-    protected getTemplate(template: string): Template | undefined {
-        return this._templates.get(template)
-    }
 
     /**
      * Returns the validator's current set of errors.
@@ -89,12 +72,8 @@ export class DiagramValidator {
 
     /**
      * Resets the validator's state.
-     * @param templates
-     *  The new set of templates to validate with.
-     *  (Default: The existing templates)
      */
-    public reset(templates: Map<string, Template> = this._templates) {
-        this._templates = templates;
+    public reset() {
         this._errors = [];
     }
 

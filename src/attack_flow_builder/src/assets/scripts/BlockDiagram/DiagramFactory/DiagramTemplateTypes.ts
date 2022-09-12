@@ -1,3 +1,4 @@
+import { RestrictedPropertyDescriptor } from "../Property";
 import { Font, FontDescriptor } from "../Utilities";
 
 
@@ -43,8 +44,7 @@ export type Template
     | LineHandlePointTemplate
     | LineHorizontalElbowTemplate
     | LineVerticalElbowTemplate
-    | PageTemplate 
-    | TextBlockTemplate
+    | PageTemplate
 
 export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
 
@@ -57,6 +57,9 @@ export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
 export type ObjectTemplate = {
     id: string;
     name: string;
+    properties?: { 
+        [key: string]: RestrictedPropertyDescriptor
+    }
 }
 
 
@@ -74,7 +77,7 @@ export type AnchorTemplate = ObjectTemplate & {
 
 export enum AnchorAngle {
     DEG_0  = 0,
-    DEG_90 = 1,
+    DEG_90 = 1
 }
 
 
@@ -167,9 +170,6 @@ export type DictionaryBlockTemplate = ObjectTemplate & {
     type: TemplateType.DictionaryBlock,
     role: SemanticRole.None | SemanticRole.Node,
     title_key: string,
-    fields: {
-        [key: string]: Field
-    },
     anchor_template: string,
     style: DictionaryBlockStyle
 }
@@ -221,46 +221,13 @@ export type DictionaryBlockStyle = {
     horizontal_padding: number
 }
 
-export type Field 
-    = FieldBase<"int">
-    | FieldBase<"float">
-    | FieldBase<"string">
-    | FieldBase<"date">
-    | FieldBase<"boolean">
-
-interface FieldBase<K extends keyof FieldTypes> {
-    type: K, 
-    value: FieldTypes[K]
-    // required : boolean 
-}
-
-interface FieldTypes {
-    "int": number,
-    "float": number,
-    "string": string,
-    "boolean": boolean
-    "date": Date,
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//  10. Dictionary Line Template  /////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-export type DictionaryLineTemplate = LineTemplate & {
-    fields: {
-        [key: string]: Field
-    }
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////
 //  11. Line Horizontal Elbow Template  ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export type LineHorizontalElbowTemplate = DictionaryLineTemplate & {
+export type LineHorizontalElbowTemplate = LineTemplate & {
     type: TemplateType.LineHorizontalElbow
     role: SemanticRole.None | SemanticRole.Edge
 }
@@ -271,7 +238,7 @@ export type LineHorizontalElbowTemplate = DictionaryLineTemplate & {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export type LineVerticalElbowTemplate = DictionaryLineTemplate & {
+export type LineVerticalElbowTemplate = LineTemplate & {
     type: TemplateType.LineVerticalElbow
     role: SemanticRole.None | SemanticRole.Edge
 }
@@ -296,20 +263,6 @@ export type PageStyle = {
         color: string,
         offset: [number, number]
     }
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//  13. Text Block Template  //////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-export type TextBlockTemplate = ObjectTemplate & {
-    type: TemplateType.TextBlock,
-    role: SemanticRole.None | SemanticRole.Node
-    color: string,
-    text : Field,
-    anchor_template: string
 }
 
 

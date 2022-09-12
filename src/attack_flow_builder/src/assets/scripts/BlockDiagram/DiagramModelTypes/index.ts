@@ -1,5 +1,4 @@
-export * from "./BaseTypes/BaseModels"
-export * from "./DictionaryLineModel"
+export * from "./BaseTypes/BaseModels";
 export * from "./LineEndingPointModel";
 export * from "./LineHandlePointModel";
 export * from "./LineHorizontalElbowModel";

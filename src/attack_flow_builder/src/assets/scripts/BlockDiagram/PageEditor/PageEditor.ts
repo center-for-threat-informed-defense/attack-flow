@@ -3,6 +3,7 @@ import { AttachObject } from "./AttachObject";
 import { DetachObject } from "./DetachObject";
 import { DiagramController } from "./DiagramController";
 import { GroupAction } from "./GroupAction";
+import { Layer, LayerObject } from "./LayerObject";
 import { MoveObjectBy } from "./MoveObjectBy";
 import { MoveObjectTo } from "./MoveObjectTo";
 import { RemoveObjects } from "./RemoveObjects";
@@ -280,7 +281,28 @@ export class PageEditor {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  4. Move Page Camera  //////////////////////////////////////////////////
+    //  4. Layer Page Objects  /////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Moves an object to a different layer in its parent.
+     * @param object
+     *  The object's id.
+     * @param layer
+     *  The layer to move the object to.
+     */
+    public reorderObjectLayer(object: string, layer: Layer) {
+        let obj = this.page.lookup(object);
+        if(!obj) {
+            throw new Error(`'${ object }' does not exist.`);
+        }
+        this._controller.execute(new LayerObject(obj, layer));
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  5. Move Page Camera  //////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -295,7 +317,7 @@ export class PageEditor {
 
     
     ///////////////////////////////////////////////////////////////////////////
-    //  5. History Controls  //////////////////////////////////////////////////
+    //  6. History Controls  //////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 

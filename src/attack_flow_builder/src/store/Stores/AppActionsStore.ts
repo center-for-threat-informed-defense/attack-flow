@@ -1,5 +1,6 @@
 import Configuration from "@/assets/builder.config";
 import { fullscreen } from "@/assets/scripts/Browser";
+import { Layer } from "@/assets/scripts/BlockDiagram";
 import { Module } from "vuex"
 import { ModuleStore, ContextMenuStore } from "../StoreTypes";
 
@@ -65,8 +66,6 @@ export default {
                 case "open_library":
                     break;
                 case "save_library":
-                    break;
-                case "close_file":
                     break;
                 
                 ///////////////////////////////////////////////////////////////
@@ -138,12 +137,28 @@ export default {
                 ///////////////////////////////////////////////////////////////
 
                 case "selection_to_front":
+                    await dispatch(
+                        "ActivePageStore/reorderSelected",
+                        Layer.Top, ROOT
+                    );
                     break;
                 case "selection_to_back":
+                    await dispatch(
+                        "ActivePageStore/reorderSelected",
+                        Layer.Bottom, ROOT
+                    );
                     break;
                 case "bring_selection_forward":
+                    await dispatch(
+                        "ActivePageStore/reorderSelected",
+                        Layer.OneAbove, ROOT
+                    );
                     break;
                 case "send_selection_backward":
+                    await dispatch(
+                        "ActivePageStore/reorderSelected",
+                        Layer.OneBelow, ROOT
+                    );
                     break;
                 case "align_left":
                     break;

@@ -14,9 +14,15 @@ import {
 export class AnchorPointModel extends DiagramAnchorModel {
     
     /**
+     * The template the object was configured with.
+     */
+    public override readonly template: AnchorPointTemplate;
+
+    /**
      * The point's style.
      */
     public readonly style: AnchorPointStyle;
+
 
     /**
      * Creates a new {@link AnchorPointModel}.
@@ -35,6 +41,7 @@ export class AnchorPointModel extends DiagramAnchorModel {
         super(factory, template, values);
         // Template configuration
         this.setSemanticRole(template.role);
+        this.template = template;
         this.style = template.style;
         // Update Layout
         this.updateLayout(LayoutUpdateReason.ObjectInit);

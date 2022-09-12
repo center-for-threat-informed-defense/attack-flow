@@ -31,7 +31,7 @@ export class SemanticAnalyzer {
             array.push({
                 id: obj.id,
                 template: obj.template,
-                data: obj.toSemanticExport(),
+                data: obj.toExport(),
                 prev: this.getPrevGraphLinks(obj).map(o => o.id),
                 next: this.getNextGraphLinks(obj).map(o => o.id)
             });

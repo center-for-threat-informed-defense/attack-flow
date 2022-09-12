@@ -4,6 +4,12 @@ import {
     DiagramAnchorableModel,
     DiagramAnchorModel
 } from "./BaseModels";
+import {
+    DictionaryProperty,
+    Property,
+    PropertyType,
+    StringProperty
+} from "../../Property";
 import { 
     DiagramFactory,
     DiagramObjectExport,
@@ -47,14 +53,19 @@ export abstract class DiagramObjectModel {
     public readonly children: DiagramObjectModel[];
 
     /**
+     * The object's properties.
+     */
+    public readonly props: DictionaryProperty;
+
+    /**
      * The object's diagram factory.
      */
     public readonly factory: DiagramFactory;
 
     /**
-     * The id of the template the object was configured with.
+     * The template the object was configured with.
      */
-    public readonly template: string;
+    public readonly template: ObjectTemplate;
 
     /**
      * The object's bounding box.
@@ -76,7 +87,7 @@ export abstract class DiagramObjectModel {
         template: ObjectTemplate,
         values?: DiagramObjectValues
     ) {
-        this.id = values?.id ?? (crypto as any).randomUUID();
+        this.id = values?.id ?? crypto.randomUUID();
         this.attrs = values?.attrs ?? PositionSetByUser.False;
         this.setAlignment(Alignment.Free);
         this.setCursor(Cursor.Default);
@@ -84,11 +95,19 @@ export abstract class DiagramObjectModel {
         this.setSemanticRole(SemanticRole.None);
         this.children = [];
         this.factory = factory;
-        this.template = template.id;
+        this.template = template;
         this.boundingBox = new BoundingBox();
         this.boundingBox.xMid = values?.x ?? 0;
         this.boundingBox.yMid = values?.y ?? 0;
         // Value configuration
+        this.props = Property.create(
+            {
+                type: PropertyType.Dictionary,
+                form: template?.properties ?? {},
+                text_key: ""
+            },
+            values?.properties
+        ) as DictionaryProperty;
         if(values?.children) {
             for(let i = 0; i < values.children.length; i++) {
                 this.addChild(values.children[i], i, false);
@@ -164,6 +183,34 @@ export abstract class DiagramObjectModel {
         // Update layout
         if(update) {
             this.updateLayout(LayoutUpdateReason.ChildAdded);
+        }
+    }
+
+    /**
+     * Reorders a child object.
+     * @param id
+     *  The id of the object.
+     * @param index
+     *  The object's new location.
+     * @param update
+     *  If the layout should be updated.
+     *  (Default: true)
+     */
+    public reorderChild(id: string, index: number, update: boolean= true) {
+        let i = this.children.findIndex(o => o.id === id);
+        let obj = this.children[i];
+        if(!obj) {
+            throw new DiagramObjectModelError(
+                `Object has no child with the id '${ id }'.`
+            );
+        }
+        // Remove child
+        this.children.splice(i, 1);
+        // Reinsert child
+        this.children.splice(index, 0, obj);
+        // Update layout
+        if(update) {
+            this.updateLayout(LayoutUpdateReason.Movement);
         }
     }
 
@@ -349,9 +396,30 @@ export abstract class DiagramObjectModel {
         }
     }
 
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Property Editing  //////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Sets a property.
+     * @param property
+     *  The property to set.
+     * @param value
+     *  The property's new value.
+     */
+    public setProperty(property: Property, value: any) {
+        // NOTE: Ugly for now
+        if(property instanceof StringProperty) {
+            property.value = value;
+            this.updateLayout(LayoutUpdateReason.PropertyChange);
+        }
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
-    //  4. Layout & View  /////////////////////////////////////////////////////
+    //  5. Layout & View  /////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -404,7 +472,7 @@ export abstract class DiagramObjectModel {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  5. Attribute Getters  /////////////////////////////////////////////////
+    //  6. Attribute Getters  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -544,7 +612,7 @@ export abstract class DiagramObjectModel {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  6. Attribute Setters  /////////////////////////////////////////////////
+    //  7. Attribute Setters  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -622,7 +690,7 @@ export abstract class DiagramObjectModel {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  7. Content  ///////////////////////////////////////////////////////////
+    //  8. Content  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
     
 
@@ -637,18 +705,10 @@ export abstract class DiagramObjectModel {
             x: this.boundingBox.xMid,
             y: this.boundingBox.yMid,
             attrs: this.getPositionSetByUser(),
-            template: this.template,
-            children: this.children.map(el => el.id)
+            template: this.template.id,
+            children: this.children.map(el => el.id),
+            properties: this.props.toRawValue()
         }
-    }
-
-    /**
-     * Exports the {@link DiagramObjectModel}'s semantic data.
-     * @returns
-     *  The {@link DiagramObjectModel}'s semantic data.
-     */
-    public toSemanticExport(): {} {
-        return {}
     }
 
 }
@@ -737,8 +797,9 @@ export class BoundingBox {
 
 
 export const LayoutUpdateReason = {
-    Movement     : 0b0001,
-    ChildAdded   : 0b0010,
-    ChildDeleted : 0b0100,
-    ObjectInit   : 0b1000,
+    Movement       : 0b00001,
+    ChildAdded     : 0b00010,
+    ChildDeleted   : 0b00100,
+    ObjectInit     : 0b01000,
+    PropertyChange : 0b10000
 }

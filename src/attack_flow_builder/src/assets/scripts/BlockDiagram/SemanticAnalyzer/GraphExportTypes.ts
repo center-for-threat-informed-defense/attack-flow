@@ -1,3 +1,5 @@
+import { ObjectTemplate } from "../DiagramFactory"
+
 export type GraphExport = {
 
     /**
@@ -22,7 +24,7 @@ export type GraphObjectExport = {
     /**
      * The object's template.
      */
-    template: string
+    template: ObjectTemplate
 
     /**
      * The object's semantic data.

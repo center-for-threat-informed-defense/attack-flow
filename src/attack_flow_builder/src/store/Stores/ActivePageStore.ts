@@ -8,10 +8,12 @@ import {
     DiagramLineModel,
     DiagramObjectModel,
     Hover,
+    Layer,
     LocationType,
     PageEditor,
     PageImage,
     PageModel,
+    Property,
     round,
     Select,
     SemanticAnalyzer,
@@ -370,7 +372,7 @@ export default {
 
         /**
          * Duplicates all selected objects in the diagram and shifts selection
-         * to the new objects.
+         * to the duplicated objects.
          * @param ctx
          *  The Vuex context.
          */
@@ -459,7 +461,50 @@ export default {
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  6. Move Page Camera  //////////////////////////////////////////////
+        //  6. Edit Page Object Property  /////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * Sets a property.
+         * @param ctx
+         *  The Vuex context.
+         * @param params
+         *  [object]
+         *   The id of the objects to edit.
+         *  [property]
+         *   The object's property.
+         *  [value]
+         *   The property's new value.
+         */
+        setObjectProperty({ commit }, params: EditPropertyParams) {
+            // NOTE: This is only temporary. Property edits will be saved to the clipboard.
+            commit("setObjectProperty", params);
+        },
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //  7. Layer Page Objects  ////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * Moves all selected objects to a different layer in their parents.
+         * @param state
+         *  The Vuex state.
+         * @param layer
+         *  The layer to move the objects to.
+         */
+        reorderSelected({ commit, state }, layer: Layer) {
+            let s = state.selects.ref;
+            if(!s.size)
+                return;
+            commit("reorderObjects", { objects: [...s.keys()].reverse(), layer });
+        },
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //  8. Move Page Camera  //////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -563,7 +608,7 @@ export default {
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  7. View Transform  ////////////////////////////////////////////////
+        //  9. View Transform  ////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -580,7 +625,7 @@ export default {
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  8. Page History Controls  /////////////////////////////////////////
+        //  10. Page History Controls  ////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -608,7 +653,7 @@ export default {
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  9. Image Capture  /////////////////////////////////////////////////
+        //  11. Image Capture  ////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -673,7 +718,7 @@ export default {
             // Set validator
             if(Configuration.validator) {
                 state.validator = new Configuration.validator();
-                state.validator.reset(state.page.ref.factory.templates);
+                state.validator.reset();
             }
         },
 
@@ -1002,26 +1047,85 @@ export default {
          * @param state
          *  The Vuex state.
          * @param params
-         *  [ids]
+         *  [objects]
          *   The ids of one or more objects to move.
          *  [dx]
          *   The change in x.
          *  [dy]
          *   The change in y.
          */
-        moveObjectsBy(state, { objects: ids, dx, dy }: MoveParams) {
+        moveObjectsBy(state, { objects, dx, dy }: MoveParams) {
             // Round dx & dy
             dx = Math.round(dx);
             dy = Math.round(dy);
             // Move objects
-            state.page.editor.moveObjectsBy(ids, dx, dy);
+            state.page.editor.moveObjectsBy(objects, dx, dy);
+            // Increment update trigger
+            state.page.trigger++;
+        },
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //  6. Edit Page Object Property  /////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * Sets a property.
+         * @param state
+         *  The Vuex state.
+         * @param params
+         *  [object]
+         *   The id of the objects to edit.
+         *  [property]
+         *   The object's property.
+         *  [value]
+         *   The property's new value.
+         */
+        setObjectProperty(state, { object, property, value }: EditPropertyParams) {
+            // NOTE: This is only temporary. Property edits will be saved to the clipboard.
+            let obj = state.page.ref.lookup(object);
+            if(!obj) {
+                throw new Error(`No object with id: '${ object }'.`);
+            }
+            obj.setProperty(property, value);
             // Increment update trigger
             state.page.trigger++;
         },
 
         
         ///////////////////////////////////////////////////////////////////////
-        //  6. Move Page Camera  //////////////////////////////////////////////
+        //  7. Layer Page Objects  ////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
+        /**
+         * Moves one or more objects to a different layer in their parents.
+         * @param state
+         *  The Vuex state.
+         * @param params
+         *  [objects]
+         *   The ids of one or more objects to move.
+         *  [layer]
+         *   The layer to move the objects to.
+         */
+        reorderObjects(state, { objects, layer }: ReorderObjectLayerParams) {
+            if(Array.isArray(objects)) {
+                state.page.editor.beginTransaction();
+                for(let id of objects) {
+                    state.page.editor.reorderObjectLayer(id, layer);
+                }
+                state.page.editor.endTransaction();
+            } else {
+                state.page.editor.reorderObjectLayer(objects, layer);
+            }
+            // Increment update trigger
+            state.page.trigger++;
+        },
+
+        
+        ///////////////////////////////////////////////////////////////////////
+        //  8. Move Page Camera  //////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
         
@@ -1041,7 +1145,7 @@ export default {
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  7. View Transform  ////////////////////////////////////////////////
+        //  9. View Transform  ////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -1058,7 +1162,7 @@ export default {
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  8. Page History Controls  /////////////////////////////////////////
+        //  10. Page History Controls  ////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
         
@@ -1133,6 +1237,17 @@ type MoveParams = {
     objects: string[] | string,
     dx: number,
     dy: number
+}
+
+type EditPropertyParams = {
+    object: string,
+    property: Property
+    value: any
+}
+
+type ReorderObjectLayerParams = {
+    objects: string[] | string,
+    layer: Layer
 }
 
 type ViewTransform = {

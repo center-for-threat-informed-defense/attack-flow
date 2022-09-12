@@ -3,12 +3,12 @@ import { RasterCache } from "../Diagram/RasterCache";
 import { ViewportRegion } from "../Diagram";
 import { LineVerticalElbowModel } from "../DiagramModelTypes";
 import { 
-    DictionaryLineView,
-    DiagramLineEndingView
+    DiagramLineEndingView,
+    DiagramLineView
 } from ".";
 import { Select, SelectMask } from "../Attributes";
 
-export class LineVerticalElbowView extends DictionaryLineView {
+export class LineVerticalElbowView extends DiagramLineView {
     
     /**
      * The underlying model.

@@ -87,8 +87,7 @@ export const BuiltinTemplates: SerializedTemplate[] = [
                 solo_color: "#646464",
                 many_color: "#646464"
             }
-        },
-        fields: {},
+        }
     },
     {
         id: `${ BUILTIN_PREFIX }line_vertical_elbow`,
@@ -109,7 +108,6 @@ export const BuiltinTemplates: SerializedTemplate[] = [
                 solo_color: "#646464",
                 many_color: "#646464"
             }
-        },
-        fields: {},
+        }
     }
 ]

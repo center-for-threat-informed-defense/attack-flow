@@ -3,6 +3,7 @@
     <AppTitleBar id="app-title-bar"/>
     <div id="app-body">
         <BlockDiagram id="block-diagram"/>
+        <EditorTabs id="app-tabs"/>
         <AppFooterBar id="app-footer-bar"/>
     </div>
   </AppHotkeyBox>
@@ -18,6 +19,7 @@ import AppTitleBar from "@/components/Elements/AppTitleBar.vue";
 import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
+import EditorTabs from "@/components/Elements/EditorTabs.vue";
 
 import FILE from "../test_file_2.json";
 
@@ -42,14 +44,15 @@ export default defineComponent({
   },
   async created() {
     await this.loadSettings();
-    // await this.createEmptyDocument(`Untitled ${ Configuration.file_type_name }`);
-    await this.openDocument(FILE);
+    await this.createEmptyDocument(`Untitled ${ Configuration.file_type_name }`);
+    // await this.openDocument(FILE);
   },
   components: {
     AppHotkeyBox,
     AppTitleBar,
     BlockDiagram,
-    AppFooterBar
+    AppFooterBar,
+    EditorTabs
   },
 });
 </script>
@@ -85,6 +88,11 @@ ul {
   padding: 0px;
 }
 
+input {
+  font-family: "Inter", sans-serif;
+  padding: 7px 10px;
+}
+
 /** === Main App === */
 
 #app {
@@ -112,7 +120,7 @@ ul {
   flex: 1;
   display: grid;
   overflow: hidden;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) 300px;
   grid-template-rows: minmax(0, 1fr) 29px;
 }
 
@@ -122,7 +130,7 @@ ul {
 }
 
 #app-footer-bar {
-  flex: 1;
+  grid-column: 1 / 3;
   border-top: solid 1px #333333;
   background: #262626;
   color: #bfbfbf;

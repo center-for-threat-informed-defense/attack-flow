@@ -17,6 +17,17 @@ import { Priority } from "../../Attributes";
 export abstract class DiagramLineModel extends DiagramObjectModel {
 
     /**
+     * The line's children.
+     */
+    // @ts-ignore Children will be initialized in DiagramObjectModel
+    public override readonly children: DiagramLineObjectModel[];
+
+    /**
+     * The template the object was configured with.
+     */
+    public override readonly template: LineTemplate;
+
+    /**
      * The line's hitbox width.
      */
     protected readonly hitboxWidth: number;
@@ -25,12 +36,6 @@ export abstract class DiagramLineModel extends DiagramObjectModel {
      * The line's style.
      */
     public readonly style: LineStyle;
-
-    /**
-     * The line's children.
-     */
-    // @ts-ignore Children will be initialized in DiagramObjectModel
-    public readonly override children: DiagramLineObjectModel[];
 
     /**
      * The line's source ending.
@@ -63,6 +68,7 @@ export abstract class DiagramLineModel extends DiagramObjectModel {
     ) {
         super(factory, template, values);
         this.style = template.style;
+        this.template = template;
         this.hitboxWidth = template.hitbox_width;
     }
     
@@ -99,6 +105,22 @@ export abstract class DiagramLineModel extends DiagramObjectModel {
                 `Child must be of type '${ le }' or '${ lh }.'`, obj
             );
         }
+    }
+
+    /**
+     * Reorders a child object.
+     * @param id
+     *  The id of the object.
+     * @param index
+     *  The object's new location.
+     * @param update
+     *  If the layout should be updated.
+     *  (Default: true)
+     */
+    public override reorderChild(id: string, index: number, update: boolean= true) {
+        throw new DiagramObjectModelError(
+            `Line objects cannot be reordered.`, this
+        );
     }
 
     /**
