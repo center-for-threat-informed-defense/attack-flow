@@ -1,0 +1,205 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/email-message.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "email-message",
+  "description": "The Email Message Object represents an instance of an email message.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `email-message`.",
+          "enum": [
+            "email-message"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^email-message--"
+        },
+        "date": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the date/time that the email message was sent."
+        },
+        "content_type": {
+          "type": "string",
+          "description": "Specifies the value of the 'Content-Type' header of the email message."
+        },
+        "from_ref": {
+          "description": "Specifies the value of the 'From:' header of the email message.",
+          "type": "string"
+        },
+        "sender_ref": {
+          "description": "Specifies the value of the 'From' field of the email message.",
+          "type": "string"
+        },
+        "to_refs": {
+          "type": "array",
+          "description": "Specifies the mailboxes that are 'To:' recipients of the email message.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "cc_refs": {
+          "type": "array",
+          "description": "Specifies the mailboxes that are 'CC:' recipients of the email message.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "bcc_refs": {
+          "type": "array",
+          "description": "Specifies the mailboxes that are 'BCC:' recipients of the email message.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "message_id" : {
+          "type" : "string",
+          "description": "Specifies the Message-ID field of the email message."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Specifies the subject of the email message."
+        },
+        "received_lines": {
+          "type": "array",
+          "description": "Specifies one or more Received header fields that may be included in the email headers.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "additional_header_fields": {
+          "$ref": "#/definitions/email-additional-header-fields",
+          "description": "Specifies any other header fields found in the email message, as a dictionary."
+        },
+        "raw_email_ref": {
+          "description": "Specifies the raw binary contents of the email message, including both the headers and body, as a reference to an Artifact Object.",
+          "type": "string"
+        }
+      }
+    }
+  ],
+  "oneOf": [
+    {
+      "properties": {
+        "is_multipart": {
+          "type": "boolean",
+          "enum": [
+            false
+          ],
+          "description": "Indicates whether the email body contains multiple MIME parts."
+        },
+        "body": {
+          "type": "string",
+          "description": "Specifies a string containing the email body. This field MAY only be used if is_multipart is false."
+        }
+      },
+      "required": [
+        "is_multipart"
+      ],
+      "not": {
+        "required": [
+          "body_multipart"
+        ]
+      }
+    },
+    {
+      "properties": {
+        "is_multipart": {
+          "type": "boolean",
+          "enum": [
+            true
+          ],
+          "description": "Indicates whether the email body contains multiple MIME parts."
+        },
+        "body_multipart": {
+          "type": "array",
+          "description": "Specifies a list of the MIME parts that make up the email body. This property MAY only be used if is_multipart is true.",
+          "items": {
+            "$ref": "#/definitions/mime-part-type"
+          }
+        }
+      },
+      "required": [
+        "is_multipart"
+      ],
+      "not": {
+        "required": [
+          "body"
+        ]
+      }
+    }
+  ],
+  "definitions": {
+    "mime-part-type": {
+      "type": "object",
+      "description": "Specifies a component of a multi-part email body.",
+      "properties": {
+        "body": {
+          "type": "string",
+          "description": "Specifies the contents of the MIME part if the content_type is not provided OR starts with text/"
+        },
+        "body_raw_ref": {
+          "type": "string",
+          "description": "Specifies the contents of non-textual MIME parts, that is those whose content_type does not start with text/, as a reference to an Artifact Object or File Object."
+        },
+        "content_type": {
+          "type": "string",
+          "description": "Specifies the value of the 'Content-Type' header field of the MIME part."
+        },
+        "content_disposition": {
+          "type": "string",
+          "description": "Specifies the value of the 'Content-Disposition' header field of the MIME part."
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "body"
+          ]
+        },
+        {
+          "required": [
+            "body_raw_ref"
+          ]
+        }
+      ]
+    },
+    "email-additional-header-fields": {
+      "allOf": [{ "$ref": "../common/dictionary.json" }],
+      "description": "Specifies any other header fields (except for date, received_lines, content_type, from_ref, sender_ref, to_refs, cc_refs, bcc_refs, and subject) found in the email message, as a dictionary.",
+      "not": {
+        "patternProperties": {
+          "^date|received_lines|content_type|from_ref|sender_ref|to_refs|cc_refs|bcc_refs|subject$": {
+            "description": "Invalid additional header field types"
+          }
+        },
+        "additionalProperties": false
+      },
+      "patternProperties": {
+        "^[a-zA-Z0-9_-]{0,250}$": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

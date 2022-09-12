@@ -1,0 +1,35 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/mac-addr.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "mac-addr",
+  "description": "The MAC Address Object represents a single Media Access Control (MAC) address.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `mac-addr`.",
+          "enum": [
+            "mac-addr"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^mac-addr--"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$",
+          "description": "Specifies one or more mac addresses expressed using CIDR notation."
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  ]
+}

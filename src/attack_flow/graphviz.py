@@ -2,7 +2,6 @@ import textwrap
 
 import graphviz
 
-from .exc import InvalidFlowError
 from .model import (
     confidence_num_to_label,
     get_flow_object,
@@ -64,11 +63,7 @@ def convert(bundle):
 
 def _get_body_label(bundle):
     flow = get_flow_object(bundle)
-
-    try:
-        author = bundle.get_obj(flow.created_by_ref)[0]
-    except KeyError:
-        raise InvalidFlowError(f"Unable to load author object: `{flow.created_by_ref}`")
+    author = bundle.get_obj(flow.created_by_ref)[0]
 
     description = "<br/>".join(
         textwrap.wrap(

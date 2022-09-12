@@ -1,0 +1,191 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/x509-certificate.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "x509-certificate",
+  "description": "The X509 Certificate Object represents the properties of an X.509 certificate.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `x509-certificate`.",
+          "enum": [
+            "x509-certificate"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^x509-certificate--"
+        },
+        "is_self_signed": {
+          "type": "boolean",
+          "description": "Specifies whether the certificate is self-signed, i.e., whether it is signed by the same entity whose identity it certifies."
+        },
+        "hashes": {
+          "$ref": "../common/hashes-type.json",
+          "description": "Specifies any hashes that were calculated for the entire contents of the certificate."
+        },
+        "version": {
+          "type": "string",
+          "description": "Specifies the version of the encoded certificate."
+        },
+        "serial_number": {
+          "type": "string",
+          "description": "Specifies the unique identifier for the certificate, as issued by a specific Certificate Authority."
+        },
+        "signature_algorithm": {
+          "type": "string",
+          "description": "Specifies the name of the algorithm used to sign the certificate."
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Specifies the name of the Certificate Authority that issued the certificate."
+        },
+        "validity_not_before": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the date on which the certificate validity period begins."
+        },
+        "validity_not_after": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the date on which the certificate validity period ends."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Specifies the name of the entity associated with the public key stored in the subject public key field of the certificate."
+        },
+        "subject_public_key_algorithm": {
+          "type": "string",
+          "description": "Specifies the name of the algorithm with which to encrypt data being sent to the subject."
+        },
+        "subject_public_key_modulus": {
+          "type": "string",
+          "description": "Specifies the modulus portion of the subject’s public RSA key."
+        },
+        "subject_public_key_exponent": {
+          "type": "integer",
+          "description": "Specifies the exponent portion of the subject’s public RSA key, as an integer."
+        },
+        "x509_v3_extensions": {
+          "$ref": "#/definitions/x509-v3-extensions-type",
+          "description": "Specifies any standard X.509 v3 extensions that may be used in the certificate."
+        }
+      }
+    },
+    {
+      "anyOf": [
+        { "required": ["is_self_signed"] },
+        { "required": ["hashes"] },
+        { "required": ["version"] },
+        { "required": ["serial_number"] },
+        { "required": ["signature_algorithm"] },
+        { "required": ["issuer"] },
+        { "required": ["validity_not_before"] },
+        { "required": ["validity_not_after"] },
+        { "required": ["subject"] },
+        { "required": ["subject_public_key_algorithm"] },
+        { "required": ["subject_public_key_modulus"] },
+        { "required": ["subject_public_key_exponent"] },
+        { "required": ["x509_v3_extensions"] }
+      ]
+    }
+  ],
+  "definitions": {
+    "x509-v3-extensions-type": {
+      "type": "object",
+      "allOf": [
+        {
+          "properties": {
+            "basic_constraints": {
+              "type": "string",
+              "description": "Specifies a multi-valued extension which indicates whether a certificate is a CA certificate."
+            },
+            "name_constraints": {
+              "type": "string",
+              "description": "Specifies a namespace within which all subject names in subsequent certificates in a certification path MUST be located."
+            },
+            "policy_constraints": {
+              "type": "string",
+              "description": "Specifies any constraints on path validation for certificates issued to CAs."
+            },
+            "key_usage": {
+              "type": "string",
+              "description": "Specifies a multi-valued extension consisting of a list of names of the permitted key usages."
+            },
+            "extended_key_usage": {
+              "type": "string",
+              "description": "Specifies a list of usages indicating purposes for which the certificate public key can be used for."
+            },
+            "subject_key_identifier": {
+              "type": "string",
+              "description": "Specifies the identifier that provides a means of identifying certificates that contain a particular public key."
+            },
+            "authority_key_identifier": {
+              "type": "string",
+              "description": "Specifies the identifier that provides a means of identifying the public key corresponding to the private key used to sign a certificate."
+            },
+            "subject_alternative_name": {
+              "type": "string",
+              "description": "Specifies the additional identities to be bound to the subject of the certificate."
+            },
+            "issuer_alternative_name": {
+              "type": "string",
+              "description": "Specifies the additional identities to be bound to the issuer of the certificate."
+            },
+            "subject_directory_attributes": {
+              "type": "string",
+              "description": "Specifies the identification attributes (e.g., nationality) of the subject."
+            },
+            "crl_distribution_points": {
+              "type": "string",
+              "description": "Specifies how CRL information is obtained."
+            },
+            "inhibit_any_policy": {
+              "type": "string",
+              "description": "Specifies the number of additional certificates that may appear in the path before anyPolicy is no longer permitted."
+            },
+            "private_key_usage_period_not_before": {
+              "$ref": "../common/timestamp.json",
+              "description": "Specifies the date on which the validity period begins for the private key, if it is different from the validity period of the certificate."
+            },
+            "private_key_usage_period_not_after": {
+              "$ref": "../common/timestamp.json",
+              "description": "Specifies the date on which the validity period ends for the private key, if it is different from the validity period of the certificate."
+            },
+            "certificate_policies": {
+              "type": "string",
+              "description": "Specifies a sequence of one or more policy information terms, each of which consists of an object identifier (OID) and optional qualifiers."
+            },
+            "policy_mappings": {
+              "type": "string",
+              "description": "Specifies one or more pairs of OIDs; each pair includes an issuerDomainPolicy and a subjectDomainPolicy"
+            }
+          }
+        },
+        {
+          "anyOf": [
+            { "required": ["basic_constraints"] },
+            { "required": ["name_constraints"] },
+            { "required": ["policy_constraints"] },
+            { "required": ["key_usage"] },
+            { "required": ["extended_key_usage"] },
+            { "required": ["subject_key_identifier"] },
+            { "required": ["authority_key_identifier"] },
+            { "required": ["subject_alternative_name"] },
+            { "required": ["issuer_alternative_name"] },
+            { "required": ["subject_directory_attributes"] },
+            { "required": ["crl_distribution_points"] },
+            { "required": ["inhibit_any_policy"] },
+            { "required": ["private_key_usage_period_not_before"] },
+            { "required": ["private_key_usage_period_not_after"] },
+            { "required": ["certificate_policies"] },
+            { "required": ["policy_mappings"] }
+          ]
+        }
+      ]
+    }
+  }
+}

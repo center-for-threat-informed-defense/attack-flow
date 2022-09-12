@@ -1,0 +1,106 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/external-reference.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "external-reference",
+  "description": "External references are used to describe pointers to information represented outside of STIX.",
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "string",
+      "description": "A human readable description"
+    },
+    "url": {
+      "$ref": "../common/url-regex.json",
+      "description": "A URL reference to an external resource."
+    },
+    "hashes": {
+      "description": "Specifies a dictionary of hashes for the file.",
+      "allOf": [
+        {
+          "$ref": "../common/hashes-type.json"
+        },
+        {
+          "propertyNames": {
+            "pattern": "^MD5|SHA-1|SHA-256|SHA-512|SHA3-256|SHA3-512|SSDEEP|TLSH$"
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "source_name": {
+          "type": "string",
+          "description": "The source within which the external-reference is defined (system, registry, organization, etc.)",
+          "pattern": "^cve$"
+        },
+        "external_id": {
+          "type": "string",
+          "description": "An identifier for the external reference content.",
+          "pattern": "^CVE-\\d{4}-(0\\d{3}|[1-9]\\d{3,})$"
+        }
+      },
+      "required": [
+        "source_name",
+        "external_id"
+      ]
+    },
+    {
+      "properties": {
+        "source_name": {
+          "type": "string",
+          "description": "The source within which the external-reference is defined (system, registry, organization, etc.)",
+          "pattern": "^capec$"
+        },
+        "external_id": {
+          "type": "string",
+          "description": "An identifier for the external reference content.",
+          "pattern": "^CAPEC-\\d+$"
+        }
+      },
+      "required": [
+        "source_name",
+        "external_id"
+      ]
+    },
+    {
+      "properties": {
+        "source_name": {
+          "type": "string",
+          "description": "The source within which the external-reference is defined (system, registry, organization, etc.)",
+          "not": {
+            "pattern": "^((cve)|(capec))$"
+          }
+        },
+        "external_id": {
+          "type": "string",
+          "description": "An identifier for the external reference content.",
+          "not": {
+            "pattern": "^((CVE-\\d{4}-(0\\d{3}|[1-9]\\d{3,}))|(CAPEC-\\d+))$"
+          }
+        }
+      },
+      "required": [
+        "source_name"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "external_id"
+          ]
+        },
+        {
+          "required": [
+            "description"
+          ]
+        },
+        {
+          "required": [
+            "url"
+          ]
+        }
+      ]
+    }
+  ]
+}

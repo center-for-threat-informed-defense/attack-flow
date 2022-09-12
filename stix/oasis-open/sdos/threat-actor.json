@@ -1,0 +1,175 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/threat-actor.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "threat-actor",
+  "description": "Threat Actors are actual individuals, groups, or organizations believed to be operating with malicious intent.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `threat-actor`.",
+          "enum": [
+            "threat-actor"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^threat-actor--"
+        },
+        "threat_actor_types": {
+          "type": "array",
+          "description": "This field specifies the type of threat actor. Open Vocab - threat-actor-type-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "A name used to identify this Threat Actor or Threat Actor group."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Threat Actor."
+        },
+        "aliases": {
+          "type": "array",
+          "description": "A list of other names that this Threat Actor is believed to use.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "roles": {
+          "type": "array",
+          "description": "This is a list of roles the Threat Actor plays. Open Vocab - threat-actor-role-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "goals": {
+          "type": "array",
+          "description": "The high level goals of this Threat Actor, namely, what are they trying to do.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "first_seen" : {
+          "$ref": "../common/timestamp.json",
+          "description": "The time that this Threat Actor was first seen."
+        },
+        "last_seen" : {
+          "$ref": "../common/timestamp.json",
+          "description": "The time that this Threat Actor was last seen."
+        },
+        "sophistication": {
+          "type": "string",
+          "description": "The skill, specific knowledge, special training, or expertise a Threat Actor must have to perform the attack. Open Vocab - threat-actor-sophistication-ov"
+        },
+        "resource_level": {
+          "type": "string",
+          "description": "This defines the organizational level at which this Threat Actor typically works. Open Vocab - attack-resource-level-ov"
+        },
+        "primary_motivation": {
+          "type": "string",
+          "description": "The primary reason, motivation, or purpose behind this Threat Actor. Open Vocab - attack-motivation-ov"
+        },
+        "secondary_motivations": {
+          "type": "array",
+          "description": "The secondary reasons, motivations, or purposes behind this Threat Actor. Open Vocab - attack-motivation-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "personal_motivations": {
+          "type": "array",
+          "description": "The personal reasons, motivations, or purposes of the Threat Actor regardless of organizational goals. Open Vocab - attack-motivation-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ],
+  "definitions": {
+    "threat-actor-type-ov": {
+      "type": "string",
+      "enum": [
+        "activist",
+        "competitor",
+        "crime-syndicate",
+        "criminal",
+        "hacker",
+        "insider-accidental",
+        "insider-disgruntled",
+        "nation-state",
+        "sensationalist",
+        "spy",
+        "terrorist",
+        "unknown"
+      ]
+    },
+    "threat-actor-role-ov": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "director",
+        "independent",
+        "sponsor",
+        "infrastructure-operator",
+        "infrastructure-architect",
+        "malware-author"
+      ]
+    },
+    "threat-actor-sophistication-ov": {
+      "type": "string",
+      "enum": [
+        "none",
+        "minimal",
+        "intermediate",
+        "advanced",
+        "strategic",
+        "expert",
+        "innovator"
+      ]
+    },
+    "attack-resource-level-ov": {
+      "type": "string",
+      "enum": [
+        "individual",
+        "club",
+        "contest",
+        "team",
+        "organization",
+        "government"
+      ]
+    },
+    "attack-motivation-ov": {
+      "type": "string",
+      "enum": [
+        "accidental",
+        "coercion",
+        "dominance",
+        "ideology",
+        "notoriety",
+        "organizational-gain",
+        "personal-gain",
+        "personal-satisfaction",
+        "revenge",
+        "unpredictable"
+      ]
+    }
+  }
+}

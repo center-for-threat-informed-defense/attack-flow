@@ -1,0 +1,338 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/marking-definition.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "marking-definition",
+  "description": "The marking-definition object represents a specific marking.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of this object, which MUST be the literal `marking-definition`.",
+      "enum": [
+        "marking-definition"
+      ]
+    },
+    "spec_version": {
+      "type": "string",
+      "enum": [
+        "2.0",
+        "2.1"
+      ],
+      "description": "The version of the STIX specification used to represent this object."
+    },
+    "name" : {
+      "type" : "string",
+      "description": "A name used to identify the Marking Definition."
+    },
+    "created_by_ref": {
+      "$ref": "../common/identifier.json",
+      "description": "The created_by_ref property specifies the ID of the identity object that describes the entity that created this Marking Definition."
+    },
+    "created": {
+      "$ref": "../common/timestamp.json",
+      "description": "The created property represents the time at which the first version of this Marking Definition object was created."
+    },
+    "external_references": {
+      "type": "array",
+      "description": "A list of external references which refers to non-STIX information.",
+      "items": {
+        "$ref": "../common/external-reference.json"
+      },
+      "minItems": 1
+    },
+    "object_marking_refs": {
+      "type": "array",
+      "description": "The object_marking_refs property specifies a list of IDs of marking-definition objects that apply to this Marking Definition.",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "../common/identifier.json"
+          },
+          {
+            "pattern": "^marking-definition--"
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "granular_markings": {
+      "type": "array",
+      "description": "The granular_markings property specifies a list of granular markings applied to this object.",
+      "items": {
+        "$ref": "granular-marking.json"
+      },
+      "minItems": 1
+    },
+    "extensions": {
+      "description": "Specifies any extensions of the object, as a dictionary.",
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+          "^extension-definition--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$": {
+            "allOf": [{ "$ref": "../common/extension.json" }]
+          }
+        },
+        "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "title": "id",
+              "pattern": "^marking-definition--",
+              "description": "An identifier for this bundle."
+            }
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "definition_type": {
+              "type": "string",
+              "description": "The definition_type property identifies the type of Marking Definition.",
+              "pattern": "^statement$"
+            },
+            "definition": {
+              "$ref": "#/definitions/statement",
+              "description": "The definition property contains the marking object itself."
+            }
+          },
+          "required": ["definition_type", "definition"]
+        },
+        {
+          "properties": {
+            "definition_type": {
+              "type": "string",
+              "description": "The definition_type property identifies the type of Marking Definition.",
+              "not": {
+                "pattern": "^(statement)|(tlp)$"
+              }
+            },
+            "definition": {
+              "type": "object",
+              "description": "The definition property contains the marking object itself."
+            }
+          }
+        }
+      ],
+      "if": {
+        "not": {
+          "required": ["extensions"]
+        }
+      },
+      "then": {
+        "required": [
+          "definition",
+          "definition_type"
+        ]
+      },
+      "required": [
+        "id",
+        "type",
+        "spec_version",
+        "created"
+      ]
+    },
+    {
+      "description": "The TLP marking type defines how you would represent a Traffic Light Protocol (TLP) marking in a definition field.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `marking-definition`.",
+          "enum": [
+            "marking-definition"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "description": "The unique identifier for this TLP Marking Definition."
+        },
+        "spec_version": {
+          "type": "string",
+          "enum": [
+            "2.1"
+          ],
+          "description": "The version of the STIX specification used to represent this object."
+        },
+        "name" : {
+          "type" : "string",
+          "description": "A name used to identify this TLP Marking Definition."
+        },
+        "created": {
+          "type": "string",
+          "enum": [
+            "2017-01-20T00:00:00.000Z"
+          ]
+        },
+        "definition": {
+          "type" : "object",
+          "description": "The marking object itself."
+        },
+        "definition_type": {
+          "type": "string",
+          "enum": [
+            "tlp"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+              "$ref": "#/definitions/tlp_white"
+        },
+        {
+              "$ref": "#/definitions/tlp_green"
+        },
+        {
+              "$ref": "#/definitions/tlp_amber"
+        },
+        {
+              "$ref": "#/definitions/tlp_red"
+        }
+      ],
+      "required": [
+        "id",
+        "type",
+        "spec_version",
+        "created",
+        "name",
+        "definition",
+        "definition_type"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "definitions": {
+    "statement": {
+      "type": "object",
+      "description": "The Statement marking type defines the representation of a textual marking statement (e.g., copyright, terms of use, etc.) in a definition",
+      "properties": {
+        "statement": {
+          "type": "string",
+          "description": "A statement (e.g., copyright, terms of use) applied to the content marked by this marking definition."
+        }
+      },
+      "required": [
+        "statement"
+      ]
+    },
+    "tlp_white": {
+      "description": "The marking-definition object representing Traffic Light Protocol (TLP) White.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "marking-definition--613f2e26-407d-48c7-9eca-b8e91df99dc9"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "TLP:WHITE"
+          ]
+        },
+        "definition": {
+          "type": "object",
+          "properties": {
+            "tlp": {
+              "type": "string",
+              "enum": [
+                "white"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "tlp_green": {
+      "description": "The marking-definition object representing Traffic Light Protocol (TLP) Green.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "marking-definition--34098fce-860f-48ae-8e50-ebd3cc5e41da"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "TLP:GREEN"
+          ]
+        },
+        "definition": {
+          "type": "object",
+          "properties": {
+            "tlp": {
+              "type": "string",
+              "enum": [
+                "green"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "tlp_amber": {
+      "description": "The marking-definition object representing Traffic Light Protocol (TLP) Amber.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "marking-definition--f88d31f6-486f-44da-b317-01333bde0b82"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "TLP:AMBER"
+          ]
+        },
+        "definition": {
+          "type": "object",
+          "properties": {
+            "tlp": {
+              "type": "string",
+              "enum": [
+                "amber"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "tlp_red": {
+      "description": "The marking-definition object representing Traffic Light Protocol (TLP) Red.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "enum": [
+            "marking-definition--5e57c739-391a-4eb3-b6be-7d15ca92d5ed"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "TLP:RED"
+          ]
+        },
+        "definition": {
+          "type": "object",
+          "properties": {
+            "tlp": {
+              "type": "string",
+              "enum": [
+                "red"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

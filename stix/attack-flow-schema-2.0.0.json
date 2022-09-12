@@ -40,29 +40,81 @@
             ]
         },
         {
-            "$comment": "Link to the Attack Flow SDO subschemas.",
-            "oneOf": [
-                {
+            "$comment": "Link to the Attack Flow SDO subschemas based on object type. Note: this nested if-else construction is difficult to maintain. We weighed several different structures here, e.g. using a oneOf, but selected this structure because it produces better validation messages than a oneOf and make it easy to forward-reference the Attack Flow SDO subschemas from the main Attack Flow schema.",
+            "if": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "const": "attack-flow"
+                    }
+                }
+            },
+            "then": {
+                "$ref": "#/$defs/attack-flow"
+            },
+            "else": {
+                "if": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "const": "attack-action"
+                        }
+                    }
+                },
+                "then": {
                     "$ref": "#/$defs/attack-action"
                 },
-                {
-                    "$ref": "#/$defs/attack-asset"
-                },
-                {
-                    "$ref": "#/$defs/attack-condition"
-                },
-                {
-                    "$ref": "#/$defs/attack-flow"
-                },
-                {
-                    "$ref": "#/$defs/attack-operator"
+                "else": {
+                    "if": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "const": "attack-condition"
+                            }
+                        }
+                    },
+                    "then": {
+                        "$ref": "#/$defs/attack-condition"
+                    },
+                    "else": {
+                        "if": {
+                            "type": "object",
+                            "properties": {
+                                "type": {
+                                    "type": "string",
+                                    "const": "attack-operator"
+                                }
+                            }
+                        },
+                        "then": {
+                            "$ref": "#/$defs/attack-operator"
+                        },
+                        "else": {
+                            "if": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "attack-asset"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "$ref": "#/$defs/attack-asset"
+                            },
+                            "else": true
+                        }
+                    }
                 }
-            ]
+            }
         }
     ],
     "$defs": {
         "attack-flow": {
-            "description": "An ``attack-flow`` object represents the Attack Flow overall. It provides metadata for name and description; it provides starting points for the flow of actions; and it is an object that can be referenced from other STIX objects.",
+            "description": "Every Attack Flow document **MUST** contain exactly one ``attack-flow`` object. It provides metadata for name and description, starting points for the flow of actions, and can be referenced from other STIX objects.",
             "type": "object",
             "properties": {
                 "type": {

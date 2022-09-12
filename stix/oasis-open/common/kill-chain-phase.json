@@ -1,0 +1,21 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/kill-chain-phase.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "kill-chain-phase",
+  "description": "The kill-chain-phase represents a phase in a kill chain.",
+  "type": "object",
+  "properties": {
+    "kill_chain_name": {
+      "type": "string",
+      "description": "The name of the kill chain."
+    },
+    "phase_name": {
+      "type": "string",
+      "description": "The name of the phase in the kill chain."
+    }
+  },
+  "required": [
+    "kill_chain_name",
+    "phase_name"
+  ]
+}
