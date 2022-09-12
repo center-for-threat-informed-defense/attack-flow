@@ -6,6 +6,8 @@ import {
     ModuleStore
 } from "@/store/StoreTypes";
 
+import settings from "../../../public/settings.json"
+
 export default {
     namespaced: true,
     state: {
@@ -91,7 +93,9 @@ export default {
          *  The Vuex context.
          */
         async loadSettings({ commit }) {
-            commit("loadSettings", await (await fetch("./settings.json")).json());
+            // let json = await (await fetch("./settings.json")).json();
+            let json = settings;  // Build settings in for now
+            commit("loadSettings", json);
         },
 
         /**
