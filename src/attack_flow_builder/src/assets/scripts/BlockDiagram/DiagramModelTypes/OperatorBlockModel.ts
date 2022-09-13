@@ -56,10 +56,34 @@ export class OperatorBlockModel extends DiagramObjectModel {
         this.setSemanticRole(template.role);
         this.template = template;
         this.style = template.style;
+        
+        // TODO: Remove. Just include until all files have updated
+        if(this.children.length === 3) {
+            let t = template.anchor_template;
+            let a = factory.createObject(t) as AnchorPointModel;
+            a.angle = AnchorAngle.DEG_90;
+            let b = factory.createObject(t) as AnchorPointModel;
+            b.angle = AnchorAngle.DEG_90;
+            let c = factory.createObject(t) as AnchorPointModel;
+            c.angle = AnchorAngle.DEG_90;   
+            // Remove existing children
+            let o = [];
+            for(let child of [...this.children]) {
+                o.push(child);
+                this.removeChild(child.id, false, false);
+            }
+            // Add new children
+            let n = [a, o[0], b, o[1], c, o[2]];
+            console.log(n);
+            for(let i = 0; i < n.length; i++) {
+                this.addChild(n[i], i, false);
+            }
+        }
+        
         // Anchor configuration
         if(!this.children.length) {
             let t = template.anchor_template;
-            for(let i = 0, anchor; i < 3; i++) {
+            for(let i = 0, anchor; i < 6; i++) {
                 anchor = factory.createObject(t) as AnchorPointModel;
                 anchor.angle = AnchorAngle.DEG_90;
                 this.addChild(anchor, i, false);
@@ -151,10 +175,13 @@ export class OperatorBlockModel extends DiagramObjectModel {
             // Update anchors
             let xo = (bb.xMid - xMin) / 2;
             let anchors = [
+                bb.xMid - xo, yMin,
                 bb.xMid, yMin,
+                bb.xMid + xo, yMin,
                 bb.xMid + xo, yMax,
-                bb.xMid - xo, yMax
-            ];
+                bb.xMid, yMax,
+                bb.xMid - xo, yMax,
+            ]
             for(let i = 0; i < anchors.length; i += 2) {
                 this.children[i / 2].moveTo(anchors[i], anchors[i + 1], false);
             }

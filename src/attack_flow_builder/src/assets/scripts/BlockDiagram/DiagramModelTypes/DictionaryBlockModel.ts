@@ -180,6 +180,10 @@ export class DictionaryBlockModel extends DiagramObjectModel {
             y += body.vertical_padding;
             for(let [key, value] of this.props.value) {
 
+                // Ignore empty fields
+                if(value.toString() === "")
+                    continue;
+
                 // Ignore title key
                 if(key === this.template.title_key)
                     continue;

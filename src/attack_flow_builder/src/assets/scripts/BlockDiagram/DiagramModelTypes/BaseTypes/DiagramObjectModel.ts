@@ -196,7 +196,7 @@ export abstract class DiagramObjectModel {
      *  If the layout should be updated.
      *  (Default: true)
      */
-    public reorderChild(id: string, index: number, update: boolean= true) {
+    public reorderChild(id: string, index: number, update: boolean = true) {
         let i = this.children.findIndex(o => o.id === id);
         let obj = this.children[i];
         if(!obj) {
