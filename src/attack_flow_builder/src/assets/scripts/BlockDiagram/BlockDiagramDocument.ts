@@ -1,3 +1,4 @@
+import Configuration from "@/assets/builder.config";
 import pkg from "~/package.json";
 import { PageEditor } from "./PageEditor";
 import {
@@ -124,8 +125,11 @@ export class BlockDiagramDocument {
         }
         document = document as BlockDiagramDocumentExport;
 
+        // TODO: Remove. For now, just merge in new schema changes.
+        let schema = { ...document.schema, ...structuredClone(Configuration.schema) };
+
         // Initialize diagram factory
-        let factory = await DiagramFactory.create(document.schema);
+        let factory = await DiagramFactory.create(schema);
         
         // Compile export index
         let index = new Map<string, DiagramObjectExport>();

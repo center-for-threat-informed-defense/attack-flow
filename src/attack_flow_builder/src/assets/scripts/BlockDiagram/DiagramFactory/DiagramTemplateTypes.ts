@@ -27,6 +27,7 @@ export enum TemplateType {
     LineVerticalElbow    = 5,
     Page                 = 6,
     TextBlock            = 7,
+    OperatorBlock        = 8,
 }
 
 export enum SemanticRole {
@@ -45,6 +46,7 @@ export type Template
     | LineHorizontalElbowTemplate
     | LineVerticalElbowTemplate
     | PageTemplate
+    | OperatorBlockTemplate
 
 export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
 
@@ -267,7 +269,43 @@ export type PageStyle = {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  14. Type Helpers  /////////////////////////////////////////////////////////
+//  14. Page Template  ////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+export type OperatorBlockTemplate = ObjectTemplate & {
+    type: TemplateType.OperatorBlock,
+    role: SemanticRole.None | SemanticRole.Node,
+    text: string,
+    anchor_template: string,
+    style: OperatorBlockStyle
+}
+
+export type OperatorBlockStyle = {
+    fill_color: string,
+    stroke_color: string,
+    text: {
+        font: Font,
+        color: string
+    },
+    border_radius: number,
+    select_outline: {
+        padding: number
+        solo_color: string,
+        many_color: string,
+        border_radius: number,
+    },
+    anchor_markers: {
+        color: string,
+        size: number
+    },
+    vertical_padding: number,
+    horizontal_padding: number
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  15. Type Helpers  /////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 

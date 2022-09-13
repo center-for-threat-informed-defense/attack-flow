@@ -55,6 +55,31 @@ const StandardDictionaryBlockStyle = {
 }
 
 /**
+ * Standard Operator Block Style
+ */
+const StandardOperatorBlockStyle = {
+    fill_color: "#c94040",
+    stroke_color: "#dd5050",
+    text: {
+        font: { family: "Inter", size: "14pt", weight: 800 },
+        color: "#d8d8d8"
+    },
+    border_radius: 15,
+    select_outline: {
+        padding: 4,
+        solo_color: "#e6d845",
+        many_color: "#e6d845",
+        border_radius: 19
+    },
+    anchor_markers: {
+        color: "#ffffff",
+        size: 3
+    },
+    vertical_padding: 18,
+    horizontal_padding: 35
+}
+
+/**
  * Action Block Style
  */
 const ActionBlockStyle = structuredClone(StandardDictionaryBlockStyle);
@@ -74,6 +99,16 @@ ActionBlockStyle.head.stroke_color = "#708ce6"
 const ConditionBlockStyle = structuredClone(StandardDictionaryBlockStyle);
 ConditionBlockStyle.head.fill_color = "#2a9642";
 ConditionBlockStyle.head.stroke_color = "#32b34e"
+
+/**
+ * AND Block Style
+ */
+ const AndBlockStyle = structuredClone(StandardOperatorBlockStyle);
+
+/**
+ * OR Block Style
+ */
+const OrBlockStyle = structuredClone(StandardOperatorBlockStyle);
 
  /**
   * App Configuration
@@ -130,6 +165,24 @@ const config: AppConfiguration = {
                 anchor_template: "@__builtin__anchor",
                 style: ConditionBlockStyle
             },
+            {
+                id: "and",
+                name: "AND Block",
+                type: TemplateType.OperatorBlock,
+                role: SemanticRole.Node,
+                text: "AND",
+                anchor_template: "@__builtin__anchor",
+                style: AndBlockStyle
+            },
+            {
+                id: "or",
+                name: "OR Block",
+                type: TemplateType.OperatorBlock,
+                role: SemanticRole.Node,
+                text: "OR",
+                anchor_template: "@__builtin__anchor",
+                style: OrBlockStyle
+            }
         ]
     },
     help_links: [

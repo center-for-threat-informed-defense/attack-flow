@@ -12,6 +12,7 @@ import {
     LineHandlePointModel,
     LineHorizontalElbowModel,
     LineVerticalElbowModel,
+    OperatorBlockModel,
     PageModel
 } from "../DiagramModelTypes";
 import { 
@@ -139,6 +140,7 @@ export class DiagramFactory {
         for(let template of this.templates.values()) {
             switch(template.type) {
                 case TemplateType.DictionaryBlock:
+                case TemplateType.OperatorBlock:
                     templates.push(template);
                     break;
                 
@@ -223,10 +225,8 @@ export class DiagramFactory {
                 return new LineVerticalElbowModel(this, temp, vals);
             case TemplateType.LineHorizontalElbow:
                 return new LineHorizontalElbowModel(this, temp, vals);
-            default:
-                throw new DiagramFactoryError(
-                    `Unknown template type: '${ (temp as any).type }'.`
-                );
+            case TemplateType.OperatorBlock:
+                return new OperatorBlockModel(this, temp, vals);
         }
     }
 
@@ -309,14 +309,20 @@ export class DiagramFactory {
      *  All {@link FontDescriptor} defined by a template.
      */
     private static getFontDescriptorsFromTemplate(template: SerializedTemplate): FontDescriptor[] {
+        let style;
         switch(template.type) {
             case TemplateType.DictionaryBlock:
-                let { style } = template;
+                style = template.style;
                 return [
                     style.head.title.font,
                     style.head.subtitle.font,
                     style.body.field_name.font,
                     style.body.field_value.font
+                ]
+            case TemplateType.OperatorBlock:
+                style = template.style;
+                return [
+                    style.text.font
                 ]
             default:
                 return [];
@@ -338,6 +344,10 @@ export class DiagramFactory {
                 h.subtitle.font = font(h.subtitle.font);
                 b.field_name.font = font(b.field_name.font);
                 b.field_value.font = font(b.field_value.font);
+                break;
+            case TemplateType.OperatorBlock:
+                let { text } = template.style as any;
+                text.font = font(text.font);
                 break;
             default:
                 break;

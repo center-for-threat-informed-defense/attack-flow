@@ -5,4 +5,5 @@ export * from "./LineHorizontalElbowView";
 export * from "./LineVerticalElbowView"
 export * from "./AnchorPointView";
 export * from "./DictionaryBlockView";
+export * from "./OperatorBlockView";
 export * from "./PageView";
