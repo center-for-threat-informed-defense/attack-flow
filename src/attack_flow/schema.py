@@ -129,7 +129,7 @@ def validate_doc(flow_path):
     return result
 
 
-@functools.cache
+@functools.lru_cache(maxsize=None)
 def get_validator_for_object(obj_type):
     """
     Return a validator for the given object type.
