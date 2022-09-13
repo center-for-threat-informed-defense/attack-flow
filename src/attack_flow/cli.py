@@ -55,7 +55,7 @@ def validate(args):
     suggest_verbose = False
 
     for flow_path in args.attack_flow_docs:
-        result = attack_flow.schema.validate_doc(flow_path)
+        result = attack_flow.schema.validate_doc(Path(flow_path))
         sys.stdout.write(f"{flow_path}: ")
         if result.success:
             status = "OK" + (" (with warnings)" if result.messages else "")

@@ -1,5 +1,4 @@
 from pathlib import Path
-from textwrap import dedent
 import pytest
 
 from attack_flow.docs import (
@@ -12,7 +11,6 @@ from attack_flow.docs import (
     Schema,
     SchemaProperty,
 )
-from attack_flow.exc import InvalidFlowError
 
 
 def test_schema_property_string():
@@ -413,17 +411,3 @@ def test_generate_example_flows():
         "    - Test flow 2 is used for unit tests.",
         "",
     ]
-
-
-def test_generate_example_flow_without_author():
-    jsons = [Path("tests/fixtures/badflow1.json")]
-    afds = []
-    with pytest.raises(InvalidFlowError):
-        generate_example_flows(jsons, afds)
-
-
-def test_generate_example_flow_without_description():
-    jsons = [Path("tests/fixtures/badflow2.json")]
-    afds = []
-    with pytest.raises(InvalidFlowError):
-        generate_example_flows(jsons, afds)

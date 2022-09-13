@@ -1,7 +1,5 @@
-from datetime import datetime
 from textwrap import dedent
 
-from attack_flow.exc import InvalidFlowError
 from .fixtures import get_flow_bundle
 import attack_flow.mermaid
 

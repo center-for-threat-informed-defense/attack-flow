@@ -5,58 +5,63 @@ These tests are minimal: checking basic argument parsing and making sure that
 the entrypoints call into the appropriate places in the package.
 """
 import os
+from pathlib import Path
 import runpy
 import sys
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 from textwrap import dedent
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 import pytest
-
-from jsonschema.exceptions import ValidationError
 import stix2
+
+import attack_flow.schema
 
 
 @patch("sys.exit")
-@patch("attack_flow.schema.validate_docs")
+@patch("attack_flow.schema.validate_doc")
 def test_validate(validate_mock, exit_mock, capsys):
-    validate_mock.return_value = [None, None]
-    sys.argv = ["af", "validate", "--verbose", "schema.json", "doc.json", "doc2.json"]
+    validate_mock.return_value = attack_flow.schema.ValidationResult()
+    sys.argv = ["af", "validate", "doc.json", "doc2.json"]
     runpy.run_module("attack_flow.cli", run_name="__main__")
-    validate_mock.assert_called_with("schema.json", ["doc.json", "doc2.json"])
+    validate_mock.assert_has_calls([call(Path("doc.json")), call(Path("doc2.json"))])
     captured = capsys.readouterr()
-    assert "doc.json is valid" in captured.out
-    assert "doc2.json is valid" in captured.out
+    assert "doc.json: OK" in captured.out
+    assert "doc2.json: OK" in captured.out
     exit_mock.assert_called_with(0)
 
 
 @patch("sys.exit")
-@patch("attack_flow.schema.validate_docs")
+@patch("attack_flow.schema.validate_doc")
 def test_validate_fail(validate_mock, exit_mock, capsys):
-    test_exc = ValidationError("this is just a test")
-    validate_mock.return_value = [None, test_exc]
-    sys.argv = ["af", "validate", "schema.json", "doc.json", "doc2.json"]
+    vr1 = attack_flow.schema.ValidationResult()
+    vr2 = attack_flow.schema.ValidationResult()
+    vr2.add_exc("My unittest error", Exception("my unittest exc"))
+    validate_mock.side_effect = [vr1, vr2]
+    sys.argv = ["af", "validate", "doc.json", "doc2.json"]
     runpy.run_module("attack_flow.cli", run_name="__main__")
-    validate_mock.assert_called_with("schema.json", ["doc.json", "doc2.json"])
+    validate_mock.assert_has_calls([call(Path("doc.json")), call(Path("doc2.json"))])
     captured = capsys.readouterr()
-    assert "doc.json is valid" in captured.out
-    assert "doc2.json is not valid: this is just a test" in captured.out
+    assert "doc.json: OK" in captured.out
+    assert "doc2.json: FAIL" in captured.out
     assert "Add --verbose for more details" in captured.out
     exit_mock.assert_called_with(1)
 
 
 @patch("sys.exit")
-@patch("attack_flow.schema.validate_docs")
+@patch("attack_flow.schema.validate_doc")
 def test_validate_fail_verbose(validate_mock, exit_mock, capsys):
-    test_exc = ValidationError("this is just a test")
-    validate_mock.return_value = [None, test_exc]
-    sys.argv = ["af", "validate", "--verbose", "schema.json", "doc.json", "doc2.json"]
+    vr1 = attack_flow.schema.ValidationResult()
+    vr2 = attack_flow.schema.ValidationResult()
+    vr2.add_exc("My unittest error", Exception("my unittest exc"))
+    validate_mock.side_effect = [vr1, vr2]
+    sys.argv = ["af", "validate", "--verbose", "doc.json", "doc2.json"]
     runpy.run_module("attack_flow.cli", run_name="__main__")
-    validate_mock.assert_called_with("schema.json", ["doc.json", "doc2.json"])
+    validate_mock.assert_has_calls([call(Path("doc.json")), call(Path("doc2.json"))])
     captured = capsys.readouterr()
-    assert "doc.json is valid" in captured.out
-    assert "doc2.json is not valid: this is just a test" in captured.out
-    assert "vvvvvvvvvv EXCEPTIONS FOR doc2.json vvvvvvvvvv" in captured.out
+    assert "doc.json: OK" in captured.out
+    assert "doc2.json: FAIL" in captured.out
+    assert "vvvvvvvvvv EXCEPTION vvvvvvvvvv" in captured.out
     exit_mock.assert_called_with(1)
 
 

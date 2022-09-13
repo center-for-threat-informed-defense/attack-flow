@@ -1,14 +1,9 @@
 from textwrap import dedent
 
-import pytest
-import stix2
-
-from attack_flow.exc import InvalidFlowError
 import attack_flow.graphviz
 from attack_flow.model import (
     AttackAction,
     AttackCondition,
-    AttackFlow,
 )
 from .fixtures import get_flow_bundle
 
@@ -40,20 +35,6 @@ def test_convert_attack_flow_to_graphviz():
         }
         """
     )
-
-
-def test_convert_attack_flow_to_graphviz_fails_on_missing_author():
-    flow = AttackFlow(
-        id="attack-flow--f8d196b3-5331-4554-99d5-064c239c1714",
-        name="My Flow",
-        created_by_ref="identity--a9ccb88f-050e-44e4-8582-c01394e3a2d7",
-    )
-    bundle = stix2.Bundle(
-        flow,
-        id="bundle--77479df6-dc8c-4b87-8a73-63d97910c272",
-    )
-    with pytest.raises(InvalidFlowError):
-        attack_flow.graphviz.convert(bundle)
 
 
 def test_wrap_action_description():

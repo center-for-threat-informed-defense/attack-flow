@@ -7,10 +7,20 @@ from pathlib import Path
 import urllib.parse
 
 import jsonschema
+import networkx as nx
+import stix2.exceptions
 
+from .graph import bundle_to_networkx
 from .model import load_attack_flow_bundle, get_flow_object, ATTACK_FLOW_EXTENSION_ID
 
 SCHEMA_DIR = Path(__file__).resolve().parents[2] / "stix"
+ATTACK_FLOW_SDOS = (
+    "attack-flow",
+    "attack-action",
+    "attack-asset",
+    "attack-condition",
+    "attack-operator",
+)
 SDOS = (
     "attack-pattern",
     "campaign",
@@ -97,18 +107,25 @@ def validate_doc(flow_path):
     """
     Validate an Attack Flow document.
 
-    :param str flow_path: path to attack flow doc
+    :param Path flow_path: path to attack flow doc
     :rtype: ValidationResult
     """
-    with open(flow_path) as flow_file:
+    with flow_path.open() as flow_file:
         flow_json = json.load(flow_file)
 
     result = ValidationResult()
     check_objects(flow_json, result)
     check_schema(flow_json, result)
-    flow = load_attack_flow_bundle(flow_path)
-    check_graph(flow, result)
-    check_best_practices(flow, result)
+    try:
+        bundle = load_attack_flow_bundle(flow_path)
+        graph = bundle_to_networkx(bundle).to_undirected()
+        check_graph(graph, result)
+        check_best_practices(graph, result)
+    except stix2.exceptions.STIXError:
+        result.add_error(
+            "Unable to parse this flow as STIX 2.1 (maybe as a result of previous errors)"
+        )
+
     return result
 
 
@@ -128,7 +145,7 @@ def get_validator_for_object(obj_type):
         handlers={"https": resolve_url_to_local, "http": resolve_url_to_local},
     )
 
-    if obj_type.startswith("attack-"):
+    if obj_type in ATTACK_FLOW_SDOS:
         schema_path = SCHEMA_DIR / "attack-flow-schema-2.0.0.json"
     elif obj_type in SDOS:
         schema_path = SCHEMA_DIR / "oasis-open" / "sdos" / f"{obj_type}.json"
@@ -164,7 +181,7 @@ def resolve_url_to_local(url):
         oasis_schema = SCHEMA_DIR / "oasis-open"
         local_path = oasis_schema.joinpath(*parsed.path.split("/")[-2:])
     else:
-        raise Exception("TODO")
+        raise RuntimeError(f"Cannot resolve schema URL to a local file path: {url}")
     with local_path.open() as local_file:
         local_schema = json.load(local_file)
     return local_schema
@@ -227,34 +244,48 @@ def check_schema(flow_json, result):
             result.add_exc(message, error)
 
 
-def check_graph(flow, result):
+def check_graph(graph, result):
     """
     Check characteristics of the Attack Flow graph.
 
-    :param stix2.Bundle flow:
+    :param nx.DiGraph graph:
     :param ValidationResult result:
     """
-    return
+    # Check that all nodes are connected to the attack flow graph or one of the
+    # extension-definitions.
+    nodes = set(graph.nodes)
+    seeds = set(
+        id_
+        for id_, data in graph.nodes(data=True)
+        if data.get("type") in ("attack-flow", "extension-definition")
+    )
+    visited = set()
+
+    for seed in seeds:
+        visited.update(nx.dfs_preorder_nodes(graph, seed))
+
+    disconnected = nodes - visited
+    for node in disconnected:
+        result.add_warning(f"Node id={node} is not connected to the main flow.")
+
+    # Check for dangling Attack Flow references.
+    for id_, data in graph.nodes(data=True):
+        inferred_type = id_.split("--")[0]
+        if inferred_type in ATTACK_FLOW_SDOS and data == {}:
+            result.add_warning(
+                f"Node id={id_} is referenced in the flow but is not defined."
+            )
 
 
-def check_best_practices(flow, result):
+def check_best_practices(graph, result):
     """
     Check for some best practices.
 
-    :param stix2.Bundle flow:
+    :param nx.DiGraph graph:
     :param ValidationResult result:
     """
-    return
-    try:
-        author = flow_bundle.get_obj(flow["created_by_ref"])[0]
-        author_name = author["name"]
-    except (KeyError, IndexError):
-        raise InvalidFlowError("All flows in the corpus must contain an author name.")
+    flows = [n for n in graph.nodes if n.startswith("attack-flow--")]
 
-    try:
-        flow_name = flow["name"]
-        flow_description = flow["description"]
-    except KeyError:
-        raise InvalidFlowError(
-            "All flows in the corpus must contain a name and description."
-        )
+    if flows:
+        if not graph.nodes[flows[0]].get("description"):
+            result.add_warning("The ``attack-flow`` object should have a description.")
