@@ -35,8 +35,7 @@ test-ci:
 
 validate:
 	af validate \
-		schema/attack-flow-2022-01-05-draft.json \
-		schema/attack-flow-example.json \
+		stix/attack-flow-example.json \
 		corpus/*.json
 
 docker-build:

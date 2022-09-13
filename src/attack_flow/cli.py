@@ -51,21 +51,34 @@ def validate(args):
     :param args: argparse arguments
     :returns: exit code
     """
-    exceptions = attack_flow.schema.validate_docs(
-        args.schema_doc, args.attack_flow_docs
-    )
-    for doc, exc in zip(args.attack_flow_docs, exceptions):
-        result = "valid" if exc is None else f"not valid: {exc.message}"
-        print(f"{doc} is {result}")
-        if exc and args.verbose:
-            print(f"vvvvvvvvvv EXCEPTIONS FOR {doc} vvvvvvvvvv")
-            print(exc)
-            print(f"^^^^^^^^^^ EXCEPTIONS FOR {doc} ^^^^^^^^^^")
-    if any(exceptions):
-        if not args.verbose:
-            print("Add --verbose for more details.")
-        return 1
-    return 0
+    exit_code = 0
+    suggest_verbose = False
+
+    for flow_path in args.attack_flow_docs:
+        result = attack_flow.schema.validate_doc(Path(flow_path))
+        sys.stdout.write(f"{flow_path}: ")
+        if result.success:
+            status = "OK" + (" (with warnings)" if result.messages else "")
+        else:
+            exit_code = 1
+            status = "FAIL"
+
+        print(status)
+        for message in result.messages:
+            print(f" - {message}")
+            if message.exc:
+                if args.verbose:
+                    print(f"vvvvvvvvvv EXCEPTION vvvvvvvvvv")
+                    print(message.exc)
+                    print(f"^^^^^^^^^^ EXCEPTION ^^^^^^^^^^")
+                else:
+                    suggest_verbose = True
+    if not args.verbose and suggest_verbose:
+        print(
+            "\nSome errors have additional information. "
+            "Add --verbose for more details."
+        )
+    return exit_code
 
 
 def graphviz(args):
@@ -196,7 +209,6 @@ def _parse_args():
     validate_cmd.add_argument(
         "--verbose", action="store_true", help="Display detailed validation errors."
     )
-    validate_cmd.add_argument("schema_doc", help="The schema to validate against.")
     validate_cmd.add_argument(
         "attack_flow_docs", nargs="+", help="The Attack Flow document(s) to validate."
     )

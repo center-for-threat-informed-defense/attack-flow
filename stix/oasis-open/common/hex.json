@@ -1,0 +1,8 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/hex.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "hex",
+  "description": "The hex data type encodes an array of octets (8-bit bytes) as hexadecimal. The string MUST consist of an even number of hexadecimal characters, which are the digits '0' through '9' and the letters 'a' through 'f'.  In order to allow pattern matching on custom objects, all properties that use the hex type, the property name MUST end with '_hex'.",
+  "type": "string",
+  "pattern": "^([a-fA-F0-9]{2})+$"
+}

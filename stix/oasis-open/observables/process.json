@@ -1,0 +1,265 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/process.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "process",
+  "description": "The Process Object represents common properties of an instance of a computer program as executed on an operating system.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `process`.",
+          "enum": [
+            "process"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^process--"
+        },
+        "extensions": {
+          "$ref": "#/definitions/process-extensions-dictionary",
+          "description": "The Process Object defines the following extensions. In addition to these, producers MAY create their own. Extensions: windows-process-ext, windows-service-ext."
+        },
+        "is_hidden": {
+          "type": "boolean",
+          "description": "Specifies whether the process is hidden."
+        },
+        "pid": {
+          "type": "integer",
+          "description": "Specifies the Process ID, or PID, of the process."
+        },
+        "created_time": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the date/time at which the process was created."
+        },
+        "cwd": {
+          "type": "string",
+          "description": "Specifies the current working directory of the process."
+        },
+        "command_line": {
+          "type": "string",
+          "description": "Specifies the full command line used in executing the process, including the process name (which may be specified individually via the binary_ref.name property) and any arguments."
+        },
+        "environment_variables": {
+          "$ref": "../common/dictionary.json",
+          "description": "Specifies the list of environment variables associated with the process as a dictionary."
+        },
+        "opened_connection_refs": {
+          "type": "array",
+          "description": "Specifies the list of network connections opened by the process, as a reference to one or more Network Traffic Objects.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "creator_user_ref": {
+          "description": "Specifies the user that created the process, as a reference to a User Account Object.",
+          "type": "string"
+        },
+        "image_ref": {
+          "description": "Specifies the executable binary that was executed as the process image, as a reference to a File Object.",
+          "type": "string"
+        },
+        "parent_ref": {
+          "description": "Specifies the other process that spawned (i.e. is the parent of) this one, as represented by a Process Object.",
+          "type": "string"
+        },
+        "child_refs": {
+          "type": "array",
+          "description": "Specifies the other processes that were spawned by (i.e. children of) this process, as a reference to one or more other Process Objects.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "anyOf": [
+    { "required": ["extensions"] },
+    { "required": ["is_hidden"] },
+    { "required": ["pid"] },
+    { "required": ["name"] },
+    { "required": ["created"] },
+    { "required": ["cwd"] },
+    { "required": ["arguments"] },
+    { "required": ["command_line"] },
+    { "required": ["environment_variables"] },
+    { "required": ["opened_connection_refs"] },
+    { "required": ["creator_user_ref"] },
+    { "required": ["image_ref"] },
+    { "required": ["parent_ref"] },
+    { "required": ["child_refs"] }
+  ],
+  "definitions": {
+    "process-extensions-dictionary": {
+      "allOf": [{ "$ref": "../common/dictionary.json" }],
+      "patternProperties": {
+        "^windows-process-ext$": {
+          "type": "object",
+          "description": "The Windows Process extension specifies a default extension for capturing properties specific to Windows processes.",
+          "allOf": [
+            {
+              "properties": {
+                "aslr_enabled": {
+                  "type": "boolean",
+                  "description": "Specifies whether Address Space Layout Randomization (ASLR) is enabled for the process."
+                },
+                "dep_enabled": {
+                  "type": "boolean",
+                  "description": "Specifies whether Data Execution Prevention (DEP) is enabled for the process."
+                },
+                "priority": {
+                  "type": "string",
+                  "description": "Specifies the current priority class of the process in Windows."
+                },
+                "owner_sid": {
+                  "type": "string",
+                  "description": "Specifies the Security ID (SID) value of the owner of the process."
+                },
+                "window_title": {
+                  "type": "string",
+                  "description": "Specifies the title of the main window of the process."
+                },
+                "startup_info": {
+                  "$ref": "#/definitions/startup-info-dictionary",
+                  "description": "Specifies the STARTUP_INFO struct used by the process, as a dictionary."
+                },
+                "integrity_level": {
+                  "$ref": "#/definitions/windows-integrity-level-enum",
+                  "description": "Specifies the Windows integrity level, or trustworthiness, of the process."
+                }
+              }
+            },
+            {
+              "anyOf": [
+                { "required": ["aslr_enabled"] },
+                { "required": ["dep_enabled"] },
+                { "required": ["priority"] },
+                { "required": ["owner_sid"] },
+                { "required": ["window_title"] },
+                { "required": ["startup_info"] }
+              ]
+            }
+          ]
+        },
+        "^windows-service-ext$": {
+          "type": "object",
+          "description": "The Windows Service extension specifies a default extension for capturing properties specific to Windows services.",
+          "properties": {
+            "service_name": {
+              "type": "string",
+              "description": "Specifies the name of the service."
+            },
+            "descriptions": {
+              "type": "array",
+              "description": "Specifies the descriptions defined for the service.",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "display_name": {
+              "type": "string",
+              "description": "Specifies the displayed name of the service in Windows GUI controls."
+            },
+            "group_name": {
+              "type": "string",
+              "description": "Specifies the name of the load ordering group of which the service is a member."
+            },
+            "start_type": {
+              "type": "string",
+              "description": "Specifies the start options defined for the service. windows-service-start-enum",
+              "enum": [
+                "SERVICE_AUTO_START",
+                "SERVICE_BOOT_START",
+                "SERVICE_DEMAND_START",
+                "SERVICE_DISABLED",
+                "SERVICE_SYSTEM_ALERT"
+              ]
+            },
+            "service_dll_refs": {
+              "type": "array",
+              "description": "Specifies the DLLs loaded by the service, as a reference to one or more File Objects.",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "service_type": {
+              "type": "string",
+              "description": "Specifies the type of the service. windows-service-enum",
+              "enum": [
+                "SERVICE_KERNEL_DRIVER",
+                "SERVICE_FILE_SYSTEM_DRIVER",
+                "SERVICE_WIN32_OWN_PROCESS",
+                "SERVICE_WIN32_SHARE_PROCESS"
+              ]
+            },
+            "service_status": {
+              "type": "string",
+              "description": "Specifies the current status of the service. windows-service-status-enum",
+              "enum": [
+                "SERVICE_CONTINUE_PENDING",
+                "SERVICE_PAUSE_PENDING",
+                "SERVICE_PAUSED",
+                "SERVICE_RUNNING",
+                "SERVICE_START_PENDING",
+                "SERVICE_STOP_PENDING",
+                "SERVICE_STOPPED"
+              ]
+            }
+          },
+          "anyOf": [
+            { "required": ["service_name"] },
+            { "required": ["descriptions"] },
+            { "required": ["display_name"] },
+            { "required": ["group_name"] },
+            { "required": ["start_type"] },
+            { "required": ["service_dll_refs"] },
+            { "required": ["service_type"] },
+            { "required": ["service_status"] }
+          ]
+        }
+      },
+      "additionalProperties": {
+        "$ref": "../common/dictionary.json",
+        "description": "Custom file extension"
+      }
+    },
+    "startup-info-dictionary": {
+      "allOf": [{ "$ref": "../common/dictionary.json" }],
+      "patternProperties": {
+        "^lpDesktop|lpTitle|dwFillAttribute|dwFlags|wShowWindow|hStdInput|hStdOutput|hStdError$": {
+          "type": "string"
+        },
+        "^lpReserved|lpReserved2$": {
+          "type": "null"
+        },
+        "^cb|dwX|dwY|dwXSize|dwYSize|dwXCountChars|dwYCountChars$": {
+          "type": "integer"
+        },
+        "^cbReserved2$": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "windows-integrity-level-enum": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "system"
+      ]
+    }
+  }
+}

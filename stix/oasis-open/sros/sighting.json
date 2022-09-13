@@ -1,0 +1,115 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sros/sighting.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "sighting",
+  "description": "A Sighting denotes the belief that something in CTI (e.g., an indicator, malware, tool, threat actor, etc.) was seen.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `sighting`.",
+          "enum": [
+            "sighting"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^sighting--"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "A description that provides more details and context about the Sighting."
+        },
+        "first_seen": {
+          "$ref": "../common/timestamp.json",
+          "description": "The beginning of the time window during which the SDO referenced by the sighting_of_ref property was sighted."
+        },
+        "last_seen": {
+          "$ref": "../common/timestamp.json",
+          "description": "The end of the time window during which the SDO referenced by the sighting_of_ref property was sighted."
+        },
+        "count": {
+          "type": "integer",
+          "description": "This is an integer between 0 and 999,999,999 inclusive and represents the number of times the object was sighted.",
+          "minimum": 0,
+          "maximum": 999999999
+        },
+        "sighting_of_ref": {
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "not": {
+                "pattern": "^sighting--"
+              }
+            },
+            {
+              "not": {
+                "pattern": "^relationship--"
+              }
+            },
+            {
+              "not": {
+                "pattern": "^bundle--"
+              }
+            },
+            {
+              "not": {
+                "pattern": "^marking-definition--"
+              }
+            },
+            {
+              "not": {
+                "pattern": "^language-content--"
+              }
+            }
+          ],
+          "description": "An ID reference to the object that has been sighted."
+        },
+        "observed_data_refs": {
+          "type": "array",
+          "description": "A list of ID references to the Observed Data objects that contain the raw cyber data for this Sighting.",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^observed-data--"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "where_sighted_refs": {
+          "type": "array",
+          "description": "A list of ID references to the Identity or Location objects describing the entities or types of entities that saw the sighting.",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "../common/identifier.json"
+              },
+              {
+                "pattern": "^(identity|location)--"
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "summary": {
+          "type": "boolean",
+          "description": "The summary property indicates whether the Sighting should be considered summary data. "
+        }
+      }
+    }
+  ],
+  "required": [
+    "sighting_of_ref"
+  ]
+}

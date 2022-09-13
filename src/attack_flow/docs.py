@@ -14,7 +14,6 @@ import re
 import string
 import textwrap
 from urllib.parse import quote_plus
-from attack_flow.exc import InvalidFlowError
 
 from attack_flow.model import get_flow_object, load_attack_flow_bundle
 
@@ -289,22 +288,10 @@ def generate_example_flows(jsons, afds):
     for path in jsons:
         flow_bundle = load_attack_flow_bundle(path)
         flow = get_flow_object(flow_bundle)
-
-        try:
-            author = flow_bundle.get_obj(flow["created_by_ref"])[0]
-            author_name = author["name"]
-        except (KeyError, IndexError):
-            raise InvalidFlowError(
-                "All flows in the corpus must contain an author name."
-            )
-
-        try:
-            flow_name = flow["name"]
-            flow_description = flow["description"]
-        except KeyError:
-            raise InvalidFlowError(
-                "All flows in the corpus must contain a name and description."
-            )
+        author = flow_bundle.get_obj(flow["created_by_ref"])[0]
+        author_name = author["name"]
+        flow_name = flow["name"]
+        flow_description = flow["description"]
 
         reports.append(
             (

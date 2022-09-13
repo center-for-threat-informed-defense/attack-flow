@@ -1,0 +1,151 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/core.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "core",
+  "description": "Common properties and behavior across all STIX Domain Objects and STIX Relationship Objects.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "title": "type",
+      "type": "string",
+      "pattern": "^([a-z][a-z0-9]*)+(-[a-z0-9]+)*\\-?$",
+      "minLength": 3,
+      "maxLength": 250,
+      "description": "The type property identifies the type of STIX Object (SDO, Relationship Object, etc). The value of the type field MUST be one of the types defined by a STIX Object (e.g., indicator).",
+      "not": {
+        "enum": [
+          "action"
+        ]
+      }
+    },
+    "spec_version": {
+      "type": "string",
+      "enum": [
+        "2.0",
+        "2.1"
+      ],
+      "description": "The version of the STIX specification used to represent this object."
+    },
+    "id": {
+      "$ref": "../common/identifier.json",
+      "description": "The id property universally and uniquely identifies this object."
+    },
+    "created_by_ref": {
+      "$ref": "../common/identifier.json",
+      "description": "The ID of the Source object that describes who created this object."
+    },
+    "labels": {
+      "type": "array",
+      "description": "The labels property specifies a set of terms used to describe this object.",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "created": {
+      "description": "The created property represents the time at which the first version of this object was created. The timstamp value MUST be precise to the nearest millisecond.",
+      "allOf": [
+        {
+          "$ref": "../common/timestamp.json"
+        },
+        {
+          "title": "timestamp_millis",
+          "pattern": "T\\d{2}:\\d{2}:\\d{2}\\.\\d{3,}Z$"
+        }
+      ]
+    },
+    "modified": {
+      "description": "The modified property represents the time that this particular version of the object was modified. The timstamp value MUST be precise to the nearest millisecond.",
+      "allOf": [
+        {
+          "$ref": "../common/timestamp.json"
+        },
+        {
+          "title": "timestamp_millis",
+          "pattern": "T\\d{2}:\\d{2}:\\d{2}\\.\\d{3,}Z$"
+        }
+      ]
+    },
+    "revoked": {
+      "type": "boolean",
+      "description": "The revoked property indicates whether the object has been revoked."
+    },
+    "confidence": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Identifies the confidence that the creator has in the correctness of their data."
+    },
+    "lang": {
+      "type": "string",
+      "description": "Identifies the language of the text content in this object."
+    },
+    "external_references": {
+      "type": "array",
+      "description": "A list of external references which refers to non-STIX information.",
+      "items": {
+        "$ref": "../common/external-reference.json"
+      },
+      "minItems": 1
+    },
+    "object_marking_refs": {
+      "type": "array",
+      "description": "The list of marking-definition objects to be applied to this object.",
+      "items": {
+        "$ref": "../common/identifier.json"
+      },
+      "minItems": 1
+    },
+    "granular_markings": {
+      "type": "array",
+      "description": "The set of granular markings that apply to this object.",
+      "items": {
+        "$ref": "../common/granular-marking.json"
+      },
+      "minItems": 1
+    },
+    "extensions": {
+      "description": "Specifies any extensions of the object, as a dictionary.",
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+          "^extension-definition--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$": {
+            "allOf": [{ "$ref": "../common/extension.json" }]
+          }
+        },
+        "additionalProperties": false
+    }
+  },
+  "allOf": [{ "$ref": "../common/properties.json" }],
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "severity"
+        ]
+      },
+      {
+        "required": [
+          "action"
+        ]
+      },
+      {
+        "required": [
+          "username"
+        ]
+      },
+      {
+        "required": [
+          "phone_numbers"
+        ]
+      }
+    ]
+  },
+  "required": [
+    "type",
+    "spec_version",
+    "id",
+    "created",
+    "modified"
+  ]
+}

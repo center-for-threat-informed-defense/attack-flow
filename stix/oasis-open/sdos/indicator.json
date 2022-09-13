@@ -1,0 +1,101 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/indicator.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "indicator",
+  "description": "Indicators contain a pattern that can be used to detect suspicious or malicious cyber activity.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `indicator`.",
+          "enum": [
+            "indicator"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^indicator--"
+        },
+        "indicator_types": {
+          "type": "array",
+          "description": "This field is an Open Vocabulary that specifies the type of indicator. Open vocab - indicator-type-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Indicator."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides the recipient with context about this Indicator potentially including its purpose and its key characteristics."
+        },
+        "pattern": {
+          "type": "string",
+          "description": "The detection pattern for this indicator."
+        },
+        "pattern_type" : {
+          "type" : "string",
+          "description": "The type of pattern used in this indicator."
+        },
+        "pattern_version" : {
+          "type" : "string",
+          "description": "The version of the pattern that is used."
+        },
+        "valid_from": {
+          "$ref": "../common/timestamp.json",
+          "description": "The time from which this indicator should be considered valuable intelligence."
+        },
+        "valid_until": {
+          "$ref": "../common/timestamp.json",
+          "description": "The time at which this indicator should no longer be considered valuable intelligence."
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The phases of the kill chain that this indicator detects.",
+          "items": {
+            "$ref": "../common/kill-chain-phase.json"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "required": [
+    "pattern",
+    "pattern_type",
+    "valid_from"
+  ],
+  "definitions": {
+    "indicator-type-ov": {
+      "type": "string",
+      "enum": [
+        "anomalous-activity",
+        "anonymization",
+        "benign",
+        "compromised",
+        "malicious-activity",
+        "attribution",
+        "unknown"
+      ]
+    },
+    "pattern-type-ov": {
+      "type": "string",
+      "enum": [
+        "stix",
+        "pcre",
+        "sigma",
+        "snort",
+        "suricata",
+        "yara"
+      ]
+    }
+  }
+}

@@ -4,7 +4,6 @@ Generate `Mermaid graphs <https://mermaid-js.github.io/mermaid/#/>`__ from Attac
 
 import textwrap
 
-from .exc import InvalidFlowError
 from .model import (
     confidence_num_to_label,
     get_flow_object,

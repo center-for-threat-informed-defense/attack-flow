@@ -1,0 +1,34 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/mutex.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "mutex",
+  "description": "The Mutex Object represents the properties of a mutual exclusion (mutex) object.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `mutex`.",
+          "enum": [
+            "mutex"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^mutex--"
+        },
+        "name": {
+          "type": "string",
+          "description": "Specifies the name of the mutex object."
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ]
+}

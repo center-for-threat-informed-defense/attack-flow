@@ -82,13 +82,13 @@ Validate one or more Attack Flow JSON files:
 
 .. code:: bash
 
-    $ af validate schema/attack-flow-2022-01-05-draft.json corpus/*.json
-    corpus/cobalt-kitty-attack-flow.json is valid
-    corpus/conti_2021.json is valid
-    corpus/dfir_report_zero_to_domain_admin.json is valid
-    corpus/mac_malware_steals_cryptocurrecy.json is valid
-    corpus/right-to-left-override.json is valid
-    corpus/tesla.json is valid
+    $ af validate corpus/*.json
+    corpus/cobalt-kitty-attack-flow.json: OK
+    corpus/conti_2021.json: OK
+    corpus/dfir_report_zero_to_domain_admin.json: OK
+    corpus/mac_malware_steals_cryptocurrecy.json: OK
+    corpus/right-to-left-override.json: OK
+    corpus/tesla.json: OK
 
 There is a Makefile target ``make validate`` that validates the corpus.
 

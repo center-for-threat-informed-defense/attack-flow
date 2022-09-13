@@ -1,0 +1,8 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/url-regex.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "url-regex",
+  "description": "Matches a URI according to RFC 3986.",
+  "type": "string",
+  "format": "uri"
+}

@@ -1,0 +1,62 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/opinion.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "opinion",
+  "description": "An Opinion is an assessment of the correctness of the information in a STIX Object produced by a different entity and captures the level of agreement or disagreement using a fixed scale.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `opinion`.",
+          "enum": [
+            "opinion"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^opinion--"
+        },
+        "explanation": {
+          "type": "string",
+          "description": "An explanation of why the producer has this Opinion."
+        },
+        "authors": {
+          "type": "array",
+          "description": "The name of the author(s) of this opinion (e.g., the analyst(s) that created it).",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "The STIX Objects (SDOs and SROs) that the opinion is being applied to.",
+          "items": {
+            "$ref": "../common/identifier.json"
+          },
+          "minItems": 1
+        },
+        "opinion": {
+          "type": "string",
+          "description": "The opinion that the producer has about about all of the STIX Object(s) listed in the object_refs property.",
+          "enum": [
+            "strongly-disagree",
+            "disagree",
+            "neutral",
+            "agree",
+            "strongly-agree"
+          ]
+        }
+      }
+    }
+  ],
+  "required": [
+    "object_refs",
+    "opinion"
+  ]
+}

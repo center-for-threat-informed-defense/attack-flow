@@ -3,8 +3,6 @@ Convert Attack Flow to NeworkX format for standard graph analysis/manipulation.
 """
 import networkx as nx
 
-from .model import ATTACK_FLOW_EXTENSION_ID, ATTACK_FLOW_EXTENSION_CREATED_BY_ID
-
 
 def bundle_to_networkx(flow_bundle):
     """
@@ -17,14 +15,14 @@ def bundle_to_networkx(flow_bundle):
 
     # Make a first pass to add nodes to the graph.
     for obj in flow_bundle.get("objects", []):
-        if obj.type == "relationship":
+        if obj["type"] == "relationship":
             continue
         else:
-            graph.add_node(obj.id, **obj)
+            graph.add_node(obj["id"], **obj)
 
     # Make a second pass to add edges to the graph.
     for obj in flow_bundle.get("objects", []):
-        if obj.type == "relationship":
+        if obj["type"] == "relationship":
             properties = dict(obj.items())
             del properties["source_ref"]
             del properties["target_ref"]
@@ -36,11 +34,19 @@ def bundle_to_networkx(flow_bundle):
                 elif property_name.endswith("_refs"):
                     target_refs = target_ref
                     for target_ref in target_refs:
-                        graph.add_edge(obj.id, target_ref, type=property_name[:-5])
+                        graph.add_edge(obj["id"], target_ref, type=property_name[:-5])
 
-    # Remove the extension object and its creator.
-    graph.remove_node(ATTACK_FLOW_EXTENSION_ID)
-    graph.remove_node(ATTACK_FLOW_EXTENSION_CREATED_BY_ID)
+    # Remove extension objects and creators if they are not attached to other nodes.
+    ext_nodes = [id for id in graph.nodes() if id.startswith("extension-definition--")]
+    for ext_node in ext_nodes:
+        neighbors = list(graph.neighbors(ext_node))
+        graph.remove_node(ext_node)
+        for neighbor in neighbors:
+            neighbor_neighbors = set(graph.neighbors(neighbor))
+            # remove edges from the node back to itself:
+            neighbor_neighbors.discard(neighbor)
+            if len(neighbor_neighbors) == 0:
+                graph.remove_node(neighbor)
 
     return graph
 

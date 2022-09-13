@@ -5,13 +5,10 @@ This file duplicates the JSON schema to some extent, which is undesirable, but I
 sure how best to refactor: generate JSON schema from this code, or generate this code
 from the JSON scheme?
 """
-from stix2 import Bundle, CustomObject, parse
+from stix2 import CustomObject, parse
 from stix2.properties import ListProperty, ReferenceProperty, StringProperty
 
-from .exc import InvalidFlowError
-
 ATTACK_FLOW_EXTENSION_ID = "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4"
-ATTACK_FLOW_EXTENSION_CREATED_BY_ID = "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c"
 
 # SDO types to ignore when making visualizations.
 VIZ_IGNORE_SDOS = ("attack-flow", "extension-definition")
@@ -138,9 +135,7 @@ def load_attack_flow_bundle(path):
     :rtype: stix2.Bundle
     """
     with path.open() as f:
-        bundle = parse(f)
-    if not isinstance(bundle, Bundle):
-        raise InvalidFlowError(f"Path '{path}' does not contain a STIX bundle.")
+        bundle = parse(f, allow_custom=True)
     return bundle
 
 
@@ -154,7 +149,6 @@ def get_flow_object(flow_bundle):
     for obj in flow_bundle.objects:
         if obj.type == "attack-flow":
             return obj
-    raise InvalidFlowError("The bundle does not contain an `attack-flow` object.")
 
 
 _CONFIDENCE_NUM_TO_LABEL = [

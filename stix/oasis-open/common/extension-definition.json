@@ -1,0 +1,96 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/extension-definition.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "extension-definition",
+  "description": "The STIX Extension Definition object allows producers of threat intelligence to extend existing STIX objects or to create entirely new STIX objects in a standardized way.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `extension-definition`.",
+          "enum": [
+            "extension-definition"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^extension-definition--"
+        },
+        "name": {
+          "type": "string",
+          "description": "A name used for display purposes during execution, development, or debugging."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed explanation of what data the extension conveys and how it is intended to be used."
+        },
+        "schema": {
+          "type": "string",
+          "description": "The normative definition of the extension, either as a URL or as plain text explaining the definition."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of this extension."
+        },
+        "extension_types": {
+          "type": "array",
+          "description": "Which extension types are contained within this extension.",
+          "items": {
+            "$ref": "#/definitions/extension-type-enum"
+          },
+          "minItems": 1
+        },
+        "extension_properties": {
+          "type": "array",
+          "description": "The list of new property names that are added to an object by this extension",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    {
+      "if": {
+        "not": {
+          "properties": {
+            "extension_types": {
+              "type": "array",
+              "contains": {
+                "const": "toplevel-property-extension"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": ["extension_properties"]
+        }
+      }
+    }
+  ],
+  "required": [
+    "name",
+    "schema",
+    "version",
+    "extension_types"
+  ],
+  "definitions": {
+    "extension-type-enum": {
+      "type": "string",
+      "enum": [
+        "new-sdo",
+        "new-sco",
+        "new-sro",
+        "property-extension",
+        "toplevel-property-extension"
+      ]
+    }
+  }
+}

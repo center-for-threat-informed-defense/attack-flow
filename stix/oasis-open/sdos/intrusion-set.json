@@ -1,0 +1,106 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/intrusion-set.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "intrusion-set",
+  "description": "An Intrusion Set is a grouped set of adversary behavior and resources with common properties that is believed to be orchestrated by a single organization.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `intrusion-set`.",
+          "enum": [
+            "intrusion-set"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^intrusion-set--"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Intrusion Set."
+        },
+        "description": {
+          "type": "string",
+          "description": "Provides more context and details about the Intrusion Set object."
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names used to identify this Intrusion Set.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "first_seen": {
+          "$ref": "../common/timestamp.json",
+          "description": "The time that this Intrusion Set was first seen."
+        },
+        "last_seen": {
+          "$ref": "../common/timestamp.json",
+          "description": "The time that this Intrusion Set was last seen."
+        },
+        "goals": {
+          "type": "array",
+          "description": "The high level goals of this Intrusion Set, namely, what are they trying to do.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "resource_level": {
+          "type": "string",
+          "description": "This defines the organizational level at which this Intrusion Set typically works. Open Vocab - attack-resource-level-ov"
+        },
+        "primary_motivation": {
+          "type": "string",
+          "description": "The primary reason, motivation, or purpose behind this Intrusion Set. Open Vocab - attack-motivation-ov"
+        },
+        "secondary_motivations": {
+          "type": "array",
+          "description": "The secondary reasons, motivations, or purposes behind this Intrusion Set. Open Vocab - attack-motivation-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ],
+  "definitions": {
+    "attack-resource-level-ov": {
+      "type": "string",
+      "enum": [
+        "individual",
+        "club",
+        "contest",
+        "team",
+        "organization",
+        "government"
+      ]
+    },
+    "attack-motivation-ov": {
+      "type": "string",
+      "enum": [
+        "accidental",
+        "coercion",
+        "dominance",
+        "ideology",
+        "notoriety",
+        "organizational-gain",
+        "personal-gain",
+        "personal-satisfaction",
+        "revenge",
+        "unpredictable"
+      ]
+    }
+  }
+}

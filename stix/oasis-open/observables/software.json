@@ -1,0 +1,60 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/software.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "software",
+  "description": "The Software Object represents high-level properties associated with software, including software products.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `software`.",
+          "enum": [
+            "software"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^software--"
+        },
+        "name": {
+          "type": "string",
+          "description": "Specifies the name of the software."
+        },
+        "cpe": {
+          "type": "string",
+          "pattern": "cpe:2\\.3:[aho\\*\\-](:(((\\?*|\\*?)([a-zA-Z0-9\\-\\._]|(\\\\[\\\\\\*\\?!\"#$$%&'\\(\\)\\+,/:;<=>@\\[\\]\\^`\\{\\|}~]))+(\\?*|\\*?))|[\\*\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[\\*\\-]))(:(((\\?*|\\*?)([a-zA-Z0-9\\-\\._]|(\\\\[\\\\\\*\\?!\"#$$%&'\\(\\)\\+,/:;<=>@\\[\\]\\^`\\{\\|}~]))+(\\?*|\\*?))|[\\*\\-])){4}",
+          "description": "Specifies the Common Platform Enumeration (CPE) entry for the software, if available. The value for this property MUST be a CPE v2.3 entry from the official NVD CPE Dictionary."
+        },
+        "swid": {
+          "type": "string",
+          "description": "Specifies the Software Identification (SWID) Tags entry for the software, if available."
+        },
+        "languages": {
+          "type": "array",
+          "description": "Specifies the languages supported by the software. The value of each list member MUST be an ISO 639-2 language code.",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{3}$"
+          },
+          "minItems": 1
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Specifies the name of the vendor of the software."
+        },
+        "version": {
+          "type": "string",
+          "description": "Specifies the version of the software."
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ]
+}

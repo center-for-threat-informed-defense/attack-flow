@@ -1,0 +1,54 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/language-content.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "language-content",
+  "description": "The language-content object represents text content for STIX Objects represented in languages other than that of the original object.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `language-content`.",
+          "enum": [
+            "language-content"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^language-content--"
+        },
+        "object_ref": {
+          "description": "Identifies the object that this Language Content applies to.",
+          "allOf": [
+            {
+              "$ref": "../common/identifier.json"
+            },
+            {
+              "not": {
+                "pattern": "^(bundle|language-content)--.+$"
+              }
+            }
+          ]
+        },
+        "object_modified": {
+          "$ref": "../common/timestamp.json",
+          "description": "Identifies the modified time of the object that this Language Content applies to."
+        },
+        "contents": {
+          "$ref": "../common/dictionary.json",
+          "description": "Contains the actual Language Content (translation)."
+        }
+      }
+    },
+    {
+      "required": [
+        "object_ref",
+        "contents"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/hashes-type.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "hashes",
+  "description": "The Hashes type represents one or more cryptographic hashes, as a special set of key/value pairs",
+  "type": "object",
+  "allOf": [{ "$ref": "../common/dictionary.json" }],
+  "patternProperties": {
+    "^[a-zA-Z0-9_-]{3,250}$": {
+      "type": "string",
+      "description": "Custom hash key"
+    },
+    "^MD5$": {
+      "type": "string",
+      "description": "Specifies the MD5 message digest algorithm.",
+      "pattern": "^[a-fA-F0-9]{32}$"
+    },
+    "^SHA-1$": {
+      "type": "string",
+      "description": "Specifies the SHA-1 (secure-hash algorithm 1) cryptographic hash function.",
+      "pattern": "^[a-fA-F0-9]{40}$"
+    },
+    "^SHA-256$": {
+      "type": "string",
+      "description": "Specifies the SHA-256 cryptographic hash function (part of the SHA2 family).",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "^SHA-512$": {
+      "type": "string",
+      "description": "Specifies the SHA-512 cryptographic hash function (part of the SHA2 family).",
+      "pattern": "^[a-fA-F0-9]{128}$"
+    },
+    "^SHA3-256$": {
+      "type": "string",
+      "description": "Specifies the SHA3-256 cryptographic hash function.",
+      "pattern": "^[a-fA-F0-9]{64}$"
+    },
+    "^SHA3-512$": {
+      "type": "string",
+      "description": "Specifies the SHA3-512 cryptographic hash function.",
+      "pattern": "^[a-fA-F0-9]{128}$"
+    },
+    "^SSDEEP$": {
+      "type": "string",
+      "description": "Specifies the ssdeep fuzzy hashing algorithm.",
+      "pattern": "^[a-zA-Z0-9/+:.]{1,128}$"
+    },
+    "^TLSH$": {
+      "type": "string",
+      "description": "Specifies the TLSH locality-sensitive hashing algorithm.",
+      "pattern": "^[a-zA-Z0-9]{70}$"
+    }
+  },
+  "additionalProperties": false
+}

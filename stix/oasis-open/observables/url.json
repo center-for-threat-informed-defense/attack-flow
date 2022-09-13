@@ -1,0 +1,34 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/url.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "url",
+  "description": "The URL Object represents the properties of a uniform resource locator (URL).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `url`.",
+          "enum": [
+            "url"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^url--"
+        },
+        "value": {
+          "$ref": "../common/url-regex.json",
+          "description": "Specifies the value of the URL."
+        }
+      }
+    }
+  ],
+  "required": [
+    "value"
+  ]
+}
