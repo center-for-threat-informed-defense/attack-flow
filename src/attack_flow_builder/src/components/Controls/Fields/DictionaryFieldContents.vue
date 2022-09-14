@@ -100,21 +100,14 @@ export default defineComponent({
 <style scoped>
 
 .field-item {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .field-name {
-  color: #bfbfbf;
-  font-size: 10pt;
+  color: #a6a6a6;
+  font-size: 9.5pt;
   font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.field.text {
-  padding: 2px;
-  border: solid 1px #3d3d3d;
-  background: #2e2e2e;
-  border-radius: 3px;
+  margin-bottom: 6px;
 }
 
 </style>

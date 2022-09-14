@@ -45,10 +45,11 @@ input {
   background: #2e2e2e;
   border: none;
   border-radius: 4px;
-  color: #bfbfbf;
+  color: #cccccc;
   height: 100%;
   width: 100%;
-  padding: 6px 10px;
+  padding: 6px 12px;
+  font-size: 10.5pt;
 }
 input:focus {
   outline: none;

@@ -1,5 +1,5 @@
 <template>
-  <TabBox class="editor-tabs-element" v-model="active">
+  <TabBox class="editor-tabs-element" v-model="active" :canClose="false">
     <Tab class="object-properties" name="Properties">
       <ObjectEditor />
     </Tab>

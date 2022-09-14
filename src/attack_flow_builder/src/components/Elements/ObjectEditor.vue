@@ -1,6 +1,6 @@
 <template>
   <div class="object-editor-element">
-    <template v-if="selected">
+    <template v-if="property">
       <ScrollBox
         class="scrollbox"
         :alwaysShowScrollBar="true"
@@ -9,8 +9,11 @@
         <DictionaryFieldContents class="contents" :property="property" @change="onChange"/>
       </ScrollBox>
     </template>
+    <template v-else-if="selected">
+      <p class="no-prop-selection">The selected object has no properties.</p>
+    </template>
     <template v-else>
-      Nothing
+      <p class="no-prop-selection">Select an object to edit its properties.</p>
     </template>
   </div>
 </template>
@@ -55,10 +58,7 @@ export default defineComponent({
           return undefined;  // Will never run
         }
         if(this.selects.size === 1) {
-            let item = this.selects.values().next().value;
-            if(item instanceof DictionaryBlockModel) {
-                return item;
-            }
+            return this.selects.values().next().value;
         }
         return undefined;
     },
@@ -68,7 +68,9 @@ export default defineComponent({
         if(1 + this.pageUpdate === 0) {
           return undefined;  // Will never run
         }
-        return this.selected?.props;
+        if(0 < (this.selected?.props.value.size ?? 0)) {
+            return this.selected?.props;
+        }
     }
 
   },
@@ -109,6 +111,19 @@ export default defineComponent({
 
 .contents {
   padding: 18px 16px;
+}
+
+.no-prop-selection {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 10pt;
+  justify-content: center;
+  color: #818181;
+  padding: 100px 0px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 </style>

@@ -93,23 +93,23 @@ export default {
                             }
                         ]
                     },
-                    {
-                        id: "library_options",
-                        items: [
-                            {
-                                id: "open_library",
-                                text: "Import Library...",
-                                action: MenuAction.OpenFile,
-                                shortcut: file.open_library,
-                            },
-                            {
-                                id: "save_library",
-                                text: "Export Library",
-                                action: MenuAction.RunTask,
-                                shortcut: file.save_library
-                            }
-                        ]
-                    }
+                    // {
+                    //     id: "library_options",
+                    //     items: [
+                    //         {
+                    //             id: "open_library",
+                    //             text: "Import Library...",
+                    //             action: MenuAction.OpenFile,
+                    //             shortcut: file.open_library,
+                    //         },
+                    //         {
+                    //             id: "save_library",
+                    //             text: "Export Library",
+                    //             action: MenuAction.RunTask,
+                    //             shortcut: file.save_library
+                    //         }
+                    //     ]
+                    // }
                 ]
             }, {
                 publish_options: Configuration.publisher !== undefined
@@ -399,66 +399,66 @@ export default {
                 action: MenuAction.OpenSubmenu,
                 sections: [
                     getters.layeringMenu,
-                    {
-                        id: "align_options",
-                        items: [
-                            {
-                                id: "align_menu",
-                                text: "Align",
-                                action: MenuAction.OpenSubmenu,
-                                sections: [
-                                    {
-                                        id: "horizontal_alignments",
-                                        items: [
-                                            {
-                                                id: "align_left",
-                                                text: "Align Left",
-                                                action: MenuAction.RunTask,
-                                                shortcut: layout.align_left,
-                                            },
-                                            {
-                                                id: "align_center",
-                                                text: "Align Center",
-                                                action: MenuAction.RunTask,
-                                                shortcut: layout.align_center,
-                                            },
-                                            {
-                                                id: "align_right",
-                                                text: "Align Right",
-                                                action: MenuAction.RunTask,
-                                                shortcut: layout.align_right,
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        id: "vertical_alignments",
-                                        items: [
-                                            {
-                                                id: "align_top",
-                                                text: "Align Top",
-                                                action: MenuAction.RunTask,
-                                                shortcut: layout.align_top,
-                                            },
-                                            {
-                                                id: "align_middle",
-                                                text: "Align Middle",
-                                                action: MenuAction.RunTask,
-                                                shortcut: layout.align_middle,
-                                            },
-                                            {
-                                                id: "align_bottom",
-                                                text: "Align Bottom",
-                                                action: MenuAction.RunTask,
-                                                shortcut: layout.align_bottom,
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    getters.groupingMenu,
-                    getters.groupMenu,
+                    // {
+                    //     id: "align_options",
+                    //     items: [
+                    //         {
+                    //             id: "align_menu",
+                    //             text: "Align",
+                    //             action: MenuAction.OpenSubmenu,
+                    //             sections: [
+                    //                 {
+                    //                     id: "horizontal_alignments",
+                    //                     items: [
+                    //                         {
+                    //                             id: "align_left",
+                    //                             text: "Align Left",
+                    //                             action: MenuAction.RunTask,
+                    //                             shortcut: layout.align_left,
+                    //                         },
+                    //                         {
+                    //                             id: "align_center",
+                    //                             text: "Align Center",
+                    //                             action: MenuAction.RunTask,
+                    //                             shortcut: layout.align_center,
+                    //                         },
+                    //                         {
+                    //                             id: "align_right",
+                    //                             text: "Align Right",
+                    //                             action: MenuAction.RunTask,
+                    //                             shortcut: layout.align_right,
+                    //                         }
+                    //                     ]
+                    //                 },
+                    //                 {
+                    //                     id: "vertical_alignments",
+                    //                     items: [
+                    //                         {
+                    //                             id: "align_top",
+                    //                             text: "Align Top",
+                    //                             action: MenuAction.RunTask,
+                    //                             shortcut: layout.align_top,
+                    //                         },
+                    //                         {
+                    //                             id: "align_middle",
+                    //                             text: "Align Middle",
+                    //                             action: MenuAction.RunTask,
+                    //                             shortcut: layout.align_middle,
+                    //                         },
+                    //                         {
+                    //                             id: "align_bottom",
+                    //                             text: "Align Bottom",
+                    //                             action: MenuAction.RunTask,
+                    //                             shortcut: layout.align_bottom,
+                    //                         }
+                    //                     ]
+                    //                 }
+                    //             ]
+                    //         }
+                    //     ]
+                    // },
+                    // getters.groupingMenu,
+                    // getters.groupMenu,
                 ]
             };
         },
@@ -839,16 +839,16 @@ export default {
                             link: link.url
                         }))
                     },
-                    {
-                        id: "about",
-                        items: [
-                            {
-                                id: "open_about_window",
-                                text: "About",
-                                action: MenuAction.RunTask,
-                            }
-                        ]
-                    }
+                    // {
+                    //     id: "about",
+                    //     items: [
+                    //         {
+                    //             id: "open_about_window",
+                    //             text: "About",
+                    //             action: MenuAction.RunTask,
+                    //         }
+                    //     ]
+                    // }
                 ]
             };
         }
