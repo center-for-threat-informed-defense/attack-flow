@@ -3,6 +3,7 @@ import publisher from "./builder.config.publisher";
 import { AppConfiguration } from "@/store/StoreTypes";
 import { PropertyType } from "./scripts/BlockDiagram/Property";
 import { SemanticRole, TemplateType } from "./scripts/BlockDiagram/DiagramFactory";
+import { SemanticRoleMask } from "./scripts/BlockDiagram";
 
 /**
  * Standard Dictionary Block Style
@@ -109,6 +110,30 @@ ConditionBlockStyle.head.stroke_color = "#32b34e"
  * OR Block Style
  */
 const OrBlockStyle = structuredClone(StandardOperatorBlockStyle);
+/**
+ * Infrastructure Style
+ */
+const InfrastructureBlockStyle = structuredClone(StandardDictionaryBlockStyle);
+InfrastructureBlockStyle.head.fill_color = "#637bc9";
+InfrastructureBlockStyle.head.stroke_color = "#708ce6"
+/**
+ * Identity Style
+ */
+ const IdentityBlockStyle = structuredClone(StandardDictionaryBlockStyle);
+ IdentityBlockStyle.head.fill_color = "#637bc9";
+ IdentityBlockStyle.head.stroke_color = "#708ce6"
+ /**
+ * Threat Actor Style
+ */
+  const ThreatActorBlockStyle = structuredClone(StandardDictionaryBlockStyle);
+  ThreatActorBlockStyle.head.fill_color = "#637bc9";
+  ThreatActorBlockStyle.head.stroke_color = "#708ce6"
+  /**
+ * Campaign Style
+ */
+ const CampaignBlockStyle = structuredClone(StandardDictionaryBlockStyle);
+ CampaignBlockStyle.head.fill_color = "#637bc9";
+ CampaignBlockStyle.head.stroke_color = "#708ce6"
 
  /**
   * App Configuration
@@ -126,11 +151,12 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "technique_name",
                 properties: {
-                    spec_version   : { type: PropertyType.String, value: "2.1" },
                     technique_id   : { type: PropertyType.String, value: "" },
                     technique_name : { type: PropertyType.String, value: "" },
                     technique_ref  : { type: PropertyType.String, value: "" },
-                    description    : { type: PropertyType.String, value: "" }
+                    description    : { type: PropertyType.String, value: "" },
+                    created        : { type: PropertyType.String, value: "" },
+                    modified       : { type: PropertyType.String, value: "" }
                 },
                 anchor_template: "@__builtin__anchor",
                 style: ActionBlockStyle
@@ -142,7 +168,6 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    spec_version : { type: PropertyType.String, value: "2.1" },
                     name         : { type: PropertyType.String, value: "" },
                     description  : { type: PropertyType.String, value: "" }
                 },
@@ -156,7 +181,6 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "description",
                 properties: {
-                    spec_version    : { type: PropertyType.String, value: "2.1" },
                     description     : { type: PropertyType.String, value: "" },
                     pattern         : { type: PropertyType.String, value: "" },
                     pattern_type    : { type: PropertyType.String, value: "" },
@@ -165,6 +189,7 @@ const config: AppConfiguration = {
                 anchor_template: "@__builtin__anchor",
                 style: ConditionBlockStyle
             },
+            // AND and OR blocks are the attack-operators
             {
                 id: "and",
                 name: "AND Block",
@@ -182,7 +207,83 @@ const config: AppConfiguration = {
                 text: "OR",
                 anchor_template: "@__builtin__anchor",
                 style: OrBlockStyle
-            }
+            },
+            {
+                id: "infrastructure",
+                name: "Infrastructure Block",
+                type: TemplateType.DictionaryBlock,
+                role: SemanticRole.Node,
+                title_key: "name",
+                properties: {
+                    description             : { type: PropertyType.String, value: "" },
+                    name                    : { type: PropertyType.String, value: "" },
+                    infrustructure_types    : { type: PropertyType.String, value: "" },
+                    aliases                 : { type: PropertyType.String, value: "" },
+                    kill_chain_phases        : { type: PropertyType.String, value: "" },
+                    first_seen              : { type: PropertyType.String, value: "" },
+                    last_seen               : {type: PropertyType.String, value: ""}
+                },
+                anchor_template: "@__builtin__anchor",
+                style: InfrastructureBlockStyle
+            },
+            {
+                id: "identity",
+                name: "Identity Block",
+                type: TemplateType.DictionaryBlock,
+                role: SemanticRole.Node,
+                title_key: "name",
+                properties: {
+                    name                      : { type: PropertyType.String, value: "" },
+                    description               : { type: PropertyType.String, value: "" },
+                    roles                     : { type: PropertyType.String, value: "" },
+                    identity_class            : { type: PropertyType.String, value: "" },
+                    sectors                   : { type: PropertyType.String, value: "" }, 
+                    contact_information       : { type: PropertyType.String, value: "" }  
+                },
+                anchor_template: "@__builtin__anchor",
+                style: IdentityBlockStyle
+            },
+            {
+                id: "threat_actor",
+                name: "Threat Actor Block",
+                type: TemplateType.DictionaryBlock,
+                role: SemanticRole.Node,
+                title_key: "name",
+                properties: {
+                    name                      : { type: PropertyType.String, value: "" },
+                    description               : { type: PropertyType.String, value: "" },
+                    threat_actor_types        : { type: PropertyType.String, value: "" },
+                    aliases                   : { type: PropertyType.String, value: "" },
+                    first_seen                : { type: PropertyType.String, value: "" }, 
+                    last_seen                 : { type: PropertyType.String, value: "" },  
+                    roles                     : { type: PropertyType.String, value: "" },  
+                    goals                     : { type: PropertyType.String, value: "" },  
+                    sophistication            : { type: PropertyType.String, value: "" },  
+                    resource_level            : { type: PropertyType.String, value: "" },  
+                    primary_motivation        : { type: PropertyType.String, value: "" },  
+                    secondary_motivation      : { type: PropertyType.String, value: "" },  
+                    personal_motivations      : { type: PropertyType.String, value: "" }  
+                },
+                anchor_template: "@__builtin__anchor",
+                style: ThreatActorBlockStyle
+            },
+            {
+                id: "campaign",
+                name: "Campaign Block",
+                type: TemplateType.DictionaryBlock,
+                role: SemanticRole.Node,
+                title_key: "name",
+                properties: {
+                    name                      : { type: PropertyType.String, value: "" },
+                    description               : { type: PropertyType.String, value: "" },
+                    aliases                   : { type: PropertyType.String, value: "" },
+                    first_seen                : { type: PropertyType.String, value: "" }, 
+                    last_seen                 : { type: PropertyType.String, value: "" },  
+                    objective                 : { type: PropertyType.String, value: "" },  
+                },
+                anchor_template: "@__builtin__anchor",
+                style: CampaignBlockStyle
+            },
         ]
     },
     help_links: [
