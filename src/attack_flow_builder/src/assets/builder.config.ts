@@ -4,7 +4,7 @@ import { AppConfiguration } from "@/store/StoreTypes";
 import { PropertyType } from "./scripts/BlockDiagram/Property";
 import { SemanticRole, TemplateType } from "./scripts/BlockDiagram/DiagramFactory";
 import { SemanticRoleMask } from "./scripts/BlockDiagram";
-
+​
 /**
  * Standard Dictionary Block Style
  */
@@ -54,7 +54,7 @@ const StandardDictionaryBlockStyle = {
     border_radius: 5,
     horizontal_padding: 20
 }
-
+​
 /**
  * Standard Operator Block Style
  */
@@ -79,33 +79,33 @@ const StandardOperatorBlockStyle = {
     vertical_padding: 18,
     horizontal_padding: 35
 }
-
+​
 /**
  * Action Block Style
  */
 const ActionBlockStyle = structuredClone(StandardDictionaryBlockStyle);
 ActionBlockStyle.head.fill_color = "#637bc9";
 ActionBlockStyle.head.stroke_color = "#708ce6"
-
+​
 /**
  * Asset Block Style
  */
  const AssetBlockStyle = structuredClone(StandardDictionaryBlockStyle);
  AssetBlockStyle.head.fill_color = "#c26130";
  AssetBlockStyle.head.stroke_color = "#e57339"
-
+​
 /**
  * Condition Block Style
  */
 const ConditionBlockStyle = structuredClone(StandardDictionaryBlockStyle);
 ConditionBlockStyle.head.fill_color = "#2a9642";
 ConditionBlockStyle.head.stroke_color = "#32b34e"
-
+​
 /**
  * AND Block Style
  */
  const AndBlockStyle = structuredClone(StandardOperatorBlockStyle);
-
+​
 /**
  * OR Block Style
  */
@@ -128,13 +128,25 @@ InfrastructureBlockStyle.head.stroke_color = "#708ce6"
   const ThreatActorBlockStyle = structuredClone(StandardDictionaryBlockStyle);
   ThreatActorBlockStyle.head.fill_color = "#637bc9";
   ThreatActorBlockStyle.head.stroke_color = "#708ce6"
-  /**
+/**
  * Campaign Style
  */
  const CampaignBlockStyle = structuredClone(StandardDictionaryBlockStyle);
  CampaignBlockStyle.head.fill_color = "#637bc9";
  CampaignBlockStyle.head.stroke_color = "#708ce6"
-
+ /**
+ * Tool Style
+ */
+  const ToolBlockStyle = structuredClone(StandardDictionaryBlockStyle);
+  ToolBlockStyle.head.fill_color = "#637bc9";
+  ToolBlockStyle.head.stroke_color = "#708ce6"
+  /**
+ * Vulnerability Style
+ */
+ const VulnerabilityBlockStyle = structuredClone(StandardDictionaryBlockStyle);
+ VulnerabilityBlockStyle.head.fill_color = "#637bc9";
+ VulnerabilityBlockStyle.head.stroke_color = "#708ce6"
+​
  /**
   * App Configuration
   */
@@ -284,6 +296,37 @@ const config: AppConfiguration = {
                 anchor_template: "@__builtin__anchor",
                 style: CampaignBlockStyle
             },
+            {
+                id: "tool",
+                name: "Tool Block",
+                type: TemplateType.DictionaryBlock,
+                role: SemanticRole.Node,
+                title_key: "name",
+                properties: {
+                    name                      : { type: PropertyType.String, value: "" },
+                    description               : { type: PropertyType.String, value: "" },
+                    tool_types                : { type: PropertyType.String, value: "" },
+                    aliases                   : { type: PropertyType.String, value: "" }, 
+                    kill_chain_phases         : { type: PropertyType.String, value: "" },  
+                    tool_version              : { type: PropertyType.String, value: "" },  
+                },
+                anchor_template: "@__builtin__anchor",
+                style: ToolBlockStyle
+            },
+            {
+                id: "vulnerability",
+                name: "Vulnerability Block",
+                type: TemplateType.DictionaryBlock,
+                role: SemanticRole.Node,
+                title_key: "name",
+                properties: {
+                    name                      : { type: PropertyType.String, value: "" },
+                    description               : { type: PropertyType.String, value: "" },
+                    external_references       : { type: PropertyType.String, value: "" },  
+                },
+                anchor_template: "@__builtin__anchor",
+                style: VulnerabilityBlockStyle
+            }
         ]
     },
     help_links: [
@@ -299,5 +342,5 @@ const config: AppConfiguration = {
     validator,
     publisher
 };
-
+​
 export default config;
