@@ -6,7 +6,10 @@ Overview
 The Resource Description Framework (`RDF <https://www.w3.org/RDF/>`_) and the Web Ontology Language (`OWL <https://www.w3.org/OWL/>`_) are web standards designed to ease data aggregation across sources and contexts.
 Attack Flow users may find it convenient to represent their flows in RDF in order to use query tools such as `SPARQL <https://www.w3.org/TR/sparql11-query/>`_ or graph databases such as `Blazegraph <https://blazegraph.com/>`_.
 
-The purpose of this document is to outline an approach for translating flows to RDF through the use of the JSON-LD standard (`JSON for Linking Data <https://json-ld.org/>`_). The Attack Flow project does not provide an official translation of flows into RDF, nor a suggest a particular vocabulary. Such an "official" translation may become possible after the OASIS Threat Actor Context (`TAC <https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=tac>`_)  Technical Committee releases their `ontology <https://github.com/oasis-tcs/tac-ontology>`_ for representing STIX reports in RDF.
+The purpose of this document is to outline an approach for translating flows to RDF through the use of the JSON-LD standard (`JSON for Linking Data <https://json-ld.org/>`_).
+
+.. note::
+    The Attack Flow project does not provide an official translation of flows into RDF, nor a suggest a particular vocabulary. Such an "official" translation may become possible after the OASIS Threat Actor Context (`TAC <https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=tac>`_)  Technical Committee releases their `ontology <https://github.com/oasis-tcs/tac-ontology>`_ for representing STIX reports in RDF.
 
 
 
@@ -69,14 +72,14 @@ In JSON-LD, a top-level `@context` property provides document-wide definitions f
 
 Some important notes on the above context:
 
-* The `@base` URI and `kb` namespace should be set to something unique per document.
-* The `stix` namespace should be checked against the most recent TAC ontology release, and each of the standard STIX properties should be matched against a corresponding type in TAC.
-* Because the Attack Flow project has not released its own ontology aligned against the TAC ontology, we recommend that the `af` namespace be set to a consistent URI within your organization.
+* The ``@base`` URI and ``kb`` namespace should be set to something unique per document.
+* The ``stix`` namespace should be checked against the most recent TAC ontology release, and each of the standard STIX properties should be matched against a corresponding type in TAC.
+* Because the Attack Flow project has not released its own ontology aligned against the TAC ontology, we recommend that the ``af`` namespace be set to a consistent URI within your organization.
 
 Objects
 -------
 
-Once the `@context` has been defined, a `@type` property must be added to all JSON objects in the document. Care should be taken to map the objects to the appropriate type in the TAC ontology, as STIX JSON and TAC RDF types have different names for the same objects.
+Once the ``@context`` has been defined, a ``@type`` property must be added to all JSON objects in the document. Care should be taken to map the objects to the appropriate type in the TAC ontology, as STIX JSON and TAC RDF types have different names for the same objects.
 
 .. code-block:: json-ld
     :caption: Top-level properties from the Tesla flow converted to JSON-LD. The `@context` value should be filled in as above.
@@ -153,11 +156,11 @@ There are many tools for converting JSON-LD into RDF. In the above examples, we 
         stix:description "RedLock CSI Team. Feb 20 2018." ;
         stix:source_name "The Cryptojacking Epidemic" ;
         stix:url <https://blog.redlock.io/cryptojacking-tesla> ;
-    
+
     _:blank09
         stix:extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4 _:blank23 ;
         .
-    
+
     _:blank23
         stix:extension_type "new-sdo" ;
         .
@@ -551,7 +554,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
    <summary><a>Full RDF/Turtle output for the Tesla workflow</a></summary>
 
 .. code-block::
-    
+
     @prefix adversary: <http://docs.oasis-open.org/cti/ns/stix/adversary#> .
     @prefix af: <http://example.com/af#> .
     @prefix kb: <http://example.com/kb/> .
