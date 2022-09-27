@@ -66,6 +66,20 @@ export default {
             commit("ActivePageStore/setActivePage", state.document.editor, ROOT);
         },
 
+        /**
+         * Opens a block diagram document from a URL.
+         * @param ctx
+         *  The Vuex context.
+         * @param url
+         *  The URL to fetch a document from.
+         */
+        async openDocumentUrl(ctx, url: string) {
+            let { commit, state } = ctx;
+            const response = await fetch(url, { credentials: "omit" });
+            const document = await response.text();
+            commit("setActiveDocument", await BlockDiagramDocument.deserialize(document));
+            commit("ActivePageStore/setActivePage", state.document.editor, ROOT);
+        },
 
         ///////////////////////////////////////////////////////////////////////
         //  2. Document Export  ///////////////////////////////////////////////

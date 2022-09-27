@@ -14,6 +14,7 @@ import string
 import textwrap
 from urllib.parse import quote_plus
 
+
 NON_ALPHA = re.compile(r"[^a-zA-Z0-9]+")
 
 
@@ -279,7 +280,7 @@ def generate_example_flows(jsons, afds):
         ]
         if stem in afd_stems:
             formats.append(
-                f'<p><a target="_blank" href="/builder/?load=%2fcorpus%2f{quote_plus(stem)}.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>'
+                f'<p><a target="_blank" href="/ui/?loadUrl=%2fcorpus%2f{quote_plus(stem)}.afb"><i class="fa fa-wrench"></i>Attack Flow Builder</a></p>'
             )
         doc_lines.append(f"  * - **{name}**")
         doc_lines.append("")

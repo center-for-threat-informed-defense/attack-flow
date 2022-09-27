@@ -26,12 +26,12 @@ import FILE from "../test_file_2.json";
 export default defineComponent({
   name: 'App',
   methods: {
-    
+
     /**
      * Active Document Store actions
      */
     ...mapActions("ActiveDocumentStore", [
-      "createEmptyDocument", "openDocument"
+      "createEmptyDocument", "openDocument", "openDocumentUrl"
     ]),
 
     /**
@@ -44,7 +44,20 @@ export default defineComponent({
   },
   async created() {
     await this.loadSettings();
-    await this.createEmptyDocument(`Untitled ${ Configuration.file_type_name }`);
+    const urlQuery = new URLSearchParams(document.location.search);
+    const loadUrl = urlQuery.get("loadUrl");
+    let loaded = false;
+    if (loadUrl !== null) {
+      try {
+        await this.openDocumentUrl(loadUrl);
+        loaded = true;
+      } catch (ex: any) {
+        console.log(`Error loading document from: ${loadUrl}`, ex);
+      }
+    }
+    if (!loaded) {
+      await this.createEmptyDocument(`Untitled ${Configuration.file_type_name}`);
+    }
     // await this.openDocument(FILE);
   },
   components: {

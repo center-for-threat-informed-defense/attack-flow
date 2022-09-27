@@ -123,7 +123,7 @@ def doc_examples(args):
     if not corpus_path.is_dir():
         raise Exception("corpus_path must be a directory")
     doc_lines = attack_flow.docs.generate_example_flows(
-        jsons=corpus_path.glob("*.json"), afds=corpus_path.glob("*.afd")
+        jsons=corpus_path.glob("*.json"), afds=corpus_path.glob("*.afb")
     )
     with open(args.documentation_file) as old_doc:
         new_docs = attack_flow.docs.insert_docs(old_doc, doc_lines, tag="EXAMPLE_FLOWS")

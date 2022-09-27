@@ -15,10 +15,10 @@ jobs:
       with:
         node-version: '18'
     - name: Install dependencies
-      working-directory: ./src/attack_flow_designer/
+      working-directory: ./src/attack_flow_builder/
       run: npm ci
     - name: Build
-      working-directory: ./src/attack_flow_designer/
+      working-directory: ./src/attack_flow_builder/
       env:
         # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
         NODE_OPTIONS: "--openssl-legacy-provider"
@@ -27,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: attack_flow_builder
-        path: src/attack_flow_designer/dist/
+        path: src/attack_flow_builder/dist/
 
   docs:
     needs: attack_flow_builder
@@ -49,12 +49,12 @@ jobs:
     - name: Generate schema docs
       run: poetry run make docs-schema
     - name: Create client directory
-      run: mkdir docs/extra/builder
+      run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder
       uses: actions/download-artifact@v3
       with:
         name: attack_flow_builder
-        path: docs/extra/builder
+        path: docs/extra/ui
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
     - name: Copy corpus into docs
