@@ -197,7 +197,7 @@ def test_two_flow_objects():
             "id": "attack-action--168a4027-1572-492b-a80b-8eb01954afb3",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_name": "My Action",
+            "name": "My Action",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
                     "extension_type": "new-sdo"
@@ -284,7 +284,7 @@ def test_cannot_validate_unknown_type():
             "id": "attack-action--168a4027-1572-492b-a80b-8eb01954afb3",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_name": "My Action",
+            "name": "My Action",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
                     "extension_type": "new-sdo"
@@ -413,7 +413,7 @@ def test_missing_af_extension():
             "id": "attack-action--168a4027-1572-492b-a80b-8eb01954afb3",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_name": "My Action",
+            "name": "My Action",
         },
     ]
 
@@ -454,7 +454,7 @@ def test_a_node_is_not_connected_to_the_main_graph():
             "id": "attack-action--168a4027-1572-492b-a80b-8eb01954afb3",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_name": "My Action",
+            "name": "My Action",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
                     "extension_type": "new-sdo"
@@ -467,7 +467,7 @@ def test_a_node_is_not_connected_to_the_main_graph():
             "id": "attack-action--fb991df9-ec4b-45c6-ab82-7742e51a4a92",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_name": "My Disconnected Action",
+            "name": "My Disconnected Action",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
                     "extension_type": "new-sdo"
@@ -511,7 +511,7 @@ def test_best_practices():
             "id": "attack-action--168a4027-1572-492b-a80b-8eb01954afb3",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "technique_name": "My Action",
+            "name": "My Action",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
                     "extension_type": "new-sdo"

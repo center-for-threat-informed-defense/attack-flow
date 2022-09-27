@@ -90,7 +90,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1583.002",
-            "technique_name": "Acquire Infrastructure: Domains",
+            "name": "Acquire Infrastructure: Domains",
             "technique_ref": "attack-pattern--40f5caa0-4cb7-4117-89fc-d421bb493df3",
             "description": "The attacker obtains a phishing domain similar to the target company.",
             "effect_refs": [
@@ -147,7 +147,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1583.003",
-            "technique_name": "Acquire Infrastructure: Virtual Private Server",
+            "name": "Acquire Infrastructure: Virtual Private Server",
             "technique_ref": "attack-pattern--79da0971-3147-4af6-a4f5-e8cd447cd795",
             "description": "The attacker obtains a VPC for hosting phishing sites.",
             "effect_refs": [
@@ -192,7 +192,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1589.002",
-            "technique_name": "Gather Victim Identity Information: Email",
+            "name": "Gather Victim Identity Information: Email",
             "technique_ref": "attack-pattern--69f897fd-12a9-4c89-ad6a-46d2f3c38262",
             "description": "The attacker scrapes email addresses from the corporate web site.",
             "effect_refs": [
@@ -243,7 +243,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "1598.003",
-            "technique_name": "Phishing: Spearphishing Link",
+            "name": "Phishing: Spearphishing Link",
             "technique_ref": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
             "description": "The email says that the users's Outlook credentials have been compromised and contain a fake link to reset the credentials.",
             "asset_refs": [
@@ -303,7 +303,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1190",
-            "technique_name": "Exploit Public-Facing Application",
+            "name": "Exploit Public-Facing Application",
             "technique_ref": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
             "description": "Adversary logs into corporate WordPress blog with employee credentials.",
             "asset_refs": [

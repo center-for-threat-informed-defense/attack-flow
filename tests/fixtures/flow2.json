@@ -76,7 +76,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1552.001",
-            "technique_name": "Unsecured Credentials: Credentials In Files",
+            "name": "Unsecured Credentials: Credentials In Files",
             "description": "Use harvested AWS credentials.",
             "effect_refs": [
                 "attack-action--f8a853c1-aae6-4a82-9b13-e9d391dd3309"
@@ -94,7 +94,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1078.004",
-            "technique_name": "Valid Accounts: Cloud Accounts",
+            "name": "Valid Accounts: Cloud Accounts",
             "description": "Deploy cryptomining container",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {

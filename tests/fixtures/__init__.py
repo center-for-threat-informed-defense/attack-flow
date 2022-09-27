@@ -29,7 +29,7 @@ def get_flow_bundle():
         id="attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c",
         created=datetime(2022, 8, 25, 19, 26, 31),
         modified=datetime(2022, 8, 25, 19, 26, 31),
-        technique_name="Action 2",
+        name="Action 2",
         description="Description of action 2",
         asset_refs=[asset.id],
     )
@@ -53,7 +53,7 @@ def get_flow_bundle():
         created=datetime(2022, 8, 25, 19, 26, 31),
         modified=datetime(2022, 8, 25, 19, 26, 31),
         technique_id="T3",
-        technique_name="Action 3",
+        name="Action 3",
         description="Description of action 3",
     )
     action4 = AttackAction(
@@ -61,7 +61,7 @@ def get_flow_bundle():
         created=datetime(2022, 8, 25, 19, 26, 31),
         modified=datetime(2022, 8, 25, 19, 26, 31),
         technique_id="T4",
-        technique_name="Action 4",
+        name="Action 4",
         description="Description of action 4",
     )
     operator = AttackOperator(
@@ -84,7 +84,7 @@ def get_flow_bundle():
         created=datetime(2022, 8, 25, 19, 26, 31),
         modified=datetime(2022, 8, 25, 19, 26, 31),
         technique_id="T1",
-        technique_name="Action 1",
+        name="Action 1",
         description="Description of action 1",
         effect_refs=[condition.id],
     )

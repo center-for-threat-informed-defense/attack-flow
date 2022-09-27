@@ -62,7 +62,7 @@ class AttackAsset:
     "attack-action",
     [
         ("technique_id", StringProperty()),
-        ("technique_name", StringProperty(required=True)),
+        ("name", StringProperty(required=True)),
         ("technique_ref", ReferenceProperty(valid_types="attack-pattern")),
         ("description", StringProperty()),
         (

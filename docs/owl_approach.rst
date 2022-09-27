@@ -335,7 +335,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T1133",
-                "technique_name": "External Remote Services",
+                "name": "External Remote Services",
                 "technique_ref": "attack-pattern--40f5caa0-4cb7-4117-89fc-d421bb493df3",
                 "description": "The adversary logs into the Kubernetes console.",
                 "confidence": 90,
@@ -357,7 +357,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T1610",
-                "technique_name": "Deploy Container",
+                "name": "Deploy Container",
                 "technique_ref": "attack-pattern--56e0d8b8-3e25-49dd-9050-3aa252f5aa92",
                 "description": "The adversary deploys a new container on the Kubernetes cluster.",
                 "confidence": 90,
@@ -378,7 +378,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T1583.004",
-                "technique_name": "Acquire Infrastructure: Server",
+                "name": "Acquire Infrastructure: Server",
                 "technique_ref": "attack-pattern--60c4b628-4807-4b0b-bbf5-fdac8643c337",
                 "description": "The adversary runs an \"unlisted\" mining pool server on a non-standard port to evade IP and port blocklists.",
                 "effect_refs": [
@@ -422,7 +422,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T0884",
-                "technique_name": "Connection Proxy",
+                "name": "Connection Proxy",
                 "technique_ref": "attack-pattern--cd25c1b4-935c-4f0e-ba8d-552f28bc4783",
                 "description": "The adversary proxies their mining pool through Cloudflare CDN.",
                 "effect_refs": [
@@ -460,7 +460,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T1496",
-                "technique_name": "Resource Highjacking",
+                "name": "Resource Highjacking",
                 "technique_ref": "attack-pattern--cd25c1b4-935c-4f0e-ba8d-552f28bc4783",
                 "description": "The adversary runs cryptomining software in the container, configured to use their private mining pool.",
                 "confidence": 90,
@@ -489,7 +489,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T1552.001",
-                "technique_name": "Unsecured Credentials: Credentials In Files",
+                "name": "Unsecured Credentials: Credentials In Files",
                 "technique_ref": "attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc",
                 "description": "The adversary could view plaintext AWS keys in the Kubernetes console.",
                 "confidence": 0,
@@ -510,7 +510,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T1078.004",
-                "technique_name": "Valid Accounts: Cloud Accounts",
+                "name": "Valid Accounts: Cloud Accounts",
                 "technique_ref": "attack-pattern--f232fa7a-025c-4d43-abc7-318e81a73d65",
                 "description": "The adversary authenticates to AWS S3 using the discovered credentials.",
                 "confidence": 0,
@@ -531,7 +531,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created": "2022-08-24T23:25:58.000Z",
                 "modified": "2022-08-24T23:25:58.000Z",
                 "technique_id": "T1530",
-                "technique_name": "Data from Cloud Storage Object",
+                "name": "Data from Cloud Storage Object",
                 "technique_ref": "attack-pattern--3298ce88-1628-43b1-87d9-0b5336b193d7",
                 "description": "The adversary can access data in private S3 buckets.",
                 "confidence": 0,
@@ -573,7 +573,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T0884" ;
-        stix:technique_name "Connection Proxy" ;
+        stix:name "Connection Proxy" ;
         stix:type "attack-action" ;
         af:effect_ref kb:attack-operator--31982617-e0c7-4113-a4b0-830783d96fc2 ;
         af:technique_ref kb:attack-pattern--cd25c1b4-935c-4f0e-ba8d-552f28bc4783 ;
@@ -588,7 +588,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T1530" ;
-        stix:technique_name "Data from Cloud Storage Object" ;
+        stix:name "Data from Cloud Storage Object" ;
         stix:type "attack-action" ;
         af:technique_ref kb:attack-pattern--3298ce88-1628-43b1-87d9-0b5336b193d7 ;
         .
@@ -602,7 +602,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T1552.001" ;
-        stix:technique_name "Unsecured Credentials: Credentials In Files" ;
+        stix:name "Unsecured Credentials: Credentials In Files" ;
         stix:type "attack-action" ;
         af:effect_ref kb:attack-action--834f885b-718d-47d7-b94d-a7c15f0bcf34 ;
         af:technique_ref kb:attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc ;
@@ -617,7 +617,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T1610" ;
-        stix:technique_name "Deploy Container" ;
+        stix:name "Deploy Container" ;
         stix:type "attack-action" ;
         af:effect_ref kb:attack-operator--31982617-e0c7-4113-a4b0-830783d96fc2 ;
         af:technique_ref kb:attack-pattern--56e0d8b8-3e25-49dd-9050-3aa252f5aa92 ;
@@ -632,7 +632,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T1078.004" ;
-        stix:technique_name "Valid Accounts: Cloud Accounts" ;
+        stix:name "Valid Accounts: Cloud Accounts" ;
         stix:type "attack-action" ;
         af:effect_ref kb:attack-action--24728445-761a-42d6-afd8-548c82669544 ;
         af:technique_ref kb:attack-pattern--f232fa7a-025c-4d43-abc7-318e81a73d65 ;
@@ -647,7 +647,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T1583.004" ;
-        stix:technique_name "Acquire Infrastructure: Server" ;
+        stix:name "Acquire Infrastructure: Server" ;
         stix:type "attack-action" ;
         af:effect_ref kb:attack-action--16002983-8519-46d6-9a2b-7a983557e3a9 ;
         af:technique_ref kb:attack-pattern--60c4b628-4807-4b0b-bbf5-fdac8643c337 ;
@@ -662,7 +662,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T1496" ;
-        stix:technique_name "Resource Highjacking" ;
+        stix:name "Resource Highjacking" ;
         stix:type "attack-action" ;
         af:technique_ref kb:attack-pattern--cd25c1b4-935c-4f0e-ba8d-552f28bc4783 ;
         .
@@ -676,7 +676,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:modified "2022-08-24T23:25:58.000Z"^^xsd:dateTime ;
         stix:spec_version "2.1" ;
         stix:technique_id "T1133" ;
-        stix:technique_name "External Remote Services" ;
+        stix:name "External Remote Services" ;
         stix:type "attack-action" ;
         af:effect_ref
             kb:attack-action--35c10b05-2035-4a72-bf40-a82ee548f363 ,

@@ -82,9 +82,9 @@ def convert(bundle):
     for o in bundle.objects:
         if o.type == "attack-action":
             if tid := o.get("technique_id", None):
-                name = f"{tid} {o.technique_name}"
+                name = f"{tid} {o.name}"
             else:
-                name = o.technique_name
+                name = o.name
             confidence = confidence_num_to_label(o.get("confidence", 95))
             label_lines = [
                 "<b>Action</b>",

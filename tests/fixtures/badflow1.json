@@ -64,7 +64,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1133",
-            "technique_name": "External Remote Services",
+            "name": "External Remote Services",
             "description": "Kubernetes dashboard",
             "effect_refs": [
                 "attack-action--a80be4f5-be42-48eb-8ade-b10820015e96"
@@ -82,7 +82,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1610",
-            "technique_name": "Deploy Container",
+            "name": "Deploy Container",
             "description": "Deploy cryptomining container",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {

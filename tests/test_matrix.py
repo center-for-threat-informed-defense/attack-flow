@@ -53,7 +53,7 @@ def test_graph_is_missing_node(caplog):
     action1 = AttackAction(
         id="attack-action--52f2c35a-fa2a-45a4-b84c-46ad9498071f",
         technique_id="T1189",
-        technique_name="Action 1",
+        name="Action 1",
         description="Description of action 1",
         # This referenced node is not in the graph:
         effect_refs=["attack-action--7976c9b3-b593-45b6-a66e-3a49bfc1008f"],
@@ -109,7 +109,7 @@ def test_svg_is_missing_technique_id(caplog):
         id="attack-action--52f2c35a-fa2a-45a4-b84c-46ad9498071f",
         # This technique ID does not exist in the SVG:
         technique_id="T9999",
-        technique_name="Action 1",
+        name="Action 1",
         description="Description of action 1",
     )
     flow = AttackFlow(
@@ -161,7 +161,7 @@ def test_svg_is_missing_subtechnique_id(caplog):
         id="attack-action--52f2c35a-fa2a-45a4-b84c-46ad9498071f",
         # This technique ID does not exist in the SVG:
         technique_id="T9999.999",
-        technique_name="Action 1",
+        name="Action 1",
         description="Description of action 1",
     )
     flow = AttackFlow(
@@ -259,7 +259,7 @@ def test_svg_technique_cell_missing_attributes(caplog):
         id="attack-action--52f2c35a-fa2a-45a4-b84c-46ad9498071f",
         # This technique ID does not exist in the SVG:
         technique_id="T1000",
-        technique_name="Action 1",
+        name="Action 1",
         description="Description of action 1",
     )
     flow = AttackFlow(

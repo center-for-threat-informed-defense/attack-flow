@@ -84,7 +84,7 @@
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
             "technique_id": "T1190",
-            "technique_name": "Exploit Public-Facing Application",
+            "name": "Exploit Public-Facing Application",
             "effect_refs": [
                 "attack-action--0fa00e76-d567-4b93-90f7-e433ea514417"
             ],
@@ -101,7 +101,7 @@
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
             "technique_id": "T1176",
-            "technique_name": "Browser Extensions",
+            "name": "Browser Extensions",
             "effect_refs": [
                 "attack-action--72fb79b5-4821-4d61-b6b7-272851b57205"
             ],
@@ -118,7 +118,7 @@
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
             "technique_id": "T1106",
-            "technique_name": "Native API",
+            "name": "Native API",
             "effect_refs": [],
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
@@ -133,7 +133,7 @@
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
             "technique_id": "T1569.001",
-            "technique_name": "System Services: Launchctl",
+            "name": "System Services: Launchctl",
             "effect_refs": [
                 "attack-action--0e9dd3d9-08ab-4f9b-b6e4-f11e68604f56"
             ],
@@ -150,7 +150,7 @@
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
             "technique_id": "T1611",
-            "technique_name": "Escape to Host",
+            "name": "Escape to Host",
             "effect_refs": [
                 "attack-action--67075210-cd7e-4197-bd02-357127cf11da"
             ],
@@ -167,7 +167,7 @@
             "created": "2022-08-24T23:25:58.000Z",
             "modified": "2022-08-24T23:25:58.000Z",
             "technique_id": "T1098",
-            "technique_name": "Account Manipulation",
+            "name": "Account Manipulation",
             "effect_refs": [],
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {

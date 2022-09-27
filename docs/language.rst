@@ -155,7 +155,7 @@ actions, and can be referenced from other STIX objects.
      - ``enum``
      - Indicates what type of behavior the Attack Flow describes: a specific incident,
        a campaign, etc.
-       
+
        The value of this property **MUST** be one of: "incident", "campaign", "threat-actor", "malware", "other".
    * - **start_refs** *(required)*
      - ``list`` of type ``identifier`` (of type ``attack-action`` or ``attack-condition``)
@@ -276,7 +276,7 @@ i.e. a discrete unit of adverary behavior.
       "created": "2022-08-02T19:34:35.143Z",
       "modified": "2022-08-02T19:34:35.143Z",
       "technique_id": "T1583.002",
-      "technique_name": "Acquire Infrastructure: Domains",
+      "name": "Acquire Infrastructure: Domains",
       "technique_ref": "attack-pattern--40f5caa0-4cb7-4117-89fc-d421bb493df3",
       "description": "The attacker obtains a phishing domain similar to the target company.",
       "effect_refs": [
@@ -445,7 +445,7 @@ logic.
    * - **operator** *(required)*
      - ``enum``
      - The logical operator to apply to the input effects.
-       
+
        The value of this property **MUST** be one of: "AND", "OR".
    * - **effect_refs** *(optional)*
      - ``list`` of type ``identifier`` (of type ``attack-action`` or ``attack-operator`` or ``attack-condition``)

@@ -42,7 +42,7 @@ def test_wrap_action_description():
     action = AttackAction(
         id="attack-action--2f375dbd-4d6e-4036-9efa-d67f7fc93d1e",
         technique_id="T1",
-        technique_name="Action 1",
+        name="Action 1",
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     )
     assert (
@@ -68,7 +68,7 @@ def test_wrap_condition_description():
 def test_action_label():
     action = AttackAction(
         id="attack-action--b5696498-66e8-41b6-87e1-19d2657ac48b",
-        technique_name="My technique",
+        name="My technique",
         description="This technique has no ID to render in the header.",
     )
     assert (
