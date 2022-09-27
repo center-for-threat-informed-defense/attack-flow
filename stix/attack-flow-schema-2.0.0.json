@@ -185,12 +185,24 @@
                     "type": "string",
                     "const": "2.1"
                 },
-                "technique_id": {
-                    "description": "A technique identifier or shortname that may reference an authoritative collection of techniques, e.g. ATT&CK.",
+                "name": {
+                    "description": "The name of the technique, or if a specific technique is not known, then the name of the tactic.",
                     "type": "string"
                 },
-                "technique_name": {
-                    "description": "The name of the technique.",
+                "tactic_id": {
+                    "description": "A tactic identifier or shortname that may reference an authoritative collection of tactics, e.g. ATT&CK.",
+                    "type": "string"
+                },
+                "tactic_ref": {
+                    "description": "A reference to the tactic's STIX representation. For ATT&CK, this should be an ``x-mitre-tactic`` object.",
+                    "allOf": [
+                        {
+                            "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        }
+                    ]
+                },
+                "technique_id": {
+                    "description": "A technique identifier or shortname that may reference an authoritative collection of techniques, e.g. ATT&CK.",
                     "type": "string"
                 },
                 "technique_ref": {
@@ -207,6 +219,14 @@
                 "description": {
                     "description": "A description of the adversary behavior, e.g. what they did, how they did it, and why. This field may contain prose as well as technical information, but consider using ``command_ref`` for providing technical details about technique execution.",
                     "type": "string"
+                },
+                "execution_start": {
+                    "description": "Timestamp indicating when the execution of this action began.",
+                    "type": "timestamp"
+                },
+                "execution_end": {
+                    "description": "Timestamp indicating when the execution of this action ended.",
+                    "type": "timestamp"
                 },
                 "command_ref": {
                     "description": "Describe tools or commands executed by the attacker by referring to a STIX Process object, which can represent commands, environment variables, process image, etc.",
@@ -253,7 +273,7 @@
             "required": [
                 "type",
                 "spec_version",
-                "technique_name"
+                "name"
             ],
             "x-exampleObject": "attack-action--37345417-3ee0-4e11-b421-1d4be68e6f15"
         },
