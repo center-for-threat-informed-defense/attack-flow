@@ -117,6 +117,30 @@ Docker <https://www.docker.com/>`__ as shown below.
 Once the container is running, you can open a brower tab to http://localhost:8080/ to
 view the Builder.
 
+If you want to customize and build your own Docker images, edit the `Dockerfile` and
+then run this command to create the Docker image:
+
+.. code:: shell
+
+   $ make docker-build
+   docker build . -t attack-flow-builder:latest
+   [+] Building 2.9s (13/13) FINISHED
+   => [internal] load build definition from Dockerfile                                                                                0.0s
+   => => transferring dockerfile: 269B                                                                                                0.0s
+   => [internal] load .dockerignore
+   ...
+
+If building the image completes successfully, then use this command to run the image:
+
+.. code:: shell
+
+   $ make docker-run
+   docker run --rm -p 8080:80 attack-flow-builder:latest
+   /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+   /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+   /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+   ...
+
 Download
 --------
 
