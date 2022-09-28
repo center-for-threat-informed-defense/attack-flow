@@ -395,7 +395,7 @@ def test_generate_example_flows():
         '        <p><a href="../corpus/flow1.json"><i class="fa fa-file-text"></i>JSON</a></p>',
         '        <p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/flow1.dot">Text</a> | <a href="../corpus/flow1.dot.png">PNG</a></p>',
         '        <p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/flow1.mmd">Text</a> | <a href="../corpus/flow1.mmd.png">PNG</a></p>',
-        '        <p><a target="_blank" href="../ui/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
+        '        <p><a target="_blank" href="/ui/?loadUrl=%2fcorpus%2fflow1.afb"><i class="fa fa-wrench"></i>Attack Flow Builder</a></p>',
         "",
         "    - John Doe",
         "    - Test flow 1 is used for unit tests.",

@@ -15,6 +15,9 @@ import string
 import textwrap
 from urllib.parse import quote_plus
 
+from attack_flow.model import get_flow_object, load_attack_flow_bundle
+
+
 NON_ALPHA = re.compile(r"[^a-zA-Z0-9]+")
 EXTRACT_ONE_TYPE_FROM_RE = re.compile(r"\^([-a-z]+)--")
 EXTRACT_MULTIPLE_TYPES_FROM_RE = re.compile(r"\^\(([-a-z-\|]+)\)--")
