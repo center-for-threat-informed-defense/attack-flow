@@ -1,0 +1,55 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/note.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "note",
+  "description": "A Note is a comment or note containing informative text to help explain the context of one or more STIX Objects (SDOs or SROs) or to provide additional analysis that is not contained in the original object.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `note`.",
+          "enum": [
+            "note"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^note--"
+        },
+        "abstract": {
+          "type": "string",
+          "description": "A brief summary of the note."
+        },
+        "content": {
+          "type": "string",
+          "description": "The content of the note."
+        },
+        "authors": {
+          "type": "array",
+          "description": "The name of the author(s) of this note (e.g., the analyst(s) that created it).",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "The STIX Objects (SDOs and SROs) that the note is being applied to.",
+          "items": {
+            "$ref": "../common/identifier.json"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "required": [
+    "content",
+    "object_refs"
+  ]
+}

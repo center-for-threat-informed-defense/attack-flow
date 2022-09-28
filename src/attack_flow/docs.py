@@ -8,14 +8,24 @@ from datetime import datetime
 import json
 from multiprocessing.sharedctypes import Value
 import operator
+from plistlib import load
 from pydoc import doc
 import re
 import string
 import textwrap
 from urllib.parse import quote_plus
 
+<<<<<<< HEAD
 
+||||||| 6a88b6e
+=======
+from attack_flow.model import get_flow_object, load_attack_flow_bundle
+
+
+>>>>>>> origin/main
 NON_ALPHA = re.compile(r"[^a-zA-Z0-9]+")
+EXTRACT_ONE_TYPE_FROM_RE = re.compile(r"\^([-a-z]+)--")
+EXTRACT_MULTIPLE_TYPES_FROM_RE = re.compile(r"\^\(([-a-z-\|]+)\)--")
 
 
 class RefType:
@@ -25,14 +35,22 @@ class RefType:
 
     def __init__(self, ref):
         self.schema = ref["$ref"]
-        self.ref_types = ref.get("x-referenceType", RefType.ALL_TYPES)
+        self.pattern = ref.get("pattern", None)
 
     def __str__(self):
-        if self.ref_types is self.ALL_TYPES:
+        if self.pattern is None:
             return "``identifier``"
-        else:
-            types = " or ".join(f"``{rt}``" for rt in self.ref_types)
+        elif match := EXTRACT_ONE_TYPE_FROM_RE.match(self.pattern or ""):
+            # Pretty hacky: get the identifier types by regexing the pattern property
+            # (which is itself a regex).
+            type_ = match.group(1)
+            return f"``identifier`` (of type ``{type_}``)"
+        elif match := EXTRACT_MULTIPLE_TYPES_FROM_RE.match(self.pattern or ""):
+            # More hacky:
+            types = " or ".join(f"``{t}``" for t in match.group(1).split("|"))
             return f"``identifier`` (of type {types})"
+        else:
+            raise ValueError(f"Unable to parse ref types from pattern: {self.pattern}")
 
 
 class Schema:
@@ -59,13 +77,25 @@ class SchemaProperty:
 
     def __init__(self, name, required, property_dict):
         self.name = name
-        if "$ref" in property_dict:
-            self.type = RefType(property_dict)
+        if ref := property_dict.get("$ref"):
+            # JSON Schema doesn't allow other schema keywords next to a $ref
+            self.type = RefType({"$ref": ref})
+        elif allOf := property_dict.get("allOf"):
+            props = dict()
+            for subschema in allOf:
+                props.update(subschema)
+            self.type = RefType(props)
         else:
             self.type = property_dict["type"]
         if self.type == "array":
-            if "$ref" in property_dict["items"]:
-                self.subtype = RefType(property_dict["items"])
+            if ref := property_dict["items"].get("$ref"):
+                # JSON Schema doesn't allow other schema keywords next to a $ref
+                self.subtype = RefType({"$ref": ref})
+            elif allOf := property_dict["items"].get("allOf"):
+                props = dict()
+                for subschema in allOf:
+                    props.update(subschema)
+                self.subtype = RefType(props)
             else:
                 self.subtype = property_dict["items"]["type"]
                 if self.subtype == "object":
@@ -91,18 +121,32 @@ class SchemaProperty:
                 subtype_rst = str(self.subtype)
             else:
                 subtype_rst = f"``{self.subtype}``"
-            return f"``list`` of {subtype_rst}"
+            return f"``list`` of type {subtype_rst}"
         elif self.type == "object":
             return make_ref(self.name)
         elif self.enum:
-            enum_vals = '", "'.join(self.enum)
-            return f'``string`` Allowed values: "{enum_vals}"'
+            return "``enum``"
         elif self.format:
             return f"``{self.format}``"
         elif isinstance(self.type, RefType):
             return str(self.type)
         else:
             return f"``{self.type}``"
+
+    @property
+    def description_markup(self):
+        """Return description as a list of lines."""
+        text = self.description
+        text_lines = textwrap.wrap(
+            self.description, width=80, break_on_hyphens=False, replace_whitespace=False
+        )
+        if self.enum:
+            values = '"' + '", "'.join(self.enum) + '"'
+            text_lines.append("")
+            text_lines.append(
+                f"The value of this property **MUST** be one of: {values}."
+            )
+        return text_lines
 
 
 def generate_schema_docs(schema, examples):
@@ -122,7 +166,9 @@ def generate_schema_docs(schema, examples):
     obj_lines.append(human)
     obj_lines.append("~" * len(human))
     obj_lines.append("")
-    obj_lines.extend(textwrap.wrap(schema.description, width=80))
+    obj_lines.extend(
+        textwrap.wrap(schema.description, width=80, replace_whitespace=False)
+    )
     obj_lines.append("")
     obj_lines.append(f".. list-table::")
     obj_lines.append("   :widths: 20 30 50")
@@ -131,15 +177,10 @@ def generate_schema_docs(schema, examples):
     obj_lines.append("   * - Property Name")
     obj_lines.append("     - Type")
     obj_lines.append("     - Description")
-    obj_lines.append("   * - **type**")
-    obj_lines.append("     - ``string``")
-    obj_lines.append(
-        f"     - The value of this property **must** be ``{schema.name}``."
-    )
 
     for prop_name, prop in schema.properties.items():
         required = "(required)" if prop.required else "(optional)"
-        desc = textwrap.wrap(prop.description, width=80)
+        desc = prop.description_markup
         obj_lines.append(f"   * - **{prop_name}** *{required}*")
         obj_lines.append(f"     - {prop.type_markup}")
         obj_lines.append(f"     - {desc[0]}")
@@ -250,20 +291,25 @@ def generate_example_flows(jsons, afds):
     afd_stems = {p.stem for p in afds}
     reports = list()
     for path in jsons:
-        with path.open() as file:
-            flow = json.load(file)
+        flow_bundle = load_attack_flow_bundle(path)
+        flow = get_flow_object(flow_bundle)
+        author = flow_bundle.get_obj(flow["created_by_ref"])[0]
+        author_name = author["name"]
+        flow_name = flow["name"]
+        flow_description = flow["description"]
+
         reports.append(
             (
                 path.stem,
-                flow["flow"].get("name", "n/a"),
-                flow["flow"].get("author", "n/a"),
-                "TODO: fix description field in AF2.",
+                flow_name,
+                author_name,
+                flow_description,
             )
         )
 
     doc_lines = [
         ".. list-table::",
-        "  :widths: 25 25 50",
+        "  :widths: 30 20 50",
         "  :header-rows: 1",
         "",
         "  * - Report",
@@ -275,8 +321,8 @@ def generate_example_flows(jsons, afds):
         stem, name, author, description = report
         formats = [
             f'<p><a href="../corpus/{quote_plus(stem)}.json"><i class="fa fa-file-text"></i>JSON</a></p>',
-            f'<p><a href="../corpus/{quote_plus(stem)}.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
-            f'<p><a href="../corpus/{quote_plus(stem)}.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
+            f'<p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/{quote_plus(stem)}.dot">Text</a> | <a href="../corpus/{quote_plus(stem)}.dot.png">PNG</a></p>',
+            f'<p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/{quote_plus(stem)}.mmd">Text</a> | <a href="../corpus/{quote_plus(stem)}.mmd.png">PNG</a></p>',
         ]
         if stem in afd_stems:
             formats.append(

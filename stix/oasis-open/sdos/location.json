@@ -1,0 +1,175 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/location.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "location",
+  "description": "A Location represents a geographic location. The location may be described as any, some or all of the following: region (e.g., North America), civic address (e.g. New York, US), latitude and longitude.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `location`.",
+          "enum": [
+            "location"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^location--"
+        },
+        "description": {
+          "type": "string",
+          "description": "A textual description of the Location."
+        },
+        "name" : {
+          "type" : "string",
+          "description": "A name used to identify the Location."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The latitude of the Location in decimal degrees.",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The longitude of the Location in decimal degrees.",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "precision": {
+          "type": "number",
+          "description": "Defines the precision of the coordinates specified by the latitude and longitude properties, measured in meters."
+        },
+        "region": {
+          "type": "string",
+          "description": "The region that this Location describes."
+        },
+
+        "country": {
+          "type": "string",
+          "description": "The country that this Location describes."
+        },
+        "administrative_area": {
+          "type": "string",
+          "description": "The state, province, or other sub-national administrative area that this Location describes."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city that this Location describes."
+        },
+        "street_address": {
+          "type": "string",
+          "description": "The street address that this Location describes."
+        },
+        "postal_code": {
+          "type": "string",
+          "description": "The postal code for this Location."
+        }
+      }
+    },
+    {
+      "anyOf": [
+        {
+          "required": [
+            "region"
+          ]
+        },
+        {
+          "required": [
+            "country"
+          ]
+        },
+        {
+          "required": [
+            "latitude",
+            "longitude"
+          ]
+        }
+      ]
+    },
+    {
+      "oneOf": [
+        {
+          "required": [
+            "latitude",
+            "longitude"
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "not": {
+                "required": [
+                  "latitude"
+                ]
+              }
+            },
+            {
+              "not": {
+                "required": [
+                  "longitude"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "oneOf": [
+        {
+          "required": [
+            "precision",
+            "latitude",
+            "longitude"
+          ]
+        },
+        {
+          "not": {
+            "required": [
+              "precision"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "region-ov": {
+      "type": "string",
+      "enum": [
+        "africa",
+        "eastern-africa",
+        "middle-africa",
+        "northern-africa",
+        "southern-africa",
+        "western-africa",
+        "americas",
+        "latin-america-caribbean",
+        "south-america",
+        "caribbean",
+        "central-america northern-america",
+        "asia",
+        "central-asia",
+        "eastern-asia",
+        "southern-asia",
+        "western-asia",
+        "europe eastern-europe",
+        "northern-europe",
+        "southern-europe",
+        "western-europe",
+        "oceania",
+        "australia-new-zealand",
+        "melanesia",
+        "micronesia",
+        "polynesia",
+        "antarctica"
+      ]
+    }
+  }
+}

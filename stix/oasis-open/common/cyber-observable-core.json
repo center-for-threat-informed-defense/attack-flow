@@ -1,0 +1,97 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/cyber-observable-core.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "cyber-observable-core",
+  "description": "Common properties and behavior across all Cyber Observable Objects.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "pattern": "^([a-z][a-z0-9]*)+(-[a-z0-9]+)*\\-?$",
+      "minLength": 3,
+      "maxLength": 250,
+      "description": "Indicates that this object is an Observable Object. The value of this property MUST be a valid Observable Object type name, but to allow for custom objects this has been removed from the schema.",
+      "not": {
+        "enum": [
+          "action"
+        ]
+      }
+    },
+    "spec_version": {
+      "type": "string",
+      "enum": [
+        "2.0", "2.1"
+      ],
+      "description": "The version of the STIX specification used to represent the content in this cyber-observable."
+    },
+    "object_marking_refs": {
+      "type": "array",
+      "description": "The list of marking-definition objects to be applied to this object.",
+      "items": {
+        "$ref": "../common/identifier.json"
+      },
+      "minItems": 1
+    },
+    "granular_markings": {
+      "type": "array",
+      "description": "The set of granular markings that apply to this object.",
+      "items": {
+        "$ref": "../common/granular-marking.json"
+      },
+      "minItems": 1
+    },
+    "defanged" : {
+      "type" : "boolean",
+      "description": "Defines whether or not the data contained within the object has been defanged."
+    },
+    "id": {
+      "$ref": "../common/identifier.json",
+      "description": "Specifies the identifier of the observable object, as a string."
+    },
+    "extensions": {
+      "description": "Specifies any extensions of the object, as a dictionary.",
+      "type": "object",
+      "minProperties": 1,
+      "patternProperties": {
+          "^([a-z][a-z0-9]*)+(-[a-z0-9]+)*\\-ext$": {
+            "type": "object",
+            "minProperties": 1,
+            "allOf": [{ "$ref": "../common/properties.json" }]
+          },
+          "^extension-definition--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$": {
+            "allOf": [{ "$ref": "../common/extension.json" }]
+          }
+        },
+        "additionalProperties": false
+    }
+  },
+  "allOf": [{ "$ref": "../common/properties.json" }],
+  "not": {
+    "anyOf": [
+      {
+        "required": [
+          "severity"
+        ]
+      },
+      {
+        "required": [
+          "action"
+        ]
+      },
+      {
+        "required": [
+          "username"
+        ]
+      },
+      {
+        "required": [
+          "phone_numbers"
+        ]
+      }
+    ]
+  },
+  "required": [
+    "type",
+    "id"
+  ]
+}

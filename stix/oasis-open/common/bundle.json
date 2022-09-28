@@ -1,0 +1,213 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/bundle.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "bundle",
+  "description": "A Bundle is a collection of arbitrary STIX Objects and Marking Definitions grouped together in a single container.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "The type of this object, which MUST be the literal `bundle`.",
+      "enum": [
+        "bundle"
+      ]
+    },
+    "id": {
+      "allOf": [
+        {
+          "$ref": "../common/identifier.json",
+          "description": "An identifier for this bundle. The id field for the Bundle is designed to help tools that may need it for processing, but tools are not required to store or track it. "
+        },
+        {
+          "pattern": "^bundle--"
+        }
+      ]
+    },
+    "objects": {
+      "type": "array",
+      "description": "Specifies a set of one or more STIX Objects.",
+      "items": {
+        "anyOf": [
+          {
+            "oneOf": [
+              {
+                "$ref": "../sdos/attack-pattern.json"
+              },
+              {
+                "$ref": "../sdos/campaign.json"
+              },
+              {
+                "$ref": "../sdos/course-of-action.json"
+              },
+              {
+                "$ref": "../sdos/identity.json"
+              },
+              {
+                "$ref": "../sdos/indicator.json"
+              },
+              {
+                "$ref": "../sdos/infrastructure.json"
+              },
+              {
+                "$ref": "../sdos/intrusion-set.json"
+              },
+              {
+                "$ref": "../sdos/malware.json"
+              },
+              {
+                "$ref": "../sdos/malware-analysis.json"
+              },
+              {
+                "$ref": "../sdos/observed-data.json"
+              },
+              {
+                "$ref": "../sros/relationship.json"
+              },
+              {
+                "$ref": "../sdos/report.json"
+              },
+              {
+                "$ref": "../sros/sighting.json"
+              },
+              {
+                "$ref": "../sdos/threat-actor.json"
+              },
+              {
+                "$ref": "../sdos/tool.json"
+              },
+              {
+                "$ref": "../sdos/vulnerability.json"
+              },
+              {
+                "$ref": "../observables/artifact.json"
+              },
+              {
+                "$ref": "../observables/autonomous-system.json"
+              },
+              {
+                "$ref": "../observables/directory.json"
+              },
+              {
+                "$ref": "../observables/domain-name.json"
+              },
+              {
+                "$ref": "../observables/email-addr.json"
+              },
+              {
+                "$ref": "../observables/email-message.json"
+              },
+              {
+                "$ref": "../observables/file.json"
+              },
+              {
+                "$ref": "../observables/ipv4-addr.json"
+              },
+              {
+                "$ref": "../observables/ipv6-addr.json"
+              },
+              {
+                "$ref": "../observables/mac-addr.json"
+              },
+              {
+                "$ref": "../observables/mutex.json"
+              },
+              {
+                "$ref": "../observables/network-traffic.json"
+              },
+              {
+                "$ref": "../observables/process.json"
+              },
+              {
+                "$ref": "../observables/software.json"
+              },
+              {
+                "$ref": "../observables/url.json"
+              },
+              {
+                "$ref": "../observables/user-account.json"
+              },
+              {
+                "$ref": "../observables/windows-registry-key.json"
+              },
+              {
+                "$ref": "../observables/x509-certificate.json"
+              },
+              {
+                "$ref": "../common/language-content.json"
+              },
+              {
+                "$ref": "../common/marking-definition.json"
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "oneOf": [
+                  {
+                    "$ref": "../common/core.json"
+                  },
+                  {
+                    "$ref": "../common/cyber-observable-core.json"
+                  }
+                ]
+              },
+              {
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "The type of this object, which for custom objects cannot be one of those defined in the specification.",
+                    "not": {
+                      "enum": [
+                        "attack-pattern",
+                        "campaign",
+                        "course-of-action",
+                        "identity",
+                        "indicator",
+                        "infrastructure",
+                        "intrusion-set",
+                        "malware",
+                        "observed-data",
+                        "relationship",
+                        "report",
+                        "sighting",
+                        "threat-actor",
+                        "tool",
+                        "vulnerability",
+                        "artifact",
+                        "autonomous-system",
+                        "directory",
+                        "domain-name",
+                        "email-addr",
+                        "email-message",
+                        "file",
+                        "ipv4-addr",
+                        "ipv6-addr",
+                        "mac-addr",
+                        "mutex",
+                        "network-traffic",
+                        "process",
+                        "software",
+                        "url",
+                        "user-account",
+                        "windows-registry-key",
+                        "x509-certificate",
+                        "language-content",
+                        "marking-definition"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "type",
+    "id"
+  ]
+}

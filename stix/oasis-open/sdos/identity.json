@@ -1,0 +1,115 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/identity.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "identity",
+  "description": "Identities can represent actual individuals, organizations, or groups (e.g., ACME, Inc.) as well as classes of individuals, organizations, or groups.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `identity`.",
+          "enum": [
+            "identity"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^identity--"
+        },
+        "roles": {
+          "type": "array",
+          "description": "The list of roles that this Identity performs (e.g., CEO, Domain Administrators, Doctors, Hospital, or Retailer). No open vocabulary is yet defined for this property.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of this Identity."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Identity."
+        },
+        "identity_class": {
+          "type": "string",
+          "description": "The type of entity that this Identity describes, e.g., an individual or organization. Open Vocab - identity-class-ov"
+        },
+        "sectors": {
+          "type": "array",
+          "description": "The list of sectors that this Identity belongs to. Open Vocab - industry-sector-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "contact_information": {
+          "type": "string",
+          "description": "The contact information (e-mail, phone number, etc.) for this Identity."
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ],
+  "definitions": {
+    "identity-class-ov": {
+      "type": "string",
+      "enum": [
+        "individual",
+        "group",
+        "system",
+        "organization",
+        "class",
+        "unknown"
+      ]
+    },
+    "industry-sector-ov": {
+      "type": "string",
+      "enum": [
+        "agriculture",
+        "aerospace",
+        "automotive",
+        "chemical",
+        "commercial",
+        "communications",
+        "construction",
+        "defense",
+        "education",
+        "energy",
+        "engineering",
+        "entertainment",
+        "financial-services",
+        "government",
+        "emergency-services",
+        "government-local",
+        "government-national",
+        "government-public-services",
+        "government-regional",
+        "healthcare",
+        "hospitality-leisure",
+        "infrastructure",
+        "dams",
+        "nuclear",
+        "water",
+        "insurance",
+        "manufacturing",
+        "mining",
+        "non-profit",
+        "pharmaceuticals",
+        "retail",
+        "technology",
+        "telecommunications",
+        "transportation",
+        "utilities"
+      ]
+    }
+  }
+}

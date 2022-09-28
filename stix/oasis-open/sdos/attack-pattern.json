@@ -1,0 +1,53 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/attack-pattern.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "attack-pattern",
+  "description": "Attack Patterns are a type of TTP that describe ways that adversaries attempt to compromise targets. ",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `attack-pattern`.",
+          "enum": [
+            "attack-pattern"
+          ]
+        },
+        "aliases" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "description": "Alternative names used to identify this Attack Pattern."
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^attack-pattern--"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Attack Pattern."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about the Attack Pattern, potentially including its purpose and its key characteristics."
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The list of kill chain phases for which this attack pattern is used.",
+          "items": {
+            "$ref": "../common/kill-chain-phase.json"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ]
+}

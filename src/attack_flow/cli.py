@@ -5,13 +5,15 @@ import argparse
 from pathlib import Path
 import json
 import logging
-import os
 import sys
 
 import pkg_resources
 
 import attack_flow.docs
 import attack_flow.graphviz
+import attack_flow.matrix
+import attack_flow.mermaid
+import attack_flow.model
 import attack_flow.schema
 
 
@@ -49,35 +51,83 @@ def validate(args):
     :param args: argparse arguments
     :returns: exit code
     """
-    exceptions = attack_flow.schema.validate_docs(
-        args.schema_doc, args.attack_flow_docs
-    )
-    for doc, exc in zip(args.attack_flow_docs, exceptions):
-        result = "valid" if exc is None else f"not valid: {exc.message}"
-        print(f"{doc} is {result}")
-        if exc and args.verbose:
-            print(f"vvvvvvvvvv EXCEPTIONS FOR {doc} vvvvvvvvvv")
-            print(exc)
-            print(f"^^^^^^^^^^ EXCEPTIONS FOR {doc} ^^^^^^^^^^")
-    if any(exceptions):
-        if not args.verbose:
-            print("Add --verbose for more details.")
-        return 1
-    return 0
+    exit_code = 0
+    suggest_verbose = False
+
+    for flow_path in args.attack_flow_docs:
+        result = attack_flow.schema.validate_doc(Path(flow_path))
+        sys.stdout.write(f"{flow_path}: ")
+        if result.success:
+            status = "OK" + (" (with warnings)" if result.messages else "")
+        else:
+            exit_code = 1
+            status = "FAIL"
+
+        print(status)
+        for message in result.messages:
+            print(f" - {message}")
+            if message.exc:
+                if args.verbose:
+                    print(f"vvvvvvvvvv EXCEPTION vvvvvvvvvv")
+                    print(message.exc)
+                    print(f"^^^^^^^^^^ EXCEPTION ^^^^^^^^^^")
+                else:
+                    suggest_verbose = True
+    if not args.verbose and suggest_verbose:
+        print(
+            "\nSome errors have additional information. "
+            "Add --verbose for more details."
+        )
+    return exit_code
 
 
 def graphviz(args):
     """
-    Convert Attack Flow JSON file to.
+    Convert Attack Flow JSON file to GraphViz format.
 
     :param args: argparse arguments
     :returns: exit code
     """
-    with open(args.attack_flow, "r") as af:
-        attack_flow_doc = json.load(af)
-    converted = attack_flow.graphviz.convert(attack_flow_doc)
-    with open(args.graphviz, "w") as gv:
-        gv.write(converted)
+    path = Path(args.attack_flow)
+    flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
+    converted = attack_flow.graphviz.convert(flow_bundle)
+    with open(args.output, "w") as out:
+        out.write(converted)
+    return 0
+
+
+def mermaid(args):
+    """
+    Convert Attack Flow JSON file to Mermaid format.
+
+    :param args: argparse arguments
+    :returns: exit code
+    """
+    path = Path(args.attack_flow)
+    flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
+    converted = attack_flow.mermaid.convert(flow_bundle)
+    with open(args.output, "w") as out:
+        out.write(converted)
+    return 0
+
+
+def matrix(args):
+    """
+    Draw an Attack Flow on stop of an ATT&CK matrix SVG.
+
+    :param args: argparse arguments
+    :returns: exit code
+    """
+    path = Path(args.attack_flow)
+    flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
+    debug = logging.getLogger().level == logging.DEBUG
+    with open(args.matrix_svg) as matrix_file, open(args.output, "wb") as out_file:
+        attack_flow.matrix.render(
+            matrix_file,
+            flow_bundle,
+            out_file,
+            show_control_points=debug,
+        )
     return 0
 
 
@@ -159,7 +209,6 @@ def _parse_args():
     validate_cmd.add_argument(
         "--verbose", action="store_true", help="Display detailed validation errors."
     )
-    validate_cmd.add_argument("schema_doc", help="The schema to validate against.")
     validate_cmd.add_argument(
         "attack_flow_docs", nargs="+", help="The Attack Flow document(s) to validate."
     )
@@ -172,9 +221,26 @@ def _parse_args():
     graphviz_cmd.add_argument(
         "attack_flow", help="The Attack Flow document to convert."
     )
-    graphviz_cmd.add_argument(
-        "graphviz", help="The path to write the converted file to."
+    graphviz_cmd.add_argument("output", help="The path to write the converted file to.")
+
+    # Mermaid subcommand
+    mermaid_cmd = subparsers.add_parser(
+        "mermaid", help="Convert JSON file to Mermaid format."
     )
+    mermaid_cmd.set_defaults(command=mermaid)
+    mermaid_cmd.add_argument("attack_flow", help="The Attack Flow document to convert.")
+    mermaid_cmd.add_argument("output", help="The path to write the converted file to.")
+
+    # Matrix subcommand
+    matrix_cmd = subparsers.add_parser(
+        "matrix", help="Draw a flow on top of an ATT&CK matrix SVG."
+    )
+    matrix_cmd.set_defaults(command=matrix)
+    matrix_cmd.add_argument(
+        "matrix_svg", help="The ATT&CK matrix SVG to use as a base."
+    )
+    matrix_cmd.add_argument("attack_flow", help="The Attack Flow document to render.")
+    matrix_cmd.add_argument("output", help="The path to write the output SVG to.")
 
     # Schema subcommand
     doc_schema_cmd = subparsers.add_parser(

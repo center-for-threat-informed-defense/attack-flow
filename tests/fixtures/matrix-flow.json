@@ -1,0 +1,179 @@
+{
+    "type": "bundle",
+    "id": "bundle--9cfa7cd7-9fb1-426b-ba9b-afb02fe88c99",
+    "objects": [
+        {
+            "type": "extension-definition",
+            "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+            "spec_version": "2.1",
+            "name": "Attack Flow",
+            "description": "Extends STIX 2.1 with features to create Attack Flows.",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "schema": "./attack-flow-schema-2.0.0.json",
+            "version": "2.0.0",
+            "extension_types": [
+                "new-sdo"
+            ],
+            "external_references": [
+                {
+                    "source_name": "Documentation",
+                    "description": "Documentation for Attack Flow",
+                    "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+                },
+                {
+                    "source_name": "GitHub",
+                    "description": "Source code repository for Attack Flow",
+                    "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+                }
+            ]
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "MITRE Engenuity Center for Threat-Informed Defense",
+            "identity_class": "organization"
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--61d33cc7-dc05-4657-8c58-157c456651c0",
+            "created_by_ref": "identity--61d33cc7-dc05-4657-8c58-157c456651c0",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "name": "Mark Haase",
+            "contact_information": "mhaase@mitre.org",
+            "identity_class": "individual"
+        },
+        {
+            "type": "attack-flow",
+            "spec_version": "2.1",
+            "id": "attack-flow--e9ec3a4b-f787-4e81-a3d9-4cfe017ebc2f",
+            "created_by_ref": "identity--61d33cc7-dc05-4657-8c58-157c456651c0",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "name": "Tesla Kubernetes Breach",
+            "description": "A vulnerable Kubernetes console leads to cryptojacking and exposure of AWS storage credentials.",
+            "scope": "incident",
+            "start_refs": [
+                "attack-action--fcd630b0-9958-43ad-977e-d9e236c14a29",
+                "attack-action--879b03ff-7d50-413b-af4e-b214f55b9263"
+            ],
+            "external_references": [
+                {
+                    "source_name": "The Cryptojacking Epidemic",
+                    "description": "RedLock CSI Team. Feb 20 2018.",
+                    "url": "https://blog.redlock.io/cryptojacking-tesla"
+                }
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--fcd630b0-9958-43ad-977e-d9e236c14a29",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "technique_id": "T1190",
+            "name": "Exploit Public-Facing Application",
+            "effect_refs": [
+                "attack-action--0fa00e76-d567-4b93-90f7-e433ea514417"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--0fa00e76-d567-4b93-90f7-e433ea514417",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "technique_id": "T1176",
+            "name": "Browser Extensions",
+            "effect_refs": [
+                "attack-action--72fb79b5-4821-4d61-b6b7-272851b57205"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--72fb79b5-4821-4d61-b6b7-272851b57205",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "technique_id": "T1106",
+            "name": "Native API",
+            "effect_refs": [],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--879b03ff-7d50-413b-af4e-b214f55b9263",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "technique_id": "T1569.001",
+            "name": "System Services: Launchctl",
+            "effect_refs": [
+                "attack-action--0e9dd3d9-08ab-4f9b-b6e4-f11e68604f56"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--0e9dd3d9-08ab-4f9b-b6e4-f11e68604f56",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "technique_id": "T1611",
+            "name": "Escape to Host",
+            "effect_refs": [
+                "attack-action--67075210-cd7e-4197-bd02-357127cf11da"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--67075210-cd7e-4197-bd02-357127cf11da",
+            "created": "2022-08-24T23:25:58.000Z",
+            "modified": "2022-08-24T23:25:58.000Z",
+            "technique_id": "T1098",
+            "name": "Account Manipulation",
+            "effect_refs": [],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        }
+    ]
+}

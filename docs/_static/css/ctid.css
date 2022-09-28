@@ -131,6 +131,7 @@ em.newsgroup {
 .rst-content a.btn:visited {
     color: var(--text-color-inverse);
     font-weight: normal;
+    text-decoration: none;
 }
 
 /* Table styles */
@@ -151,7 +152,7 @@ em.newsgroup {
 
 .rst-content div.wy-table-responsive table.docutils thead th code.docutils,
 .rst-content div.wy-table-responsive table.docutils tbody td code.docutils {
-    white-space: nowrap;
+    white-space: pre-wrap;
 }
 
 /* Table of contents styles */
@@ -167,6 +168,10 @@ em.newsgroup {
 
 .wy-side-nav-search div.version {
     color: var(--text-color-inverse);
+}
+
+.wy-nav-top {
+    background-color: var(--me-core-purple-dark);
 }
 
 .wy-nav-side {

@@ -1,5 +1,4 @@
 from pathlib import Path
-from textwrap import dedent
 import pytest
 
 from attack_flow.docs import (
@@ -82,7 +81,7 @@ def test_schema_property_array_of_string():
     assert sp.type == "array"
     assert sp.subtype == "string"
     assert sp.required
-    assert sp.type_markup == "``list`` of ``string``"
+    assert sp.type_markup == "``list`` of type ``string``"
 
 
 def test_schema_property_array_of_object():
@@ -125,7 +124,12 @@ def test_schema_property_enum():
     assert sp.name == "test-enum"
     assert sp.type == "string"
     assert sp.required
-    assert sp.type_markup == '``string`` Allowed values: "foo", "bar"'
+    assert sp.type_markup == "``enum``"
+    assert sp.description_markup == [
+        "My description",
+        "",
+        'The value of this property **MUST** be one of: "foo", "bar".',
+    ]
 
 
 def test_schema_property_ref():
@@ -134,14 +138,28 @@ def test_schema_property_ref():
         True,
         {
             "description": "My identity ref",
-            "$ref": "./identifier.json",
-            "x-referenceType": ["identity"],
+            "allOf": [
+                {"$ref": "./identifier.json"},
+                {"pattern": "^identity--"},
+            ],
         },
     )
     assert sp.name == "test-ref"
     assert isinstance(sp.type, RefType)
     assert sp.required
     assert sp.type_markup == "``identifier`` (of type ``identity``)"
+
+
+def test_schema_property_ref_bad_regex():
+    """
+    Cannot parse the ref types from the regex.
+
+    The regex must start with ^ and end with --. If multiple types, they must be in a
+    capture group.
+    """
+    rt = RefType({"$ref": "./identifier.json", "pattern": "identity--"})
+    with pytest.raises(ValueError):
+        str(rt)
 
 
 def test_schema_property_untyped_ref():
@@ -167,6 +185,30 @@ def test_schema_property_list_of_ref():
             "description": "My generic ref",
             "type": "array",
             "items": {
+                "allOf": [
+                    {"$ref": "./identifier.json"},
+                    {"pattern": "^(foo-object|bar-object)--"},
+                ],
+            },
+        },
+    )
+    assert sp.name == "test-ref-list"
+    assert sp.type == "array"
+    assert sp.required
+    assert (
+        sp.type_markup
+        == "``list`` of type ``identifier`` (of type ``foo-object`` or ``bar-object``)"
+    )
+
+
+def test_schema_property_list_of_untyped_ref():
+    sp = SchemaProperty(
+        "test-ref-list",
+        True,
+        {
+            "description": "My generic ref",
+            "type": "array",
+            "items": {
                 "$ref": "./identifier.json",
             },
         },
@@ -174,7 +216,7 @@ def test_schema_property_list_of_ref():
     assert sp.name == "test-ref-list"
     assert sp.type == "array"
     assert sp.required
-    assert sp.type_markup == "``list`` of ``identifier``"
+    assert sp.type_markup == "``list`` of type ``identifier``"
 
 
 def test_schema():
@@ -207,6 +249,11 @@ def test_generate_schema_docs():
             "type": "object",
             "description": "My Schema",
             "properties": {
+                "type": {
+                    "description": "The type **MUST** be ``my-object``.",
+                    "type": "string",
+                    "const": "my-object",
+                },
                 "name": {"description": "My name", "type": "string"},
                 "hobbies": {
                     "description": "My hobbies",
@@ -214,6 +261,9 @@ def test_generate_schema_docs():
                     "items": {"type": "string"},
                 },
             },
+            "required": [
+                "type",
+            ],
             "x-exampleObject": "my-object--6b44da40-c357-4eed-83b6-5b183c6de006",
         },
     )
@@ -234,14 +284,14 @@ def test_generate_schema_docs():
         "   * - Property Name",
         "     - Type",
         "     - Description",
-        "   * - **type**",
+        "   * - **type** *(required)*",
         "     - ``string``",
-        "     - The value of this property **must** be ``my-object``.",
+        "     - The type **MUST** be ``my-object``.",
         "   * - **name** *(optional)*",
         "     - ``string``",
         "     - My name",
         "   * - **hobbies** *(optional)*",
-        "     - ``list`` of ``string``",
+        "     - ``list`` of type ``string``",
         "     - My hobbies",
         "",
         "*Example:*",
@@ -332,32 +382,32 @@ def test_generate_example_flows():
     result = generate_example_flows(jsons, afds)
     assert result == [
         ".. list-table::",
-        "  :widths: 25 25 50",
+        "  :widths: 30 20 50",
         "  :header-rows: 1",
         "",
         "  * - Report",
         "    - Authors",
         "    - Description",
-        "  * - **Test Fixture 1**",
+        "  * - **Test Flow 1**",
         "",
         "      .. raw:: html",
         "",
         '        <p><a href="../corpus/flow1.json"><i class="fa fa-file-text"></i>JSON</a></p>',
-        '        <p><a href="../corpus/flow1.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
-        '        <p><a href="../corpus/flow1.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
-        '        <p><a target="_blank" href="/builder/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
+        '        <p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/flow1.dot">Text</a> | <a href="../corpus/flow1.dot.png">PNG</a></p>',
+        '        <p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/flow1.mmd">Text</a> | <a href="../corpus/flow1.mmd.png">PNG</a></p>',
+        '        <p><a target="_blank" href="../ui/?load=%2fcorpus%2fflow1.afd"><i class="fa fa-wrench"></i>Attack Flow Builder</a> (TODO)</p>',
         "",
-        "    - Center for Threat-Informed Defense",
-        "    - TODO: fix description field in AF2.",
-        "  * - **Test Fixture 2**",
+        "    - John Doe",
+        "    - Test flow 1 is used for unit tests.",
+        "  * - **Test Flow 2**",
         "",
         "      .. raw:: html",
         "",
         '        <p><a href="../corpus/flow2.json"><i class="fa fa-file-text"></i>JSON</a></p>',
-        '        <p><a href="../corpus/flow2.dot"><i class="fa fa-snowflake-o"></i>Graphviz</a></p>',
-        '        <p><a href="../corpus/flow2.dot.png"><i class="fa fa-picture-o"></i>Image</a></p>',
+        '        <p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/flow2.dot">Text</a> | <a href="../corpus/flow2.dot.png">PNG</a></p>',
+        '        <p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/flow2.mmd">Text</a> | <a href="../corpus/flow2.mmd.png">PNG</a></p>',
         "",
-        "    - Center for Threat-Informed Defense",
-        "    - TODO: fix description field in AF2.",
+        "    - Jane Doe",
+        "    - Test flow 2 is used for unit tests.",
         "",
     ]

@@ -16,13 +16,13 @@ The Attack Flow Library is written in Python and contains tools for:
 
 - Validating Attack Flow JSON files
 - Generating schema documentation
-- Generating GraphViz visualizations
+- Visualizing Attack Flows using GraphViz, Mermaid, or ATT&CK matrix
 - Running unit tests
 
 Set up
 ~~~~~~
 
-The Attack Flow Library requires Python >=3.7. You will also need to install `Python
+The Attack Flow Library requires Python >=3.8. You will also need to install `Python
 Poetry <https://python-poetry.org/>`__ in order to handle dependencies and setting up a
 virtualenv. Clone the repository as follows:
 
@@ -82,41 +82,117 @@ Validate one or more Attack Flow JSON files:
 
 .. code:: bash
 
-    $ af validate schema/attack-flow-2022-01-05-draft.json corpus/*.json
-    corpus/cobalt-kitty-attack-flow.json is valid
-    corpus/conti_2021.json is valid
-    corpus/dfir_report_zero_to_domain_admin.json is valid
-    corpus/mac_malware_steals_cryptocurrecy.json is valid
-    corpus/right-to-left-override.json is valid
-    corpus/tesla.json is valid
+    $ af validate corpus/*.json
+    corpus/cobalt-kitty-attack-flow.json: OK
+    corpus/conti_2021.json: OK
+    corpus/dfir_report_zero_to_domain_admin.json: OK
+    corpus/mac_malware_steals_cryptocurrecy.json: OK
+    corpus/right-to-left-override.json: OK
+    corpus/tesla.json: OK
 
 There is a Makefile target ``make validate`` that validates the corpus.
 
-Visualize JSON files
-~~~~~~~~~~~~~~~~~~~~
+Visualize with GraphViz
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Convert Attack Flow JSON files into `GraphViz <https://graphviz.org/>`__ format:
+In addition to the Attack Flow Builder, there are a few other options for visualizing
+Attack Flows. The first approach is converting to `GraphViz <https://graphviz.org/>`__
+format:
 
 .. code:: bash
 
     $ af graphviz corpus/tesla.json tesla.dot
 
-The example command converts the Attack Flow ``tesla.json`` into GraphViz format ``tesla.dot``. If you have GraphViz installed,
-you can use one of its layout tools to create an image:
+The example command converts the Attack Flow ``tesla.json`` into GraphViz format
+``tesla.dot``. If you have GraphViz installed, you can use one of its layout tools to
+create an image:
 
 .. code:: bash
 
     $ dot -Tpng -O tesla.dot
 
-This command will render ``tesla.dot`` as a PNG graphics file called ``tesla.dot.png``. It will
-look something like this:
+This command will render ``tesla.dot`` as a PNG graphics file called ``tesla.dot.png``.
+It will look something like this:
 
 .. figure:: _static/tesla.dot.png
-   :alt: Example of converting tesla.json into a PNG graphic.
-   :scale: 60%
+   :alt: Example of converting tesla.dot into a PNG graphic.
+   :scale: 40%
    :align: center
 
    The result of converting ``tesla.json`` into ``tesla.dot.png``.
+
+Visualize with Mermaid
+~~~~~~~~~~~~~~~~~~~~~~
+
+Another approach for visualizing flows is to convert to `Mermaid
+<https://mermaid-js.github.io/mermaid/#/>`__ format. Mermaid is a newer format with
+fewer features than GraphViz, but does have the benefit that it can be embedded directly
+into `GitHub-Flavored Markdown
+<https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/>`__.
+
+.. code:: bash
+
+    $ af mermaid corpus/tesla.json tesla.mmd
+
+You can copy/paste the resulting graph into a Markdown file, or if you have Mermaid
+installed locally, you can render it as an image.
+
+.. code:: bash
+
+    $ mmdc -i tesla.mmd -o tesla.mmd.png
+
+This command will render ``tesla.mmd`` as a PNG graphics file called ``tesla.mmd.png``.
+It will look something like this:
+
+.. figure:: _static/tesla.mmd.png
+   :alt: Example of converting tesla.mmd into a PNG graphic.
+   :scale: 70%
+   :align: center
+
+   The result of converting ``tesla.json`` into ``tesla.mmd.png``.
+
+Visualize with ATT&CK Navigator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can also visualize an Attack Flow as an overlay on top of an `ATT&CK navigator
+<https://mitre-attack.github.io/attack-navigator/>`__ layer. In order to do this, you
+must open your layer in Navigator and export it to SVG:
+
+* Open your layer in Navigator.
+* Click the camera icon to open the SVG settings screen.
+* Adjust the options as you like.
+* Click the download icon to save as a ``.svg`` file.
+
+.. figure:: _static/navigator-export.png
+    :alt: Screenshot of exporting SVG file from ATT&CK Navigator.
+    :align: center
+
+    How to export SVG from ATT&CK Navigator.
+
+Here is an example of an SVG file -- this one has several columns cropped out.
+
+With your SVG file prepared, let's call it ``base_matrix.svg`` you can now render any
+flow on top of it:
+
+.. code:: bash
+
+    $ af matrix matrix-base.svg corpus/tesla.json matrix-example.svg
+
+This command reads in ``matrix-base.svg``, renders the ``corpus/tesla.json`` Attack Flow
+on top of it, and writes the resulting image to ``matrix-example.svg``.
+
+.. note::
+
+    If your flow references subtechniques that are not displayed in the Navigator layer,
+    then the script will automatically try to use the parent technique.
+
+The output of the command will look something like this:
+
+.. figure:: _static/matrix-example.png
+    :alt: A Navigator layer with the the Tesla flow rendered as an overlay.
+    :align: center
+
+    A Navigator layer with the the Tesa flow rendered as an overlay.
 
 Generate schema documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

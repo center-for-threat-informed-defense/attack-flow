@@ -1,0 +1,94 @@
+{
+    "type": "bundle",
+    "id": "bundle--e8d6416b-feb8-4e3b-833c-cb6b79dfd922",
+    "objects": [
+        {
+            "type": "extension-definition",
+            "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+            "spec_version": "2.1",
+            "name": "Attack Flow",
+            "description": "Extends STIX 2.1 with features to create Attack Flows.",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "schema": "./attack-flow-schema-2.0.0.json",
+            "version": "2.0.0",
+            "extension_types": [
+                "new-sdo"
+            ],
+            "external_references": [
+                {
+                    "source_name": "Documentation",
+                    "description": "Documentation for Attack Flow",
+                    "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+                },
+                {
+                    "source_name": "GitHub",
+                    "description": "Source code repository for Attack Flow",
+                    "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+                }
+            ]
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "MITRE Engenuity Center for Threat-Informed Defense",
+            "identity_class": "organization"
+        },
+        {
+            "type": "attack-flow",
+            "spec_version": "2.1",
+            "id": "attack-flow--9526d08b-c98a-46e6-8109-35e92fb62038",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Test Flow 1",
+            "description": "Test flow 1 is used for unit tests.",
+            "scope": "incident",
+            "start_refs": [
+                "attack-action--0d54aaa2-1cd9-4de6-8bb1-bd95ae6eb3cd"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--0d54aaa2-1cd9-4de6-8bb1-bd95ae6eb3cd",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1133",
+            "name": "External Remote Services",
+            "description": "Kubernetes dashboard",
+            "effect_refs": [
+                "attack-action--a80be4f5-be42-48eb-8ade-b10820015e96"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--a80be4f5-be42-48eb-8ade-b10820015e96",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1610",
+            "name": "Deploy Container",
+            "description": "Deploy cryptomining container",
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        }
+    ]
+}

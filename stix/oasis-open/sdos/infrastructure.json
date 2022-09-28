@@ -1,0 +1,88 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/infrastructure.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "infrastructure",
+  "description": "Infrastructure objects describe systems, software services, and associated physical or virtual resources.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `infrastructure`.",
+          "enum": [
+            "infrastructure"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^infrastructure--"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Infrastructure."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about this Infrastructure potentially including its purpose and its key characteristics."
+        },
+        "infrastructure_types": {
+          "type": "array",
+          "description": "This field is an Open Vocabulary that specifies the type of infrastructure. Open vocab - infrastructure-type-ov",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "aliases": {
+          "type": "array",
+          "description": "Alternative names used to identify this Infrastructure.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "kill_chain_phases": {
+          "type": "array",
+          "description": "The list of kill chain phases for which this infrastructure is used.",
+          "items": {
+            "$ref": "../common/kill-chain-phase.json"
+          },
+          "minItems": 1
+        },
+        "first_seen": {
+          "$ref": "../common/timestamp.json",
+          "description": "The time that this infrastructure was first seen performing malicious activities."
+        },
+        "last_seen": {
+          "$ref": "../common/timestamp.json",
+          "description": "The time that this infrastructure was last seen performing malicious activities."
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ],
+  "definitions": {
+    "infrastructure-type-ov": {
+      "type": "string",
+      "enum": [
+        "amplification",
+        "anonymization",
+        "botnet",
+        "command-and-control",
+        "exfiltration",
+        "hosting-malware",
+        "hosting-target-lists",
+        "phishing",
+        "reconnaissance",
+        "staging",
+        "unknown"
+      ]
+    }
+  }
+}

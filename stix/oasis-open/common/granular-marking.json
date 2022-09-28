@@ -1,0 +1,37 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/granular-marking.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "granular-marking",
+  "description": "The granular-marking type defines how the list of marking-definition objects referenced by the marking_refs property to apply to a set of content identified by the list of selectors in the selectors property.",
+  "type": "object",
+  "properties": {
+    "selectors": {
+      "type": "array",
+      "description": "A list of selectors for content contained within the STIX object in which this property appears.",
+      "items": {
+        "type": "string",
+        "pattern": "^([a-z0-9_-]{3,249}(\\.(\\[\\d+\\]|[a-z0-9_-]{1,250}))*|id)$"
+      },
+      "minItems": 1
+    },
+    "lang": {
+      "type": "string",
+      "description": "Identifies the language of the text identified by this marking."
+    },
+    "marking_ref": {
+      "allOf": [
+        {
+          "$ref": "../common/identifier.json"
+        },
+        {
+          "pattern": "^marking-definition--",
+          "description": "The marking_ref property specifies the ID of the marking-definition object that describes the marking."
+        }
+      ]
+    }
+  },
+  "required": [
+    "selectors",
+    "marking_ref"
+  ]
+}

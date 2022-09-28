@@ -9,9 +9,11 @@ docs:
 
 docs-examples:
 	mkdir -p docs/extra/corpus
-	cp -r corpus.af1/*.json docs/extra/corpus
-	ls -1 corpus.af1/*.json | sed 's/corpus\.af1\/\(.*\)\.json/\1/' | xargs -I {} af graphviz "corpus.af1/{}.json" "docs/extra/corpus/{}.dot"
+	cp -r corpus/*.json docs/extra/corpus
+	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -I {} af graphviz "corpus/{}.json" "docs/extra/corpus/{}.dot"
 	ls -1 docs/extra/corpus/*.dot | xargs -I {} dot -Tpng -O -q1 "{}"
+	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -I {} af mermaid "corpus/{}.json" "docs/extra/corpus/{}.mmd"
+	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -I {} mmdc -i "docs/extra/corpus/{}.mmd" -o "docs/extra/corpus/{}.mmd.png"
 
 docs-schema:
 	af doc-schema stix/attack-flow-schema-2.0.0.json stix/attack-flow-example.json docs/language.rst
@@ -33,8 +35,7 @@ test-ci:
 
 validate:
 	af validate \
-		schema/attack-flow-2022-01-05-draft.json \
-		schema/attack-flow-example.json \
+		stix/attack-flow-example.json \
 		corpus/*.json
 
 docker-build:

@@ -1,0 +1,150 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/observed-data.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "observed-data",
+  "description": "Observed data conveys information that was observed on systems and networks, such as log data or network traffic, using the Cyber Observable specification.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `observed-data`.",
+          "enum": [
+            "observed-data"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^observed-data--"
+        },
+        "first_observed": {
+          "$ref": "../common/timestamp.json",
+          "description": "The beginning of the time window that the data was observed during."
+        },
+        "last_observed": {
+          "$ref": "../common/timestamp.json",
+          "description": "The end of the time window that the data was observed during."
+        },
+        "number_observed": {
+          "type": "integer",
+          "description": "The number of times the data represented in the objects property was observed. This MUST be an integer between 1 and 999,999,999 inclusive.",
+          "minimum": 1,
+          "maximum": 999999999
+        },
+        "objects": {
+          "type": "object",
+          "description": "A dictionary of Cyber Observable Objects that describes the single 'fact' that was observed.",
+          "minProperties": 1,
+          "patternProperties": {
+            "^.*$": {
+              "type": "object",
+              "oneOf": [
+                {
+                  "allOf": [
+                    {
+                      "$ref": "../common/cyber-observable-core.json"
+                    },
+                    {
+                      "not": {
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "pattern": "^artifact|directory|file|mutex|process|software|user-account|windows-registry-key|x509-certificate|autonomous-system|domain-name|email-addr|email-message|ipv4-addr|ipv6-addr|mac-addr|network-traffic|url$",
+                            "description": "Indicates that this object is a custom Observable Object."
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$ref": "../observables/artifact.json"
+                },
+                {
+                  "$ref": "../observables/autonomous-system.json"
+                },
+                {
+                  "$ref": "../observables/directory.json"
+                },
+                {
+                  "$ref": "../observables/domain-name.json"
+                },
+                {
+                  "$ref": "../observables/email-addr.json"
+                },
+                {
+                  "$ref": "../observables/email-message.json"
+                },
+                {
+                  "$ref": "../observables/file.json"
+                },
+                {
+                  "$ref": "../observables/ipv4-addr.json"
+                },
+                {
+                  "$ref": "../observables/ipv6-addr.json"
+                },
+                {
+                  "$ref": "../observables/mac-addr.json"
+                },
+                {
+                  "$ref": "../observables/mutex.json"
+                },
+                {
+                  "$ref": "../observables/network-traffic.json"
+                },
+                {
+                  "$ref": "../observables/process.json"
+                },
+                {
+                  "$ref": "../observables/software.json"
+                },
+                {
+                  "$ref": "../observables/url.json"
+                },
+                {
+                  "$ref": "../observables/user-account.json"
+                },
+                {
+                  "$ref": "../observables/windows-registry-key.json"
+                },
+                {
+                  "$ref": "../observables/x509-certificate.json"
+                }
+              ]
+            }
+          }
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "A list of SCOs and SROs representing the observation.",
+          "items": {
+            "$ref": "../common/identifier.json"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "required": [
+    "first_observed",
+    "last_observed",
+    "number_observed"
+  ],
+  "oneOf": [
+    {
+      "required": [
+        "objects"
+      ]
+    },
+    {
+      "required": [
+        "object_refs"
+      ]
+    }
+  ]
+}

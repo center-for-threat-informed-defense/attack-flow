@@ -1,0 +1,60 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/directory.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "directory",
+  "description": "The Directory Object represents the properties common to a file system directory.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `directory`.",
+          "enum": [
+            "directory"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^directory--"
+        },
+
+        "path": {
+          "type": "string",
+          "description": "Specifies the path, as originally observed, to the directory on the file system."
+        },
+        "path_enc": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9/\\.+_:-]{2,250}$",
+          "description": "Specifies the observed encoding for the path."
+        },
+        "ctime": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the date/time the directory was created."
+        },
+        "mtime": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the date/time the directory was last written to/modified."
+        },
+        "atime": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the date/time the directory was last accessed."
+        },
+        "contains_refs": {
+          "type": "array",
+          "description": "Specifies a list of references to other File and/or Directory Objects contained within the directory.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "path"
+      ]
+    }
+  ]
+}

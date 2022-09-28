@@ -1,0 +1,170 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/user-account.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "user-account",
+  "description": "The User Account Object represents an instance of any type of user account, including but not limited to operating system, device, messaging service, and social media platform accounts.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `user-account`.",
+          "enum": [
+            "user-account"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^user-account--"
+        },
+        "extensions": {
+          "$ref": "#/definitions/user-account-extensions-dictionary",
+          "description": "The User Account Object defines the following extensions. In addition to these, producers MAY create their own. Extensions: unix-account-ext."
+        },
+        "user_id": {
+          "type": "string",
+          "description": "Specifies the identifier of the account."
+        },
+        "credential": {
+          "type": "string",
+          "description": "Specifies a cleartext credential. This is only intended to be used in capturing metadata from malware analysis (e.g., a hard-coded domain administrator password that the malware attempts to use for lateral movement) and SHOULD NOT be used for sharing of PII."
+        },
+        "account_login": {
+          "type": "string",
+          "description": "Specifies the account login string, used in cases where the user_id property specifies something other than what a user would type when they login."
+        },
+        "account_type": {
+          "type": "string",
+          "description": "Specifies the type of the account. This is an open vocabulary and values SHOULD come from the account-type-ov vocabulary."
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Specifies the display name of the account, to be shown in user interfaces, if applicable."
+        },
+        "is_service_account": {
+          "type": "boolean",
+          "description": "Indicates that the account is associated with a network service or system process (daemon), not a specific individual."
+        },
+        "is_privileged": {
+          "type": "boolean",
+          "description": "Specifies that the account has elevated privileges (i.e., in the case of root on Unix or the Windows Administrator account)."
+        },
+        "can_escalate_privs": {
+          "type": "boolean",
+          "description": "Specifies that the account has the ability to escalate privileges (i.e., in the case of sudo on Unix or a Windows Domain Admin account)."
+        },
+        "is_disabled": {
+          "type": "boolean",
+          "description": "Specifies if the account is disabled."
+        },
+        "account_created": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies when the account was created."
+        },
+        "account_expires": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the expiration date of the account."
+        },
+        "credential_last_changed": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies when the account credential was last changed."
+        },
+        "account_first_login": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies when the account was first accessed."
+        },
+        "account_last_login": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies when the account was last accessed."
+        }
+      }
+    }
+  ],
+  "anyOf": [
+    { "required": ["extensions"] },
+    { "required": ["user_id"] },
+    { "required": ["credential"] },
+    { "required": ["account_login"] },
+    { "required": ["account_type"] },
+    { "required": ["display_name"] },
+    { "required": ["is_service_account"] },
+    { "required": ["is_privileged"] },
+    { "required": ["can_escalate_privs"] },
+    { "required": ["is_disabled"] },
+    { "required": ["account_created"] },
+    { "required": ["account_expires"] },
+    { "required": ["credential_last_changed"] },
+    { "required": ["account_first_login"] },
+    { "required": ["account_last_login"] }
+  ],
+  "definitions": {
+    "user-account-extensions-dictionary": {
+      "allOf": [{ "$ref": "../common/dictionary.json" }],
+      "patternProperties": {
+        "^unix-account-ext$": {
+          "type": "object",
+          "description": "The User Account Object defines the following extensions. In addition to these, producers MAY create their own.",
+          "allOf": [
+            {
+              "properties": {
+                "gid": {
+                  "type": "number",
+                  "description": "Specifies the primary group ID of the account."
+                },
+                "groups": {
+                  "type": "array",
+                  "description": "Specifies a list of names of groups that the account is a member of.",
+                  "items": {
+                    "type": "string"
+                  },
+                  "minItems": 1
+                },
+                "home_dir": {
+                  "type": "string",
+                  "description": "Specifies the home directory of the account."
+                },
+                "shell": {
+                  "type": "string",
+                  "description": "Specifies the account’s command shell."
+                }
+              }
+            },
+            {
+              "anyOf": [
+                { "required": ["gid"] },
+                { "required": ["groups"] },
+                { "required": ["home_dir"] },
+                { "required": ["shell"] }
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": {
+        "$ref": "../common/dictionary.json",
+        "description": "Custom file extension"
+      }
+    },
+    "account-type-ov": {
+      "type": "string",
+      "enum": [
+        "unix",
+        "windows local",
+        "windows domain",
+        "ldap",
+        "tacacs",
+        "radius",
+        "nis",
+        "openid",
+        "facebook",
+        "skype",
+        "twitter",
+        "kavi"
+      ]
+    }
+  }
+}

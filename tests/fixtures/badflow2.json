@@ -1,0 +1,105 @@
+{
+    "type": "bundle",
+    "id": "bundle--e8d6416b-feb8-4e3b-833c-cb6b79dfd922",
+    "objects": [
+        {
+            "type": "extension-definition",
+            "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+            "spec_version": "2.1",
+            "name": "Attack Flow",
+            "description": "Extends STIX 2.1 with features to create Attack Flows.",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "schema": "./attack-flow-schema-2.0.0.json",
+            "version": "2.0.0",
+            "extension_types": [
+                "new-sdo"
+            ],
+            "external_references": [
+                {
+                    "source_name": "Documentation",
+                    "description": "Documentation for Attack Flow",
+                    "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+                },
+                {
+                    "source_name": "GitHub",
+                    "description": "Source code repository for Attack Flow",
+                    "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+                }
+            ]
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "MITRE Engenuity Center for Threat-Informed Defense",
+            "identity_class": "organization"
+        },
+        {
+            "type": "identity",
+            "spec_version": "2.1",
+            "id": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
+            "created_by_ref": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Jane Doe",
+            "contact_information": "janedoe@mitre.org",
+            "identity_class": "individual"
+        },
+        {
+            "type": "attack-flow",
+            "spec_version": "2.1",
+            "id": "attack-flow--e8762846-15fb-4cef-a11d-0c623304478c",
+            "created_by_ref": "identity--fe7860f3-e23f-4d3f-9248-91105467a77a",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Test Flow 2",
+            "scope": "incident",
+            "start_refs": [
+                "attack-action--e6e77cd8-f66f-4b84-aebb-801af6e10e68"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--e6e77cd8-f66f-4b84-aebb-801af6e10e68",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1552.001",
+            "name": "Unsecured Credentials: Credentials In Files",
+            "description": "Use harvested AWS credentials.",
+            "effect_refs": [
+                "attack-action--f8a853c1-aae6-4a82-9b13-e9d391dd3309"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--f8a853c1-aae6-4a82-9b13-e9d391dd3309",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1078.004",
+            "name": "Valid Accounts: Cloud Accounts",
+            "description": "Deploy cryptomining container",
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        }
+    ]
+}

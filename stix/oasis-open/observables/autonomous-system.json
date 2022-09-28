@@ -1,0 +1,42 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/autonomous-system.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "autonomous-system",
+  "description": "The AS object represents the properties of an Autonomous Systems (AS).",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `autonomous-system`.",
+          "enum": [
+            "autonomous-system"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^autonomous-system--"
+        },
+        "number": {
+          "type": "integer",
+          "description": "Specifies the number assigned to the AS. Such assignments are typically performed by a Regional Internet Registries (RIR)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Specifies the name of the AS."
+        },
+        "rir": {
+          "type": "string",
+          "description": "Specifies the name of the Regional Internet Registry (RIR) that assigned the number to the AS."
+        }
+      },
+      "required": [
+        "number"
+      ]
+    }
+  ]
+}

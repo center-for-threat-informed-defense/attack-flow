@@ -2,8 +2,9 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://center-for-threat-informed-defense.github.io/attack-flow/schema/attack-flow-schema-2.0.0.json",
     "title": "Attack Flow STIX 2.1 Extension",
-    "description": "This schema is the normative definition of the STIX 2.1 extension `extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4`. It extends STIX with additional STIX Data Objects (SDOs) and SDO properties to implement Attack Flow concepts, i.e. generalized graphs of adversary behaviors.",
+    "description": "This schema is the normative definition of the STIX 2.1 extension `extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4`. It extends STIX with additional STIX Data Objects (SDOs) that model Attack Flow concepts.",
     "type": "object",
+    "unevaluatedProperties": false,
     "allOf": [
         {
             "$comment": "All Attack Flow SDOs implement the required common properties.",
@@ -39,7 +40,7 @@
             ]
         },
         {
-            "$comment": "Link to the Attack Flow SDO subschemas based on object type.",
+            "$comment": "Link to the Attack Flow SDO subschemas based on object type. Note: this nested if-else construction is difficult to maintain. We weighed several different structures here, e.g. using a oneOf, but selected this structure because it produces better validation messages than a oneOf and make it easy to forward-reference the Attack Flow SDO subschemas from the main Attack Flow schema.",
             "if": {
                 "type": "object",
                 "properties": {
@@ -91,7 +92,21 @@
                         "then": {
                             "$ref": "#/$defs/attack-operator"
                         },
-                        "else": true
+                        "else": {
+                            "if": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "const": "attack-asset"
+                                    }
+                                }
+                            },
+                            "then": {
+                                "$ref": "#/$defs/attack-asset"
+                            },
+                            "else": true
+                        }
                     }
                 }
             }
@@ -99,9 +114,19 @@
     ],
     "$defs": {
         "attack-flow": {
-            "description": "An ``attack-flow`` object represents the Attack Flow overall. It provides metadata for name and description; it provides starting points for the flow of actions; and it is an object that can be referenced from other STIX objects.",
+            "description": "Every Attack Flow document **MUST** contain exactly one ``attack-flow`` object. It provides metadata for name and description, starting points for the flow of actions, and can be referenced from other STIX objects.",
             "type": "object",
             "properties": {
+                "type": {
+                    "description": "The type **MUST** be ``attack-flow``.",
+                    "type": "string",
+                    "const": "attack-flow"
+                },
+                "spec_version": {
+                    "description": "The version **MUST** be ``2.1``.",
+                    "type": "string",
+                    "const": "2.1"
+                },
                 "name": {
                     "description": "The name of the Attack Flow.",
                     "type": "string"
@@ -125,16 +150,21 @@
                     "description": "A list of objects that start the flow.",
                     "type": "array",
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "x-referenceType": [
-                            "attack-action",
-                            "attack-condition"
+                        "allOf": [
+                            {
+                                "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                            },
+                            {
+                                "pattern": "^(attack-action|attack-condition)--"
+                            }
                         ]
                     },
                     "minItems": 1
                 }
             },
             "required": [
+                "type",
+                "spec_version",
                 "name",
                 "start_refs",
                 "scope"
@@ -145,58 +175,183 @@
             "description": "An ``attack-action`` object represents the execution of a particular technique, i.e. a discrete unit of adverary behavior.",
             "type": "object",
             "properties": {
+                "type": {
+                    "description": "The type **MUST** be ``attack-action``.",
+                    "type": "string",
+                    "const": "attack-action"
+                },
+                "spec_version": {
+                    "description": "The version **MUST** be ``2.1``.",
+                    "type": "string",
+                    "const": "2.1"
+                },
+                "name": {
+                    "description": "The name of the technique, or if a specific technique is not known, then the name of the tactic.",
+                    "type": "string"
+                },
+                "tactic_id": {
+                    "description": "A tactic identifier or shortname that may reference an authoritative collection of tactics, e.g. ATT&CK.",
+                    "type": "string"
+                },
+                "tactic_ref": {
+                    "description": "A reference to the tactic's STIX representation. For ATT&CK, this should be an ``x-mitre-tactic`` object.",
+                    "allOf": [
+                        {
+                            "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        }
+                    ]
+                },
                 "technique_id": {
                     "description": "A technique identifier or shortname that may reference an authoritative collection of techniques, e.g. ATT&CK.",
                     "type": "string"
                 },
-                "technique_name": {
-                    "description": "The name of the technique.",
-                    "type": "string"
-                },
                 "technique_ref": {
                     "description": "A reference to the technique's STIX representation.",
-                    "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                    "allOf": [
+                        {
+                            "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        },
+                        {
+                            "pattern": "^attack-pattern--"
+                        }
+                    ]
                 },
                 "description": {
-                    "description": "A description of the adversary behavior.",
+                    "description": "A description of the adversary behavior, e.g. what they did, how they did it, and why. This field may contain prose as well as technical information, but consider using ``command_ref`` for providing technical details about technique execution.",
                     "type": "string"
+                },
+                "execution_start": {
+                    "description": "Timestamp indicating when the execution of this action began.",
+                    "type": "timestamp"
+                },
+                "execution_end": {
+                    "description": "Timestamp indicating when the execution of this action ended.",
+                    "type": "timestamp"
+                },
+                "command_ref": {
+                    "description": "Describe tools or commands executed by the attacker by referring to a STIX Process object, which can represent commands, environment variables, process image, etc.",
+                    "allOf": [
+                        {
+                            "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                        },
+                        {
+                            "pattern": "^process--"
+                        }
+                    ]
+                },
+                "asset_refs": {
+                    "description": "The assets involved in this action, i.e. where this action modifies or depends on the state of the asset.",
+                    "type": "array",
+                    "items": {
+                        "allOf": [
+                            {
+                                "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                            },
+                            {
+                                "pattern": "^(attack-asset)--"
+                            }
+                        ]
+                    },
+                    "minItems": 1
                 },
                 "effect_refs": {
                     "description": "The potential effects that result from executing this action. (See: :ref:`effects`.)",
                     "type": "array",
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "x-referenceType": [
-                            "attack-action",
-                            "attack-operator",
-                            "attack-condition"
+                        "allOf": [
+                            {
+                                "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                            },
+                            {
+                                "pattern": "^(attack-action|attack-operator|attack-condition)--"
+                            }
                         ]
                     },
                     "minItems": 1
                 }
             },
             "required": [
-                "technique_name"
+                "type",
+                "spec_version",
+                "name"
             ],
             "x-exampleObject": "attack-action--37345417-3ee0-4e11-b421-1d4be68e6f15"
+        },
+        "attack-asset": {
+            "description": "An asset is any object that is the subject or target of an action. Assets can be technical assets (such as machines and data) or non-technical assets such as people and physical systems. Actions typically either modify or depend upon the *state* of an asset in some way.\n\nNote that assets are not applicable in all contexts. For example, public threat reports may not include enough detail to represent the assets in a flow, or the flow might represent aggregate behavior (at the campaign or actor level) for which it does not make sense to specify an asset. Assets should be used to add context to a flow when the underlying intelligence contains sufficient detail to do so.",
+            "type": "object",
+            "properties": {
+                "type": {
+                    "description": "The type **MUST** be ``attack-asset``.",
+                    "type": "string",
+                    "const": "attack-asset"
+                },
+                "spec_version": {
+                    "description": "The version **MUST** be ``2.1``.",
+                    "type": "string",
+                    "const": "2.1"
+                },
+                "name": {
+                    "description": "An name for the asset.",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "A description of the asset.",
+                    "type": "string"
+                },
+                "object_ref": {
+                    "description": "A reference to any STIX data object (i.e. SDO) or observable (i.e. SCO) that contains structured data about this asset.",
+                    "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                }
+            },
+            "required": [
+                "type",
+                "spec_version",
+                "name"
+            ],
+            "x-exampleObject": "attack-asset--f7edf4aa-29ec-47aa-b4f6-c42dfbe2ac20"
         },
         "attack-condition": {
             "description": "An ``attack-condition`` object represents some possible condition, outcome, or state that could occur. Conditions can be used to split flows based on the success or failure of an action, or to provide further description of an action's results.",
             "type": "object",
             "properties": {
+                "type": {
+                    "description": "The type **MUST** be ``attack-condition``.",
+                    "type": "string",
+                    "const": "attack-condition"
+                },
+                "spec_version": {
+                    "description": "The version **MUST** be ``2.1``.",
+                    "type": "string",
+                    "const": "2.1"
+                },
                 "description": {
                     "description": "The condition that is evaluated, usually based on the success or failure of the preceding action.",
+                    "type": "string"
+                },
+                "pattern": {
+                    "description": "*(This is an experimental feature.)* The detection pattern for this condition may be expressed as a STIX Pattern or another appropriate language such as SNORT, YARA, etc.",
+                    "type": "string"
+                },
+                "pattern_type": {
+                    "description": "*(This is an experimental feature.)* The pattern langauge used in this condition. The value for this property should come from the STIX ``pattern-type-ov`` open vocabulary.",
+                    "type": "string"
+                },
+                "pattern_version": {
+                    "description": "*(This is an experimental feature.)* The version of the pattern language used for the data in the ``pattern`` property. For the STIX Pattern language, the default value is determined by the ``spec_version`` of the condition object.",
                     "type": "string"
                 },
                 "on_true_refs": {
                     "description": "When the condition is ``true``, the flow continues to these objects.",
                     "type": "array",
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "x-referenceType": [
-                            "attack-action",
-                            "attack-operator",
-                            "attack-condition"
+                        "allOf": [
+                            {
+                                "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                            },
+                            {
+                                "pattern": "^(attack-action|attack-operator|attack-condition)--"
+                            }
                         ]
                     },
                     "minItems": 1
@@ -205,17 +360,21 @@
                     "description": "When the condition is ``false``, the flow continues to these objects. (If there are no objects, then the flow halts at this node.)",
                     "type": "array",
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "x-referenceType": [
-                            "attack-action",
-                            "attack-operator",
-                            "attack-condition"
+                        "allOf": [
+                            {
+                                "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                            },
+                            {
+                                "pattern": "^(attack-action|attack-operator|attack-condition)--"
+                            }
                         ]
                     },
                     "minItems": 1
                 }
             },
             "required": [
+                "type",
+                "spec_version",
                 "description"
             ],
             "x-exampleObject": "attack-condition--7e809f5b-319a-4b3f-82fe-e4dc09af5088"
@@ -224,6 +383,16 @@
             "description": "An ``attack-operator`` object joins multiple attack paths together using boolean logic.",
             "type": "object",
             "properties": {
+                "type": {
+                    "description": "The type **MUST** be ``attack-operator``.",
+                    "type": "string",
+                    "const": "attack-operator"
+                },
+                "spec_version": {
+                    "description": "The version **MUST** be ``2.1``.",
+                    "type": "string",
+                    "const": "2.1"
+                },
                 "operator": {
                     "description": "The logical operator to apply to the input effects.",
                     "type": "string",
@@ -236,17 +405,21 @@
                     "description": "The effects, outcomes, or states that result when this operator evaluates to ``true``. If the operator evaluates to ``false``, then the flow halts. (See: :ref:`effects`.)",
                     "type": "array",
                     "items": {
-                        "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json",
-                        "x-referenceType": [
-                            "attack-action",
-                            "attack-operator",
-                            "attack-condition"
+                        "allOf": [
+                            {
+                                "$ref": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json"
+                            },
+                            {
+                                "pattern": "^(attack-action|attack-operator|attack-condition)--"
+                            }
                         ]
                     },
                     "minItems": 1
                 }
             },
             "required": [
+                "type",
+                "spec_version",
                 "operator"
             ],
             "x-exampleObject": "attack-operator--609d7adf-a3d2-44e8-82de-4b30e3fb97be"

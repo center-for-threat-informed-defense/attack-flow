@@ -1,0 +1,98 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/windows-registry-key.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "windows-registry-key",
+  "description": "The Registry Key Object represents the properties of a Windows registry key.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `windows-registry-key`.",
+          "enum": [
+            "windows-registry-key"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^windows-registry-key--"
+        },
+        "key": {
+          "type": "string",
+          "not": {"pattern": "^HKLM|HKCC|HKCR|HKCU|HKU|hklm|hkcc|hkcr|hkcu|hku"},
+          "description": "Specifies the full registry key including the hive."
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/windows-registry-value-type"
+          },
+          "description": "Specifies the values found under the registry key."
+        },
+        "modified_time": {
+          "$ref": "../common/timestamp.json",
+          "description": "Specifies the last date/time that the registry key was modified."
+        },
+        "creator_user_ref": {
+          "description": "Specifies a reference to a user account, represented as a User Account Object, that created the registry key.",
+          "type": "string"
+        },
+        "number_of_subkeys": {
+          "type": "integer",
+          "description": "Specifies the number of subkeys contained under the registry key."
+        }
+      }
+    }
+  ],
+  "anyOf": [
+    { "required": ["key"] },
+    { "required": ["values"] },
+    { "required": ["modified"] },
+    { "required": ["creator_user_ref"] },
+    { "required": ["number_of_subkeys"] }
+  ],
+  "definitions": {
+    "windows-registry-value-type": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Specifies the name of the registry value. For specifying the default value in a registry key, an empty string MUST be used."
+        },
+        "data": {
+          "type": "string",
+          "description": "Specifies the data contained in the registry value."
+        },
+        "data_type": {
+          "type": "string",
+          "description": "Specifies the registry (REG_*) data type used in the registry value.",
+          "enum": [
+            "REG_NONE",
+            "REG_SZ",
+            "REG_EXPAND_SZ",
+            "REG_BINARY",
+            "REG_DWORD",
+            "REG_DWORD_BIG_ENDIAN",
+            "REG_DWORD_LITTLE_ENDIAN",
+            "REG_LINK",
+            "REG_MULTI_SZ",
+            "REG_RESOURCE_LIST",
+            "REG_FULL_RESOURCE_DESCRIPTION",
+            "REG_RESOURCE_REQUIREMENTS_LIST",
+            "REG_QWORD",
+            "REG_INVALID_TYPE"
+          ]
+        }
+      },
+      "anyOf": [
+        { "required": ["name"] },
+        { "required": ["data"] },
+        { "required": ["data_type"] }
+      ]
+    }
+  }
+}

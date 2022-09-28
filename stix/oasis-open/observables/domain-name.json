@@ -1,0 +1,43 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/observables/domain-name.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "domain-name",
+  "description": "The Domain Name represents the properties of a network domain name.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/cyber-observable-core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The value of this property MUST be `domain-name`.",
+          "enum": [
+            "domain-name"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^domain-name--"
+        },
+        "value": {
+          "type": "string",
+          "description": "Specifies the value of the domain name.",
+          "format": "idn-hostname"
+        },
+        "resolves_to_refs": {
+          "type": "array",
+          "description": "Specifies a list of references to one or more IP addresses or domain names that the domain name resolves to.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "value"
+      ]
+    }
+  ]
+}

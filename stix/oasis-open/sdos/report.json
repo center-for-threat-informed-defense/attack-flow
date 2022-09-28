@@ -1,0 +1,77 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/report.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "report",
+  "description": "Reports are collections of threat intelligence focused on one or more topics, such as a description of a threat actor, malware, or attack technique, including context and related details.",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `report`.",
+          "enum": [
+            "report"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^report--"
+        },
+        "report_types": {
+          "type": "array",
+          "description": "This field is an Open Vocabulary that specifies the primary subject of this report. The suggested values for this field are in report-type-ov.",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Report."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about Report."
+        },
+        "published": {
+          "$ref": "../common/timestamp.json",
+          "description": "The date that this report object was officially published by the creator of this report."
+        },
+        "object_refs": {
+          "type": "array",
+          "description": "Specifies the STIX Objects that are referred to by this Report.",
+          "items": {
+            "$ref": "../common/identifier.json"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  ],
+  "required": [
+    "name",
+    "object_refs",
+    "published"
+  ],
+  "definitions": {
+    "report-type-ov": {
+      "type": "string",
+      "enum": [
+        "threat-report",
+        "attack-pattern",
+        "campaign",
+        "identity",
+        "indicator",
+        "malware",
+        "observed-data",
+        "threat-actor",
+        "tool",
+        "vulnerability"
+      ]
+    }
+  }
+}

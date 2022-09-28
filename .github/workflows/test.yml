@@ -15,7 +15,7 @@ jobs:
       with:
         python-version: '3.8'
     - name: Install Poetry
-      run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+      run: curl -sSL https://install.python-poetry.org/ | python -
     - name: Add Poetry to PATH
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
     - name: Install dependencies
@@ -24,8 +24,8 @@ jobs:
       run: poetry run black --check src/attack_flow/
     - name: Run unit tests
       run: poetry run make test-ci
-    # - name: Validate Corpus # TODO uncomment in AF-52
-    #   run: poetry run make validate
+    - name: Validate Corpus
+      run: poetry run make validate
     - name: Upload coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:

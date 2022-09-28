@@ -11,7 +11,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
-            "schema": "./attack-flow-schema-2.0.0.json",
+            "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
             "version": "2.0.0",
             "extension_types": [
                 "new-sdo"
@@ -69,12 +69,12 @@
                 {
                     "source_name": "APT X Campaign Report. Fictitious Corp. August 15 2022.",
                     "description": "A threat intel report summarizing the public CTI associated with the APT X phishing campaign.",
-                    "url": "http://ficitious.company.com/apt-x-campaign-report/"
+                    "url": "http://blog.example.com/apt-x-campaign-report/"
                 },
                 {
                     "source_name": "APT X Threat Actor Report. Imaginary LLC. Jun 24 2022.",
                     "description": "A threat intel report summarizing the public CTI associated with the APT X threat actor profile.",
-                    "url": "http://imaginary.company.com/apt-x-threat-actor/"
+                    "url": "http://blog.example.com/apt-x-threat-actor/"
                 }
             ],
             "extensions": {
@@ -90,7 +90,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1583.002",
-            "technique_name": "Acquire Infrastructure: Domains",
+            "name": "Acquire Infrastructure: Domains",
             "technique_ref": "attack-pattern--40f5caa0-4cb7-4117-89fc-d421bb493df3",
             "description": "The attacker obtains a phishing domain similar to the target company.",
             "effect_refs": [
@@ -118,8 +118,8 @@
             "id": "infrastructure--0048e01d-260f-4af2-8ebc-90377f520830",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "name": "Phishing infra: m1tre.org",
-            "description": "The phishing domain uses a homoglyphic variant of mitre.org.",
+            "name": "Phishing infra: blog.examp1e.com",
+            "description": "The phishing domain uses a homoglyphic variant of example.com.",
             "infrastructure_types": [
                 "phishing"
             ]
@@ -147,7 +147,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1583.003",
-            "technique_name": "Acquire Infrastructure: Virtual Private Server",
+            "name": "Acquire Infrastructure: Virtual Private Server",
             "technique_ref": "attack-pattern--79da0971-3147-4af6-a4f5-e8cd447cd795",
             "description": "The attacker obtains a VPC for hosting phishing sites.",
             "effect_refs": [
@@ -192,7 +192,7 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "T1589.002",
-            "technique_name": "Gather Victim Identity Information: Email",
+            "name": "Gather Victim Identity Information: Email",
             "technique_ref": "attack-pattern--69f897fd-12a9-4c89-ad6a-46d2f3c38262",
             "description": "The attacker scrapes email addresses from the corporate web site.",
             "effect_refs": [
@@ -243,9 +243,12 @@
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
             "technique_id": "1598.003",
-            "technique_name": "Phishing: Spearphishing Link",
+            "name": "Phishing: Spearphishing Link",
             "technique_ref": "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
             "description": "The email says that the users's Outlook credentials have been compromised and contain a fake link to reset the credentials.",
+            "asset_refs": [
+                "attack-asset--f7edf4aa-29ec-47aa-b4f6-c42dfbe2ac20"
+            ],
             "effect_refs": [
                 "attack-condition--2277d494-031e-4d79-b557-f31e4451a305"
             ],
@@ -256,12 +259,71 @@
             }
         },
         {
+            "type": "attack-asset",
+            "spec_version": "2.1",
+            "id": "attack-asset--f7edf4aa-29ec-47aa-b4f6-c42dfbe2ac20",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Employee WordPress Account",
+            "description": "The employee's credentials for accessing the WordPress blog.",
+            "object_ref": "user-account--ce035bd0-8e58-4d18-aefb-f1fbb031d782",
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "user-account",
+            "spec_version": "2.1",
+            "id": "user-account--ce035bd0-8e58-4d18-aefb-f1fbb031d782",
+            "account_login": "jdoe@example.com",
+            "account_type": "wordpress"
+        },
+        {
             "type": "attack-condition",
             "spec_version": "2.1",
             "id": "attack-condition--2277d494-031e-4d79-b557-f31e4451a305",
             "created": "2022-08-02T19:34:35.143Z",
             "modified": "2022-08-02T19:34:35.143Z",
-            "description": "Adversary has plaintext passwords for one or more employees.",
+            "description": "Adversary acquires an employee's password in plaintext.",
+            "on_true_refs": [
+                "attack-action--1c0078ec-0731-4bf4-b1e5-6e3289c9c4eb"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-action",
+            "spec_version": "2.1",
+            "id": "attack-action--1c0078ec-0731-4bf4-b1e5-6e3289c9c4eb",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "technique_id": "T1190",
+            "name": "Exploit Public-Facing Application",
+            "technique_ref": "attack-pattern--3f886f2a-874f-4333-b794-aa6075009b1c",
+            "description": "Adversary logs into corporate WordPress blog with employee credentials.",
+            "asset_refs": [
+                "attack-asset--f7edf4aa-29ec-47aa-b4f6-c42dfbe2ac20",
+                "attack-asset--5638cc2e-39b9-4a83-8edc-b6875d2cd30b"
+            ],
+            "extensions": {
+                "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+                    "extension_type": "new-sdo"
+                }
+            }
+        },
+        {
+            "type": "attack-asset",
+            "spec_version": "2.1",
+            "id": "attack-asset--5638cc2e-39b9-4a83-8edc-b6875d2cd30b",
+            "created": "2022-08-02T19:34:35.143Z",
+            "modified": "2022-08-02T19:34:35.143Z",
+            "name": "Corporate Blog on WordPress",
+            "description": "The corporate blog is hosted on a WordPress site.",
             "extensions": {
                 "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
                     "extension_type": "new-sdo"

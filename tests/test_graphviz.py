@@ -1,386 +1,77 @@
 from textwrap import dedent
 
 import attack_flow.graphviz
+from attack_flow.model import (
+    AttackAction,
+    AttackCondition,
+)
+from .fixtures import get_flow_bundle
 
 
-def test_convert_attack_flow_to_dot():
-    flow = {
-        "actions": [
-            {
-                "id": "action1",
-                "name": "action-one",
-            },
-            {
-                "id": "action2",
-                "name": "action-two",
-            },
-        ],
-        "assets": [
-            {"id": "asset1"},
-            {"id": "asset2"},
-        ],
-        "relationships": [
-            {
-                "source": "action1",
-                "target": "asset1",
-            },
-            {
-                "source": "asset1",
-                "target": "action2",
-            },
-            {
-                "source": "action2",
-                "target": "asset2",
-            },
-        ],
-    }
-    output = attack_flow.graphviz.convert(flow)
+def test_convert_attack_flow_to_graphviz():
+    output = attack_flow.graphviz.convert(get_flow_bundle())
     assert output == dedent(
         """\
         digraph {
-          node [shape=box,style="rounded,filled,fixedsize=true,width=2,height=1"]
-
-          "action1" [fillcolor=pink,label="action-one"]
-          "action2" [fillcolor=pink,label="action-two"]
-
-          "asset1" [fillcolor=lightblue1]
-          "asset2" [fillcolor=lightblue1]
-
-
-
-        }"""
+        \tlabel=<<font point-size="24">My Flow</font><br/><i>(missing description)</i><br/><font point-size="10">Author: Jane Doe &lt;jdoe@example.com&gt;</font><br/><font point-size="10">Created: 2022-08-25 19:26:31</font><br/><font point-size="10">Modified: 2022-08-25 19:26:31</font>>;
+        \tlabelloc="t";
+        \t"attack-action--52f2c35a-fa2a-45a4-b84c-46ad9498071f" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>Action: T1</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 1</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Description of action 1</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--52f2c35a-fa2a-45a4-b84c-46ad9498071f" -> "attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a" [label=effect]
+        \t"attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>Action</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 2</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Description of action 2</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" -> "attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06" [label=asset]
+        \t"attack-action--a0847849-a533-4b1f-a94a-720bbd25fc17" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>Action: T3</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 3</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Description of action 3</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--7ddab166-c83e-4c79-a701-a0dc2a905dd3" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>Action: T4</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 4</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Description of action 4</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ff99" COLSPAN="2"><B>Condition</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My condition</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a" -> "attack-operator--8932b181-be87-4f81-851a-ab0b4288406a" [label=on_true]
+        \t"attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a" -> "attack-action--7ddab166-c83e-4c79-a701-a0dc2a905dd3" [label=on_false]
+        \t"attack-operator--8932b181-be87-4f81-851a-ab0b4288406a" [label=OR fillcolor="#ff9900" shape=circle style=filled]
+        \t"attack-operator--8932b181-be87-4f81-851a-ab0b4288406a" -> "attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" [label=effect]
+        \t"attack-operator--8932b181-be87-4f81-851a-ab0b4288406a" -> "attack-action--a0847849-a533-4b1f-a94a-720bbd25fc17" [label=effect]
+        \t"attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cc99ff" COLSPAN="2"><B>Asset: My Asset</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT"></TD></TR></TABLE>> shape=plaintext]
+        \t"attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06" -> "infrastructure--79d21912-36b7-4af9-8958-38949dd0d6de" [label=object]
+        \t"infrastructure--79d21912-36b7-4af9-8958-38949dd0d6de" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>Infrastructure</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My Infra</TD></TR></TABLE>> shape=plaintext]
+        \t"infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>Infrastructure</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Test Infra</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Infrastructure Types</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">workstation</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" -> "infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label="related-to"]
+        }
+        """
     )
 
 
-def test_convert_complex_attack_flow_to_dot():
-    flow = {
-        "flow": {
-            "type": "attack-flow",
-            "id": "flow-1",
-            "name": "Attack Flow Export",
-            "author": "Unspecified",
-            "created": "2022-01-14T13:59:42-05:00",
-        },
-        "actions": [
-            {
-                "id": "flow-1/action-3",
-                "type": "action",
-                "name": "T1133: External Remote Services",
-                "description": "Kubernetes Dashboard",
-                "reference": "",
-                "succeeded": 1,
-                "confidence": 1,
-                "logic_operator_language": "",
-                "logic_operator": "AND",
-            },
-            {
-                "id": "flow-1/action-11",
-                "type": "action",
-                "name": "T1610: Deploy Container",
-                "description": "Deploy cryptomining container",
-                "reference": "",
-                "succeeded": 1,
-                "confidence": 1,
-                "logic_operator_language": "",
-                "logic_operator": "AND",
-            },
-            {
-                "id": "flow-1/action-12",
-                "type": "action",
-                "name": "T1552.001: Unsecured Credentials: Credentials In Files",
-                "description": "Harvest AWS service credentials.",
-                "reference": "",
-                "succeeded": 1,
-                "confidence": 0,
-                "logic_operator_language": "",
-                "logic_operator": "AND",
-            },
-            {
-                "id": "flow-1/action-17",
-                "type": "action",
-                "name": "T1496: Resource Highjacking",
-                "description": "Run cryptomining software",
-                "reference": "",
-                "succeeded": 1,
-                "confidence": 1,
-                "logic_operator_language": "",
-                "logic_operator": "AND",
-            },
-            {
-                "id": "flow-1/action-18",
-                "type": "action",
-                "name": "T1078.004: Valid Accounts: Cloud Accounts",
-                "description": "Use harvested AWS credentials",
-                "reference": "",
-                "succeeded": 1,
-                "confidence": 0,
-                "logic_operator_language": "",
-                "logic_operator": "AND",
-            },
-            {
-                "id": "flow-1/action-23",
-                "type": "action",
-                "name": "T1530: Data from Cloud Storage Object",
-                "description": "Download data from storage bucket",
-                "reference": "",
-                "succeeded": 1,
-                "confidence": 0,
-                "logic_operator_language": "",
-                "logic_operator": "AND",
-            },
-        ],
-        "assets": [
-            {"id": "flow-1/asset-1", "type": "asset", "state": "compromised"},
-            {"id": "flow-1/asset-7", "type": "asset", "state": "compromised"},
-            {"id": "flow-1/asset-9", "type": "asset", "state": "compromised"},
-            {"id": "flow-1/asset-13", "type": "asset", "state": "compromised"},
-            {"id": "flow-1/asset-15", "type": "asset", "state": "compromised"},
-            {"id": "flow-1/asset-19", "type": "asset", "state": "compromised"},
-            {"id": "flow-1/asset-21", "type": "asset", "state": "compromised"},
-            {"id": "flow-1/asset-24", "type": "asset", "state": "compromised"},
-        ],
-        "relationships": [
-            {
-                "source": "flow-1/asset-1",
-                "type": "flow-1#state",
-                "target": "flow-1/action-3",
-            },
-            {
-                "source": "flow-1/action-3",
-                "type": "flow-1#state-change",
-                "target": "flow-1/asset-7",
-            },
-            {
-                "source": "flow-1/action-3",
-                "type": "flow-1#state-change",
-                "target": "flow-1/asset-9",
-            },
-            {
-                "source": "flow-1/asset-7",
-                "type": "flow-1#state",
-                "target": "flow-1/action-11",
-            },
-            {
-                "source": "flow-1/asset-9",
-                "type": "flow-1#state",
-                "target": "flow-1/action-12",
-            },
-            {
-                "source": "flow-1/action-11",
-                "type": "flow-1#state-change",
-                "target": "flow-1/asset-13",
-            },
-            {
-                "source": "flow-1/action-12",
-                "type": "flow-1#state-change",
-                "target": "flow-1/asset-15",
-            },
-            {
-                "source": "flow-1/asset-13",
-                "type": "flow-1#state",
-                "target": "flow-1/action-17",
-            },
-            {
-                "source": "flow-1/asset-15",
-                "type": "flow-1#state",
-                "target": "flow-1/action-18",
-            },
-            {
-                "source": "flow-1/action-17",
-                "type": "flow-1#state-change",
-                "target": "flow-1/asset-19",
-            },
-            {
-                "source": "flow-1/action-18",
-                "type": "flow-1#state-change",
-                "target": "flow-1/asset-21",
-            },
-            {
-                "source": "flow-1/asset-21",
-                "type": "flow-1#state",
-                "target": "flow-1/action-23",
-            },
-            {
-                "source": "flow-1/action-23",
-                "type": "flow-1#state-change",
-                "target": "flow-1/asset-24",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/action-3",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/action-11",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/action-12",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/action-17",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/action-18",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/action-23",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-1",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-7",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-9",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-13",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-15",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-19",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-21",
-            },
-            {
-                "source": "flow-1",
-                "type": "flow-1#flow-edge",
-                "target": "flow-1/asset-24",
-            },
-        ],
-        "object_properties": [],
-        "data_properties": [
-            {
-                "source": "flow-1/asset-1",
-                "type": "flow-1#description",
-                "target": "Kubernetes Dashboard",
-            },
-            {"source": "flow-1/asset-1", "type": "flow-1#state", "target": "exposed"},
-            {"source": "flow-1/asset-1", "type": "flow-1#state", "target": "unsecured"},
-            {
-                "source": "flow-1/asset-7",
-                "type": "flow-1#description",
-                "target": "Kubernetes Cluster",
-            },
-            {
-                "source": "flow-1/asset-9",
-                "type": "flow-1#description",
-                "target": "Kubernetes Admin Priv",
-            },
-            {
-                "source": "flow-1/asset-13",
-                "type": "flow-1#description",
-                "target": "Kubernetes Container",
-            },
-            {
-                "source": "flow-1/asset-15",
-                "type": "flow-1#description",
-                "target": "AWS Credentials",
-            },
-            {
-                "source": "flow-1/asset-19",
-                "type": "flow-1#description",
-                "target": "Cryptocurrency",
-            },
-            {
-                "source": "flow-1/asset-21",
-                "type": "flow-1#description",
-                "target": "AWS Access",
-            },
-            {
-                "source": "flow-1/asset-24",
-                "type": "flow-1#description",
-                "target": "Data",
-            },
-        ],
-    }
-
-    output = attack_flow.graphviz.convert(flow)
-    assert output == dedent(
-        """\
-        digraph {
-          node [shape=box,style="rounded,filled,fixedsize=true,width=2,height=1"]
-
-          "flow-1/action-3" [fillcolor=pink,label="T1133: External\\nRemote Services"]
-          "flow-1/action-11" [fillcolor=pink,label="T1610: Deploy\\nContainer"]
-          "flow-1/action-12" [fillcolor=pink,label="T1552.001: Unsecured\\nCredentials:\\nCredentials In Files"]
-          "flow-1/action-17" [fillcolor=pink,label="T1496: Resource\\nHighjacking"]
-          "flow-1/action-18" [fillcolor=pink,label="T1078.004: Valid\\nAccounts: Cloud\\nAccounts"]
-          "flow-1/action-23" [fillcolor=pink,label="T1530: Data from\\nCloud Storage Object"]
-
-          "flow-1/asset-1" [fillcolor=lightblue1,label="Kubernetes Dashboard"]
-          "flow-1/asset-7" [fillcolor=lightblue1,label="Kubernetes Cluster"]
-          "flow-1/asset-9" [fillcolor=lightblue1,label="Kubernetes Admin\\nPriv"]
-          "flow-1/asset-13" [fillcolor=lightblue1,label="Kubernetes Container"]
-          "flow-1/asset-15" [fillcolor=lightblue1,label="AWS Credentials"]
-          "flow-1/asset-19" [fillcolor=lightblue1,label="Cryptocurrency"]
-          "flow-1/asset-21" [fillcolor=lightblue1,label="AWS Access"]
-          "flow-1/asset-24" [fillcolor=lightblue1,label="Data"]
-
-          "flow-1/asset-1" -> "flow-1/action-3" [label="requires"]
-          "flow-1/action-3" -> "flow-1/asset-7" [label="provides"]
-          "flow-1/action-3" -> "flow-1/asset-9" [label="provides"]
-          "flow-1/asset-7" -> "flow-1/action-11" [label="requires"]
-          "flow-1/asset-9" -> "flow-1/action-12" [label="requires"]
-          "flow-1/action-11" -> "flow-1/asset-13" [label="provides"]
-          "flow-1/action-12" -> "flow-1/asset-15" [label="provides"]
-          "flow-1/asset-13" -> "flow-1/action-17" [label="requires"]
-          "flow-1/asset-15" -> "flow-1/action-18" [label="requires"]
-          "flow-1/action-17" -> "flow-1/asset-19" [label="provides"]
-          "flow-1/action-18" -> "flow-1/asset-21" [label="provides"]
-          "flow-1/asset-21" -> "flow-1/action-23" [label="requires"]
-          "flow-1/action-23" -> "flow-1/asset-24" [label="provides"]
-
-          "flow-1/asset-1-exposed-state" [fillcolor=lightgreen,label="exposed"]
-          "flow-1/asset-1-unsecured-state" [fillcolor=lightgreen,label="unsecured"]
-
-          "flow-1/asset-1-exposed-state" -> "flow-1/asset-1" [dir=none,style=dashed]
-          "flow-1/asset-1-unsecured-state" -> "flow-1/asset-1" [dir=none,style=dashed]
-        }"""
-    )  # noqa: E501
-
-
-def test_align_node_label_one_liner():
-    assert attack_flow.graphviz.align_node_label("one liner") == "one liner"
-
-
-def test_align_node_label_multiline():
+def test_wrap_action_description():
+    """Long descriptions should be wrapped."""
+    action = AttackAction(
+        id="attack-action--2f375dbd-4d6e-4036-9efa-d67f7fc93d1e",
+        technique_id="T1",
+        name="Action 1",
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    )
     assert (
-        attack_flow.graphviz.align_node_label("multi liner label example", width=15)
-        == "multi liner\\nlabel example"
+        attack_flow.graphviz._get_action_label(action)
+        == '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>Action: T1</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 1</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Lorem ipsum dolor sit amet, consectetur<br/>adipiscing elit, sed do eiusmod tempor<br/>incididunt ut labore et dolore magna<br/>aliqua.</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>>'
     )
 
 
-def test_align_node_label_string_escaping():
+def test_wrap_condition_description():
+    """Long descriptions should be wrapped."""
+    condition = AttackCondition(
+        id="attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a",
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        on_true_refs=[],
+        on_false_refs=[],
+    )
     assert (
-        attack_flow.graphviz.align_node_label('a "tricky" example')
-        == 'a \\"tricky\\" example'
+        attack_flow.graphviz._get_condition_label(condition)
+        == '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ff99" COLSPAN="2"><B>Condition</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Lorem ipsum dolor sit amet, consectetur<br/>adipiscing elit, sed do eiusmod tempor<br/>incididunt ut labore et dolore magna<br/>aliqua.</TD></TR></TABLE>>'
+    )
+
+
+def test_action_label():
+    action = AttackAction(
+        id="attack-action--b5696498-66e8-41b6-87e1-19d2657ac48b",
+        name="My technique",
+        description="This technique has no ID to render in the header.",
+    )
+    assert (
+        attack_flow.graphviz._get_action_label(action)
+        == '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>Action</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My technique</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">This technique has no ID to render in<br/>the header.</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>>'
     )

@@ -1,0 +1,38 @@
+{
+  "$id": "http://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/sdos/course-of-action.json",
+  "$schema": "http://json-schema.org/draft/2020-12/schema#",
+  "title": "course-of-action",
+  "description": "A Course of Action is an action taken either to prevent an attack or to respond to an attack that is in progress. ",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "../common/core.json"
+    },
+    {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of this object, which MUST be the literal `course-of-action`.",
+          "enum": [
+            "course-of-action"
+          ]
+        },
+        "id": {
+          "title": "id",
+          "pattern": "^course-of-action--"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name used to identify the Course of Action."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description that provides more details and context about this object, potentially including its purpose and its key characteristics."
+        }
+      }
+    }
+  ],
+  "required": [
+    "name"
+  ]
+}
