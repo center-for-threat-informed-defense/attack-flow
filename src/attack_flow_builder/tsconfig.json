@@ -15,7 +15,8 @@
         "noImplicitOverride": true,
         "types": [
             "webpack-env",
-            "resize-observer-browser"
+            "resize-observer-browser",
+            "node"
         ],
         "paths": {
             "@/*": [
@@ -31,6 +32,11 @@
             "dom.iterable",
             "scripthost"
         ]
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "module": "commonjs"
+        }
     },
     "include": [
         "src/**/*.ts",
