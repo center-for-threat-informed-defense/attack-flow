@@ -16,11 +16,11 @@ export class HotkeyObserver {
      * The function to call when a hotkey sequence is matched.
      */
     private _callback: (id: string, data?: any) => void;
-    
+
     /**
      * The hotkey observer's call loop.
      */
-    private _callLoop: number | undefined;
+    private _callLoop: NodeJS.Timeout | undefined;
 
     /**
      * The DOM element the hotkey observer is watching.

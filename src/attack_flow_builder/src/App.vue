@@ -14,6 +14,7 @@
 import { mapActions } from 'vuex';
 import { defineComponent } from 'vue';
 import Configuration from "@/assets/builder.config";
+import { initializeAttackSearch, lookupAttack, searchAttack, AttackSearchFilter } from '@/assets/scripts/Attack';
 // Components
 import AppTitleBar from "@/components/Elements/AppTitleBar.vue";
 import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
@@ -57,6 +58,42 @@ export default defineComponent({
     }
     if (!loaded) {
       await this.createEmptyDocument(`Untitled ${Configuration.file_type_name}`);
+    }
+    try {
+      await initializeAttackSearch();
+    } catch (err) {
+      console.log("WARNING: Could not load search index. (Did you run `npm run fetch-index` and `npm run build-index`?)", err);
+    }
+    {
+      /* TODO: this block is test code to demonstrate search API -- remove when autocomplete is finished */
+      const filter = new AttackSearchFilter();
+      filter.includeTactics = true;
+      filter.includeTechniques = true;
+      filter.includeSubtechniques = true;
+      filter.includeEnterprise = true;
+      filter.includeMobile = true;
+      filter.includeIcs = true;
+      const results = searchAttack("T1068", filter);
+      console.log(`Test query "T1068"... ${results.totalCount} total results`);
+      for (const result of results.items) {
+        const item = result.item;
+        if (item.type === "tactic") {
+          console.log(` - Name="${item.name}" TechniqueID=na TechniqueRef=${item.ref} TacticId= TacticRef=`);
+        } else {
+          if (item.tacticRefs.length > 0) {
+            for (let tacticRef of item.tacticRefs) {
+              const tactic = lookupAttack(tacticRef);
+              if (tactic) {
+                console.log(` - Name="${item.name}" TechniqueID=${item.tid} Ref=${item.ref} TacticId=${tactic.tid} TacticRef=${tactic.ref}`);
+              } else {
+                console.log(` - Name="${item.name}" TechniqueID=${item.tid} Ref=${item.ref} TacticId=notFound TacticRef=${tacticRef}`);
+              }
+            }
+          } else {
+            console.log(` - Name="${item.name}" TechniqueID=${item.tid} Ref=${item.ref} TacticId=na TacticRef=na`);
+          }
+        }
+      }
     }
     // await this.openDocument(FILE);
   },

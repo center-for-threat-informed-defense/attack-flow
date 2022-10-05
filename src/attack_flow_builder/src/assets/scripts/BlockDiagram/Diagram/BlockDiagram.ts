@@ -107,11 +107,11 @@ export class BlockDiagram extends EventEmitter {
      * The context's viewport.
      */
     private _viewport: ViewportRegion;
-    
+
     /**
      * The id of the late zoom timeout request.
      */
-    private _ztoId: number;
+    private _ztoId: NodeJS.Timeout | null;
 
     /**
      * The diagram's zoom behavior.
@@ -138,8 +138,8 @@ export class BlockDiagram extends EventEmitter {
         this._resizeObserver = null;
         this._transform = d3.zoomIdentity;
         this._viewport = new ViewportRegion();
-        this._ztoId = 0;
-        this._zoom =  d3.zoom<HTMLCanvasElement, unknown>()
+        this._ztoId = null;
+        this._zoom = d3.zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([1 / 8, 6])
             .on("zoom", this.onCanvasZoom.bind(this))
             .on("end", (event) => this.onCanvasZoomEnd(event));
@@ -605,7 +605,9 @@ export class BlockDiagram extends EventEmitter {
     private onCanvasZoom(event: any) {
         // Update cache
         if (this._transform.k !== event.transform.k) {
-            clearTimeout(this._ztoId);
+            if (this._ztoId) {
+                clearTimeout(this._ztoId);
+            }
             this._ztoId = setTimeout(() => {
                 let k = this._transform.k * this._display.ssaaScale;
                 if(this._rasterCache.getScale() !== k) {

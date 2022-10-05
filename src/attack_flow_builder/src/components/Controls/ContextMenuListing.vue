@@ -77,7 +77,7 @@ export default defineComponent({
       xOffset: 0,
       yOffset: 0,
       leaveTimeout: 500,
-      leaveTimeoutId: 0,
+      leaveTimeoutId: setTimeout(() => false, 0),
       focusedSubMenu: null as string | null,
       selectedFileId: null as string | null,
       MenuAction
