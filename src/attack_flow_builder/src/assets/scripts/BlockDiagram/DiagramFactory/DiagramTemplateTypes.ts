@@ -38,17 +38,25 @@ export enum SemanticRole {
     EdgeTarget           = 0b1000000000000000
 }
 
-export type Template 
-    = AnchorPointTemplate
-    | DictionaryBlockTemplate
-    | LineEndingPointTemplate
-    | LineHandlePointTemplate
-    | LineHorizontalElbowTemplate
-    | LineVerticalElbowTemplate
-    | PageTemplate
-    | OperatorBlockTemplate
+export enum MenuCollection {
+    AttackFlow,
+    StixObject,
+    StixObservable,
+}
+
+export type Template
+= AnchorPointTemplate
+| DictionaryBlockTemplate
+| LineEndingPointTemplate
+| LineHandlePointTemplate
+| LineHorizontalElbowTemplate
+| LineVerticalElbowTemplate
+| PageTemplate
+| OperatorBlockTemplate
 
 export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
+
+export type CollectionTemplates = DictionaryBlockTemplate | OperatorBlockTemplate;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -170,6 +178,7 @@ export type AnchorPointStyle = {
 
 export type DictionaryBlockTemplate = ObjectTemplate & {
     type: TemplateType.DictionaryBlock,
+    collection: MenuCollection;
     role: SemanticRole.None | SemanticRole.Node,
     title_key: string,
     anchor_template: string,
@@ -275,6 +284,7 @@ export type PageStyle = {
 
 export type OperatorBlockTemplate = ObjectTemplate & {
     type: TemplateType.OperatorBlock,
+    collection: MenuCollection;
     role: SemanticRole.None | SemanticRole.Node,
     text: string,
     anchor_template: string,

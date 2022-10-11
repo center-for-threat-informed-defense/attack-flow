@@ -133,13 +133,13 @@ export class DictionaryBlockModel extends DiagramObjectModel {
             let subtitleFont: TextPlacement[] = [];
             let fieldNameFont: TextPlacement[] = [];
             let fieldValueFont: TextPlacement[] = [];
-            
+
             // Configure title and subtitle
             let tk = this.template.title_key;
             let prop = this.props.value.get(tk);
-            let titleText = this.template.id.toLocaleUpperCase();
+            let titleText = this.template.name.toLocaleUpperCase();
             let subtitleText = prop?.toString() ?? `Unknown key: '${ tk }'`;
-            
+
             // Calculate max width
             let mw = max_width;
             mw = Math.max(mw, head.title.font.measureWidth(titleText));

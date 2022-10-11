@@ -15,9 +15,10 @@ import {
     OperatorBlockModel,
     PageModel
 } from "../DiagramModelTypes";
-import { 
+import {
     BlockDiagramSchema,
     BuiltinTemplates,
+    CollectionTemplates,
     DiagramFactoryError,
     DiagramObjectValues,
     SerializedTemplate,
@@ -132,10 +133,10 @@ export class DiagramFactory {
 
     /**
      * Returns all block templates.
-     * @returns 
+     * @returns
      *  All block templates.
      */
-    public getBlockTemplates(): Template[] {
+    public getBlockTemplates(): CollectionTemplates[] {
         let templates = [];
         for(let template of this.templates.values()) {
             switch(template.type) {

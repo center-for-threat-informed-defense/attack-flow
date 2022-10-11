@@ -6,6 +6,7 @@ import {
     ContextMenuSection,
     MenuAction
 } from "@/assets/scripts/ContextMenuTypes";
+import { MenuCollection } from "@/assets/scripts/BlockDiagram";
 
 export default {
     namespaced: true,
@@ -332,14 +333,36 @@ export default {
             // Compile templates
             let { document } = rootState.ActiveDocumentStore;
             // Compile blocks
-            let blocks: ContextMenu[] = [];
+            let afBlocks: ContextMenu[] = [];
+            let sdoBlocks: ContextMenu[] = [];
+            let scoBlocks: ContextMenu[] = [];
             for(let t of document.factory.getBlockTemplates()) {
-                blocks.push({
-                    id: "create_object",
-                    text: t.name,
-                    action: MenuAction.RunTask,
-                    data: { template: t.id }
-                })
+                switch (t.collection) {
+                    case MenuCollection.AttackFlow:
+                        afBlocks.push({
+                            id: "create_object",
+                            text: t.name,
+                            action: MenuAction.RunTask,
+                            data: { template: t.id }
+                        })
+                        break;
+                    case MenuCollection.StixObject:
+                        sdoBlocks.push({
+                            id: "create_object",
+                            text: t.name,
+                            action: MenuAction.RunTask,
+                            data: { template: t.id }
+                        })
+                        break;
+                    case MenuCollection.StixObservable:
+                        scoBlocks.push({
+                            id: "create_object",
+                            text: t.name,
+                            action: MenuAction.RunTask,
+                            data: { template: t.id }
+                        })
+                        break;
+                    }
             }
             // Compile lines
             let lines: ContextMenu[] = [];
@@ -356,17 +379,39 @@ export default {
                 id: "create_options",
                 items: [
                     {
-                        id: "create_menu",
-                        text: "Create",
+                        id: "create_af_menu",
+                        text: "Create Flow Object",
                         action: MenuAction.OpenSubmenu,
                         sections: [
                             {
-                                id: "block_objects",
-                                items: blocks,
+                                id: "af_block_objects",
+                                items: afBlocks,
                             },
                             {
                                 id: "line_objects",
                                 items: lines,
+                            }
+                        ]
+                    },
+                    {
+                        id: "create_sdo_menu",
+                        text: "Create STIX Object",
+                        action: MenuAction.OpenSubmenu,
+                        sections: [
+                            {
+                                id: "stix_block_objects",
+                                items: sdoBlocks,
+                            }
+                        ]
+                    },
+                    {
+                        id: "create_sco_menu",
+                        text: "Create STIX Observable",
+                        action: MenuAction.OpenSubmenu,
+                        sections: [
+                            {
+                                id: "stix_block_objects",
+                                items: scoBlocks,
                             }
                         ]
                     }
