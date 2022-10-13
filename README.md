@@ -26,7 +26,7 @@ find the following resources in this repository:
 
 * Documentation: Download the documentation in HTML or PDF format from [our automated build page](https://github.com/center-for-threat-informed-defense/attack-flow-private/actions/runs/3138408426).
 * Builder: Download the builder from [our automated build page](https://github.com/center-for-threat-informed-defense/attack-flow-private/actions/runs/3138408426).
-* Corpus: The example flows in the corpus can be viewed [in this repository](./corpus/).
+* Corpus: The example flows in the corpus can be viewed [in this repository](https://github.com/center-for-threat-informed-defense/attack-flow-private/tree/convert_flows_to_v2/corpus).
 
 ## Getting Involved
 
