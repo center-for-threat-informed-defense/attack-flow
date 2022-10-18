@@ -1,7 +1,7 @@
 import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
 import { AppConfiguration } from "@/store/StoreTypes";
-import { PropertyType } from "./scripts/BlockDiagram/Property";
+import { Property, PropertyType, StringPropertyDescriptor } from "./scripts/BlockDiagram/Property";
 import { SemanticRole, TemplateType } from "./scripts/BlockDiagram/DiagramFactory";
 import { SemanticRoleMask } from "./scripts/BlockDiagram";
 import { MenuCollection } from "./scripts/BlockDiagram/DiagramFactory";
@@ -123,7 +123,7 @@ StixBlockStyle.head.stroke_color = "#6b6b6b";
   */
 const config: AppConfiguration = {
     file_type_name: "Attack Flow",
-    file_type_extension: "afb", 
+    file_type_extension: "afb",
     schema: {
         page_template: "@__builtin__page",
         templates: [
@@ -135,16 +135,14 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name           : { type: PropertyType.String, value: "" },
+                    name           : { type: PropertyType.String, value: "", is_required: true },
                     tactic_id      : { type: PropertyType.String, value: "" },
                     tactic_ref     : { type: PropertyType.String, value: "" },
                     technique_id   : { type: PropertyType.String, value: "" },
                     technique_ref  : { type: PropertyType.String, value: "" },
-                    execution_start: { type: PropertyType.String, value: "" },
-                    execution_end  : { type: PropertyType.String, value: "" },
+                    execution_start: { type: PropertyType.Date, value: new Date() },
+                    execution_end  : { type: PropertyType.Date, value: new Date() },
                     description    : { type: PropertyType.String, value: "" },
-                    created        : { type: PropertyType.String, value: "" },
-                    modified       : { type: PropertyType.String, value: "" }
                 },
                 anchor_template: "@__builtin__anchor",
                 style: ActionBlockStyle
@@ -157,7 +155,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name         : { type: PropertyType.String, value: "" },
+                    name         : { type: PropertyType.String, value: "", is_required: true},
                     description  : { type: PropertyType.String, value: "" }
                 },
                 anchor_template: "@__builtin__anchor",
@@ -171,7 +169,7 @@ const config: AppConfiguration = {
                 title_key: "description",
                 collection: MenuCollection.AttackFlow,
                 properties: {
-                    description     : { type: PropertyType.String, value: "" },
+                    description     : { type: PropertyType.String, value: "", is_required: true },
                     pattern         : { type: PropertyType.String, value: "" },
                     pattern_type    : { type: PropertyType.String, value: "" },
                     pattern_version : { type: PropertyType.String, value: "" },
@@ -208,10 +206,10 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                    : { type: PropertyType.String, value: "" },
+                    name                    : { type: PropertyType.String, value: "", is_required: true },
                     description             : { type: PropertyType.String, value: "" },
-                    aliases                 : { type: PropertyType.String, value: "" },
-                    kill_chain_phases       : { type: PropertyType.String, value: "" },
+                    aliases                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    kill_chain_phases       : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -224,11 +222,11 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                     description               : { type: PropertyType.String, value: "" },
-                    aliases                   : { type: PropertyType.String, value: "" },
-                    first_seen                : { type: PropertyType.String, value: "" },
-                    last_seen                 : { type: PropertyType.String, value: "" },
+                    aliases                   : { type: PropertyType.List, form: {type: PropertyType.String, value: ""} },
+                    first_seen                : { type: PropertyType.Date, value: new Date() },
+                    last_seen                 : { type: PropertyType.Date, value: new Date() },
                     objective                 : { type: PropertyType.String, value: "" },
                 },
                 anchor_template: "@__builtin__anchor",
@@ -242,10 +240,10 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                     description               : { type: PropertyType.String, value: "" },
                     action_type               : { type: PropertyType.String, value: "" },
-                    os_execution_envs         : { type: PropertyType.String, value: "" },
+                    os_execution_envs         : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                     action_bin                : { type: PropertyType.String, value: "" },
                 },
                 anchor_template: "@__builtin__anchor",
@@ -261,7 +259,7 @@ const config: AppConfiguration = {
                 properties: {
                     name                      : { type: PropertyType.String, value: "" },
                     description               : { type: PropertyType.String, value: "" },
-                    context                   : { type: PropertyType.String, value: "" },
+                    context                   : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -274,11 +272,11 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                     description               : { type: PropertyType.String, value: "" },
-                    roles                     : { type: PropertyType.String, value: "" },
-                    identity_class            : { type: PropertyType.String, value: "" },
-                    sectors                   : { type: PropertyType.String, value: "" },
+                    roles                     : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    identity_class            : { type: PropertyType.String, value: "", is_required: true },
+                    sectors                   : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                     contact_information       : { type: PropertyType.String, value: "" }
                 },
                 anchor_template: "@__builtin__anchor",
@@ -294,13 +292,13 @@ const config: AppConfiguration = {
                 properties: {
                     name                    : { type: PropertyType.String, value: "" },
                     description             : { type: PropertyType.String, value: "" },
-                    indicator_types         : { type: PropertyType.String, value: "" },
-                    pattern                 : { type: PropertyType.String, value: "" },
-                    pattern_type            : { type: PropertyType.String, value: "" },
+                    indicator_types         : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    pattern                 : { type: PropertyType.String, value: "", is_required: true },
+                    pattern_type            : { type: PropertyType.String, value: "", is_required: true },
                     patter_version          : { type: PropertyType.String, value: "" },
-                    valid_from              : { type: PropertyType.String, value: ""},
-                    valid_until             : { type: PropertyType.String, value: ""},
-                    kill_chain_phases       : { type: PropertyType.String, value: ""}
+                    valid_from              : { type: PropertyType.Date, value: new Date(), is_required: true},
+                    valid_until             : { type: PropertyType.Date, value: new Date()},
+                    kill_chain_phases       : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -313,13 +311,13 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                    : { type: PropertyType.String, value: "" },
+                    name                    : { type: PropertyType.String, value: "", is_required: true },
                     description             : { type: PropertyType.String, value: "" },
-                    infrustructure_types    : { type: PropertyType.String, value: "" },
-                    aliases                 : { type: PropertyType.String, value: "" },
-                    kill_chain_phases       : { type: PropertyType.String, value: "" },
-                    first_seen              : { type: PropertyType.String, value: "" },
-                    last_seen               : { type: PropertyType.String, value: ""}
+                    infrustructure_types    : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    aliases                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    kill_chain_phases       : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    first_seen              : { type: PropertyType.Date, value: new Date() },
+                    last_seen               : { type: PropertyType.Date, value: new Date() }
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -332,15 +330,15 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                    : { type: PropertyType.String, value: "" },
+                    name                    : { type: PropertyType.String, value: "", is_required: true },
                     description             : { type: PropertyType.String, value: "" },
-                    aliases                 : { type: PropertyType.String, value: "" },
-                    first_seen              : { type: PropertyType.String, value: "" },
-                    last_seen               : { type: PropertyType.String, value: "" },
-                    goals                   : { type: PropertyType.String, value: "" },
+                    aliases                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    first_seen              : { type: PropertyType.Date, value: new Date() },
+                    last_seen               : { type: PropertyType.Date, value: new Date() },
+                    goals                   : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                     resource_level          : { type: PropertyType.String, value: ""},
                     primary_motivation      : { type: PropertyType.String, value: ""},
-                    secondary_motivations   : { type: PropertyType.String, value: ""}
+                    secondary_motivations   : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -355,9 +353,9 @@ const config: AppConfiguration = {
                 properties: {
                     name                    : { type: PropertyType.String, value: "" },
                     description             : { type: PropertyType.String, value: "" },
-                    latitude                : { type: PropertyType.String, value: "" },
-                    longitude               : { type: PropertyType.String, value: "" },
-                    precision               : { type: PropertyType.String, value: "" },
+                    latitude                : { type: PropertyType.Float, value: 0 },
+                    longitude               : { type: PropertyType.Float, value: 0 },
+                    precision               : { type: PropertyType.Float, value: 0 },
                     region                  : { type: PropertyType.String, value: "" },
                     country                 : { type: PropertyType.String, value: ""},
                     administrative_area     : { type: PropertyType.String, value: ""},
@@ -378,16 +376,16 @@ const config: AppConfiguration = {
                 properties: {
                     name                    : { type: PropertyType.String, value: "" },
                     description             : { type: PropertyType.String, value: "" },
-                    malware_types           : { type: PropertyType.String, value: "" },
-                    is_family               : { type: PropertyType.String, value: "" },
-                    aliases                 : { type: PropertyType.String, value: "" },
-                    kill_chain_phases       : { type: PropertyType.String, value: "" },
-                    first_seen              : { type: PropertyType.String, value: ""},
-                    last_seen              : { type: PropertyType.String, value: ""},
-                    os_execution_envs       : { type: PropertyType.String, value: ""},
-                    architecture_execution_envs: { type: PropertyType.String, value: ""},
-                    implementation_languages: { type: PropertyType.String, value: ""},
-                    capabilities            : { type: PropertyType.String, value: ""},
+                    malware_types           : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    is_family               : { type: PropertyType.String, value: "", is_required: true },
+                    aliases                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    kill_chain_phases       : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    first_seen              : { type: PropertyType.Date, value: new Date()},
+                    last_seen               : { type: PropertyType.Date, value: new Date()},
+                    os_execution_envs       : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    architecture_execution_envs: { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    implementation_languages: { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    capabilities            : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -400,15 +398,15 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "product",
                 properties: {
-                    product                 : { type: PropertyType.String, value: "" },
+                    product                 : { type: PropertyType.String, value: "", is_required: true },
                     version                 : { type: PropertyType.String, value: "" },
                     configuration_version   : { type: PropertyType.String, value: "" },
-                    modules                 : { type: PropertyType.String, value: "" },
+                    modules                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                     analysis_engine_version  : { type: PropertyType.String, value: "" },
                     analysis_definition_version: { type: PropertyType.String, value: "" },
-                    submitted               : { type: PropertyType.String, value: ""},
-                    analysis_started        : { type: PropertyType.String, value: ""},
-                    analysis_ended          : { type: PropertyType.String, value: ""},
+                    submitted               : { type: PropertyType.Date, value: new Date()},
+                    analysis_started        : { type: PropertyType.Date, value: new Date()},
+                    analysis_ended          : { type: PropertyType.Date, value: new Date()},
                     av_result               : { type: PropertyType.String, value: ""},
                 },
                 anchor_template: "@__builtin__anchor",
@@ -423,8 +421,8 @@ const config: AppConfiguration = {
                 title_key: "abstract",
                 properties: {
                     abstract                : { type: PropertyType.String, value: "" },
-                    content                 : { type: PropertyType.String, value: "" },
-                    authors                 : { type: PropertyType.String, value: "" },
+                    content                 : { type: PropertyType.String, value: "", is_required: true },
+                    authors                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -437,9 +435,9 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "first_observed",
                 properties: {
-                    first_observed            : { type: PropertyType.String, value: "" },
-                    last_observed             : { type: PropertyType.String, value: "" },
-                    number_observed           : { type: PropertyType.String, value: "" },
+                    first_observed            : { type: PropertyType.Date, value: new Date(), is_required: true },
+                    last_observed             : { type: PropertyType.Date, value: new Date(), is_required: true },
+                    number_observed           : { type: PropertyType.Int, value: 0, is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -453,8 +451,8 @@ const config: AppConfiguration = {
                 title_key: "explanation",
                 properties: {
                     explanation             : { type: PropertyType.String, value: "" },
-                    authors                 : { type: PropertyType.String, value: "" },
-                    opinion                 : { type: PropertyType.String, value: "" },
+                    authors                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    opinion                 : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -467,10 +465,10 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                    : { type: PropertyType.String, value: "" },
+                    name                    : { type: PropertyType.String, value: "", is_required: true },
                     description             : { type: PropertyType.String, value: "" },
-                    report_types            : { type: PropertyType.String, value: "" },
-                    published               : { type: PropertyType.String, value: "" },
+                    report_types            : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    published               : { type: PropertyType.Date, value: new Date(), is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -483,19 +481,19 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                     description               : { type: PropertyType.String, value: "" },
-                    threat_actor_types        : { type: PropertyType.String, value: "" },
-                    aliases                   : { type: PropertyType.String, value: "" },
-                    first_seen                : { type: PropertyType.String, value: "" },
-                    last_seen                 : { type: PropertyType.String, value: "" },
-                    roles                     : { type: PropertyType.String, value: "" },
-                    goals                     : { type: PropertyType.String, value: "" },
+                    threat_actor_types        : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    aliases                   : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    first_seen                : { type: PropertyType.Date, value: new Date() },
+                    last_seen                 : { type: PropertyType.Date, value: new Date() },
+                    roles                     : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    goals                     : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                     sophistication            : { type: PropertyType.String, value: "" },
                     resource_level            : { type: PropertyType.String, value: "" },
                     primary_motivation        : { type: PropertyType.String, value: "" },
-                    secondary_motivation      : { type: PropertyType.String, value: "" },
-                    personal_motivations      : { type: PropertyType.String, value: "" }
+                    secondary_motivation      : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    personal_motivations      : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -508,11 +506,11 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                     description               : { type: PropertyType.String, value: "" },
-                    tool_types                : { type: PropertyType.String, value: "" },
-                    aliases                   : { type: PropertyType.String, value: "" },
-                    kill_chain_phases         : { type: PropertyType.String, value: "" },
+                    tool_types                : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    aliases                   : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    kill_chain_phases         : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                     tool_version              : { type: PropertyType.String, value: "" },
                 },
                 anchor_template: "@__builtin__anchor",
@@ -526,9 +524,8 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                     description               : { type: PropertyType.String, value: "" },
-                    external_references       : { type: PropertyType.String, value: "" },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -559,7 +556,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "number",
                 properties: {
-                    number                    : { type: PropertyType.String, value: "" },
+                    number                    : { type: PropertyType.String, value: "", is_required: true },
                     name                      : { type: PropertyType.String, value: "" },
                     rir                       : { type: PropertyType.String, value: "" },
                 },
@@ -574,11 +571,11 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "path",
                 properties: {
-                    path                      : { type: PropertyType.String, value: "" },
+                    path                      : { type: PropertyType.String, value: "", is_required: true },
                     path_enc                  : { type: PropertyType.String, value: "" },
-                    ctime                     : { type: PropertyType.String, value: "" },
-                    mtime                     : { type: PropertyType.String, value: "" },
-                    atime                     : { type: PropertyType.String, value: "" },
+                    ctime                     : { type: PropertyType.Date, value: new Date() },
+                    mtime                     : { type: PropertyType.Date, value: new Date() },
+                    atime                     : { type: PropertyType.Date, value: new Date() },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -591,7 +588,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "value",
                 properties: {
-                    value                     : { type: PropertyType.String, value: "" },
+                    value                     : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -604,7 +601,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "value",
                 properties: {
-                    value                     : { type: PropertyType.String, value: "" },
+                    value                     : { type: PropertyType.String, value: "", is_required: true },
                     display_name              : { type: PropertyType.String, value: "" },
                 },
                 anchor_template: "@__builtin__anchor",
@@ -618,7 +615,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "subject",
                 properties: {
-                    is_multipart              : { type: PropertyType.String, value: "" },
+                    is_multipart              : { type: PropertyType.String, value: "", is_required: true },
                     date                      : { type: PropertyType.String, value: "" },
                     content_type              : { type: PropertyType.String, value: "" },
                     message_id                : { type: PropertyType.String, value: "" },
@@ -627,21 +624,6 @@ const config: AppConfiguration = {
                     additional_header_fields  : { type: PropertyType.String, value: "" },
                     body                      : { type: PropertyType.String, value: "" },
                     body_multipart            : { type: PropertyType.String, value: "" },
-                },
-                anchor_template: "@__builtin__anchor",
-                style: StixBlockStyle
-            },
-            {
-                id: "email_mime_component_type",
-                name: "Email MIME Type",
-                collection: MenuCollection.StixObservable,
-                type: TemplateType.DictionaryBlock,
-                role: SemanticRole.Node,
-                title_key: "content_type",
-                properties: {
-                    body                      : { type: PropertyType.String, value: "" },
-                    content_type              : { type: PropertyType.String, value: "" },
-                    content_disposition       : { type: PropertyType.String, value: "" },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -660,9 +642,9 @@ const config: AppConfiguration = {
                     name_enc                  : { type: PropertyType.String, value: "" },
                     magic_number_hex          : { type: PropertyType.String, value: "" },
                     mime_type                 : { type: PropertyType.String, value: "" },
-                    ctime                     : { type: PropertyType.String, value: "" },
-                    mtime                     : { type: PropertyType.String, value: "" },
-                    atime                     : { type: PropertyType.String, value: "" },
+                    ctime                     : { type: PropertyType.Date, value: new Date() },
+                    mtime                     : { type: PropertyType.Date, value: new Date() },
+                    atime                     : { type: PropertyType.Date, value: new Date() },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -675,7 +657,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "value",
                 properties: {
-                    value                     : { type: PropertyType.String, value: "" },
+                    value                     : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -688,7 +670,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "value",
                 properties: {
-                    value                     : { type: PropertyType.String, value: "" },
+                    value                     : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -701,7 +683,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "value",
                 properties: {
-                    value                     : { type: PropertyType.String, value: "" },
+                    value                     : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -714,7 +696,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -727,14 +709,14 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "dst_port",
                 properties: {
-                    start                     : { type: PropertyType.String, value: "" },
-                    end                       : { type: PropertyType.String, value: "" },
+                    start                     : { type: PropertyType.Date, value: new Date() },
+                    end                       : { type: PropertyType.Date, value: new Date() },
                     is_active                 : { type: PropertyType.String, value: "" },
-                    src_port                  : { type: PropertyType.String, value: "" },
-                    dst_port                  : { type: PropertyType.String, value: "" },
-                    protocols                 : { type: PropertyType.String, value: "" },
-                    src_byte_count            : { type: PropertyType.String, value: "" },
-                    dst_byte_count            : { type: PropertyType.String, value: "" },
+                    src_port                  : { type: PropertyType.Int, value: 0 },
+                    dst_port                  : { type: PropertyType.Int, value: 0 },
+                    protocols                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }, is_required: true},
+                    src_byte_count            : { type: PropertyType.Int, value: 0 },
+                    dst_byte_count            : { type: PropertyType.Int, value: 0 },
                     src_packets               : { type: PropertyType.String, value: "" },
                     dst_packets               : { type: PropertyType.String, value: "" },
                     ipfix                     : { type: PropertyType.String, value: "" },
@@ -751,8 +733,8 @@ const config: AppConfiguration = {
                 title_key: "pid",
                 properties: {
                     is_hidden                 : { type: PropertyType.String, value: "" },
-                    pid                       : { type: PropertyType.String, value: "" },
-                    created_time              : { type: PropertyType.String, value: "" },
+                    pid                       : { type: PropertyType.Int, value: 0 },
+                    created_time              : { type: PropertyType.Date, value: new Date() },
                     cwd                       : { type: PropertyType.String, value: "" },
                     command_line              : { type: PropertyType.String, value: "" },
                     environment_variables     : { type: PropertyType.String, value: "" },
@@ -768,9 +750,9 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "name",
                 properties: {
-                    name                      : { type: PropertyType.String, value: "" },
+                    name                      : { type: PropertyType.String, value: "", is_required: true },
                     cpe                       : { type: PropertyType.String, value: "" },
-                    languages                 : { type: PropertyType.String, value: "" },
+                    languages                 : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
                     vendor                    : { type: PropertyType.String, value: "" },
                     version                   : { type: PropertyType.String, value: "" },
                 },
@@ -785,7 +767,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 title_key: "value",
                 properties: {
-                    value                     : { type: PropertyType.String, value: "" },
+                    value                     : { type: PropertyType.String, value: "", is_required: true },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -807,11 +789,11 @@ const config: AppConfiguration = {
                     is_privileged             : { type: PropertyType.String, value: "" },
                     can_escalate_privs        : { type: PropertyType.String, value: "" },
                     is_disabled               : { type: PropertyType.String, value: "" },
-                    account_created           : { type: PropertyType.String, value: "" },
-                    account_expires           : { type: PropertyType.String, value: "" },
-                    credential_last_changed   : { type: PropertyType.String, value: "" },
-                    account_first_login       : { type: PropertyType.String, value: "" },
-                    account_last_login        : { type: PropertyType.String, value: "" },
+                    account_created           : { type: PropertyType.Date, value: new Date() },
+                    account_expires           : { type: PropertyType.Date, value: new Date() },
+                    credential_last_changed   : { type: PropertyType.Date, value: new Date() },
+                    account_first_login       : { type: PropertyType.Date, value: new Date() },
+                    account_last_login        : { type: PropertyType.Date, value: new Date() },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -825,9 +807,9 @@ const config: AppConfiguration = {
                 title_key: "key",
                 properties: {
                     key                       : { type: PropertyType.String, value: "" },
-                    value                     : { type: PropertyType.String, value: "" },
-                    modified_time             : { type: PropertyType.String, value: "" },
-                    number_of_subkeys         : { type: PropertyType.String, value: "" },
+                    value                     : { type: PropertyType.List, form: {type: PropertyType.String, value: "" }},
+                    modified_time             : { type: PropertyType.Date, value: new Date() },
+                    number_of_subkeys         : { type: PropertyType.Int, value: 0 },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle
@@ -846,12 +828,12 @@ const config: AppConfiguration = {
                     serial_number             : { type: PropertyType.String, value: "" },
                     signature_algorithm       : { type: PropertyType.String, value: "" },
                     issuer                    : { type: PropertyType.String, value: "" },
-                    validity_not_before       : { type: PropertyType.String, value: "" },
-                    validity_not_after        : { type: PropertyType.String, value: "" },
+                    validity_not_before       : { type: PropertyType.Date, value: new Date() },
+                    validity_not_after        : { type: PropertyType.Date, value: new Date() },
                     subject                   : { type: PropertyType.String, value: "" },
                     subject_public_key_algorithm: { type: PropertyType.String, value: "" },
                     subject_public_key_modulus: { type: PropertyType.String, value: "" },
-                    subject_public_key_exponent: { type: PropertyType.String, value: "" },
+                    subject_public_key_exponent: { type: PropertyType.Int, value: 0 },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: StixBlockStyle

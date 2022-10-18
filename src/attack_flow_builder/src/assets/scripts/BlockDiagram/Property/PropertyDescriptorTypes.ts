@@ -81,7 +81,7 @@ export type ListPropertyDescriptor = {
 
 export type DictionaryPropertyDescriptor = {
     type: PropertyType.Dictionary,
-    form: { 
+    form: {
         [key: string]: PropertyDescriptor
     },
     text_key: string
