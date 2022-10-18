@@ -146,3 +146,22 @@ By adding the above techniques together, unique attack flows can be created.
    :align: center
 
    An example of part of an attack flow. Depending on which condition occurs is how the attack flow will proceed. If the left condition occurs, then the attack flow will proceed to the actions underneath the left condition (left side of the flow). If the right condition occurs, then the attack flow will proceed to the actions underneath the right condition (right side of the flow). At the end, the attack flow comes together into a single path.
+
+Additional STIX Domain Objects (SDOs)
+------------------------------
+
+   If an attack flow is connected to a threat actor(s) or demonstrates a campaign from a threat actor, then the applicable SDOs should be included in the attack flow. 
+
+.. figure:: _static/TA_and_campaigns.png
+   :alt: Screenshot showing a threat actor and campaign.  
+   :align: center
+
+   Additional SDOs can also be included in the attack flow.
+
+.. figure:: _static/SDO1s.png
+   :alt: Screenshot of multiple SDOs used in an attack flow.
+   :align: center
+
+   In this example, a tool SDO highlights a specific tool and tool type used by the attacker. An infrastructure SDO focuses on the infrastructure and infrastructure type used by an attacker. 
+
+   There are several other types of SDOs included to enhance and provide clarity to an attack flow. Malware SDOs provide additional information on the malware used in the attackers campaign, such as the type of malware, its targeted operating system, the tool's implementation language, and its specific capabilities. An asset SDO would be used for software or hardware that is important during the attack but isn't owned or dropped by the attackers. If a particular vulnerability is used by an attacker in an attack, then the vulnerability SDO would include useful information. Additional SDOs and related syntax is included in STIX 2.0.
