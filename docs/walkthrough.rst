@@ -56,19 +56,19 @@ If possible, it is recommended to combine conditions.
 Paths
 -----
 
-Paths are added to the underlying structure of an attack flow to reduce ambiguity. There purpose is to define whether the preceding action or condition is true or false. 
+Paths are added to the underlying structure of an attack flow to reduce ambiguity. All actions or conditions result in true or false paths. If the action or condition is true, then the attack flow continues in one direction. If the action or condition is false, then the flow either terminates or continues in a different direction. 
 
 .. figure:: _static/2paths.png
-   :alt: Screenshot paths stemming from a condition.
+   :alt: Screenshot of true and false paths stemming from actions.
    :align: center
 
-   Both true and false paths are present in this attack flow. If the condition is true, then the flow continues; if the condition is false, then the flow ends. 
+   Both true and false paths are present in this attack flow. In this example, when the T1548 action is false, the attacker conducts T1547.001 and then the flow ends.
 
 .. figure:: _static/1paths.png
-   :alt: Screenshot of true path stemming from a condition.
+   :alt: Screenshot of true path.
    :align: center
 
-   True path stemming from a condition. It is assumed that the on_false path would end the attack flow; therefore, it is not necessary to include in the attack flow. The attack flow only continues successfully if the condition or action is true.   
+   In this example, if T1548 is false, the attacker does nothing else. Therefore, the false path is not shown in the attack flow, only the true path.   
 
 Operators
 ---------
