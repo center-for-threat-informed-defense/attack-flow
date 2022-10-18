@@ -139,22 +139,10 @@ By adding the above techniques together, unique attack flows can be created.
    :alt: Screenshot of a complex part of an attack flow using an operator leading to different parts of the flow.  
    :align: center
 
-   An example of part of an attack flow. Depending on which condition occurs is how the attack flow will proceed. If conditionA occurs, then the attack flow will proceed down the path underneath conditionA (left side of the flow). If conditionB occurs, then the attack flow will proceed down the path underneath conditionB (right side of the flow).
+   An example of part of an attack flow. Depending on which condition occurs is how the attack flow will proceed. If the  condition on the left side occurs, then the attack flow will proceed down the path underneath the condition (left side of the flow). If the condition on the right side occurs, then the attack flow will proceed down the path underneath that condition (right side of the flow).
 
 .. figure:: _static/example3.png
    :alt: Screenshot of a complex part of an attack flow using an operator leading to different parts of the flow, which rejoins into a single path.  
    :align: center
 
-   An example of part of an attack flow. Depending on which condition occurs is how the attack flow will proceed. If conditionA occurs, then the attack flow will proceed to the actions underneath conditionA (left side of the flow). If conditionB occurs, then the attack flow will proceed to the actions underneath conditionB (right side of the flow). At the end, the attack flow comes together into a single path.
-
-.. figure:: _static/example4.png
-   :alt: Screenshot of a complex part of an attack flow using paths. 
-   :align: center
-
-   An example of part of an attack flow. If conditionA occurs, then the attack flow follows the on_true path. If conditionA is false, then conditionB occurs. Depending on whether conditionB is true or false is which action occurs.
-
-.. figure:: _static/example5.png
-   :alt: Screenshot of a complex part of an attack flow using paths and multiple conditions. 
-   :align: center
-
-   An example of part of an attack flow. Depending on which condition occurs is which action will occur. If no conditions are true, then the attack flow ends.
+   An example of part of an attack flow. Depending on which condition occurs is how the attack flow will proceed. If the left condition occurs, then the attack flow will proceed to the actions underneath the left condition (left side of the flow). If the right condition occurs, then the attack flow will proceed to the actions underneath the right condition (right side of the flow). At the end, the attack flow comes together into a single path.
