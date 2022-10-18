@@ -56,13 +56,13 @@ If possible, it is recommended to combine conditions.
 Paths
 -----
 
-Paths can be added to an attack flow to reduce ambiguity. Paths define whether the preceding action or condition is true or false. 
+Paths are added to the underlying structure of an attack flow to reduce ambiguity. There purpose is to define whether the preceding action or condition is true or false. 
 
 .. figure:: _static/2paths.png
-   :alt: Screenshot of true and false paths stemming from a condition.
+   :alt: Screenshot paths stemming from a condition.
    :align: center
 
-   Both true and false paths are present in this attack flow. If the condition is true, then the flow follows the on_true path; if the condition is false, then the flow follows the on_false path. 
+   Both true and false paths are present in this attack flow. If the condition is true, then the flow continues; if the condition is false, then the flow ends. 
 
 .. figure:: _static/1paths.png
    :alt: Screenshot of true path stemming from a condition.
