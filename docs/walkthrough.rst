@@ -47,11 +47,11 @@ A condition may require its own condition before running properly. In this case,
 
 If possible, it is recommended to combine conditions. 
 
-.. figure:: _static/condition_alternative.png
-   :alt: Screenshot of an alternative option combining conditions together.
-   :align: center
+ .. figure:: _static/condition_alternative.png
+    :alt: Screenshot of an alternative option combining conditions together.
+    :align: center
 
-   Alternative option. Two conditions combined. 
+    Alternative option. Two conditions combined. 
 
 Paths
 -----
