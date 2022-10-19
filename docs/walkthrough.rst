@@ -114,6 +114,7 @@ In this scenario, one of two conditions must be present for the attack flow to c
 
 Conditions to Action
 --------------------
+
 Conditions can be connected to an action without an operator. However, this causes reader ambiguity, since it is not clear whether both conditions must occur (indicated by an AND operator) or if only one condition must occur (indicated by an OR operator).
 
 .. figure:: _static/states_to_action.png
@@ -150,7 +151,7 @@ By adding the above techniques together, unique attack flows can be created.
 Additional STIX Domain Objects (SDOs)
 -------------------------------------
 
-   If an attack flow is connected to a threat actor(s) or demonstrates a campaign from a threat actor, then the applicable SDOs should be included in the attack flow. 
+If an attack flow is connected to a threat actor(s) or demonstrates a campaign from a threat actor, then the applicable SDOs should be included in the attack flow. 
 
 .. figure:: _static/TA_and_campaigns.png
    :alt: Screenshot showing a threat actor and campaign.  
