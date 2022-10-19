@@ -18,30 +18,15 @@ realistic adversary emulation scenarios.
 
 ## Getting Started
 
-At a high level, Attack Flow is a machine-readable representation of a sequence
-of actions and assets along with knowledge properties about those actions and
-assets. This representation is composed of five main objects: the *flow* itself,
-a list of *actions*, a list of *assets*, a list of knowledge *properties*, and a
-list of causal *relationships* between the actions and assets. Each of these
-five objects includes a set of *required* and *optional* fields. Attack Flow
-uses MITRE ATT&CK to describe specific adversary behaviors.
+Attack Flow is a standard for sharing information about how adversaries use sequences of
+multiple techniques to accomplish their objectives. The standard is open source and machine-readable 
+(based on STIX 2.1). The 2.0 release will be published on Oct 27th along with a new website
+that describes Attack Flow and makes it easy to get started. Until the public launch, you can
+find the following resources in this repository:
 
-| Resource                                                                                   | Description                                                              |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| [Documentation](https://center-for-threat-informed-defense.github.io/attack-flow-private/) | An overview of the Attack Flow format and corresponding data dictionary. |
-| [JSON Schema](/schema/attack-flow-2022-01-05-draft.json)                                   | The JSON of the Attack Flow schema.                                      |
-| [Example Flows](/corpus/)                                                                  | A corpus of example Attack Flows.                                        |
-| Attack Flow Builder                                                                        | A GUI tool for building Attack Flows.                                    |
-
-For more information, refer to the
-[documentation](https://center-for-threat-informed-defense.github.io/attack-flow-private/).
-
-## Docker
-
-The builder tool can be run as a Docker container. Run `make docker-build` to
-build the container image initially, then `make docker-run` to start the
-container. Once the image is running, open your browser to http://localhost:8080
-to view the builder.
+* Documentation: Download the documentation in HTML or PDF format from [our automated build page](https://github.com/center-for-threat-informed-defense/attack-flow-private/actions/runs/3138408426).
+* Builder: Download the builder from [our automated build page](https://github.com/center-for-threat-informed-defense/attack-flow-private/actions/runs/3138408426).
+* Corpus: The example flows in the corpus can be viewed [in this repository](https://github.com/center-for-threat-informed-defense/attack-flow-private/tree/convert_flows_to_v2/corpus).
 
 ## Getting Involved
 
