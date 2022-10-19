@@ -148,7 +148,7 @@ By adding the above techniques together, unique attack flows can be created.
    An example of part of an attack flow. Depending on which condition occurs is how the attack flow will proceed. If the left condition occurs, then the attack flow will proceed to the actions underneath the left condition (left side of the flow). If the right condition occurs, then the attack flow will proceed to the actions underneath the right condition (right side of the flow). At the end, the attack flow comes together into a single path.
 
 Additional STIX Domain Objects (SDOs)
-------------------------------
+-------------------------------------
 
    If an attack flow is connected to a threat actor(s) or demonstrates a campaign from a threat actor, then the applicable SDOs should be included in the attack flow. 
 
