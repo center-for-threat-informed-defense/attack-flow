@@ -81,11 +81,11 @@ In complex scenarios, operators are used to express the relationship between con
 
    The OR operator between two conditions indicates that at least one condition must be present for the attack flow to continue successfully.
 
-.. figure:: _static/action_OR_operator.png
-   :alt: Screenshot of an OR operator between two actions. 
-   :align: center
+ .. figure:: _static/action_OR_operator.png
+    :alt: Screenshot of an OR operator between two actions. 
+    :align: center
 
-   The OR operator between two actions indicates that both actions occur simultaneously but only one must complete successfully for the attack flow to continue. 
+    The OR operator between two actions indicates that both actions occur simultaneously but only one must complete successfully for the attack flow to continue. 
 
 .. figure:: _static/AND_operator.png
    :alt: Screenshot of an AND operator between two conditions. 
