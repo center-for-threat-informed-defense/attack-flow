@@ -24,20 +24,44 @@ def main():
         for obj in afb["objects"]:
             if obj["template"] == "action":
                 migrate_action(obj)
+            elif obj["template"] == "asset":
+                migrate_asset(obj)
+            elif obj["template"] == "threat_actor":
+                # Fix misspelling of threat-actor.
+                obj["template"] = "threat-actor"
 
         with afb_path.open("w") as afb_file_rw:
             json.dump(afb, afb_file_rw, indent=2)
 
 
 def migrate_action(action):
+    # transform property list into dict for convenienc
+    props = dict(action["properties"])
+
     # Rewrite technique_name -> name
-    for idx, prop in enumerate(action["properties"]):
-        key = prop[0]
-        if key == "technique_name":
-            break
-    else:
-        raise Exception(f"Did not find a technique_name in action: {action}")
-    action["properties"][idx][0] = "name"
+    if "technique_name" in props:
+        props["name"] = props.pop("technique_name")
+
+    # Separate tactics and techniques
+    if (tid := props.get("technique_id")) and tid.startswith("TA"):
+        props["tactic_id"] = props.pop("technique_id")
+    if (tref := props.get("technique_ref")) and tref.startswith("x-mitre-tactic--"):
+        props["tactic_ref"] = props.pop("technique_ref")
+
+    # tranform dict back to property list
+    action["properties"] = list(props.items())
+
+
+def migrate_asset(asset):
+    # transform property list into dict for convenienc
+    props = dict(asset["properties"])
+
+    # some assets are missing names -- fill in a dummy value just to make it valid
+    if props.get("name", "") == "":
+        props["name"] = "PLACEHOLDER - RENAME ME"
+
+    # tranform dict back to property list
+    asset["properties"] = list(props.items())
 
 
 if __name__ == "__main__":

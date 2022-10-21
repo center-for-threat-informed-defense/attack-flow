@@ -57,8 +57,6 @@ jobs:
       run: poetry install
     - name: Install Mermaid
       run: npm install -g @mermaid-js/mermaid-cli
-    - name: Generate schema docs
-      run: poetry run make docs-schema
     - name: Create client directory
       run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder

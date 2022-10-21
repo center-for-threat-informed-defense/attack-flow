@@ -1,12 +1,12 @@
 <template>
   <div class="context-menu-listing-control" :style="offset" @contextmenu.prevent="">
-    <input type="file" ref="file" style="display:none" @change="readFile">
+    <input type="file" ref="file" style="display:none" accept=".afb" @change="readFile">
     <!-- Menu Sections -->
     <div class="section" v-for="(section, i) of sections" :key="section.name">
       <!-- Menu Section -->
       <template v-for="item of section.items" :key="item.id">
         <!-- Submenu Item -->
-        <li 
+        <li
           v-if="item.action === MenuAction.OpenSubmenu"
           :class="{ disabled: item.disabled }"
           @mouseenter="submenuEnter(item)"
@@ -54,7 +54,7 @@ const KeyToText: { [key: string]: string } = {
 export default defineComponent({
   name: 'ContextMenuListing',
   setup() {
-    return { 
+    return {
       file: ref(null) as Ref<HTMLElement | null>
     }
   },
@@ -99,7 +99,7 @@ export default defineComponent({
 
   },
   methods: {
-    
+
     /**
      * Submenu mouse enter behavior.
      * @param item
@@ -274,7 +274,7 @@ li.disabled a {
   cursor: unset;
 }
 
-.text, 
+.text,
 .shortcut,
 .more-arrow {
   display: flex;
