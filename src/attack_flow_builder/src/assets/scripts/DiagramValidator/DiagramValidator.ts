@@ -18,7 +18,7 @@ export class DiagramValidator {
      */
     constructor() {
         this._errors = [];
-    } 
+    }
 
 
     /**

@@ -1,7 +1,7 @@
 import { DatePropertyDescriptor, Property } from ".";
 
 export class DateProperty extends Property {
-    
+
     /**
      * The property's descriptor.
      */
@@ -10,7 +10,7 @@ export class DateProperty extends Property {
     /**
      * The property's value.
      */
-    public value: Date;
+    public value: Date | null;
 
 
     /**
@@ -20,10 +20,10 @@ export class DateProperty extends Property {
      * @param value
      *  The property's value.
      */
-    constructor(descriptor: DatePropertyDescriptor, value?: any) {
+    constructor(descriptor: DatePropertyDescriptor, value?: string|Date|null) {
         super(descriptor);
         this.descriptor = descriptor;
-        if(typeof value === 'string') {
+        if (typeof value === 'string' && value.trim() !== "") {
             this.value = new Date(value);
         } else {
             this.value = descriptor.value;
@@ -36,8 +36,12 @@ export class DateProperty extends Property {
      * @returns
      *  The property's raw value.
      */
-    public toRawValue(): string {
-        return this.value.toISOString();
+    public toRawValue(): string | null {
+        if (this.value) {
+            return this.value.toISOString();
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -3,7 +3,7 @@ import { Module } from "vuex"
 import { markRaw } from "vue";
 import { Download } from "@/assets/scripts/Download";
 import { ModuleStore, ActiveDocumentStore } from "@/store/StoreTypes"
-import { 
+import {
     BlockDiagramDocument,
     DiagramObjectModel
 } from "@/assets/scripts/BlockDiagram";
@@ -92,7 +92,7 @@ export default {
          *  The Vuex context.
          */
         saveDocumentToDevice({ state }) {
-            let file = JSON.stringify(state.document.toExport());
+            let file = JSON.stringify(state.document.toExport(), null, 2);
             Download.textFile(state.document.name, file, Configuration.file_type_extension);
         },
 
@@ -139,7 +139,7 @@ export default {
             Download.textFile(state.document.name, publish, "json");
         },
 
-        
+
         ///////////////////////////////////////////////////////////////////////
         //  3. Clipboard  /////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
@@ -160,7 +160,7 @@ export default {
             // Remove selection
             dispatch("ActivePageStore/removeSelected", null, ROOT);
         },
-        
+
         /**
          * Copies the active selection to the clipboard.
          * @param ctx
@@ -203,7 +203,7 @@ export default {
     },
     mutations: {
 
-        
+
         ///////////////////////////////////////////////////////////////////////
         //  1. Document Control  //////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////

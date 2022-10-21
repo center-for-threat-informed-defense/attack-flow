@@ -1,0 +1,4129 @@
+{
+    "api_version": "2.0.0",
+    "name": "Untitled Attack Flow",
+    "schema": {
+        "page_template": "@__builtin__page",
+        "templates": [
+            {
+                "id": "@__builtin__page",
+                "name": "Page",
+                "type": 6,
+                "role": 0,
+                "grid": [
+                    10,
+                    10
+                ],
+                "style": {
+                    "grid_color": "#1d1d1d",
+                    "background_color": "#141414",
+                    "drop_shadow": {
+                        "color": "rgba(0,0,0,.4)",
+                        "offset": [
+                            3,
+                            3
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "@__builtin__anchor",
+                "name": "Anchor",
+                "type": 0,
+                "role": 0,
+                "radius": 10,
+                "line_templates": {
+                    "0": "@__builtin__line_horizontal_elbow",
+                    "1": "@__builtin__line_vertical_elbow"
+                },
+                "style": {
+                    "color": "rgba(255, 255, 255, 0.25)"
+                }
+            },
+            {
+                "id": "@__builtin__line_handle",
+                "name": "Line Handle",
+                "type": 3,
+                "role": 0,
+                "style": {
+                    "radius": 6,
+                    "fill_color": "#fedb22",
+                    "stroke_color": "#141414",
+                    "stroke_width": 1.5
+                }
+            },
+            {
+                "id": "@__builtin__line_source",
+                "name": "Line Source",
+                "type": 2,
+                "role": 24576,
+                "style": {
+                    "radius": 6,
+                    "fill_color": "#fedb22",
+                    "stroke_color": "#141414",
+                    "stroke_width": 1.5
+                }
+            },
+            {
+                "id": "@__builtin__line_target",
+                "name": "Line Target",
+                "type": 2,
+                "role": 32768,
+                "style": {
+                    "radius": 6,
+                    "fill_color": "#fedb22",
+                    "stroke_color": "#141414",
+                    "stroke_width": 1.5
+                }
+            },
+            {
+                "id": "@__builtin__line_horizontal_elbow",
+                "name": "Horizontal Elbow",
+                "type": 4,
+                "role": 16384,
+                "hitbox_width": 20,
+                "line_handle_template": "@__builtin__line_handle",
+                "line_ending_template": {
+                    "source": "@__builtin__line_source",
+                    "target": "@__builtin__line_target"
+                },
+                "style": {
+                    "width": 5,
+                    "cap_size": 16,
+                    "color": "#646464",
+                    "select_colors": {
+                        "solo_color": "#646464",
+                        "many_color": "#646464"
+                    }
+                }
+            },
+            {
+                "id": "@__builtin__line_vertical_elbow",
+                "name": "Vertical Elbow",
+                "type": 5,
+                "role": 16384,
+                "hitbox_width": 20,
+                "line_handle_template": "@__builtin__line_handle",
+                "line_ending_template": {
+                    "source": "@__builtin__line_source",
+                    "target": "@__builtin__line_target"
+                },
+                "style": {
+                    "width": 5,
+                    "cap_size": 16,
+                    "color": "#646464",
+                    "select_colors": {
+                        "solo_color": "#646464",
+                        "many_color": "#646464"
+                    }
+                }
+            },
+            {
+                "id": "action",
+                "name": "Action",
+                "collection": 0,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "tactic_id": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "tactic_ref": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "technique_id": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "technique_ref": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "execution_start": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "execution_end": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#637bc9",
+                        "stroke_color": "#708ce6",
+                        "title": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "13pt",
+                                "weight": 800
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "10.5pt"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "asset",
+                "name": "Asset",
+                "collection": 0,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#c26130",
+                        "stroke_color": "#e57339",
+                        "title": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "13pt",
+                                "weight": 800
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "10.5pt"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "condition",
+                "name": "Condition",
+                "type": 1,
+                "role": 8192,
+                "title_key": "description",
+                "collection": 0,
+                "properties": {
+                    "description": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "pattern": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "pattern_type": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "pattern_version": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#2a9642",
+                        "stroke_color": "#32b34e",
+                        "title": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "13pt",
+                                "weight": 800
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "8pt",
+                                "weight": 600
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "family": "Inter",
+                                "size": "10.5pt"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "and",
+                "name": "Operator: AND",
+                "collection": 0,
+                "type": 8,
+                "role": 8192,
+                "text": "AND",
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "fill_color": "#c94040",
+                    "stroke_color": "#dd5050",
+                    "text": {
+                        "font": {
+                            "family": "Inter",
+                            "size": "14pt",
+                            "weight": 800
+                        },
+                        "color": "#d8d8d8"
+                    },
+                    "border_radius": 15,
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 19
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "vertical_padding": 18,
+                    "horizontal_padding": 35
+                }
+            },
+            {
+                "id": "or",
+                "name": "Operator: OR",
+                "collection": 0,
+                "type": 8,
+                "role": 8192,
+                "text": "OR",
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "fill_color": "#c94040",
+                    "stroke_color": "#dd5050",
+                    "text": {
+                        "font": {
+                            "family": "Inter",
+                            "size": "14pt",
+                            "weight": 800
+                        },
+                        "color": "#d8d8d8"
+                    },
+                    "border_radius": 15,
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 19
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "vertical_padding": 18,
+                    "horizontal_padding": 35
+                }
+            },
+            {
+                "id": "attack_pattern",
+                "name": "Attack Pattern",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "aliases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "kill_chain_phases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "campaign",
+                "name": "Campaign",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "aliases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "first_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "last_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "objective": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "course_of_action",
+                "name": "Course of Action",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "action_type": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "os_execution_envs": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "action_bin": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "grouping",
+                "name": "Grouping",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "context": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "identity",
+                "name": "Identity",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "roles": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "identity_class": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "sectors": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "contact_information": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "indicator",
+                "name": "Indicator",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "indicator_types": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "pattern": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "pattern_type": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "patter_version": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "valid_from": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z",
+                        "is_required": true
+                    },
+                    "valid_until": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "kill_chain_phases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "infrastructure",
+                "name": "Infrastructure",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "infrustructure_types": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "aliases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "kill_chain_phases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "first_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "last_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "intrusion_set",
+                "name": "Intrusion Set",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "aliases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "first_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "last_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "goals": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "resource_level": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "primary_motivation": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "secondary_motivations": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "location",
+                "name": "Location",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "latitude": {
+                        "type": 1,
+                        "value": 0
+                    },
+                    "longitude": {
+                        "type": 1,
+                        "value": 0
+                    },
+                    "precision": {
+                        "type": 1,
+                        "value": 0
+                    },
+                    "region": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "country": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "administrative_area": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "city": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "street_address": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "postal_code": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "malware",
+                "name": "Malware",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "malware_types": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "is_family": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "aliases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "kill_chain_phases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "first_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "last_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "os_execution_envs": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "architecture_execution_envs": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "implementation_languages": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "capabilities": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "malware_analysis",
+                "name": "Malware",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "product",
+                "properties": {
+                    "product": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "version": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "configuration_version": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "modules": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "analysis_engine_version": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "analysis_definition_version": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "submitted": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "analysis_started": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "analysis_ended": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "av_result": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "note",
+                "name": "Note",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "abstract",
+                "properties": {
+                    "abstract": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "content": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "authors": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "observed_data",
+                "name": "Observed Data",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "first_observed",
+                "properties": {
+                    "first_observed": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z",
+                        "is_required": true
+                    },
+                    "last_observed": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z",
+                        "is_required": true
+                    },
+                    "number_observed": {
+                        "type": 0,
+                        "value": 0,
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "opinion",
+                "name": "Opinion",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "explanation",
+                "properties": {
+                    "explanation": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "authors": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "opinion": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "report",
+                "name": "Report",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "report_types": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "published": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "threat_actor",
+                "name": "Threat Actor",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "threat_actor_types": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "aliases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "first_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "last_seen": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "roles": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "goals": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "sophistication": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "resource_level": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "primary_motivation": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "secondary_motivation": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "personal_motivations": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "tool",
+                "name": "Tool",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "tool_types": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "aliases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "kill_chain_phases": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "tool_version": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "vulnerability",
+                "name": "Vulnerability",
+                "collection": 1,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "description": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "artifact",
+                "name": "Artifact",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "mime_type",
+                "properties": {
+                    "mime_type": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "payload_bin": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "url": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "hashes": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "encryption_algorithm": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "decryption_key": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "autonomous_system",
+                "name": "Autonomous System",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "number",
+                "properties": {
+                    "number": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "name": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "rir": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "directory",
+                "name": "Directory",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "path",
+                "properties": {
+                    "path": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "path_enc": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "ctime": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "mtime": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "atime": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "domain_name",
+                "name": "Domain Name",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "value",
+                "properties": {
+                    "value": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "email_address",
+                "name": "Email Address",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "value",
+                "properties": {
+                    "value": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "display_name": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "email_message",
+                "name": "Email Message",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "subject",
+                "properties": {
+                    "is_multipart": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "date": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "content_type": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "message_id": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "subject": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "received_lines": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "additional_header_fields": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "body": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "body_multipart": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "file",
+                "name": "File",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "hashes": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "size": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "name": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "name_enc": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "magic_number_hex": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "mime_type": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "ctime": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "mtime": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "atime": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "ipv4_addr",
+                "name": "IPv4 Address",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "value",
+                "properties": {
+                    "value": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "ipv6_addr",
+                "name": "IPv6 Address",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "value",
+                "properties": {
+                    "value": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "mac_addr",
+                "name": "MAC Address",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "value",
+                "properties": {
+                    "value": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "mutex",
+                "name": "Mutex",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "network_traffic",
+                "name": "Network Traffic",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "dst_port",
+                "properties": {
+                    "start": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "end": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "is_active": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "src_port": {
+                        "type": 0,
+                        "value": 0
+                    },
+                    "dst_port": {
+                        "type": 0,
+                        "value": 0
+                    },
+                    "protocols": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        },
+                        "is_required": true
+                    },
+                    "src_byte_count": {
+                        "type": 0,
+                        "value": 0
+                    },
+                    "dst_byte_count": {
+                        "type": 0,
+                        "value": 0
+                    },
+                    "src_packets": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "dst_packets": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "ipfix": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "process",
+                "name": "Process",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "pid",
+                "properties": {
+                    "is_hidden": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "pid": {
+                        "type": 0,
+                        "value": 0
+                    },
+                    "created_time": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "cwd": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "command_line": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "environment_variables": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "software",
+                "name": "Software",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "name",
+                "properties": {
+                    "name": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    },
+                    "cpe": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "languages": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "vendor": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "version": {
+                        "type": 2,
+                        "value": ""
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "url",
+                "name": "URL",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "value",
+                "properties": {
+                    "value": {
+                        "type": 2,
+                        "value": "",
+                        "is_required": true
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "user_account",
+                "name": "User Account",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "display_name",
+                "properties": {
+                    "user_id": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "credential": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "account_login": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "account_type": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "display_name": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "is_service_account": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "is_privileged": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "can_escalate_privs": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "is_disabled": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "account_created": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "account_expires": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "credential_last_changed": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "account_first_login": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "account_last_login": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "windows_registry_key",
+                "name": "Windows Registry Key",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "key",
+                "properties": {
+                    "key": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "value": {
+                        "type": 5,
+                        "form": {
+                            "type": 2,
+                            "value": ""
+                        }
+                    },
+                    "modified_time": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.818Z"
+                    },
+                    "number_of_subkeys": {
+                        "type": 0,
+                        "value": 0
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            },
+            {
+                "id": "x509_certificate",
+                "name": "X509 Certificate",
+                "collection": 2,
+                "type": 1,
+                "role": 8192,
+                "title_key": "subject",
+                "properties": {
+                    "is_self_signed": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "hashes": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "version": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "serial_number": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "signature_algorithm": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "issuer": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "validity_not_before": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.819Z"
+                    },
+                    "validity_not_after": {
+                        "type": 3,
+                        "value": "2022-10-19T18:51:45.819Z"
+                    },
+                    "subject": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "subject_public_key_algorithm": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "subject_public_key_modulus": {
+                        "type": 2,
+                        "value": ""
+                    },
+                    "subject_public_key_exponent": {
+                        "type": 0,
+                        "value": 0
+                    }
+                },
+                "anchor_template": "@__builtin__anchor",
+                "style": {
+                    "max_width": 320,
+                    "head": {
+                        "fill_color": "#848484",
+                        "stroke_color": "#6b6b6b",
+                        "title": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "padding": 8
+                        },
+                        "subtitle": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#d8d8d8",
+                            "lineHeight": 23
+                        },
+                        "vertical_padding": 14
+                    },
+                    "body": {
+                        "fill_color": "#1f1f1f",
+                        "stroke_color": "#383838",
+                        "field_name": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#b3b3b3",
+                            "padding": 12
+                        },
+                        "field_value": {
+                            "font": {
+                                "size": "10pt",
+                                "family": "sans-serif"
+                            },
+                            "color": "#bfbfbf",
+                            "line_height": 20,
+                            "padding": 22
+                        },
+                        "vertical_padding": 18
+                    },
+                    "select_outline": {
+                        "padding": 4,
+                        "solo_color": "#e6d845",
+                        "many_color": "#e6d845",
+                        "border_radius": 9
+                    },
+                    "anchor_markers": {
+                        "color": "#ffffff",
+                        "size": 3
+                    },
+                    "border_radius": 5,
+                    "horizontal_padding": 20
+                }
+            }
+        ]
+    },
+    "page": "a1842c1a-9e2b-4c4a-b25b-2af1fb67c64a",
+    "objects": [
+        {
+            "id": "a1842c1a-9e2b-4c4a-b25b-2af1fb67c64a",
+            "x": 50,
+            "y": -360,
+            "attrs": 0,
+            "template": "@__builtin__page",
+            "children": [
+                "2535e7b8-a3e2-4ce0-ba4a-df1728b960b5"
+            ],
+            "properties": [],
+            "location": {
+                "type": 0,
+                "x": 0,
+                "y": 0,
+                "k": 1
+            }
+        },
+        {
+            "id": "2535e7b8-a3e2-4ce0-ba4a-df1728b960b5",
+            "x": 50,
+            "y": -360,
+            "attrs": 0,
+            "template": "action",
+            "children": [
+                "1aa53662-a220-4cc3-860e-90140bff1691",
+                "4a3f5b56-47d4-4c2a-a854-f59e300b0f9f",
+                "fd7a500e-879f-44c9-ae03-1b6e4ff57896",
+                "db49681a-8871-4b04-b365-42c6900bfcea",
+                "5b098586-e3bd-4dd0-a0ef-857ab3e51eb1",
+                "81392e43-db25-4439-a2da-011bad2d698b",
+                "606b073e-3464-4d99-aa95-b1066b33d520",
+                "2cadfa75-8eca-40de-ba72-f262ca7555d9",
+                "1d3238bc-6666-406e-98ed-9630db8cb12c",
+                "4c4d1b48-fdcc-4750-b2fe-9a2c7050a9ce",
+                "8437c2cd-5c23-49d2-ae7f-a7e29b4d941c",
+                "12142726-4a68-4451-88a7-f4580a7f200c"
+            ],
+            "properties": [
+                [
+                    "name",
+                    ""
+                ],
+                [
+                    "tactic_id",
+                    ""
+                ],
+                [
+                    "tactic_ref",
+                    ""
+                ],
+                [
+                    "technique_id",
+                    ""
+                ],
+                [
+                    "technique_ref",
+                    ""
+                ],
+                [
+                    "execution_start",
+                    "2022-10-19T18:51:45.818Z"
+                ],
+                [
+                    "execution_end",
+                    "2022-10-19T18:51:45.818Z"
+                ],
+                [
+                    "description",
+                    ""
+                ]
+            ]
+        },
+        {
+            "id": "1aa53662-a220-4cc3-860e-90140bff1691",
+            "x": -37.5,
+            "y": -465,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 1
+        },
+        {
+            "id": "4a3f5b56-47d4-4c2a-a854-f59e300b0f9f",
+            "x": 50,
+            "y": -465,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 1
+        },
+        {
+            "id": "fd7a500e-879f-44c9-ae03-1b6e4ff57896",
+            "x": 137.5,
+            "y": -465,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 1
+        },
+        {
+            "id": "db49681a-8871-4b04-b365-42c6900bfcea",
+            "x": 226,
+            "y": -412.5,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 0
+        },
+        {
+            "id": "5b098586-e3bd-4dd0-a0ef-857ab3e51eb1",
+            "x": 226,
+            "y": -360,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 0
+        },
+        {
+            "id": "81392e43-db25-4439-a2da-011bad2d698b",
+            "x": 226,
+            "y": -307.5,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 0
+        },
+        {
+            "id": "606b073e-3464-4d99-aa95-b1066b33d520",
+            "x": 137.5,
+            "y": -255,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 1
+        },
+        {
+            "id": "2cadfa75-8eca-40de-ba72-f262ca7555d9",
+            "x": 50,
+            "y": -255,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 1
+        },
+        {
+            "id": "1d3238bc-6666-406e-98ed-9630db8cb12c",
+            "x": -37.5,
+            "y": -255,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 1
+        },
+        {
+            "id": "4c4d1b48-fdcc-4750-b2fe-9a2c7050a9ce",
+            "x": -125,
+            "y": -307.5,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 0
+        },
+        {
+            "id": "8437c2cd-5c23-49d2-ae7f-a7e29b4d941c",
+            "x": -125,
+            "y": -360,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 0
+        },
+        {
+            "id": "12142726-4a68-4451-88a7-f4580a7f200c",
+            "x": -125,
+            "y": -412.5,
+            "attrs": 0,
+            "template": "@__builtin__anchor",
+            "children": [],
+            "properties": [],
+            "angle": 0
+        }
+    ]
+}
