@@ -6,7 +6,6 @@ import textwrap
 
 from .model import (
     confidence_num_to_label,
-    get_flow_object,
     get_viz_ignored_ids,
     VIZ_IGNORE_COMMON_PROPERTIES,
 )
@@ -50,7 +49,7 @@ class MermaidGraph:
             else:
                 shape_start = "["
                 shape_end = "]"
-            lines.append(f"    {node_id}{shape_start}{label}{shape_end}")
+            lines.append(f'    {node_id}{shape_start}"{label}"{shape_end}')
             lines.append(f"    class {node_id} {node_class}")
 
         lines.append("")

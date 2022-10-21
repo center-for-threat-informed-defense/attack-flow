@@ -6,6 +6,15 @@ import { ModuleStore, ContextMenuStore } from "../StoreTypes";
 
 const ROOT = { root: true };
 
+/**
+ * If the user has a loadUrl query parameter, clear it from the URL.
+ */
+function clearLoadUrl() {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.delete("loadUrl");
+    history.pushState(null, "", newUrl);
+}
+
 export default {
     namespaced: true,
     actions: {
@@ -22,7 +31,7 @@ export default {
          */
         async executeAppAction({ dispatch, rootState }, { id, data }: { id: string, data: any }) {
             switch(id) {
-          
+
                 ///////////////////////////////////////////////////////////////
                 //  1. File  //////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
@@ -32,12 +41,14 @@ export default {
                         "ActiveDocumentStore/createEmptyDocument",
                         `Untitled ${ Configuration.file_type_name }`, ROOT
                     );
+                    clearLoadUrl();
                     break;
                 case "open_file":
                     await dispatch(
                         "ActiveDocumentStore/openDocument",
                         data.file, ROOT
                     );
+                    clearLoadUrl();
                     break;
                 case "save_file":
                     await dispatch(
@@ -67,11 +78,11 @@ export default {
                     break;
                 case "save_library":
                     break;
-                
+
                 ///////////////////////////////////////////////////////////////
                 //  2. Edit  //////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
-                
+
                 case "undo":
                     await dispatch(
                         "ActivePageStore/undo",
@@ -105,8 +116,8 @@ export default {
                 case "create_object":
                     await dispatch(
                         "ActivePageStore/spawnObject",
-                        { 
-                            template: data.template, 
+                        {
+                            template: data.template,
                             parent: data.parent,
                             x: data.x,
                             y: data.y
@@ -131,7 +142,7 @@ export default {
                         null, ROOT
                     );
                     break;
-                
+
                 ///////////////////////////////////////////////////////////////
                 //  3. Layout  ////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
@@ -184,7 +195,7 @@ export default {
                 ///////////////////////////////////////////////////////////////
                 //  4. View  //////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
-                
+
                 case "toggle_grid":
                     await dispatch(
                         "AppSettingsStore/setGridDisplay",
@@ -262,14 +273,14 @@ export default {
                         !data.value, ROOT
                     );
                     break;
-        
+
                 ///////////////////////////////////////////////////////////////
                 //  5. Help  //////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////
 
                 case "open_about_window":
                     break;
-        
+
                 default:
                     break;
 

@@ -1,3 +1,4 @@
+import html
 import textwrap
 
 import graphviz
@@ -8,6 +9,10 @@ from .model import (
     get_viz_ignored_ids,
     VIZ_IGNORE_COMMON_PROPERTIES,
 )
+
+
+def label_escape(text):
+    return graphviz.escape(html.escape(text))
 
 
 def convert(bundle):
@@ -67,13 +72,13 @@ def _get_body_label(bundle):
 
     description = "<br/>".join(
         textwrap.wrap(
-            graphviz.escape(flow.get("description", "(missing description)")), width=100
+            label_escape(flow.get("description", "(missing description)")), width=100
         )
     )
     lines = [
-        f'<font point-size="24">{graphviz.escape(flow["name"])}</font>',
+        f'<font point-size="24">{label_escape(flow["name"])}</font>',
         f"<i>{description}</i>",
-        f'<font point-size="10">Author: {graphviz.escape(author.get("name", "(missing)"))} &lt;{graphviz.escape(author.get("contact_information", "n/a"))}&gt;</font>',
+        f'<font point-size="10">Author: {label_escape(author.get("name", "(missing)"))} &lt;{label_escape(author.get("contact_information", "n/a"))}&gt;</font>',
         f'<font point-size="10">Created: {flow.get("created", "(missing)")}</font>',
         f'<font point-size="10">Modified: {flow.get("modified", "(missing)")}</font>',
     ]
@@ -94,14 +99,14 @@ def _get_action_label(action):
     else:
         heading = "Action"
     description = "<br/>".join(
-        textwrap.wrap(graphviz.escape(action.description), width=40)
+        textwrap.wrap(label_escape(action.description), width=40)
     )
     confidence = confidence_num_to_label(action.get("confidence", 95))
     return "".join(
         [
             '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
             f'<TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>{heading}</B></TD></TR>',
-            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{graphviz.escape(action.name)}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{label_escape(action.name)}</TD></TR>',
             f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>',
             f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{confidence}</TD></TR>',
             "</TABLE>>",
@@ -116,9 +121,9 @@ def _get_asset_label(asset):
     :param asset:
     :rtype: str
     """
-    name = graphviz.escape(asset.name)
+    name = label_escape(asset.name)
     description = "<br/>".join(
-        textwrap.wrap(graphviz.escape(asset.get("description", "")), width=40)
+        textwrap.wrap(label_escape(asset.get("description", "")), width=40)
     )
     return "".join(
         [
@@ -148,7 +153,7 @@ def _get_builtin_label(builtin):
         pretty_key = key.replace("_", " ").title()
         if isinstance(value, list):
             value = ", ".join(value)
-        pretty_value = graphviz.escape(str(value))
+        pretty_value = label_escape(str(value))
         lines.append(
             f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>{pretty_key}</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{pretty_value}</TD></TR>'
         )
@@ -164,7 +169,7 @@ def _get_condition_label(condition):
     :rtype: str
     """
     description = "<br/>".join(
-        textwrap.wrap(graphviz.escape(condition.description), width=40)
+        textwrap.wrap(label_escape(condition.description), width=40)
     )
     return "".join(
         [

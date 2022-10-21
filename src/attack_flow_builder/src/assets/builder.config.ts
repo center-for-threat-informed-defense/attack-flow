@@ -474,7 +474,7 @@ const config: AppConfiguration = {
                 style: StixBlockStyle
             },
             {
-                id: "threat_actor",
+                id: "threat-actor",
                 name: "Threat Actor",
                 collection: MenuCollection.StixObject,
                 type: TemplateType.DictionaryBlock,

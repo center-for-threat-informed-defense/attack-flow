@@ -222,11 +222,11 @@
                 },
                 "execution_start": {
                     "description": "Timestamp indicating when the execution of this action began.",
-                    "type": "timestamp"
+                    "$ref": "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/master/schemas/common/timestamp.json"
                 },
                 "execution_end": {
                     "description": "Timestamp indicating when the execution of this action ended.",
-                    "type": "timestamp"
+                    "$ref": "https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/master/schemas/common/timestamp.json"
                 },
                 "command_ref": {
                     "description": "Describe tools or commands executed by the attacker by referring to a STIX Process object, which can represent commands, environment variables, process image, etc.",

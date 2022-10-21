@@ -1,5 +1,5 @@
 import { DiagramPublisher } from "./scripts/DiagramPublisher/DiagramPublisher";
-import { DiagramObjectModel, GraphObjectExport, SemanticAnalyzer } from "./scripts/BlockDiagram";
+import { DiagramObjectModel, GraphObjectExport, ListProperty, SemanticAnalyzer } from "./scripts/BlockDiagram";
 
 const AttackFlowExtensionId = "fb9c968a-745b-4ade-9b25-c324172197f4";
 const AttackFlowSchemaUrl = "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json";
@@ -87,10 +87,23 @@ class AttackFlowPublisher extends DiagramPublisher {
             stixBundle.objects.push(...newNodes);
         }
 
-        // TODO add attack-flow node
-        // - include flow start refs
+        // TODO - Create flow authors.
+        const author = this.createStixObj("identity");
+        author.name = "John Doe";
+        author.identity_class = "individual";
+        author.contact_information = "johndoe@mitre.org";
+        stixBundle.objects.splice(2, 0, author)
+
+        // TODO - Set flow metadata.
         const flowObject = this.createStixObj("attack-flow");
-        stixBundle.objects.push(flowObject);
+        flowObject.name = "Placeholder name";
+        flowObject.scope = "other";
+        flowObject.description = "Placeholder description.";
+        flowObject.created_by_ref = author.id;
+        // flowObject.created = "TODO";
+        // flowObject.modified = "TODO";
+        flowObject.start_refs = this.findFlowRoots(stixNodes, stixChildren);
+        stixBundle.objects.splice(2, 0, flowObject);
 
         return JSON.stringify(stixBundle, null, 2);
     }
@@ -346,10 +359,13 @@ class AttackFlowPublisher extends DiagramPublisher {
     protected createStixObj(template: string, id: string | null = null): any {
         const type = AttackFlowTemplates.get(template) ?? template;
         const stixId = id ?? crypto.randomUUID();
+        const now = (new Date()).toISOString();
         const sdo: any = {
             type: type,
             id: `${type}--${stixId}`,
             spec_version: "2.1",
+            created: now,
+            modified: now,
         }
 
         // Declare extension on Attack Flow SDOs.
@@ -372,12 +388,43 @@ class AttackFlowPublisher extends DiagramPublisher {
      * @param relationshipType - The relationship type
      */
     protected createSro(parent: any, child: any, relationshipType: string = "related-to"): any {
+        const stixId = crypto.randomUUID();
+        const now = (new Date()).toISOString();
         return {
             type: "relationship",
+            id: `relationship--${stixId}`,
+            spec_version: "2.1",
+            created: now,
+            modified: now,
             relationship_type: relationshipType,
             source_ref: parent.id,
             target_ref: child.id,
         };
+    }
+
+    /**
+     * Find the root nodes of the action graph.
+     *
+     * @param nodes - A map of node ID -> STIX Node
+     * @param adjacency - A map of parent ID -> children IDs
+     * @returns a list of IDs of the root action/condition nodes.
+     */
+    protected findFlowRoots(nodes: Map<string, any>,
+            adjacency: Map<string, Array<string>>): Array<string> {
+        // Add all actions and conditions to the set of possible roots.
+        const roots = new Set<string>();
+        for (const node of nodes.values()) {
+            if (node.type == "attack-action" || node.type == "attack-condition") {
+                roots.add(node.id);
+            }
+        }
+        //
+        for (const children of adjacency.values()) {
+            for (const child of children) {
+                roots.delete(child);
+            }
+        }
+        return new Array<string>(...roots);
     }
 }
 
