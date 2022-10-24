@@ -1,14 +1,11 @@
-import { RasterCache } from "../../Diagram/RasterCache";
+import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramObjectView } from "../../DiagramViewTypes";
 import { 
     DiagramAnchorableModel,
     DiagramAnchorModel
 } from "./BaseModels";
 import {
-    DictionaryProperty,
-    Property,
-    PropertyType,
-    StringProperty
+    RootProperty
 } from "../../Property";
 import { 
     DiagramFactory,
@@ -55,7 +52,7 @@ export abstract class DiagramObjectModel {
     /**
      * The object's properties.
      */
-    public readonly props: DictionaryProperty;
+    public readonly props: RootProperty;
 
     /**
      * The object's diagram factory.
@@ -72,7 +69,18 @@ export abstract class DiagramObjectModel {
      */
     public readonly boundingBox: BoundingBox;
 
+    /**
+     * The object's root.
+     */
+    public get root(): DiagramObjectModel {
+        let owner = this as DiagramObjectModel;
+        while(owner.parent) {
+            owner = owner.parent;
+        }
+        return owner;
+    }
 
+    
     /**
      * Creates a new {@link DiagramObjectModel}.
      * @param factory
@@ -87,7 +95,7 @@ export abstract class DiagramObjectModel {
         template: ObjectTemplate,
         values?: DiagramObjectValues
     ) {
-        this.id = values?.id ?? crypto.randomUUID();
+        this.id = values?.id ?? (crypto as any).randomUUID();
         this.attrs = values?.attrs ?? PositionSetByUser.False;
         this.setAlignment(Alignment.Free);
         this.setCursor(Cursor.Default);
@@ -100,14 +108,9 @@ export abstract class DiagramObjectModel {
         this.boundingBox.xMid = values?.x ?? 0;
         this.boundingBox.yMid = values?.y ?? 0;
         // Value configuration
-        this.props = Property.create(
-            {
-                type: PropertyType.Dictionary,
-                form: template?.properties ?? {},
-                text_key: ""
-            },
-            values?.properties
-        ) as DictionaryProperty;
+        this.props = new RootProperty(
+            this, template?.properties ?? {}, values?.properties
+        );
         if(values?.children) {
             for(let i = 0; i < values.children.length; i++) {
                 this.addChild(values.children[i], i, false);
@@ -120,7 +123,7 @@ export abstract class DiagramObjectModel {
     //  1. Structure  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Returns this object and all child objects (in a breadth-first fashion).
      * @param match
@@ -170,8 +173,8 @@ export abstract class DiagramObjectModel {
         index: number = this.children.length,
         update: boolean = true,
     ) {
-        // Ensure unique id
-        if(this.hasChild(obj.id)) {
+        // Ensure it isn't already added
+        if(this.children.indexOf(obj) !== -1) {
             throw new DiagramObjectModelError(
                 `Object already has a child with the id '${ obj.id }'.`, this
             )
@@ -187,37 +190,9 @@ export abstract class DiagramObjectModel {
     }
 
     /**
-     * Reorders a child object.
-     * @param id
-     *  The id of the object.
-     * @param index
-     *  The object's new location.
-     * @param update
-     *  If the layout should be updated.
-     *  (Default: true)
-     */
-    public reorderChild(id: string, index: number, update: boolean = true) {
-        let i = this.children.findIndex(o => o.id === id);
-        let obj = this.children[i];
-        if(!obj) {
-            throw new DiagramObjectModelError(
-                `Object has no child with the id '${ id }'.`
-            );
-        }
-        // Remove child
-        this.children.splice(i, 1);
-        // Reinsert child
-        this.children.splice(index, 0, obj);
-        // Update layout
-        if(update) {
-            this.updateLayout(LayoutUpdateReason.Movement);
-        }
-    }
-
-    /**
      * Removes a child object.
-     * @param id
-     *  The id of the object.
+     * @param obj
+     *  The object to remove.
      * @param update
      *  If the layout should be updated.
      *  (Default: true)
@@ -229,11 +204,12 @@ export abstract class DiagramObjectModel {
      *  needed or wanted. Only disable this if you know what you're doing. 
      *  (Default: true)
      */
-    public removeChild(id: string, update: boolean = true, safely: boolean = true) {
-        let i = this.children.findIndex(o => o.id === id);
-        let obj = this.children[i];
-        if(!obj) {
-            return;
+    public removeChild(obj: DiagramObjectModel, update: boolean = true, safely: boolean = true) {
+        let i = this.children.indexOf(obj);
+        if(i === -1) {
+            throw new DiagramObjectModelError(
+                `'${ obj.id }' is not a child of '${ this.id }'.`, obj
+            );
         }
         // Check for external attachments
         if(safely && obj.hasExternalAttachments()) {
@@ -252,14 +228,24 @@ export abstract class DiagramObjectModel {
     }
 
     /**
-     * Tests if the object has a child with the specified id.
+     * Reorders a child object.
      * @param id
-     *  The id.
-     * @returns
-     *  True if the object contains a child with the same id, false otherwise.
+     *  The id of the object.
+     * @param index
+     *  The object's new location.
      */
-    public hasChild(id: string) {
-        return this.children.find(o => o.id === id) !== undefined;
+    public reorderChild(id: string, index: number) {
+        let i = this.children.findIndex(o => o.id === id);
+        let obj = this.children[i];
+        if(!obj) {
+            throw new DiagramObjectModelError(
+                `Object has no child with the id '${ id }'.`
+            );
+        }
+        // Remove child
+        this.children.splice(i, 1);
+        // Reinsert child
+        this.children.splice(index, 0, obj);
     }
 
     /**
@@ -267,7 +253,7 @@ export abstract class DiagramObjectModel {
      * @returns
      *  True if the object has external attachments, false otherwise.
      */
-    public hasExternalAttachments(): boolean {
+    protected hasExternalAttachments(): boolean {
         // Compile list of anchors and anchor-ables
         let map = new Map<string, DiagramObjectModel>();
         for(let obj of this.getSubtree()) {
@@ -298,7 +284,7 @@ export abstract class DiagramObjectModel {
     /**
      * Returns the object's location in its parent.
      * @returns
-     *  The object's location, -1 if it has no parent.
+     *  The object's location, -1 if it doesn't have a parent.
      */
     public getIndexInParent() {
         return this.parent?.children.indexOf(this) ?? -1;
@@ -396,32 +382,25 @@ export abstract class DiagramObjectModel {
         }
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
-    //  4. Property Editing  //////////////////////////////////////////////////
+    //  4. Layout & View  /////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Sets a property.
-     * @param property
-     *  The property to set.
-     * @param value
-     *  The property's new value.
+     * Completely recalculates the object's layout from the ground up.
      */
-    public setProperty(property: Property, value: any) {
-        // NOTE: Ugly for now
-        if(property instanceof StringProperty) {
-            property.value = value;
-            this.updateLayout(LayoutUpdateReason.PropertyChange);
+    public recalculateLayout() {
+        let atBaseOfLayout = true;
+        for(let obj of this.children) {
+            atBaseOfLayout = false;
+            obj.recalculateLayout();
+        }
+        if(atBaseOfLayout){
+            this.updateLayout(LayoutUpdateReason.Initialization);
         }
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  5. Layout & View  /////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
 
     /**
      * Updates the object's alignment and bounding box.
@@ -472,7 +451,7 @@ export abstract class DiagramObjectModel {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  6. Attribute Getters  /////////////////////////////////////////////////
+    //  5. Attribute Getters  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -583,7 +562,7 @@ export abstract class DiagramObjectModel {
      *  True if the object is selected, false otherwise.
      */
     public isSelected(attrs: number = this.attrs): boolean {
-        return (attrs & SelectMask) !== Select.Unselected;
+        return (attrs & SelectMask) === Select.True;
     }
 
     /**
@@ -612,7 +591,7 @@ export abstract class DiagramObjectModel {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  7. Attribute Setters  /////////////////////////////////////////////////
+    //  6. Attribute Setters  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -690,7 +669,7 @@ export abstract class DiagramObjectModel {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  8. Content  ///////////////////////////////////////////////////////////
+    //  7. Content  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
     
 
@@ -797,9 +776,9 @@ export class BoundingBox {
 
 
 export const LayoutUpdateReason = {
-    Movement       : 0b00001,
-    ChildAdded     : 0b00010,
-    ChildDeleted   : 0b00100,
-    ObjectInit     : 0b01000,
-    PropertyChange : 0b10000
+    Initialization : 0b00001,
+    Movement       : 0b00010,
+    ChildAdded     : 0b00100,
+    ChildDeleted   : 0b01000,
+    PropUpdate     : 0b10000
 }

@@ -1,78 +1,124 @@
 <template>
-  <div class="object-field-input">
-    <div :class="['object-item', { uncollapsed }]" @click="uncollapsed=!uncollapsed">
-      {{ property.toString() }}
+  <div class="dictionary-field-control">
+    <div :class="['dictionary-header-container', { collapsed }]" @click="collapsed=!collapsed">
+      <div class="dictionary-header">
+        <CollapseArrow class="icon" :collapsed="collapsed"/>
+        <p class="text">{{ _property.toString() }}</p>
+      </div>
+      <slot></slot>
     </div>
-    <div class="object-contents" v-if="uncollapsed"> 
-      <DictionaryFieldContents
-        :property="property"
-        :align="align"
-        @change="onChange"
-      />
+    <div class="dictionary-contents" v-if="!collapsed">
+      <template v-if="hasEditableProperties">
+        <DictionaryFieldContents
+          :property="property"
+          @change="(...args) => $emit('change', ...args)"
+          @create="(...args) => $emit('create', ...args)"
+          @delete="(...args) => $emit('delete', ...args)"
+        />
+      </template>
+      <template v-else>
+        <p class="no-properties">No visible properties.</p>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 // Dependencies
+import { DictionaryProperty } from "@/assets/scripts/BlockDiagram";
 import { defineComponent, PropType } from "vue";
-import { DictionaryProperty, Property } from "@/assets/scripts/BlockDiagram";
 // Components
+import CollapseArrow from "@/components/Icons/CollapseArrow.vue";
 import DictionaryFieldContents from "./DictionaryFieldContents.vue";
 
 export default defineComponent({
   name: "DictionaryField",
   props: {
     property: {
-        type: Object as PropType<DictionaryProperty>,
-        required: true
-    },
-    align: {
-        type: String,
-        default: "left"
+      type: Object as PropType<DictionaryProperty>,
+      required: true
     }
   },
   data() {
     return {
-      uncollapsed: false
+      collapsed: true
     }
   },
-  methods: {
+  computed: {
 
     /**
-     * Field change behavior.
-     * @param property
-     *  The field's property.
-     * @param value
-     *  The field's new value.
+     * A reactive version of the property.
+     * @returns
+     *  The property.
      */
-    onChange(property: Property, value: any) {
-      this.$emit("change", property, value);
+    _property(): DictionaryProperty {
+      let trigger = this.property.trigger.value;
+      return trigger ? this.property : this.property; 
     },
 
+    /**
+     * Tests if the property has editable subproperties.
+     * @returns
+     *  True if the property has editable subproperties, false otherwise.
+     */
+    hasEditableProperties(): boolean {
+      for(let value of this._property.value.values()) {
+        if(value.descriptor.is_visible ?? true)
+          return true;
+      }
+      return false;
+    }
+
   },
-  emits: ["change"],
-  components: { DictionaryFieldContents }
+  emits: ["change", "create", "delete"],
+  components: { CollapseArrow, DictionaryFieldContents }
 });
 </script>
 
 <style scoped>
 
-.object-item {
-  border: solid 1px #3d3d3d;
-  border-radius: 3px;
-  padding: 8px 10px;
+/** === Main Field === */
+
+.dictionary-field-control {
+  overflow: hidden;
+}
+
+.dictionary-header-container {
+  display: flex;
+}
+
+.dictionary-header {
+  flex: 1;
+  display: flex;
+  align-items: center;
   color: #bfbfbf;
   font-size: 10.5pt;
   user-select: none;
-}
-.object-item.uncollapsed {
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  padding: 7px 10px;
+  border: solid 1px #3d3d3d;
+  border-radius: 3px;
+  overflow: hidden;
 }
 
-.object-contents {
+.dictionary-header .icon {
+  margin-right: 9px;
+}
+
+.dictionary-header .text {
+  flex: 1;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.dictionary-contents {
   padding: 20px 0px 8px 16px;
+}
+
+.no-properties {
+  color: #818181;
+  font-size: 10pt;
 }
 
 </style>

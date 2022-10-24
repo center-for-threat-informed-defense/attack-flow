@@ -3,18 +3,27 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-type ValueListDescriptorBase<T extends ValueTypes> = {
-    type: PropertyType.List,
-    form: ValueDescriptorBase<T>,
-    values?: ValueTypeScriptType[T][]
-}
-
 type ValueDescriptorBase<K extends ValueTypes> = {
     type: K,
-    value: ValueTypeScriptType[K]
-    is_required? : boolean,
-    is_editable? : boolean,
+    value?: ValueTypeScriptType[K]
+    is_primary?: boolean,
     is_visible?: boolean
+    is_editable? : boolean,
+    is_required? : boolean,
+}
+
+type IntValueDescriptor = ValueDescriptorBase<PropertyType.Int> & {
+    min?: number,
+    max?: number
+}
+
+type FloatValueDescriptor = ValueDescriptorBase<PropertyType.Float> & {
+    min?: number,
+    max?: number,
+}
+
+type EnumValueDescriptor = ValueDescriptorBase<PropertyType.Enum> & {
+    options: ListPropertyDescriptor 
 }
 
 type ValueTypes
@@ -22,14 +31,14 @@ type ValueTypes
     | PropertyType.Float
     | PropertyType.String
     | PropertyType.Date
-    | PropertyType.Dropdown
+    | PropertyType.Enum
 
 type ValueTypeScriptType = {
-    [PropertyType.Int]: number,
-    [PropertyType.Float]: number,
-    [PropertyType.String]: string,
-    [PropertyType.Date]: Date,
-    [PropertyType.Dropdown]: number
+    [PropertyType.Int]: number | null,
+    [PropertyType.Float]: number | null,
+    [PropertyType.String]: string | null,
+    [PropertyType.Date]: Date | null,
+    [PropertyType.Enum]: string | null
 }
 
 export enum PropertyType {
@@ -37,7 +46,7 @@ export enum PropertyType {
     Float      = 1,
     String     = 2,
     Date       = 3,
-    Dropdown   = 4,
+    Enum       = 4,
     List       = 5,
     Dictionary = 6,
 }
@@ -52,11 +61,11 @@ export enum PropertyType {
  * Standard Property Descriptor:
  * Allows recursive definitions of both arrays and dictionaries.
  */
- export type PropertyDescriptor
+export type PropertyDescriptor
     = StringPropertyDescriptor
     | NumberPropertyDescriptor
     | DatePropertyDescriptor
-    | DropdownPropertyDescriptor
+    | EnumPropertyDescriptor
     | ListPropertyDescriptor
     | DictionaryPropertyDescriptor
 
@@ -64,19 +73,22 @@ export type StringPropertyDescriptor
     = ValueDescriptorBase<PropertyType.String>;
 
 export type NumberPropertyDescriptor
-    = ValueDescriptorBase<PropertyType.Int>
-    | ValueDescriptorBase<PropertyType.Float>;
+    = IntValueDescriptor
+    | FloatValueDescriptor;
 
 export type DatePropertyDescriptor
     = ValueDescriptorBase<PropertyType.Date>;
 
-export type DropdownPropertyDescriptor
-    = ValueDescriptorBase<PropertyType.Dropdown>;
+export type EnumPropertyDescriptor
+    = EnumValueDescriptor;
 
 export type ListPropertyDescriptor = {
     type: PropertyType.List,
     form: PropertyDescriptor
-    values?: any[]
+    value?: any,
+    is_primary?: boolean,
+    is_visible?: boolean,
+    is_editable? : boolean
 }
 
 export type DictionaryPropertyDescriptor = {
@@ -84,7 +96,20 @@ export type DictionaryPropertyDescriptor = {
     form: { 
         [key: string]: PropertyDescriptor
     },
-    text_key: string
+    is_primary?: boolean,
+    is_visible?: boolean,
+}
+
+export type ListValue
+    = ListValueEntries
+    | ListValueDictionary
+
+export type ListValueEntries = [
+    string, ListValueEntries | ListValueDictionary | null | string | number | Date
+][]
+
+export type ListValueDictionary = {
+    [key: string]: ListValueEntries | ListValueDictionary | null | string | number | Date
 }
 
 
@@ -106,7 +131,10 @@ export type DictionaryPropertyDescriptor = {
 type ValueDictionaryListDescriptor = {
     type: PropertyType.List,
     form: ValueDictionaryDescriptor,
-    values?: any[]
+    value?: any,
+    is_primary?: boolean,
+    is_visible?: boolean,
+    is_editable? : boolean
 }
 
 type ValueDictionaryDescriptor = {
@@ -116,18 +144,31 @@ type ValueDictionaryDescriptor = {
             : ValueDescriptor
             | ValueListDescriptor
     },
-    text_key: string
+    is_primary?: boolean,
+    is_visible?: boolean,
 }
 
-type ValueListDescriptor
-    = ValueListDescriptorBase<PropertyType.String>
-    | ValueListDescriptorBase<PropertyType.Int>
-    | ValueListDescriptorBase<PropertyType.Float>
-    | ValueListDescriptorBase<PropertyType.Date>
-    | ValueListDescriptorBase<PropertyType.Dropdown>
+type ValueListDescriptor = {
+    type: PropertyType.List,
+    form: ValueDescriptor,
+    value?: any,
+    is_primary?: boolean,
+    is_visible?: boolean,
+    is_editable? : boolean
+}
 
 type ValueDescriptor
     = StringPropertyDescriptor
     | NumberPropertyDescriptor
     | DatePropertyDescriptor
-    | DropdownPropertyDescriptor
+    | EnumPropertyDescriptor
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  4. Root Property Descriptor  //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+export type RootPropertyDescriptor = {
+    [key: string]: RestrictedPropertyDescriptor
+}

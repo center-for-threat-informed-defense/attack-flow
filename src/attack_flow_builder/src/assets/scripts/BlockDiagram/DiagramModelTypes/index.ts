@@ -5,5 +5,6 @@ export * from "./LineHorizontalElbowModel";
 export * from "./LineVerticalElbowModel";
 export * from "./AnchorPointModel";
 export * from "./DictionaryBlockModel";
-export * from "./OperatorBlockModel";
+export * from "./BranchBlockModel";
+export * from "./TextBlockModel";
 export * from "./PageModel";

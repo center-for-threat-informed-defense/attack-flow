@@ -1,12 +1,8 @@
+import { PageEditor } from "@/store/PageEditor"
 import { DiagramValidator } from "@/assets/scripts/DiagramValidator/DiagramValidator"
 import { DiagramPublisher } from "@/assets/scripts/DiagramPublisher/DiagramPublisher"
 import { BlockDiagramSchema } from "@/assets/scripts/BlockDiagram/DiagramFactory"
-import { BlockDiagramDocument } from "@/assets/scripts/BlockDiagram/BlockDiagramDocument"
-import { 
-    DiagramObjectModel,
-    PageEditor,
-    PageModel
-} from "@/assets/scripts/BlockDiagram"
+import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram"
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -18,72 +14,114 @@ import {
  * Central Module Store
  */
 export type ModuleStore = {
-    ActiveDocumentStore: ActiveDocumentStore
-    ActivePageStore: ActivePageStore,
-    AppActionsStore: AppActionsStore,
-    AppSettingsStore: AppSettingsStore,
+    ApplicationStore: ApplicationStore,
     ContextMenuStore: ContextMenuStore,
     HotkeyStore: HotkeyStore
 }
 
+
 /**
- * Active Document Store
+ * Application Store
  */
-export type ActiveDocumentStore = {
-    document: BlockDiagramDocument,
+export type ApplicationStore = {
+    settings: AppSettings,
     clipboard: DiagramObjectModel[],
-    publisher: DiagramPublisher | undefined
+    publisher: DiagramPublisher | undefined,
+    pages: Map<string, PageEditor>,
+    activePage: PageEditor
 }
-
-/**
- * Active Page Store
- */
-export type ActivePageStore = {
-    page: {
-        trigger: number,
-        editor: PageEditor,
-        ref: PageModel
-    },
-    hovers: DiagramObjectModel[],
-    selects: { 
-        trigger: number, 
-        ref: Map<string, DiagramObjectModel>
-    },
-    transform: {
-        x: number,
-        y: number,
-        k: number
-    },
-    validator: DiagramValidator | undefined
-}
-
-/**
- * App Actions Store
- */
-export type AppActionsStore = {}
-
-/**
- * App Settings Store
- */
-export type AppSettingsStore = {
-    settings: AppSettings
-}
-
-/**
- * Hotkey Store
- */
-export type HotkeyStore = {}
 
 /**
  * Context Menu Store
  */
 export type ContextMenuStore = {}
 
+/**
+ * Hotkey Store
+ */
+export type HotkeyStore = {}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  2. App Settings  //////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+
+/**
+ * Base App Settings
+ */
+export const BaseAppSettings: AppSettings = {
+    file: {
+        image_export: {
+            padding: 0,
+        }
+    },
+    edit: {
+        clone_offset: [0, 0]
+    },
+    view: {
+        diagram: {
+            display_grid: true,
+            display_shadows: true,
+            display_debug_mode: false,
+            render_high_quality: true,
+            disable_shadows_at: 0
+        }
+    },
+    hotkeys: {
+        file: { 
+            new_file: "",
+            open_file: "",
+            save_file: "",
+            save_image: "",
+            save_select_image: "",
+            publish_file: "",
+            open_library: "",
+            save_library: ""
+        },
+        edit: {
+            undo: "",
+            redo: "",
+            cut: "",
+            copy: "",
+            paste: "",
+            delete: "",
+            duplicate: "",
+            select_all: ""
+        },
+        layout: {
+            selection_to_front: "",
+            selection_to_back: "",
+            bring_selection_forward: "",
+            send_selection_backward: "",
+            align_left: "",
+            align_center: "",
+            align_right: "",
+            align_top: "",
+            align_middle: "",
+            align_bottom: "",
+            group: "",
+            ungroup: "",
+            open_group: "",
+            close_group: ""
+        },
+        view: {
+            toggle_grid: "",
+            toggle_shadows: "",
+            reset_view: "",
+            zoom_in: "",
+            zoom_out: "",
+            fullscreen: "",
+            jump_to_selection: "",
+            jump_to_parents: "",
+            jump_to_children: "",
+            toggle_debug_view: "",
+        },
+        select: {
+            many: ""
+        }
+    }
+}
 
 /**
  * App Settings file
@@ -119,7 +157,6 @@ export type DiagramDisplaySettings = {
     render_high_quality: boolean,
     disable_shadows_at: number
 }
-export type DiagramDisplaySetting = KeyValuePairs<DiagramDisplaySettings>;
 
 /**
  * File hotkeys
@@ -204,6 +241,7 @@ export type SelectHotkeys = {
 export type AppConfiguration = {
     file_type_name: string,
     file_type_extension: string,
+    is_web_hosted: boolean
     schema: BlockDiagramSchema,
     help_links: { text: string, url: string }[],
     validator?: typeof DiagramValidator,
@@ -237,9 +275,10 @@ export type KeyValuePairs<T> = {
     }
 }[keyof T];
 
-/**
- * Marks all types and subtypes of `T` as readonly.
- */
-type DeepReadonly<T> = {
-    readonly [P in keyof T]: DeepReadonly<T[P]>
-}
+
+///////////////////////////////////////////////////////////////////////////////
+//  5. Page Editor  ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+export * from "./PageEditor";

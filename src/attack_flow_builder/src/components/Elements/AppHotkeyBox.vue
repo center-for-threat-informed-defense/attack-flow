@@ -1,5 +1,5 @@
 <template>
-  <HotkeyBox class="app-hotkey-box-element" :hotkeys="hotkeys" @fire="onHotkeyFired">
+  <HotkeyBox class="app-hotkey-box-element" :hotkeys="hotkeys" :global="true" @fire="onHotkeyFired">
     <slot></slot>
   </HotkeyBox>
 </template>
@@ -8,7 +8,8 @@
 // Dependencies
 import { Hotkey } from "@/assets/scripts/HotkeyObserver";
 import { defineComponent } from "vue";
-import { mapActions, mapGetters } from "vuex";
+import { Command, CommandEmitter } from "@/store/Commands/Command";
+import { mapGetters, mapMutations } from "vuex";
 // Components
 import HotkeyBox from "@/components/Containers/HotkeyBox.vue";
 
@@ -32,7 +33,7 @@ export default defineComponent({
      * @returns
      *  The application's hotkeys.
      */
-    hotkeys(): Hotkey[] {
+    hotkeys(): Hotkey<() => Command>[] {
       return [
         ...this.nativeHotkeys, 
         ...this.fileHotkeys,
@@ -46,20 +47,24 @@ export default defineComponent({
   methods: {
 
     /**
-     * App Actions Store actions
+     * Application Store mutations
      */
-    ...mapActions("AppActionsStore", ["executeAppAction"]),
+    ...mapMutations("ApplicationStore", ["execute"]),
 
     /**
      * Hotkey fired behavior.
-     * @param id
-     *  The id of the hotkey action.
-     * @param data
-     *  Auxillary data included with the action.
+     * @param emitter
+     *  The hotkey's command emitter.
      */
-    async onHotkeyFired(id: string, data: any) {
+    async onHotkeyFired(emitter: CommandEmitter) {
       try {
-        await this.executeAppAction({ id, data });
+        let cmd = emitter();
+        if(cmd instanceof Promise) {
+          let test = await cmd;
+          this.execute(test);
+        } else {
+          this.execute(cmd);
+        }
       } catch(ex: any) {
         console.error(ex);
       }

@@ -1,4 +1,4 @@
-import { RestrictedPropertyDescriptor } from "../Property";
+import { RootPropertyDescriptor } from "../Property";
 import { Font, FontDescriptor } from "../Utilities";
 
 
@@ -20,33 +20,34 @@ export type BlockDiagramSchema = {
 
 export enum TemplateType {
     AnchorPoint          = 0,
-    DictionaryBlock      = 1,
-    LineEndingPoint      = 2,
-    LineHandlePoint      = 3,
-    LineHorizontalElbow  = 4,
-    LineVerticalElbow    = 5,
-    Page                 = 6,
-    TextBlock            = 7,
-    OperatorBlock        = 8,
+    BranchBlock          = 1,
+    DictionaryBlock      = 2,
+    LineEndingPoint      = 3,
+    LineHandlePoint      = 4,
+    LineHorizontalElbow  = 5,
+    LineVerticalElbow    = 6,
+    Page                 = 7,
+    TextBlock            = 8,
 }
 
 export enum SemanticRole {
-    None                 = 0b0000000000000000,
-    Node                 = 0b0010000000000000,
-    Edge                 = 0b0100000000000000,
-    EdgeSource           = 0b0110000000000000,
-    EdgeTarget           = 0b1000000000000000
+    None                 = 0b000000000000000,
+    Node                 = 0b001000000000000,
+    Edge                 = 0b010000000000000,
+    EdgeSource           = 0b011000000000000,
+    EdgeTarget           = 0b100000000000000
 }
 
 export type Template 
     = AnchorPointTemplate
+    | BranchBlockTemplate
     | DictionaryBlockTemplate
     | LineEndingPointTemplate
     | LineHandlePointTemplate
     | LineHorizontalElbowTemplate
     | LineVerticalElbowTemplate
     | PageTemplate
-    | OperatorBlockTemplate
+    | TextBlockTemplate
 
 export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
 
@@ -59,9 +60,7 @@ export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
 export type ObjectTemplate = {
     id: string;
     name: string;
-    properties?: { 
-        [key: string]: RestrictedPropertyDescriptor
-    }
+    properties?: RootPropertyDescriptor
 }
 
 
@@ -79,7 +78,7 @@ export type AnchorTemplate = ObjectTemplate & {
 
 export enum AnchorAngle {
     DEG_0  = 0,
-    DEG_90 = 1
+    DEG_90 = 1,
 }
 
 
@@ -102,11 +101,11 @@ export type LineStyle = {
     width: number,
     cap_size: number,
     color: string,
-    select_colors: {
-        solo_color: string,
-        many_color: string,
-    }
+    select_color: string
 }
+
+export type SerializedLineStyle =
+    SubstituteType<LineStyle, Font, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -127,6 +126,9 @@ export type LineEndingPointStyle = {
     stroke_width: number
 }
 
+export type SerializedLineEndingPointStyle =
+    SubstituteType<LineEndingPointStyle, Font, FontDescriptor>;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  7. Line Handle Point Template  ////////////////////////////////////////////
@@ -146,6 +148,9 @@ export type LineHandlePointStyle = {
     stroke_width: number
 }
 
+export type SerializedLineHandlePointStyle =
+    SubstituteType<LineHandlePointStyle, Font, FontDescriptor>;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  8. Anchor Point Template  /////////////////////////////////////////////////
@@ -162,6 +167,9 @@ export type AnchorPointStyle = {
     color: string
 }
 
+export type SerializedAnchorPointStyle =
+    SubstituteType<AnchorPointStyle, Font, FontDescriptor>;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  9. Dictionary Block Template  /////////////////////////////////////////////
@@ -171,7 +179,6 @@ export type AnchorPointStyle = {
 export type DictionaryBlockTemplate = ObjectTemplate & {
     type: TemplateType.DictionaryBlock,
     role: SemanticRole.None | SemanticRole.Node,
-    title_key: string,
     anchor_template: string,
     style: DictionaryBlockStyle
 }
@@ -181,16 +188,24 @@ export type DictionaryBlockStyle = {
     head: {
         fill_color: string,
         stroke_color: string,
-        title: {
-            font: Font,
-            color: string,
-            padding: number
+        one_title: {
+            title: {
+                font: Font,
+                color: string,
+            }
         },
-        subtitle:  {
-            font: Font,
-            color: string,
-            lineHeight: number
-        },
+        two_title: {
+            title: {
+                font: Font,
+                color: string,
+                padding: number
+            },
+            subtitle:  {
+                font: Font,
+                color: string,
+                line_height: number
+            }
+        }
         vertical_padding: number
     },
     body: {
@@ -210,9 +225,8 @@ export type DictionaryBlockStyle = {
         vertical_padding: number,
     },
     select_outline: {
+        color: string,
         padding: number
-        solo_color: string,
-        many_color: string,
         border_radius: number,
     },
     anchor_markers: {
@@ -223,9 +237,82 @@ export type DictionaryBlockStyle = {
     horizontal_padding: number
 }
 
+export type SerializedDictionaryBlockStyle =
+    SubstituteType<DictionaryBlockStyle, Font, FontDescriptor>;
+
 
 ///////////////////////////////////////////////////////////////////////////////
-//  11. Line Horizontal Elbow Template  ///////////////////////////////////////
+//  10. Branch Block Template  ////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+export type BranchBlockTemplate = ObjectTemplate & {
+    type: TemplateType.BranchBlock,
+    role: SemanticRole.None | SemanticRole.Node,
+    branches: [BranchTemplate, ...BranchTemplate[]]
+    anchor_template: string,
+    style: BranchBlockStyle
+}
+
+export type BranchTemplate = { 
+    text: string,
+    anchor_template: string
+}
+
+export type BranchBlockStyle = DictionaryBlockStyle & {
+    branch: {
+        font: Font,
+        color: string,
+        vertical_padding: number,
+        horizontal_padding: number
+    }
+}
+
+export type SerializedBranchBlockStyle =
+    SubstituteType<BranchBlockStyle, Font, FontDescriptor>;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  11. Text Block Template  //////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+export type TextBlockTemplate = ObjectTemplate & {
+    type: TemplateType.TextBlock,
+    role: SemanticRole.None | SemanticRole.Node,
+    anchor_template: string,
+    style: TextBlockStyle
+}
+
+export type TextBlockStyle = {
+    max_width: number,
+    fill_color: string,
+    stroke_color: string,
+    text: {
+        font: Font,
+        color: string,
+        line_height: number
+    },
+    border_radius: number,
+    select_outline: {
+        color: string,
+        padding: number
+        border_radius: number,
+    },
+    anchor_markers: {
+        color: string,
+        size: number
+    },
+    vertical_padding: number,
+    horizontal_padding: number
+}
+
+export type SerializedTextBlockStyle =
+    SubstituteType<TextBlockStyle, Font, FontDescriptor>;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  12. Line Horizontal Elbow Template  ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -236,7 +323,7 @@ export type LineHorizontalElbowTemplate = LineTemplate & {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  12. Line Horizontal Elbow Template  ///////////////////////////////////////
+//  13. Line Horizontal Elbow Template  ///////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -247,7 +334,7 @@ export type LineVerticalElbowTemplate = LineTemplate & {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  13. Page Template  ////////////////////////////////////////////////////////
+//  14. Page Template  ////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -267,41 +354,8 @@ export type PageStyle = {
     }
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-//  14. Page Template  ////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-export type OperatorBlockTemplate = ObjectTemplate & {
-    type: TemplateType.OperatorBlock,
-    role: SemanticRole.None | SemanticRole.Node,
-    text: string,
-    anchor_template: string,
-    style: OperatorBlockStyle
-}
-
-export type OperatorBlockStyle = {
-    fill_color: string,
-    stroke_color: string,
-    text: {
-        font: Font,
-        color: string
-    },
-    border_radius: number,
-    select_outline: {
-        padding: number
-        solo_color: string,
-        many_color: string,
-        border_radius: number,
-    },
-    anchor_markers: {
-        color: string,
-        size: number
-    },
-    vertical_padding: number,
-    horizontal_padding: number
-}
+export type SerializedPageStyle =
+    SubstituteType<PageStyle, Font, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////

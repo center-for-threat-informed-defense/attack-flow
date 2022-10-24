@@ -25,7 +25,7 @@ class FontStore {
      * @param descriptor
      *  The font's descriptor.
      * @return
-     *  The font. 
+     *  The font.
      */
     public getFont(descriptor: FontDescriptor): Font {
         let id = FontStore.getCssFontString(descriptor);

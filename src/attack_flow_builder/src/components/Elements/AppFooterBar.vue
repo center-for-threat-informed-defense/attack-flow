@@ -1,10 +1,10 @@
 <template>
   <div class="app-footer-bar-element">
     <div class="info left">
-      <p class="selected"><span>Selected:</span> {{ selects }}</p>
+      <p class="selected"><span>Selected:</span> {{ hasSelection }}</p>
     </div>
     <div class="info right">
-      <div v-if="isPageValid" class="page-check valid">
+      <div v-if="isValid" class="page-check valid">
         <span>✓</span> Valid {{ fileName }}
       </div>
       <div v-else class="page-check invalid">
@@ -15,11 +15,9 @@
 </template>
 
 <script lang="ts">
-import * as Store from "@/store/StoreTypes";
-// Dependencies
-import { defineComponent } from "vue";
-import { mapGetters, mapState } from "vuex";
 import Configuration from "@/assets/builder.config";
+import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
 
 export default defineComponent({
   name: "AppFooterBar",
@@ -31,19 +29,11 @@ export default defineComponent({
   computed: {
 
     /**
-     * Active Page Store data
+     * Application Store getters
      */
-    ...mapState("ActivePageStore", {
-      selects(state: Store.ActivePageStore): number {
-        // Using trigger to trip the reactivity system
-        if(1 + state.selects.trigger === 0) {
-          return 0;  // Will never run
-        }
-        return state.selects.ref.size;
-      },
-    }),
-
-    ...mapGetters("ActivePageStore", ["isPageValid"]),
+    ...mapGetters("ApplicationStore", [
+        "hasSelection", "isValid"
+    ])
     
   }
 });

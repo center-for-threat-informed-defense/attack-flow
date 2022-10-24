@@ -9,8 +9,9 @@
 <script lang="ts">
 // Dependencies
 import { ContextMenu } from "@/assets/scripts/ContextMenuTypes";
+import { CommandEmitter } from "@/store/Commands/Command";
 import { defineComponent } from "vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 // Components
 import TitleBar from "@/components/Controls/TitleBar.vue";
 
@@ -48,20 +49,24 @@ export default defineComponent({
   methods: {
 
     /**
-     * App Actions Store actions
+     * Application Store actions
      */
-    ...mapActions("AppActionsStore", ["executeAppAction"]),
+    ...mapMutations("ApplicationStore", ["execute"]),
 
     /**
      * Menu item selection behavior.
-     * @param id
-     *  The id of the selected menu.
-     * @param data
-     *  Auxillary data included with the selection.
+     * @param emitter
+     *  Menu item's command emitter.
      */
-    async onItemSelect(id: string, data: any) {
+    async onItemSelect(emitter: CommandEmitter) {
       try {
-        await this.executeAppAction({ id, data });
+        let cmd = emitter();
+        if(cmd instanceof Promise) {
+          let test = await cmd;
+          this.execute(test);
+        } else {
+          this.execute(cmd);
+        }
       } catch(ex: any) {
         console.error(ex);
       }

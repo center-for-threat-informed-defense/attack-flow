@@ -1,13 +1,12 @@
 <template>
   <div class="context-menu-listing-control" :style="offset" @contextmenu.prevent="">
-    <input type="file" ref="file" style="display:none" @change="readFile">
     <!-- Menu Sections -->
-    <div class="section" v-for="(section, i) of sections" :key="section.name">
+    <div class="section" v-for="(section, i) of sections" :key="section.id">
       <!-- Menu Section -->
-      <template v-for="item of section.items" :key="item.id">
+      <template v-for="item of section.items" :key="item.text">
         <!-- Submenu Item -->
         <li 
-          v-if="item.action === MenuAction.OpenSubmenu"
+          v-if="item.type === MenuType.Submenu"
           :class="{ disabled: item.disabled }"
           @mouseenter="submenuEnter(item)"
           @mouseleave="submenuLeave"
@@ -16,8 +15,8 @@
             <span class="text">{{ item.text }}</span>
             <span class="more-arrow"></span>
           </a>
-          <div class="submenu" v-if="item.id === focusedSubMenu">
-            <ContextMenuListing :sections="item.sections" :select="selectItem"/>
+          <div class="submenu" v-if="item.text === focusedSubMenu">
+            <ContextMenuListing :sections="item.sections" @select="onChildItemSelect"/>
           </div>
         </li>
         <!-- Regular Item -->
@@ -38,8 +37,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
-import { ContextMenu, ContextMenuSection, MenuAction } from "@/assets/scripts/ContextMenuTypes";
+import { defineComponent, PropType } from 'vue';
+import { ContextMenu, ContextMenuItem, ContextMenuSection, MenuType } from "@/assets/scripts/ContextMenuTypes";
 
 const KeyToText: { [key: string]: string } = {
   Control    : "Ctrl",
@@ -53,18 +52,9 @@ const KeyToText: { [key: string]: string } = {
 
 export default defineComponent({
   name: 'ContextMenuListing',
-  setup() {
-    return { 
-      file: ref(null) as Ref<HTMLElement | null>
-    }
-  },
   props: {
     sections: {
       type: Array as PropType<ContextMenuSection[]>,
-      required: true
-    },
-    select: {
-      type: Function as PropType<(id: string, cs: boolean, data?: any) => void>,
       required: true
     },
     forceInsideWindow: {
@@ -79,8 +69,7 @@ export default defineComponent({
       leaveTimeout: 500,
       leaveTimeoutId: 0,
       focusedSubMenu: null as string | null,
-      selectedFileId: null as string | null,
-      MenuAction
+      MenuType
     }
   },
   computed: {
@@ -108,7 +97,7 @@ export default defineComponent({
     submenuEnter(item: ContextMenu) {
       clearTimeout(this.leaveTimeoutId);
       if(!item.disabled) {
-        this.focusedSubMenu = item.id;
+        this.focusedSubMenu = item.text;
       }
     },
 
@@ -126,61 +115,24 @@ export default defineComponent({
      * @param item
      *  The selected menu item.
      */
-    onItemClick(item: ContextMenu) {
+    onItemClick(item: ContextMenuItem) {
       if(item.disabled)
         return;
-      switch(item.action) {
-        case MenuAction.OpenFile:
-          this.file!.click();
-          this.selectedFileId = item.id;
-          this.select(`__preload_${ item.id }`, true, item.data);
-          break;
-        case MenuAction.ToggleValue:
-          this.select(item.id, false, { ...item.data, value: item.value });
-          break;
-        default:
-          this.select(item.id, true, item.data);
-          break;
-      }
+      this.$emit("select", item.data, !item.keepMenuOpenOnSelect);
     },
 
     /**
-     * Reads a file from a file select event and completes the initiating
-     * menu-item selection.
-     * @param event
-     *  The file select event.
-     */
-    readFile(event: Event) {
-      let file = (event.target as any).files[0];
-      let reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        this.select(this.selectedFileId!, true, {
-          filename: file.name,
-          file: e.target?.result
-        })
-        this.selectedFileId = null;
-      }
-      reader.readAsText(file);
-    },
-
-    /**
-     * Emits an item selection event.
-     * @param id
-     *  The id of the selected menu item.
-     * @param closeSubmenu
-     *  [true]
-     *   The active submenu will close after the selection event.
-     *  [false]
-     *   The active submenu will remain open after the selection event.
+     * Submenu item selection behavior.
      * @param data
-     *  Any auxillary data associated with the selection.
+     *  The menu item's data.
+     * @param closeSubmenu
+     *  If the active submenu should close.
      */
-    selectItem(id: string, closeSubmenu: boolean, data?: any) {
-      // Vue no longer forwards $emits to parent if the element is unmounted.
-      // This breaks file open actions where file read events need to be raised
-      // after the menu is gone. Switched to using a callback prop instead.
-      this.select(id, closeSubmenu, data);
-      if(closeSubmenu) this.focusedSubMenu = null;
+    onChildItemSelect(data: any, closeSubmenu: boolean) {
+      this.$emit("select", data, closeSubmenu);
+      if(closeSubmenu) {
+        this.focusedSubMenu = null;
+      }
     },
 
     /**
@@ -202,6 +154,7 @@ export default defineComponent({
     }
 
   },
+  emits: ["select"],
   mounted() {
     if(!this.forceInsideWindow) return;
     // Offset submenu if outside of viewport

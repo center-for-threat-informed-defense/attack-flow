@@ -1,64 +1,196 @@
 <template>
-  <div class="text-field-input">
-    <input :class="`align-${align}`" type="text" v-model="text"/>
+  <div :class="['text-field-control', { disabled: !isEditable }]" tabindex="0" @focus="onFocus()">
+    <div class="grid-container">
+      <p class="placeholder" v-show="showPlaceholder">
+        Null
+      </p>
+      <div 
+        ref="field"
+        class="field"
+        @input="onInput"
+        @keyup.stop=""
+        @keydown.stop=""
+        @blur="onBlur"
+        :contenteditable="isEditable"
+      >
+        {{ this.value }}
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { StringProperty } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 
 export default defineComponent({
   name: "TextField",
+  setup() {
+    return { field: ref<HTMLElement | null>(null) };
+  },
   props: {
     property: {
-        type: Object as PropType<StringProperty>,
-        required: true
+      type: Object as PropType<StringProperty>,
+      required: true
     },
-    align: {
-        type: String,
-        default: "left"
-    },
-  },
-  computed: {
-    text: {
-      get() { 
-        return this.property.value;
-      },
-      set(text: string) {
-        this.$emit("change", this.property, text);
-      }
+    updateTimeout: {
+      type: Number,
+      default: 300
     }
   },
-  emits: ["change"]
+  data() {
+    return {
+      sto: 0,
+      value: "",
+      cache: "",
+      showPlaceholder: true
+    }
+  },
+  computed: {
+
+    /**
+     * A reactive version of the property.
+     * @returns
+     *  The property.
+     */
+    _property(): StringProperty {
+      let trigger = this.property.trigger.value;
+      return trigger ? this.property : this.property; 
+    },
+
+    /**
+     * Tests if the property is editable.
+     * @returns
+     *  True if the property is editable, false otherwise. 
+     */
+    isEditable(): boolean {
+      return this._property.descriptor.is_editable ?? true;
+    }
+
+  },
+  methods: {
+    
+    /**
+     * Field focus behavior.
+     */
+    onFocus() {
+      this.$nextTick(() => {
+        this.field!.focus();
+      });
+    },
+
+    /**
+     * Field input behavior.
+     */
+    onInput() {
+      // Clear timeout
+      clearTimeout(this.sto)
+      // Update cached value
+      this.cache = this.field!.innerText;
+      // Configure timeout
+      this.sto = setTimeout(() => {
+        this.updateProperty();
+      }, this.updateTimeout);
+      // Update placeholder
+      this.showPlaceholder = this.field!.innerText === "";
+    },
+
+    /**
+     * Field blur behavior.
+     */
+    onBlur() {
+      // Clear timeout
+      clearTimeout(this.sto);
+      // Update property
+      this.updateProperty();
+    },
+
+    /**
+     * Updates the field's property value.
+     */
+    updateProperty() {
+      let value = this.cache || null;
+      if(this._property.toRawValue() !== value) {
+        // Update property
+        this.$emit("change", this._property, value);
+      } else {
+        // Refresh value
+        this.refreshValue();
+      }
+    },
+
+    /**
+     * Updates the field's text value.
+     */
+    refreshValue() {
+      let raw = this._property.toRawValue();
+      if(this.field !== document.activeElement) {
+        this.value = raw ?? "";
+      }
+      this.cache = raw ?? "";
+      this.showPlaceholder = raw === null;
+    }
+
+  },
+  emits: ["change"],
+  watch: {
+    "_property.trigger.value"() {
+      this.refreshValue();
+    }
+  },
+  mounted() {
+    this.refreshValue();
+  }
 });
 </script>
 
 <style scoped>
 
-.text-field-input {
+/** === Main Field === */
+
+.text-field-control {
   display: flex;
   align-items: center;
-}
-input {
-  box-sizing: border-box;
-  background: #2e2e2e;
-  border: none;
-  border-radius: 4px;
   color: #cccccc;
-  height: 100%;
-  width: 100%;
-  padding: 6px 12px;
-  font-size: 10.5pt;
+  cursor: text;
+  overflow: hidden;
 }
-input:focus {
+
+.text-field-control.disabled {
+  cursor: inherit;
+}
+
+.text-field-control:focus {
   outline: none;
 }
-.align-left {
-  text-align: left;
+
+.grid-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  width: 100%;
 }
-.align-right {
-  text-align: right;
+
+.field {
+  grid-area: 1 / 1;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  width: 100%;
+  padding: 6px 12px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.field:focus {
+  outline: none;
+}
+
+.placeholder {
+  grid-area: 1 / 1;
+  color: #999;
+  user-select: none;
+  padding: 6px 12px;
 }
 
 </style>

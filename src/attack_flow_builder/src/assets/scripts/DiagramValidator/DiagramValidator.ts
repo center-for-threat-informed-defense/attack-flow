@@ -1,8 +1,8 @@
 import { ValidationErrorResult } from "./ValidationErrorResult";
+import { ValidationWarningResult } from "./ValidationWarningResult";
 import {
     DiagramObjectModel,
-    GraphObjectExport,
-    Template
+    GraphObjectExport
 } from "../BlockDiagram";
 
 export class DiagramValidator {
@@ -12,12 +12,18 @@ export class DiagramValidator {
      */
     private _errors: ValidationErrorResult[];
 
+    /**
+     * The validator's warning list.
+     */
+    private _warnings: ValidationWarningResult[];
+
 
     /**
      * Creates a new {@link DiagramValidator}.
      */
     constructor() {
         this._errors = [];
+        this._warnings = [];
     } 
 
 
@@ -39,12 +45,35 @@ export class DiagramValidator {
     protected validate(diagram: DiagramObjectModel) {}
 
     /**
+     * Returns the validator's current set of warnings.
+     * @returns
+     *  The validator's current set of warnings.
+     */
+    public getWarnings(): ValidationWarningResult[] {
+        return this._warnings;
+    }
+
+    /**
      * Returns the validator's current set of errors.
      * @returns
      *  The validator's current set of errors.
      */
     public getErrors(): ValidationErrorResult[] {
         return this._errors;
+    }
+
+    /**
+     * Adds a warning to the validator.
+     * @param object
+     *  The object that failed to validate.
+     * @param reason
+     *  The reason the object failed to validate.
+     */
+    public addWarning(object: GraphObjectExport, reason: string) {
+        this._warnings.push({
+            object: object.id,
+            reason
+        })
     }
 
     /**
@@ -75,6 +104,7 @@ export class DiagramValidator {
      */
     public reset() {
         this._errors = [];
+        this._warnings = [];
     }
 
 }

@@ -5,6 +5,8 @@ import {
 } from "../Utilities";
 import { 
     AnchorPointModel,
+    BranchBlockModel,
+    DiagramAnchorableModel,
     DiagramAnchorModel,
     DiagramObjectModel,
     DictionaryBlockModel,
@@ -12,7 +14,7 @@ import {
     LineHandlePointModel,
     LineHorizontalElbowModel,
     LineVerticalElbowModel,
-    OperatorBlockModel,
+    TextBlockModel,
     PageModel
 } from "../DiagramModelTypes";
 import { 
@@ -40,8 +42,8 @@ export class DiagramFactory {
 
     /**
      * Creates a new {@link DiagramFactory}.
-     * @param pageTemplate
-     *  The schema's page template.
+     * @param schema
+     *  The diagram's schema.
      * @param templates
      *  THe diagram factory's list of templates.
      */
@@ -139,8 +141,9 @@ export class DiagramFactory {
         let templates = [];
         for(let template of this.templates.values()) {
             switch(template.type) {
+                case TemplateType.BranchBlock:
                 case TemplateType.DictionaryBlock:
-                case TemplateType.OperatorBlock:
+                case TemplateType.TextBlock:
                     templates.push(template);
                     break;
                 
@@ -215,6 +218,8 @@ export class DiagramFactory {
                 return new PageModel(this, temp, vals);
             case TemplateType.AnchorPoint:
                 return new AnchorPointModel(this, temp, vals);
+            case TemplateType.BranchBlock:
+                return new BranchBlockModel(this, temp, vals);
             case TemplateType.DictionaryBlock:
                 return new DictionaryBlockModel(this, temp, vals);
             case TemplateType.LineEndingPoint:
@@ -225,8 +230,12 @@ export class DiagramFactory {
                 return new LineVerticalElbowModel(this, temp, vals);
             case TemplateType.LineHorizontalElbow:
                 return new LineHorizontalElbowModel(this, temp, vals);
-            case TemplateType.OperatorBlock:
-                return new OperatorBlockModel(this, temp, vals);
+            case TemplateType.TextBlock:
+                return new TextBlockModel(this, temp, vals);
+            default:
+                throw new DiagramFactoryError(
+                    `Unknown template type: '${ (temp as any).type }'.`
+                );
         }
     }
 
@@ -245,7 +254,7 @@ export class DiagramFactory {
         // Link clones
         for(let [anchor, links] of anchors) {
             for(let link of links) {
-                let obj = clones.get(link);
+                let obj = clones.get(link) as DiagramAnchorableModel;
                 if(obj) {
                     anchor.addChild(obj);
                 }
@@ -275,7 +284,7 @@ export class DiagramFactory {
         if(object instanceof DiagramAnchorModel) {
             let clone = this.createObject({
                 ...object.toExport(),
-                id: crypto.randomUUID(),
+                id: (crypto as any).randomUUID(),
                 children: []
             }) as DiagramAnchorModel;
             clones.set(object.id, clone);
@@ -290,7 +299,7 @@ export class DiagramFactory {
         // Clone object
         let clone = this.createObject({
             ...object.toExport(),
-            id: crypto.randomUUID(),
+            id: (crypto as any).randomUUID(),
             children
         });
         clones.set(object.id, clone);
@@ -309,24 +318,33 @@ export class DiagramFactory {
      *  All {@link FontDescriptor} defined by a template.
      */
     private static getFontDescriptorsFromTemplate(template: SerializedTemplate): FontDescriptor[] {
-        let style;
+        let descriptors: FontDescriptor[] = [];
         switch(template.type) {
+            case TemplateType.BranchBlock:
+                let { style: s1 } = template;
+                descriptors.push(
+                    s1.branch.font
+                );
             case TemplateType.DictionaryBlock:
-                style = template.style;
-                return [
-                    style.head.title.font,
-                    style.head.subtitle.font,
-                    style.body.field_name.font,
-                    style.body.field_value.font
-                ]
-            case TemplateType.OperatorBlock:
-                style = template.style;
-                return [
-                    style.text.font
-                ]
+                let { style: s2 } = template;
+                descriptors = descriptors.concat([
+                    s2.head.one_title.title.font,
+                    s2.head.two_title.title.font,
+                    s2.head.two_title.subtitle.font,
+                    s2.body.field_name.font,
+                    s2.body.field_value.font
+                ]);
+                break;
+            case TemplateType.TextBlock:
+                let { style: s3 } = template;
+                descriptors.push(
+                    s3.text.font
+                )
+                break;
             default:
-                return [];
+                break;
         }
+        return descriptors;
     }
 
     /**
@@ -338,16 +356,20 @@ export class DiagramFactory {
     private static swapFontDescriptorsWithFonts(template: SerializedTemplate) {
         let font = GlobalFontStore.getFont.bind(GlobalFontStore);
         switch(template.type) {
+            case TemplateType.BranchBlock:
+                let { branch: br } = template.style as any;    
+                br.font = font(br.font);
             case TemplateType.DictionaryBlock:
                 let { head: h, body: b } = template.style as any;
-                h.title.font = font(h.title.font);
-                h.subtitle.font = font(h.subtitle.font);
+                h.one_title.title.font = font(h.one_title.title.font);
+                h.two_title.title.font = font(h.two_title.title.font);
+                h.two_title.subtitle.font = font(h.two_title.subtitle.font);
                 b.field_name.font = font(b.field_name.font);
                 b.field_value.font = font(b.field_value.font);
                 break;
-            case TemplateType.OperatorBlock:
-                let { text } = template.style as any;
-                text.font = font(text.font);
+            case TemplateType.TextBlock:
+                let { text: t } = template.style as any;
+                t.font = font(t.font);
                 break;
             default:
                 break;

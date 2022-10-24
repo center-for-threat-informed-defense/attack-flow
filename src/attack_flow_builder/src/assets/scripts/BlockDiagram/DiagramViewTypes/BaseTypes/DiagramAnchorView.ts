@@ -1,4 +1,4 @@
-import { RasterCache } from "../../Diagram/RasterCache";
+import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramAnchorModel } from "../../DiagramModelTypes";
 import {
     DiagramAnchorableView,

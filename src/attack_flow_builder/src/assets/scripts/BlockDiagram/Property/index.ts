@@ -13,4 +13,5 @@ export * from "./NumberProperty";
 export * from "./CollectionProperty";
 export * from "./DictionaryProperty";
 export * from "./ListProperty";
-
+export * from "./EnumProperty";
+export * from "./RootProperty";

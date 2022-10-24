@@ -4,17 +4,17 @@
       <slot name="icon"></slot>
     </li>
     <li 
-      v-for="menu of menus" :key="menu.id"
-      :class="{ focused: menu.id === focusedMenu }"
-      @mouseenter="menuEnter(menu.id)"
-      @click="menuOpen(menu.id)"
+      v-for="menu of menus" :key="menu.text"
+      :class="{ focused: menu.text === focusedMenu }"
+      @mouseenter="menuEnter(menu.text)"
+      @click="menuOpen(menu.text)"
     >
       <p>{{ menu.text }}</p>
       <ContextMenuListing 
         class="menu-listing"
-        v-if="menu.id === focusedMenu"
+        v-if="menu.text === focusedMenu"
         :sections="menu.sections"
-        :select="menuSelect"
+        @select="menuSelect"
         @click.stop
       />
     </li>
@@ -74,18 +74,14 @@ export default defineComponent({
 
     /**
      * Menu item selection behavior.
-     * @param id
-     *  The id of the selected menu item.
-     * @param closeMenu
-     *  [true]
-     *   The active menu will close after the selection event.
-     *  [false]
-     *   The active menu will remain open after the selection event.
      * @param data
-     *  Any auxillary data associated with the selection.
+     *  The menu item's data.
+     * @param closeSubmenu
+     *  If the active menu should close.
+
      */
-    menuSelect(id: string, closeMenu: boolean, data: any) {
-      this.$emit("select", id, data);
+    menuSelect(data: any, closeMenu: boolean) {
+      this.$emit("select", data);
       if(closeMenu) this.focusedMenu = null;
     }
 

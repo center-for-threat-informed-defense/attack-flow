@@ -1,4 +1,4 @@
-import { RasterCache } from "../Diagram/RasterCache";
+import { RasterCache } from "../DiagramElement/RasterCache";
 import { LineHandlePointView } from "../DiagramViewTypes";
 import {
     DiagramLineHandleModel,
@@ -47,7 +47,7 @@ export class LineHandlePointModel extends DiagramLineHandleModel {
         this.template = template;
         this.style = template.style;
         // Update Layout
-        this.updateLayout(LayoutUpdateReason.ObjectInit);
+        this.updateLayout(LayoutUpdateReason.Initialization);
     }
 
 

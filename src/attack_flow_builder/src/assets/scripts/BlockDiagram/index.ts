@@ -3,7 +3,7 @@ export * from "./Utilities";
 export * from "./Property"
 export * from "./DiagramModelTypes";
 export * from "./DiagramFactory";
-export * from "./SemanticAnalyzer"
-export * from "./PageEditor";
-export * from "./BlockDiagramDocument";
-export * from "./Diagram/BlockDiagram";
+export * from "./SemanticAnalyzer";
+export * from "./DiagramElement/Camera";
+export * from "./DiagramElement/BlockDiagram";
+export * from "./PageImage";

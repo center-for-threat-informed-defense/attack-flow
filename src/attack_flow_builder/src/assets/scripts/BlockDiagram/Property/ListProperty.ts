@@ -1,8 +1,9 @@
+import { MD5 } from "../Utilities";
 import { 
     CollectionProperty,
     ListPropertyDescriptor,
     Property,
-    RawCollectionProperty
+    RawEntries
 } from ".";
 
 export class ListProperty extends CollectionProperty {
@@ -15,47 +16,92 @@ export class ListProperty extends CollectionProperty {
 
     /**
      * Creates a new {@link ListProperty}.
+     * @param parent
+     *  The property's parent.
      * @param descriptor
      *  The property's descriptor.
      * @param values
      *  The property's values.
      */
-    constructor(descriptor: ListPropertyDescriptor, values?: RawCollectionProperty) {
-        super(descriptor);
+    constructor(
+        parent: CollectionProperty | undefined,
+        descriptor: ListPropertyDescriptor,
+        values?: RawEntries
+    ) {
+        super(parent, descriptor);
         this.descriptor = descriptor;
         // Configure values
         this.value = new Map();
         if(Array.isArray(values)) {
             for(let [id, value] of values) {
-                let prop = Property.create(descriptor.form, value);
+                // Create property
+                let prop = Property.create(this, descriptor.form, value);
+                // Add property
                 this.value.set(id, prop);
             }
-        } else if(descriptor.values) {
-            for(let value of descriptor.values) {
-                let id = crypto.randomUUID();
-                let prop = Property.create(descriptor.form, value);
-                this.value.set(id, prop);
+        } else if(descriptor.value) {
+            if(Array.isArray(descriptor.value)) {
+                for(let [id, value] of descriptor.value) {
+                    // Create property
+                    let prop = Property.create(this, descriptor.form, value);
+                    // Add property
+                    this.value.set(MD5(id), prop);
+                }
+            } else {
+                for(let id in descriptor.value) {
+                    // Create property
+                    let value = descriptor.value[id];
+                    let prop = Property.create(this, descriptor.form, value);
+                    // Add property
+                    this.value.set(MD5(id), prop);
+                }
             }
         }
     }
-
+    
 
     /**
-     * Adds a new item to the list property.
+     * Adds a property to the collection.
+     * @param property
+     *  The property.
+     * @param id
+     *  The property's id.
+     *  (Default: Randomly generated)
+     * @param index
+     *  The property's location in the collection.
+     *  (Default: End of the collection)
+     * @returns
+     *  The property's id.
      */
-    public addItem() {
-        let id = crypto.randomUUID();
-        let prop = Property.create(this.descriptor.form);
-        this.value.set(id, prop);
+    public addProperty(
+        property: Property,
+        id: string = this.getNextId(),
+        index: number = this.value.size
+    ): string {
+        let entries = [...this.value.entries()];
+        entries.splice(index, 0, [id, property]);
+        this.value = new Map(entries);
+        this.updateProperty();
+        return id;
     }
-
+    
     /**
-     * Removes an item from the list property.
+     * Removes a property from the collection.
      * @param id
      *  The property's id.
      */
-    public deleteItem(id: string) {
+    public removeProperty(id: string) {
         this.value.delete(id);
+        this.updateProperty();
+    }
+
+    /**
+     * Tests if the property is defined.
+     * @returns
+     *  True if the property is defined, false otherwise.
+     */
+    public isDefined(): boolean {
+        return 0 < this.value.size;
     }
 
     /**
@@ -65,6 +111,19 @@ export class ListProperty extends CollectionProperty {
      */
     public toString(): string {
         return [...this.value.values()].map(v => v.toString()).join(", ");
+    }
+
+    /**
+     * Returns a randomly generated id not in use by the list.
+     * @returns
+     *  A randomly generated id.
+     */
+    private getNextId() {
+        let id = MD5(crypto.randomUUID());
+        while(this.value.has(id)) {
+            id = MD5(crypto.randomUUID());
+        }
+        return id;
     }
 
 }

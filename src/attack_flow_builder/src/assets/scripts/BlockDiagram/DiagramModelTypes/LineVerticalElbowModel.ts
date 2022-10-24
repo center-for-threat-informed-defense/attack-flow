@@ -1,4 +1,4 @@
-import { RasterCache } from "../Diagram/RasterCache";
+import { RasterCache } from "../DiagramElement/RasterCache";
 import { LineVerticalElbowView } from "../DiagramViewTypes";
 import { getLineHitbox, isInsideRegion } from "../Utilities";
 import {
@@ -70,7 +70,7 @@ export class LineVerticalElbowModel extends DiagramLineModel {
             this.children[2].moveBy(50, -100);
         }        
         // Update layout
-        this.updateLayout(LayoutUpdateReason.ObjectInit);
+        this.updateLayout(LayoutUpdateReason.Initialization);
     }
 
 

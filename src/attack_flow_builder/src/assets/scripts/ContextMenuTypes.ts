@@ -3,20 +3,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export enum MenuAction {
-    OpenSubmenu = 0,
-    RunTask = 1,
-    OpenFile = 2,
-    OpenLink = 3,
-    ToggleValue = 4,
+export enum MenuType {
+    Item    = 0,
+    Toggle  = 1,
+    Submenu = 2
 }
 
-export type ContextMenu = 
-    | OpenSubMenuContextMenu 
-    | RunTaskContextMenu 
-    | OpenFileContextMenu 
-    | OpenLinkContextMenu 
-    | ToggleValueContextMenu;
+export type ContextMenu
+    = ContextMenuItem
+    | ContextMenuToggleItem
+    | ContextMenuSubmenu;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -24,23 +20,17 @@ export type ContextMenu =
 ///////////////////////////////////////////////////////////////////////////////
 
 
-interface ContextMenuBase<T extends MenuAction> {
-    id   : string,
-    text : string,
-    action : T,
-    disabled?: boolean,
-    data?: any
+interface ContextMenuBase<T> {
+    type: T
+    text: string
+    disabled?: boolean
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  3. Open SubMenu Context Menu  /////////////////////////////////////////////
+//  3. Context Menu Section  //////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-
-export interface OpenSubMenuContextMenu extends ContextMenuBase<MenuAction.OpenSubmenu> {
-    sections : ContextMenuSection[]
-}
 
 export interface ContextMenuSection {
     id: string,
@@ -49,41 +39,23 @@ export interface ContextMenuSection {
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  4. Run Task Context Menu  /////////////////////////////////////////////////
+//  4. Context Menu Types  ////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export interface RunTaskContextMenu extends ContextMenuBase<MenuAction.RunTask> {
-    shortcut?: string
+export interface ContextMenuItem extends ContextMenuBase<MenuType.Item> {
+    data: any
+    shortcut?: string,
+    keepMenuOpenOnSelect?: boolean
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-//  5. Open File Context Menu  ////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-export interface OpenFileContextMenu extends ContextMenuBase<MenuAction.OpenFile> {
-    shortcut?: string
+export interface ContextMenuToggleItem extends ContextMenuBase<MenuType.Toggle> {
+    data: any
+    shortcut?: string,
+    value: boolean,
+    keepMenuOpenOnSelect?: boolean
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-//  6. Open Link Context Menu  ////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-export interface OpenLinkContextMenu extends ContextMenuBase<MenuAction.OpenLink> {
-    link: string
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//  7. Toggle Value Context Menu  /////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-export interface ToggleValueContextMenu extends ContextMenuBase<MenuAction.ToggleValue> {
-    shortcut?: string
-    value: boolean
+export interface ContextMenuSubmenu extends ContextMenuBase<MenuType.Submenu> {
+    sections : ContextMenuSection[]
 }

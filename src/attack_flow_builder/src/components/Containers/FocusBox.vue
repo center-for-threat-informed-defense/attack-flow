@@ -1,5 +1,5 @@
 <template>
-  <div @click="$emit('focus')" class="focus-box-container"><slot></slot></div>
+  <div @pointerdown="$emit('focus')" class="focus-box-container"><slot></slot></div>
 </template>
 
 <script lang="ts">
