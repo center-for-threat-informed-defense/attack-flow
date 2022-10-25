@@ -13,7 +13,7 @@ def main():
         new_page_props = migrate_afb["objects"][0]["properties"]
 
     # Iterate over .afb files in /corpus/ and migrate each one.
-    for afb_path in corpus_dir.glob("*.afb"):
+    for afb_path in corpus_dir.glob("OilRig*.afb"):
         print(f"Migrating: {afb_path}")
         with afb_path.open() as afb_file_ro:
             afb = OrderedDict(json.load(afb_file_ro))
