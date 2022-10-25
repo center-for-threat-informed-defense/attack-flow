@@ -39,6 +39,11 @@ export class PageEditor {
     public view: EditorViewParameters;
 
     /**
+     * The editor's pointer location.
+     */
+    public pointer: Ref<PointerLocation>;
+
+    /**
      * The editor's camera location.
      */
     public location: Ref<CameraLocation>;
@@ -79,6 +84,7 @@ export class PageEditor {
         this.page = page;
         this.trigger = ref(0);
         this.view = { x: 0, y:0, k: 1, w: 0, h: 0 };
+        this.pointer = ref({ x: 0, y: 0 });
         this.location = ref(location ?? { x: 0, y: 0, k: 1 });
         this._undoStack = [];
         this._redoStack = [];
@@ -354,6 +360,20 @@ export type EditorViewParameters = {
 //  Internal Types  ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+
+type PointerLocation = {
+
+    /**
+     * The pointer's x coordinate.
+     */
+    x: number,
+
+    /**
+     * The pointer's y coordinate.
+     */
+    y: number
+
+}
 
 type PageExport = {
 

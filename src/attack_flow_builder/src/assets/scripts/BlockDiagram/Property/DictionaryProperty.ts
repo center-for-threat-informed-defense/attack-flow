@@ -43,7 +43,7 @@ export class DictionaryProperty extends CollectionProperty {
             if(!values) {
                 val = undefined;
             } else if(Array.isArray(values)) {
-                val = values.find(o => o[0] === key);
+                val = values.find(o => o[0] === key)?.at(1);
             } else {
                 val = values[key]
             }

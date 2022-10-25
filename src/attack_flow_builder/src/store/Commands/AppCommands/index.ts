@@ -6,6 +6,7 @@ export * from "./PublishPageToDevice";
 export * from "./SavePageImageToDevice";
 export * from "./SavePageToDevice"
 export * from "./SaveSelectionImageToDevice";
+export * from "./SetEditorPointerLocation";
 export * from "./SetEditorViewParams";
 export * from "./SetRenderQuality";
 export * from "./SwitchToFullscreen";

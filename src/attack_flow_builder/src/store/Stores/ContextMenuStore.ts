@@ -5,6 +5,7 @@ import { Module } from "vuex";
 import { ContextMenuStore, ModuleStore } from "../StoreTypes";
 import { ContextMenu, ContextMenuSection, ContextMenuSubmenu, MenuType } from "@/assets/scripts/ContextMenuTypes";
 import { Namespace, titleCase } from "@/assets/scripts/BlockDiagram";
+import { SpawnObject } from "@/store/Commands/PageCommands";
 
 export default {
     namespaced: true,
@@ -368,33 +369,9 @@ export default {
             
             // Build menu
             let root = page.factory.getNamespace().get("@")! as Namespace;
-            let menu = (function formatMenu(key: string, value: Namespace): ContextMenuSubmenu {
-                let sm: ContextMenuSubmenu = {
-                    text: titleCase(key),
-                    type: MenuType.Submenu,
-                    sections: [
-                        { id: "submenus", items: [] },
-                        { id: "options",  items: [] }
-                    ]
-                }
-                for(let [k, v] of value) {
-                    if(typeof v !== "string") {
-                        sm.sections[0].items.push(
-                            formatMenu(k, v)
-                        );
-                    } else {
-                        sm.sections[1].items.push({
-                            text: titleCase(k),
-                            type: MenuType.Item,
-                            data: () => new Page.SpawnObject(
-                                ctx, page, v as string
-                            ),
-                        });
-                    }
-                }
-                sm.sections = sm.sections.filter(s => 0 < s.items.length)
-                return sm;
-            })("@", root);
+            let menu = generateCreateMenu(
+                "@", root, (id) => new Page.SpawnObject(ctx, page, id)
+            );
             
             // Return menu
             return {
@@ -408,6 +385,43 @@ export default {
                 ]
             };
 
+        },
+
+        /**
+         * Returns the create at menu section.
+         * @param _s
+         *  The Vuex state. (Unused)
+         * @param _g
+         *  The Vuex getters. (Unused)
+         * @param rootState
+         *  The Vuex root state.
+         * @returns
+         *  The create at menu section.
+         */
+        createAtMenu(_s, _g, rootState): ContextMenuSection {
+            let ctx = rootState.ApplicationStore;
+            let page = ctx.activePage.page;
+            let x = ctx.activePage.pointer.value.x;
+            let y = ctx.activePage.pointer.value.y;
+            
+            // Build menu
+            let root = page.factory.getNamespace().get("@")! as Namespace;
+            let menu = generateCreateMenu(
+                "@", root, (id) => new Page.SpawnObject(ctx, page, id, x, y)
+            );
+            
+            // Return menu
+            return {
+                id: "create_options",
+                items: [
+                    {
+                        text: "Create",
+                        type: MenuType.Submenu,
+                        sections: menu.sections
+                    }
+                ]
+            };
+            
         },
 
 
@@ -769,3 +783,40 @@ export default {
     }
 
 } as Module<ContextMenuStore, ModuleStore>
+
+/**
+ * Generates a create submenu from a namespace.
+ * @param key
+ *  The namespace's key.
+ * @param value
+ *  The namespace.
+ * @param spawn
+ *  A callback that produces a {@link SpawnObject} from a template id.
+ * @returns
+ *  The formatted submenu.
+ */
+function generateCreateMenu(key: string, value: Namespace, spawn: (id: string) => SpawnObject): ContextMenuSubmenu {
+    let sm: ContextMenuSubmenu = {
+        text: titleCase(key),
+        type: MenuType.Submenu,
+        sections: [
+            { id: "submenus", items: [] },
+            { id: "options", items: [] }
+        ]
+    }
+    for (let [k, v] of value) {
+        if (typeof v !== "string") {
+            sm.sections[0].items.push(
+                generateCreateMenu(k, v, spawn)
+            );
+        } else {
+            sm.sections[1].items.push({
+                text: titleCase(k),
+                type: MenuType.Item,
+                data: () => spawn(v as string),
+            });
+        }
+    }
+    sm.sections = sm.sections.filter(s => 0 < s.items.length)
+    return sm;
+}

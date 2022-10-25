@@ -38,6 +38,11 @@ export class DiagramFactory {
      * The diagram factory's list of templates.
      */
     public readonly templates: Map<string, Template>
+    
+    /**
+     * The diagram factory's namespace.
+     */
+    private readonly _namespace: Namespace;
 
 
     /**
@@ -45,11 +50,14 @@ export class DiagramFactory {
      * @param schema
      *  The diagram's schema.
      * @param templates
-     *  THe diagram factory's list of templates.
+     *  The diagram factory's list of templates.
+     * @param namespace
+     *  The diagram factory's namespace.
      */
-    private constructor(schema: BlockDiagramSchema, templates: Map<string, Template>) {
+    private constructor(schema: BlockDiagramSchema, templates: Map<string, Template>, namespace: Namespace) {
         this.schema = schema;
         this.templates = templates;
+        this._namespace = namespace;
     }
 
 
@@ -59,7 +67,11 @@ export class DiagramFactory {
      *  A dummy {@link DiagramFactory}.
      */
     public static createDummy(): DiagramFactory {
-        return new this({ page_template: "", templates: [] }, new Map());
+        return new this(
+            { page_template: "", templates: [] },
+            new Map(),
+            new Map([["@", new Map()]])
+        );
     }
 
     /**
@@ -92,6 +104,27 @@ export class DiagramFactory {
         for(let template of [...BuiltinTemplates, ...copy.templates]) {
             templates.set(template.id, template);
         }
+        
+        // Build namespace
+        let namespace: Namespace = new Map([["@", new Map()]]);
+        for(let value of templates.values()) {
+            if(value.namespace === undefined)
+                continue;
+            let path = ["@", ...value.namespace.split(".")];
+            for(var i = 0, ns = namespace; i < path.length - 1; i++) {
+                if(!ns.has(path[i])) {
+                    ns.set(path[i], new Map())
+                }
+                ns = ns.get(path[i])! as Namespace;
+            }
+            if(!ns.has(path[i])) {
+                ns.set(path[i], value.id);
+            } else {
+                throw new DiagramFactoryError(
+                    `Namespace '${ path.join(".") }' is already defined.`
+                )
+            }
+        }
 
         // Load font descriptors
         let fonts: FontDescriptor[] = [];
@@ -110,7 +143,8 @@ export class DiagramFactory {
         // Return new diagram factory 
         return new this(
             schema,
-            templates as Map<string, Template>
+            templates as Map<string, Template>,
+            namespace
         );
     
     }
@@ -138,20 +172,7 @@ export class DiagramFactory {
      *  The factory's namespace.
      */
     public getNamespace(): Namespace {
-        let ns: Namespace = new Map([["@", new Map()]]);
-        for(let value of this.templates.values()) {
-            if(value.namespace === undefined)
-                continue;
-            let path = ["@", ...value.namespace.split(".")];
-            for(var i = 0, _ns = ns; i < path.length - 1; i++) {
-                if(!_ns.has(path[i])) {
-                    _ns.set(path[i], new Map())
-                }
-                _ns = _ns.get(path[i])! as Namespace;
-            }
-            _ns.set(path[i], value.id);
-        }
-        return ns;
+        return this._namespace;
     }
 
     

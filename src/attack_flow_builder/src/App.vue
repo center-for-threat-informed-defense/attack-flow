@@ -32,8 +32,6 @@ import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
 import EditorSidebar from "@/components/Elements/EditorSidebar.vue";
 
-import FILE from "../test_file.json";
-
 const Handle = {
   None   : 0,
   Right  : 1
@@ -159,8 +157,20 @@ export default defineComponent({
     }
     // Load settings
     this.execute(new LoadSettings(this.context, settings));
+    // Load empty file
     this.execute(await LoadFile.fromNew(this.context));
-    // this.execute(await LoadFile.fromFile(this.context, JSON.stringify(FILE)));
+    // Load file from query parameters, if possible
+    let params = new URLSearchParams(window.location.search);
+    let src = params.get("src");
+    if(src) {
+      try {
+        // TODO: Incorporate loading dialog
+        this.execute(await LoadFile.fromUrl(this.context, src));
+      } catch(ex) {
+        console.error(`Failed to load file from url: '${ src }'`);
+        console.error(ex);
+      }
+    }
   },
   mounted() {
     this.bodyWidth = this.body!.clientWidth;

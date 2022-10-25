@@ -112,6 +112,7 @@ export default defineComponent({
       "layeringMenu",
       "jumpMenu",
       "undoRedoMenu",
+      "createAtMenu",
       "selectAllMenu",
       "zoomMenu",
       "diagramViewMenu"
@@ -155,38 +156,12 @@ export default defineComponent({
       } else {
         return [
           this.undoRedoMenu,
-          this.createMenu,
+          this.createAtMenu,
           this.selectAllMenu,
           this.zoomMenu,
           this.diagramViewMenu
         ];
       }
-    },
-
-    /**
-     * Returns the create menu section.
-     * @returns
-     *  The create menu section.
-     */
-    createMenu(): ContextMenuSection {
-      let factory = this.editor.page.factory;
-
-      // Build menu
-      let root = factory.getNamespace().get("@")! as Namespace;
-      let menu = this.formatCreateMenu("@", root);
-
-      // Return menu
-      return {
-        id: "create_options",
-        items: [
-          {
-            text: "Create",
-            type: MenuType.Submenu,
-            sections: menu.sections
-          }
-        ]
-      };
-
     }
 
   },
@@ -196,51 +171,6 @@ export default defineComponent({
      * Application Store mutations
      */
     ...mapMutations("ApplicationStore", ["execute"]),
-
-    /**
-     * Formats a create submenu from a namespace.
-     * @param key
-     *  The namespace's key.
-     * @param value
-     *  The namespace.
-     * @returns
-     *  The formatted submenu.
-     */
-    formatCreateMenu(key: string, value: Namespace): ContextMenuSubmenu {
-
-      /**
-       * TODO:
-       * Store last clicked location in PageEditor, move this menu back into
-       * ContextMenuStore.
-       */
-
-      let sm: ContextMenuSubmenu = {
-        text: titleCase(key),
-        type: MenuType.Submenu,
-        sections: [
-          { id: "submenus", items: [] },
-          { id: "options",  items: [] }
-        ]
-      }
-      for(let [k, v] of value) {
-        if(typeof v !== "string") {
-          sm.sections[0].items.push(
-            this.formatCreateMenu(k, v)
-          );
-        } else {
-          sm.sections[1].items.push({
-            text: titleCase(k),
-            type: MenuType.Item,
-            data: () => new Page.SpawnObject(
-              this.ctx, this.editor.page, v as string,
-              this.menu.x, this.menu.y
-            ),
-          });
-        }
-      }
-      sm.sections = sm.sections.filter(s => 0 < s.items.length)
-      return sm;
-    },
 
     /**
      * Menu item selection behavior.
@@ -337,6 +267,7 @@ export default defineComponent({
      */
     onCanvasClick(e: PointerEvent, x: number, y: number) {
       this.execute(new Page.UnselectDescendants(this.editor.page));
+      this.execute(new App.SetEditorPointerLocation(this.ctx, this.editor.id, x, y));
       if (e.button === MouseClick.Right) {
         this.openContextMenu(x, y);
       }

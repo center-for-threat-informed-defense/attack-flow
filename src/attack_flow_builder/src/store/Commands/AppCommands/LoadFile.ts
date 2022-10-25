@@ -66,6 +66,21 @@ export class LoadFile extends AppCommand {
     }
 
     /**
+     * Loads a page file from a remote url, into the application.
+     * @param context
+     *  The application context.
+     * @param url
+     *  The remote url.
+     * @returns
+     *  The {@link LoadFile} command.
+     */
+    public static async fromUrl(context: ApplicationStore, url: string): Promise<LoadFile> {
+        let file = await (await fetch(url, { credentials: "omit" })).text();
+        let page = await PageEditor.fromFile(file);
+        return new LoadFile(context, page);
+    }
+
+    /**
      * Executes the command.
      */
     public execute(): void {

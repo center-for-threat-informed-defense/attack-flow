@@ -1,46 +1,54 @@
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
-import { EditorViewParameters, PageEditor } from "@/store/PageEditor";
+import { PageEditor } from "@/store/PageEditor";
 
-// export class SetEditorPointerLocation extends AppCommand {
+export class SetEditorPointerLocation extends AppCommand {
 
-//     // /**
-//     //  * The editor.
-//     //  */
-//     // private _editor: PageEditor;
+    /**
+     * The editor.
+     */
+    private _editor: PageEditor;
 
-//     // /**
-//     //  * The new front-end view parameters.
-//     //  */
-//     // private _params: EditorViewParameters;
+    /**
+     * The pointer's x location.
+     */
+    private _x: number;
 
-
-//     // /**
-//     //  * Sets a page editor's front-end view parameters.
-//     //  * @param context
-//     //  *  The application context.
-//     //  * @param id
-//     //  *  The id of the page.
-//     //  * @param params
-//     //  *  The new front-end view parameters.
-//     //  */
-//     // constructor(context: ApplicationStore, id: string, params: EditorViewParameters) {
-//     //     super(context);
-//     //     let editor = context.pages.get(id);
-//     //     if(!editor) {
-//     //         throw new Error(`Page '${ id }' not found.`);
-//     //     } else {
-//     //         this._editor = editor;
-//     //     }
-//     //     this._params = params;
-//     // }
+    /**
+     * The pointer's y location.
+     */
+    private _y: number; 
 
 
-//     // /**
-//     //  * Executes the command.
-//     //  */
-//     // public execute(): void {
-//     //     this._editor.view = this._params;
-//     // }
+    /**
+     * Sets a page editor's pointer location.
+     * @param context
+     *  The application context.
+     * @param id
+     *  The id of the page.
+     * @param x
+     *  The pointer's x location.
+     * @param y
+     *  The pointer's y location.
+     */
+    constructor(context: ApplicationStore, id: string, x: number, y: number) {
+        super(context);
+        let editor = context.pages.get(id);
+        if(!editor) {
+            throw new Error(`Page '${ id }' not found.`);
+        } else {
+            this._editor = editor;
+        }
+        this._x = x;
+        this._y = y;
+    }
 
-// }
+
+    /**
+     * Executes the command.
+     */
+    public execute(): void {
+        this._editor.pointer.value = { x: this._x, y: this._y };
+    }
+
+}
