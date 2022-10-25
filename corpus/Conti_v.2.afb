@@ -6,7 +6,6 @@
     "templates": [
       {
         "id": "@__builtin__page",
-        "name": "Page",
         "type": 7,
         "role": 0,
         "grid": [
@@ -34,7 +33,6 @@
       },
       {
         "id": "@__builtin__anchor",
-        "name": "Anchor",
         "type": 0,
         "role": 0,
         "radius": 10,
@@ -48,7 +46,6 @@
       },
       {
         "id": "@__builtin__line_handle",
-        "name": "Line Handle",
         "type": 4,
         "role": 0,
         "style": {
@@ -60,7 +57,6 @@
       },
       {
         "id": "@__builtin__line_source",
-        "name": "Line Source",
         "type": 3,
         "role": 12288,
         "style": {
@@ -72,7 +68,6 @@
       },
       {
         "id": "@__builtin__line_target",
-        "name": "Line Target",
         "type": 3,
         "role": 16384,
         "style": {
@@ -84,7 +79,7 @@
       },
       {
         "id": "@__builtin__line_horizontal_elbow",
-        "name": "Horizontal Elbow",
+        "namespace": "horizontal_elbow",
         "type": 5,
         "role": 8192,
         "hitbox_width": 20,
@@ -102,7 +97,7 @@
       },
       {
         "id": "@__builtin__line_vertical_elbow",
-        "name": "Vertical Elbow",
+        "namespace": "vertical_elbow",
         "type": 6,
         "role": 8192,
         "hitbox_width": 20,
@@ -120,7 +115,6 @@
       },
       {
         "id": "attack_flow_page",
-        "name": "Attack Flow",
         "type": 7,
         "role": 0,
         "grid": [
@@ -222,7 +216,8 @@
               "form": {
                 "source_name": {
                   "type": 2,
-                  "is_primary": true
+                  "is_primary": true,
+                  "is_required": true
                 },
                 "description": {
                   "type": 2
@@ -248,7 +243,6 @@
       },
       {
         "id": "true_anchor",
-        "name": "True Anchor",
         "type": 0,
         "role": 0,
         "radius": 10,
@@ -262,7 +256,6 @@
       },
       {
         "id": "false_anchor",
-        "name": "False Anchor",
         "type": 0,
         "role": 0,
         "radius": 10,
@@ -276,7 +269,7 @@
       },
       {
         "id": "action",
-        "name": "Action",
+        "namespace": "attack_flow.action",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -295,15 +288,6 @@
             "type": 2
           },
           "technique_ref": {
-            "type": 2
-          },
-          "execution_start": {
-            "type": 3
-          },
-          "execution_end": {
-            "type": 3
-          },
-          "description": {
             "type": 2
           },
           "confidence": {
@@ -375,6 +359,15 @@
               ]
             },
             "value": "probable"
+          },
+          "execution_start": {
+            "type": 3
+          },
+          "execution_end": {
+            "type": 3
+          },
+          "description": {
+            "type": 2
           }
         },
         "anchor_template": "@__builtin__anchor",
@@ -453,7 +446,7 @@
       },
       {
         "id": "asset",
-        "name": "Asset",
+        "namespace": "attack_flow.asset",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -542,7 +535,7 @@
       },
       {
         "id": "condition",
-        "name": "Condition",
+        "namespace": "attack_flow.condition",
         "type": 1,
         "role": 4096,
         "properties": {
@@ -656,7 +649,7 @@
       },
       {
         "id": "or",
-        "name": "Operator: OR",
+        "namespace": "attack_flow.OR_operator",
         "type": 8,
         "role": 4096,
         "properties": {
@@ -698,7 +691,7 @@
       },
       {
         "id": "and",
-        "name": "Operator: AND",
+        "namespace": "attack_flow.AND_operator",
         "type": 8,
         "role": 4096,
         "properties": {
@@ -740,7 +733,7 @@
       },
       {
         "id": "attack_pattern",
-        "name": "Attack Pattern",
+        "namespace": "stix_object.attack_pattern",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -769,8 +762,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -841,7 +834,7 @@
       },
       {
         "id": "campaign",
-        "name": "Campaign",
+        "namespace": "stix_object.campaign",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -873,8 +866,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -945,7 +938,7 @@
       },
       {
         "id": "course_of_action",
-        "name": "Course of Action",
+        "namespace": "stix_object.course_of_action",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -974,8 +967,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1046,7 +1039,7 @@
       },
       {
         "id": "grouping",
-        "name": "Grouping",
+        "namespace": "stix_object.grouping",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1066,8 +1059,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1138,7 +1131,7 @@
       },
       {
         "id": "identity",
-        "name": "Identity",
+        "namespace": "stix_object.identity",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1174,8 +1167,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1246,7 +1239,7 @@
       },
       {
         "id": "indicator",
-        "name": "Indicator",
+        "namespace": "stix_object.indicator",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1293,8 +1286,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1365,7 +1358,7 @@
       },
       {
         "id": "infrastructure",
-        "name": "Infrastructure",
+        "namespace": "stix_object.infrastructure",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1407,8 +1400,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1479,7 +1472,7 @@
       },
       {
         "id": "intrusion_set",
-        "name": "Intrusion Set",
+        "namespace": "stix_object.intrusion_set",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1527,8 +1520,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1599,7 +1592,7 @@
       },
       {
         "id": "location",
-        "name": "Location",
+        "namespace": "stix_object.location",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1646,8 +1639,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1718,7 +1711,7 @@
       },
       {
         "id": "malware",
-        "name": "Malware",
+        "namespace": "stix_object.malware",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1787,8 +1780,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1859,7 +1852,7 @@
       },
       {
         "id": "malware_analysis",
-        "name": "Malware",
+        "namespace": "stix_object.malware_analysis",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1903,8 +1896,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -1975,7 +1968,7 @@
       },
       {
         "id": "note",
-        "name": "Note",
+        "namespace": "stix_object.note",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -1998,8 +1991,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2070,7 +2063,7 @@
       },
       {
         "id": "observed_data",
-        "name": "Observed Data",
+        "namespace": "stix_object.observed_data",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2092,8 +2085,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2164,7 +2157,7 @@
       },
       {
         "id": "opinion",
-        "name": "Opinion",
+        "namespace": "stix_object.opinion",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2187,8 +2180,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2259,7 +2252,7 @@
       },
       {
         "id": "report",
-        "name": "Report",
+        "namespace": "stix_object.report",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2287,8 +2280,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2358,8 +2351,8 @@
         }
       },
       {
-        "id": "threat-actor",
-        "name": "Threat Actor",
+        "id": "threat_actor",
+        "namespace": "stix_object.threat_actor",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2428,8 +2421,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2500,7 +2493,7 @@
       },
       {
         "id": "tool",
-        "name": "Tool",
+        "namespace": "stix_object.tool",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2539,8 +2532,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2611,7 +2604,7 @@
       },
       {
         "id": "vulnerability",
-        "name": "Vulnerability",
+        "namespace": "stix_object.vulnerability",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2628,8 +2621,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2700,7 +2693,7 @@
       },
       {
         "id": "artifact",
-        "name": "Artifact",
+        "namespace": "stix_observable.artifact",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2727,8 +2720,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2799,7 +2792,7 @@
       },
       {
         "id": "autonomous_system",
-        "name": "Autonomous System",
+        "namespace": "stix_observable.autonomous_system",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2819,8 +2812,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2891,7 +2884,7 @@
       },
       {
         "id": "directory",
-        "name": "Directory",
+        "namespace": "stix_observable.directory",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -2917,8 +2910,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -2989,7 +2982,7 @@
       },
       {
         "id": "domain_name",
-        "name": "Domain Name",
+        "namespace": "stix_observable.domain_name",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3002,8 +2995,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3074,7 +3067,7 @@
       },
       {
         "id": "email_address",
-        "name": "Email Address",
+        "namespace": "stix_observable.email_address",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3090,8 +3083,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3162,7 +3155,7 @@
       },
       {
         "id": "email_message",
-        "name": "Email Message",
+        "namespace": "stix_observable.email_message",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3200,8 +3193,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3272,7 +3265,7 @@
       },
       {
         "id": "file",
-        "name": "File",
+        "namespace": "stix_observable.file",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3309,8 +3302,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3380,8 +3373,8 @@
         }
       },
       {
-        "id": "ipv4_addr",
-        "name": "IPv4 Address",
+        "id": "ipv4_address",
+        "namespace": "stix_observable.ipv4_address",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3394,8 +3387,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3465,8 +3458,8 @@
         }
       },
       {
-        "id": "ipv6_addr",
-        "name": "IPv6 Address",
+        "id": "ipv6_address",
+        "namespace": "stix_observable.ipv6_address",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3479,8 +3472,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3550,8 +3543,8 @@
         }
       },
       {
-        "id": "mac_addr",
-        "name": "MAC Address",
+        "id": "mac_address",
+        "namespace": "stix_observable.mac_address",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3564,8 +3557,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3636,7 +3629,7 @@
       },
       {
         "id": "mutex",
-        "name": "Mutex",
+        "namespace": "stix_observable.mutex",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3649,8 +3642,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3721,7 +3714,7 @@
       },
       {
         "id": "network_traffic",
-        "name": "Network Traffic",
+        "namespace": "stix_observable.network_traffic",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3773,8 +3766,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3845,7 +3838,7 @@
       },
       {
         "id": "process",
-        "name": "Process",
+        "namespace": "stix_observable.process",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3874,8 +3867,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -3946,7 +3939,7 @@
       },
       {
         "id": "software",
-        "name": "Software",
+        "namespace": "stix_observable.software",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -3975,8 +3968,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -4047,7 +4040,7 @@
       },
       {
         "id": "url",
-        "name": "URL",
+        "namespace": "stix_observable.url",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -4060,8 +4053,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -4132,7 +4125,7 @@
       },
       {
         "id": "user_account",
-        "name": "User Account",
+        "namespace": "stix_observable.user_account",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -4185,8 +4178,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -4257,7 +4250,7 @@
       },
       {
         "id": "windows_registry_key",
-        "name": "Windows Registry Key",
+        "namespace": "stix_observable.windows_registry_key",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -4284,8 +4277,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -4356,7 +4349,7 @@
       },
       {
         "id": "x509_certificate",
-        "name": "X509 Certificate",
+        "namespace": "stix_observable.x509_certificate",
         "type": 2,
         "role": 4096,
         "properties": {
@@ -4404,8 +4397,8 @@
         "style": {
           "max_width": 320,
           "head": {
-            "fill_color": "#848484",
-            "stroke_color": "#6b6b6b",
+            "fill_color": "#737373",
+            "stroke_color": "#8c8c8c",
             "one_title": {
               "title": {
                 "font": {
@@ -4548,7 +4541,7 @@
       "properties": [
         [
           "name",
-          "migrate"
+          "Untitled Document"
         ],
         [
           "description",
@@ -4574,6 +4567,10 @@
               null
             ]
           ]
+        ],
+        [
+          "external_references",
+          []
         ]
       ]
     },
