@@ -7,6 +7,8 @@ Overview
 Attack Flow Builder is a free and open source tool for creating, viewing, and editing
 Attack Flows.
 
+Tuesday TODO: all new screenshots for this page
+
 .. figure:: _static/builder1.png
    :alt: Screenshot of Attack Flow Builder.
    :align: center
@@ -48,41 +50,38 @@ palette of options.
   :width: 400
   :alt: Right-click to see a menu of options for nodes to create.
 
-For example, you can select "Create Action Node" to create a new action, and then fill
-in the details of the action.
+For example, you can select "Create Action Node" to create a new action. This will
+create an empty action node in the workspace; you can fill in the details for this
+action using the sidebar on the right.
 
 .. image:: _static/builder7.png
   :width: 400
   :alt: An example of an action this is missing a required attribute.
 
-Some fields are required. If you see the yellow warning icon, it means that you need
-to enter something into that field.
+You may notice validation errors in the bottom right corner if your flow is missing any
+required fields. Click on the validation error to highlight the object that needs
+fixing.
 
 .. image:: _static/builder3.png
   :width: 400
   :alt: An example of an action with filled-in attributes.
 
-Right-click to repeat the process and add an asset and another technique, then fill in
+Right-click to repeat the process and add a condition and another action, then fill in
 the missing details. You can drag and drop items to arrange them however you want, for
 example:
 
 .. image:: _static/builder4.png
   :alt: Two actions and an asset with filled-in attributes
 
-Finally, connect items together by clicking on the plug icon on one item and dragging a
-line to another item.
+Finally, connect items together by drawing an arrow from the edge of one object to
+another.
 
 .. image:: _static/builder5.png
   :alt: The finished flow with connections between items.
 
-The arrows between objects also have required fields. Click on an arrow to view the
-fields and then fill in the missing items.
-
-.. image:: _static/builder8.png
-  :alt: An example of a relationship that is missing a required attribute.
-
-Continue to build out your flow by adding nodes, filling in the attributes, and drawing
-arrows between nodes. When you are done, you go to the File menu to save your flow.
+Continue to build out your flow by adding objects, filling in the attributes, and
+drawing arrows between nodes. When you are done, you go to the File menu to save your
+flow.
 
 .. image:: _static/builder6.png
   :width: 300
@@ -99,14 +98,14 @@ Publish Attack Flow…
 
    The Attack Flow Builder does not automatically save your work. If you accidentally
    close the tab or navigate forward or backward, you will lose any unsaved work.
-   Remember to save your work frequently. (This issue will be addressed in Attack Flow
-   2.)
+   Remember to save your work frequently. (This issue will be addressed in a future
+   release.)
 
 Docker
 ------
 
-If you do not want to use the Attack Flow Builder Online, you can run it locally `using
-Docker <https://www.docker.com/>`__ as shown below.
+If you do not want to use the Attack Flow Builder embedded in this site, you can run it
+locally `using Docker <https://www.docker.com/>`__ as shown below.
 
 .. code:: shell
 

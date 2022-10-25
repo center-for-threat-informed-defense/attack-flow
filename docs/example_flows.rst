@@ -2,10 +2,30 @@ Example Flows
 =============
 
 The Attack Flow project includes a corpus of example flows that may be useful for
-learning about Attack Flow, practicing how to create flows, or mining the data for
-interesting patterns. You can download the entire corpus from the `Attack Flow release
+learning about Attack Flow, studying high-profile breaches, or mining the data for
+statistical patterns. You can download the entire corpus from the `Attack Flow release
 page <https://github.com/center-for-threat-informed-defense/attack-flow/releases>`__, or
-you can view individual flows on this page.
+you can view individual flows on this page. Each Attack Flow is provided in multiple
+formats:
+
+Builder (.afb)
+    The format used for creating and editing in the Attack Flow Builder.
+
+JSON (.json)
+    The machine-readable standard format for exchanging flows.
+
+Graphviz (.dot)
+    An example of converting from Attack Flow to another graph format in order to take
+    advantage of other tool ecosystems. Must install `Graphviz
+    <https://graphviz.org/>`__ to use this format, or use our pre-rendered Graphviz
+    ``.png`` files.
+
+Mermaid (.mmd)
+    `Mermaid <https://mermaid-js.github.io/mermaid/#/>`__ is another graph format that
+    you can convert Attack Flow into. Notably, Mermaid graphs can be embedded directly
+    in `GitHub Markdown files <https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/>`__.
+
+
 
 List of Examples
 ----------------
@@ -241,23 +261,3 @@ List of Examples
     - Placeholder description.
 
 .. /EXAMPLE_FLOWS
-
-File Formats
-------------
-
-Each Attack Flow is provided in multiple formats:
-
-JSON (.json)
-    The machine-readable standard format for Attack Flows.
-
-Graphviz (.dot)
-    An example of converting from Attack Flow to another graph format in order to take
-    advantage of other tool ecosystems. Must install `Graphviz
-    <https://graphviz.org/>`__ to use this format.
-
-Image (.png)
-    The Graphviz format converted to a PNG image using a hierarchical layout.
-
-Builder (.afd)
-    The format used for creating and editing in the Attack Flow Builder.
-

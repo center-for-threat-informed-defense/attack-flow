@@ -14,10 +14,10 @@ architectures. STIX 2.1 has `a formal extension mechanism
 allows STIX to be augmented with new features and capabilities.
 
 As a result of extending STIX, the Attack Flow language is interoperable with a broad
-ecosystem of STIX content, tools, and vendors. An attack flow can reference external
-STIX objects (e.g. an identity or a threat actor) and external STIX objects can also
-refer back to an attack flow. Attack Flow extends STIX by defining several new STIX
-Domain Objects (SDOs) that are described below.
+ecosystem of STIX content, tools, and vendors. A flow can reference external STIX
+objects (e.g. an identity or a threat actor) and external STIX objects can also refer
+back to an attack flow. Attack Flow extends STIX by defining several new STIX Domain
+Objects (SDOs) that are described below.
 
 The formal specification for the Attack Flow language is represented as `a JSON schema,
 <https://github.com/center-for-threat-informed-defense/attack-flow-private/stix/attack-flow-schema-2.0.0.json>`__
@@ -155,7 +155,7 @@ actions, and can be referenced from other STIX objects.
      - ``enum``
      - Indicates what type of behavior the Attack Flow describes: a specific incident,
        a campaign, etc.
-       
+
        The value of this property **MUST** be one of: "incident", "campaign", "threat-actor", "malware", "other".
    * - **start_refs** *(required)*
      - ``list`` of type ``identifier`` (of type ``attack-action`` or ``attack-condition``)
@@ -445,7 +445,7 @@ logic.
    * - **operator** *(required)*
      - ``enum``
      - The logical operator to apply to the input effects.
-       
+
        The value of this property **MUST** be one of: "AND", "OR".
    * - **effect_refs** *(optional)*
      - ``list`` of type ``identifier`` (of type ``attack-action`` or ``attack-operator`` or ``attack-condition``)
@@ -525,10 +525,10 @@ the correctness of the data in a particular object, e.g. in a particular
 i.e. a percentage. It is often difficult or impossible to estimate confidence to that
 level of precision, because Attack Flow typically describes real-world behavior that may
 have been observed only a few times, which is not a large enough sample to compute
-meaningful statistics.
+precise statistics.
 
 To make ``confidence`` easier to reason about, Attack Flow uses the following confidence
-scale to map confidence terms to confidence numbers and vice-versa.
+scale to map confidence terms to numbers, and vice-versa.
 
 .. list-table:: Confidence Terms
   :widths: 15 55 15 15
@@ -573,8 +573,7 @@ scale to map confidence terms to confidence numbers and vice-versa.
     - 100
     - 100-100
 
-The table can be used to map confidence terminology to a specific confidence number and
-vice-versa. For example:
+Example usage of the table:
 
 * Convert "Very Probable" to a confidence number:
     * Look up "Very Probable" in the table: it is in row 6.

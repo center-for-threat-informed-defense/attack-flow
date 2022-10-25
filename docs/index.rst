@@ -15,7 +15,7 @@ globally. The project is funded by our `research participants
     :caption: Contents
 
     overview
-    walkthrough
+    introduction
     example_flows
     builder
     language

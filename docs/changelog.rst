@@ -4,9 +4,10 @@ Changelog
 Attack Flow 2
 -------------
 
-2.0.0 -- October 24th, 2022
+2.0.0 -- October 27th, 2022
     This major update to Attack Flow is based on community feedback from Attack Flow 1
-    and extensive collaboration with our research partners. The major improvements
+    and extensive collaboration with `our research partners
+    <https://ctid.mitre-engenuity.org/our-work/attack-flow/>`__. The major improvements
     include:
 
     * The new standard is based on STIX 2.1 and addresses known limitations and feedback
@@ -22,14 +23,6 @@ Attack Flow 2
 
     *This release is not backwards-compatible with 1.0.0.*
 
-    **Research Participants**
-
-    * TODO - prior to publication
-
-    **Non-profit Research Participants**
-
-    * TODO - prior to publication
-
 Attack Flow 1
 -------------
 
@@ -38,20 +31,3 @@ Attack Flow 1
     standard for describing sequences (or more generally "graphs") of adversary
     behaviors. The release also contains a web application for creating attack flows
     visually as well as Python library code for validating flows.
-
-    **Research Participants**
-
-    * Anomali
-    * AttackIQ
-    * Citi
-    * Cybereason
-    * Fujitsu
-    * Fortinet
-    * HCA Healthcare
-    * Microsoft
-    * Verizon
-
-    **Non-profit Research Participants**
-
-    * Cyber Threat Alliance
-    * Global Cyber Alliance
