@@ -1,4 +1,4 @@
-import { PropertyType, RootProperty, RootPropertyDescriptor } from "../Property";
+import { PropertyType } from "../Property";
 import {
     AnchorAngle,
     DarkTheme,
@@ -12,7 +12,6 @@ const BUILTIN_PREFIX = "@__builtin__";
 export const BuiltinTemplates: SerializedTemplate[] = [
     {
         id: `${ BUILTIN_PREFIX }page`,
-        name: "Page",
         type: TemplateType.Page,
         role: SemanticRole.None,
         grid: [10, 10],
@@ -27,7 +26,6 @@ export const BuiltinTemplates: SerializedTemplate[] = [
     },
     {
         id: `${ BUILTIN_PREFIX }anchor`,
-        name: "Anchor",
         type: TemplateType.AnchorPoint,
         role: SemanticRole.None,
         radius: 10,
@@ -39,28 +37,25 @@ export const BuiltinTemplates: SerializedTemplate[] = [
     },
     {
         id: `${ BUILTIN_PREFIX }line_handle`,
-        name: "Line Handle",
         type: TemplateType.LineHandlePoint,
         role: SemanticRole.None,
         style: DarkTheme.LineHandle()
     },
     {
         id: `${ BUILTIN_PREFIX }line_source`,
-        name: "Line Source",
         type: TemplateType.LineEndingPoint,
         role: SemanticRole.EdgeSource,
         style: DarkTheme.LineEnding()
     },
     {
         id: `${ BUILTIN_PREFIX }line_target`,
-        name: "Line Target",
         type: TemplateType.LineEndingPoint,
         role: SemanticRole.EdgeTarget,
         style: DarkTheme.LineEnding()
     },
     {
         id: `${ BUILTIN_PREFIX }line_horizontal_elbow`,
-        name: "Horizontal Elbow",
+        namespace: "horizontal_elbow",
         type: TemplateType.LineHorizontalElbow,
         role: SemanticRole.Edge,
         hitbox_width: 20,
@@ -73,7 +68,7 @@ export const BuiltinTemplates: SerializedTemplate[] = [
     },
     {
         id: `${ BUILTIN_PREFIX }line_vertical_elbow`,
-        name: "Vertical Elbow",
+        namespace: "vertical_elbow",
         type: TemplateType.LineVerticalElbow,
         role: SemanticRole.Edge,
         hitbox_width: 20,

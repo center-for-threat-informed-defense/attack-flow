@@ -475,34 +475,45 @@ export class BlockDiagram extends EventEmitter {
      *  The drag event.
      */
     private onObjectDragStarted(event: any) {
-        this._layoutLocked = true;
-        let s = event.subject as DragAction;
-        let cx = this._transform.invertX(event.x);
-        let cy = this._transform.invertY(event.y);
-        let ox = 0;
-        let oy = 0;
-        let al = Alignment.Free;
-        let an = undefined;
-        switch(s.type) {
-            case DragActionType.Move:
-                for(let obj of s.objs) {
-                    ox += obj.x;
-                    oy += obj.y;
-                    al = Math.max(al, obj.el.getAlignment());
-                }
-                ox /= s.objs.length;
-                oy /= s.objs.length;
-                break;
-            case DragActionType.CreateLine:
-                s.parent.children.push(s.line);
-            case DragActionType.MoveAnchorable:
-                ox = s.obj.x;
-                oy = s.obj.y;
-                al = s.obj.el.getAlignment();
-                an = this._page.el.anchorCache;
-                break;
-        }
-        this._mover.reset(al, cx, cy, ox, oy, an);
+        /**
+         * Developers Note:
+         * Wait until all mouse related callbacks have fired before locking the
+         * layout. This gives applications using this library a chance to
+         * update the layout in other handlers before the drag event officially
+         * starts. Ideally, an application shouldn't update the layout during a
+         * drag operation. I'll refactor this in the future to improve the
+         * coordination constructs between library and application.
+         */
+        setTimeout(() => {
+            this._layoutLocked = true;
+            let s = event.subject as DragAction;
+            let cx = this._transform.invertX(event.x);
+            let cy = this._transform.invertY(event.y);
+            let ox = 0;
+            let oy = 0;
+            let al = Alignment.Free;
+            let an = undefined;
+            switch(s.type) {
+                case DragActionType.Move:
+                    for(let obj of s.objs) {
+                        ox += obj.x;
+                        oy += obj.y;
+                        al = Math.max(al, obj.el.getAlignment());
+                    }
+                    ox /= s.objs.length;
+                    oy /= s.objs.length;
+                    break;
+                case DragActionType.CreateLine:
+                    s.parent.children.push(s.line);
+                case DragActionType.MoveAnchorable:
+                    ox = s.obj.x;
+                    oy = s.obj.y;
+                    al = s.obj.el.getAlignment();
+                    an = this._page.el.anchorCache;
+                    break;
+            }
+            this._mover.reset(al, cx, cy, ox, oy, an);
+        }, 0);
     }
 
     /**

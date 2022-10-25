@@ -3,7 +3,8 @@ import * as App from "@/store/Commands/AppCommands";
 import * as Page from "@/store/Commands/PageCommands";
 import { Module } from "vuex";
 import { ContextMenuStore, ModuleStore } from "../StoreTypes";
-import { ContextMenu, ContextMenuSection, MenuType } from "@/assets/scripts/ContextMenuTypes";
+import { ContextMenu, ContextMenuSection, ContextMenuSubmenu, MenuType } from "@/assets/scripts/ContextMenuTypes";
+import { Namespace, titleCase } from "@/assets/scripts/BlockDiagram";
 
 export default {
     namespaced: true,
@@ -364,28 +365,37 @@ export default {
         createMenu(_s, _g, rootState): ContextMenuSection {
             let ctx = rootState.ApplicationStore;
             let page = ctx.activePage.page;
-            // Compile blocks
-            let blocks: ContextMenu[] = [];
-            for(let template of page.factory.getBlockTemplates()) {
-                blocks.push({
-                    text: template.name,
-                    type: MenuType.Item,
-                    data: () => new Page.SpawnObject(
-                        ctx, page, template.id
-                    ),
-                });
-            }
-            // Compile lines
-            let lines: ContextMenu[] = [];
-            for(let template of page.factory.getLineTemplates()) {
-                lines.push({
-                    text: template.name,
-                    type: MenuType.Item,
-                    data: () => new Page.SpawnObject(
-                        ctx, page, template.id
-                    ),
-                })
-            }
+            
+            // Build menu
+            let root = page.factory.getNamespace().get("@")! as Namespace;
+            let menu = (function formatMenu(key: string, value: Namespace): ContextMenuSubmenu {
+                let sm: ContextMenuSubmenu = {
+                    text: titleCase(key),
+                    type: MenuType.Submenu,
+                    sections: [
+                        { id: "submenus", items: [] },
+                        { id: "options",  items: [] }
+                    ]
+                }
+                for(let [k, v] of value) {
+                    if(typeof v !== "string") {
+                        sm.sections[0].items.push(
+                            formatMenu(k, v)
+                        );
+                    } else {
+                        sm.sections[1].items.push({
+                            text: titleCase(k),
+                            type: MenuType.Item,
+                            data: () => new Page.SpawnObject(
+                                ctx, page, v as string
+                            ),
+                        });
+                    }
+                }
+                sm.sections = sm.sections.filter(s => 0 < s.items.length)
+                return sm;
+            })("@", root);
+            
             // Return menu
             return {
                 id: "create_options",
@@ -393,13 +403,11 @@ export default {
                     {
                         text: "Create",
                         type: MenuType.Submenu,
-                        sections: [
-                            { id: "blocks", items: blocks },
-                            { id: "lines",  items: lines }
-                        ]
+                        sections: menu.sections
                     }
                 ]
             };
+
         },
 
 
@@ -743,7 +751,7 @@ export default {
          */
         helpMenu(_s, _g, rootState): ContextMenu {
             let ctx = rootState.ApplicationStore;
-            let links = Configuration.help_links;
+            let links = Configuration.menus.help_menu.help_links;
             // Links
             let items: ContextMenu[] = links.map(link => ({
                 text: link.text,

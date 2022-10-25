@@ -66,7 +66,6 @@ export class PageModel extends DiagramRootModel {
             DiagramFactory.createDummy(),
             { 
                 id: "",
-                name: "",
                 type: TemplateType.Page, 
                 role: SemanticRole.None,
                 grid: [10, 10],

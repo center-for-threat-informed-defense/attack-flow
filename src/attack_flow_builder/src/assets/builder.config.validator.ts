@@ -72,7 +72,7 @@ class AttackFlowValidator extends DiagramValidator {
             case PropertyType.Date:
             case PropertyType.Enum:
                 if((value.descriptor as any).is_required && !value.isDefined()) {
-                    this.addError(node, `Missing required field: ${name}`);
+                    this.addError(node, `Missing required field: '${name}'`);
                 }
                 break;
             case PropertyType.Dictionary:
@@ -86,7 +86,7 @@ class AttackFlowValidator extends DiagramValidator {
                 if(value instanceof ListProperty) {
                     for(let [k, v] of value.value) {
                         if((v.descriptor as any).is_required && !v.isDefined()) {
-                            this.addError(node, `Empty item in list: ${name}.`);
+                            this.addError(node, `Empty item in list: '${name}'.`);
                         }
                     }
                 }

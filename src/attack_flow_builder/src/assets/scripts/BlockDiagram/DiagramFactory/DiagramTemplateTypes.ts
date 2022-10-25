@@ -59,7 +59,7 @@ export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
 
 export type ObjectTemplate = {
     id: string;
-    name: string;
+    namespace?: string,
     properties?: RootPropertyDescriptor
 }
 

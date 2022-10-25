@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, markRaw, PropType, ref } from "vue";
 import { clamp, NumberProperty, PropertyType } from "@/assets/scripts/BlockDiagram";
 
 export default defineComponent({
@@ -34,7 +34,8 @@ export default defineComponent({
   },
   data() {
     return {
-      value: ""
+      value: "",
+      activeProperty: markRaw(this.property)
     }
   },
   computed: {
@@ -45,8 +46,8 @@ export default defineComponent({
      *  The property.
      */
     _property(): NumberProperty {
-      let trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property; 
+      let trigger = this.activeProperty.trigger.value;
+      return trigger ? this.activeProperty : this.activeProperty; 
     },
     
     /**
@@ -150,12 +151,20 @@ export default defineComponent({
   },
   emits: ["change"],
   watch: {
+    "property"() {
+      this.updateProperty();
+      this.activeProperty = markRaw(this.property);
+      this.refreshValue();
+    },
     "_property.trigger.value"() {
       this.refreshValue();
     }
   },
   mounted() {
     this.refreshValue();
+  },
+  unmounted() {
+    this.updateProperty();
   }
 });
 </script>
@@ -194,6 +203,7 @@ input {
 
 input::placeholder {
   color: #999;
+  opacity: 1;
 }
 
 input:focus {

@@ -124,7 +124,7 @@ export const BaseAppSettings: AppSettings = {
 }
 
 /**
- * App Settings file
+ * App Settings File
  */
 export type AppSettings = {
     file: {
@@ -236,14 +236,18 @@ export type SelectHotkeys = {
 
 
 /**
- * The application's configuration
+ * App Configuration File
  */
 export type AppConfiguration = {
+    is_web_hosted: boolean,
     file_type_name: string,
     file_type_extension: string,
-    is_web_hosted: boolean
     schema: BlockDiagramSchema,
-    help_links: { text: string, url: string }[],
+    menus: {
+        help_menu: {
+            help_links: { text: string, url: string }[]
+        }
+    },
     validator?: typeof DiagramValidator,
     publisher?: typeof DiagramPublisher
 }

@@ -62,8 +62,7 @@ export default defineComponent({
       try {
         let cmd = emitter();
         if(cmd instanceof Promise) {
-          let test = await cmd;
-          this.execute(test);
+          this.execute(await cmd);
         } else {
           this.execute(cmd);
         }

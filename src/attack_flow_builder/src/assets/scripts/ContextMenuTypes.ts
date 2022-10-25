@@ -51,8 +51,8 @@ export interface ContextMenuItem extends ContextMenuBase<MenuType.Item> {
 
 export interface ContextMenuToggleItem extends ContextMenuBase<MenuType.Toggle> {
     data: any
-    shortcut?: string,
     value: boolean,
+    shortcut?: string,
     keepMenuOpenOnSelect?: boolean
 }
 

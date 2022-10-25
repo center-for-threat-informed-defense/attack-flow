@@ -1,8 +1,8 @@
 import { 
     CollectionProperty,
     DictionaryPropertyDescriptor,
-    Property,
-    RawEntries
+    ListValue,
+    Property
 } from ".";
 
 export class DictionaryProperty extends CollectionProperty {
@@ -30,7 +30,7 @@ export class DictionaryProperty extends CollectionProperty {
     constructor(
         parent: CollectionProperty | undefined,
         descriptor: DictionaryPropertyDescriptor,
-        values?: RawEntries
+        values?: ListValue
     ) {
         super(parent, descriptor);
         this.descriptor = descriptor;
@@ -39,7 +39,14 @@ export class DictionaryProperty extends CollectionProperty {
         this.value = new Map();
         for(let key in descriptor.form) {
             // Create property
-            let val = values?.find(o => o[0] === key)?.at(1);
+            let val;
+            if(!values) {
+                val = undefined;
+            } else if(Array.isArray(values)) {
+                val = values.find(o => o[0] === key);
+            } else {
+                val = values[key]
+            }
             let prop = Property.create(this, descriptor.form[key], val);
             // Add property
             this.value.set(key, prop);

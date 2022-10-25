@@ -133,41 +133,25 @@ export class DiagramFactory {
     }
 
     /**
-     * Returns all block templates.
-     * @returns 
-     *  All block templates.
+     * Returns the factory's namespace.
+     * @return
+     *  The factory's namespace.
      */
-    public getBlockTemplates(): Template[] {
-        let templates = [];
-        for(let template of this.templates.values()) {
-            switch(template.type) {
-                case TemplateType.BranchBlock:
-                case TemplateType.DictionaryBlock:
-                case TemplateType.TextBlock:
-                    templates.push(template);
-                    break;
-                
+    public getNamespace(): Namespace {
+        let ns: Namespace = new Map([["@", new Map()]]);
+        for(let value of this.templates.values()) {
+            if(value.namespace === undefined)
+                continue;
+            let path = ["@", ...value.namespace.split(".")];
+            for(var i = 0, _ns = ns; i < path.length - 1; i++) {
+                if(!_ns.has(path[i])) {
+                    _ns.set(path[i], new Map())
+                }
+                _ns = _ns.get(path[i])! as Namespace;
             }
+            _ns.set(path[i], value.id);
         }
-        return templates;
-    }
-
-    /**
-     * Returns all line templates.
-     * @returns 
-     *  All line templates.
-     */
-    public getLineTemplates(): Template[] {
-        let templates = [];
-        for(let template of this.templates.values()) {
-            switch(template.type) {
-                case TemplateType.LineVerticalElbow:
-                case TemplateType.LineHorizontalElbow:
-                    templates.push(template);
-                    break;
-            }
-        }
-        return templates;
+        return ns;
     }
 
     
@@ -404,3 +388,5 @@ export class DiagramFactory {
     }
 
 }
+
+export type Namespace = Map<string, Namespace | string>;

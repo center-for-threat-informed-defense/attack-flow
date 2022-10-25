@@ -101,8 +101,9 @@ export default defineComponent({
   color: #d9d9d9;
   font-size: 10pt;
   user-select: none;
-  height: 27px;
-  padding: 0px 16px;
+  min-height: 27px;
+  padding: 5px 16px;
+  box-sizing: border-box;
   cursor: pointer;
 }
 

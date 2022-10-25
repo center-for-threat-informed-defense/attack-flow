@@ -22,6 +22,7 @@ import { mapGetters, mapMutations, mapState } from "vuex";
 import {
   ContextMenu as Menu,
   ContextMenuSection,
+  ContextMenuSubmenu,
   MenuType
 } from "@/assets/scripts/ContextMenuTypes";
 import { 
@@ -31,7 +32,9 @@ import {
   DiagramAnchorModel,
   DiagramLineModel,
   DiagramObjectModel,
-  MouseClick
+  MouseClick,
+  Namespace,
+  titleCase
 } from "@/assets/scripts/BlockDiagram";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
@@ -167,30 +170,11 @@ export default defineComponent({
      */
     createMenu(): ContextMenuSection {
       let factory = this.editor.page.factory;
-      // Compile blocks
-      let blocks: Menu[] = [];
-      for(let template of factory.getBlockTemplates()) {
-        blocks.push({
-          text: template.name,
-          type: MenuType.Item,
-          data: () => new Page.SpawnObject(
-            this.ctx, this.editor.page, template.id,
-            this.menu.x, this.menu.y
-          ),
-        });
-      }
-      // Compile lines
-      let lines: Menu[] = [];
-      for(let template of factory.getLineTemplates()) {
-        lines.push({
-          text: template.name,
-          type: MenuType.Item,
-          data: () => new Page.SpawnObject(
-            this.ctx, this.editor.page, template.id,
-            this.menu.x, this.menu.y
-          ),
-        })
-      }
+
+      // Build menu
+      let root = factory.getNamespace().get("@")! as Namespace;
+      let menu = this.formatCreateMenu("@", root);
+
       // Return menu
       return {
         id: "create_options",
@@ -198,13 +182,11 @@ export default defineComponent({
           {
             text: "Create",
             type: MenuType.Submenu,
-            sections: [
-              { id: "blocks", items: blocks },
-              { id: "lines",  items: lines }
-            ]
+            sections: menu.sections
           }
         ]
       };
+
     }
 
   },
@@ -216,6 +198,51 @@ export default defineComponent({
     ...mapMutations("ApplicationStore", ["execute"]),
 
     /**
+     * Formats a create submenu from a namespace.
+     * @param key
+     *  The namespace's key.
+     * @param value
+     *  The namespace.
+     * @returns
+     *  The formatted submenu.
+     */
+    formatCreateMenu(key: string, value: Namespace): ContextMenuSubmenu {
+
+      /**
+       * TODO:
+       * Store last clicked location in PageEditor, move this menu back into
+       * ContextMenuStore.
+       */
+
+      let sm: ContextMenuSubmenu = {
+        text: titleCase(key),
+        type: MenuType.Submenu,
+        sections: [
+          { id: "submenus", items: [] },
+          { id: "options",  items: [] }
+        ]
+      }
+      for(let [k, v] of value) {
+        if(typeof v !== "string") {
+          sm.sections[0].items.push(
+            this.formatCreateMenu(k, v)
+          );
+        } else {
+          sm.sections[1].items.push({
+            text: titleCase(k),
+            type: MenuType.Item,
+            data: () => new Page.SpawnObject(
+              this.ctx, this.editor.page, v as string,
+              this.menu.x, this.menu.y
+            ),
+          });
+        }
+      }
+      sm.sections = sm.sections.filter(s => 0 < s.items.length)
+      return sm;
+    },
+
+    /**
      * Menu item selection behavior.
      * @param emitter
      *  Menu item's command emitter.
@@ -224,8 +251,7 @@ export default defineComponent({
       try {
         let cmd = emitter();
         if(cmd instanceof Promise) {
-          let test = await cmd;
-          this.execute(test);
+          this.execute(await cmd);
         } else {
           this.execute(cmd);
         }

@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { DateProperty } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, markRaw, PropType, ref } from "vue";
 
 const Segment = [
   "M", "D", "Y",
@@ -89,7 +89,8 @@ export default defineComponent({
       value_H: "",
       value_m: "",
       value_s: "",
-      showEditor: false
+      showEditor: false,
+      activeProperty: markRaw(this.property)
     }
   },
   computed: {
@@ -100,8 +101,8 @@ export default defineComponent({
      *  The property.
      */
     _property(): DateProperty {
-      let trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property; 
+      let trigger = this.activeProperty.trigger.value;
+      return trigger ? this.activeProperty : this.activeProperty;
     },
 
     /**
@@ -344,12 +345,20 @@ export default defineComponent({
   },
   emits: ["change"],
   watch: {
+    "property"() {
+      this.updateProperty();
+      this.activeProperty = markRaw(this.property);
+      this.refreshValue();
+    },
     "_property.trigger.value"() {
       this.refreshValue();
     }
   },
   mounted() {
     this.refreshValue();
+  },
+  unmounted() {
+    this.updateProperty();
   }
 });
 </script>
@@ -403,6 +412,7 @@ input {
 
 input::placeholder {
   color: #999;
+  opacity: 1;
 }
 
 input:focus {

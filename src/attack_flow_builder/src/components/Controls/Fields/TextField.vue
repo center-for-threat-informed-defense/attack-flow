@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { StringProperty } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, markRaw, PropType, ref } from "vue";
 
 export default defineComponent({
   name: "TextField",
@@ -42,8 +42,8 @@ export default defineComponent({
     return {
       sto: 0,
       value: "",
-      cache: "",
-      showPlaceholder: true
+      showPlaceholder: true,
+      activeProperty: markRaw(this.property)
     }
   },
   computed: {
@@ -54,8 +54,8 @@ export default defineComponent({
      *  The property.
      */
     _property(): StringProperty {
-      let trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property; 
+      let trigger = this.activeProperty.trigger.value;
+      return trigger ? this.activeProperty : this.activeProperty; 
     },
 
     /**
@@ -86,7 +86,7 @@ export default defineComponent({
       // Clear timeout
       clearTimeout(this.sto)
       // Update cached value
-      this.cache = this.field!.innerText;
+      this.value = this.field!.innerText;
       // Configure timeout
       this.sto = setTimeout(() => {
         this.updateProperty();
@@ -109,7 +109,7 @@ export default defineComponent({
      * Updates the field's property value.
      */
     updateProperty() {
-      let value = this.cache || null;
+      let value = this.value || null;
       if(this._property.toRawValue() !== value) {
         // Update property
         this.$emit("change", this._property, value);
@@ -123,23 +123,27 @@ export default defineComponent({
      * Updates the field's text value.
      */
     refreshValue() {
-      let raw = this._property.toRawValue();
-      if(this.field !== document.activeElement) {
-        this.value = raw ?? "";
-      }
-      this.cache = raw ?? "";
-      this.showPlaceholder = raw === null;
+      this.value = this._property.toRawValue() || "";
+      this.showPlaceholder = this.value === "";
     }
 
   },
   emits: ["change"],
   watch: {
+    "property"() {
+        this.updateProperty();
+        this.activeProperty = markRaw(this.property);
+        this.refreshValue();
+    },
     "_property.trigger.value"() {
       this.refreshValue();
     }
   },
   mounted() {
     this.refreshValue();
+  },
+  unmounted() {
+    this.updateProperty();
   }
 });
 </script>
