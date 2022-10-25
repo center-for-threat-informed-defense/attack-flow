@@ -220,7 +220,7 @@ and view the documentation:
 .. code:: bash
 
     $ make docs-server
-    [sphinx-autobuild] > sphinx-build -b dirhtml -a /Volumes/Code/ctid/attack-flow-private/docs /Volumes/Code/ctid/attack-flow-private/docs/_build
+    [sphinx-autobuild] > sphinx-build -b dirhtml -a /Volumes/Code/ctid/attack-flow/docs /Volumes/Code/ctid/attack-flow/docs/_build
     Running Sphinx v4.5.0
     loading pickled environment... done
     building [mo]: all of 0 po files

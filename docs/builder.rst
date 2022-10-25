@@ -109,9 +109,9 @@ locally `using Docker <https://www.docker.com/>`__ as shown below.
 
 .. code:: shell
 
-   $ docker pull ghcr.io/center-for-threat-informed-defense/attack-flow-private:main
+   $ docker pull ghcr.io/center-for-threat-informed-defense/attack-flow:main
    $ docker run --name AttackFlowBuilder \
-      ghcr.io/center-for-threat-informed-defense/attack-flow-private:main
+      ghcr.io/center-for-threat-informed-defense/attack-flow:main
 
 Once the container is running, you can open a brower tab to http://localhost:8080/ to
 view the Builder.
