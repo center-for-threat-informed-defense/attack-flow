@@ -209,7 +209,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.TextBlock({ ...Colors.Red, horizontal_padding: 35 })
             },
             {
-                id: "attack_pattern",
+                id: "attack-pattern",
                 namespace: "stix_object.attack_pattern",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -239,7 +239,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "course_of_action",
+                id: "course-of-action",
                 namespace: "stix_object.course_of_action",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -319,7 +319,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "intrusion_set",
+                id: "intrusion-set",
                 namespace: "stix_object.intrusion_set",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -414,7 +414,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "observed_data",
+                id: "observed-data",
                 namespace: "stix_object.observed_data",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -454,7 +454,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "threat_actor",
+                id: "threat-actor",
                 namespace: "stix_object.threat_actor",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -521,7 +521,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "autonomous_system",
+                id: "autonomous-system",
                 namespace: "stix_observable.autonomous_system",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -549,7 +549,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "domain_name",
+                id: "domain-name",
                 namespace: "stix_observable.domain_name",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -572,7 +572,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "email_message",
+                id: "email-message",
                 namespace: "stix_observable.email_message",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -610,7 +610,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "ipv4_address",
+                id: "ipv4-address",
                 namespace: "stix_observable.ipv4_address",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -621,7 +621,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "ipv6_address",
+                id: "ipv6-address",
                 namespace: "stix_observable.ipv6_address",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -632,7 +632,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "mac_address",
+                id: "mac-address",
                 namespace: "stix_observable.mac_address",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -654,7 +654,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "network_traffic",
+                id: "network-traffic",
                 namespace: "stix_observable.network_traffic",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -717,7 +717,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "user_account",
+                id: "user-account",
                 namespace: "stix_observable.user_account",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -741,7 +741,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "windows_registry_key",
+                id: "windows-registry-key",
                 namespace: "stix_observable.windows_registry_key",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
@@ -755,7 +755,7 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "x509_certificate",
+                id: "x509-certificate",
                 namespace: "stix_observable.x509_certificate",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,

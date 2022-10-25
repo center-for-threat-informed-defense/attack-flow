@@ -290,6 +290,9 @@
           "technique_ref": {
             "type": 2
           },
+          "description": {
+            "type": 2
+          },
           "confidence": {
             "type": 4,
             "options": {
@@ -365,9 +368,6 @@
           },
           "execution_end": {
             "type": 3
-          },
-          "description": {
-            "type": 2
           }
         },
         "anchor_template": "@__builtin__anchor",
@@ -732,7 +732,7 @@
         }
       },
       {
-        "id": "attack_pattern",
+        "id": "attack-pattern",
         "namespace": "stix_object.attack_pattern",
         "type": 2,
         "role": 4096,
@@ -937,7 +937,7 @@
         }
       },
       {
-        "id": "course_of_action",
+        "id": "course-of-action",
         "namespace": "stix_object.course_of_action",
         "type": 2,
         "role": 4096,
@@ -1471,7 +1471,7 @@
         }
       },
       {
-        "id": "intrusion_set",
+        "id": "intrusion-set",
         "namespace": "stix_object.intrusion_set",
         "type": 2,
         "role": 4096,
@@ -2062,7 +2062,7 @@
         }
       },
       {
-        "id": "observed_data",
+        "id": "observed-data",
         "namespace": "stix_object.observed_data",
         "type": 2,
         "role": 4096,
@@ -2351,7 +2351,7 @@
         }
       },
       {
-        "id": "threat_actor",
+        "id": "threat-actor",
         "namespace": "stix_object.threat_actor",
         "type": 2,
         "role": 4096,
@@ -2404,7 +2404,7 @@
           "primary_motivation": {
             "type": 2
           },
-          "secondary_motivation": {
+          "secondary_motivations": {
             "type": 5,
             "form": {
               "type": 2
@@ -2791,7 +2791,7 @@
         }
       },
       {
-        "id": "autonomous_system",
+        "id": "autonomous-system",
         "namespace": "stix_observable.autonomous_system",
         "type": 2,
         "role": 4096,
@@ -2981,7 +2981,7 @@
         }
       },
       {
-        "id": "domain_name",
+        "id": "domain-name",
         "namespace": "stix_observable.domain_name",
         "type": 2,
         "role": 4096,
@@ -3154,7 +3154,7 @@
         }
       },
       {
-        "id": "email_message",
+        "id": "email-message",
         "namespace": "stix_observable.email_message",
         "type": 2,
         "role": 4096,
@@ -3373,7 +3373,7 @@
         }
       },
       {
-        "id": "ipv4_address",
+        "id": "ipv4-address",
         "namespace": "stix_observable.ipv4_address",
         "type": 2,
         "role": 4096,
@@ -3458,7 +3458,7 @@
         }
       },
       {
-        "id": "ipv6_address",
+        "id": "ipv6-address",
         "namespace": "stix_observable.ipv6_address",
         "type": 2,
         "role": 4096,
@@ -3543,7 +3543,7 @@
         }
       },
       {
-        "id": "mac_address",
+        "id": "mac-address",
         "namespace": "stix_observable.mac_address",
         "type": 2,
         "role": 4096,
@@ -3713,7 +3713,7 @@
         }
       },
       {
-        "id": "network_traffic",
+        "id": "network-traffic",
         "namespace": "stix_observable.network_traffic",
         "type": 2,
         "role": 4096,
@@ -3753,10 +3753,12 @@
             "min": 0
           },
           "src_packets": {
-            "type": 2
+            "type": 0,
+            "min": 0
           },
           "dst_packets": {
-            "type": 2
+            "type": 0,
+            "min": 0
           },
           "ipfix": {
             "type": 2
@@ -4124,7 +4126,7 @@
         }
       },
       {
-        "id": "user_account",
+        "id": "user-account",
         "namespace": "stix_observable.user_account",
         "type": 2,
         "role": 4096,
@@ -4249,17 +4251,16 @@
         }
       },
       {
-        "id": "windows_registry_key",
+        "id": "windows-registry-key",
         "namespace": "stix_observable.windows_registry_key",
         "type": 2,
         "role": 4096,
         "properties": {
           "key": {
             "type": 2,
-            "is_primary": true,
-            "is_required": true
+            "is_primary": true
           },
-          "value": {
+          "values": {
             "type": 5,
             "form": {
               "type": 2
@@ -4348,7 +4349,7 @@
         }
       },
       {
-        "id": "x509_certificate",
+        "id": "x509-certificate",
         "namespace": "stix_observable.x509_certificate",
         "type": 2,
         "role": 4096,
