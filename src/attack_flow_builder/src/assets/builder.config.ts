@@ -2,7 +2,7 @@ import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
 import { AppConfiguration } from "@/store/StoreTypes";
 import { Colors, DarkTheme } from "./scripts/BlockDiagram/DiagramFactory/Themes";
-import { 
+import {
     AnchorAngle,
     PropertyType,
     SemanticRole,
@@ -24,7 +24,7 @@ const config: AppConfiguration = {
                 properties: {
                     name                      : { type: PropertyType.String, value: "Untitled Document", is_primary: true },
                     description               : { type: PropertyType.String, },
-                    scope                     : { 
+                    scope                     : {
                         type: PropertyType.Enum,
                         options: {
                             type  : PropertyType.List,
@@ -43,7 +43,7 @@ const config: AppConfiguration = {
                         type: PropertyType.Dictionary,
                         form: {
                             name           : { type: PropertyType.String, is_primary: true },
-                            identity_class : { 
+                            identity_class : {
                                 type: PropertyType.Enum,
                                 options: {
                                     type  : PropertyType.List,
@@ -59,6 +59,17 @@ const config: AppConfiguration = {
                                 }
                             },
                             contact_information: { type: PropertyType.String }
+                        }
+                    },
+                    external_references       : {
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                source_name: { type: PropertyType.String, is_primary: true, is_required: true },
+                                description: { type: PropertyType.String },
+                                url: { type: PropertyType.String },
+                            }
                         }
                     }
                 },
@@ -97,11 +108,11 @@ const config: AppConfiguration = {
                     tactic_ref                : { type: PropertyType.String },
                     technique_id              : { type: PropertyType.String },
                     technique_ref             : { type: PropertyType.String },
-                    confidence                : { 
+                    confidence                : {
                         type: PropertyType.Enum,
                         options: {
                             type  : PropertyType.List,
-                            form  : { 
+                            form  : {
                                 type: PropertyType.Dictionary,
                                 form: {
                                     text  : { type: PropertyType.String, is_primary: true },
@@ -151,7 +162,7 @@ const config: AppConfiguration = {
                     pattern_version           : { type: PropertyType.String },
                 },
                 branches: [
-                    { 
+                    {
                         text: "True",
                         anchor_template: "true_anchor",
                     },
@@ -169,7 +180,7 @@ const config: AppConfiguration = {
                 type: TemplateType.TextBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    text: { 
+                    text: {
                         type: PropertyType.String,
                         value: "AND",
                         is_primary: true,
@@ -186,7 +197,7 @@ const config: AppConfiguration = {
                 type: TemplateType.TextBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    text: { 
+                    text: {
                         type: PropertyType.String,
                         value: "AND",
                         is_primary: true,
