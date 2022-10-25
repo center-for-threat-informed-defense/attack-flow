@@ -1,15 +1,13 @@
 import { DiagramValidator } from "./scripts/DiagramValidator/DiagramValidator";
-import { DiagramObjectModel, GraphObjectExport, SemanticAnalyzer } from "./scripts/BlockDiagram";
-import {
-    PropertyType,
-    RestrictedPropertyDescriptor,
-    StringPropertyDescriptor,
-    NumberPropertyDescriptor,
-    DatePropertyDescriptor,
-    DropdownPropertyDescriptor,
-    ListPropertyDescriptor,
-    DictionaryPropertyDescriptor
-} from "./scripts/BlockDiagram/Property/PropertyDescriptorTypes";
+import { 
+    DiagramObjectModel, 
+    DictionaryProperty, 
+    GraphObjectExport, 
+    ListProperty, 
+    Property, 
+    PropertyType, 
+    SemanticAnalyzer 
+} from "./scripts/BlockDiagram";
 
 class AttackFlowValidator extends DiagramValidator {
 
@@ -31,6 +29,7 @@ class AttackFlowValidator extends DiagramValidator {
         for (let edge of graph.edges) {
             this.checkEdge(edge);
         }
+
     }
 
     /**
@@ -40,7 +39,7 @@ class AttackFlowValidator extends DiagramValidator {
      */
     protected checkEdge(edge: GraphObjectExport) {
         if (edge.prev.length === 0 || edge.next.length === 0) {
-            this.addError(edge, "This edge must be connected on both ends.");
+            this.addWarning(edge, "Edges should be connected on both ends.");
         }
     }
 
@@ -50,11 +49,9 @@ class AttackFlowValidator extends DiagramValidator {
      * @param node
      */
     protected checkNode(node: GraphObjectExport) {
-        const propertyDefs = node.template.properties;
-
-        for (const [key, value] of node.data.properties) {
+        for (const [key, value] of node.data.value) {
             if (node.template.properties) {
-                this.checkProperty(node, key, value, node.template.properties[key])
+                this.checkProperty(node, key, value)
             }
         }
     }
@@ -67,104 +64,36 @@ class AttackFlowValidator extends DiagramValidator {
      * @param value - The property value
      * @param prop - The property descriptor
      */
-    protected checkProperty(node: GraphObjectExport, name: string, value: number|string|Date, prop: RestrictedPropertyDescriptor) {
-        switch (prop.type) {
+    protected checkProperty(node: GraphObjectExport, name: string, value: Property) {
+        switch (value.type) {
             case PropertyType.Int:
-                this.checkIntProperty(node, name, value as number, prop as NumberPropertyDescriptor);
-                break;
             case PropertyType.Float:
-                this.checkFloatProperty(node, name, value as number, prop as NumberPropertyDescriptor);
-                break;
             case PropertyType.String:
-                this.checkStringProperty(node, name, value as string, prop as StringPropertyDescriptor);
-                break;
             case PropertyType.Date:
-                this.checkDateProperty(node, name, value as Date, prop as DatePropertyDescriptor);
+            case PropertyType.Enum:
+                if((value.descriptor as any).is_required && !value.isDefined()) {
+                    this.addError(node, `Missing required field: '${name}'`);
+                }
                 break;
-            case PropertyType.Dropdown:
-                this.checkDropdownProperty(node, name, value as number, prop as DropdownPropertyDescriptor);
+            case PropertyType.Dictionary:
+                if(value instanceof DictionaryProperty) {
+                    for(let [k, v] of value.value) {
+                        this.checkProperty(node, k, v);
+                    }
+                }
                 break;
-            // TODO implement these types:
-            // case PropertyType.List:
-            //     this.checkListProperty(node, name, values, prop as ListPropertyDescriptor);
-            //     break;
-            // case PropertyType.Dictionary:
-            //     this.checkDictionaryProperty(node, name, values, prop as DictionaryPropertyDescriptor);
-            //     break;
+            case PropertyType.List:
+                if(value instanceof ListProperty) {
+                    for(let [k, v] of value.value) {
+                        if((v.descriptor as any).is_required && !v.isDefined()) {
+                            this.addError(node, `Empty item in list: '${name}'.`);
+                        }
+                    }
+                }
+                break;
         }
     }
 
-    /**
-     * Check a value against a property descriptor.
-     *
-     * @param node - The node associated with this value
-     * @param name - The property name
-     * @param value - The property value
-     * @param prop - The property descriptor
-     */
-    protected checkIntProperty(node: GraphObjectExport, name: string, value: number, prop: NumberPropertyDescriptor) {
-        if (prop.is_required && value === null) {
-            this.addError(node, `Missing required field: ${name}`);
-        }
-    }
-
-    /**
-     * Check a value against a property descriptor.
-     *
-     * @param node - The node associated with this value
-     * @param name - The property name
-     * @param value - The property value
-     * @param prop - The property descriptor
-     */
-    protected checkFloatProperty(node: GraphObjectExport, name: string, value: number, prop: NumberPropertyDescriptor) {
-        if (prop.is_required && value === null) {
-            this.addError(node, `Missing required field: ${name}`);
-        }
-    }
-
-    /**
-     * Check a value against a property descriptor.
-     *
-     * @param node - The node associated with this value
-     * @param name - The property name
-     * @param value - The property value
-     * @param prop - The property descriptor
-     */
-    protected checkStringProperty(node: GraphObjectExport, name: string, value: string, prop: StringPropertyDescriptor) {
-        if (prop.is_required && (value === null || value.trim().length == 0)) {
-            this.addError(node, `Missing required field: ${name}`);
-        }
-    }
-
-    /**
-     * Check a value against a property descriptor.
-     *
-     * @param node - The node associated with this value
-     * @param name - The property name
-     * @param value - The property value
-     * @param prop - The property descriptor
-     */
-    protected checkDateProperty(node: GraphObjectExport, name: string, value: Date,
-        prop: DatePropertyDescriptor) {
-        if (prop.is_required && value === null) {
-            this.addError(node, `Missing required field: ${name}`);
-        }
-    }
-
-    /**
-     * Check a value against a property descriptor.
-     *
-     * @param node - The node associated with this value
-     * @param name - The property name
-     * @param value - The property value
-     * @param prop - The property descriptor
-     */
-    protected checkDropdownProperty(node: GraphObjectExport, name: string, value: number,
-        prop: DropdownPropertyDescriptor) {
-        if (prop.is_required && value === null) {
-            this.addError(node, `Missing required field: ${name}`);
-        }
-    }
 }
 
 export default AttackFlowValidator;

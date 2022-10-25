@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { Hotkey, HotkeyObserver } from "@/assets/scripts/HotkeyObserver";
-import { defineComponent, markRaw, PropType, provide } from "vue";
+import { defineComponent, markRaw, PropType } from "vue";
 
 export default defineComponent({
   name: "HotkeyBox",
@@ -34,9 +34,13 @@ export default defineComponent({
   },
   props: {
     hotkeys: {
-      type: Array as PropType<Hotkey[]>,
+      type: Array as PropType<Hotkey<any>[]>,
       default: [],
     },
+    global: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -53,9 +57,12 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.observer.observe(this.$el);
+    this.observer.observe(this.global ? document.body : this.$el);
     this.observer.setHotkeys(this.hotkeys);
   },
+  unmounted() {
+    this.observer.disconnect();
+  }
 });
 </script>
 

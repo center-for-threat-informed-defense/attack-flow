@@ -1,3 +1,4 @@
+import { RootProperty } from "../Property"
 import { ObjectTemplate } from "../DiagramFactory"
 
 export type GraphExport = {
@@ -29,7 +30,7 @@ export type GraphObjectExport = {
     /**
      * The object's semantic data.
      */
-    data: any
+    data: RootProperty
 
     /**
      * The object's parents.

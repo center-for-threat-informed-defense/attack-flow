@@ -1,5 +1,5 @@
-import { computeHash } from "../Utilities";
-import { RasterCache } from "../Diagram/RasterCache";
+import { Font, titleCase } from "../Utilities";
+import { RasterCache } from "../DiagramElement/RasterCache";
 import { DictionaryBlockView } from "../DiagramViewTypes";
 import {
     AnchorPointModel,
@@ -13,7 +13,11 @@ import {
     DictionaryBlockStyle,
     DictionaryBlockTemplate
 } from "../DiagramFactory";
-import { Alignment, Cursor, InheritAlignment } from "../Attributes";
+import {
+    Alignment,
+    Cursor,
+    InheritAlignment
+} from "../Attributes";
 
 export class DictionaryBlockModel extends DiagramObjectModel {
 
@@ -66,8 +70,12 @@ export class DictionaryBlockModel extends DiagramObjectModel {
                 this.addChild(anchor, i, false);
             }
         }
+        // Property configuration
+        this.props.onUpdate(() => {
+            this.updateLayout(LayoutUpdateReason.PropUpdate);
+        });
         // Update Layout
-        this.updateLayout(LayoutUpdateReason.ObjectInit);
+        this.updateLayout(LayoutUpdateReason.Initialization);
     }
     
 
@@ -118,31 +126,34 @@ export class DictionaryBlockModel extends DiagramObjectModel {
      *  (Default: true)
      */
     public override updateLayout(reasons: number, updateParent: boolean = true) {
-        let contentHash = this.props.getHash();
+        let contentHash = this.props.toHashValue();
+        let contentChanged = this.layout.contentHash !== contentHash;
+        let fullLayoutRequired = reasons & LayoutUpdateReason.Initialization;
+        
+        // Update layout
+        if(fullLayoutRequired || contentChanged) {
 
-        // Update layout (if content has changed)
-        if(this.layout.contentHash !== contentHash) {
-
-            let { max_width, head, body, horizontal_padding } = this.style;
-            let tf = head.title;
-            let sbf = head.subtitle;
+            let {
+                max_width,
+                head,
+                body,
+                horizontal_padding
+            } = this.style;
             let fnf = body.field_name;
             let fvf = body.field_value;
+            let text: TextSet[] = [];
             let strokeWidth = 1;
-            let titleFont: TextPlacement[] = [];
-            let subtitleFont: TextPlacement[] = [];
-            let fieldNameFont: TextPlacement[] = [];
-            let fieldValueFont: TextPlacement[] = [];
-
+            
             // Configure title and subtitle
-            let tk = this.template.title_key;
-            let prop = this.props.value.get(tk);
-            let titleText = this.template.name.toLocaleUpperCase();
-            let subtitleText = prop?.toString() ?? `Unknown key: '${ tk }'`;
+            let titleText = titleCase(this.template.id).toLocaleUpperCase();
+            let subtitleText = this.props.isDefined() ? this.props.toString() : "";
+            let hasSubtitle = subtitleText !== "";
+            let hasBody = this.hasFields();
+            let tf = (hasSubtitle ? head.two_title : head.one_title).title;
 
             // Calculate max width
             let mw = max_width;
-            mw = Math.max(mw, head.title.font.measureWidth(titleText));
+            mw = Math.max(mw, tf.font.measureWidth(titleText));
             for(let key of this.props.value.keys()) {
                 mw = Math.max(mw, body.field_name.font.measureWidth(key));
             }
@@ -153,69 +164,117 @@ export class DictionaryBlockModel extends DiagramObjectModel {
             let x = strokeWidth + horizontal_padding;
             let y = strokeWidth + head.vertical_padding;
             
+            // Create title text set
+            let title: TextSet = {
+                font: tf.font,
+                color: tf.color,
+                text: []
+            }
+            text.push(title);
+            
             // Calculate title text
             m = tf.font.measure(titleText);
             w = Math.max(w, m.width);
             y += m.ascent;
-            titleFont.push({ x, y, t: titleText });
-            y += m.descent + head.title.padding;
+            title.text.push({ x, y, t: titleText });
+            y += m.descent + ((tf as any).padding ?? 0);
             
-            // Calculate subtitle text
-            let lines = sbf.font.wordWrap(subtitleText, mw);
-            m = sbf.font.measure(lines[0]);
-            w = Math.max(w, m.width);
-            y += m.ascent;
-            subtitleFont.push({ x, y, t: lines[0] });
-            for(let i = 1; i < lines.length; i++) {
-                m = sbf.font.measure(lines[i]);
-                w = Math.max(w, m.width);
-                y += sbf.lineHeight;
-                subtitleFont.push({ x, y, t: lines[i] });
-            }
-            y += head.vertical_padding + strokeWidth;
+            if(hasSubtitle) {
+                let stf = head.two_title.subtitle;
 
-            let headHeight = Math.round(y);
-
-            // Calculate fields
-            y += body.vertical_padding;
-            for(let [key, value] of this.props.value) {
-
-                // Ignore empty fields
-                if(value.toString() === "")
-                    continue;
-
-                // Ignore title key
-                if(key === this.template.title_key)
-                    continue;
-                key = key.toLocaleUpperCase();
-                
-                // Calculate field name text
-                m = fnf.font.measure(key);
-                w = Math.max(w, m.width);
-                y += m.ascent;
-                fieldNameFont.push({ x, y, t: key });
-                y += m.descent + body.field_name.padding;
-                
-                // Calculate field value text
-                let lines = fvf.font.wordWrap(`${ value.toString() }`, mw);
-                m = fvf.font.measure(lines[0]);
-                w = Math.max(w, m.width);
-                y += m.ascent;
-                fieldValueFont.push({ x, y, t: lines[0] });
-                for(let i = 1; i < lines.length; i++) {
-                    m = fvf.font.measure(lines[i]);
-                    w = Math.max(w, m.width);
-                    y += fvf.line_height;
-                    fieldValueFont.push({ x, y, t: lines[i] });
+                // Create subtitle text set
+                let subtitle: TextSet = {
+                    font: stf.font,
+                    color: stf.color,
+                    text: []
                 }
-                y += body.field_value.padding;
-                
+                text.push(subtitle);
+
+                // Calculate subtitle text
+                let lines = stf.font.wordWrap(subtitleText, mw);
+                m = stf.font.measure(lines[0]);
+                w = Math.max(w, m.width);
+                y += m.ascent;
+                subtitle.text.push({ x, y, t: lines[0] });
+                for(let i = 1; i < lines.length; i++) {
+                    m = stf.font.measure(lines[i]);
+                    w = Math.max(w, m.width);
+                    y += stf.line_height;
+                    subtitle.text.push({ x, y, t: lines[i] });
+                }
+
             }
-            y -= body.field_value.padding;
+
+            y += head.vertical_padding;
+
+            let headerHeight;
+            if(hasBody) {
+
+                // Create field name & value text sets
+                let fieldName: TextSet = {
+                    font: fnf.font,
+                    color: fnf.color,
+                    text: []
+                }
+                let fieldValue: TextSet = {
+                    font: fvf.font,
+                    color: fvf.color,
+                    text: []
+                }
+                text.push(fieldName);
+                text.push(fieldValue);
+
+                // Calculate fields
+                y += strokeWidth
+                headerHeight = Math.round(y);
+                y += body.vertical_padding;
+                for(let [key, value] of this.props.value) {
+
+                    // Ignore empty fields
+                    if(!value.isDefined())
+                        continue;
+
+                    // Ignore hidden fields 
+                    if(!(value.descriptor.is_visible ?? true))
+                        continue;
+                    
+                    // Ignore the primary key
+                    if(key === this.props.primaryKey)
+                        continue;
+                    
+                    // Calculate field name text
+                    key = key.toLocaleUpperCase();
+                    m = fnf.font.measure(key);
+                    w = Math.max(w, m.width);
+                    y += m.ascent;
+                    fieldName.text.push({ x, y, t: key });
+                    y += m.descent + body.field_name.padding;
+                    
+                    // Calculate field value text
+                    let lines = fvf.font.wordWrap(value.toString(), mw);
+                    m = fvf.font.measure(lines[0]);
+                    w = Math.max(w, m.width);
+                    y += m.ascent;
+                    fieldValue.text.push({ x, y, t: lines[0] });
+                    for(let i = 1; i < lines.length; i++) {
+                        m = fvf.font.measure(lines[i]);
+                        w = Math.max(w, m.width);
+                        y += fvf.line_height;
+                        fieldValue.text.push({ x, y, t: lines[i] });
+                    }
+                    y += body.field_value.padding;
+                    
+                }
+                y -= body.field_value.padding;
+                y += body.vertical_padding;
+
+            } else {
+                headerHeight = Math.round(y + strokeWidth);
+            }
 
             // Calculate block's size
-            let width = Math.round(((horizontal_padding + strokeWidth) * 2) + w);
-            let height = Math.round(y + body.vertical_padding + strokeWidth);
+            let width = Math.round(w + ((horizontal_padding + strokeWidth) * 2));
+            let height = Math.round(y + strokeWidth);
             
             // Calculate block's bounding box
             let bb = this.boundingBox;
@@ -255,11 +314,8 @@ export class DictionaryBlockModel extends DiagramObjectModel {
                 dy: yMin - bb.yMin,
                 width,
                 height,
-                headHeight,   
-                titleFont,
-                subtitleFont,
-                fieldNameFont,
-                fieldValueFont
+                headerHeight,
+                text
             };
 
         }
@@ -269,6 +325,23 @@ export class DictionaryBlockModel extends DiagramObjectModel {
             this.parent?.updateLayout(reasons);
         }
         
+    }
+
+    /**
+     * Tests if the block has defined fields.
+     * @returns
+     *  True if the block has defined fields, false otherwise.
+     */
+    public hasFields() {
+        for(let [key, value] of this.props.value) {
+            if(key === this.props.primaryKey)
+                continue;
+            if(!(value.descriptor.is_visible ?? true))
+                continue;
+            if(value.isDefined())
+                return true;
+        }
+        return false;
     }
 
     /**
@@ -320,27 +393,31 @@ type DictionaryBlockRenderLayout = {
     /**
      * The block's header height.
      */
-    headHeight: number,
+    headerHeight: number
 
     /**
-     * Text placements with the title font.
+     * The text to draw.
      */
-    titleFont: TextPlacement[],
+    text: TextSet[]
+
+}
+
+type TextSet = {
 
     /**
-     * Text placements with the subtitle font.
+     * The text's fonts.
      */
-    subtitleFont: TextPlacement[],    
-    
+    font: Font,
+
     /**
-     * Text placements with the field name font.
+     * The text's color.
      */
-    fieldNameFont: TextPlacement[],
-    
+    color: string,
+
     /**
-     * Text placements with the field value font.
+     * The text placements.
      */
-    fieldValueFont: TextPlacement[],
+    text: TextPlacement[]
 
 }
 

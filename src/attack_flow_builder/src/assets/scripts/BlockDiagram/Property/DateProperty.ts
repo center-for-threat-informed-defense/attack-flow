@@ -1,35 +1,76 @@
-import { DatePropertyDescriptor, Property } from ".";
+import { computeHash } from "../Utilities";
+import {
+    CollectionProperty,
+    DatePropertyDescriptor,
+    Property
+} from ".";
 
 export class DateProperty extends Property {
-
+    
     /**
      * The property's descriptor.
      */
-    public override descriptor: DatePropertyDescriptor;
+    public override readonly descriptor: DatePropertyDescriptor;
 
     /**
      * The property's value.
      */
-    public value: Date | null;
+    private _value: Date | null;
 
 
     /**
      * Creates a new {@link DateProperty}.
+     * @param parent
+     *  The property's parent.
      * @param descriptor
      *  The property's descriptor.
      * @param value
      *  The property's value.
      */
-    constructor(descriptor: DatePropertyDescriptor, value?: string|Date|null) {
-        super(descriptor);
+    constructor(
+        parent: CollectionProperty | undefined,
+        descriptor: DatePropertyDescriptor,
+        value?: any
+    ) {
+        super(parent, descriptor);
+        this._value = null;
         this.descriptor = descriptor;
-        if (typeof value === 'string' && value.trim() !== "") {
-            this.value = new Date(value);
+        // Resolve value
+        let v;
+        if(value === null) {
+            v = null;
         } else {
-            this.value = descriptor.value;
+            v = value ?? descriptor.value ?? null;
+        }
+        // Set value
+        if(v === null) {
+            this.setValue(null);
+        } else if(v instanceof Date || typeof v === "string") {
+            this.setValue(new Date(v));
+        } else {
+            this.setValue(new Date());
         }
     }
+    
 
+    /**
+     * Tests if the property is defined.
+     * @returns
+     *  True if the property is defined, false otherwise.
+     */
+    public isDefined(): boolean {
+        return this._value !== null;
+    }
+
+    /**
+     * Sets the property's value.
+     * @param value
+     *  The new value.
+     */
+     public setValue(value: Date | null) {
+        this._value = value;
+        this.updateProperty();
+    }
 
     /**
      * Returns the property's raw value.
@@ -37,10 +78,19 @@ export class DateProperty extends Property {
      *  The property's raw value.
      */
     public toRawValue(): string | null {
-        if (this.value) {
-            return this.value.toISOString();
+        return this._value?.toISOString() ?? null;
+    }
+
+    /**
+     * Returns the property's hashed value.
+     * @returns
+     *  The property's hashed value.
+     */
+    public toHashValue(): number {
+        if(this._value === null) {
+            return computeHash("")
         } else {
-            return null;
+            return computeHash(this._value.toString());
         }
     }
 
@@ -50,7 +100,7 @@ export class DateProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        return `${ this.value }`;
+        return `${ this._value ?? 'Null' }`;
     }
 
 }

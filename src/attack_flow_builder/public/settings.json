@@ -5,7 +5,7 @@
         }
     },
     "edit": {
-        "clone_offset": [2, 2]
+        "clone_offset": [20, 20]
     },
     "view": {
         "diagram": {

@@ -1,36 +1,46 @@
 import { DiagramPublisher } from "./scripts/DiagramPublisher/DiagramPublisher";
-import { DiagramObjectModel, GraphObjectExport, ListProperty, SemanticAnalyzer } from "./scripts/BlockDiagram";
+import { DiagramObjectModel, DictionaryProperty, GraphObjectExport, ListProperty, Property, PropertyType, SemanticAnalyzer } from "./scripts/BlockDiagram";
 
-const AttackFlowExtensionId = "fb9c968a-745b-4ade-9b25-c324172197f4";
-const AttackFlowSchemaUrl = "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json";
-const AttackFlowSchemaVersion = "2.0.0";
-const AttackFlowExtensionCreatedDate = "2022-08-02T19:34:35.143Z";
-const AttackFlowExtensionModifiedDate = AttackFlowExtensionCreatedDate;
-const AttackFlowDocsExternalReference = {
-    "source_name": "Documentation",
-    "description": "Documentation for Attack Flow",
-    "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
-};
-const AttackFlowGitHubExternalReference = {
-    "source_name": "GitHub",
-    "description": "Source code repository for Attack Flow",
-    "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
-};
-const AttackFlowExtensionCreatorName = "MITRE Engenuity Center for Threat-Informed Defense";
-const AttackFlowSdos = new Set<string>([
-    "attack-flow",
-    "attack-action",
-    "attack-asset",
-    "attack-condition",
-    "attack-operator"
-]);
-const AttackFlowTemplates: Map<string, string> = new Map([
-    ["action", "attack-action"],
-    ["asset", "attack-asset"],
-    ["condition", "attack-condition"],
-    ["or", "attack-operator"],
-    ["and", "attack-operator"],
-]);
+const AttackFlowExtensionId 
+    = "fb9c968a-745b-4ade-9b25-c324172197f4";
+const AttackFlowSchemaUrl
+    = "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json";
+const AttackFlowSchemaVersion
+    = "2.0.0";
+const AttackFlowExtensionCreatedDate
+    = "2022-08-02T19:34:35.143Z";
+const AttackFlowExtensionModifiedDate
+    = AttackFlowExtensionCreatedDate;
+const AttackFlowDocsExternalReference
+    = {
+        "source_name": "Documentation",
+        "description": "Documentation for Attack Flow",
+        "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+    };
+const AttackFlowGitHubExternalReference
+    = {
+        "source_name": "GitHub",
+        "description": "Source code repository for Attack Flow",
+        "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+    };
+const AttackFlowExtensionCreatorName
+    = "MITRE Engenuity Center for Threat-Informed Defense";
+const AttackFlowSdos
+    = new Set<string>([
+        "attack-flow",
+        "attack-action",
+        "attack-asset",
+        "attack-condition",
+        "attack-operator"
+    ]);
+const AttackFlowTemplates: Map<string, string>
+    = new Map([
+        ["action", "attack-action"],
+        ["asset", "attack-asset"],
+        ["condition", "attack-condition"],
+        ["or", "attack-operator"],
+        ["and", "attack-operator"],
+    ]);
 
 class AttackFlowPublisher extends DiagramPublisher {
 
@@ -41,7 +51,7 @@ class AttackFlowPublisher extends DiagramPublisher {
      * @returns
      *  The published diagram in text form.
      */
-    public override publish(diagram: DiagramObjectModel): string {
+     public override publish(diagram: DiagramObjectModel): string {
         const graph = SemanticAnalyzer.toGraph(diagram);
         const stixBundle = this.createStixBundle();
         // Map STIX id -> STIX node.
@@ -129,17 +139,57 @@ class AttackFlowPublisher extends DiagramPublisher {
         } else if (node.template.id === "and") {
             obj.operator = "AND";
         }
-        for (const [key, value] of node.data.properties) {
-            if (!node.template.properties) {
-                throw new Error("Cannot publish object with undefined template properties.");
-            }
-            if (typeof value === "string" && value.trim() !== "") {
-                obj[key] = value;
-            }
-            //TODO add support for arrays? do we have arrays??
-            //TODO add support for other types? check the toRawValue() methods
-        }
+        // Merge properties into stix obj
+        this.mergeDictionaryProperty(obj, node.data);
         return obj;
+    }
+
+
+    protected mergeDictionaryProperty(obj: any, property: DictionaryProperty) {
+        for(let [key, value] of property.value) {
+            switch(value.type) {
+                case PropertyType.Dictionary:
+                    if(value instanceof DictionaryProperty) {
+                        obj[key] = {};
+                        this.mergeDictionaryProperty(obj[key], value);
+                    }
+                    break;
+                case PropertyType.List:
+                    if(value instanceof ListProperty && value.isDefined()) {
+                        obj[key] = [];
+                        this.mergeListProperty(obj[key], value)
+                    }
+                    break;
+                default:
+                    if(value.isDefined()) {
+                        obj[key] = value.toRawValue();
+                    }
+                    break;
+            }
+        }
+    }
+
+    protected mergeListProperty(obj: any, property: ListProperty) {
+        for(let value of property.value.values()) {
+            switch(value.type) {
+                case PropertyType.Dictionary:
+                    if(value instanceof DictionaryProperty) {
+                        obj.push({});
+                        this.mergeDictionaryProperty(obj.at(-1), value);
+                    }
+                    break;
+                case PropertyType.List:
+                    if(value instanceof ListProperty && value.isDefined()) {
+                        obj.push([]);
+                        this.mergeListProperty(obj.at(-1), value);
+                    }
+                    break;
+                default:
+                    if(value.isDefined()) {
+                        obj.push(value.toRawValue())
+                    }
+            }
+        }
     }
 
     /**
@@ -357,10 +407,10 @@ class AttackFlowPublisher extends DiagramPublisher {
      * A generic helper for creating a SDO initialized with a few required fields.
      */
     protected createStixObj(template: string, id: string | null = null): any {
-        const type = AttackFlowTemplates.get(template) ?? template;
-        const stixId = id ?? crypto.randomUUID();
-        const now = (new Date()).toISOString();
-        const sdo: any = {
+        let type = AttackFlowTemplates.get(template) ?? template;
+        let stixId = id ?? crypto.randomUUID();
+        let now = (new Date()).toISOString();
+        let sdo: any = {
             type: type,
             id: `${type}--${stixId}`,
             spec_version: "2.1",
@@ -370,7 +420,7 @@ class AttackFlowPublisher extends DiagramPublisher {
 
         // Declare extension on Attack Flow SDOs.
         if (AttackFlowSdos.has(type)) {
-            const extDef: any = {};
+            let extDef: any = {};
             extDef[`extension-definition--${AttackFlowExtensionId}`] = {
                 extension_type: "new-sdo",
             };
@@ -426,6 +476,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         }
         return new Array<string>(...roots);
     }
+    
 }
 
 export default AttackFlowPublisher;

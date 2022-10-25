@@ -1,14 +1,16 @@
 <template>
-  <div class="object-field-contents-input">
-    <div class="field-item" v-for="[key, value] in property.value" :key="key">
+  <div class="dictionary-field-contents-control">
+    <div class="field-item" v-for="[key, value] in fields" :key="key">
       <p class="field-name">
         {{ titleCase(key) }}
       </p>
       <component
+        class="field-value"
         :is="getField(value.type)"
         :property="value"
-        :align="align"
-        @change="onChange"
+        @change="(...args) => $emit('change', ...args)"
+        @create="(...args) => $emit('create', ...args)"
+        @delete="(...args) => $emit('delete', ...args)"
       />
     </div>
   </div>
@@ -17,10 +19,13 @@
 <script lang="ts">
 // Dependencies
 import { defineAsyncComponent, defineComponent, PropType } from "vue";
-import { DictionaryProperty, Property, PropertyType } from "@/assets/scripts/BlockDiagram";
-
-const TextField = defineAsyncComponent(() => import("./TextField.vue"));
-const ListField = defineAsyncComponent(() => import("./ListField.vue"));
+import { DictionaryProperty, Property, PropertyType, titleCase } from "@/assets/scripts/BlockDiagram";
+// Components
+import TextField from "./TextField.vue";
+import ListField from "./ListField.vue";
+import EnumField from "./EnumField.vue";
+import NumberField from "./NumberField.vue";
+import DateTimeField from "./DateTimeField.vue";
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
 
 export default defineComponent({
@@ -29,25 +34,42 @@ export default defineComponent({
     property: {
       type: Object as PropType<DictionaryProperty>,
       required: true
-    },
-    align: {
-      type: String,
-      default: "left"
     }
+  },
+  computed: {
+    
+    /**
+     * The set of visible properties.
+     * @returns
+     *  The set of visible properties.
+     */
+    fields(): [string, Property][] {
+      return [...this.property.value.entries()].filter(
+        o => o[1].descriptor.is_visible ?? true
+      );
+    }
+
   },
   methods: {
    
     /**
-     * Returns a field component of a specific type.
+     * Returns a field's component type.
      * @param type
-     *  The type of field component.
+     *  The type of field.
      * @returns
-     *  The field component.
+     *  The field's component type.
      */
     getField(type: PropertyType): string | undefined {
       switch(type) {
         case PropertyType.String:
           return "TextField";
+        case PropertyType.Int:
+        case PropertyType.Float:
+          return "NumberField";
+        case PropertyType.Date:
+          return "DateTimeField";
+        case PropertyType.Enum:
+          return "EnumField";
         case PropertyType.List:
           return "ListField";
         case PropertyType.Dictionary:
@@ -55,52 +77,31 @@ export default defineComponent({
       }
     },
 
-    /**
-     * Field change behavior.
-     * @param property
-     *  The field's property.
-     * @param value
-     *  The field's new value.
-     */
-    onChange(property: Property, value: any): void {
-      this.$emit("change", property, value);
-    },
-
-    /**
-     * Capitalizes the first letter in a string.
-     * @param text
-     *  The string to capitalize.
-     * @returns
-     *  The capitalized string.
-     */
-    capitalize(text: string): string {
-      return `${ text[0].toLocaleUpperCase() }${ text.substring(1) }`
-    },
-
-    /**
-     * Casts a string to title case.
-     * 
-     * ex. "foo_bar" -> "Foo Bar" 
-     * 
-     * @param text
-     *  The string to cast to title case.
-     * @returns
-     *  The string cast to title case.
-     */
-    titleCase(text: string): string {
-      return text.split(/\s+|_/).map(s => this.capitalize(s)).join(" ");
-    }
+    titleCase
 
   },
-  emits: ["change"],
-  components: { TextField, ListField, DictionaryField }
+  emits: ["change", "create", "delete"],
+  components: {
+    TextField,
+    ListField,
+    EnumField,
+    NumberField,
+    DateTimeField,
+    DictionaryField
+  }
 });
 </script>
 
 <style scoped>
 
+/** === Main Field === */
+
 .field-item {
   margin-bottom: 14px;
+}
+
+.field-item:last-child {
+  margin-bottom: 0px;
 }
 
 .field-name {
@@ -110,5 +111,25 @@ export default defineComponent({
   margin-bottom: 6px;
 }
 
-</style>
+.field-value {
+  font-size: 10.5pt;
+}
 
+.text-field-control,
+.enum-field-control,
+.number-field-control,
+.datetime-field-control {
+  min-height: 30px;
+  border-radius: 4px;
+  background: #2e2e2e;
+}
+
+.text-field-control.disabled,
+.enum-field-control.disabled,
+.number-field-control.disabled,
+.datetime-field-control.disabled {
+  background: none;
+  border: dashed 1px #404040;
+}
+
+</style>

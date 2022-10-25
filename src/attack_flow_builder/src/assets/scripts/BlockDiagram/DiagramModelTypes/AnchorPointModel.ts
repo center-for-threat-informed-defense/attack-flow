@@ -1,4 +1,4 @@
-import { RasterCache } from "../Diagram/RasterCache";
+import { RasterCache } from "../DiagramElement/RasterCache";
 import { AnchorPointView } from "../DiagramViewTypes";
 import { 
     DiagramAnchorModel,
@@ -44,7 +44,7 @@ export class AnchorPointModel extends DiagramAnchorModel {
         this.template = template;
         this.style = template.style;
         // Update Layout
-        this.updateLayout(LayoutUpdateReason.ObjectInit);
+        this.updateLayout(LayoutUpdateReason.Initialization);
     }
 
 

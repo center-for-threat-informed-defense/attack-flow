@@ -1,5 +1,5 @@
-import { RasterCache } from "../../Diagram/RasterCache";
-import { ViewportRegion } from "../../Diagram";
+import { RasterCache } from "../../DiagramElement/RasterCache";
+import { ViewportRegion } from "../../DiagramElement";
 import { DiagramObjectModel } from "../../DiagramModelTypes";
 import {
     DiagramAnchorView,

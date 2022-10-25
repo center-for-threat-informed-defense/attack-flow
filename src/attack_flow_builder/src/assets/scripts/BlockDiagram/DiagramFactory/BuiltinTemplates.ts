@@ -1,26 +1,31 @@
-import { AnchorAngle, SemanticRole, SerializedTemplate, TemplateType } from ".";
+import { PropertyType } from "../Property";
+import {
+    AnchorAngle,
+    DarkTheme,
+    SemanticRole,
+    SerializedTemplate,
+    TemplateType
+} from ".";
 
 const BUILTIN_PREFIX = "@__builtin__";
 
 export const BuiltinTemplates: SerializedTemplate[] = [
     {
         id: `${ BUILTIN_PREFIX }page`,
-        name: "Page",
         type: TemplateType.Page,
         role: SemanticRole.None,
         grid: [10, 10],
-        style: {
-            grid_color: "#1d1d1d",
-            background_color: "#141414",
-            drop_shadow: {
-                color: "rgba(0,0,0,.4)",
-                offset: [3, 3]
+        properties: {
+            name: {
+                type: PropertyType.String,
+                value: "Untitled Document",
+                is_primary: true
             }
-        }
+        },
+        style: DarkTheme.Page()
     },
     {
         id: `${ BUILTIN_PREFIX }anchor`,
-        name: "Anchor",
         type: TemplateType.AnchorPoint,
         role: SemanticRole.None,
         radius: 10,
@@ -28,49 +33,29 @@ export const BuiltinTemplates: SerializedTemplate[] = [
             [AnchorAngle.DEG_0] : `${ BUILTIN_PREFIX }line_horizontal_elbow`,
             [AnchorAngle.DEG_90]: `${ BUILTIN_PREFIX }line_vertical_elbow`
         },
-        style: {
-            color: "rgba(255, 255, 255, 0.25)"
-        }
+        style: DarkTheme.AnchorPoint()
     },
     {
         id: `${ BUILTIN_PREFIX }line_handle`,
-        name: "Line Handle",
         type: TemplateType.LineHandlePoint,
         role: SemanticRole.None,
-        style: {
-            radius: 6,
-            fill_color: "#fedb22",
-            stroke_color: "#141414",
-            stroke_width: 1.5
-        }
+        style: DarkTheme.LineHandle()
     },
     {
         id: `${ BUILTIN_PREFIX }line_source`,
-        name: "Line Source",
         type: TemplateType.LineEndingPoint,
         role: SemanticRole.EdgeSource,
-        style: {
-            radius: 6,
-            fill_color: "#fedb22",
-            stroke_color: "#141414",
-            stroke_width: 1.5
-        }
+        style: DarkTheme.LineEnding()
     },
     {
         id: `${ BUILTIN_PREFIX }line_target`,
-        name: "Line Target",
         type: TemplateType.LineEndingPoint,
         role: SemanticRole.EdgeTarget,
-        style: {
-            radius: 6,
-            fill_color: "#fedb22",
-            stroke_color: "#141414",
-            stroke_width: 1.5
-        }
+        style: DarkTheme.LineEnding()
     },
     {
         id: `${ BUILTIN_PREFIX }line_horizontal_elbow`,
-        name: "Horizontal Elbow",
+        namespace: "horizontal_elbow",
         type: TemplateType.LineHorizontalElbow,
         role: SemanticRole.Edge,
         hitbox_width: 20,
@@ -79,19 +64,11 @@ export const BuiltinTemplates: SerializedTemplate[] = [
             source: `${ BUILTIN_PREFIX }line_source`,
             target: `${ BUILTIN_PREFIX }line_target`
         },
-        style: {
-            width: 5,
-            cap_size: 16,
-            color: "#646464",
-            select_colors: {
-                solo_color: "#646464",
-                many_color: "#646464"
-            }
-        }
+        style: DarkTheme.Line()
     },
     {
         id: `${ BUILTIN_PREFIX }line_vertical_elbow`,
-        name: "Vertical Elbow",
+        namespace: "vertical_elbow",
         type: TemplateType.LineVerticalElbow,
         role: SemanticRole.Edge,
         hitbox_width: 20,
@@ -100,14 +77,6 @@ export const BuiltinTemplates: SerializedTemplate[] = [
             source: `${ BUILTIN_PREFIX }line_source`,
             target: `${ BUILTIN_PREFIX }line_target`
         },
-        style: {
-            width: 5,
-            cap_size: 16,
-            color: "#646464",
-            select_colors: {
-                solo_color: "#646464",
-                many_color: "#646464"
-            }
-        }
+        style: DarkTheme.Line()
     }
 ]

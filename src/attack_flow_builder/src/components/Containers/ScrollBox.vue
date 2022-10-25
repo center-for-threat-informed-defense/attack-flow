@@ -33,7 +33,7 @@ export default defineComponent({
   name: "ScrollBox",
   setup() {
     return { 
-      content: ref(null) as Ref<HTMLElement | null> 
+      content: ref<HTMLElement | null>(null)
     }
   },
   props: {
@@ -44,6 +44,10 @@ export default defineComponent({
     alwaysShowScrollBar: {
       type: Boolean,
       default: false
+    },
+    propagateScroll: {
+      type: Boolean,
+      default: true
     },
     handleColor: {
       type: String,
@@ -151,7 +155,7 @@ export default defineComponent({
       // Update scroll state (-4 for the 2px of padding around the scrollbar)
       this.handle.hei = Math.max(15, Math.round((content.clientHeight - 4) * ratio));
       this.handle.max = content.clientHeight - this.handle.hei - 4;
-      this.windowMax = content.scrollHeight - content.clientHeight;
+      this.windowMax  = content.scrollHeight - content.clientHeight;
       // Update scroll handle
       this.showScrollbar = ratio !== 1;
       this.handle.sty.height = `${this.handle.hei}px`;
@@ -178,7 +182,8 @@ export default defineComponent({
       this.content!.scrollTop = this.scrollTop;
       // Selectively propagate scroll event
       let hasMoved = scrollTop - this.scrollTop !== 0;
-      if(hasMoved || 0 < this.scrollTop && this.scrollTop < this.windowMax) {
+      let canMove = 0 < this.scrollTop && this.scrollTop < this.windowMax;
+      if(!this.propagateScroll || hasMoved || canMove) {
         event?.stopPropagation();
       }
     },
@@ -209,7 +214,7 @@ export default defineComponent({
   mounted() {
     // Configure mutation observer
     let mutateOptions = { childList: true, characterData: true, subtree: true };
-    this.onMutateObserver = new MutationObserver(() =>
+    this.onMutateObserver = new MutationObserver(() => 
       this.recalculateScrollState(this.resetScrollOnChange)
     );
     // Configure resize observer

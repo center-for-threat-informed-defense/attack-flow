@@ -31,7 +31,7 @@ export class SemanticAnalyzer {
             array.push({
                 id: obj.id,
                 template: obj.template,
-                data: obj.toExport(),
+                data: obj.props,
                 prev: this.getPrevGraphLinks(obj).map(o => o.id),
                 next: this.getNextGraphLinks(obj).map(o => o.id)
             });
@@ -111,7 +111,8 @@ export class SemanticAnalyzer {
      */
     private static getNode(object: DiagramObjectModel): DiagramObjectModel | undefined {
         if(
-            !(object instanceof DiagramAnchorableModel) || (
+            !(object instanceof DiagramAnchorableModel) ||
+            (
                 !object.hasRole(SemanticRole.EdgeSource) &&
                 !object.hasRole(SemanticRole.EdgeTarget)
             )

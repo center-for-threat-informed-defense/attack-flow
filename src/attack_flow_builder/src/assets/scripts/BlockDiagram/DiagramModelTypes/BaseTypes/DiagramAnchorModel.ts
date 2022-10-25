@@ -1,4 +1,4 @@
-import { RasterCache } from "../../Diagram/RasterCache";
+import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramAnchorView } from "../../DiagramViewTypes";
 import { 
     DiagramAnchorableModel,
@@ -80,51 +80,34 @@ export abstract class DiagramAnchorModel extends DiagramObjectModel {
      *  The child object's location in the array.
      *  (Default: End of the array)
      * @throws { DiagramObjectModelError }
-     *  If `obj` is not of type {@link DiagramAnchorableModel}.
      *  If `obj` is already anchored to another anchor.
      */
     public override addChild(
-        obj: DiagramObjectModel,
+        obj: DiagramAnchorableModel,
         index: number = this.children.length
     ): void {
-        if(obj instanceof DiagramAnchorableModel) {
-            // Ensure object is not attached to something else
-            if(obj.isAttached()) {
-                throw new DiagramObjectModelError(
-                    `'${ obj.id }' is already anchored.`, obj
-                );
-            }
-            // Ensure unique id
-            if(this.hasChild(obj.id)) {
-                throw new DiagramObjectModelError(
-                    `Anchor already has a child with the id '${ obj.id }'.`, this
-                );
-            }
-            // Add anchor to object
-            obj.anchor = this;
-            // Add object to anchor
-            this.children.splice(index, 0, obj);
-        } else {
+        // Ensure object is not attached to something else
+        if(obj.isAttached()) {
             throw new DiagramObjectModelError(
-                `'${ obj.id }' must be of type '${ DiagramAnchorModel.name }.'`, obj
+                `'${ obj.id }' is already anchored.`, obj
             );
         }
+        // Add anchor to object
+        obj.anchor = this;
+        // Add object to anchor
+        this.children.splice(index, 0, obj);
     }
 
     /**
      * Unlinks an anchorable from the anchor. 
-     * @param id
-     *  The id of the anchorable.
+     * @param obj
+     *  The anchorable object.
      */
-    public override removeChild(id: string): void {
-        let i = this.children.findIndex(o => o.id === id);
-        let obj = this.children[i];
-        if(!obj) {
-            return;
-        }
-        if(!(obj instanceof DiagramAnchorableModel)) {
+    public override removeChild(obj: DiagramAnchorableModel): void {
+        let i = this.children.indexOf(obj);
+        if(i === -1) {
             throw new DiagramObjectModelError(
-                `'${ id }' is not an '${ DiagramAnchorableModel.name }.'`, obj
+                `'${ obj.id }' is not attached to the '${ this.id }'.`, obj
             );
         }
         // Remove anchor from object

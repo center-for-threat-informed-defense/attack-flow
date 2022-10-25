@@ -1,5 +1,8 @@
+import * as App from "@/store/Commands/AppCommands";
+import * as Page from "@/store/Commands/PageCommands";
 import { Module } from "vuex"
-import { Hotkey, HotkeyAction } from "@/assets/scripts/HotkeyObserver"
+import { Hotkey } from "@/assets/scripts/HotkeyObserver"
+import { CommandEmitter } from "../Commands/Command";
 import { HotkeyStore, ModuleStore } from "../StoreTypes";
 
 export default {
@@ -11,17 +14,13 @@ export default {
          * @returns
          *  The supported native hotkeys.
          */
-        nativeHotkeys(): Hotkey[] {
+        nativeHotkeys(): Hotkey<CommandEmitter>[] {
             return [
                 {
-                    id: "refresh",
-                    action: HotkeyAction.RunTask,
                     shortcut: "Control+R",
                     allowBrowserBehavior: true
                 },
                 {
-                    id: "hard-refresh",
-                    action: HotkeyAction.RunTask,
                     shortcut: "Control+Shift+R",
                     allowBrowserBehavior: true
                 }
@@ -36,51 +35,41 @@ export default {
          *  The Vuex getters. (Unused)
          * @param rootState
          *  The Vuex root state.
+         * @param rootGetters
+         *  The Vuex root getters.
          * @returns
          *  The file hotkeys.
          */
-        fileHotkeys(_s, _g, rootState): Hotkey[] {
-            let { file } = rootState.AppSettingsStore.settings.hotkeys;
+        fileHotkeys(_s, _g, rootState, rootGetters): Hotkey<CommandEmitter>[] {
+            let ctx = rootState.ApplicationStore;
+            let page = ctx.activePage.page;
+            let file = ctx.settings.hotkeys.file;
+            let isValid = rootGetters["ApplicationStore/isValid"];
             return [
                 {
-                    id: "new_file",
-                    action: HotkeyAction.RunTask,
+                    data: () => App.LoadFile.fromNew(ctx),
                     shortcut: file.new_file,
                 },
                 {
-                    id: "open_file",
-                    action: HotkeyAction.OpenFile,
+                    data: () => App.LoadFile.fromFileSystem(ctx),
                     shortcut: file.open_file,
                 },
                 {
-                    id: "save_file",
-                    action: HotkeyAction.RunTask,
+                    data: () => new App.SavePageToDevice(ctx, page.id),
                     shortcut: file.save_file
                 },
                 {
-                    id: "save_image",
-                    action: HotkeyAction.RunTask,
+                    data: () => new App.SavePageImageToDevice(ctx, page.id),
                     shortcut: file.save_image,
                 },
                 {
-                    id: "save_select_image",
-                    action: HotkeyAction.RunTask,
+                    data: () => new App.SaveSelectionImageToDevice(ctx, page.id),
                     shortcut: file.save_select_image
                 },
                 {
-                    id: "publish_file",
-                    action: HotkeyAction.RunTask,
+                    data: () => new App.PublishPageToDevice(ctx, page.id),
                     shortcut: file.publish_file,
-                },
-                {
-                    id: "open_library",
-                    action: HotkeyAction.OpenFile,
-                    shortcut: file.open_library,
-                },
-                {
-                    id: "save_library",
-                    action: HotkeyAction.RunTask,
-                    shortcut: file.save_library,
+                    disabled: !ctx.publisher || !isValid
                 }
             ];
         },
@@ -96,50 +85,44 @@ export default {
          * @returns
          *  The edit hotkeys.
          */
-        editHotKeys(_s, _g, rootState): Hotkey[] {
+        editHotKeys(_s, _g, rootState): Hotkey<CommandEmitter>[] {
+            let ctx = rootState.ApplicationStore;
+            let page = ctx.activePage.page;
+            let edit = ctx.settings.hotkeys.edit;
             let repeat = { delay: 400, interval: 50 };
-            let { edit } = rootState.AppSettingsStore.settings.hotkeys;
             return [
                 {
-                    id: "undo",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.UndoPageCommand(ctx, page.id),
                     shortcut: edit.undo,
                     repeat
                 },
                 {
-                    id: "redo",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.RedoPageCommand(ctx, page.id),
                     shortcut: edit.redo,
                     repeat
                 },
                 {
-                    id: "cut",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.CutSelectedChildren(ctx, page),
                     shortcut: edit.cut,
                 },
                 {
-                    id: "copy",
-                    action: HotkeyAction.RunTask,
+                    data: () => new App.CopySelectedChildren(ctx, page),
                     shortcut: edit.copy,
                 },
                 {
-                    id: "paste",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.PasteToObject(ctx, page),
                     shortcut: edit.paste,
                 },
                 {
-                    id: "delete",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.RemoveSelectedChildren(page),
                     shortcut: edit.delete
                 },
                 {
-                    id: "duplicate",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.DuplicateSelectedChildren(ctx, page),
                     shortcut: edit.duplicate
                 },
                 {
-                    id: "select_all",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.SelectChildren(page),
                     shortcut: edit.select_all
                 }
             ];
@@ -156,78 +139,26 @@ export default {
          * @returns
          *  The layout hotkeys.
          */
-        layoutHotkeys(_s, _g, rootState): Hotkey[] {
-            let { layout } = rootState.AppSettingsStore.settings.hotkeys;
+        layoutHotkeys(_s, _g, rootState): Hotkey<CommandEmitter>[] {
+            let ctx = rootState.ApplicationStore;
+            let page = ctx.activePage.page;
+            let layout = ctx.settings.hotkeys.layout;
             return [
                 {
-                    id: "selection_to_front",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.RelayerSelection(page, Page.Order.Top),
                     shortcut: layout.selection_to_front
                 },
                 {
-                    id: "selection_to_back",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
                     shortcut: layout.selection_to_back
                 },
                 {
-                    id: "bring_selection_forward",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
                     shortcut: layout.bring_selection_forward
                 },
                 {
-                    id: "send_selection_backward",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
                     shortcut: layout.send_selection_backward
-                },
-                {
-                    id: "align_left",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.align_left
-                },
-                {
-                    id: "align_center",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.align_center
-                },
-                {
-                    id: "align_right",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.align_right
-                },
-                {
-                    id: "align_top",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.align_top
-                },
-                {
-                    id: "align_middle",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.align_middle
-                },
-                {
-                    id: "align_bottom",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.align_bottom
-                },
-                {
-                    id: "group",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.group
-                },
-                {
-                    id: "ungroup",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.ungroup
-                },
-                {
-                    id: "open_group",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.open_group
-                },
-                {
-                    id: "close_group",
-                    action: HotkeyAction.RunTask,
-                    shortcut: layout.close_group
                 }
             ];
         },
@@ -243,66 +174,50 @@ export default {
          * @returns
          *  The view hotkeys.
          */
-        viewHotkeys(_s, _g, rootState): Hotkey[] {
-            let { view } = rootState.AppSettingsStore.settings.hotkeys;
-            let {
-                display_grid,
-                display_shadows,
-                display_debug_mode
-            } = rootState.AppSettingsStore.settings.view.diagram;
+        viewHotkeys(_s, _g, rootState): Hotkey<CommandEmitter>[] {
+            let ctx = rootState.ApplicationStore;
+            let page = ctx.activePage.page;
+            let view = ctx.settings.hotkeys.view;
             return  [
                 {
-                    id: "toggle_grid",
-                    action: HotkeyAction.ToggleValue,
+                    data: () => new App.ToggleGridDisplay(ctx),
                     shortcut: view.toggle_grid,
-                    value: display_grid
                 },
                 {
-                    id: "toggle_shadows",
-                    action: HotkeyAction.ToggleValue,
+                    data: () => new App.ToggleShadowDisplay(ctx),
                     shortcut: view.toggle_shadows,
-                    value: display_shadows
                 },
                 {
-                    id: "reset_view",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.ResetCamera(ctx, page),
                     shortcut: view.reset_view
                 },
                 {
-                    id: "zoom_in",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.ZoomCamera(ctx, page, 0.25),
                     shortcut: view.zoom_in
                 },
                 {
-                    id: "zoom_out",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.ZoomCamera(ctx, page, -0.25),
                     shortcut: view.zoom_out
                 },
                 {
-                    id: "jump_to_selection",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.MoveCameraToSelection(ctx, page),
                     shortcut: view.jump_to_selection
                 },
                 {
-                    id: "jump_to_parents",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.MoveCameraToParents(ctx, page),
                     shortcut: view.jump_to_parents
                 },
                 {
-                    id: "jump_to_children",
-                    action: HotkeyAction.RunTask,
+                    data: () => new Page.MoveCameraToChildren(ctx, page),
                     shortcut: view.jump_to_children
                 },
                 {
-                    id: "fullscreen",
-                    action: HotkeyAction.RunTask,
+                    data: () => new App.SwitchToFullscreen(ctx),
                     shortcut: view.fullscreen
                 },
                 {
-                    id: "toggle_debug_view",
-                    action: HotkeyAction.ToggleValue,
+                    data: () => new App.ToggleDebugDisplay(ctx),
                     shortcut: view.toggle_debug_view,
-                    value: display_debug_mode
                 }
             ];
         }

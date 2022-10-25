@@ -1,4 +1,4 @@
-import { RasterCache } from "../../Diagram/RasterCache";
+import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramRootView } from "../../DiagramViewTypes";
 import {
     DiagramAnchorModel,
@@ -68,11 +68,11 @@ export abstract class DiagramRootModel extends DiagramObjectModel {
      *  The reasons the layout was updated. 
      */
     public override updateLayout(reasons: number): void {
-        let { ChildAdded, ChildDeleted, ObjectInit } = LayoutUpdateReason;
+        let { ChildAdded, ChildDeleted, Initialization } = LayoutUpdateReason;
         // Update layout
         super.updateLayout(reasons);
         // Rebuild caches
-        if(reasons & (ObjectInit | ChildAdded | ChildDeleted)){
+        if(reasons & (Initialization | ChildAdded | ChildDeleted)){
             this._objectCache.clear();
             this.anchorCache.splice(0, this.anchorCache.length);
             for(let obj of this.getSubtree()) {

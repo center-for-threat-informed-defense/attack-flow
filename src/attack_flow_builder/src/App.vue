@@ -1,108 +1,199 @@
 <template>
   <AppHotkeyBox id="main">
     <AppTitleBar id="app-title-bar"/>
-    <div id="app-body">
+    <div id="app-body" ref="body" :style="gridLayout">
+      <div class="frame center">
         <BlockDiagram id="block-diagram"/>
-        <EditorTabs id="app-tabs"/>
+      </div>
+      <div class="frame right">
+        <div class="resize-handle" @pointerdown="startResize($event, Handle.Right)"></div>
+        <EditorSidebar id="app-sidebar"/>
+      </div>
+      <div class="frame bottom">
         <AppFooterBar id="app-footer-bar"/>
+      </div>
     </div>
   </AppHotkeyBox>
 </template>
 
 <script lang="ts">
+import * as Store from "@/store/StoreTypes";
+import Configuration from "@/assets/builder.config"
 // Dependencies
-import { mapActions } from 'vuex';
-import { defineComponent } from 'vue';
-import Configuration from "@/assets/builder.config";
-import { initializeAttackSearch, lookupAttack, searchAttack, AttackSearchFilter } from '@/assets/scripts/Attack';
+import { clamp } from "./assets/scripts/BlockDiagram";
+import { PointerTracker } from "./assets/scripts/PointerTracker";
+import { mapMutations, mapState } from 'vuex';
+import { LoadFile, LoadSettings } from './store/Commands/AppCommands';
+import { defineComponent, markRaw, ref } from 'vue';
 // Components
 import AppTitleBar from "@/components/Elements/AppTitleBar.vue";
 import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
-import EditorTabs from "@/components/Elements/EditorTabs.vue";
+import EditorSidebar from "@/components/Elements/EditorSidebar.vue";
 
-import FILE from "../test_file_2.json";
+const Handle = {
+  None   : 0,
+  Right  : 1
+}
 
 export default defineComponent({
   name: 'App',
+  setup() {
+    return { body: ref<HTMLElement | null>(null) };
+  },
+  data() {
+    return {
+      Handle,
+      bodyWidth: -1,
+      bodyHeight: -1,
+      frameSize: {
+        [Handle.Right]: 325
+      },
+      minFrameSize: {
+        [Handle.Right]: 310
+      },
+      drag: {
+        handle: Handle.None,
+        track: markRaw(new PointerTracker())
+      },
+      onResizeObserver: null as ResizeObserver | null
+    }
+  },
+  computed: {
+
+    /**
+     * Application Store data
+     */
+    ...mapState("ApplicationStore", {
+      context(state: Store.ApplicationStore): Store.ApplicationStore {
+        return state;
+      }
+    }),
+
+    /**
+     * Returns the current grid layout.
+     * @returns
+     *  The current grid layout.
+     */
+    gridLayout(): { gridTemplateColumns: string } {
+      let r = this.frameSize[Handle.Right];
+      return {
+        gridTemplateColumns: `minmax(0, 1fr) ${ r }px`
+      }
+    }
+
+  },
   methods: {
+    
+    /**
+     * Application Store mutations
+     */
+    ...mapMutations("ApplicationStore", ["execute"]),
 
     /**
-     * Active Document Store actions
+     * Resize handle drag start behavior.
+     * @param event
+     *  The pointer event.
+     * @param handle
+     *  The id of the handle being dragged.
      */
-    ...mapActions("ActiveDocumentStore", [
-      "createEmptyDocument", "openDocument", "openDocumentUrl"
-    ]),
+    startResize(event: PointerEvent, handle: number) {
+      let origin = this.frameSize[handle];
+      this.drag.handle = handle;
+      this.drag.track.capture(event, (_, track) => {
+        this.onResize(origin, track);
+      });
+      document.addEventListener("pointerup", this.stopResize, { once: true });
+    },
 
     /**
-     * App Settings Store actions
+     * Resize handle drag behavior.
+     * @param origin
+     *  The frame's origin.
+     * @param track
+     *  The mouse tracker.
      */
-    ...mapActions("AppSettingsStore", [
-      "loadSettings"
-    ]),
+    onResize(origin: number, track: PointerTracker) {
+      switch (this.drag.handle) {
+        default:
+        case Handle.None:
+          break;
+        case Handle.Right:
+          this.setRightFrameSize(origin - track.deltaX);
+          break;
+      }
+    },
+
+    /**
+     * Resize handle drag stop behavior.
+     * @param event
+     *  The pointer event.
+     */
+    stopResize(event: PointerEvent) {
+      this.drag.handle = Handle.None;
+      this.drag.track.release(event);
+    },
+
+    /**
+     * Sets the size of the right frame.
+     * @param size
+     *  The new size of the right frame.
+     */
+    setRightFrameSize(size: number) {
+      let max = this.bodyWidth;
+      let min = this.minFrameSize[Handle.Right];
+      this.frameSize[Handle.Right] = clamp(size, min, max);
+    }
 
   },
   async created() {
-    await this.loadSettings();
-    const urlQuery = new URLSearchParams(document.location.search);
-    const loadUrl = urlQuery.get("loadUrl");
-    let loaded = false;
-    if (loadUrl !== null) {
+    // Import settings
+    let settings;
+    if(Configuration.is_web_hosted) {
+        settings = await (await fetch("./settings.json")).json();
+    } else {
+        settings = require("../public/settings.json");
+    }
+    // Load settings
+    this.execute(new LoadSettings(this.context, settings));
+    // Load empty file
+    this.execute(await LoadFile.fromNew(this.context));
+    // Load file from query parameters, if possible
+    let params = new URLSearchParams(window.location.search);
+    let src = params.get("src");
+    if(src) {
       try {
-        await this.openDocumentUrl(loadUrl);
-        loaded = true;
-      } catch (ex: any) {
-        console.log(`Error loading document from: ${loadUrl}`, ex);
+        // TODO: Incorporate loading dialog
+        this.execute(await LoadFile.fromUrl(this.context, src));
+      } catch(ex) {
+        console.error(`Failed to load file from url: '${ src }'`);
+        console.error(ex);
       }
     }
-    if (!loaded) {
-      await this.createEmptyDocument(`Untitled ${Configuration.file_type_name}`);
-    }
-    try {
-      await initializeAttackSearch();
-    } catch (err) {
-      console.log("WARNING: Could not load search index. (Did you run `npm run fetch-index` and `npm run build-index`?)", err);
-    }
-    {
-      /* TODO: this block is test code to demonstrate search API -- remove when autocomplete is finished */
-      const filter = new AttackSearchFilter();
-      filter.includeTactics = true;
-      filter.includeTechniques = true;
-      filter.includeSubtechniques = true;
-      filter.includeEnterprise = true;
-      filter.includeMobile = true;
-      filter.includeIcs = true;
-      const results = searchAttack("T1068", filter);
-      console.log(`Test query "T1068"... ${results.totalCount} total results`);
-      for (const result of results.items) {
-        const item = result.item;
-        if (item.type === "tactic") {
-          console.log(` - Name="${item.name}" TechniqueID=na TechniqueRef=${item.ref} TacticId= TacticRef=`);
-        } else {
-          if (item.tacticRefs.length > 0) {
-            for (let tacticRef of item.tacticRefs) {
-              const tactic = lookupAttack(tacticRef);
-              if (tactic) {
-                console.log(` - Name="${item.name}" TechniqueID=${item.tid} Ref=${item.ref} TacticId=${tactic.tid} TacticRef=${tactic.ref}`);
-              } else {
-                console.log(` - Name="${item.name}" TechniqueID=${item.tid} Ref=${item.ref} TacticId=notFound TacticRef=${tacticRef}`);
-              }
-            }
-          } else {
-            console.log(` - Name="${item.name}" TechniqueID=${item.tid} Ref=${item.ref} TacticId=na TacticRef=na`);
-          }
-        }
-      }
-    }
-    // await this.openDocument(FILE);
+  },
+  mounted() {
+    this.bodyWidth = this.body!.clientWidth;
+    this.bodyHeight = this.body!.clientHeight;
+    this.onResizeObserver = new ResizeObserver(() => {
+      // Update current body size
+      this.bodyWidth = this.body!.clientWidth;
+      this.bodyHeight = this.body!.clientHeight;
+      // Restrict bottom and right frames
+      this.setRightFrameSize(this.frameSize[Handle.Right]);
+    });
+    this.onResizeObserver.observe(this.body!);
+    
+  },
+  unmounted() {
+    this.onResizeObserver?.disconnect();
   },
   components: {
     AppHotkeyBox,
     AppTitleBar,
     BlockDiagram,
     AppFooterBar,
-    EditorTabs
+    EditorSidebar
   },
 });
 </script>
@@ -138,11 +229,6 @@ ul {
   padding: 0px;
 }
 
-input {
-  font-family: "Inter", sans-serif;
-  padding: 7px 10px;
-}
-
 /** === Main App === */
 
 #app {
@@ -159,10 +245,8 @@ input {
 
 #app-title-bar {
   flex-shrink: 0;
-  height: 32px;
+  height: 31px;
   color: #9e9e9e;
-  box-sizing: border-box;
-  border-bottom: solid 1px #333333;
   background: #262626;
 }
 
@@ -170,20 +254,60 @@ input {
   flex: 1;
   display: grid;
   overflow: hidden;
-  grid-template-columns: minmax(0, 1fr) 300px;
   grid-template-rows: minmax(0, 1fr) 29px;
 }
 
 #block-diagram { 
   width: 100%;
-  flex: 1;
+  height: 100%;
+  border-top: solid 1px #333333;
+  box-sizing: border-box;
+}
+
+#app-sidebar {
+  width: 100%;
+  height: 100%;
 }
 
 #app-footer-bar {
-  grid-column: 1 / 3;
+  color: #bfbfbf;
+  width: 100%;
+  height: 100%;
   border-top: solid 1px #333333;
   background: #262626;
-  color: #bfbfbf;
+}
+
+/** === Frames === */
+
+.frame {
+  position: relative;
+}
+
+.frame.bottom {
+  grid-column: 1 / 3;
+}
+
+/** === Resize Handles === */
+
+.resize-handle {
+  position: absolute;
+  display: block;
+  background: #726de2;
+  transition: 0.15s opacity;
+  opacity: 0;
+  z-index: 1;
+}
+.resize-handle:hover {
+  transition-delay: 0.2s;
+  opacity: 1;
+}
+
+.frame.right .resize-handle {
+  top: 0px;
+  left: -2px;
+  width: 4px;
+  height: 100%;
+  cursor: e-resize;
 }
 
 </style>

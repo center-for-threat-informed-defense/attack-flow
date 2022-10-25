@@ -1,4 +1,4 @@
-import { RasterCache } from "../Diagram/RasterCache";
+import { RasterCache } from "../DiagramElement/RasterCache";
 import { PageView } from "../DiagramViewTypes";
 import {
     DiagramRootModel,
@@ -6,12 +6,11 @@ import {
 } from "./BaseTypes/BaseModels"
 import {
     DiagramFactory,
-    PageValues,
     PageStyle,
     PageTemplate,
     TemplateType,
-    PageExport,
-    SemanticRole
+    SemanticRole,
+    DiagramObjectValues
 } from "../DiagramFactory";
 
 export class PageModel extends DiagramRootModel {
@@ -20,11 +19,6 @@ export class PageModel extends DiagramRootModel {
      * The template the object was configured with.
      */
     public override readonly template: PageTemplate;
-
-    /**
-     * The page's camera location.
-     */
-    public location: CameraLocation;
     
     /**
      * The page's grid size.
@@ -49,7 +43,7 @@ export class PageModel extends DiagramRootModel {
     constructor(
         factory: DiagramFactory,
         template: PageTemplate,
-        values?: PageValues
+        values?: DiagramObjectValues
     ) {
         super(factory, template, values);
         // Template configuration
@@ -57,15 +51,8 @@ export class PageModel extends DiagramRootModel {
         this.template = template;
         this.grid = template.grid;
         this.style = template.style;
-        // Value configuration
-        this.location = values?.location ?? { 
-            type: LocationType.Point,
-            x: 0,
-            y: 0,
-            k: 1
-        };
         // Update layout
-        this.updateLayout(LayoutUpdateReason.ObjectInit);
+        this.updateLayout(LayoutUpdateReason.Initialization);
     }
 
 
@@ -79,7 +66,6 @@ export class PageModel extends DiagramRootModel {
             DiagramFactory.createDummy(),
             { 
                 id: "",
-                name: "",
                 type: TemplateType.Page, 
                 role: SemanticRole.None,
                 grid: [10, 10],
@@ -111,91 +97,5 @@ export class PageModel extends DiagramRootModel {
     public override createView(cache: RasterCache): PageView {
         return new PageView(this, cache);
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  2. Content  ///////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Exports the {@link PageModel}.
-     * @returns
-     *  The {@link PageExport}.
-     */
-    public override toExport(): PageExport {
-        return {
-            ...super.toExport(),
-            location: this.location
-        }
-    }
-
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//  Camera Types  /////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-export type CameraLocation
-    = CameraPointLocation
-    | CameraRegionLocation
-
-export enum LocationType {
-    Point  = 0,
-    Region = 1
-}
-
-export type CameraPointLocation = { 
-    
-    /**
-     * The location's definition type.
-     */
-    type: LocationType.Point
-
-    /**
-     * The x-axis coordinate.
-     */
-    x: number,
-    
-    /**
-     * The y-axis coordinate.
-     */
-    y: number,
-    
-    /**
-     * The scale.
-     */
-    k: number
-
-};
-
-export type CameraRegionLocation = {
-
-    /**
-     * The location's definition type.
-     */
-    type: LocationType.Region,
-
-    /**
-     * The x-axis coordinate.
-     */
-    x: number,
-
-    /**
-     * The y-axis coordinate.
-     */
-    y: number,
-
-    /**
-     * The width of the focus region.
-     */
-    w: number,
-
-    /**
-     * The height of the focus region.
-     */
-    h: number
 
 }

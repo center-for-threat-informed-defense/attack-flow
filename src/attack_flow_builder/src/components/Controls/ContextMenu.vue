@@ -7,7 +7,7 @@
   >
     <ContextMenuListing 
       :sections="sections" 
-      :select="(id, _, data) => $emit('select', id, data)"
+      @select="data => $emit('select', data)"
       :forceInsideWindow="false" 
     />
   </FocusBox>

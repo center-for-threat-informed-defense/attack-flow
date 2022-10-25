@@ -2,15 +2,18 @@ import { computeHash } from "../Utilities";
 import { 
     DictionaryPropertyDescriptor,
     ListPropertyDescriptor,
-    Property
+    Property,
+    RawEntries
 } from ".";
 
 export abstract class CollectionProperty extends Property {
 
+    // TODO: Implement enumerator, get(), size(). Hide value.
+
     /**
      * The property's descriptor.
      */
-    public override descriptor: CollectionPropertyDescriptor;
+    public override readonly descriptor: CollectionPropertyDescriptor;
     
     /**
      * The set of properties.
@@ -20,23 +23,50 @@ export abstract class CollectionProperty extends Property {
 
     /**
      * Creates a new {@link CollectionProperty}.
+     * @param parent
+     *  The property's parent.
      * @param descriptor
      *  The property's descriptor.
      */
-    constructor(descriptor: CollectionPropertyDescriptor) {
-        super(descriptor);
+    constructor(
+        parent: CollectionProperty | undefined,
+        descriptor: CollectionPropertyDescriptor
+    ) {
+        super(parent, descriptor);
         this.descriptor = descriptor;
         this.value = new Map();
     }
+
     
+    /**
+     * Adds a property to the collection.
+     * @param property
+     *  The property.
+     * @param id
+     *  The property's id.
+     * @param index
+     *  The property's location in the collection.
+     * @returns
+     *  The property's id.
+     */
+    public abstract addProperty(property: Property, id: string, index: number): string;
+    
+    /**
+     * Removes a property from the collection.
+     * @param id
+     *  The property's id.
+     */
+    public abstract removeProperty(id: string): void;
 
     /**
-     * Returns a hash of the collection's textual content.
+     * Returns a subproperty's location in the collection.
+     * @param id
+     *  The subproperty's id.
      * @returns
-     *  A hash of the collection's textual content.
+     *  The subproperty's location in the collection.
      */
-    public getHash(): number {
-        return computeHash([...this.value.values()].map(v => v.toString()).join("."));
+    public indexOf(id: string): number {
+        return [...this.value.keys()].indexOf(id);
     }
 
     /**
@@ -44,14 +74,21 @@ export abstract class CollectionProperty extends Property {
      * @returns
      *  The property's raw value.
      */
-    public toRawValue(): RawCollectionProperty {
+    public toRawValue(): RawEntries {
         return [...this.value.entries()].map(([id, v]) => [id, v.toRawValue()]);
     }
 
-}
+    /**
+     * Returns the property's hashed value.
+     * @returns
+     *  The property's hashed value.
+     */
+    public toHashValue(): number {
+        let text = [...this.value.values()].map(v => v.toHashValue()).join(".");
+        return computeHash(text);
+    }
 
-export type RawCollectionProperty
-    = [string, RawCollectionProperty | string | number][]
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////

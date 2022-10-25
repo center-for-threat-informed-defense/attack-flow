@@ -1,4 +1,4 @@
-import { RasterCache } from "../../Diagram/RasterCache";
+import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramLineModel } from "../../DiagramModelTypes";
 import {
     DiagramObjectView,

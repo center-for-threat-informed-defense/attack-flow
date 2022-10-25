@@ -1,6 +1,6 @@
 import { drawArrowHead } from "../Utilities";
-import { RasterCache } from "../Diagram/RasterCache";
-import { ViewportRegion } from "../Diagram";
+import { RasterCache } from "../DiagramElement/RasterCache";
+import { ViewportRegion } from "../DiagramElement";
 import { LineHorizontalElbowModel } from "../DiagramModelTypes";
 import { 
     DiagramLineEndingView,
@@ -107,20 +107,17 @@ export class LineHorizontalElbowView extends DiagramLineView {
             cap_size: cs,
             width,
             color,
-            select_colors: sc
+            select_color
         } = this.el.style;
 
         // Configure line
         ctx.lineWidth = width;
         let lineColor;
-        switch(this.el.attrs & SelectMask) {            
-            case Select.Single:
-                lineColor = sc.solo_color;
+        switch(this.el.attrs & SelectMask) {
+            case Select.True:
+                lineColor = select_color;
                 break;
-            case Select.Multi:
-                lineColor = sc.many_color;
-                break;
-            case Select.Unselected:
+            case Select.False:
             default:
                 lineColor = color;
                 break;

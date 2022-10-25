@@ -1,4 +1,4 @@
-import { RasterCache } from "../Diagram/RasterCache";
+import { RasterCache } from "../DiagramElement/RasterCache";
 import { LineEndingPointView } from "../DiagramViewTypes";
 import { 
     DiagramLineEndingModel,
@@ -47,7 +47,7 @@ export class LineEndingPointModel extends DiagramLineEndingModel {
         this.template = template;
         this.style = template.style;
         // Update Layout
-        this.updateLayout(LayoutUpdateReason.ObjectInit);
+        this.updateLayout(LayoutUpdateReason.Initialization);
     }
     
 

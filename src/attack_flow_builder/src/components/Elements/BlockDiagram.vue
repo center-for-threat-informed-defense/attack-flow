@@ -12,14 +12,29 @@
 </template>
 
 <script lang="ts">
+import * as App from "@/store/Commands/AppCommands";
+import * as Page from "@/store/Commands/PageCommands";
 import * as Store from "@/store/StoreTypes";
 // Dependencies
+import { CommandEmitter } from "@/store/Commands/Command";
 import { defineComponent, inject, markRaw } from 'vue';
-import { mapActions, mapGetters, mapState } from "vuex";
-import { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
+import { mapGetters, mapMutations, mapState } from "vuex";
+import {
+  ContextMenu as Menu,
+  ContextMenuSection,
+  ContextMenuSubmenu,
+  MenuType
+} from "@/assets/scripts/ContextMenuTypes";
 import { 
-  BlockDiagram,Cursor, CursorCssName,
-  DiagramObjectModel, MouseClick, PageModel
+  BlockDiagram,CameraLocation,Cursor,
+  CursorCssName,
+  DiagramAnchorableModel,
+  DiagramAnchorModel,
+  DiagramLineModel,
+  DiagramObjectModel,
+  MouseClick,
+  Namespace,
+  titleCase
 } from "@/assets/scripts/BlockDiagram";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
@@ -40,54 +55,52 @@ export default defineComponent({
         x: 0,
         y: 0,
         show: false,
+      },
+      view: { 
+        x: 0, y: 0, k: 1,
+        w: 0, h: 0
       }
     }
   },
   computed: {
 
     /**
-     * Active Page Store data
+     * Application Store data
      */
-    ...mapState("ActivePageStore", {
-      page(state: Store.ActivePageStore): PageModel {
-        return state.page.ref;
+    ...mapState("ApplicationStore", {
+      ctx(state: Store.ApplicationStore): Store.ApplicationStore {
+        return state;
       },
-      hovers(state: Store.ActivePageStore): DiagramObjectModel[] {
-        return state.hovers;
+      editor(state: Store.ApplicationStore): Store.PageEditor {
+        return state.activePage;
       },
-      selects(state: Store.ActivePageStore): number {
-        return state.selects.trigger;
+      camera(state: Store.ApplicationStore): CameraLocation {
+        return state.activePage.location.value;
       },
-      pageUpdate(state: Store.ActivePageStore): number {
-        return state.page.trigger;
-      }
-    }),
-
-    ...mapGetters("ActivePageStore", ["hasSelection"]),
-    
-    /**
-     * App Settings Store data
-     */
-    ...mapState("AppSettingsStore", {
-      displayGrid(state: Store.AppSettingsStore): boolean {
+      pageUpdate(state: Store.ApplicationStore): number {
+        return state.activePage.trigger.value;
+      },
+      displayGrid(state: Store.ApplicationStore): boolean {
         return state.settings.view.diagram.display_grid;
       },
-      displayShadows(state: Store.AppSettingsStore): boolean {
+      displayShadows(state: Store.ApplicationStore): boolean {
         return state.settings.view.diagram.display_shadows;
       },
-      displayDebugMode(state: Store.AppSettingsStore): boolean {
+      displayDebugMode(state: Store.ApplicationStore): boolean {
         return state.settings.view.diagram.display_debug_mode;
       },
-      renderHighQuality(state: Store.AppSettingsStore): boolean {
+      renderHighQuality(state: Store.ApplicationStore): boolean {
         return state.settings.view.diagram.render_high_quality;
       },
-      disableShadowsAt(state: Store.AppSettingsStore): number {
+      disableShadowsAt(state: Store.ApplicationStore): number {
         return state.settings.view.diagram.disable_shadows_at;
       },
-      multiselectHotkey(state: Store.AppSettingsStore): string {
+      multiselectHotkey(state: Store.ApplicationStore): string {
         return state.settings.hotkeys.select.many;
       }
     }),
+
+    ...mapGetters("ApplicationStore", ["hasSelection"]),
 
     /**
      * Context Menu Store data
@@ -98,8 +111,8 @@ export default defineComponent({
       "duplicateMenu",
       "layeringMenu",
       "jumpMenu",
-      "createMenu",
       "undoRedoMenu",
+      "createAtMenu",
       "selectAllMenu",
       "zoomMenu",
       "diagramViewMenu"
@@ -143,7 +156,7 @@ export default defineComponent({
       } else {
         return [
           this.undoRedoMenu,
-          this.createMenu,
+          this.createAtMenu,
           this.selectAllMenu,
           this.zoomMenu,
           this.diagramViewMenu
@@ -155,38 +168,24 @@ export default defineComponent({
   methods: {
 
     /**
-     * Active Page Store actions
+     * Application Store mutations
      */
-    ...mapActions("ActivePageStore", [
-      "select", "unselectAll", "attach", "detach", "hover",
-      "unhoverAll", "moveBy", "addLineObject", "moveCameraTo",
-      "setViewTransform"
-    ]),
-
-    /**
-     * App Actions Store actions
-     */
-    ...mapActions("AppActionsStore", ["executeAppAction"]),
+    ...mapMutations("ApplicationStore", ["execute"]),
 
     /**
      * Menu item selection behavior.
-     * @param id
-     *  The id of the selected menu.
-     * @param data
-     *  Auxillary data included with the selection.
+     * @param emitter
+     *  Menu item's command emitter.
      */
-    onItemSelect(id: string, data: any) {
+    async onItemSelect(emitter: CommandEmitter) {
       try {
-        if(id === "create_object") {
-          this.executeAppAction({ 
-            id, data: { ...data, x: this.menu.x, y: this.menu.y }
-          });
+        let cmd = emitter();
+        if(cmd instanceof Promise) {
+          this.execute(await cmd);
         } else {
-          this.executeAppAction({ 
-            id, data
-          });
+          this.execute(cmd);
         }
-      } catch(ex) {
+      } catch(ex: any) {
         console.error(ex);
       }
       this.closeContextMenu();
@@ -216,24 +215,186 @@ export default defineComponent({
       this.menu.show = false;
     },
 
+
+    /**
+     * Object hover behavior.
+     * @param o
+     *  The hovered object. `undefined` if nothing is hovered.
+     * @param c
+     *  The cursor to use.
+     */
+    onObjectHover(o: DiagramObjectModel | undefined, c: number) {
+      this.cursor = c;
+      this.execute(new Page.UnhoverDescendants(this.editor.page));
+      if(o) {
+        this.execute(new Page.HoverObject(o));
+      }
+    },
+
+    /**
+     * Object click behavior.
+     * @param e
+     *  The click event.
+     * @param o
+     *  The clicked object.
+     * @param x
+     *  The clicked x-coordinate, relative to the container.
+     * @param y
+     *  The clicked y-coordinate, relative to the container.
+     */
+    onObjectClick(e: PointerEvent, o: DiagramObjectModel, x: number, y: number) {
+      // Unselect items, if needed
+      let isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
+      if(!isMultiselect && !o.isSelected()) {
+        this.execute(new Page.UnselectDescendants(this.editor.page));
+      }
+      // Select item
+      this.execute(new Page.SelectObject(o));
+      // Open context menu, if needed
+      if (e.button === MouseClick.Right) {
+        this.openContextMenu(x, y);
+      }
+    },
+
+    /**
+     * Canvas click behavior.
+     * @param e
+     *  The click event.
+     * @param x
+     *  The clicked x-coordinate, relative to the container.
+     * @param y
+     *  The clicked y-coordinate, relative to the container.
+     */
+    onCanvasClick(e: PointerEvent, x: number, y: number) {
+      this.execute(new Page.UnselectDescendants(this.editor.page));
+      this.execute(new App.SetEditorPointerLocation(this.ctx, this.editor.id, x, y));
+      if (e.button === MouseClick.Right) {
+        this.openContextMenu(x, y);
+      }
+    },
+    
+    /**
+     * Object move behavior.
+     * @param o
+     *  The moved objects.
+     * @param dx
+     *  The change in x.
+     * @param dy
+     *  The change in y.
+     */
+    onObjectMove(o: DiagramObjectModel[], dx: number, dy:number) {
+      let cmd = new Page.GroupCommand();
+      for(let obj of o) {
+        if(!obj.hasUserSetPosition()) {
+            cmd.add(new Page.UserSetObjectPosition(obj));
+        }
+        cmd.add(new Page.MoveObjectBy(obj, dx, dy));
+      }
+      this.execute(cmd);
+    },
+
+    /**
+     * Object attach behavior.
+     * @param o
+     *  The object.
+     * @param a
+     *  The object's anchor.
+     */
+    onObjectAttach(o: DiagramAnchorableModel, a: DiagramAnchorModel) {
+      let { xMid, yMid } = a.boundingBox;
+      let cmd = new Page.GroupCommand();
+      if(o.isAttached()) {
+        cmd.add(new Page.DetachObject(o));  
+      }
+      cmd.add(new Page.MoveObjectTo(o, xMid, yMid));
+      cmd.add(new Page.AttachObject(a, o));
+      this.execute(cmd);
+    },
+
+    /**
+     * Object detach behavior.
+     * @param o
+     *  The object to detach.
+     * @param dx
+     *  The change in x.
+     * @param dy
+     *  The change in y.
+     */
+    onObjectDetach(o: DiagramAnchorableModel, dx: number, dy: number) {
+      let cmd = new Page.GroupCommand();
+      cmd.add(new Page.DetachObject(o));
+      cmd.add(new Page.MoveObjectBy(o, dx, dy));
+      this.execute(cmd);
+    },
+
+    /**
+     * Line create behavior.
+     * @param o
+     *  The line object.
+     * @param p
+     *  The parent object.
+     * @param s
+     *  The line source's anchor.
+     * @param t
+     *  The line target's anchor. `undefined` if there wasn't one.
+     */
+    onLineCreate(
+      o: DiagramLineModel,
+      p: DiagramObjectModel,
+      s: DiagramAnchorModel,
+      t?: DiagramAnchorModel
+    ) {
+      this.execute(new Page.AddLineObject(o, p, s, t));
+      this.execute(new Page.UnselectDescendants(this.editor.page));
+      this.execute(new Page.SelectObject(o));
+    },
+
+    /**
+     * View transform behavior.
+     * @param x
+     *  The view's left x-coordinate.
+     * @param y
+     *  The view's top y-coordinate.
+     * @param k
+     *  The view's scale.
+     * @param w
+     *  The view's width.
+     * @param h
+     *  The view's height.
+     */
+    onViewTransform(x: number, y: number, k: number, w: number, h: number) {
+      this.view = { x, y, k, w, h };
+      this.execute(
+        new App.SetEditorViewParams(
+          this.ctx, this.editor.id, { ...this.view }
+        )
+      );
+    }
+
   },
   watch: {
     // On page change
-    page() {
-      this.diagram.setPage(markRaw(this.page));
-      this.diagram.updateView(0);
+    editor() {
+      // Set page
+      this.diagram.setPage(markRaw(this.editor.page));
+      // Update view
+      this.diagram.updateView();
+      this.diagram.setCameraLocation(this.camera, 0);
+      // Configure view parameters
+      this.execute(
+        new App.SetEditorViewParams(
+          this.ctx, this.editor.id, { ...this.view }
+        )
+      );
     },
-    // On hover change
-    hovers() {
-      this.diagram.render();
-    },
-    // On select change
-    selects() {
-      this.diagram.render();
+    // On camera update
+    camera() {
+      this.diagram.setCameraLocation(this.camera);
     },
     // On page update
     pageUpdate() {
       this.diagram.updateView();
+      this.diagram.render();
     },
     // On display grid change
     displayGrid() {
@@ -264,60 +425,14 @@ export default defineComponent({
   mounted() {
     
     // Subscribe to diagram events
-    this.diagram.on("object-hover", (obj, cursor) => {
-      this.cursor = cursor;
-      if(obj) {
-        this.hover(obj.id);
-      } else {
-        this.unhoverAll();
-      }
-    });
-    this.diagram.on("object-click", (evt, obj, x, y) => {
-      // Unselect last item, if needed
-      if(
-        !this.isHotkeyActive(this.multiselectHotkey) &&
-        !obj.isSelected()
-      ) {
-        this.unselectAll();
-      }
-      // Select item
-      this.select(obj.id);
-      // Open context menu, if needed
-      if (evt.button === MouseClick.Right) {
-        this.openContextMenu(x, y);
-      }
-    });
-    this.diagram.on("canvas-click", (evt, x, y) => {
-      this.unselectAll();
-      if (evt.button === MouseClick.Right) {
-        this.openContextMenu(x, y);
-      }
-    });
-    this.diagram.on("canvas-transform", (x, y, k) => {
-        this.setViewTransform({ x, y, k });
-    });
-    this.diagram.on("object-move", (objs, dx, dy) => {
-      this.moveBy({ objects: objs.map(o => o.id), dx, dy });
-    });
-    this.diagram.on("object-attach", (object, anchor) => {
-      this.attach({ object: object.id, anchor: anchor.id });
-    });
-    this.diagram.on("object-detach", (obj, dx, dy) => {
-      this.detach({ object: obj.id, dx, dy });
-    });
-    this.diagram.on("line-create", (obj, par, src, trg) => {
-      this.addLineObject({
-        object: obj,
-        source: src.id,
-        target: trg?.id,
-        parent: par.id
-      });
-      this.unselectAll();
-      this.select(obj.id);
-    });
-    this.diagram.on("camera-move", (location) => {
-      this.moveCameraTo(location);
-    });
+    this.diagram.on("object-hover", this.onObjectHover);
+    this.diagram.on("object-click", this.onObjectClick);
+    this.diagram.on("canvas-click", this.onCanvasClick);
+    this.diagram.on("object-move", this.onObjectMove);
+    this.diagram.on("object-attach", this.onObjectAttach);
+    this.diagram.on("object-detach", this.onObjectDetach);
+    this.diagram.on("view-transform", this.onViewTransform);
+    this.diagram.on("line-create", this.onLineCreate);
 
     // Configure the current page
     this.diagram.setGridDisplay(this.displayGrid);
@@ -325,10 +440,12 @@ export default defineComponent({
     this.diagram.setDebugDisplay(this.displayDebugMode);
     this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
     this.diagram.setShadowsDisableAt(this.disableShadowsAt);
-    this.diagram.setPage(markRaw(this.page));
+    this.diagram.setPage(markRaw(this.editor.page));
     
     // Inject the diagram
     this.diagram.inject(this.$el);
+    this.diagram.updateView();
+    this.diagram.setCameraLocation(this.camera, 0);
 
   },
   unmounted() {
