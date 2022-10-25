@@ -108,6 +108,7 @@ const config: AppConfiguration = {
                     tactic_ref                : { type: PropertyType.String },
                     technique_id              : { type: PropertyType.String },
                     technique_ref             : { type: PropertyType.String },
+                    description               : { type: PropertyType.String },
                     confidence                : {
                         type: PropertyType.Enum,
                         options: {
@@ -133,7 +134,6 @@ const config: AppConfiguration = {
                     },
                     execution_start           : { type: PropertyType.Date },
                     execution_end             : { type: PropertyType.Date },
-                    description               : { type: PropertyType.String },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Blue }})
@@ -470,7 +470,7 @@ const config: AppConfiguration = {
                     sophistication            : { type: PropertyType.String },
                     resource_level            : { type: PropertyType.String },
                     primary_motivation        : { type: PropertyType.String },
-                    secondary_motivation      : { type: PropertyType.List, form: {type: PropertyType.String }},
+                    secondary_motivations     : { type: PropertyType.List, form: {type: PropertyType.String }},
                     personal_motivations      : { type: PropertyType.List, form: {type: PropertyType.String }},
                 },
                 anchor_template: "@__builtin__anchor",
@@ -667,8 +667,8 @@ const config: AppConfiguration = {
                     protocols                 : { type: PropertyType.List, form: { type: PropertyType.String }, is_required: true},
                     src_byte_count            : { type: PropertyType.Int, min: 0 },
                     dst_byte_count            : { type: PropertyType.Int, min: 0 },
-                    src_packets               : { type: PropertyType.String },
-                    dst_packets               : { type: PropertyType.String },
+                    src_packets               : { type: PropertyType.Int, min: 0 },
+                    dst_packets               : { type: PropertyType.Int, min: 0 },
                     ipfix                     : { type: PropertyType.String },
                 },
                 anchor_template: "@__builtin__anchor",
@@ -746,8 +746,8 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    key                       : { type: PropertyType.String, is_primary: true, is_required: true },
-                    value                     : { type: PropertyType.List, form: {type: PropertyType.String}},
+                    key                       : { type: PropertyType.String, is_primary: true },
+                    values                    : { type: PropertyType.List, form: {type: PropertyType.String}},
                     modified_time             : { type: PropertyType.Date },
                     number_of_subkeys         : { type: PropertyType.Int, min: 0 },
                 },
