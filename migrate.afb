@@ -214,7 +214,26 @@
                                 "type": 2
                             }
                         }
+                    },
+                    "external_references": {
+                        "type": 5,
+                        "form": {
+                            "type": 6,
+                            "form": {
+                                "source_name": {
+                                    "type": 2,
+                                    "is_primary": true
+                                },
+                                "description": {
+                                    "type": 2
+                                },
+                                "url": {
+                                    "type": 2
+                                }
+                            }
+                        }
                     }
+
                 },
                 "style": {
                     "grid_color": "#1d1d1d",
