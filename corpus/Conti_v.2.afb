@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4602,7 +4602,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4610,15 +4610,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearphishing Attachment"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4649,7 +4653,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -4657,15 +4661,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -4696,7 +4700,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4704,15 +4708,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Signed Binary Proxy Execution: Rundll32"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4743,7 +4751,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4751,15 +4759,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Owner/User Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4790,7 +4802,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4798,15 +4810,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           " Permission Groups Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4837,7 +4853,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4845,15 +4861,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote System Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4884,7 +4904,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4892,15 +4912,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Access Token Manipulation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4931,7 +4955,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4939,15 +4963,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "SMB/Windows Admin Shares"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4978,7 +5006,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4986,15 +5014,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Network Service Scanning"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5025,7 +5057,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5033,15 +5065,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "SMB/Windows Admin Shares"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5072,7 +5108,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5080,15 +5116,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5119,7 +5159,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5127,15 +5167,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Domain Account"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5166,7 +5210,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5174,15 +5218,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Encrypted for Impact"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5213,7 +5261,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5221,15 +5269,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: JavaScript"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5273,7 +5325,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5281,15 +5333,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5355,7 +5411,7 @@
       "properties": [
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5363,11 +5419,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -5376,6 +5432,10 @@
         [
           "tactic_id",
           "TA0010"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5480,7 +5540,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5581,7 +5641,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5589,15 +5649,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5641,15 +5705,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5680,7 +5744,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5688,15 +5752,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5805,15 +5873,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5891,19 +5959,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -5960,15 +6028,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6012,7 +6080,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6020,15 +6088,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Domain Policy Modification: Group Policy Modification"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6093,19 +6165,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -6157,15 +6229,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6217,15 +6289,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6265,7 +6337,7 @@
       "properties": [
         [
           "name",
-          "PLACEHOLDER - RENAME ME"
+          null
         ],
         [
           "description",

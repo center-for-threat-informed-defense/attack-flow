@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4664,7 +4664,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4672,15 +4672,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Develop Capabilities: Malware"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4727,7 +4731,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4751,11 +4755,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4794,11 +4798,11 @@
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "objective",
@@ -4850,19 +4854,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -4893,7 +4897,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4901,15 +4905,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Subvert Trust Controls: Code Signing"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4988,7 +4996,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4996,15 +5004,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Supply Chain Compromise: Compromise Software Supply Chain"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5048,7 +5060,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5056,15 +5068,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Services: Service Execution"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5108,7 +5124,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5116,15 +5132,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Virtualization/Sandbox Evasion: Time Based Evasion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5155,7 +5175,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5163,15 +5183,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Software Discovery: Security Software Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5263,15 +5287,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5315,7 +5339,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5323,15 +5347,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Process Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5362,7 +5390,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5370,15 +5398,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Query Registration"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5470,7 +5502,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5478,15 +5510,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Dynamic Resolution: Domain Generation Algorithm"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5530,15 +5566,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5582,7 +5618,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5590,15 +5626,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Encoding"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5629,7 +5669,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5637,15 +5677,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           " Masquerading: Match Legitimate Name or Location"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5676,7 +5720,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5684,15 +5728,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading: Match Legitimate Name or Location"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5723,23 +5771,23 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5901,7 +5949,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5909,15 +5957,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Defense Evasion- Impair Defenses: Disable or Modify System Firewall"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5956,15 +6008,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6003,15 +6055,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6050,15 +6102,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6128,7 +6180,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6136,15 +6188,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Domain Trust Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6175,7 +6231,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6183,15 +6239,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading: Rename System Utilities"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6222,7 +6282,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6230,15 +6290,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Process Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6321,7 +6385,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6329,15 +6393,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Event Triggered Execution: Image File Execution Options Injection"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6394,15 +6462,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6485,7 +6553,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6493,15 +6561,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Steal or Forge Kerberos Tickets: Kerberoasting"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6532,7 +6604,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6540,15 +6612,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Credentials from Password Stores"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6579,7 +6655,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6587,15 +6663,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: DCSync"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6665,7 +6745,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6673,15 +6753,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Create or Modify System Process: Windows Service"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6725,7 +6809,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6733,15 +6817,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Modify Registry"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6785,15 +6873,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6863,7 +6951,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6871,15 +6959,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Defense Evasion - Impair Defenses: Disable or Modify Tools"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6923,7 +7015,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6931,15 +7023,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Scheduled Task/Job"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6970,7 +7066,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6978,15 +7074,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7078,15 +7178,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7130,7 +7230,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7138,15 +7238,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7247,7 +7351,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7255,15 +7359,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Windows Management Instrumentation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7294,7 +7402,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -7302,15 +7410,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7367,7 +7475,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7375,15 +7483,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7422,15 +7534,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7474,7 +7586,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7482,15 +7594,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Defense Evasion- Impair Defenses: Disable Windows Event Logging"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7543,11 +7659,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7555,15 +7671,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Checks File Space"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7602,15 +7722,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7667,7 +7787,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7675,15 +7795,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data from Local System"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7714,7 +7838,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7722,15 +7846,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Archive Collected Data: Archive via Utility"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7822,7 +7950,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7830,15 +7958,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exfiltration Over Web Service: Exfiltration to Cloud Storage"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

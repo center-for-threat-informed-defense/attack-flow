@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4598,7 +4598,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4606,15 +4606,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4645,15 +4649,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4684,7 +4688,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4692,15 +4696,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Input Capture"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4731,7 +4739,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -4762,15 +4770,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4801,7 +4809,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4809,15 +4817,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploit Public-Facing Application"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4848,7 +4860,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -4875,7 +4887,7 @@
       "properties": [
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4883,11 +4895,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -4896,6 +4908,10 @@
         [
           "tactic_id",
           "TA0008"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5149,7 +5165,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "external_references",
@@ -5197,7 +5213,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5205,15 +5221,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploitation for Privilege Escalation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5244,11 +5264,11 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "external_references",
-          ""
+          null
         ]
       ]
     },
@@ -5279,7 +5299,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5287,15 +5307,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Develop Capabilities: Malware"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5326,7 +5350,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -5334,15 +5358,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5373,7 +5397,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5381,15 +5405,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Input Capture"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5456,7 +5484,7 @@
       "properties": [
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5464,11 +5492,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -5477,6 +5505,10 @@
         [
           "tactic_id",
           "TA0010"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5507,7 +5539,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5515,15 +5547,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Proxy: Multi-hop Proxy"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5550,7 +5586,7 @@
       "properties": [
         [
           "description",
-          ""
+          null
         ],
         [
           "name",
@@ -5562,19 +5598,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -5601,11 +5637,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5613,15 +5649,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Redirected data"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5683,7 +5723,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5691,15 +5731,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5730,7 +5774,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5761,7 +5805,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5769,15 +5813,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploit Public-Facing Application"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5951,15 +5999,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },

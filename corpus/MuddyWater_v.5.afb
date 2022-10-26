@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4638,7 +4638,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4662,11 +4662,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4701,7 +4701,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -4709,7 +4709,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "objective",
@@ -4744,7 +4744,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4752,15 +4752,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Spearphishing Attachment"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4791,7 +4795,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4799,15 +4803,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "User Execution: Malicious Link"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4846,19 +4854,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -4897,15 +4905,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -4936,15 +4944,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5014,15 +5022,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5066,7 +5074,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5074,15 +5082,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Visual Basic"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5175,7 +5187,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5183,15 +5195,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Boot or Logon Autostart Execution: Registry Run Keys/Startup Folder"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5222,7 +5238,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5230,15 +5246,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Visual Basic"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5277,15 +5297,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5316,7 +5336,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5324,15 +5344,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5376,7 +5400,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5384,15 +5408,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Spearphishing Attachment"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5423,7 +5451,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5431,15 +5459,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "User Execution: Malicious Link"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5478,19 +5510,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -5529,15 +5561,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5568,15 +5600,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5646,7 +5678,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5654,15 +5686,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5755,7 +5791,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5763,15 +5799,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5802,15 +5842,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5854,15 +5894,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5902,11 +5942,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5914,15 +5954,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Directory created"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5953,7 +5997,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5961,15 +6005,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6000,7 +6048,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6008,15 +6056,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6060,7 +6112,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6068,15 +6120,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Boot or Logon Autostart Execution: Registry Run Keys/Startup Folder"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6115,15 +6171,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6163,7 +6219,7 @@
       "properties": [
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6171,11 +6227,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -6184,6 +6240,10 @@
         [
           "tactic_id",
           "TA0104"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6214,7 +6274,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6222,15 +6282,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Deobfuscate/Decode Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6261,7 +6325,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6269,15 +6333,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6426,15 +6494,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6478,15 +6546,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6525,15 +6593,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6573,7 +6641,7 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
@@ -6581,19 +6649,23 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Execution"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

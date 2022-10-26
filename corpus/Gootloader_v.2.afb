@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4687,7 +4687,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4699,11 +4699,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Drive-by Compromise"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4734,15 +4738,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4773,7 +4777,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4781,15 +4785,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Compromise Infrastructure"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4846,7 +4854,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4854,15 +4862,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "User Execution: Malicious File"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4893,15 +4905,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4932,7 +4944,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4940,15 +4952,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: JavaScript"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5005,15 +5021,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5070,7 +5086,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5078,15 +5094,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Modify Registry"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5138,15 +5158,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5198,15 +5218,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5294,7 +5314,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5302,15 +5322,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5341,7 +5365,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5349,15 +5373,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Scheduled Task/Job"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5414,7 +5442,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5422,15 +5450,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Binary Proxy Execution: Rundll32"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5482,15 +5514,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5534,7 +5566,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -5542,15 +5574,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5594,7 +5626,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5602,15 +5634,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Account Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5641,7 +5677,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5649,15 +5685,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Domain Trust Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5714,7 +5754,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5722,15 +5762,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Group Policy Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5796,15 +5840,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5848,7 +5892,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5856,15 +5900,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell "
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5903,15 +5951,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5981,7 +6029,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5989,15 +6037,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Windows Management Instrumentation/Software Discovery: Security Software Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6062,15 +6114,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6114,7 +6166,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6122,15 +6174,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Impair Defenses: Disable or Modify Tools"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6187,7 +6243,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6195,15 +6251,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6255,19 +6315,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -6319,15 +6379,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6371,7 +6431,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6379,15 +6439,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell "
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6418,7 +6482,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -6506,15 +6570,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6584,7 +6648,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6592,15 +6656,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell "
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6639,15 +6707,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6691,7 +6759,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6699,15 +6767,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Credentials from Password Stores"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6772,15 +6844,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6824,7 +6896,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6832,15 +6904,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Windows Remote Management"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6884,7 +6960,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6892,15 +6968,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6944,7 +7024,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6952,15 +7032,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Impair Defenses: Disable or Modify Tools"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7004,7 +7088,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7012,15 +7096,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: SMB/Windows Admin Shares"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7051,15 +7139,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7142,15 +7230,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7220,15 +7308,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7272,7 +7360,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7280,15 +7368,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Windows Remote Management"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7332,7 +7424,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7340,15 +7432,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7392,7 +7488,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7400,15 +7496,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell "
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7447,15 +7547,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7499,7 +7599,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7507,15 +7607,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Impair Defenses: Disable or Modify Tools"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7546,7 +7650,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7554,15 +7658,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Credentials from Password Stores"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7601,15 +7709,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7740,7 +7848,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7748,15 +7856,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data from Network Shared Drive"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7787,7 +7899,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7795,15 +7907,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7847,7 +7963,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7855,15 +7971,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell "
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7894,7 +8014,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7902,15 +8022,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Impair Defenses: Disable or Modify Tools"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7949,15 +8073,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7988,7 +8112,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7996,15 +8120,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Windows Remote Management"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8135,7 +8263,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -8179,7 +8307,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -8187,15 +8315,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -8252,15 +8380,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8304,7 +8432,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8312,15 +8440,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Network Service Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8372,15 +8504,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -8424,7 +8556,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8432,15 +8564,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data from Network Shared Drive"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8484,7 +8620,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8492,15 +8628,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8544,15 +8684,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8596,7 +8736,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },

@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4636,7 +4636,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4644,15 +4644,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearphishing Link"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4683,7 +4687,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4691,15 +4695,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Deobfuscate/Decode Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4730,7 +4738,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4738,15 +4746,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearphishing Attachment"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4808,7 +4820,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4816,15 +4828,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Scheduled Task/Job: Scheduled Task"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4855,7 +4871,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4863,15 +4879,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4954,7 +4974,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4962,15 +4982,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5001,7 +5025,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5009,15 +5033,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5074,7 +5102,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5082,15 +5110,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Hide Artifacts: NTFS File Attributes"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5121,7 +5153,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5129,15 +5161,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Scheduled Task/Job: Scheduled Task"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5168,7 +5204,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5176,15 +5212,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Create or Modify System Process: Windows Service"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5254,7 +5294,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5262,15 +5302,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Office Application Startup"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5310,11 +5354,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5322,15 +5366,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phantom DLL Hijacking"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5361,7 +5409,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5369,15 +5417,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Signed Binary Proxy Execution: Regsvr32"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5421,7 +5473,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5429,15 +5481,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote System Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5468,7 +5524,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5476,15 +5532,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Obfuscation: Protocol Impersonation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5515,7 +5575,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5523,15 +5583,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Application Layer Protocol: DNS"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5562,7 +5626,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5570,15 +5634,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Application Layer Protocol: Mail Protocols"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5609,7 +5677,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5617,15 +5685,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Information Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5656,7 +5728,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5664,15 +5736,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Configuration Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5703,7 +5779,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5711,15 +5787,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Network Service Scanning"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5750,7 +5830,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5758,15 +5838,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: LSA Secrets"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5793,11 +5877,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5805,15 +5889,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: SMB/Windows Admin Shares"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5844,7 +5932,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5852,15 +5940,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Windows Management Instrumentation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5891,7 +5983,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5899,15 +5991,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Use Alternate Authentication Material: Pass the Hash"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5938,7 +6034,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5946,15 +6042,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Use Alternate Authentication Material: Pass the Ticket"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5985,19 +6085,19 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "roles",
-          ""
+          null
         ],
         [
           "identity_class",
-          ""
+          null
         ],
         [
           "sectors",
-          ""
+          null
         ],
         [
           "contact_information",
@@ -6280,7 +6380,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6288,15 +6388,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Connections Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6597,19 +6701,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6657,19 +6761,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6717,19 +6821,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6777,7 +6881,7 @@
         ],
         [
           "threat_actor_types",
-          ""
+          null
         ],
         [
           "aliases",
@@ -6789,35 +6893,35 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
-          ""
+          null
         ],
         [
           "goals",
-          ""
+          null
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
-          ""
+          null
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -6852,19 +6956,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "objective",
-          ""
+          null
         ]
       ]
     },
@@ -6921,7 +7025,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6929,15 +7033,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Visual Basic"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

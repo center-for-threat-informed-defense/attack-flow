@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4816,7 +4816,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4840,11 +4840,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4879,15 +4879,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "objective",
@@ -4922,7 +4922,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4930,15 +4930,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearphishing Link"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4969,7 +4973,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4977,15 +4981,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "User Execution: Malicious File"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5016,7 +5024,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5024,15 +5032,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Visual Basic"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5120,7 +5132,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5128,15 +5140,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Information Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5180,7 +5196,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5188,15 +5204,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Owner/User Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5240,7 +5260,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5248,15 +5268,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Virtualization/Sandbox Evasion: System Checks"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5287,15 +5311,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5409,7 +5433,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5453,7 +5477,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5497,7 +5521,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5541,7 +5565,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5549,15 +5573,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Obfuscated Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5601,7 +5629,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5689,7 +5717,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5697,15 +5725,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5819,7 +5851,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5827,15 +5859,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5892,7 +5928,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5900,15 +5936,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "File and Directory Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5939,15 +5979,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6048,7 +6088,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6056,15 +6096,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Scheduled Task/Job: Scheduled Task"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6108,7 +6152,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6116,15 +6160,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Owner/User Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6212,7 +6260,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6220,15 +6268,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Information Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6316,7 +6368,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6324,15 +6376,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Configuration Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6420,7 +6476,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6428,15 +6484,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Application Layer Protocol: Web Protocols"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6488,19 +6548,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -6531,7 +6591,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6539,15 +6599,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Encrypted Channel: Symmetric Cryptography"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6617,7 +6681,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6625,15 +6689,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Windows Command Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6685,15 +6753,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6737,7 +6805,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6745,15 +6813,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Owner/ User Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6797,7 +6869,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6805,15 +6877,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Information Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6844,15 +6920,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6909,15 +6985,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6961,7 +7037,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6969,15 +7045,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Configuration Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7021,15 +7101,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7073,7 +7153,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7081,15 +7161,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Account Discovery: Domain Account"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7133,15 +7217,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7172,7 +7256,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7180,15 +7264,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Permission Groups Discovery: Domain Groups"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7245,7 +7333,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7253,15 +7341,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Permission Groups Discovery: Domain Groups"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7305,15 +7397,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7357,7 +7449,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7365,15 +7457,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Permission Groups Discovery: Domain Groups"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7417,15 +7513,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7513,7 +7609,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7521,15 +7617,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Password Policy Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7560,15 +7660,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7625,7 +7725,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7633,15 +7733,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Account Discovery: Local Account"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7685,15 +7789,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7737,7 +7841,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7745,15 +7849,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Permission Groups Discovery: Local Groups"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7784,15 +7892,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7849,7 +7957,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7857,15 +7965,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Connections Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7909,15 +8021,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -7961,7 +8073,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7969,15 +8081,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Process Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8008,7 +8124,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8016,15 +8132,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Service Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8055,15 +8175,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8094,7 +8214,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8102,15 +8222,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Information Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8141,15 +8265,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8180,7 +8304,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8188,15 +8312,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Query Registry"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8227,15 +8355,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8266,7 +8394,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8274,15 +8402,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Account Discovery: Domain Account"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8313,15 +8445,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8352,7 +8484,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8360,15 +8492,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Permission Groups Discovery: Domain Groups"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8399,15 +8535,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8438,7 +8574,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8446,15 +8582,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote System Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8628,15 +8768,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8680,7 +8820,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8688,15 +8828,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8784,7 +8928,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8792,15 +8936,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Credentials from Password Stores: Windows Credential Manager"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8844,7 +8992,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8852,15 +9000,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exfiltration Over C2 Channel"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8961,7 +9113,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8969,15 +9121,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9008,15 +9164,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -9117,7 +9273,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9125,15 +9281,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Lateral Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9177,7 +9337,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9185,15 +9345,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Software Component: Web Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9237,7 +9401,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9245,15 +9409,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Hide Artifacts: Hidden Files and Directories"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9297,7 +9465,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9305,15 +9473,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9357,7 +9529,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9365,15 +9537,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Software Component: Web Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9417,7 +9593,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9425,15 +9601,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Owner/User Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9477,7 +9657,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9485,15 +9665,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Configuration Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9524,7 +9708,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9532,15 +9716,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Connections Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9571,15 +9759,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -9610,15 +9798,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -9649,15 +9837,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -9753,7 +9941,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9761,15 +9949,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9813,7 +10005,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9821,15 +10013,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: LSASS Memory"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9873,7 +10069,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9881,15 +10077,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exfiltration Over C2 Channel"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9920,15 +10120,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -10029,7 +10229,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10037,15 +10237,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10089,7 +10293,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10097,15 +10301,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10157,15 +10365,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -10209,7 +10417,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10217,15 +10425,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Protocol Tunneling"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10269,7 +10481,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10277,15 +10489,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts: Domain Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10329,7 +10545,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10337,15 +10553,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10389,7 +10609,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10397,15 +10617,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Software Component: Web Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10449,7 +10673,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10457,15 +10681,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10509,7 +10737,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10517,15 +10745,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10675,7 +10907,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10683,15 +10915,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10748,7 +10984,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10756,15 +10992,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Use Alternate Authentication Material: Pass the Hash"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10808,7 +11048,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10816,15 +11056,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Windows Command Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10868,7 +11112,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10876,15 +11120,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Lateral Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10928,7 +11176,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10936,15 +11184,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: SMB/Windows Admin Shares"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -10988,7 +11240,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -10996,15 +11248,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Services: Service Execution"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11043,15 +11299,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -11108,7 +11364,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11116,15 +11372,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "File and Directory Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11168,7 +11428,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11176,15 +11436,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Staged: Local Data Staging"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11228,7 +11492,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11236,15 +11500,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading: Space after Filename"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11288,7 +11556,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11296,15 +11564,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data from Local System"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11436,7 +11708,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11444,15 +11716,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Transfer Size Limits"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11496,7 +11772,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11504,15 +11780,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Obfuscated Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11556,7 +11836,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11564,15 +11844,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted Non-C2 Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11668,19 +11952,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -11724,7 +12008,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11732,15 +12016,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11784,7 +12072,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11792,15 +12080,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11848,19 +12140,23 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11904,7 +12200,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -11912,15 +12208,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -11972,15 +12272,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },

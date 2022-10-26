@@ -13,7 +13,7 @@ def main():
         new_page_props = migrate_afb["objects"][0]["properties"]
 
     # Iterate over .afb files in /corpus/ and migrate each one.
-    for afb_path in corpus_dir.glob("OilRig*.afb"):
+    for afb_path in corpus_dir.glob("*.afb"):
         print(f"Migrating: {afb_path}")
         with afb_path.open() as afb_file_ro:
             afb = OrderedDict(json.load(afb_file_ro))
@@ -35,15 +35,27 @@ def main():
 
         # Migrate existing nodes to new schema.
         for obj in afb["objects"][1:]:
+            # transform property list into dict for convenienc
+            props = dict(obj["properties"])
+
+            # convert underscores in template id to hyphens
+            if not obj["template"].startswith("@__builtin"):
+                obj["template"] = obj["template"].replace("_", "-")
+
+            # Replace empty strings with nulls
+            for k, v in props.items():
+                if v.strip() == "":
+                    props[k] = None
+
             if obj["template"] == "action":
-                migrate_action(obj)
+                migrate_action(props)
             elif obj["template"] == "asset":
-                migrate_asset(obj)
+                migrate_asset(props)
             elif obj["template"] in ("and", "or"):
                 obj["children"] = []
-            elif obj["template"] == "threat_actor":
-                # Fix misspelling of threat-actor.
-                obj["template"] = "threat-actor"
+
+            # tranform dict back to property list
+            obj["properties"] = list(props.items())
 
         # Re-arrange the keys in the output json
         afb.move_to_end("schema")
@@ -60,10 +72,7 @@ def main():
             json.dump(afb, afb_file_rw, indent=2)
 
 
-def migrate_action(action):
-    # transform property list into dict for convenienc
-    props = dict(action["properties"])
-
+def migrate_action(props):
     # Rewrite technique_name -> name
     if "technique_name" in props:
         props["name"] = props.pop("technique_name")
@@ -74,22 +83,13 @@ def migrate_action(action):
     if (tref := props.get("technique_ref")) and tref.startswith("x-mitre-tactic--"):
         props["tactic_ref"] = props.pop("technique_ref")
 
-    # TODO add confidence
-
-    # tranform dict back to property list
-    action["properties"] = list(props.items())
+    props["confidence"] = None
 
 
-def migrate_asset(asset):
-    # transform property list into dict for convenienc
-    props = dict(asset["properties"])
-
+def migrate_asset(props):
     # some assets are missing names -- fill in a dummy value just to make it valid
     if props.get("name", "") == "":
         props["name"] = "PLACEHOLDER - RENAME ME"
-
-    # tranform dict back to property list
-    asset["properties"] = list(props.items())
 
 
 if __name__ == "__main__":

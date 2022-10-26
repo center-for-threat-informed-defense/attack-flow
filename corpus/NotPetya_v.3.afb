@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4657,7 +4657,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4669,11 +4669,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Supply Chain Compromise"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4704,7 +4708,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4712,15 +4716,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4751,7 +4759,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4759,15 +4767,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Software Discovery: Security Software Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4798,7 +4810,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4806,15 +4818,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Harvester"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4845,15 +4861,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4910,7 +4926,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4918,15 +4934,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Access Token Impersonation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4957,7 +4977,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4965,15 +4985,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Malware Privilege Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5004,15 +5028,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5078,15 +5102,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5117,15 +5141,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5191,7 +5215,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5199,15 +5223,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: SMB/Windows Admin Shares"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5238,7 +5266,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5246,15 +5274,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploitation of Remote Services "
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5285,7 +5317,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5293,15 +5325,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Configuration Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5371,15 +5407,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5423,7 +5459,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5431,15 +5467,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Binary Proxy Execution: Rundll32"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5483,7 +5523,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5491,15 +5531,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Process Injection"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5530,7 +5574,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5538,15 +5582,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Binary Proxy Execution: Rundll32"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5647,15 +5695,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5686,15 +5734,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5725,15 +5773,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5834,7 +5882,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5842,15 +5890,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "N/A"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5894,7 +5946,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5902,15 +5954,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Pre-OS Boot: BootKit"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5954,7 +6010,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5962,15 +6018,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Scheduled Task/Job: Scheduled Task"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6014,7 +6074,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6022,15 +6082,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Encrypted for Impact"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6061,7 +6125,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6069,15 +6133,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: Clear Windows Event Logs"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6108,7 +6176,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6116,15 +6184,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Shutdown/Reboot"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6155,7 +6227,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6163,15 +6235,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Shutdown/Reboot"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6254,7 +6330,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6262,15 +6338,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Destruction"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6331,11 +6411,11 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
@@ -6343,7 +6423,7 @@
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6378,19 +6458,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6429,15 +6509,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6476,15 +6556,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -6512,7 +6592,7 @@
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -6551,15 +6631,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -6587,7 +6667,7 @@
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -6626,15 +6706,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -6662,7 +6742,7 @@
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -6701,15 +6781,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -6737,7 +6817,7 @@
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -6776,15 +6856,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6841,7 +6921,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6853,11 +6933,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Search Open Websites/Domains"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7103,7 +7187,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -7155,15 +7239,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7207,7 +7291,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7219,11 +7303,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Supply Chain Compromise"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7267,7 +7355,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7279,11 +7367,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Supply Chain Compromise"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7335,11 +7427,11 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -7347,7 +7439,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -7412,15 +7504,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7638,7 +7730,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -7646,15 +7738,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7724,7 +7816,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -7732,15 +7824,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
