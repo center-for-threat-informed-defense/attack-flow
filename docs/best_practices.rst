@@ -240,9 +240,7 @@ The project includes a number of :doc:`example_flows`. We encourage you to submi
 you create for inclusion in this public corpus. Additions to the public corpus should
 follow the best practices described above as well as meet the following requirements:
 
-1. The flow must be one continuous flow from start to finish, connecting events in the
-   order that they occurred, tather than multiple flows broken up.
-2. The flow must be sufficiently complex for submission. The flow must have no fewer
+1. The flow must be sufficiently complex for submission. The flow must have no fewer
    than 10 actions and must make proper use of preconditions and operators.
-3. The flow must contain at least one source in the metadata. Source must be credible
+2. The flow must contain at least one source in the metadata. Source must be credible
    and technically competent.
