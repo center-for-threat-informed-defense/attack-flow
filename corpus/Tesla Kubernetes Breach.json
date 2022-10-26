@@ -160,7 +160,7 @@
       "name": "Data from Cloud Storage Object",
       "technique_id": "T1530",
       "description": "The adversary can access data in private S3 buckets.",
-      "confidence": 50,
+      "confidence": 50
     },
     {
       "type": "attack-action",
@@ -250,7 +250,7 @@
       "name": "Resource Highjacking",
       "technique_id": "T1496",
       "description": "The adversary runs cryptomining software in the container, configured to use their private mining pool.",
-      "confidence": 50,
+      "confidence": 50
     },
     {
       "type": "infrastructure",
@@ -268,7 +268,8 @@
       "created": "2022-10-26T16:59:24.989Z",
       "modified": "2022-10-26T16:59:24.989Z",
       "abstract": "Speculation",
-      "content": "The authors of this post provided speculation about what the attackers could have done with the leaked credentials, but there is no evidence the adversaries even knew about the credentials."
+      "content": "The authors of this post provided speculation about what the attackers could have done with the leaked credentials, but there is no evidence the adversaries even knew about the credentials.",
+      "object_refs": ["note--c5d127a0-59be-4ab5-9266-4b3037c7bee3"]
     },
     {
       "type": "relationship",
