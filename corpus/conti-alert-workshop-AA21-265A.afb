@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4630,15 +4630,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearfishing Attachment"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4708,15 +4712,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "User Execution"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4755,15 +4763,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Steal or Forge Kerberos Tickets: Kerberoasting"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4794,11 +4806,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -4811,6 +4823,10 @@
         [
           "tactic_ref",
           "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4849,15 +4865,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Encrypted for Impact"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4919,11 +4939,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -4936,6 +4956,10 @@
         [
           "tactic_ref",
           "x-mitre-tactic--9a4e74ab-5008-408c-84bf-a10dfbc53462"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5010,15 +5034,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5049,15 +5073,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5110,11 +5134,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5122,15 +5146,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Fake Software"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5157,11 +5185,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5169,15 +5197,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Social Engineering"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5216,15 +5248,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearfishing Link"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5420,15 +5456,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5559,15 +5599,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5676,15 +5720,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Process Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5723,15 +5771,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Brute Force"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5845,15 +5897,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5927,15 +5979,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Brute Force"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5979,11 +6035,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -5996,6 +6052,10 @@
         [
           "tactic_ref",
           "x-mitre-tactic--5bc1d813-693e-4823-9961-abf9af4b0e92"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6070,11 +6130,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -6087,6 +6147,10 @@
         [
           "tactic_ref",
           "x-mitre-tactic--5e29b093-294e-49e9-a803-dab3d73b77dd"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6125,15 +6189,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploitation for Client Execution"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6164,15 +6232,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6229,15 +6297,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6268,15 +6336,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6359,15 +6427,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6398,11 +6466,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -6415,6 +6483,10 @@
         [
           "tactic_ref",
           "x-mitre-tactic--5e29b093-294e-49e9-a803-dab3d73b77dd"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4624,7 +4624,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4632,15 +4632,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4679,7 +4683,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -4687,7 +4691,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4711,11 +4715,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4750,7 +4754,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -4758,11 +4762,11 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "objective",
-          ""
+          null
         ]
       ]
     },
@@ -4837,7 +4841,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4845,15 +4849,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4892,15 +4900,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5045,7 +5053,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5053,15 +5061,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Pre-OS Boot: Bootkit"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5092,7 +5104,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5100,15 +5112,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Powershell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5139,15 +5155,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5204,15 +5220,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5256,7 +5272,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5264,15 +5280,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5311,19 +5331,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -5354,15 +5374,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5484,15 +5504,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5549,15 +5569,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5601,7 +5621,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5609,15 +5629,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5705,7 +5729,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5713,15 +5737,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Deobfuscate/Decode Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5796,7 +5824,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5804,15 +5832,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5944,7 +5976,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5952,15 +5984,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5991,7 +6027,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5999,15 +6035,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data Destruction"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6069,7 +6109,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6077,15 +6117,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6116,7 +6160,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6124,15 +6168,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Obfuscated Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6163,15 +6211,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6228,7 +6276,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -6236,15 +6284,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6288,7 +6336,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6296,15 +6344,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Visual Basic"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6409,19 +6461,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6478,7 +6530,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6486,15 +6538,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Process Injection"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6546,15 +6602,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6598,7 +6654,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6606,15 +6662,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Binary Proxy Execution: InstallUtil"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6658,7 +6718,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6666,15 +6726,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Information Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6705,7 +6769,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6713,15 +6777,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Connections Discovery "
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6852,7 +6920,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6860,15 +6928,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Shutdown/Reboot"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

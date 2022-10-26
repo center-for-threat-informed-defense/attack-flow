@@ -130,7 +130,7 @@ const config: AppConfiguration = {
                                 ["certain",       { text: "Certain", value: 100 }]
                             ]
                         },
-                        value: "probable"
+                        value: null
                     },
                     execution_start           : { type: PropertyType.Date },
                     execution_end             : { type: PropertyType.Date },
@@ -182,7 +182,7 @@ const config: AppConfiguration = {
                 properties: {
                     text: {
                         type: PropertyType.String,
-                        value: "AND",
+                        value: "OR",
                         is_primary: true,
                         is_visible: false,
                         is_editable: false,

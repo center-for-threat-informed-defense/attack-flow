@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4797,7 +4797,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4821,11 +4821,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4856,7 +4856,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4864,15 +4864,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "External Remote Services"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4903,7 +4907,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -4934,7 +4938,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -4965,7 +4969,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -4996,7 +5000,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5040,7 +5044,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5048,15 +5052,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearphishing Attachment"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5087,7 +5095,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5095,15 +5103,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearphishing Link"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5134,7 +5146,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5142,15 +5154,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing: Spearphishing via Service"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5181,7 +5197,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5286,7 +5302,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5294,15 +5310,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5346,7 +5366,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5354,15 +5374,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: PowerShell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5393,7 +5417,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5401,15 +5425,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Windows Command Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5444,19 +5472,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5491,19 +5519,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5534,7 +5562,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5542,15 +5570,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Command and Scripting Interpreter: Visual Basic"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5616,7 +5648,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5624,15 +5656,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Scheduled Task/Job: Scheduled Task"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5694,7 +5730,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5702,15 +5738,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "User Execution: Malicious Link"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5741,7 +5781,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5749,15 +5789,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "User Execution: Malicious File"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5893,7 +5937,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5901,15 +5945,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Windows Management Instrumentation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5940,7 +5988,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -5948,15 +5996,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6013,7 +6061,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6021,15 +6069,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Office Application Startup: Outlook Home Page"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6060,11 +6112,11 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "external_references",
-          ""
+          null
         ]
       ]
     },
@@ -6095,7 +6147,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6103,15 +6155,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Software Component: Web Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6186,7 +6242,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6194,15 +6250,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Deobfuscate/Decode Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6241,15 +6301,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6280,7 +6340,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6288,15 +6348,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6327,7 +6391,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6335,15 +6399,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Masquerading"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6382,15 +6450,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6421,7 +6489,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6429,15 +6497,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Obfuscated Files or Information:Indicator Removal from Tools"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6468,7 +6540,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6476,15 +6548,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Binary Proxy Execution"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6515,7 +6591,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6523,15 +6599,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Virtualization/Sandbox Evasion: System Checks"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6562,7 +6642,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6570,15 +6650,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Brute Force"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6617,15 +6701,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6656,7 +6740,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6664,15 +6748,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Credentials from Password Stores: Credentials from Web Browsers"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6711,15 +6799,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6750,7 +6838,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6758,15 +6846,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Credentials from Password Stores: Windows Credential Manager"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6805,15 +6897,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6844,7 +6936,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6852,15 +6944,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Input Capture: Keylogging"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6891,7 +6987,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -6899,15 +6995,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6938,7 +7034,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -6946,15 +7042,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7011,7 +7107,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7019,15 +7115,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: LSASS Memory"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7066,15 +7166,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7105,7 +7205,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7113,15 +7213,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: LSA Secrets"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7178,7 +7282,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7186,15 +7290,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: Cached Domain Credentials"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7225,7 +7333,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7233,15 +7341,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Unsecured Credentials: Credentials in Files"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7515,7 +7627,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7523,15 +7635,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Account Discovery: Local Account"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7562,7 +7678,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7570,15 +7686,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Account Discovery: Domain Account"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7609,7 +7729,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7617,15 +7737,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Network Service Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7664,15 +7788,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7711,15 +7835,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7750,7 +7874,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7758,15 +7882,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Password Policy Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7805,15 +7933,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -7844,7 +7972,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7852,15 +7980,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Peripheral Device Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7904,7 +8036,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7912,15 +8044,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Permission Groups Discovery: Local Groups"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7951,7 +8087,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7959,15 +8095,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Permission Groups Discovery: Domain Groups"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7998,7 +8138,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8006,15 +8146,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Process Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8045,7 +8189,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8053,15 +8197,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Query Registry"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8092,7 +8240,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8100,15 +8248,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Information Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8139,7 +8291,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8147,15 +8299,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Configuration Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8186,7 +8342,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8194,15 +8350,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Network Connections Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8233,7 +8393,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8241,15 +8401,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Owner/User Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8280,7 +8444,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8288,15 +8452,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "System Service Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8336,15 +8504,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8375,15 +8543,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8414,15 +8582,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8453,15 +8621,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8492,15 +8660,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8531,7 +8699,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8539,15 +8707,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: Remote Desktop Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8578,7 +8750,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8586,15 +8758,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services: SSH"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8625,15 +8801,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8673,7 +8849,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8681,15 +8857,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Automated Collection"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8720,7 +8900,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8728,15 +8908,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Screen Capture"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8767,15 +8951,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -8815,7 +8999,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8823,15 +9007,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Application Layer Protocol: DNS"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8862,7 +9050,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8870,15 +9058,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Application Layer Protocol: Web Protocols"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8909,7 +9101,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8917,15 +9109,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Encrypted Channel: Asymmetric Cryptography"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -8956,7 +9152,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -8964,15 +9160,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Fallback Channels"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9003,7 +9203,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9011,15 +9211,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9050,7 +9254,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9058,15 +9262,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Protocol Tunneling"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9106,15 +9314,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -9145,7 +9353,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -9153,15 +9361,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted Non-C2 Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -9192,15 +9404,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -9239,15 +9451,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -9286,15 +9498,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },

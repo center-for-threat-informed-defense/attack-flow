@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4587,15 +4587,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4603,15 +4603,15 @@
         ],
         [
           "goals",
-          ""
+          null
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
@@ -4619,11 +4619,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4662,15 +4662,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4678,15 +4678,15 @@
         ],
         [
           "goals",
-          ""
+          null
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
@@ -4694,11 +4694,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4737,15 +4737,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4753,15 +4753,15 @@
         ],
         [
           "goals",
-          ""
+          null
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
@@ -4769,11 +4769,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4804,7 +4804,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4812,15 +4812,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Phishing emails"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4851,7 +4855,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4859,15 +4863,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploited Vulnerabilities"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4907,15 +4915,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4985,7 +4993,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4993,15 +5001,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Stolen Credentials"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5032,7 +5044,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5040,15 +5052,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5105,15 +5121,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5153,11 +5169,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5169,11 +5185,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Fraudulent payment orders"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5257,11 +5277,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5269,15 +5289,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Send money to Philippines account"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5308,15 +5332,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5356,11 +5380,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5372,11 +5396,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Accounts opened illegally"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5429,11 +5457,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5441,15 +5469,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Send money to individual accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5528,7 +5560,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5536,15 +5568,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Defense Evasion: Deleted Files"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5588,7 +5624,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5596,15 +5632,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Defense Evasion: Disabling System"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5631,11 +5671,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5643,15 +5683,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Defense Evasion: Changing Bank Balances"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

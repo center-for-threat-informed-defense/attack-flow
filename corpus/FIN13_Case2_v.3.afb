@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4635,7 +4635,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4643,15 +4643,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploit Public-Facing Application"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4682,7 +4686,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4690,15 +4694,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Ingress Tool Transfer"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4733,7 +4741,7 @@
         ],
         [
           "external_references",
-          ""
+          null
         ]
       ]
     },
@@ -4785,19 +4793,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -4872,7 +4880,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4880,15 +4888,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Software Component: Web Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4976,7 +4988,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4984,15 +4996,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploitation for Client Execution"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5040,7 +5056,7 @@
         ],
         [
           "external_references",
-          ""
+          null
         ]
       ]
     },
@@ -5115,7 +5131,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5123,15 +5139,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Active Scanning"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5162,7 +5182,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5174,11 +5194,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: LSASS Memory"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5213,19 +5237,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5287,7 +5311,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5299,11 +5323,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "OS Credential Dumping: LSASS Memory"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5338,19 +5366,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5394,15 +5422,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5446,7 +5474,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5454,15 +5482,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5594,7 +5626,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5606,11 +5638,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Data From Local System"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5654,7 +5690,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5666,11 +5702,15 @@
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "File and Directory Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5701,7 +5741,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5709,15 +5749,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Remote Services"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5770,15 +5814,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5830,15 +5874,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -5869,7 +5913,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5877,15 +5921,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Active Scanning: Vulnerability Scanning"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5916,7 +5964,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5924,15 +5972,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Software Component: Webshell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5984,15 +6036,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6054,15 +6106,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6093,15 +6145,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6128,11 +6180,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6140,15 +6192,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Cloning"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6219,11 +6275,11 @@
       "properties": [
         [
           "technique_id",
-          ""
+          null
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6231,15 +6287,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Fraud"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6299,7 +6359,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -6323,11 +6383,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -6362,7 +6422,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -6370,7 +6430,7 @@
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "objective",
@@ -6444,7 +6504,7 @@
         ],
         [
           "description",
-          ""
+          null
         ],
         [
           "tool_types",
@@ -6452,15 +6512,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6569,15 +6629,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6604,7 +6664,7 @@
       "properties": [
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6612,11 +6672,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -6625,6 +6685,10 @@
         [
           "tactic_id",
           "TA0008"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -6702,15 +6766,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6754,15 +6818,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -6836,19 +6900,19 @@
         ],
         [
           "tool_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6900,15 +6964,15 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "tool_version",
-          ""
+          null
         ]
       ]
     },
@@ -6974,7 +7038,7 @@
       "properties": [
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -6982,11 +7046,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -6995,6 +7059,10 @@
         [
           "tactic_id",
           "TA0008"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7077,7 +7145,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7085,15 +7153,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -7150,7 +7222,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -7158,15 +7230,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exfiltration over C2 Channel"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

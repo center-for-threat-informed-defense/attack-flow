@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4598,7 +4598,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -4618,11 +4618,11 @@
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
@@ -4630,11 +4630,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4673,7 +4673,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -4693,11 +4693,11 @@
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
@@ -4705,11 +4705,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4748,7 +4748,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -4768,11 +4768,11 @@
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
@@ -4780,11 +4780,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4823,7 +4823,7 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "first_seen",
@@ -4843,11 +4843,11 @@
         ],
         [
           "sophistication",
-          ""
+          null
         ],
         [
           "resource_level",
-          ""
+          null
         ],
         [
           "primary_motivation",
@@ -4855,11 +4855,11 @@
         ],
         [
           "secondary_motivation",
-          ""
+          null
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4890,7 +4890,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4898,15 +4898,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Active Scanning: Vulnerability Scanning"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4937,15 +4941,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4976,7 +4980,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4984,15 +4988,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exploit Public-Facing Application"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5023,15 +5031,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5062,7 +5070,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5070,15 +5078,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Server Software Component: Web Shell"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5109,7 +5121,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5140,7 +5152,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5148,15 +5160,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Gather Victim Identity Information: Credentials"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5187,7 +5203,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5195,15 +5211,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Gather Victim Network Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5243,7 +5263,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5251,15 +5271,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Encrypted Channel"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5290,15 +5314,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5329,7 +5353,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5337,15 +5361,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Archive Collected Data"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5376,7 +5404,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5384,15 +5412,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Deobfuscate/Decode Files or Information"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5432,7 +5464,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5440,15 +5472,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Exfiltration Over Alternative Protocol: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5479,7 +5515,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5487,15 +5523,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Proxy: Multi-hop Proxy"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5534,19 +5574,19 @@
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -5581,23 +5621,23 @@
         ],
         [
           "infrustructure_types",
-          ""
+          null
         ],
         [
           "aliases",
-          ""
+          null
         ],
         [
           "kill_chain_phases",
-          ""
+          null
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ]
       ]
     },
@@ -5641,7 +5681,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5649,15 +5689,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Indicator Removal on Host: File Deletion"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5688,7 +5732,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5696,15 +5740,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           " Indicator Removal on Host: Clear Windows Event Logs"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },

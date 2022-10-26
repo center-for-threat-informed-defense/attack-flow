@@ -361,7 +361,7 @@
                 ]
               ]
             },
-            "value": "probable"
+            "value": null
           },
           "execution_start": {
             "type": 3
@@ -655,7 +655,7 @@
         "properties": {
           "text": {
             "type": 2,
-            "value": "AND",
+            "value": "OR",
             "is_primary": true,
             "is_visible": false,
             "is_editable": false
@@ -4606,11 +4606,11 @@
         ],
         [
           "first_seen",
-          ""
+          null
         ],
         [
           "last_seen",
-          ""
+          null
         ],
         [
           "roles",
@@ -4638,7 +4638,7 @@
         ],
         [
           "personal_motivations",
-          ""
+          null
         ]
       ]
     },
@@ -4665,7 +4665,7 @@
       "properties": [
         [
           "name",
-          "PLACEHOLDER - RENAME ME"
+          null
         ],
         [
           "description",
@@ -4700,15 +4700,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4739,7 +4739,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4747,15 +4747,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Compromise Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4799,7 +4803,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4807,15 +4811,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4859,15 +4867,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -4898,7 +4906,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -4906,15 +4914,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Multi-Factor Authentication Request Generation"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -4958,7 +4970,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5015,7 +5027,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5023,15 +5035,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Network Share Discovery"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5119,7 +5135,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5127,15 +5143,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Unsecured Credentials: Credentials in Files"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5223,15 +5243,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5275,7 +5295,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5283,15 +5303,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Valid Accounts"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5335,15 +5359,15 @@
         ],
         [
           "pattern",
-          ""
+          null
         ],
         [
           "pattern_type",
-          ""
+          null
         ],
         [
           "pattern_version",
-          ""
+          null
         ]
       ]
     },
@@ -5387,7 +5411,7 @@
         ],
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5395,15 +5419,19 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
           "Credentials from Password Stores"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5491,7 +5519,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5535,7 +5563,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5579,7 +5607,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5610,7 +5638,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5641,7 +5669,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5672,7 +5700,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5703,7 +5731,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5734,7 +5762,7 @@
         ],
         [
           "description",
-          ""
+          null
         ]
       ]
     },
@@ -5883,7 +5911,7 @@
       "properties": [
         [
           "technique_ref",
-          ""
+          null
         ],
         [
           "description",
@@ -5891,11 +5919,11 @@
         ],
         [
           "created",
-          ""
+          null
         ],
         [
           "modified",
-          ""
+          null
         ],
         [
           "name",
@@ -5904,6 +5932,10 @@
         [
           "tactic_id",
           "TA0010"
+        ],
+        [
+          "confidence",
+          null
         ]
       ]
     },
@@ -5943,7 +5975,7 @@
       "properties": [
         [
           "name",
-          "PLACEHOLDER - RENAME ME"
+          null
         ],
         [
           "description",
