@@ -102,7 +102,7 @@
       "name": "External Remote Services",
       "technique_id": "T1133",
       "description": "The adversary logs into the Kubernetes console.",
-      "confidence": "7f50b593fc42141161ce8dadf36e465c",
+      "confidence": 50,
       "effect_refs": [
         "attack-action--307e4dc4-e109-4ef1-b0f5-7eaa7816ca25",
         "attack-action--fe5fea66-d2a1-4b41-a9eb-7f8eccf9704a"
@@ -122,7 +122,7 @@
       "name": "Unsecured Credentials: Credentials In Files",
       "technique_id": "T1552.001",
       "description": "The adversary can view plaintext AWS keys in the Kubernetes console.",
-      "confidence": "7fbf75fb1eb08d30a2ab9a9461cdf062",
+      "confidence": 50,
       "effect_refs": [
         "attack-action--3475ec81-5b70-4f9a-a9a9-9a089216ab44"
       ]
@@ -141,7 +141,7 @@
       "name": "Valid Accounts: Cloud Accounts",
       "technique_id": "T1078.004",
       "description": "The adversary authenticates to AWS S3 using the discovered credentials.",
-      "confidence": "7fbf75fb1eb08d30a2ab9a9461cdf062",
+      "confidence": 50,
       "effect_refs": [
         "attack-action--5d19b518-7bcd-48d7-9d61-5e6001b130b1"
       ]
@@ -160,7 +160,7 @@
       "name": "Data from Cloud Storage Object",
       "technique_id": "T1530",
       "description": "The adversary can access data in private S3 buckets.",
-      "confidence": "7fbf75fb1eb08d30a2ab9a9461cdf062"
+      "confidence": 50,
     },
     {
       "type": "attack-action",
@@ -176,7 +176,7 @@
       "name": "Deploy Container",
       "technique_id": "T1610",
       "description": "The adversary deploys a new container on the Kubernetes cluster.",
-      "confidence": "efe6b2c2589e25605d9f62170933c925",
+      "confidence": 50,
       "effect_refs": [
         "attack-operator--2523aded-6d9a-4f28-aea9-be9dd6f490e0"
       ]
@@ -195,7 +195,7 @@
       "name": "Acquire Infrastructure: Server",
       "technique_id": "T1583.004",
       "description": "The adversary sets up server[s] to run a cryptomining pool.",
-      "confidence": "7f50b593fc42141161ce8dadf36e465c",
+      "confidence": 50,
       "effect_refs": [
         "attack-action--837bede5-db2f-40ac-b4df-9798548de067"
       ]
@@ -214,7 +214,7 @@
       "name": "Connection Proxy",
       "technique_id": "T0884",
       "description": "The adversary proxies their mining pool through Cloudflare CDN.",
-      "confidence": "efe6b2c2589e25605d9f62170933c925",
+      "confidence": 50,
       "effect_refs": [
         "attack-operator--2523aded-6d9a-4f28-aea9-be9dd6f490e0"
       ]
@@ -250,7 +250,7 @@
       "name": "Resource Highjacking",
       "technique_id": "T1496",
       "description": "The adversary runs cryptomining software in the container, configured to use their private mining pool.",
-      "confidence": "efe6b2c2589e25605d9f62170933c925"
+      "confidence": 50,
     },
     {
       "type": "infrastructure",
