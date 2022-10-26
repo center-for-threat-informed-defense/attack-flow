@@ -1,7 +1,7 @@
 Attack Flow |version|
 =====================
 
-Attack Flow is a standard for describing how cyber adversaries combine and sequence
+Attack Flow is a language for describing how cyber adversaries combine and sequence
 various offensive techniques to achieve their goals. The project helps defenders and
 leaders understand how adversaries operate and improve their own defensive posture. This
 project is created and maintained by the `MITRE Engenuity Center for Threat-Informed

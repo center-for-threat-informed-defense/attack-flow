@@ -31,8 +31,8 @@ This project is targeted at any cyber security professional seeking to understan
 adversaries operate, the impact on their organization, and how to most effectively
 improve their defensive posture to address those threats. Threat intelligence analysts,
 security operations, incident response teams, red team members, and risk assessors are
-some of the groups that can benefit from Attack Flow. The standard facilitates sharing
-of threat intelligence, communicating about risks, modeling efficacy of security
+some of the groups that can benefit from Attack Flow. This specification facilitates
+sharing of threat intelligence, communicating about risks, modeling efficacy of security
 controls, and more. The project includes tools to visualize attacks for the benefit of
 low-level analysis as well as communicating high-level principles to management.
 
@@ -44,7 +44,7 @@ Attack Flow is designed to support many different use cases.
 **Threat Intelligence**
 
 CTI analysts can use Attack Flow to create highly detailed, behavior-based threat
-intelligence products. The standard is machine-readable to provide for interoperability
+intelligence products. The langauge is machine-readable to provide for interoperability
 across organizations and commercial tools. Users can track adversary behavior at the
 incident level, campaign level, or threat actor level. Instead of focusing on indicators
 of compromise (IOCs), which are notoriously inexpensive for the adversary to change,
@@ -114,8 +114,8 @@ Here are a few ways for you to learn more and get started with Attack Flow:
    <https://www.linkedin.com/showcase/center-for-threat-informed-defense/>`__ or email
    us `ctid@mitre-engenuity.org <mailto:ctid@mitre-engenuity.org>`__ and let us know how
    you're using Attack Flow and what ideas you have to improve it.
-4. :newsgroup:`Spread the word!` A standard succeeds only when members of the community
-   get excited and adopt it in their own work. Attack Flow is open source and
+4. :newsgroup:`Spread the word!` Our goals is to get members of the community excited
+   about Attack Flow and adopt it in their own work. Attack Flow is open source and
    royalty-free, so go ahead and share it to your professional network!
 
 Deep Dive
@@ -124,7 +124,7 @@ Deep Dive
 If you decide you want to dive even deeper into Attack Flow, here are the key resources
 for building up a full understanding of the project:
 
-* The :doc:`language standard <language>` goes into very
+* The :doc:`language specification <language>` goes into very
   deep detail about the inner working of Attack Flow. This is intended for developers
   who want to write code that works with Attack Flow, and not required reading for the
   general audience.

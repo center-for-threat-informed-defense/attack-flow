@@ -2,15 +2,16 @@ Best Practices Guide
 ====================
 
 This chapter addresses considerations for creating flows that are outside the scope of
-the technical standard. While it is possible to create a valid flow without adhering to
-these rules, we recommend employing these best practices to produce high-quality flows.
+the technical specification. While it is possible to create a valid flow without
+adhering to these rules, we recommend employing these best practices to produce
+high-quality flows.
 
-Name of Standard
-----------------
+Project Name
+------------
 
-The technical standard and the project as a whole are referred to as "Attack Flow" (with
-capital letters), while the individual files created using the language are referred to
-as "attack flows" (lower case).
+The technical specification and the project as a whole are referred to as "Attack Flow"
+(with capital letters), while the individual files created using the language are
+referred to as "attack flows" (lower case).
 
 Open-Source Report Selection
 ----------------------------
@@ -41,7 +42,10 @@ threat, which may be used to inform decisions on defense and resource prioritiza
    * When available, use attribution and targeting information from reports to enrich
      your attack flows.
 
-Conversely, sources that do not meet the above standard should be avoided. Sources that do not have technical expertise and the ability to analyze the malware or attack themselves (for example, news sites) are not considered optimal for creating attack flows.
+Conversely, sources that do not meet the above criteria should be avoided. Sources that
+do not have technical expertise and the ability to analyze the malware or attack
+themselves (for example, news sites) are not considered optimal for creating attack
+flows.
 
 Characteristics of Reports to Avoid:
 
@@ -229,9 +233,9 @@ laterally, NotPetya tests for vulnerable SMBv1 condition (Eternal Blue/Eternal R
 exploit) and deploys an SMB backdoor.""
 
 **Refrain from attaching conditions directly to other conditions.** Although the
-standard does not forbid this, it is duplicative and wastes space. Consider combining
-the two conditions into one object with a description that describes both aspects of the
-state.
+specification does not forbid this, it is duplicative and wastes space. Consider
+combining the two conditions into one object with a description that describes both
+aspects of the state.
 
 Quality Criteria for Public Corpus
 ----------------------------------

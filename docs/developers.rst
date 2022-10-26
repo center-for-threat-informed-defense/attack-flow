@@ -194,12 +194,12 @@ The output of the command will look something like this:
 Generate schema documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Attack Flow Library can convert the JSON schema file into human-readable documentation
-and insert it into ``standard.rst``.
+The Attack Flow Library can convert the JSON schema file into human-readable
+documentation and insert it into ``language.rst``.
 
 .. code:: bash
 
-    $ af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
+    $ af doc-schema schema/attack-flow-2022-01-05-draft.json docs/language.rst
 
 This is automatically done at build time when publishing documentation, but you may want
 to run this locally while modifying the JSON schema.

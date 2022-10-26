@@ -12,7 +12,7 @@ Builder (.afb)
     The format used for creating and editing in the Attack Flow Builder.
 
 JSON (.json)
-    The machine-readable standard format for exchanging flows.
+    The machine-readable format for exchanging flows.
 
 Graphviz (.dot)
     An example of converting from Attack Flow to another graph format in order to take

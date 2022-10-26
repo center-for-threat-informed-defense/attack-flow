@@ -173,7 +173,7 @@ actions, and can be referenced from other STIX objects.
       "created": "2022-08-02T19:34:35.143Z",
       "modified": "2022-08-02T19:34:35.143Z",
       "name": "Example Flow",
-      "description": "This Attack Flow example demonstrates some of the key concepts of the Attack Flow standard.",
+      "description": "This Attack Flow example demonstrates some of the key concepts of the Attack Flow specification.",
       "scope": "incident",
       "start_refs": [
         "attack-action--37345417-3ee0-4e11-b421-1d4be68e6f15",

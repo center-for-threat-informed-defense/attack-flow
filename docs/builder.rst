@@ -124,8 +124,8 @@ Save Selection as Image
   selected items in \*.png format. (This is how many of the examples in this
   documentation were created!)
 Publish Attack Flow
-  Saves the flow in \*.json format, which is the standard format for exchanging and
-  processing Attack Flows.
+  Saves the flow in \*.json format, which is the machine-readable format for exchanging
+  and processing Attack Flows.
 
 .. warning::
 
