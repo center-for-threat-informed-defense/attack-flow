@@ -65,29 +65,23 @@ export class DiagramValidator {
     /**
      * Adds a warning to the validator.
      * @param object
-     *  The object that failed to validate.
+     *  The id of the object that failed to validate.
      * @param reason
      *  The reason the object failed to validate.
      */
-    public addWarning(object: GraphObjectExport, reason: string) {
-        this._warnings.push({
-            object: object.id,
-            reason
-        })
+    public addWarning(object: string, reason: string) {
+        this._warnings.push({ object, reason });
     }
 
     /**
      * Adds an error to the validator.
      * @param object
-     *  The object that failed to validate.
+     *  The id of the object that failed to validate.
      * @param reason
      *  The reason the object failed to validate.
      */
-    protected addError(object: GraphObjectExport, reason: string) {
-        this._errors.push({
-            object: object.id,
-            reason
-        })
+    protected addError(object: string, reason: string) {
+        this._errors.push({ object, reason });
     }
 
     /**

@@ -92,7 +92,7 @@ export abstract class DiagramLineModel extends DiagramObjectModel {
      *  If `obj` is not of type {@link DiagramLineObjectModel}.
      */
     public override addChild(
-        obj: DiagramLineObjectModel,
+        obj: DiagramObjectModel,
         index: number = this.children.length,
         update: boolean = true
     ): void {

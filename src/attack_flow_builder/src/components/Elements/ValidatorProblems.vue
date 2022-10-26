@@ -69,7 +69,9 @@ export default defineComponent({
      */
     focus(id: string) {
       let obj = this.editor.page.lookup(id);
-      if(obj) {
+      if(obj === this.editor.page) {
+        this.execute(new Page.UnselectDescendants(this.editor.page));
+      } else if(obj) {
         this.execute(new Page.UnselectDescendants(this.editor.page));
         this.execute(new Page.SelectObject(obj));
         this.execute(new Page.MoveCameraToSelection(this.ctx, this.editor.page))

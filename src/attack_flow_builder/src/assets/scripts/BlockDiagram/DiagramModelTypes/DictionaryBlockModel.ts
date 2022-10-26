@@ -179,6 +179,7 @@ export class DictionaryBlockModel extends DiagramObjectModel {
             title.text.push({ x, y, t: titleText });
             y += m.descent + ((tf as any).padding ?? 0);
             
+            // Calculate subtitle text
             if(hasSubtitle) {
                 let stf = head.two_title.subtitle;
 
@@ -204,10 +205,12 @@ export class DictionaryBlockModel extends DiagramObjectModel {
                 }
 
             }
+            y += head.vertical_padding + strokeWidth;
 
-            y += head.vertical_padding;
+            // Calculate header height
+            let headerHeight = Math.round(y);
 
-            let headerHeight;
+            // Calculate fields
             if(hasBody) {
 
                 // Create field name & value text sets
@@ -225,8 +228,6 @@ export class DictionaryBlockModel extends DiagramObjectModel {
                 text.push(fieldValue);
 
                 // Calculate fields
-                y += strokeWidth
-                headerHeight = Math.round(y);
                 y += body.vertical_padding;
                 for(let [key, value] of this.props.value) {
 
@@ -269,7 +270,7 @@ export class DictionaryBlockModel extends DiagramObjectModel {
                 y += body.vertical_padding;
 
             } else {
-                headerHeight = Math.round(y + strokeWidth);
+                y -= strokeWidth;
             }
 
             // Calculate block's size

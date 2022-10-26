@@ -6,40 +6,73 @@ export type GraphExport = {
     /**
      * The graph's nodes.
      */
-    nodes: GraphObjectExport[]
+    nodes: Map<string, GraphObjectExport>
     
     /**
      * The graph's edges.
      */
-    edges: GraphObjectExport[]
+    edges: Map<string, GraphObjectExport>
 
 }
 
-export type GraphObjectExport = {
+export class GraphObjectExport {
     
-    /**
-     * The object's id.
-     */
-    id: string
-
     /**
      * The object's template.
      */
-    template: ObjectTemplate
+    public template: ObjectTemplate
 
     /**
-     * The object's semantic data.
+     * The object's properties.
      */
-    data: RootProperty
+    public props: RootProperty
+ 
+    /**
+     * The object's parent link map.
+     */
+    public prevLinkMap: Map<string, string[]>
+ 
+    /**
+     * The object's child link map.
+     */
+    public nextLinkMap: Map<string, string[]>
 
     /**
      * The object's parents.
      */
-    prev: string[]
+    public get prev(): string[] {
+        return [...this.prevLinkMap.values()].flat();
+    }
 
     /**
      * The object's children.
      */
-    next: string[]
+    public get next(): string[] {
+        return [...this.nextLinkMap.values()].flat();
+    }
+
+
+    /**
+     * Creates a new {@link GraphObjectExport}.
+     * @param template
+     *  The object's template.
+     * @param props
+     *  The object's properties.
+     * @param nextLinkMap
+     *  The object's parent link map.
+     * @param prevLinkMap
+     *  The object's child link map.
+     */
+    constructor(
+        template: ObjectTemplate,
+        props: RootProperty,
+        nextLinkMap: Map<string, string[]>,
+        prevLinkMap: Map<string, string[]>
+    ) {
+        this.template = template;
+        this.props = props;
+        this.nextLinkMap = nextLinkMap;
+        this.prevLinkMap = prevLinkMap;
+    }
 
 }

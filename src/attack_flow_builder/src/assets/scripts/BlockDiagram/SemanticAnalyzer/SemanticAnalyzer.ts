@@ -1,6 +1,6 @@
 import { SemanticRole } from "../DiagramFactory";
 import { GraphExport, GraphObjectExport } from "./GraphExportTypes";
-import { DiagramAnchorableModel, DiagramObjectModel } from "../DiagramModelTypes";
+import { DiagramAnchorableModel, DiagramAnchorModel, DiagramObjectModel } from "../DiagramModelTypes";
 
 export class SemanticAnalyzer {
 
@@ -12,30 +12,32 @@ export class SemanticAnalyzer {
      *  The graph's edges and nodes.
      */
     public static toGraph(object: DiagramObjectModel): GraphExport {
-        let array: GraphObjectExport[];
-        let edges: GraphObjectExport[] = [];
-        let nodes: GraphObjectExport[] = [];
-        for(let obj of object.getSubtree()) {    
-            // Pick array
+        let items: Map<string, GraphObjectExport>;
+        let edges: Map<string, GraphObjectExport> = new Map();
+        let nodes: Map<string, GraphObjectExport> = new Map();
+        for(let obj of object.getSubtree()) {
+            // Select item map
             switch(obj.getSemanticRole()) {
                 case SemanticRole.Node:
-                    array = nodes;
+                    items = nodes;
                     break;
                 case SemanticRole.Edge:
-                    array = edges;
+                    items = edges;
                     break;
                 default:
                     continue;
             }
+            // Resolve prev & next
+            let next = this.traverse(obj, Direction.Next) as any;
+            for(let [key, value] of next) {
+                next.set(key, value.map((o: DiagramObjectModel) => o.id));
+            }
+            let prev = this.traverse(obj, Direction.Prev) as any;
+            for(let [key, value] of prev) {
+                prev.set(key, value.map((o: DiagramObjectModel) => o.id));
+            }
             // Export object
-            array.push({
-                id: obj.id,
-                template: obj.template,
-                data: obj.props,
-                prev: this.getPrevGraphLinks(obj).map(o => o.id),
-                next: this.getNextGraphLinks(obj).map(o => o.id)
-            });
-            
+            items.set(obj.id, new GraphObjectExport(obj.template, obj.props, next, prev));
         }
         return { edges, nodes }
     }
@@ -50,14 +52,7 @@ export class SemanticAnalyzer {
      *  The next set of diagram objects.
      */
     public static getNextGraphLinks(object: DiagramObjectModel): DiagramObjectModel[] {
-        switch(object.getSemanticRole()) {
-            case SemanticRole.Edge:
-                return this.getNodes(this.getEdgeTargetsFor(object));
-            case SemanticRole.Node:
-                return this.getEdges(this.getEdgeSourcesFor(object));
-            default:
-                return [];
-        }
+        return [...this.traverse(object, Direction.Next).values()].flat();
     }
 
     /**
@@ -70,204 +65,147 @@ export class SemanticAnalyzer {
      *  The previous set of diagram objects.
      */
     public static getPrevGraphLinks(object: DiagramObjectModel): DiagramObjectModel[] {
-        switch(object.getSemanticRole()) {
-            case SemanticRole.Edge:
-                return this.getNodes(this.getEdgeSourcesFor(object));
-            case SemanticRole.Node:
-                return this.getEdges(this.getEdgeTargetsFor(object));
-            default:
-                return [];
-        }
+        return [...this.traverse(object, Direction.Prev).values()].flat();
     }
 
     /**
-     * Resolves all {@link SemanticRole.Node Node} objects from a list of
-     * {@link SemanticRole.EdgeSource EdgeSource} or 
-     * {@link SemanticRole.EdgeTarget EdgeTarget} objects.
-     * @param objects
-     *  The diagram objects.
-     * @returns
-     *  The semantic nodes.
-     */
-    private static getNodes(objects: DiagramObjectModel[]): DiagramObjectModel[] {
-        let nodes = [];
-        for(let obj of objects) {
-            let node = this.getNode(obj);
-            if(node) {
-                nodes.push(node);
-            }
-        }
-        return nodes;
-    }
-
-    /**
-     * Resolves the {@link SemanticRole.Node Node} of a
-     * {@link SemanticRole.EdgeSource EdgeSource} or
-     * {@link SemanticRole.EdgeTarget EdgeTarget} object.
+     * Traverses a {@link DiagramObjectModel} and derives the next set of
+     * diagram objects as if it were a graph.
      * @param object
      *  The diagram object.
+     * @param direction
+     *  The traversal direction.
      * @returns
-     *  The semantic node, `undefined` if there wasn't one.
+     *  The link map.
      */
-    private static getNode(object: DiagramObjectModel): DiagramObjectModel | undefined {
-        if(
-            !(object instanceof DiagramAnchorableModel) ||
-            (
-                !object.hasRole(SemanticRole.EdgeSource) &&
-                !object.hasRole(SemanticRole.EdgeTarget)
-            )
-        ) {
-            return undefined;
-        }
-        // Traverse anchor chain looking for a node
-        let p: DiagramObjectModel | undefined = object.anchor;
-        while(p) {
-            if(p.hasRole(SemanticRole.Node)) {
-                return p;
-            }
-            p = p.parent;
-        }
-    }
-
-    /**
-     * Resolves all {@link SemanticRole.Edge Edge} objects from a list of
-     * {@link SemanticRole.EdgeSource EdgeSource} or 
-     * {@link SemanticRole.EdgeTarget EdgeTarget} objects.
-     * @param objects
-     *  The diagram objects.
-     * @returns
-     *  The semantic edges.
-     */
-    private static getEdges(objects: DiagramObjectModel[]): DiagramObjectModel[] {
-        let edges = [];
-        for(let obj of objects) {
-            let edge = this.getEdge(obj);
-            if(edge) {
-                edges.push(edge);
-            }
-        }
-        return edges;
-    }
-
-    /**
-     * Resolves the {@link SemanticRole.Edge Edge} of a
-     * {@link SemanticRole.EdgeSource EdgeSource} or
-     * {@link SemanticRole.EdgeTarget EdgeTarget} object.
-     * @param object
-     *  The diagram object.
-     * @returns
-     *  The semantic edge, `undefined` if there wasn't one.
-     */
-    private static getEdge(object: DiagramObjectModel): DiagramObjectModel | undefined {
-        if(
-            !object.hasRole(SemanticRole.EdgeSource) && 
-            !object.hasRole(SemanticRole.EdgeTarget)
-        ) {
-            return undefined;
-        }
-        // Traverse parent chain looking for an edge
-        let p: DiagramObjectModel | undefined = object.parent;
-        while(p) {
-            if(p.hasRole(SemanticRole.Edge)) {
-                return p;
-            }
-            p = p.parent;
-        }
-        return undefined;
-    }
-
-    /**
-     * Resolves all {@link SemanticRole.EdgeSource EdgeSource} objects from a
-     * list of {@link SemanticRole.Edge Edge} or {@link SemanticRole.Node Node}
-     * objects.
-     * @param objects
-     *  The diagram objects.
-     * @returns
-     *  The semantic edge sources.
-     */
-    private static getEdgeSources(objects: DiagramObjectModel[]): DiagramObjectModel[] {
-        let edgeSources: DiagramObjectModel[] = []
-        for(let obj of objects) {
-            edgeSources = edgeSources.concat(this.getEdgeSourcesFor(obj));
-        }
-        return edgeSources;
-    }
-
-    /**
-     * Resolves all {@link SemanticRole.EdgeSource EdgeSource} objects from an 
-     * {@link SemanticRole.Edge Edge} or {@link SemanticRole.Node Node} object.
-     * @param object
-     *  The diagram object.
-     * @returns
-     *  The semantic edge sources.
-     */
-    private static getEdgeSourcesFor(object: DiagramObjectModel): DiagramObjectModel[] {
+    private static traverse(
+        object: DiagramObjectModel,
+        direction: Direction
+    ): Map<string, DiagramObjectModel[]> {
+        let map = new Map<string, DiagramObjectModel[]>();
         if(
             !object.hasRole(SemanticRole.Edge) &&
             !object.hasRole(SemanticRole.Node)
         ) {
-            return [];
+            return map;
         }
-        let stack = [object];
-        let sources = [];
+        let stack = [...object.children];
         while(stack.length) {
             let obj = stack.pop()!;
-            if(obj.hasRole(SemanticRole.EdgeSource)) {
-                sources.push(obj);
+            // Anchor object
+            if(obj instanceof DiagramAnchorModel) {
+                for(let child of obj.children) {
+                    this.registerLink(
+                        obj.template.id,
+                        this.traverseAnchorable(child, obj, direction),
+                        map
+                    )
+                }
                 continue;
             }
+            // Anchorable object
+            if(obj instanceof DiagramAnchorableModel) {
+                this.registerLink(
+                    obj.anchor?.template.id ?? "undefined",
+                    this.traverseAnchorable(obj, obj.parent!, direction),
+                    map
+                )
+                continue;
+            }
+            // Node or Edge object
+            if(
+                obj.hasRole(SemanticRole.Node) ||
+                obj.hasRole(SemanticRole.Edge)
+            ) {
+                continue;
+            }
+            // General object
             for(let child of obj.children) {
                 stack.push(child);
             }
         }
-        return sources;
+        return map;
     }
 
     /**
-     * Resolves all {@link SemanticRole.EdgeTarget EdgeTarget} objects from a
-     * list of {@link SemanticRole.Edge Edge} or {@link SemanticRole.Node Node}
-     * objects.
-     * @param objects
-     *  The diagram objects.
-     * @returns
-     *  The semantic edge targets.
+     * Registers a link with a link map.
+     * @param via 
+     *  The route the link is connected through.
+     * @param obj
+     *  The linked object.
+     * @param map
+     *  The link map.
      */
-    private static getEdgeTargets(objects: DiagramObjectModel[]): DiagramObjectModel[] {
-        let edgeTargets: DiagramObjectModel[] = []
-        for(let obj of objects) {
-            edgeTargets = edgeTargets.concat(this.getEdgeTargetsFor(obj));
+    public static registerLink(
+        via: string,
+        obj: DiagramObjectModel | undefined,
+        map: Map<string, DiagramObjectModel[]>
+    ) {
+        if(!obj) return;
+        if(!map.has(via)) {
+            map.set(via, []);
         }
-        return edgeTargets;
+        map.get(via)!.push(obj);
     }
 
+    
     /**
-     * Resolves all {@link SemanticRole.EdgeTarget EdgeTarget} objects from an 
-     * {@link SemanticRole.Edge Edge} or {@link SemanticRole.Node Node} object.
-     * @param object
-     *  The diagram object.
+     * Traverses a {@link DiagramAnchorableModel} and derives the next diagram
+     * object as if it were a graph.
+     * @param object 
+     *  The {@link DiagramAnchorableModel}.
+     * @param source
+     *  The object the {@link DiagramAnchorableModel} was accessed from.
+     * @param direction
+     *  The traversal direction.
      * @returns
-     *  The semantic edge targets.
+     *  The next diagram object, if there was one.
      */
-    private static getEdgeTargetsFor(object: DiagramObjectModel): DiagramObjectModel[] {
-        if(
-            !object.hasRole(SemanticRole.Edge) &&
-            !object.hasRole(SemanticRole.Node)
-        ) {
-            return [];
+    public static traverseAnchorable(
+        object: DiagramAnchorableModel,
+        source: DiagramObjectModel,
+        direction: Direction
+    ): DiagramObjectModel | undefined {
+        let r1, r2;
+        switch(direction) {
+            case Direction.Next:
+                r1 = SemanticRole.LinkSource;
+                r2 = SemanticRole.LinkTarget;
+                break;
+            case Direction.Prev:
+                r1 = SemanticRole.LinkTarget;
+                r2 = SemanticRole.LinkSource;
+                break;
         }
-        let stack = [object];
-        let targets = [];
-        while(stack.length) {
-            let obj = stack.pop()!;
-            if(obj.hasRole(SemanticRole.EdgeTarget)) {
-                targets.push(obj);
-                continue;
-            }
-            for(let child of obj.children) {
-                stack.push(child);
-            }
+        let p;
+        if(object.anchor === source && object.hasRole(r1)) {
+            p = object.parent;
+
         }
-        return targets;
+        if(object.parent === source && object.hasRole(r2)) {
+            p = object.anchor;
+        }
+        while(p) {
+            if(
+                p.hasRole(SemanticRole.Node) || 
+                p.hasRole(SemanticRole.Edge)
+            ) {
+                break;
+            }
+            p = p.parent;
+        }
+        return p;
     }
 
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  Internal Types  ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+enum Direction {
+    Next = 0,
+    Prev = 1
 }

@@ -4,9 +4,9 @@ import { SelectObject } from "./SelectObject";
 import { UnselectDescendants } from "./UnselectDescendants";
 import { MoveCameraToObjects } from "./MoveCameraToObjects";
 import {
+    DiagramLineModel,
     DiagramObjectModel,
-    SemanticAnalyzer,
-    SemanticRole
+    SemanticAnalyzer
 } from "@/assets/scripts/BlockDiagram";
 
 export class MoveCameraToChildren extends GroupCommand {
@@ -26,20 +26,10 @@ export class MoveCameraToChildren extends GroupCommand {
             return;
         }
         // Get (graph-wise) children
-        let children: DiagramObjectModel[] = [];
+        let children = new Set<DiagramObjectModel>;
         for(let obj of objects) {
-            let links = SemanticAnalyzer.getNextGraphLinks(obj);
-            if(obj.hasRole(SemanticRole.Node)) {
-                for(let link of links) {
-                    let nodes = SemanticAnalyzer.getNextGraphLinks(link);
-                    if(nodes.length) {
-                        children = children.concat(nodes);
-                    } else {
-                        children.push(link);
-                    }
-                }
-            } else {
-                children = children.concat(links);
+            for(let n of this.getNextBlocks(obj)) {
+                children.add(n);
             }
         }
         // Unselect objects
@@ -49,9 +39,27 @@ export class MoveCameraToChildren extends GroupCommand {
             this.add(new SelectObject(child));
         }
         // Move camera to children
-        if(children.length) {
-            this.add(new MoveCameraToObjects(context, children));
+        if(children.size) {
+            this.add(new MoveCameraToObjects(context, [...children]));
         }
+    }
+
+    /**
+     * Resolve next graph-wise blocks.
+     * @param obj
+     *  The source object.
+     */
+    private getNextBlocks(obj: DiagramObjectModel): Set<DiagramObjectModel> {
+        let set = new Set<DiagramObjectModel>();
+        let next = SemanticAnalyzer.getNextGraphLinks(obj);
+        for(let n of next) {
+            if(n instanceof DiagramLineModel) {
+                set = new Set([...set, ...this.getNextBlocks(n)])
+            } else {
+                set.add(n);
+            }
+        }
+        return set;
     }
 
 }

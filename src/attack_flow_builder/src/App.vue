@@ -48,7 +48,7 @@ export default defineComponent({
       bodyWidth: -1,
       bodyHeight: -1,
       frameSize: {
-        [Handle.Right]: 325
+        [Handle.Right]: 350
       },
       minFrameSize: {
         [Handle.Right]: 310

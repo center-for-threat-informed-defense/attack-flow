@@ -1,5 +1,5 @@
 import { RasterCache } from "../DiagramElement/RasterCache";
-import { BranchBlockView, DictionaryBlockView } from "../DiagramViewTypes";
+import { BranchBlockView } from "../DiagramViewTypes";
 import {
     AnchorPointModel,
     DiagramObjectModel,
@@ -64,12 +64,14 @@ export class BranchBlockModel extends DiagramObjectModel {
         if(!this.children.length) {
             let anchor;
             let t = template.anchor_template;
-            let a = [AnchorAngle.DEG_90, AnchorAngle.DEG_0];
+            let a = [AnchorAngle.DEG_0, AnchorAngle.DEG_90];
+            // Standard anchors
             for(let i = 0; i < 9; i++) {
                 anchor = factory.createObject(t) as AnchorPointModel;
                 anchor.angle = a[Math.floor(i / 3) % 2];
                 this.addChild(anchor, i, false);
             }
+            // Branch anchors
             for(let b of this.template.branches) {
                 anchor = factory.createObject(b.anchor_template) as AnchorPointModel;
                 anchor.angle = AnchorAngle.DEG_90,
@@ -146,6 +148,9 @@ export class BranchBlockModel extends DiagramObjectModel {
                 branch,
                 horizontal_padding
             } = this.style;
+            let {
+                branches
+            } = this.template;
             let fnf = body.field_name;
             let fvf = body.field_value;
             let text: TextSet[] = [];
@@ -161,12 +166,12 @@ export class BranchBlockModel extends DiagramObjectModel {
 
             // Calculate base width
             let bw = 0;
-            for(let b of this.template.branches) {
+            for(let b of branches) {
                 bw += branch.horizontal_padding;
                 bw += branch.font.measureWidth(b.text);
                 bw += branch.horizontal_padding + strokeWidth;
             }
-            bw -= strokeWidth;
+            bw -= strokeWidth + (2 * horizontal_padding);
 
             // Calculate max width
             let mw = max_width;
@@ -197,6 +202,7 @@ export class BranchBlockModel extends DiagramObjectModel {
             title.text.push({ x, y, t: titleText });
             y += m.descent + ((tf as any).padding ?? 0);
 
+            // Calculate subtitle text
             if(hasSubtitle) {
                 let stf = head.two_title.subtitle;
 
@@ -222,10 +228,12 @@ export class BranchBlockModel extends DiagramObjectModel {
                 }
 
             }
+            y += head.vertical_padding + strokeWidth;
 
-            y += head.vertical_padding;
+            // Calculate header height
+            let headerHeight =  Math.round(y);
 
-            let headerHeight;
+            // Calculate fields
             if(hasBody) {
 
                 // Create field name & value text sets
@@ -243,13 +251,15 @@ export class BranchBlockModel extends DiagramObjectModel {
                 text.push(fieldValue);
 
                 // Calculate fields
-                y += strokeWidth
-                headerHeight = Math.round(y);
                 y += body.vertical_padding;
                 for(let [key, value] of this.props.value) {
 
                     // Ignore empty fields
                     if(!value.isDefined())
+                        continue;
+
+                    // Ignore hidden fields 
+                    if(!(value.descriptor.is_visible ?? true))
                         continue;
                     
                     // Ignore the primary key
@@ -283,57 +293,51 @@ export class BranchBlockModel extends DiagramObjectModel {
                 y += body.vertical_padding;
 
             } else {
-                headerHeight = Math.round(y + strokeWidth);
+                y -= strokeWidth;
             }
 
             // Create branch text set
-            let branches: TextSet = {
+            let branchText: TextSet = {
                 font: branch.font,
                 color: branch.color,
                 text: []
             }
-            text.push(branches);
+            text.push(branchText);
 
             // Calculate branches
             y += strokeWidth;
-            w = Math.max(w + (2 * horizontal_padding), bw);
-            let lx = 0;
-            let _h = 0;
-            let _y = 0;
+            w = Math.max(w, bw) + (2 * horizontal_padding);
+            let vp = branch.vertical_padding;
             let _x = strokeWidth;
-
-            let _bw = w / this.template.branches.length;
-
-            for(let b of this.template.branches) {
-                m = branch.font.measure(b.text);
-                _y = branch.vertical_padding + m.ascent;
-                _x += branch.horizontal_padding;
-                
-                // Calculate branch text
-                branches.text.push({ x: _x, y: y + _y, t: b.text });
-                _y += m.descent + branch.vertical_padding;
-                _x += m.width;
-                _x += branch.horizontal_padding;
-                lx = Math.round(_x) + 0.5;
-                _h = Math.max(_h, _y);
-
-                // Calculate branch line
-                lines.push({ x0: lx, y0: 0, x1: lx, y1: 100000 });
-                _x += strokeWidth;
-
+            let _m = branches.map(b => branch.font.measure(b.text));
+            let _h = Math.max(..._m.map(m => m.ascent + m.descent)) + vp * 2;
+            let _hh = _h / 2;
+            let _hw = w / _m.length / 2;
+            
+            // Text and line placements
+            let x0, y0;
+            for(let i = 0; i < _m.length; i++) {
+                _x += _hw;
+                branchText.text.push({ 
+                    x: Math.round(_x - _m[i].width / 2),
+                    y: y + Math.round(_hh + (_m[i].ascent / 2)),
+                    t: branches[i].text
+                });
+                _x += _hw;
+                x0 = Math.round(_x) + 0.5;
+                lines.push({ x0, y0: y, x1: x0, y1: y + _h });
             }
             lines.pop();
-            for(let line of lines) {
-                line.y0 = y,
-                line.y1 = y + _h;
-            }
+            y0 = Math.round(y) - 0.5;
             y += _h;
-
-
+            
             // Calculate block's size
             let width = Math.round(w + (strokeWidth * 2));
             let height = Math.round(y + strokeWidth);
-            
+
+            // Add block line
+            lines.push({ x0: 0, y0, x1: width, y1: y0 });
+
             // Calculate block's bounding box
             let bb = this.boundingBox;
             let xMin = Math.round(bb.xMid - (width / 2));
@@ -345,20 +349,24 @@ export class BranchBlockModel extends DiagramObjectModel {
             let xo = (bb.xMid - xMin) / 2;
             let yo = (bb.yMid - yMin) / 2;
             let anchors = [
+                xMin, bb.yMid + yo,
+                xMin, bb.yMid,
+                xMin, bb.yMid - yo,
                 bb.xMid - xo, yMin,
                 bb.xMid, yMin,
                 bb.xMid + xo, yMin,
                 xMax, bb.yMid - yo,
                 xMax, bb.yMid,
-                xMax, bb.yMid + yo,
-                xMin, bb.yMid + yo,
-                xMin, bb.yMid,
-                xMin, bb.yMid - yo,
-                bb.xMid - xo, yMax,
-                bb.xMid + xo, yMax,
+                xMax, bb.yMid + yo
             ];
             for(let i = 0; i < anchors.length; i += 2) {
                 this.children[i / 2].moveTo(anchors[i], anchors[i + 1], false);
+            }
+            _x = xMin + strokeWidth;
+            for(let i = 9; i < this.children.length; i++) {
+                _x += _hw;
+                this.children[i].moveTo(Math.round(_x), yMax, false);
+                _x += _hw;
             }
 
             // Update object's bounding box
@@ -393,6 +401,8 @@ export class BranchBlockModel extends DiagramObjectModel {
     public hasFields() {
         for(let [key, value] of this.props.value) {
             if(key === this.props.primaryKey)
+                continue;
+            if(!(value.descriptor.is_visible ?? true))
                 continue;
             if(value.isDefined())
                 return true;
