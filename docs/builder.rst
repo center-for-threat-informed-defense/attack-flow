@@ -1,16 +1,11 @@
 Builder
 =======
 
-Overview
---------
-
 Attack Flow Builder is a free and open source tool for creating, viewing, and editing
 Attack Flows.
 
-Tuesday TODO: all new screenshots for this page
-
-.. figure:: _static/builder1.png
-   :alt: Screenshot of Attack Flow Builder.
+.. figure:: _static/builder-overview.png
+   :alt: Screenshot of Attack Flow Builder displaying a complex attack flow.
    :align: center
 
    View and edit Attack Flows using an intuitive drag-and-drop interface.
@@ -43,56 +38,94 @@ for viewing it in Attack Flow Builder.
     </p>
 
 When you first open the Builder, if you did not select one of the example flows then
-you will initially see a blank workspace. Right-click anywhere in this space to see a
-palette of options.
+you will initially see a blank workspace. A menubar across the top contains a lot of
+options for working with the flow, similar to what you would find in any flowchart software.
 
-.. image:: _static/builder2.png
-  :width: 400
-  :alt: Right-click to see a menu of options for nodes to create.
+The right panel of the workspace contains properties for the currently selected object
+or--when no object is selected--the properties for the flow itself. Begin by filling in
+a name and description for your flow. You can also fill in your information in the
+author fields and cite any sources using the "external references" fields.
 
-For example, you can select "Create Action Node" to create a new action. This will
-create an empty action node in the workspace; you can fill in the details for this
-action using the sidebar on the right.
+.. figure:: _static/builder-blank.png
+  :alt: Screenshot of Attack Flow Builder with menubar and side panel highlighted.
+  :align: center
 
-.. image:: _static/builder7.png
-  :width: 400
-  :alt: An example of an action this is missing a required attribute.
+  An empty workspace with menubar and side panel highlighted.
 
-You may notice validation errors in the bottom right corner if your flow is missing any
-required fields. Click on the validation error to highlight the object that needs
-fixing.
+Right click in the workspace to open up a menu, then go to Create → Attack Flow → Action
+to create a new action object.
 
-.. image:: _static/builder3.png
-  :width: 400
-  :alt: An example of an action with filled-in attributes.
+.. figure:: _static/builder-context.png
+  :alt: Screenshot of Attack Flow Builder context menu to create a new action.
+  :align: center
 
-Right-click to repeat the process and add a condition and another action, then fill in
-the missing details. You can drag and drop items to arrange them however you want, for
-example:
+  Using context menus to add a new action to the flow.
 
-.. image:: _static/builder4.png
-  :alt: Two actions and an asset with filled-in attributes
+.. figure:: _static/builder-action-empty.png
+  :alt: An empty action object.
+  :align: center
 
-Finally, connect items together by drawing an arrow from the edge of one object to
-another.
+  This action is empty because no properties have been filled in.
 
-.. image:: _static/builder5.png
-  :alt: The finished flow with connections between items.
+Click on the action to highlight it. The action's properties are now displayed in the
+side panel. Fill in a name, technique ID, and description, and notice how the action
+object displays the data you've entered.
+
+.. figure:: _static/builder-action-filled.png
+  :alt: An action object with a few properties filled in.
+  :align: center
+
+  The action displays the properties that are filled in.
+
+Repeat the steps to create a second action with details filled in. Then drag a line from
+the anchor points (little X marks) on one action to the other action to create an arrow.
+Notice that if you move either action, the arrow stays attached to it.
+
+.. figure:: _static/builder-action-two.png
+  :alt: Two action objects connected together.
+  :align: center
+
+  Build flows by creating multiple objects and connecting them together.
 
 Continue to build out your flow by adding objects, filling in the attributes, and
 drawing arrows between nodes. When you are done, you go to the File menu to save your
 flow.
 
-.. image:: _static/builder6.png
-  :width: 300
-  :alt: How to save flows.
+.. figure:: _static/builder-validation.png
+  :alt: A validation error is displayed in the sidepane.
+  :align: center
 
-Save Attack Flow…
-   Saves the file in \*.afd format, which can be opened for further editing in the
-   future.
-Publish Attack Flow…
-   Saves the file in \*.json format, which is the standard format for exchanging and
-   processing Attack Flows.
+  This flow is invalid because the first action does not have a name filled in, and
+  names are required for all actions.
+
+If you make any errors while building your flow, e.g. not filling in a required field,
+the validation pane calls your attention to the changes you need to make. If you click
+one of the items, the builder will zoom to the corresponding object, which makes it easy
+to locate the source of the problem.
+
+Continue to build out your flow by adding objects, filling in the attributes, and
+drawing arrows between nodes. When you are done, you go to the File menu to save your
+flow.
+
+.. figure:: _static/builder-menu.png
+  :alt: The menu items for saving flows.
+  :align: center
+
+  There are a few different options for saving or exporting your flow.
+
+Save
+  Saves the flow in \*.afb format, which can be opened for further editing in the
+  future.
+Save as Image
+  Saves the flow in \*.png format, which is great for visualizing, using in
+  presentations, sharing with others, etc..
+Save Selection as Image
+  When you have one or more objects selected, this menu item will save an excerpt of the
+  selected items in \*.png format. (This is how many of the examples in this
+  documentation were created!)
+Publish Attack Flow
+  Saves the flow in \*.json format, which is the standard format for exchanging and
+  processing Attack Flows.
 
 .. warning::
 
@@ -100,6 +133,10 @@ Publish Attack Flow…
    close the tab or navigate forward or backward, you will lose any unsaved work.
    Remember to save your work frequently. (This issue will be addressed in a future
    release.)
+
+**There are a ton of useful features in the builder!** Way more than we can cover here.
+To fully master this tool, we encourage you to experiment with all of the different
+options and commands and try building some sample flows.
 
 Docker
 ------

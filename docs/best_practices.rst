@@ -204,10 +204,12 @@ combine them using an OR operator.
 
 **Use preconditions to enhance human understanding of the flow.** If a set of actions are self-explanatory, omit the precondition and connect the actions to each other directly. For example, the NotPetya encryption routine does not require preconditions in between the actions.
 
-Tuesday TODO: new builder screenshot from notpetya
+.. figure:: _static/notpetya-excerpt.png
+   :alt: An excerpt from the NotPetya flow. A scheduled task action to reboot the machine leads to the rebooting action.
+   :align: center
 
-.. image:: _static/Nopreconditions.png
-   :alt: Excerpt from the NotPetya flow capturing three Actions directly connected to each other with no preconditions in between. The three actions are T1053.005 Scheduled Task/Job, Description: NotPetya creates a scheduled task that triggers a reboot 60 min after execution by default; T1529 System Shutdown/Reboot, Description: System reboots, displays decoy message; T1486 Data Encrypted for Impact, Description: The custom boot loader encrypts the MFT. NotPetya also encryped files with specfic extensions.
+   A condition object is not necessary between these actions because the relationship
+   between is very obvious.
 
 **End a flow with an Impact technique.** If the Impact is unknown, end the flow with condition stating that the impact is unknown, along with any other relevant details.
 
@@ -226,25 +228,10 @@ it is a rephrasing of a technique name. A better description would be, "to move
 laterally, NotPetya tests for vulnerable SMBv1 condition (Eternal Blue/Eternal Romance
 exploit) and deploys an SMB backdoor.""
 
-**Refrain from attaching conditions directly to other conditions.** Although it is allowable to connect one condition to another, it is discouraged. Instead, create a
-single condition that describes the complete state. Here's an example of putting two
-conditions in sequence:
-
-.. figure:: _static/condition_to_condition.png
-   :alt: Screenshot of conditions connected to each other.
-   :align: center
-
-   Conditions connected directly to each other.
-
-Here's an alternative that uses a single condition with a more detailed state
-description:
-
-.. figure:: _static/condition_alternative.png
-   :alt: Screenshot of an alternative option combining conditions together.
-   :align: center
-
-   One condition that describes the complete state replaces the two in the previous
-   example.
+**Refrain from attaching conditions directly to other conditions.** Although the
+standard does not forbid this, it is duplicative and wastes space. Consider combining
+the two conditions into one object with a description that describes both aspects of the
+state.
 
 Quality Criteria for Public Corpus
 ----------------------------------
