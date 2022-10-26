@@ -44,13 +44,13 @@ export const BuiltinTemplates: SerializedTemplate[] = [
     {
         id: `${ BUILTIN_PREFIX }line_source`,
         type: TemplateType.LineEndingPoint,
-        role: SemanticRole.EdgeSource,
+        role: SemanticRole.LinkSource,
         style: DarkTheme.LineEnding()
     },
     {
         id: `${ BUILTIN_PREFIX }line_target`,
         type: TemplateType.LineEndingPoint,
-        role: SemanticRole.EdgeTarget,
+        role: SemanticRole.LinkTarget,
         style: DarkTheme.LineEnding()
     },
     {

@@ -83,9 +83,16 @@ export abstract class DiagramAnchorModel extends DiagramObjectModel {
      *  If `obj` is already anchored to another anchor.
      */
     public override addChild(
-        obj: DiagramAnchorableModel,
+        obj: DiagramObjectModel,
         index: number = this.children.length
     ): void {
+        // Ensure object is DiagramAnchorableModel
+        if(!(obj instanceof DiagramAnchorableModel)) {
+            let name = DiagramAnchorModel.name;
+            throw new DiagramObjectModelError(
+                `Child must be of type '${ name }.'`, obj
+            );
+        }
         // Ensure object is not attached to something else
         if(obj.isAttached()) {
             throw new DiagramObjectModelError(

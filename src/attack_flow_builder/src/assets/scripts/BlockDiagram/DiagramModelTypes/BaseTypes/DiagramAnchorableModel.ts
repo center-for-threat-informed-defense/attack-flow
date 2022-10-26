@@ -2,7 +2,8 @@ import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramAnchorableView } from "../../DiagramViewTypes";
 import { 
     DiagramAnchorModel,
-    DiagramObjectModel
+    DiagramObjectModel,
+    DiagramObjectModelError
 } from "./BaseModels";
 import { 
     DiagramFactory,
@@ -41,6 +42,33 @@ export abstract class DiagramAnchorableModel extends DiagramObjectModel {
     //  1. Structure  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
     
+    
+    /**
+     * Adds a child object.
+     */
+    public override addChild() {
+        throw new DiagramObjectModelError(
+            `Anchorable objects cannot have children.`, this
+        );
+    }
+
+    /**
+     * Removes a child object.
+     */
+    public override removeChild() {
+        throw new DiagramObjectModelError(
+            `Anchorable objects cannot have children.`, this
+        );
+    }
+
+    /**
+     * Reorders a child object.
+     */
+    public override reorderChild() {
+        throw new DiagramObjectModelError(
+            `Anchorable objects cannot be reordered.`, this
+        );
+    }
 
     /**
      * Tests if this object is attached to an anchor.

@@ -67,8 +67,8 @@ const SemanticRole = {
     None       : SemanticRoleEnum.None,
     Node       : SemanticRoleEnum.Node,
     Edge       : SemanticRoleEnum.Edge,
-    EdgeSource : SemanticRoleEnum.EdgeSource,
-    EdgeTarget : SemanticRoleEnum.EdgeTarget
+    LinkSource : SemanticRoleEnum.LinkSource,
+    LinkTarget : SemanticRoleEnum.LinkTarget
 }
 export const SemanticRoleMask = generateBitMask(SemanticRole);
 

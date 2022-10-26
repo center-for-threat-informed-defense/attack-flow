@@ -5,7 +5,7 @@ import {
     GraphObjectExport, 
     ListProperty, 
     Property, 
-    PropertyType, 
+    PropertyType,
     SemanticAnalyzer 
 } from "./scripts/BlockDiagram";
 
@@ -18,79 +18,95 @@ class AttackFlowValidator extends DiagramValidator {
      */
     protected override validate(diagram: DiagramObjectModel): void {
         let graph = SemanticAnalyzer.toGraph(diagram);
-        let nodes = new Map<string, GraphObjectExport>();
-
-        // Check nodes:
-        for (let node of graph.nodes) {
-            this.checkNode(node);
-            nodes.set(node.id, node);
+        // Validate nodes
+        for (let [id, node] of graph.nodes) {
+            this.validateNode(id, node);
         }
-        // Check edges:
-        for (let edge of graph.edges) {
-            this.checkEdge(edge);
-        }
-
-    }
-
-    /**
-     * Check that the edge is connected to a source and target node.
-     *
-     * @param edge
-     */
-    protected checkEdge(edge: GraphObjectExport) {
-        if (edge.prev.length === 0 || edge.next.length === 0) {
-            this.addWarning(edge, "Edges should be connected on both ends.");
+        // Validate edges
+        for (let [id, edge] of graph.edges) {
+            this.validateEdge(id, edge);
         }
     }
 
     /**
-     * Validate a node.
-     *
+     * Validates a node.
+     * @param id
+     *  The node's id.
      * @param node
+     *  The node.
      */
-    protected checkNode(node: GraphObjectExport) {
-        for (const [key, value] of node.data.value) {
+    protected validateNode(id: string, node: GraphObjectExport) {
+        for (const [key, value] of node.props.value) {
             if (node.template.properties) {
-                this.checkProperty(node, key, value)
+                this.validateProperty(id, key, value)
             }
         }
     }
 
     /**
-     * Check a value against a property descriptor.
-     *
-     * @param node - The node associated with this value
-     * @param name - The property name
-     * @param value - The property value
-     * @param prop - The property descriptor
+     * Validates a property against its descriptor.
+     * @param id
+     *  The property's node id.
+     * @param name
+     *  The property's name.
+     * @param property
+     *  The property.
      */
-    protected checkProperty(node: GraphObjectExport, name: string, value: Property) {
-        switch (value.type) {
+    protected validateProperty(id: string, name: string, property: Property) {
+        switch (property.type) {
             case PropertyType.Int:
             case PropertyType.Float:
             case PropertyType.String:
             case PropertyType.Date:
             case PropertyType.Enum:
-                if((value.descriptor as any).is_required && !value.isDefined()) {
-                    this.addError(node, `Missing required field: '${name}'`);
+                let descriptor = property.descriptor as any;
+                if(descriptor.is_required && !property.isDefined()) {
+                    this.addError(id, `Missing required field: '${ name }'`);
                 }
                 break;
             case PropertyType.Dictionary:
-                if(value instanceof DictionaryProperty) {
-                    for(let [k, v] of value.value) {
-                        this.checkProperty(node, k, v);
+                if(property instanceof DictionaryProperty) {
+                    for(let [k, v] of property.value) {
+                        this.validateProperty(id, `${ name }.${ k }`, v);
                     }
                 }
                 break;
             case PropertyType.List:
-                if(value instanceof ListProperty) {
-                    for(let [k, v] of value.value) {
-                        if((v.descriptor as any).is_required && !v.isDefined()) {
-                            this.addError(node, `Empty item in list: '${name}'.`);
+                if(property instanceof ListProperty) {
+                    for(let v of property.value.values()) {
+                        switch(v.type) {
+                            case PropertyType.Int:
+                            case PropertyType.Float:
+                            case PropertyType.String:
+                            case PropertyType.Date:
+                            case PropertyType.Enum:
+                                let descriptor = v.descriptor as any;
+                                if(descriptor.is_required && !v.isDefined()) {
+                                    this.addError(id, `Empty item in list: '${ name }'.`);
+                                }
+                                break;
+                            case PropertyType.List:
+                                throw new Error("Unexpected list property.");
+                            case PropertyType.Dictionary:
+                                this.validateProperty(id, name, v);
+                                break;
                         }
                     }
                 }
                 break;
+        }
+    }
+
+    /**
+     * Validates an edge.
+     * @param id
+     *  The edge's id.
+     * @param edge
+     *  The edge.
+     */
+    protected validateEdge(id: string, edge: GraphObjectExport) {
+        if (edge.prev.length === 0 || edge.next.length === 0) {
+            this.addWarning(id, "Edge should connect on both ends.");
         }
     }
 

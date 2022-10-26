@@ -104,31 +104,22 @@ export class BranchBlockView extends DiagramObjectView {
             text,
             lines
         } = this.el.layout;
-        let isSplitBlock = hh !== h;
 
         // Draw body
-        let bf, bs;
-        if(isSplitBlock) {
-            bf = body.fill_color
-            bs = body.stroke_color
-        } else {
-            bf = head.fill_color
-            bs = head.stroke_color
-        }
         ctx.lineWidth = 1.1;
         drawRect(ctx, x, y, w, h, br);
         if(dsx | dsy) {
             ctx.shadowOffsetX = dsx + (0.5 * vr.scale);
             ctx.shadowOffsetY = dsy + (0.5 * vr.scale);
-            ctx.fillStyle = bf;
-            ctx.strokeStyle = bs;
+            ctx.fillStyle = body.fill_color;
+            ctx.strokeStyle = body.stroke_color;
             ctx.fill();
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
             ctx.stroke();
         } else {
-            ctx.fillStyle = bf;
-            ctx.strokeStyle = bs;
+            ctx.fillStyle = body.fill_color;
+            ctx.strokeStyle = body.stroke_color;
             ctx.fill();
             ctx.stroke();
         }
@@ -141,13 +132,11 @@ export class BranchBlockView extends DiagramObjectView {
         ctx.stroke();
 
         // Draw head
-        if(isSplitBlock) {
-            drawRect(ctx, x, y, w, hh, { tr: br, tl: br });
-            ctx.fillStyle = head.fill_color;
-            ctx.strokeStyle = head.stroke_color;
-            ctx.fill();
-            ctx.stroke();
-        }
+        drawRect(ctx, x, y, w, hh, { tr: br, tl: br });
+        ctx.fillStyle = head.fill_color;
+        ctx.strokeStyle = head.stroke_color;
+        ctx.fill();
+        ctx.stroke();
 
         // Draw text
         for(let set of text) {

@@ -1,5 +1,5 @@
 import { DiagramPublisher } from "./scripts/DiagramPublisher/DiagramPublisher";
-import { DiagramObjectModel, DictionaryProperty, GraphObjectExport, ListProperty, Property, PropertyType, SemanticAnalyzer } from "./scripts/BlockDiagram";
+import { DiagramObjectModel, DictionaryProperty, GraphObjectExport, ListProperty, PropertyType, SemanticAnalyzer } from "./scripts/BlockDiagram";
 
 const AttackFlowExtensionId 
     = "fb9c968a-745b-4ade-9b25-c324172197f4";
@@ -63,16 +63,16 @@ class AttackFlowPublisher extends DiagramPublisher {
 
         // Iterate over graph nodes and create corresponding STIX nodes (either SDO
         // or SCO).
-        for (const node of graph.nodes) {
-            const stixNode = this.exportNodeObject(node)
+        for (const [id, node] of graph.nodes) {
+            const stixNode = this.exportNodeObject(id, node)
             stixBundle.objects.push(stixNode);
             stixNodes.set(stixNode.id, stixNode);
             stixChildren.set(stixNode.id, new Array<string>());
-            graphToStixId.set(node.id, stixNode.id);
+            graphToStixId.set(id, stixNode.id);
         }
 
         // Iterate over edges and create an adjacency list for each STIX node.
-        for (const edge of graph.edges) {
+        for (const [id, edge] of graph.edges) {
             const stixParentId = graphToStixId.get(edge.prev[0]);
             const stixChildId = graphToStixId.get(edge.next[0]);
             if (stixParentId && stixChildId) {
@@ -130,17 +130,17 @@ class AttackFlowPublisher extends DiagramPublisher {
      * @parm node - The node to be published
      * @returns - an array of objects containing 1 SDO or SCO and 0 or more SROs
      */
-    protected exportNodeObject(node: GraphObjectExport): any {
+    protected exportNodeObject(id: string, node: GraphObjectExport): any {
         // Produce an SDO or SCO for this node.
         const type = node.template.id;
-        const obj = this.createStixObj(type, node.id);
+        const obj = this.createStixObj(type, id);
         if (node.template.id === "or") {
             obj.operator = "OR";
         } else if (node.template.id === "and") {
             obj.operator = "AND";
         }
         // Merge properties into stix obj
-        this.mergeDictionaryProperty(obj, node.data);
+        this.mergeDictionaryProperty(obj, node.props);
         return obj;
     }
 

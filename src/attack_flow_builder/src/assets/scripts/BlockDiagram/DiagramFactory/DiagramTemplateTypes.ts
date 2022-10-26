@@ -34,8 +34,8 @@ export enum SemanticRole {
     None                 = 0b000000000000000,
     Node                 = 0b001000000000000,
     Edge                 = 0b010000000000000,
-    EdgeSource           = 0b011000000000000,
-    EdgeTarget           = 0b100000000000000
+    LinkSource           = 0b011000000000000,
+    LinkTarget           = 0b100000000000000
 }
 
 export type Template 
@@ -115,7 +115,7 @@ export type SerializedLineStyle =
 
 export type LineEndingPointTemplate = ObjectTemplate & {
     type: TemplateType.LineEndingPoint,
-    role: SemanticRole.None | SemanticRole.EdgeSource | SemanticRole.EdgeTarget
+    role: SemanticRole.None | SemanticRole.LinkSource | SemanticRole.LinkTarget
     style: LineEndingPointStyle
 }
 
@@ -178,7 +178,7 @@ export type SerializedAnchorPointStyle =
 
 export type DictionaryBlockTemplate = ObjectTemplate & {
     type: TemplateType.DictionaryBlock,
-    role: SemanticRole.None | SemanticRole.Node,
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
     anchor_template: string,
     style: DictionaryBlockStyle
 }
@@ -248,7 +248,7 @@ export type SerializedDictionaryBlockStyle =
 
 export type BranchBlockTemplate = ObjectTemplate & {
     type: TemplateType.BranchBlock,
-    role: SemanticRole.None | SemanticRole.Node,
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
     branches: [BranchTemplate, ...BranchTemplate[]]
     anchor_template: string,
     style: BranchBlockStyle
@@ -279,7 +279,7 @@ export type SerializedBranchBlockStyle =
 
 export type TextBlockTemplate = ObjectTemplate & {
     type: TemplateType.TextBlock,
-    role: SemanticRole.None | SemanticRole.Node,
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
     anchor_template: string,
     style: TextBlockStyle
 }
@@ -318,7 +318,7 @@ export type SerializedTextBlockStyle =
 
 export type LineHorizontalElbowTemplate = LineTemplate & {
     type: TemplateType.LineHorizontalElbow
-    role: SemanticRole.None | SemanticRole.Edge
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
 }
 
 
@@ -329,7 +329,7 @@ export type LineHorizontalElbowTemplate = LineTemplate & {
 
 export type LineVerticalElbowTemplate = LineTemplate & {
     type: TemplateType.LineVerticalElbow
-    role: SemanticRole.None | SemanticRole.Edge
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
 }
 
 
@@ -340,7 +340,7 @@ export type LineVerticalElbowTemplate = LineTemplate & {
 
 export type PageTemplate = ObjectTemplate & {
     type: TemplateType.Page
-    role: SemanticRole.None
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
     grid: [number, number]
     style: PageStyle
 }
