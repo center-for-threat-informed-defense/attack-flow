@@ -152,7 +152,7 @@ def _get_builtin_label(builtin):
             continue
         pretty_key = key.replace("_", " ").title()
         if isinstance(value, list):
-            value = ", ".join(str(value))
+            value = ", ".join(str(v) for v in value)
         pretty_value = label_escape(str(value))
         lines.append(
             f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>{pretty_key}</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{pretty_value}</TD></TR>'
