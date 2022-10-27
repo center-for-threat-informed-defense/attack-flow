@@ -24,7 +24,9 @@ by our [research participants](https://ctid.mitre-engenuity.org/our-work/attack-
 
 ## Getting Started
 
-To get started,
+To get started, we suggest skimming the documentation to get familiar with the project. Next, you may want to try creating
+your own attack flows using the Attack Flow Builder, which is an easy-to-use GUI tool. When you are ready to dive deep,
+review the Example Flows and JSON Schema for the language.
 
 | Resource                                                                                   | Description                                                              |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
