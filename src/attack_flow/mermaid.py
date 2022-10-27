@@ -113,7 +113,7 @@ def convert(bundle):
                     continue
                 key = key.replace("_", " ").title()
                 if isinstance(value, list):
-                    value = ", ".join(value)
+                    value = ", ".join(str(v) for v in value)
                 label_lines.append(f"<b>{key}</b>: {value}")
             graph.add_node(o.id, "builtin", " - ".join(label_lines))
 
