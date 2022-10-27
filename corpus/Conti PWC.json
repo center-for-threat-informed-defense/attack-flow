@@ -1,0 +1,368 @@
+{
+  "type": "bundle",
+  "id": "bundle--90ecf70d-42c6-491f-8fef-2420b6f9ceaa",
+  "spec_version": "2.1",
+  "created": "2022-10-27T14:18:43.735Z",
+  "modified": "2022-10-27T14:18:43.735Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--d2ec54a5-a9b4-44f2-b649-610ee72ccf2c",
+      "spec_version": "2.1",
+      "created": "2022-10-27T02:44:54.520Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--3d3ddb8f-01c2-4165-b842-2df69b9addf4",
+      "start_refs": [
+        "attack-action--2a8b2d9c-c1cb-44e8-9c18-e146fdb28c3b"
+      ],
+      "name": "Conti PWC",
+      "description": "Conti ransomware flow based on PWC report.",
+      "author": [
+        [
+          "name",
+          "Dr. Desiree Beck"
+        ],
+        [
+          "identity_class",
+          "23b79ae0fc0f07a3669598dd23c694cc"
+        ],
+        [
+          "contact_information",
+          "dbeck@mitre.org"
+        ]
+      ],
+      "scope": "incident"
+    },
+    {
+      "type": "identity",
+      "id": "identity--3d3ddb8f-01c2-4165-b842-2df69b9addf4",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "name": "Dr. Desiree Beck",
+      "identity_class": "individual",
+      "contact_information": "dbeck@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2a8b2d9c-c1cb-44e8-9c18-e146fdb28c3b",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Phishing: Spearfishing Attachment",
+      "technique_id": "T1566.001",
+      "technique_ref": "attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597",
+      "description": "Malicious Microsoft Excel file is attached to a phishing email.",
+      "asset_refs": [
+        "attack-asset--14a9c069-abae-41d2-8615-8ca20ba0ca68"
+      ],
+      "effect_refs": [
+        "attack-condition--f8f14cd5-8cb3-41eb-a7de-d13c92afd312"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--14a9c069-abae-41d2-8615-8ca20ba0ca68",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "User of Patient Zero Workstation",
+      "description": "The user compromised by the spearfishing email."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--803b8f27-1c9b-4d83-b155-b443b69672f8",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "User Execution",
+      "technique_id": "T1204",
+      "technique_ref": "attack-pattern--8c32eb4d-805f-4fc5-bf60-c4d476c131b5",
+      "description": "User of the Patient Zero Workstation clicks on malicious Excel file, compromising the workstation.",
+      "effect_refs": [
+        "attack-condition--a32b0dae-0b41-472b-9c23-fd234955beca"
+      ],
+      "asset_refs": [
+        "attack-asset--3cbafcd5-d491-45e5-ace3-90578ff859e1"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--3cbafcd5-d491-45e5-ace3-90578ff859e1",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Patient Zero Workstation",
+      "description": "The compromised workstation."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--08dfcf4a-96c4-487e-8531-3ddd7fbb6e70",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Compromise Accounts",
+      "technique_id": "T1586",
+      "technique_ref": "attack-pattern--81033c3b-16a4-46e4-8fed-9b030dd03c4a",
+      "description": "Compromise and abuse accounts with high privilege levels",
+      "effect_refs": [
+        "attack-condition--b334ca8a-94c7-4566-bb2d-60ab79d5812a"
+      ],
+      "asset_refs": [
+        "attack-asset--e2d9146e-0aa2-4b9d-a1c3-ebbb734af1dd"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--e2d9146e-0aa2-4b9d-a1c3-ebbb734af1dd",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "HSE Server",
+      "description": "The compromised server."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--4c0e9ba3-e5ad-4215-8b41-6636f9ec90b2",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Lateral Movement",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "description": "Lateral movement to 1 statutory and 6 voluntary hospitals",
+      "asset_refs": [
+        "attack-asset--4bc35a27-c25f-4e77-8159-60cbcf9e555e"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--4bc35a27-c25f-4e77-8159-60cbcf9e555e",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "IT Systems",
+      "description": "Statutory and voluntary systems compromised."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--823c7ef5-0569-4678-a773-4f465690998c",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": " File and Directory Discovery",
+      "technique_id": "T1083",
+      "technique_ref": "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18",
+      "description": "Browsed folders and opened files within HSE",
+      "asset_refs": [
+        "attack-asset--6c3bf979-882d-49ad-8cb5-43a59f42d32e"
+      ],
+      "effect_refs": [
+        "attack-action--8956f5e4-bfaf-4709-83fa-309275967a30"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--fda03654-388a-45e1-b3c5-36a0593aec6d",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Data Encrypted for Impact",
+      "technique_id": "T1486",
+      "technique_ref": "attack-pattern--b80d107d-fa0d-4b60-9684-b0433e8bdba0",
+      "description": "Detonate Conti ransomware",
+      "asset_refs": [
+        "attack-asset--bce29a7e-123b-4e98-a7ae-f3590236d856"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--6c3bf979-882d-49ad-8cb5-43a59f42d32e",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltrated Data",
+      "description": "Data exfiltrated by the threat actor."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--8956f5e4-bfaf-4709-83fa-309275967a30",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltration",
+      "tactic_id": "TA0010",
+      "tactic_ref": "x-mitre-tactic--9a4e74ab-5008-408c-84bf-a10dfbc53462",
+      "description": "Data is exfiltrated.",
+      "asset_refs": [
+        "attack-asset--6c3bf979-882d-49ad-8cb5-43a59f42d32e"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--bce29a7e-123b-4e98-a7ae-f3590236d856",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Encrypted Data",
+      "description": "Data encrypted by Conti ransomware."
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--f8f14cd5-8cb3-41eb-a7de-d13c92afd312",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "User of Patient Zero workstation receives malicious Excel file",
+      "on_true_refs": [
+        "attack-action--803b8f27-1c9b-4d83-b155-b443b69672f8"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--a32b0dae-0b41-472b-9c23-fd234955beca",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Patient Zero user opens the malicious Excel file, compromising the Patient Zero workstation",
+      "on_true_refs": [
+        "attack-action--08dfcf4a-96c4-487e-8531-3ddd7fbb6e70"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--b334ca8a-94c7-4566-bb2d-60ab79d5812a",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:18:43.735Z",
+      "modified": "2022-10-27T14:18:43.735Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "HSE Server is compromised",
+      "on_true_refs": [
+        "attack-action--4c0e9ba3-e5ad-4215-8b41-6636f9ec90b2",
+        "attack-action--fda03654-388a-45e1-b3c5-36a0593aec6d",
+        "attack-action--823c7ef5-0569-4678-a773-4f465690998c"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,395 @@
+{
+  "type": "bundle",
+  "id": "bundle--932da297-81d7-4906-83db-0ebbe6efb6c6",
+  "spec_version": "2.1",
+  "created": "2022-10-27T14:20:04.785Z",
+  "modified": "2022-10-27T14:20:04.785Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--2fe6c5db-cdc5-4506-bb55-9a1119a45d9e",
+      "spec_version": "2.1",
+      "created": "2022-10-27T02:44:54.520Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--60fcb618-5682-4593-af95-5d97fee367b0",
+      "start_refs": [
+        "attack-action--2bf2f95c-5d35-4c50-850a-f81c31470ca9"
+      ],
+      "name": "Marriott Breach",
+      "description": "A data breach at the Marriott hotel group in 2018.",
+      "author": [
+        [
+          "name",
+          "Lauren Parker"
+        ],
+        [
+          "identity_class",
+          "23b79ae0fc0f07a3669598dd23c694cc"
+        ],
+        [
+          "contact_information",
+          "lparker@mitre.org"
+        ]
+      ],
+      "scope": "incident"
+    },
+    {
+      "type": "identity",
+      "id": "identity--60fcb618-5682-4593-af95-5d97fee367b0",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2bf2f95c-5d35-4c50-850a-f81c31470ca9",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Phishing",
+      "technique_id": "T1566",
+      "description": "Phishing email used to gain access to Starwood brands reservation system  -  Confidence: 40",
+      "effect_refs": [
+        "attack-action--ccc7e534-0ab7-4301-b666-9f86f8985863",
+        "attack-action--9f740818-914e-44cc-8914-5c3cefc0e1d7"
+      ]
+    },
+    {
+      "type": "threat-actor",
+      "id": "threat-actor--fee4c680-4992-488b-b1bb-0fc6e076a303",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "name": "Individuals on behalf of the Chinese Government",
+      "description": "Unknown individuals believed to be acting on behalf of the Chinese government; they exfiltrated personal information from customers",
+      "sophistication": "strategic",
+      "resource_level": "government",
+      "primary_motivation": "organizational-gain"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ccc7e534-0ab7-4301-b666-9f86f8985863",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Credentials from Password Stores",
+      "technique_id": "T1555",
+      "description": "Attackers obtained valid passwords/accounts to move laterally within the network",
+      "effect_refs": [
+        "attack-condition--1c852859-2281-4682-8cc4-1a51e2f50f46"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--a84c8c94-f07d-48b4-862b-4b7fc5901042",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "name": "Mimikatz"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--9f740818-914e-44cc-8914-5c3cefc0e1d7",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Access Trojan",
+      "description": "A remote access trojan was found during investigation. Generally, RATs allow an attacker to covertly access, surveil, and even gain control over a computer. However, it is unknown how attackers used the RAT in this attack.",
+      "effect_refs": [
+        "attack-operator--1b533799-bd2f-4dd8-b24d-ea98a5a1b9e8"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--1c852859-2281-4682-8cc4-1a51e2f50f46",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Attackers obtained credentials, including for an admin account",
+      "on_true_refs": [
+        "attack-operator--1b533799-bd2f-4dd8-b24d-ea98a5a1b9e8"
+      ]
+    },
+    {
+      "type": "attack-operator",
+      "id": "attack-operator--1b533799-bd2f-4dd8-b24d-ea98a5a1b9e8",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "operator": "AND",
+      "effect_refs": [
+        "attack-action--704d2b3a-4d25-41bd-9461-260e960840dc"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--704d2b3a-4d25-41bd-9461-260e960840dc",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Gather Victim Network Information: Network Topology",
+      "technique_id": "T1590.004",
+      "description": "Attackers used an administrator account to query for data within the network. Attackers searched for databases with relevant customer information.",
+      "effect_refs": [
+        "attack-condition--560b08e3-81b6-4f48-a804-783a82fd35c1"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--560b08e3-81b6-4f48-a804-783a82fd35c1",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Discovered databases ",
+      "on_true_refs": [
+        "attack-action--65436923-b069-45f9-af06-9e67998aab8b",
+        "attack-action--cb29bb1b-eee2-4457-80b7-aee3c3182517"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--65436923-b069-45f9-af06-9e67998aab8b",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Data Obfuscation",
+      "technique_id": "T1001",
+      "description": "Attackers obfuscated data that they removed from the network",
+      "effect_refs": [
+        "attack-operator--09f14bbb-64f9-4f9e-a16a-42684794b0e1"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--cb29bb1b-eee2-4457-80b7-aee3c3182517",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Archive Collected Data",
+      "technique_id": "T1560",
+      "description": "Attackers obfuscated data that they removed from the network by compressing and encrypting files ",
+      "effect_refs": [
+        "attack-operator--09f14bbb-64f9-4f9e-a16a-42684794b0e1"
+      ]
+    },
+    {
+      "type": "attack-operator",
+      "id": "attack-operator--09f14bbb-64f9-4f9e-a16a-42684794b0e1",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "operator": "AND",
+      "effect_refs": [
+        "attack-action--7239ab4c-fb5c-46b6-a2ba-637d9a2b12e9"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7239ab4c-fb5c-46b6-a2ba-637d9a2b12e9",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltration",
+      "tactic_id": "TA0010",
+      "description": "Attackers exfiltrated customer data through unknown means",
+      "asset_refs": [
+        "attack-asset--828cdfdb-8815-4383-af0d-72b0e5f81c12",
+        "attack-asset--b526faf5-34f3-4b40-a073-04fd16d7d82e",
+        "attack-asset--852df8b6-8f7e-4424-8c36-617a16643a6a"
+      ],
+      "effect_refs": [
+        "attack-action--0ed7f887-8cc8-4339-b91b-f7ace1f67ad7"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--b526faf5-34f3-4b40-a073-04fd16d7d82e",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Encrypted Files"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--852df8b6-8f7e-4424-8c36-617a16643a6a",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Guest Data"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--828cdfdb-8815-4383-af0d-72b0e5f81c12",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Passport Information"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0ed7f887-8cc8-4339-b91b-f7ace1f67ad7",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Indicator Removal on Host: File Deletion",
+      "technique_id": "T1070.004",
+      "description": "Attackers conducted defense evasion by deleting exfiltrated files",
+      "asset_refs": [
+        "attack-asset--b94ac867-4f80-4bf7-81ff-06b77abb1ba7"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--b94ac867-4f80-4bf7-81ff-06b77abb1ba7",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "exfiltrated files"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8ac3a9fd-d176-46d4-aba0-681e06c611ed",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--2bf2f95c-5d35-4c50-850a-f81c31470ca9",
+      "target_ref": "threat-actor--fee4c680-4992-488b-b1bb-0fc6e076a303"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--2268e89a-911e-4939-acc1-2020b7e77a32",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:20:04.785Z",
+      "modified": "2022-10-27T14:20:04.785Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--ccc7e534-0ab7-4301-b666-9f86f8985863",
+      "target_ref": "tool--a84c8c94-f07d-48b4-862b-4b7fc5901042"
+    }
+  ]
+}
