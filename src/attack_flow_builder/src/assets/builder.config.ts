@@ -369,7 +369,12 @@ const config: AppConfiguration = {
                     name                         : { type: PropertyType.String, is_primary: true },
                     description                  : { type: PropertyType.String },
                     malware_types                : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
-                    is_family                    : { type: PropertyType.String, is_required: true },
+                    is_family                    : { type: PropertyType.Enum,
+                                                     options: {
+                                                        type: PropertyType.List,
+                                                        form: { type:PropertyType.String },
+                                                        value: [["true", "True"], ["false", "False"]]},
+                                                    is_required: true },
                     aliases                      : { type: PropertyType.List, form: { type: PropertyType.String } },
                     kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String } },
                     first_seen                   : { type: PropertyType.Date },
@@ -579,7 +584,12 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    is_multipart                 : { type: PropertyType.String, is_required: true },
+                    is_multipart                 : { type: PropertyType.Enum,
+                        options: {
+                           type: PropertyType.List,
+                           form: { type:PropertyType.String },
+                           value: [["true", "True"], ["false", "False"]]},
+                       is_required: true },
                     date                         : { type: PropertyType.String },
                     content_type                 : { type: PropertyType.String },
                     message_id                   : { type: PropertyType.String },
@@ -663,7 +673,11 @@ const config: AppConfiguration = {
                 properties: {
                     start                        : { type: PropertyType.Date },
                     end                          : { type: PropertyType.Date },
-                    is_active                    : { type: PropertyType.String },
+                    is_active                    : { type: PropertyType.Enum,
+                        options: {
+                           type: PropertyType.List,
+                           form: { type:PropertyType.String },
+                           value: [["true", "True"], ["false", "False"]]}},
                     src_port                     : { type: PropertyType.Int, min: 0, max: 65535 },
                     dst_port                     : { type: PropertyType.Int, min: 0, max: 65535 },
                     protocols                    : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
@@ -682,7 +696,11 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    is_hidden                    : { type: PropertyType.String },
+                    is_hidden                    : { type: PropertyType.Enum,
+                        options: {
+                           type: PropertyType.List,
+                           form: { type:PropertyType.String },
+                           value: [["true", "True"], ["false", "False"]]}},
                     pid                          : { type: PropertyType.Int, min: 0 },
                     created_time                 : { type: PropertyType.Date },
                     cwd                          : { type: PropertyType.String },
@@ -729,10 +747,26 @@ const config: AppConfiguration = {
                     account_login                : { type: PropertyType.String },
                     account_type                 : { type: PropertyType.String },
                     display_name                 : { type: PropertyType.String, is_primary: true, is_required: true },
-                    is_service_account           : { type: PropertyType.String },
-                    is_privileged                : { type: PropertyType.String },
-                    can_escalate_privs           : { type: PropertyType.String },
-                    is_disabled                  : { type: PropertyType.String },
+                    is_service_account           : { type: PropertyType.Enum,
+                                                     options: {
+                                                        type: PropertyType.List,
+                                                        form: { type:PropertyType.String },
+                                                        value: [["true", "True"], ["false", "False"]]}},
+                    is_privileged                : { type: PropertyType.Enum,
+                                                     options: {
+                                                        type: PropertyType.List,
+                                                        form: { type:PropertyType.String },
+                                                        value: [["true", "True"], ["false", "False"]]}},
+                    can_escalate_privs           : { type: PropertyType.Enum,
+                                                     options: {
+                                                        type: PropertyType.List,
+                                                        form: { type:PropertyType.String },
+                                                        value: [["true", "True"], ["false", "False"]]}},
+                    is_disabled                  : { type: PropertyType.Enum,
+                                                     options: {
+                                                        type: PropertyType.List,
+                                                        form: { type:PropertyType.String },
+                                                        value: [["true", "True"], ["false", "False"]]}},
                     account_created              : { type: PropertyType.Date },
                     account_expires              : { type: PropertyType.Date },
                     credential_last_changed      : { type: PropertyType.Date },
@@ -763,7 +797,11 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 properties: {
                     subject                      : { type: PropertyType.String, is_primary: true, is_required: true },
-                    is_self_signed               : { type: PropertyType.String },
+                    is_self_signed               : { type: PropertyType.Enum,
+                        options: {
+                           type: PropertyType.List,
+                           form: { type:PropertyType.String },
+                           value: [["true", "True"], ["false", "False"]]}},
                     hashes                       : { type: PropertyType.String },
                     version                      : { type: PropertyType.String },
                     serial_number                : { type: PropertyType.String },

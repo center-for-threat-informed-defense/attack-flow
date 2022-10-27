@@ -18,55 +18,59 @@ def main():
         with afb_path.open() as afb_file_ro:
             afb = OrderedDict(json.load(afb_file_ro))
 
-        afb.pop("api_version", None)
-        afb["version"] = "2.0.0"
-        afb.pop("name", None)
+        # afb.pop("api_version", None)
+        # afb["version"] = "2.0.0"
+        # afb.pop("name", None)
         afb["schema"] = new_schema
 
         # Replace the first object (@_builtin_page) with the new attack_flow_page
         # object and set the page ID to a unique value.
-        page_id = afb.pop("page")
-        afb["id"] = page_id
+        # page_id = afb.pop("page")
+        # afb["id"] = page_id
         page = afb["objects"][0]
-        page["id"] = page_id
-        page["template"] = "attack_flow_page"
-        page["properties"] = new_page_props
-        del page["location"]
+        # page["id"] = page_id
+        page["template"] = "flow"
+        # page["properties"] = new_page_props
+        # del page["location"]
 
         # Migrate existing nodes to new schema.
         for obj in afb["objects"][1:]:
             # transform property list into dict for convenienc
             props = dict(obj["properties"])
 
-            # convert underscores in template id to hyphens
+            # convert hyphens in template id to underscores
             if not obj["template"].startswith("@__builtin"):
-                obj["template"] = obj["template"].replace("_", "-")
+                obj["template"] = obj["template"].replace("-", "_")
 
-            # Replace empty strings with nulls
-            for k, v in props.items():
-                if v.strip() == "":
-                    props[k] = None
+        #     # Replace empty strings with nulls
+        #     for k, v in props.items():
+        #         if v.strip() == "":
+        #             props[k] = None
 
-            if obj["template"] == "action":
-                migrate_action(props)
-            elif obj["template"] == "asset":
-                migrate_asset(props)
-            elif obj["template"] in ("and", "or"):
+        #     if obj["template"] == "action":
+        #         migrate_action(props)
+        #     elif obj["template"] == "asset":
+        #         migrate_asset(props)
+        #     elif obj["template"] in ("and", "or"):
+        #         obj["children"] = []
+            if obj["template"] == "condition": # TODO combine with and/or logic above
                 obj["children"] = []
+            elif obj["template"] == "malware":
+                migrate_malware(props)
 
             # tranform dict back to property list
             obj["properties"] = list(props.items())
 
-        # Re-arrange the keys in the output json
-        afb.move_to_end("schema")
-        afb.move_to_end("objects")
+        # # Re-arrange the keys in the output json
+        # afb.move_to_end("schema")
+        # afb.move_to_end("objects")
 
-        # Add location
-        afb["location"] = {
-            "x": -0.5,
-            "y": 0,
-            "k": 1
-        }
+        # # Add location
+        # afb["location"] = {
+        #     "x": -0.5,
+        #     "y": 0,
+        #     "k": 1
+        # }
 
         with afb_path.open("w") as afb_file_rw:
             json.dump(afb, afb_file_rw, indent=2)
@@ -91,6 +95,19 @@ def migrate_asset(props):
     if props.get("name", "") == "":
         props["name"] = "PLACEHOLDER - RENAME ME"
 
+
+def migrate_malware(props):
+    # coerce is_family to a boolean if it's not null
+    if is_family := props.get("is_family"):
+        if is_family.lower() == "false":
+            print(f'changed is_family from "{is_family}" to False')
+            props["is_family"] = "68934a3e9455fa72420237eb05902327"
+        else:
+            print(f'changed is_family from "{is_family}" to True')
+            props["is_family"] = "b326b5062b2f0e69046810717534cb09"
+    else:
+        print(f'changed is_family from "{is_family}" to False')
+        props["is_family"] = "68934a3e9455fa72420237eb05902327"
 
 if __name__ == "__main__":
     main()

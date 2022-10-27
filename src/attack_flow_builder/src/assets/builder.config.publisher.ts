@@ -1,5 +1,5 @@
 import { DiagramPublisher } from "./scripts/DiagramPublisher/DiagramPublisher";
-import { 
+import {
     CollectionProperty,
     DiagramObjectModel,
     DictionaryProperty,
@@ -18,7 +18,7 @@ import {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-const AttackFlowExtensionId 
+const AttackFlowExtensionId
     = "fb9c968a-745b-4ade-9b25-c324172197f4";
 
 const AttackFlowSchemaUrl
@@ -95,7 +95,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         } else {
             throw new Error("Page object missing from export.")
         }
-        
+
         // Create bundle
         let stixBundle = this.createStixBundle();
         let author = this.createFlowAuthorSdo(page);
@@ -127,7 +127,7 @@ class AttackFlowPublisher extends DiagramPublisher {
             let prevNode = stixNodes.get(prev[0]);
             let nextNode = stixNodes.get(next[0]);
             if (prevNode && nextNode) {
-                stixChildren.get(prevNode)!.push({ 
+                stixChildren.get(prevNode)!.push({
                     obj: nextNode,
                     via: edge.prevLinkMap.keys().next().value
                 });
@@ -144,11 +144,21 @@ class AttackFlowPublisher extends DiagramPublisher {
         }
 
         // Configure flow roots
+        loop1:
         for(let [id, value] of graph.nodes) {
             let type = value.template.id;
             // Ensure no parents
-            if(value.prev.length !== 0)
-                continue;
+            // if(value.prev.length !== 0)
+            //     continue;
+            for (let prevEdgeId of value.prev) {
+                let prevEdge = graph.edges.get(prevEdgeId)!;
+                if (prevEdge.prev.length > 0) {
+                    let prevNode = stixNodes.get(prevEdge.prev[0])!;
+                    if (prevNode.type == "attack-action" || prevNode.type == "attack-condition") {
+                        break loop1;
+                    }
+                }
+            }
             // Add start ref
             let stixId = stixNodes.get(id)!.id;
             switch(type) {
@@ -163,7 +173,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         return JSON.stringify(stixBundle, null, 2);
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Stix Node Creation  ////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -213,7 +223,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                         throw new Error("'confidence' is improperly defined.");
                     }
                     [ prop ] = this.getSubproperties(prop, "value");
-                    // Fall through
+                    // Falls through
                 default:
                     if(prop.isDefined()) {
                         node[key] = prop.toRawValue();
@@ -235,9 +245,15 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case PropertyType.Dictionary:
                     throw new Error("Basic dictionaries cannot contain dictionaries.");
                 case PropertyType.Enum:
-                    throw new Error("Basic dictionaries cannot contain enums.");
+                    if (prop instanceof EnumProperty && prop.isDefined()) {
+                        let value = prop.toReferenceValue()!.toRawValue()!;
+                        node[key] = value === "True";
+                    }
+                    break;
                 case PropertyType.List:
-                    this.mergeBasicListProperty(node, key, prop as ListProperty);
+                    if (prop.isDefined()) {
+                        this.mergeBasicListProperty(node, key, prop as ListProperty);
+                    }
                     break;
                 default:
                     if(prop.isDefined()) {
@@ -276,7 +292,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         }
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. Relationships Embeddings  //////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -285,13 +301,13 @@ class AttackFlowPublisher extends DiagramPublisher {
     /**
      * Embed a reference to each child in the parent. If any of the children
      * cannot be embedded, return a new SRO in its place.
-     * 
+     *
      * @remarks
      * While processing each node, we also process the in edges and out edges of that
      * node. Some edges may be represented as embedded refs in the node's SDO, and
      * others may be represented as separate relationship objects (i.e. SROs), therefore
      * this method can return multiple objects.
-     * 
+     *
      * @param parent
      *  The STIX node.
      * @param children
@@ -508,7 +524,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         return this.createSro(parent, child);
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  3. Stix Bundle  ///////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -613,7 +629,10 @@ class AttackFlowPublisher extends DiagramPublisher {
                         break;
                     }
                     prop = prop.toReferenceValue()!;
-                    // Fall through
+                    if(prop.isDefined()) {
+                        flow[key] = `${prop.toRawValue()!}`.toLocaleLowerCase();
+                    }
+                    break;
                 default:
                     if(prop.isDefined()) {
                         flow[key] = prop.toRawValue()
@@ -636,7 +655,7 @@ class AttackFlowPublisher extends DiagramPublisher {
      */
     private createFlowAuthorSdo(page: GraphObjectExport): Sdo {
         let props = page.props.value.get("author");
-        
+
         // Create author
         let author = this.createSdo("identity");
 
@@ -652,7 +671,10 @@ class AttackFlowPublisher extends DiagramPublisher {
                             break;
                         }
                         prop = prop.toReferenceValue()!;
-                        // Fall through
+                        if(prop.isDefined()) {
+                            author[key] = `${prop.toRawValue()!}`.toLocaleLowerCase();
+                        }
+                        break;
                     default:
                         if(prop.isDefined()) {
                             author[key] = prop.toRawValue()
@@ -663,13 +685,13 @@ class AttackFlowPublisher extends DiagramPublisher {
         } else {
             throw new Error("'author' is improperly defined.");
         }
-        
+
         // Return author
         return author;
 
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  4. SDO & SRO  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -688,7 +710,8 @@ class AttackFlowPublisher extends DiagramPublisher {
     private createSdo(template: string, stixId: string = crypto.randomUUID()): Sdo {
         let now = new Date().toISOString();
         let type = AttackFlowTemplatesMap.get(template) ?? template;
-        
+        type = type.replace(/_/g, "-");
+
         // Create SDO
         let sdo: Sdo = {
             type                : type,
@@ -743,7 +766,7 @@ class AttackFlowPublisher extends DiagramPublisher {
     //  5. Helpers  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Resolves a set of subproperties from a collection property.
      * @param property
@@ -760,7 +783,7 @@ class AttackFlowPublisher extends DiagramPublisher {
             if(prop) {
                 subproperties.push(prop);
             } else {
-                throw new Error(`${ id } was not defined on root property.`); 
+                throw new Error(`${ id } was not defined on root property.`);
             }
         }
         return subproperties;
