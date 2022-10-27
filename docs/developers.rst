@@ -1,9 +1,6 @@
 Developers
 ==========
 
-Overview
---------
-
 If you would like to help create or maintain the code for Attack Flow, including the
 Attack Flow library (Python) and the Attack Flow builder (ECMAScript/Node.js), this
 document explains how to set up an environment to work on this code and the frequent
@@ -59,7 +56,7 @@ dependencies do not conflict with other Python packages you may have installed.
 
     ...
 
-    Installing the current project: attack-flow (1.0.0)
+    Installing the current project: attack-flow (2.0.0)
 
 Finally, enter the virtualenv. You can check if the installation succeeded by running
 the ``af`` command.
@@ -68,7 +65,7 @@ the ``af`` command.
 
     $ poetry shell
     py[attack-flow] $ af version
-    Attack Flow version 1.0.0
+    Attack Flow version 2.0.0
 
 .. warning::
 
@@ -197,12 +194,12 @@ The output of the command will look something like this:
 Generate schema documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Attack Flow Library can convert the JSON schema file into human-readable documentation
-and insert it into ``standard.rst``.
+The Attack Flow Library can convert the JSON schema file into human-readable
+documentation and insert it into ``language.rst``.
 
 .. code:: bash
 
-    $ af doc-schema schema/attack-flow-2022-01-05-draft.json docs/standard.rst
+    $ af doc-schema schema/attack-flow-2022-01-05-draft.json docs/language.rst
 
 This is automatically done at build time when publishing documentation, but you may want
 to run this locally while modifying the JSON schema.
@@ -314,3 +311,34 @@ Finally, to run the application:
 If this starts up successfully, then you can access the application at
 http://localhost:8080/. As you edit source code and save, the server will automatically
 rebuild the application and you can refresh the browser to run it again.
+
+Releases
+--------
+
+The Attack Flow project uses a MAJOR.MINOR.PATCH version scheme. All components of the
+project (the STIX extension, Python library, Attack Flow Builder) use the same version
+number for simplicity. The project uses `bumpver` to automate the updating of version
+number strings throughout the project. For example, to do a new major release:
+
+.. code:: bash
+
+    $ bumpver update --major
+    INFO    - fetching tags from remote (to turn off use: -n / --no-fetch)
+    INFO    - Old Version: 1.0.0
+    INFO    - New Version: 2.0.0
+    INFO    - git commit --message 'Bump version 1.0.0 -> 2.0.0'
+    INFO    - git tag --annotate 2.0.0 --message 2.0.0
+
+Note that the flags ``--minor`` and ``--patch`` can be used as well.
+
+Bumpver automatically updates the version number stored in various places throughout the
+project (e.g. ``pyproject.toml``, ``src/attack_flow_builder/package.json``,
+``docs/conf.py``, etc), commits those changes, and creates a new tag.
+
+Review the contents of the commit. When you are satisfied:
+
+.. code:: bash
+
+    $ git push --follow-tags
+
+This command will push the new commit and tag to GitHub.

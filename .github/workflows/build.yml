@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
         node-version: '18'
@@ -23,12 +23,13 @@ jobs:
         # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
         NODE_OPTIONS: "--openssl-legacy-provider"
       run: npm run build
-    - name: Fetch ATT&CK Data
-      working-directory: ./src/attack_flow_builder/
-      run: npm run fetch-attack
-    - name: Build ATT&CK Index
-      working-directory: ./src/attack_flow_builder/
-      run: npm run build-index
+    # TODO: uncomment when we add autocomplete to the builder:
+    # - name: Fetch ATT&CK Data
+    #   working-directory: ./src/attack_flow_builder/
+    #   run: npm run fetch-attack
+    # - name: Build ATT&CK Index
+    #   working-directory: ./src/attack_flow_builder/
+    #   run: npm run build-index
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
@@ -40,8 +41,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
       with:
         python-version: '3.8'
     - uses: actions/setup-node@v3

@@ -18,11 +18,11 @@ realistic adversary emulation scenarios.
 
 ## Getting Started
 
-Attack Flow is a standard for sharing information about how adversaries use sequences of
-multiple techniques to accomplish their objectives. The standard is open source and machine-readable 
-(based on STIX 2.1). The 2.0 release will be published on Oct 27th along with a new website
-that describes Attack Flow and makes it easy to get started. Until the public launch, you can
-find the following resources in this repository:
+Attack Flow is a language for sharing information about how adversaries use sequences of
+multiple techniques to accomplish their objectives. The specification is open source and
+machine-readable (based on STIX 2.1). The 2.0 release will be published on Oct 27th
+along with a new website that describes Attack Flow and makes it easy to get started.
+Until the public launch, you can find the following resources in this repository:
 
 * Documentation: Download the documentation in HTML or PDF format from [our automated build page](https://github.com/center-for-threat-informed-defense/attack-flow-private/actions/runs/3138408426).
 * Builder: Download the builder from [our automated build page](https://github.com/center-for-threat-informed-defense/attack-flow-private/actions/runs/3138408426).
@@ -33,8 +33,8 @@ find the following resources in this repository:
 There are several ways that you can get involved with this project and help
 advance threat-informed defense:
 
-- **Review the standard, use the designer, and tell us what you think.**  We
-  welcome your review and feedback on the data model and our methodology.
+- **Review the language specification, use the designer, and tell us what you think.**
+  We welcome your review and feedback on the data model and our methodology.
 - **Help us prioritize additional example flows to create.** Let us know what
   examples you would like to turned into an Attack Flow. Your input will help us
   prioritize how we expand our corpus.

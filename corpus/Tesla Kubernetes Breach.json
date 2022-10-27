@@ -1,0 +1,305 @@
+{
+  "type": "bundle",
+  "id": "bundle--502e128a-5200-4272-b73b-8bbb3bc7c645",
+  "spec_version": "2.1",
+  "created": "2022-10-26T16:59:24.988Z",
+  "modified": "2022-10-26T16:59:24.988Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--d5bd28e9-1ec9-4002-811c-7248b6ea502f",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.990Z",
+      "modified": "2022-10-26T16:59:24.990Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Placeholder name",
+      "scope": "other",
+      "description": "Placeholder description.",
+      "created_by_ref": "identity--12005078-bf3c-4ed7-8467-4892837952fe",
+      "start_refs": [
+        "attack-condition--394e0f5c-534b-406d-a714-60124f89e437",
+        "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb"
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--12005078-bf3c-4ed7-8467-4892837952fe",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.990Z",
+      "modified": "2022-10-26T16:59:24.990Z",
+      "name": "John Doe",
+      "identity_class": "individual",
+      "contact_information": "johndoe@mitre.org"
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--394e0f5c-534b-406d-a714-60124f89e437",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Tesla's Kubernetes dashboard is exposed to the public internet with no password required for access.",
+      "on_true_refs": [
+        "attack-action--7edcb647-8d0c-4ba4-86e8-b2a423d9b43a"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7edcb647-8d0c-4ba4-86e8-b2a423d9b43a",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "External Remote Services",
+      "technique_id": "T1133",
+      "description": "The adversary logs into the Kubernetes console.",
+      "confidence": 50,
+      "effect_refs": [
+        "attack-action--307e4dc4-e109-4ef1-b0f5-7eaa7816ca25",
+        "attack-action--fe5fea66-d2a1-4b41-a9eb-7f8eccf9704a"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--307e4dc4-e109-4ef1-b0f5-7eaa7816ca25",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Unsecured Credentials: Credentials In Files",
+      "technique_id": "T1552.001",
+      "description": "The adversary can view plaintext AWS keys in the Kubernetes console.",
+      "confidence": 50,
+      "effect_refs": [
+        "attack-action--3475ec81-5b70-4f9a-a9a9-9a089216ab44"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3475ec81-5b70-4f9a-a9a9-9a089216ab44",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Valid Accounts: Cloud Accounts",
+      "technique_id": "T1078.004",
+      "description": "The adversary authenticates to AWS S3 using the discovered credentials.",
+      "confidence": 50,
+      "effect_refs": [
+        "attack-action--5d19b518-7bcd-48d7-9d61-5e6001b130b1"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--5d19b518-7bcd-48d7-9d61-5e6001b130b1",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Data from Cloud Storage Object",
+      "technique_id": "T1530",
+      "description": "The adversary can access data in private S3 buckets.",
+      "confidence": 50
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--fe5fea66-d2a1-4b41-a9eb-7f8eccf9704a",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Deploy Container",
+      "technique_id": "T1610",
+      "description": "The adversary deploys a new container on the Kubernetes cluster.",
+      "confidence": 50,
+      "effect_refs": [
+        "attack-operator--2523aded-6d9a-4f28-aea9-be9dd6f490e0"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Acquire Infrastructure: Server",
+      "technique_id": "T1583.004",
+      "description": "The adversary sets up server[s] to run a cryptomining pool.",
+      "confidence": 50,
+      "effect_refs": [
+        "attack-action--837bede5-db2f-40ac-b4df-9798548de067"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--837bede5-db2f-40ac-b4df-9798548de067",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Connection Proxy",
+      "technique_id": "T0884",
+      "description": "The adversary proxies their mining pool through Cloudflare CDN.",
+      "confidence": 50,
+      "effect_refs": [
+        "attack-operator--2523aded-6d9a-4f28-aea9-be9dd6f490e0"
+      ]
+    },
+    {
+      "type": "attack-operator",
+      "id": "attack-operator--2523aded-6d9a-4f28-aea9-be9dd6f490e0",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "operator": "AND",
+      "text": "AND",
+      "effect_refs": [
+        "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Resource Highjacking",
+      "technique_id": "T1496",
+      "description": "The adversary runs cryptomining software in the container, configured to use their private mining pool.",
+      "confidence": 50
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "name": "Unlisted mining pool",
+      "description": "The mining pool is \"unlisted\" and runs on a non-standard port to evade common blocklists."
+    },
+    {
+      "type": "note",
+      "id": "note--c5d127a0-59be-4ab5-9266-4b3037c7bee3",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.989Z",
+      "modified": "2022-10-26T16:59:24.989Z",
+      "abstract": "Speculation",
+      "content": "The authors of this post provided speculation about what the attackers could have done with the leaked credentials, but there is no evidence the adversaries even knew about the credentials.",
+      "object_refs": ["note--c5d127a0-59be-4ab5-9266-4b3037c7bee3"]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--142e16bb-5a91-4816-8933-b917bfa3740f",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.990Z",
+      "modified": "2022-10-26T16:59:24.990Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--307e4dc4-e109-4ef1-b0f5-7eaa7816ca25",
+      "target_ref": "note--c5d127a0-59be-4ab5-9266-4b3037c7bee3"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--9fdb6261-d343-4c8c-9092-414a12e88994",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.990Z",
+      "modified": "2022-10-26T16:59:24.990Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb",
+      "target_ref": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c5934b70-3cdd-4f9a-8639-706634ee3872",
+      "spec_version": "2.1",
+      "created": "2022-10-26T16:59:24.990Z",
+      "modified": "2022-10-26T16:59:24.990Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844",
+      "target_ref": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c"
+    }
+  ]
+}

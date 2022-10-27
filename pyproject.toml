@@ -29,6 +29,7 @@ sphinx_design = "^0.2.0"
 networkx = "^2.8.6"
 graphviz = "^0.20.1"
 defusedxml = "^0.7.1"
+bumpver = "^2022.1119"
 
 [tool.poetry.dev-dependencies]
 bandit = "1.7.0"
@@ -40,7 +41,30 @@ pytest-mock = "3.5.1"
 safety = "1.10.3"
 sphinx-rtd-theme = "^1.0.0"
 black = "^22.3.0"
+bumpver = "^2022.1119"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.bumpver]
+current_version = "1.0.0"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "Bump version {old_version} -> {new_version}"
+commit = true
+tag = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'version = "{version}"',
+]
+"docs/conf.py" = [
+    'version = "v{version}"'
+]
+"docs/developers.rst" = [
+    "    Installing the current project: attack-flow ({version})",
+    "    Attack Flow version {version}",
+]
+"src/attack_flow_builder/package.json" = [
+    '"version": "{version}",'
+]
