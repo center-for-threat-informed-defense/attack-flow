@@ -3413,8 +3413,8 @@
         }
       },
       {
-        "id": "ipv4_address",
-        "namespace": "stix_observable.ipv4_address",
+        "id": "ipv4_addr",
+        "namespace": "stix_observable.ipv4_addr",
         "type": 2,
         "role": 4096,
         "properties": {
