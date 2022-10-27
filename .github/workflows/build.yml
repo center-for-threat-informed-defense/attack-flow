@@ -86,21 +86,20 @@ jobs:
         name: attack_flow_docs_pdf
         path: docs/_build/latex/attackflow.pdf
 
-  # TODO: re-enable this when the repository goes public.
-  # github_pages:
-  #   # This job only runs when committing or merging to main branch.
-  #   if: github.ref_name == 'main'
-  #   needs: docs
-  #   runs-on: ubuntu-latest
+  github_pages:
+    # This job only runs when committing or merging to main branch.
+    if: github.ref_name == 'main'
+    needs: docs
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - name: Download HTML docs
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: attack_flow_docs_html
-  #       path: docs
-  #   - name: Publish to GitHub pages
-  #     uses: peaceiris/actions-gh-pages@v3
-  #     with:
-  #       github_token: ${{ secrets.GITHUB_TOKEN }}
-  #       publish_dir: ./docs
+    steps:
+    - name: Download HTML docs
+      uses: actions/download-artifact@v3
+      with:
+        name: attack_flow_docs_html
+        path: docs
+    - name: Publish to GitHub pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
