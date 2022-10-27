@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "attack-flow"
-version = "1.0.0"
+version = "2.0.0"
 description = "Attack Flow helps executives, SOC managers, and defenders easily understand how attackers compose ATT&CK techniques into attacks by developing a representation of attack flows, modeling attack flows for a small corpus of incidents, and creating visualization tools to display attack flows."
 authors = [
     "Desiree Beck <dbeck@mitre.org>",
@@ -48,7 +48,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.bumpver]
-current_version = "1.0.0"
+current_version = "2.0.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
