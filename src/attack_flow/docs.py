@@ -2,14 +2,10 @@
 Tools for generating Attack Flow documentation.
 """
 
-from cgitb import text
 from collections import OrderedDict
 from datetime import datetime
 import json
-from multiprocessing.sharedctypes import Value
 import operator
-from plistlib import load
-from pydoc import doc
 import re
 import string
 import textwrap
@@ -282,8 +278,8 @@ def generate_example_flows(jsons, afds):
     :param set[Path] afd: set of .afd file paths
     :rtype: List[str]
     """
-
     afd_stems = {p.stem for p in afds}
+
     reports = list()
     for path in jsons:
         flow_bundle = load_attack_flow_bundle(path)
@@ -314,24 +310,25 @@ def generate_example_flows(jsons, afds):
 
     for report in sorted(reports, key=operator.itemgetter(1)):
         stem, name, author, description = report
-        formats = [
-            f'<p><a href="../corpus/{quote_plus(stem)}.json"><i class="fa fa-file-text"></i>JSON</a></p>',
-            f'<p><i class="fa fa-snowflake-o"></i> GraphViz: <a href="../corpus/{quote_plus(stem)}.dot">Text</a> | <a href="../corpus/{quote_plus(stem)}.dot.png">PNG</a></p>',
-            f'<p><i class="fa fa-tint"></i> Mermaid: <a href="../corpus/{quote_plus(stem)}.mmd">Text</a> | <a href="../corpus/{quote_plus(stem)}.mmd.png">PNG</a></p>',
-        ]
+        formats = []
         if stem in afd_stems:
             formats.append(
-                f'<p><a target="_blank" href="/ui/?src=%2fcorpus%2f{quote_plus(stem)}.afb"><i class="fa fa-wrench"></i>Attack Flow Builder</a></p>'
+                f'<p><em>Open:</em> <a target="_blank" href="/ui/?src=%2fcorpus%2f{quote_plus(stem)}.afb"></i>Attack Flow Builder</a></p>'
             )
+        formats.append(
+            f'<p><em>Download:</em> <a href="../corpus/{quote_plus(stem)}.json">JSON</a> | '
+            f'<a href="../corpus/{quote_plus(stem)}.dot">GraphViz</a> (<a href="../corpus/{quote_plus(stem)}.dot.png">PNG</a>) | '
+            f'<a href="../corpus/{quote_plus(stem)}.mmd">Mermaid</a> (<a href="../corpus/{quote_plus(stem)}.mmd.png">PNG</a>)'
+        )
         doc_lines.append(f"  * - **{name}**")
         doc_lines.append("")
         doc_lines.append("      .. raw:: html")
         doc_lines.append("")
         for f in formats:
             doc_lines.append(f"        {f}")
-        doc_lines.append("")
         doc_lines.append(f"    - {author}")
         doc_lines.append(f"    - {description}")
+        doc_lines.append("")
 
     doc_lines.append("")
     return doc_lines

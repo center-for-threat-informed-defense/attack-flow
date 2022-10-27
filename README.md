@@ -1,3 +1,4 @@
+[![build](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/build.yml/badge.svg)](https://github.com/center-for-threat-informed-defense/attack-flow/actions)
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow/branch/main/graph/badge.svg?token=MSGpc9mM6U)](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow)
 
 <!--
