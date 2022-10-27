@@ -61,8 +61,8 @@ jobs:
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
     - name: Install dependencies
       run: poetry install
-    # - name: Install Mermaid
-    #   run: npm install -g @mermaid-js/mermaid-cli
+    - name: Install Mermaid
+      run: npm install -g @mermaid-js/mermaid-cli
     - name: Create client directory
       run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder
@@ -72,8 +72,8 @@ jobs:
         path: docs/extra/ui
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
-    # - name: Copy corpus into docs
-    #   run: poetry run make docs-examples
+    - name: Copy corpus into docs
+      run: poetry run make docs-examples
     - name: Build HTML docs
       run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
     - name: Upload HTML docs
@@ -81,16 +81,15 @@ jobs:
       with:
         name: attack_flow_docs_html
         path: docs/_build/dirhtml/
-    # TODO - commented out for testing gh-pages
-    # - name: Install TeX Live
-    #   run: sudo apt install -y latexmk texlive texlive-latex-extra
-    # - name: Build PDF docs
-    #   run: poetry run sphinx-build -M latexpdf docs docs/_build
-    # - name: Upload PDF docs
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: attack_flow_docs_pdf
-    #     path: docs/_build/latex/attackflow.pdf
+    - name: Install TeX Live
+      run: sudo apt install -y latexmk texlive texlive-latex-extra
+    - name: Build PDF docs
+      run: poetry run sphinx-build -M latexpdf docs docs/_build
+    - name: Upload PDF docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_docs_pdf
+        path: docs/_build/latex/attackflow.pdf
 
   github_pages:
     # This job only runs when committing or merging to main branch.
