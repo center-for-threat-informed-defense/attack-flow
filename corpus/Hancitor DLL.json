@@ -322,7 +322,7 @@
       },
       "name": "Ping",
       "description": "Actors pinged 190.114.254.116 and used the IP later in the attack",
-      "object_ref": "ipv4-address--8c8019bc-8d35-48de-b21f-6b3293b7a82f"
+      "object_ref": "ipv4-addr--8c8019bc-8d35-48de-b21f-6b3293b7a82f"
     },
     {
       "type": "attack-asset",
@@ -771,16 +771,16 @@
       "value": "4a5ikol.ru "
     },
     {
-      "type": "ipv4-address",
-      "id": "ipv4-address--1f0a42b3-e753-41a6-8151-1b2751b4b914",
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--1f0a42b3-e753-41a6-8151-1b2751b4b914",
       "spec_version": "2.1",
       "created": "2022-10-27T03:15:20.019Z",
       "modified": "2022-10-27T03:15:20.019Z",
       "value": "8.211.241.0"
     },
     {
-      "type": "ipv4-address",
-      "id": "ipv4-address--2ffb5de4-b7c9-4c18-a931-6b24a5cef301",
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--2ffb5de4-b7c9-4c18-a931-6b24a5cef301",
       "spec_version": "2.1",
       "created": "2022-10-27T03:15:20.019Z",
       "modified": "2022-10-27T03:15:20.019Z",
@@ -839,16 +839,16 @@
       ]
     },
     {
-      "type": "ipv4-address",
-      "id": "ipv4-address--8c8019bc-8d35-48de-b21f-6b3293b7a82f",
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--8c8019bc-8d35-48de-b21f-6b3293b7a82f",
       "spec_version": "2.1",
       "created": "2022-10-27T03:15:20.019Z",
       "modified": "2022-10-27T03:15:20.019Z",
       "value": "190.114.254.116 "
     },
     {
-      "type": "ipv4-address",
-      "id": "ipv4-address--4986f18c-5013-43e6-9934-3504b2a457fc",
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--4986f18c-5013-43e6-9934-3504b2a457fc",
       "spec_version": "2.1",
       "created": "2022-10-27T03:15:20.019Z",
       "modified": "2022-10-27T03:15:20.019Z",
@@ -878,8 +878,8 @@
       ]
     },
     {
-      "type": "ipv4-address",
-      "id": "ipv4-address--a850619d-655c-4b2a-aaf0-60ae42998c7c",
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--a850619d-655c-4b2a-aaf0-60ae42998c7c",
       "spec_version": "2.1",
       "created": "2022-10-27T03:15:20.019Z",
       "modified": "2022-10-27T03:15:20.019Z",
@@ -993,7 +993,7 @@
       "modified": "2022-10-27T03:15:20.019Z",
       "relationship_type": "related-to",
       "source_ref": "infrastructure--246d0643-cd96-4eef-9ceb-e198a3780450",
-      "target_ref": "ipv4-address--2ffb5de4-b7c9-4c18-a931-6b24a5cef301"
+      "target_ref": "ipv4-addr--2ffb5de4-b7c9-4c18-a931-6b24a5cef301"
     },
     {
       "type": "relationship",
@@ -1013,7 +1013,7 @@
       "modified": "2022-10-27T03:15:20.019Z",
       "relationship_type": "related-to",
       "source_ref": "infrastructure--050084ef-b861-4ebb-9269-c28b064268b3",
-      "target_ref": "ipv4-address--1f0a42b3-e753-41a6-8151-1b2751b4b914"
+      "target_ref": "ipv4-addr--1f0a42b3-e753-41a6-8151-1b2751b4b914"
     },
     {
       "type": "relationship",
@@ -1063,7 +1063,7 @@
       "modified": "2022-10-27T03:15:20.019Z",
       "relationship_type": "related-to",
       "source_ref": "infrastructure--ea1c5706-9374-48ab-bf54-5c1572b4c4ac",
-      "target_ref": "ipv4-address--4986f18c-5013-43e6-9934-3504b2a457fc"
+      "target_ref": "ipv4-addr--4986f18c-5013-43e6-9934-3504b2a457fc"
     },
     {
       "type": "relationship",
@@ -1113,7 +1113,7 @@
       "modified": "2022-10-27T03:15:20.019Z",
       "relationship_type": "related-to",
       "source_ref": "infrastructure--5cb78035-4d30-4c6e-bc3b-458b3c19fb4e",
-      "target_ref": "ipv4-address--a850619d-655c-4b2a-aaf0-60ae42998c7c"
+      "target_ref": "ipv4-addr--a850619d-655c-4b2a-aaf0-60ae42998c7c"
     },
     {
       "type": "relationship",

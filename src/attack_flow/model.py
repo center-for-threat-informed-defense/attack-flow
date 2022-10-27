@@ -201,6 +201,11 @@ def get_viz_ignored_ids(flow_bundle):
 
     # Ignore by SDO type:
     for obj in flow_bundle.objects:
+        if isinstance(obj, dict):
+            # this could happen if the SDO type is unknown
+            ignored.add(obj["id"])
+            continue
+
         if obj.type in VIZ_IGNORE_SDOS:
             ignored.add(obj.id)
 

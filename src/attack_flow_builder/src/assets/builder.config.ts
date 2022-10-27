@@ -622,8 +622,8 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "ipv4_address",
-                namespace: "stix_observable.ipv4_address",
+                id: "ipv4_addr",
+                namespace: "stix_observable.ipv4_addr",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
@@ -633,8 +633,8 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "ipv6_address",
-                namespace: "stix_observable.ipv6_address",
+                id: "ipv6_addr",
+                namespace: "stix_observable.ipv6_addr",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
@@ -644,8 +644,8 @@ const config: AppConfiguration = {
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
             },
             {
-                id: "mac_address",
-                namespace: "stix_observable.mac_address",
+                id: "mac_addr",
+                namespace: "stix_observable.mac_addr",
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {

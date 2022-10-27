@@ -802,8 +802,8 @@
       ]
     },
     {
-      "type": "ipv4-address",
-      "id": "ipv4-address--f914bbeb-1640-455c-b6d9-b3d88d92a903",
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--f914bbeb-1640-455c-b6d9-b3d88d92a903",
       "spec_version": "2.1",
       "created": "2022-10-27T03:13:50.882Z",
       "modified": "2022-10-27T03:13:50.882Z",
@@ -1042,7 +1042,7 @@
       "modified": "2022-10-27T03:13:50.883Z",
       "relationship_type": "related-to",
       "source_ref": "infrastructure--63f316cc-2f31-4ef3-afbe-b645e01c70d6",
-      "target_ref": "ipv4-address--f914bbeb-1640-455c-b6d9-b3d88d92a903"
+      "target_ref": "ipv4-addr--f914bbeb-1640-455c-b6d9-b3d88d92a903"
     },
     {
       "type": "relationship",
