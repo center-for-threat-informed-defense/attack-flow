@@ -1619,6 +1619,7 @@
       "spec_version": "2.1",
       "created": "2022-10-27T14:19:32.332Z",
       "modified": "2022-10-27T14:19:32.332Z",
+      "src_ref": "ipv4-addr--ffffffff-ffff-ffff-bfff-ffffffffffff",
       "protocols": [
         "SSH"
       ]
@@ -1659,8 +1660,8 @@
       "display_name": "customasp"
     },
     {
-      "type": "ipv4-address",
-      "id": "ipv4-address--e8cdf5e7-451f-4a37-a21a-d2125296a7ac",
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--e8cdf5e7-451f-4a37-a21a-d2125296a7ac",
       "spec_version": "2.1",
       "created": "2022-10-27T14:19:32.332Z",
       "modified": "2022-10-27T14:19:32.332Z",
@@ -1723,6 +1724,7 @@
       "spec_version": "2.1",
       "created": "2022-10-27T14:19:32.332Z",
       "modified": "2022-10-27T14:19:32.332Z",
+      "src_ref": "ipv4-addr--ffffffff-ffff-ffff-bfff-ffffffffffff",
       "protocols": [
         "RDP"
       ]
@@ -1986,7 +1988,7 @@
       "modified": "2022-10-27T14:19:32.333Z",
       "relationship_type": "related-to",
       "source_ref": "infrastructure--9df29fec-776c-4950-9ddd-871cd87b9052",
-      "target_ref": "ipv4-address--e8cdf5e7-451f-4a37-a21a-d2125296a7ac"
+      "target_ref": "ipv4-addr--e8cdf5e7-451f-4a37-a21a-d2125296a7ac"
     },
     {
       "type": "relationship",

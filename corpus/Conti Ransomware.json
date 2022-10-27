@@ -1,0 +1,848 @@
+{
+  "type": "bundle",
+  "id": "bundle--82622fc5-95d3-42b4-aa77-6e96234d7d29",
+  "spec_version": "2.1",
+  "created": "2022-10-27T14:19:21.351Z",
+  "modified": "2022-10-27T14:19:21.351Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--aa469675-7fe8-4fb9-a32e-b9d729bb63ff",
+      "spec_version": "2.1",
+      "created": "2022-10-27T02:44:54.520Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--521d99bd-f746-4786-bf01-f6ac07441468",
+      "start_refs": [
+        "attack-action--63b4d51e-84a0-4dee-b22a-0ffaea346e33"
+      ],
+      "name": "Conti Ransomware",
+      "description": "Based on DFIR report",
+      "author": [
+        [
+          "name",
+          "Alaa Nasser"
+        ],
+        [
+          "identity_class",
+          "23b79ae0fc0f07a3669598dd23c694cc"
+        ],
+        [
+          "contact_information",
+          null
+        ]
+      ],
+      "scope": "malware",
+      "external_references": [
+        {
+          "source_name": "DFIR",
+          "description": "Report",
+          "url": "https://thedfirreport.com/2021/05/12/conti-ransomware/"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--521d99bd-f746-4786-bf01-f6ac07441468",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "Alaa Nasser",
+      "identity_class": "individual"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--63b4d51e-84a0-4dee-b22a-0ffaea346e33",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Phishing: Spearphishing Attachment",
+      "technique_id": "T1566.001",
+      "description": "The initial vector used by the threat actor was a zip file delivered through a phishing campaign. ",
+      "confidence": 90,
+      "effect_refs": [
+        "attack-action--7a811b31-03be-481a-8344-1310218b0fd3"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0cd8c60f-e89b-4cbf-ac17-2699a2c7f3b3",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Signed Binary Proxy Execution: Rundll32",
+      "technique_id": "T1218.011",
+      "description": "rundll32.exe executed IcedID malware and ran command and control over port 443 for the duration of the intrusion",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--726c3e3f-15c9-4ab8-90b9-b59bb4d1e925"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--c1c2e798-adba-4c7b-95ab-3afb8dd69c73",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Owner/User Discovery",
+      "technique_id": "T1033",
+      "description": "discovery activity with native windows utilities such as nltest.exe, whoami.exe, and net.exe",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-operator--6abaa90c-ca0f-4286-b647-f2648e68a1ef"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--e54e0ab2-7ce5-4313-946e-52250aead3a9",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": " Permission Groups Discovery",
+      "technique_id": "T1069",
+      "description": "discovery activity with native windows utilities such as nltest.exe, whoami.exe, and net.exe",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-operator--6abaa90c-ca0f-4286-b647-f2648e68a1ef"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--5a4db315-756f-465a-b6f1-edcd1c507fd8",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote System Discovery",
+      "technique_id": "T1018",
+      "description": "discovery activity with native windows utilities such as nltest.exe, whoami.exe, and net.exe",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-operator--6abaa90c-ca0f-4286-b647-f2648e68a1ef"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--eb41545a-feb2-4709-a184-3b76b4f11724",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Access Token Manipulation",
+      "technique_id": "T1134",
+      "description": "Attackers escalated to SYSTEM privileges via Cobalt Strike’s built-in “named pipe impersonation” (GetSystem) functionality.   ",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--f8a23107-18ea-4ae8-a224-392fbd8ae25d"
+      ],
+      "command_ref": "process--a3634015-af4d-4c6a-baa1-7b8d438b700b"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f8a23107-18ea-4ae8-a224-392fbd8ae25d",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "SMB/Windows Admin Shares",
+      "technique_id": "T1021.002",
+      "description": "The threat actors continued by moving laterally to the domain controllers on the network using SMB to transfer and execute a Cobalt Strike Beacon",
+      "confidence": 100,
+      "asset_refs": [
+        "attack-asset--da35e072-b1c8-4835-812c-bed410e4a10d"
+      ],
+      "effect_refs": [
+        "attack-action--97fc06cc-cc3d-43a0-8b57-f7964c10bff3"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--97fc06cc-cc3d-43a0-8b57-f7964c10bff3",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Network Service Scanning",
+      "technique_id": "T1046",
+      "description": "During that time, we observed port scanning activity from one of the domain controllers, to identify open ports such as SSH, SMB, MSSQL, RDP and WinRM, and attempts to enumerate what networks were present in the environment",
+      "confidence": 100,
+      "asset_refs": [
+        "attack-asset--f4a90ba8-b4db-481d-8dfa-c07368d62e1a"
+      ],
+      "effect_refs": [
+        "attack-action--809a956f-52ae-4d56-af4c-0504543dacd7"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--94ac64c0-2ced-4a0a-b756-d0e27aa5c1dd",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "SMB/Windows Admin Shares",
+      "technique_id": "T1021.002",
+      "description": "PsExec was used to copy and execute a Cobalt Strike Beacon DLL on most of the systems in the network, including Admin shares.",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--834638ac-9ed6-4b87-bc7f-a9bb36124e2f"
+      ],
+      "asset_refs": [
+        "attack-asset--98664a49-6df3-4b14-aa0e-91a911151517"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--834638ac-9ed6-4b87-bc7f-a9bb36124e2f",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Desktop Protocol",
+      "technique_id": "T1021.001",
+      "description": "A RDP connection was made from the victim host to the domain controller and other systems throughout the environment. This RDP activity was being proxied through the IcedID process running on that host, to a remote proxy over port 8080.",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--3dde05e7-c85d-491c-9477-8f8c8f09c3a4"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3dde05e7-c85d-491c-9477-8f8c8f09c3a4",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Domain Account",
+      "technique_id": "T1087.002",
+      "description": "The attackers created a new local user on one of the domain controllers and added it to the Administrators group",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--fc2f373d-3ee7-4d28-b3c7-939273123d88"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--99d68cdd-73de-4809-8055-3f0a85076a5e",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Data Encrypted for Impact",
+      "technique_id": "T1486",
+      "description": "Attackers encrypted all systems",
+      "confidence": 100
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7a811b31-03be-481a-8344-1310218b0fd3",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter: JavaScript",
+      "technique_id": "T1059.007",
+      "description": "A JavaScript file is located within the zip file and executed",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--8fbbfd31-5bde-4c5e-bfbd-4cd34a382694"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--8fbbfd31-5bde-4c5e-bfbd-4cd34a382694",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "The JavaScript downloaded the IcedID malware",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--0cd8c60f-e89b-4cbf-ac17-2699a2c7f3b3"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--726c3e3f-15c9-4ab8-90b9-b59bb4d1e925",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltration",
+      "tactic_id": "TA0010",
+      "description": "Various attributes, such as computer name and OS version, are sent via encoded cookie values",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--e9da9ad8-37a3-4bbe-9ec7-95cfab867d96"
+      ]
+    },
+    {
+      "type": "attack-operator",
+      "id": "attack-operator--6abaa90c-ca0f-4286-b647-f2648e68a1ef",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "operator": "AND",
+      "effect_refs": [
+        "attack-action--eb41545a-feb2-4709-a184-3b76b4f11724"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--da35e072-b1c8-4835-812c-bed410e4a10d",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Domain Controllers"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--f4a90ba8-b4db-481d-8dfa-c07368d62e1a",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Scanned Ports",
+      "description": "ports 22, 135, 445, 1433, 1434, 3389, 4343, 5000, 5985"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--809a956f-52ae-4d56-af4c-0504543dacd7",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Services: Remote Desktop Protocol",
+      "technique_id": "T1021.001",
+      "description": "Cobalt Strike enabled RDP and allowed connections through the firewall on the domain controllers",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--387968cd-25e3-4867-ae68-4893a32bce0f"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--e9da9ad8-37a3-4bbe-9ec7-95cfab867d96",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "IcedID malware went quiet for 2 days",
+      "on_true_refs": [
+        "attack-action--fd17c242-ee9e-46e7-ae64-034a61b80260"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--fd17c242-ee9e-46e7-ae64-034a61b80260",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "A Cobalt Strike Beacon was dropped and executed ",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--c1c2e798-adba-4c7b-95ab-3afb8dd69c73",
+        "attack-action--5a4db315-756f-465a-b6f1-edcd1c507fd8",
+        "attack-action--e54e0ab2-7ce5-4313-946e-52250aead3a9"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--387968cd-25e3-4867-ae68-4893a32bce0f",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "The attackers went quiet for 15 minutes",
+      "on_true_refs": [
+        "attack-action--94ac64c0-2ced-4a0a-b756-d0e27aa5c1dd"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--ff48a8f3-4738-43d8-a708-a7474f90da39",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "Proxy",
+      "description": "Allowed connections proxied through a redirector (38.135.122.194:8080) passing through the IcedID process"
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--534de596-fd76-447b-a244-7549d501e222",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Conti is executed in memory using Cobalt Strike Beacons domain-wide",
+      "on_true_refs": [
+        "attack-action--99d68cdd-73de-4809-8055-3f0a85076a5e"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--fc2f373d-3ee7-4d28-b3c7-939273123d88",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Domain Policy Modification: Group Policy Modification",
+      "technique_id": "T1484.001",
+      "description": "Group Policy was modified to disable Windows Defender",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--534de596-fd76-447b-a244-7549d501e222"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--21748dc0-729d-48ad-ade0-34af41c962c4",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "dsquery",
+      "description": "Used to enumerate what networks were present in the environment"
+    },
+    {
+      "type": "malware",
+      "id": "malware--df317a47-9716-4fb4-9436-b7733cbfda5f",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "IcedID DLL",
+      "description": "banking trojan",
+      "malware_types": [
+        "trojan"
+      ],
+      "is_family": false,
+      "capabilities": [
+        "steals-authentication-credentials"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--1831f55d-27f6-4ed6-86b0-f58453b02d43",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "rundll32.exe",
+      "tool_types": [
+        "Unknown"
+      ]
+    },
+    {
+      "type": "network-traffic",
+      "id": "network-traffic--915ef210-f68e-4ebc-8706-f0f78b6900db",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "src_port": 443,
+      "src_ref": "ipv4-addr--ffffffff-ffff-ffff-bfff-ffffffffffff",
+      "protocols": ["tcp"]
+    },
+    {
+      "type": "tool",
+      "id": "tool--acb7026b-0b81-40c9-b7d6-f5ee333c24fc",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "nltest.exe",
+      "tool_types": [
+        "information-gathering"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--1e8a9396-74e5-4993-81ce-0d5e005031e0",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "whoami.exe",
+      "tool_types": [
+        "information-gathering"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--9502bfd2-cc01-4b88-8451-4092879e9365",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "net.exe",
+      "tool_types": [
+        "information-gathering"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--a3634015-af4d-4c6a-baa1-7b8d438b700b",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "command_line": "“named pipe impersonation\""
+    },
+    {
+      "type": "network-traffic",
+      "id": "network-traffic--b2cfefaa-443f-4d2a-b868-7216abf36a7f",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "src_ref": "ipv4-addr--ffffffff-ffff-ffff-bfff-ffffffffffff",
+      "protocols": [
+        "SMB"
+      ]
+    },
+    {
+      "type": "network-traffic",
+      "id": "network-traffic--2c9299af-47cd-4281-904c-201c4885208f",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "src_ref": "ipv4-addr--ffffffff-ffff-ffff-bfff-ffffffffffff",
+      "protocols": [
+        "RDP"
+      ]
+    },
+    {
+      "type": "course-of-action",
+      "id": "course-of-action--c0e08841-d642-43f8-9c02-ef9535168f13",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "Firewall Configurations",
+      "description": "allowed connections through the firewall on the domain controllers"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--98664a49-6df3-4b14-aa0e-91a911151517",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Admin shares"
+    },
+    {
+      "type": "tool",
+      "id": "tool--c91f15b0-bd6f-4980-8384-082dfb37a952",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "name": "Psexec",
+      "tool_types": [
+        "remote-access"
+      ]
+    },
+    {
+      "type": "network-traffic",
+      "id": "network-traffic--e4b0b5e3-e8aa-419e-9613-81ebdcb8e01b",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "src_ref": "ipv4-addr--ffffffff-ffff-ffff-bfff-ffffffffffff",
+      "protocols": [
+        "tcp"
+      ]
+    },
+    {
+      "type": "user-account",
+      "id": "user-account--023a9b4a-a76d-4af3-b769-2845daad5cb0",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "account_type": "windows-domain",
+      "display_name": "nuuser"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8ef69490-dc9f-4fcf-9a35-2ebbe903a2f7",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--0cd8c60f-e89b-4cbf-ac17-2699a2c7f3b3",
+      "target_ref": "network-traffic--915ef210-f68e-4ebc-8706-f0f78b6900db"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--892b467f-b2d5-43ca-b900-3282d3a76e1a",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--0cd8c60f-e89b-4cbf-ac17-2699a2c7f3b3",
+      "target_ref": "tool--1831f55d-27f6-4ed6-86b0-f58453b02d43"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4e976afa-338d-48e4-aee9-db4f1d2a1392",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--c1c2e798-adba-4c7b-95ab-3afb8dd69c73",
+      "target_ref": "tool--1e8a9396-74e5-4993-81ce-0d5e005031e0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1f93b30b-9542-4653-87eb-a826f6507ad4",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--e54e0ab2-7ce5-4313-946e-52250aead3a9",
+      "target_ref": "tool--acb7026b-0b81-40c9-b7d6-f5ee333c24fc"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3bdd6e9e-9595-4650-844b-aa4db1516176",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--5a4db315-756f-465a-b6f1-edcd1c507fd8",
+      "target_ref": "tool--9502bfd2-cc01-4b88-8451-4092879e9365"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--950b7de2-9203-45cc-8449-c0d5688c8fb7",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--f8a23107-18ea-4ae8-a224-392fbd8ae25d",
+      "target_ref": "network-traffic--b2cfefaa-443f-4d2a-b868-7216abf36a7f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fa9effc0-1c4d-45ef-aafc-5d14b8992f49",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--97fc06cc-cc3d-43a0-8b57-f7964c10bff3",
+      "target_ref": "tool--21748dc0-729d-48ad-ade0-34af41c962c4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1436de79-5355-41ea-a780-739c33a10ffe",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--94ac64c0-2ced-4a0a-b756-d0e27aa5c1dd",
+      "target_ref": "tool--c91f15b0-bd6f-4980-8384-082dfb37a952"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7462283b-6b83-4ab6-a972-6443e295fc0a",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.352Z",
+      "modified": "2022-10-27T14:19:21.352Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--834638ac-9ed6-4b87-bc7f-a9bb36124e2f",
+      "target_ref": "infrastructure--ff48a8f3-4738-43d8-a708-a7474f90da39"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b8004e77-5d05-46ac-9e50-d031706cb959",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.353Z",
+      "modified": "2022-10-27T14:19:21.353Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--834638ac-9ed6-4b87-bc7f-a9bb36124e2f",
+      "target_ref": "network-traffic--e4b0b5e3-e8aa-419e-9613-81ebdcb8e01b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f9a9de65-4e46-400c-b3e8-ab2b7032f19f",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.353Z",
+      "modified": "2022-10-27T14:19:21.353Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--3dde05e7-c85d-491c-9477-8f8c8f09c3a4",
+      "target_ref": "user-account--023a9b4a-a76d-4af3-b769-2845daad5cb0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e2eb44ee-e366-4bdc-9ed1-d820c148d0e9",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.353Z",
+      "modified": "2022-10-27T14:19:21.353Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--8fbbfd31-5bde-4c5e-bfbd-4cd34a382694",
+      "target_ref": "malware--df317a47-9716-4fb4-9436-b7733cbfda5f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0ce5ca49-b5d6-4647-8fdf-708c1d5f0484",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.353Z",
+      "modified": "2022-10-27T14:19:21.353Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--809a956f-52ae-4d56-af4c-0504543dacd7",
+      "target_ref": "network-traffic--2c9299af-47cd-4281-904c-201c4885208f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e0f31523-ba97-427d-bdd3-36d9ea3b3beb",
+      "spec_version": "2.1",
+      "created": "2022-10-27T14:19:21.353Z",
+      "modified": "2022-10-27T14:19:21.353Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--809a956f-52ae-4d56-af4c-0504543dacd7",
+      "target_ref": "course-of-action--c0e08841-d642-43f8-9c02-ef9535168f13"
+    }
+  ]
+}
