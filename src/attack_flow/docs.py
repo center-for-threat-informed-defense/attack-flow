@@ -313,7 +313,7 @@ def generate_example_flows(jsons, afds):
         formats = []
         if stem in afd_stems:
             formats.append(
-                f'<p><em>Open:</em> <a target="_blank" href="../ui/?src=%2fcorpus%2f{quote_plus(stem)}.afb"></i>Attack Flow Builder</a></p>'
+                f'<p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2f{quote_plus(stem)}.afb"></i>Attack Flow Builder</a></p>'
             )
         formats.append(
             f'<p><em>Download:</em> <a href="../corpus/{quote_plus(stem)}.json">JSON</a> | '
