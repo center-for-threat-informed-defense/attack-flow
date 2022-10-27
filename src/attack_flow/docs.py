@@ -9,7 +9,7 @@ import operator
 import re
 import string
 import textwrap
-from urllib.parse import quote_plus
+from urllib.parse import quote
 
 from attack_flow.model import get_flow_object, load_attack_flow_bundle
 
@@ -311,14 +311,15 @@ def generate_example_flows(jsons, afds):
     for report in sorted(reports, key=operator.itemgetter(1)):
         stem, name, author, description = report
         formats = []
+        quoted_stem = quote(stem)
         if stem in afd_stems:
             formats.append(
-                f'<p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2f{quote_plus(stem)}.afb"></i>Attack Flow Builder</a></p>'
+                f'<p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2f{quoted_stem}.afb"></i>Attack Flow Builder</a></p>'
             )
         formats.append(
-            f'<p><em>Download:</em> <a href="../corpus/{quote_plus(stem)}.json">JSON</a> | '
-            f'<a href="../corpus/{quote_plus(stem)}.dot">GraphViz</a> (<a href="../corpus/{quote_plus(stem)}.dot.png">PNG</a>) | '
-            f'<a href="../corpus/{quote_plus(stem)}.mmd">Mermaid</a> (<a href="../corpus/{quote_plus(stem)}.mmd.png">PNG</a>)'
+            f'<p><em>Download:</em> <a href="../corpus/{quoted_stem}.json">JSON</a> | '
+            f'<a href="../corpus/{quoted_stem}.dot">GraphViz</a> (<a href="../corpus/{quoted_stem}.dot.png">PNG</a>) | '
+            f'<a href="../corpus/{quoted_stem}.mmd">Mermaid</a> (<a href="../corpus/{quoted_stem}.mmd.png">PNG</a>)'
         )
         doc_lines.append(f"  * - **{name}**")
         doc_lines.append("")
