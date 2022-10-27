@@ -113,7 +113,7 @@ export default defineComponent({
 }
 
 .dictionary-contents {
-  padding: 20px 0px 8px 16px;
+  padding: 20px 0px 20px 16px;
 }
 
 .no-properties {

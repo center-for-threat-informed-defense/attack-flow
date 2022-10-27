@@ -1,30 +1,55 @@
 import { DiagramPublisher } from "./scripts/DiagramPublisher/DiagramPublisher";
-import { DiagramObjectModel, DictionaryProperty, GraphObjectExport, ListProperty, PropertyType, SemanticAnalyzer } from "./scripts/BlockDiagram";
+import { 
+    CollectionProperty,
+    DiagramObjectModel,
+    DictionaryProperty,
+    EnumProperty,
+    GraphObjectExport,
+    ListProperty,
+    Property,
+    PropertyType,
+    RawEntries,
+    SemanticAnalyzer
+} from "./scripts/BlockDiagram";
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  Publisher Constants  //////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 const AttackFlowExtensionId 
     = "fb9c968a-745b-4ade-9b25-c324172197f4";
+
 const AttackFlowSchemaUrl
     = "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json";
+
 const AttackFlowSchemaVersion
     = "2.0.0";
+
 const AttackFlowExtensionCreatedDate
     = "2022-08-02T19:34:35.143Z";
+
 const AttackFlowExtensionModifiedDate
     = AttackFlowExtensionCreatedDate;
-const AttackFlowDocsExternalReference
-    = {
-        "source_name": "Documentation",
-        "description": "Documentation for Attack Flow",
-        "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+
+const AttackFlowDocsExternalReference =
+    {
+        source_name: "Documentation",
+        description: "Documentation for Attack Flow",
+        url: "https://center-for-threat-informed-defense.github.io/attack-flow"
     };
-const AttackFlowGitHubExternalReference
-    = {
-        "source_name": "GitHub",
-        "description": "Source code repository for Attack Flow",
-        "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+
+const AttackFlowGitHubExternalReference =
+    {
+        source_name: "GitHub",
+        description: "Source code repository for Attack Flow",
+        url: "https://github.com/center-for-threat-informed-defense/attack-flow"
     };
+
 const AttackFlowExtensionCreatorName
     = "MITRE Engenuity Center for Threat-Informed Defense";
+
 const AttackFlowSdos
     = new Set<string>([
         "attack-flow",
@@ -33,14 +58,22 @@ const AttackFlowSdos
         "attack-condition",
         "attack-operator"
     ]);
-const AttackFlowTemplates: Map<string, string>
+
+const AttackFlowTemplatesMap: Map<string, string>
     = new Map([
+        ["flow", "attack-flow"],
         ["action", "attack-action"],
         ["asset", "attack-asset"],
         ["condition", "attack-condition"],
         ["or", "attack-operator"],
         ["and", "attack-operator"],
     ]);
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  Attack Flow Publisher  ////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 class AttackFlowPublisher extends DiagramPublisher {
 
@@ -51,432 +84,752 @@ class AttackFlowPublisher extends DiagramPublisher {
      * @returns
      *  The published diagram in text form.
      */
-     public override publish(diagram: DiagramObjectModel): string {
-        const graph = SemanticAnalyzer.toGraph(diagram);
-        const stixBundle = this.createStixBundle();
-        // Map STIX id -> STIX node.
-        const stixNodes = new Map<string, any>();
-        // Map parent's stix ID -> children STIX IDs
-        const stixChildren = new Map<string, Array<string>>();
-        // Map graph node ID -> stix node ID
-        const graphToStixId = new Map<string, string>();
+    public override publish(diagram: DiagramObjectModel): string {
+        let graph = SemanticAnalyzer.toGraph(diagram);
 
-        // Iterate over graph nodes and create corresponding STIX nodes (either SDO
-        // or SCO).
-        for (const [id, node] of graph.nodes) {
-            const stixNode = this.exportNodeObject(id, node)
+        // Extract page
+        let pageId = diagram.id;
+        let page = graph.nodes.get(pageId);
+        if(page) {
+            graph.nodes.delete(pageId);
+        } else {
+            throw new Error("Page object missing from export.")
+        }
+        
+        // Create bundle
+        let stixBundle = this.createStixBundle();
+        let author = this.createFlowAuthorSdo(page);
+        let flow = this.createFlowSdo(pageId, page, author.id);
+        stixBundle.objects.push(flow);
+        stixBundle.objects.push(author);
+
+        // Graph ID -> STIX node.
+        let stixNodes = new Map<string, Sdo>();
+        // Parent STIX node -> Child Links
+        let stixChildren = new Map<Sdo, Link[]>();
+
+        // Create SDOs and SCOs from graph nodes
+        for (let [id, node] of graph.nodes) {
+            let stixNode = this.toStixNode(id, node);
             stixBundle.objects.push(stixNode);
-            stixNodes.set(stixNode.id, stixNode);
-            stixChildren.set(stixNode.id, new Array<string>());
-            graphToStixId.set(id, stixNode.id);
+            stixNodes.set(id, stixNode);
+            stixChildren.set(stixNode, []);
         }
 
-        // Iterate over edges and create an adjacency list for each STIX node.
-        for (const [id, edge] of graph.edges) {
-            const stixParentId = graphToStixId.get(edge.prev[0]);
-            const stixChildId = graphToStixId.get(edge.next[0]);
-            if (stixParentId && stixChildId) {
-                stixChildren.get(stixParentId)?.push(stixChildId);
+        // Create adjacency list from graph edges
+        for (let edge of graph.edges.values()) {
+            let prev = edge.prev;
+            let next = edge.next;
+            // Skip edges that don't connect two nodes
+            if(prev.length !== 1 || next.length !== 1)
+                continue;
+            // Register link
+            let prevNode = stixNodes.get(prev[0]);
+            let nextNode = stixNodes.get(next[0]);
+            if (prevNode && nextNode) {
+                stixChildren.get(prevNode)!.push({ 
+                    obj: nextNode,
+                    via: edge.prevLinkMap.keys().next().value
+                });
             } else {
-                throw new Error(`The endpoints for this edge do not exist: ${edge}`);
+                throw new Error(`Edge '${ edge }' is missing one or more nodes.`);
             }
         }
 
-        // Iterate over the STIX nodes and process their children by adding embedded
-        // refs to the existing objects and creating new SROs as needed.
-        for (const stixNode of stixNodes.values()) {
-            const children = new Array<any>();
-            const childIds = stixChildren.get(stixNode.id);
-            if (!childIds) {
-                throw new Error(`Cannot look up children of STIX node: id=${stixNode.id}`);
-            }
-            for (const childId of childIds) {
-                children.push(stixNodes.get(childId));
-            }
-            const newNodes = this.handleChildren(stixNode, children);
-            stixBundle.objects.push(...newNodes);
+        // Embed references
+        for (let [node, children] of stixChildren) {
+            let SROs = this.tryEmbed(node, children);
+            // If any embeds failed, append SROs
+            stixBundle.objects.push(...SROs);
         }
 
-        // TODO - Create flow authors.
-        const author = this.createStixObj("identity");
-        author.name = "John Doe";
-        author.identity_class = "individual";
-        author.contact_information = "johndoe@mitre.org";
-        stixBundle.objects.splice(2, 0, author)
+        // Configure flow roots
+        for(let [id, value] of graph.nodes) {
+            let type = value.template.id;
+            // Ensure no parents
+            if(value.prev.length !== 0)
+                continue;
+            // Add start ref
+            let stixId = stixNodes.get(id)!.id;
+            switch(type) {
+                case "action":
+                case "condition":
+                    flow.start_refs.push(stixId);
+                    break;
+            }
+        }
 
-        // TODO - Set flow metadata.
-        const flowObject = this.createStixObj("attack-flow");
-        flowObject.name = "Placeholder name";
-        flowObject.scope = "other";
-        flowObject.description = "Placeholder description.";
-        flowObject.created_by_ref = author.id;
-        // flowObject.created = "TODO";
-        // flowObject.modified = "TODO";
-        flowObject.start_refs = this.findFlowRoots(stixNodes, stixChildren);
-        stixBundle.objects.splice(2, 0, flowObject);
-
+        // Return bundle as string
         return JSON.stringify(stixBundle, null, 2);
     }
 
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Stix Node Creation  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
     /**
-     * Process a node in the Attack Flow and exportable STIX objects.
-     *
-     * @remarks
-     * While processing each node, we also process the in edges and out edges of that
-     * node. Some edges may be represented as embedded refs in the node's SDO, and
-     * others may be represented as separate relationship objects (i.e. SROs), therefore
-     * this method can return multiple objects.
-     *
-     * @parm node - The node to be published
-     * @returns - an array of objects containing 1 SDO or SCO and 0 or more SROs
+     * Exports a graph object to an SDO or SCO.
+     * @param id
+     *  The graph object's id.
+     * @param node
+     *  The graph object.
+     * @returns
+     *  The exported SDO or SCO.
      */
-    protected exportNodeObject(id: string, node: GraphObjectExport): any {
-        // Produce an SDO or SCO for this node.
-        const type = node.template.id;
-        const obj = this.createStixObj(type, id);
-        if (node.template.id === "or") {
-            obj.operator = "OR";
-        } else if (node.template.id === "and") {
-            obj.operator = "AND";
+    private toStixNode(id: string, node: GraphObjectExport): Sdo {
+        let obj = this.createSdo(node.template.id, id);
+        switch(obj.type) {
+            case "attack-action":
+                this.mergeActionProperty(obj, node.props);
+                break;
+            default:
+                this.mergeBasicDictProperty(obj, node.props);
+                break;
         }
-        // Merge properties into stix obj
-        this.mergeDictionaryProperty(obj, node.props);
         return obj;
     }
 
-
-    protected mergeDictionaryProperty(obj: any, property: DictionaryProperty) {
-        for(let [key, value] of property.value) {
-            switch(value.type) {
-                case PropertyType.Dictionary:
-                    if(value instanceof DictionaryProperty) {
-                        obj[key] = {};
-                        this.mergeDictionaryProperty(obj[key], value);
+    /**
+     * Merges an action's properties into a STIX action node.
+     * @param node
+     *  The STIX action node.
+     * @param property
+     *  The action's properties.
+     */
+    private mergeActionProperty(node: Sdo, property: DictionaryProperty) {
+        for(let [key, prop] of property.value) {
+            switch(key) {
+                case "confidence":
+                    if(!(prop instanceof EnumProperty)) {
+                        throw new Error("'confidence' is improperly defined.");
                     }
-                    break;
-                case PropertyType.List:
-                    if(value instanceof ListProperty && value.isDefined()) {
-                        obj[key] = [];
-                        this.mergeListProperty(obj[key], value)
+                    if(!prop.isDefined()) {
+                        break;
                     }
-                    break;
+                    prop = prop.toReferenceValue()!;
+                    if(!(prop instanceof DictionaryProperty)) {
+                        throw new Error("'confidence' is improperly defined.");
+                    }
+                    [ prop ] = this.getSubproperties(prop, "value");
+                    // Fall through
                 default:
-                    if(value.isDefined()) {
-                        obj[key] = value.toRawValue();
-                    }
-                    break;
-            }
-        }
-    }
-
-    protected mergeListProperty(obj: any, property: ListProperty) {
-        for(let value of property.value.values()) {
-            switch(value.type) {
-                case PropertyType.Dictionary:
-                    if(value instanceof DictionaryProperty) {
-                        obj.push({});
-                        this.mergeDictionaryProperty(obj.at(-1), value);
-                    }
-                    break;
-                case PropertyType.List:
-                    if(value instanceof ListProperty && value.isDefined()) {
-                        obj.push([]);
-                        this.mergeListProperty(obj.at(-1), value);
-                    }
-                    break;
-                default:
-                    if(value.isDefined()) {
-                        obj.push(value.toRawValue())
+                    if(prop.isDefined()) {
+                        node[key] = prop.toRawValue();
                     }
             }
         }
     }
 
     /**
-     * Process a node in the Attack Flow and exportable STIX objects.
-     *
+     * Merges a basic dictionary into a STIX node.
+     * @param node
+     *  The STIX node.
+     * @param property
+     *  The dictionary property.
+     */
+    private mergeBasicDictProperty(node: Sdo, property: DictionaryProperty) {
+        for(let [key, prop] of property.value) {
+            switch(prop.type) {
+                case PropertyType.Dictionary:
+                    throw new Error("Basic dictionaries cannot contain dictionaries.");
+                case PropertyType.Enum:
+                    throw new Error("Basic dictionaries cannot contain enums.");
+                case PropertyType.List:
+                    this.mergeBasicListProperty(node, key, prop as ListProperty);
+                    break;
+                default:
+                    if(prop.isDefined()) {
+                        node[key] = prop.toRawValue();
+                    }
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Merges a basic list into a STIX node.
+     * @param node
+     *  The STIX node.
+     * @param key
+     *  The list property's key.
+     * @param property
+     *  The list property.
+     */
+    private mergeBasicListProperty(node: Sdo, key: string, property: ListProperty) {
+        node[key] = [];
+        for(let prop of property.value.values()) {
+            switch(prop.type) {
+                case PropertyType.Dictionary:
+                    throw new Error("Basic lists cannot contain dictionaries.");
+                case PropertyType.List:
+                    throw new Error("Basic lists cannot contain lists.");
+                case PropertyType.Enum:
+                    throw new Error("Basic lists cannot contain enums.");
+                default:
+                    if(prop.isDefined()) {
+                        node[key].push(prop.toRawValue());
+                    }
+                    break;
+            }
+        }
+    }
+
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Relationships Embeddings  //////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Embed a reference to each child in the parent. If any of the children
+     * cannot be embedded, return a new SRO in its place.
+     * 
      * @remarks
      * While processing each node, we also process the in edges and out edges of that
      * node. Some edges may be represented as embedded refs in the node's SDO, and
      * others may be represented as separate relationship objects (i.e. SROs), therefore
      * this method can return multiple objects.
-     *
-     * @param node - A STIX node (SDO or SCO)
-     * @param children - An array of child nodes (SDOs and SCOs)
-     * @returns - an array of objects 0 or more SROs
+     * 
+     * @param parent
+     *  The STIX node.
+     * @param children
+     *  The STIX node's children.
+     * @returns
+     *  Zero or more SROs.
      */
-    protected handleChildren(node: any, children: Array<any>): Array<any> {
-        const newSros: Array<any> = [];
-
-        // Examine edges and either set embedded refs or create SROs.
-        for (const child of children) {
-            let newSro: any = null;
-            switch (node.type) {
+    private tryEmbed(parent: Sdo, children: Link[]): Sro[] {
+        let SROs = [];
+        // Attempt to embed children in parent
+        for (const c of children) {
+            let sro = null;
+            switch (parent.type) {
                 case "attack-action":
-                    newSro = this.handleActionChild(node, child);
+                    sro = this.tryEmbedInAction(parent, c.obj);
                     break;
                 case "attack-asset":
-                    newSro = this.handleAssetChild(node, child);
+                    sro = this.tryEmbedInAsset(parent, c.obj);
                     break;
                 case "attack-condition":
-                    newSro = this.handleConditionChild(node, child);
+                    sro = this.tryEmbedInCondition(parent, c.obj, c.via);
                     break;
                 case "attack-operator":
-                    newSro = this.handleOperatorChild(node, child);
+                    sro = this.tryEmbedInOperator(parent, c.obj);
+                    break;
+                case "note":
+                    this.tryEmbedInNote(parent, c.obj);
                     break;
                 default:
-                    newSro = this.handleDefaultChild(node, child);
+                    sro = this.tryEmbedInDefault(parent, c.obj);
             }
-            if (newSro) {
-                newSros.push(newSro);
+            // If embed failed, append SRO
+            if (sro) {
+                SROs.push(sro);
             }
         }
-
-        return newSros;
+        return SROs;
     }
 
     /**
-     * Handle a child node of an Action node by creating either embedded ref in the
-     * current node and/or returning an array of SROs.
-     *
-     * @param node - a STIX parent node
-     * @param child - a STIX childe node
-     * @returns zero or more SRO nodes
+     * Embed a reference to the child in the action. If the child cannot be
+     * embedded, return a new SRO.
+     * @param parent
+     *  A STIX action node.
+     * @param child
+     *  A STIX child node.
+     * @returns
+     *  An SRO, if one was created.
      */
-    protected handleActionChild(node: any, child: any): any {
-        let sro: any = null;
+    private tryEmbedInAction(parent: Sdo, child: Sdo): Sro | undefined {
+        let sro;
         switch (child.type) {
             case "process":
-                // Note that if there are multiple children with type "process", only
-                // the first one will be set as the command ref. The others will be
-                // set as SROs.
-                if (node.command_ref) {
-                    sro = this.createSro(node, child);
+                /**
+                 * Note:
+                 * If there are multiple children with type "process", only the
+                 * first one will be set as the command ref. The others will be
+                 * set as SROs.
+                 */
+                if (parent.command_ref) {
+                    sro = this.createSro(parent, child);
                 } else {
-                    node.command_ref = child.id;
+                    parent.command_ref = child.id;
                 }
                 break;
             case "attack-asset":
-                if (!node.asset_refs) {
-                    node.asset_refs = [];
+                if (!parent.asset_refs) {
+                    parent.asset_refs = [];
                 }
-                node.asset_refs.push(child.id);
+                parent.asset_refs.push(child.id);
                 break;
-            case "attack-action": // falls through
-            case "attack-operator": // falls through
+            case "attack-action":
+                // Falls through
+            case "attack-operator":
+                // Falls through
             case "attack-condition":
-                if (!node.effect_refs) {
-                    node.effect_refs = [];
+                if (!parent.effect_refs) {
+                    parent.effect_refs = [];
                 }
-                node.effect_refs.push(child.id);
+                parent.effect_refs.push(child.id);
                 break;
             default:
-                sro = this.createSro(node, child);
+                sro = this.createSro(parent, child);
         }
         return sro;
     }
 
     /**
-     * Handle a child node of an Asset node by creating either embedded ref in the
-     * current node and/or returning an array of SROs.
-     *
-     * @param node - a STIX parent node
-     * @param child - a STIX childe node
-     * @returns zero or more SRO nodes
+     * Embed a reference to the child in the asset. If the child cannot be
+     * embedded, return a new SRO.
+     * @param parent
+     *  A STIX asset node.
+     * @param child
+     *  A STIX child node.
+     * @returns
+     *  An SRO, if one was created.
      */
-    protected handleAssetChild(node: any, child: any): any {
-        let sro: any = null;
-        // Note that if there are multiple children, only the first one will be set as
-        // the object_ref. The others will be set as SROs.
-        if (node.object_ref) {
-            sro = this.createSro(node, child);
+    private tryEmbedInAsset(parent: Sdo, child: Sdo): Sro | undefined {
+        let sro;
+        /**
+         * Note:
+         * If there are multiple children, only the first one will be set as
+         * the object_ref. The others will be set as SROs.
+         */
+        if (parent.object_ref) {
+            sro = this.createSro(parent, child);
         } else {
-            node.object_ref = child.id;
+            parent.object_ref = child.id;
         }
         return sro;
     }
 
     /**
-     * Handle a child node of an Condition node by creating either embedded ref in the
-     * current node and/or returning an array of SROs.
-     *
-     * @param node - a STIX parent node
-     * @param child - a STIX childe node
-     * @returns zero or more SRO nodes
+     * Embed a reference to the child in the condition. If the child cannot be
+     * embedded, return a new SRO.
+     * @param parent
+     *  A STIX condition node.
+     * @param child
+     *  A STIX child node.
+     * @param via
+     *  The route the child is connected through.
+     * @returns
+     *  An SRO, if one was created.
      */
-    protected handleConditionChild(node: any, child: any): any {
-        let sro: any = null;
+    private tryEmbedInCondition(parent: Sdo, child: Sdo, via: string): Sro | undefined {
+        let sro;
         switch (child.type) {
-            case "attack-action": // falls through
-            case "attack-operator": // falls through
+            case "attack-action":
+                // Falls through
+            case "attack-operator":
+                // Falls through
             case "attack-condition":
-                // TODO add support for on_false_refs once implemented in the editor
-                if (!node.on_true_refs) {
-                    node.on_true_refs = [];
+                switch(via) {
+                    case "true_anchor":
+                        if (!parent.on_true_refs) {
+                            parent.on_true_refs = [];
+                        }
+                        parent.on_true_refs.push(child.id);
+                        break;
+                    case "false_anchor":
+                        if (!parent.on_false_refs) {
+                            parent.on_false_refs = [];
+                        }
+                        parent.on_false_refs.push(child.id);
+                        break;
+                    default:
+                        sro = this.createSro(parent, child);
+                        break;
                 }
-                node.on_true_refs.push(child.id);
                 break;
             default:
-                sro = this.createSro(node, child);
+                sro = this.createSro(parent, child);
         }
         return sro;
     }
 
     /**
-     * Handle a child node of an Operator node by creating either embedded ref in the
-     * current node and/or returning an array of SROs.
-     *
-     * @param node - a STIX parent node
-     * @param child - a STIX childe node
-     * @returns zero or more SRO nodes
+     * Embed a reference to the child in the operator. If the child cannot be
+     * embedded, return a new SRO.
+     * @param parent
+     *  A STIX operator node.
+     * @param child
+     *  A STIX child node.
+     * @returns
+     *  An SRO, if one was created.
      */
-    protected handleOperatorChild(node: any, child: any): any {
-        let sro: any = null;
+    private tryEmbedInOperator(parent: Sdo, child: Sdo): Sro | undefined {
+        let sro;
         switch (child.type) {
-            case "attack-action": // falls through
-            case "attack-operator": // falls through
+            case "attack-action":
+                // Falls through
+            case "attack-operator":
+                // Falls through
             case "attack-condition":
-                if (!node.effect_refs) {
-                    node.effect_refs = [];
+                if (!parent.effect_refs) {
+                    parent.effect_refs = [];
                 }
-                node.effect_refs.push(child.id);
+                parent.effect_refs.push(child.id);
                 break;
             default:
-                sro = this.createSro(node, child);
+                sro = this.createSro(parent, child);
         }
         return sro;
     }
 
     /**
-     * Handle a child node of any arbitrary node by returning an SRO.
-     *
-     * @param node - a STIX parent node
-     * @param child - a STIX childe node
-     * @returns zero or more SRO nodes
+     * Embed a reference to the child in the note. If the child cannot be
+     * embedded, return a new SRO.
+     * @param parent
+     *  A STIX note node.
+     * @param child
+     *  A STIX child node.
+     * @returns
+     *  An SRO, if one was created.
      */
-    protected handleDefaultChild(node: any, child: any): any {
-        let sro = this.createSro(node, child);
-        return sro;
+    private tryEmbedInNote(parent: Sdo, child: Sdo): void {
+        if(!parent.object_refs) {
+            parent.object_refs = [];
+        }
+        parent.object_refs.push(child.id);
     }
+
+    /**
+     * Embed a reference to the child in the parent. If the child cannot be
+     * embedded, return a new SRO.
+     * @param parent
+     *  A STIX parent node.
+     * @param child
+     *  A STIX child node.
+     * @returns
+     *  An SRO, if one was created.
+     */
+    private tryEmbedInDefault(parent: Sdo, child: Sdo): Sro {
+        return this.createSro(parent, child);
+    }
+
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  3. Stix Bundle  ///////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Create the initial STIX bundle with required extension/creator SDOs.
+     * @returns
+     *  The initial STIX bundle with required extension/creator SDOs.
      */
-    protected createStixBundle(): any {
-        const bundle: any = this.createStixObj("bundle");
+    private createStixBundle(): BundleSdo {
         const extensionAuthor = this.createExtensionAuthorSdo();
         const extension = this.createExtensionSdo(extensionAuthor.id);
-        bundle.objects = [extension, extensionAuthor];
-        return bundle;
-    }
-
-    /**
-     * Create the extension-definition SDO.
-     */
-    protected createExtensionSdo(creator_id: string): any {
-        const extension = this.createStixObj("extension-definition", AttackFlowExtensionId);
-        extension.name = "Attack Flow";
-        extension.description = "Extends STIX 2.1 with features to create Attack Flows.";
-        extension.created = AttackFlowExtensionCreatedDate;
-        extension.modified = AttackFlowExtensionModifiedDate;
-        extension.created_by_ref = creator_id;
-        extension.schema = AttackFlowSchemaUrl;
-        extension.version = AttackFlowSchemaVersion;
-        extension.extension_types = ["new-sdo"];
-        extension.external_references = [
-            AttackFlowDocsExternalReference,
-            AttackFlowGitHubExternalReference,
-        ]
-        return extension;
-    }
-
-    /**
-     * Create the identity that is the creator of the extension-definition.
-     */
-    protected createExtensionAuthorSdo(): any {
-        const identity = this.createStixObj("identity", AttackFlowExtensionId);
-        identity.create_by_ref = identity.id;
-        identity.name = AttackFlowExtensionCreatorName;
-        identity.identity_class = "organization";
-        identity.created = AttackFlowExtensionCreatedDate;
-        identity.modified = AttackFlowExtensionModifiedDate;
-        return identity;
-    }
-
-    /**
-     * A generic helper for creating a SDO initialized with a few required fields.
-     */
-    protected createStixObj(template: string, id: string | null = null): any {
-        let type = AttackFlowTemplates.get(template) ?? template;
-        let stixId = id ?? crypto.randomUUID();
-        let now = (new Date()).toISOString();
-        let sdo: any = {
-            type: type,
-            id: `${type}--${stixId}`,
-            spec_version: "2.1",
-            created: now,
-            modified: now,
-        }
-
-        // Declare extension on Attack Flow SDOs.
-        if (AttackFlowSdos.has(type)) {
-            let extDef: any = {};
-            extDef[`extension-definition--${AttackFlowExtensionId}`] = {
-                extension_type: "new-sdo",
-            };
-            sdo.extensions = extDef;
-        }
-
-        return sdo;
-    }
-
-    /**
-     * Create a STIX relationship object (SRO).
-     *
-     * @param parent - The parent STIX node
-     * @param child - The child STIX node
-     * @param relationshipType - The relationship type
-     */
-    protected createSro(parent: any, child: any, relationshipType: string = "related-to"): any {
-        const stixId = crypto.randomUUID();
-        const now = (new Date()).toISOString();
         return {
-            type: "relationship",
-            id: `relationship--${stixId}`,
-            spec_version: "2.1",
-            created: now,
-            modified: now,
-            relationship_type: relationshipType,
-            source_ref: parent.id,
-            target_ref: child.id,
+            ...this.createSdo("bundle"),
+            objects             : [extension, extensionAuthor]
         };
     }
 
     /**
-     * Find the root nodes of the action graph.
-     *
-     * @param nodes - A map of node ID -> STIX Node
-     * @param adjacency - A map of parent ID -> children IDs
-     * @returns a list of IDs of the root action/condition nodes.
+     * Creates the extension-definition SDO.
+     * @param creatorId
+     *  The creator's id.
+     * @returns
+     *  The extension-definition SDO.
      */
-    protected findFlowRoots(nodes: Map<string, any>,
-            adjacency: Map<string, Array<string>>): Array<string> {
-        // Add all actions and conditions to the set of possible roots.
-        const roots = new Set<string>();
-        for (const node of nodes.values()) {
-            if (node.type == "attack-action" || node.type == "attack-condition") {
-                roots.add(node.id);
-            }
+    private createExtensionSdo(creatorId: string): ExtensionSdo {
+        let obj = this.createSdo("extension-definition", AttackFlowExtensionId);
+        return {
+            ...obj,
+            name                : "Attack Flow",
+            description         : "Extends STIX 2.1 with features to create Attack Flows.",
+            created             : AttackFlowExtensionCreatedDate,
+            modified            : AttackFlowExtensionModifiedDate,
+            created_by_ref      : creatorId,
+            schema              : AttackFlowSchemaUrl,
+            version             : AttackFlowSchemaVersion,
+            extension_types     : ["new-sdo"],
+            external_references : [
+                AttackFlowDocsExternalReference,
+                AttackFlowGitHubExternalReference,
+            ]
         }
-        //
-        for (const children of adjacency.values()) {
-            for (const child of children) {
-                roots.delete(child);
-            }
-        }
-        return new Array<string>(...roots);
     }
+
+    /**
+     * Creates the extension-definition author SDO.
+     * @returns
+     *  The extension-definition author SDO.
+     */
+    private createExtensionAuthorSdo(): ExtensionAuthorSdo {
+        let obj = this.createSdo("identity", AttackFlowExtensionId);
+        return {
+            ...obj,
+            create_by_ref       : obj.id,
+            name                : AttackFlowExtensionCreatorName,
+            identity_class      : "organization",
+            created             : AttackFlowExtensionCreatedDate,
+            modified            : AttackFlowExtensionModifiedDate
+        };
+    }
+
+    /**
+     * Creates the attack flow SDO.
+     * @param id
+     *  The page's id.
+     * @param page
+     *  The page object.
+     * @param authorId
+     *  The author's id.
+     */
+    private createFlowSdo(id: string, page: GraphObjectExport, authorId: string): Sdo {
+
+        // Create flow
+        let flow: Sdo = {
+            ...this.createSdo(page.template.id, id),
+            created_by_ref      : authorId,
+            start_refs          : []
+        }
+
+        // Merge properties
+        for(let [key, prop] of page.props.value) {
+            switch(key) {
+                case "external_references":
+                    if(!(prop instanceof ListProperty)) {
+                        throw new Error("'external_references' is improperly defined.");
+                    }
+                    if(prop.descriptor.form.type !== PropertyType.Dictionary) {
+                        throw new Error("'external_references' is improperly defined.");
+                    }
+                    flow[key] = [];
+                    for(let ref of prop.value.values()) {
+                        let entries = ref.toRawValue() as RawEntries;
+                        flow[key].push(Object.fromEntries(entries));
+                    }
+                    break;
+                case "scope":
+                    if(!(prop instanceof EnumProperty)) {
+                        throw new Error("'scope' is improperly defined.");
+                    }
+                    if(!prop.isDefined()) {
+                        break;
+                    }
+                    prop = prop.toReferenceValue()!;
+                    // Fall through
+                default:
+                    if(prop.isDefined()) {
+                        flow[key] = prop.toRawValue()
+                    }
+                    break;
+            }
+        }
+
+        // Return flow
+        return flow;
+
+    }
+
+    /**
+     * Creates the attack flow author SDO.
+     * @param page
+     *  The page object.
+     * @returns
+     *  The attack flow author SDO.
+     */
+    private createFlowAuthorSdo(page: GraphObjectExport): Sdo {
+        let props = page.props.value.get("author");
+        
+        // Create author
+        let author = this.createSdo("identity");
+
+        // Merge properties
+        if(props instanceof CollectionProperty) {
+            for(let [key, prop] of props.value) {
+                switch(key) {
+                    case "identity_class":
+                        if(!(prop instanceof EnumProperty)) {
+                            throw new Error("'identity_class' is improperly defined.");
+                        }
+                        if(!prop.isDefined()) {
+                            break;
+                        }
+                        prop = prop.toReferenceValue()!;
+                        // Fall through
+                    default:
+                        if(prop.isDefined()) {
+                            author[key] = prop.toRawValue()
+                        }
+                        break;
+                }
+            }
+        } else {
+            throw new Error("'author' is improperly defined.");
+        }
+        
+        // Return author
+        return author;
+
+    }
+
     
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. SDO & SRO  /////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Creates a STIX Domain Object (SDO).
+     * @param template
+     *  The STIX object's template.
+     * @param stixId
+     *  The STIX object's id.
+     *  (Default: Randomly generated)
+     * @returns
+     *  The SDO object.
+     */
+    private createSdo(template: string, stixId: string = crypto.randomUUID()): Sdo {
+        let now = new Date().toISOString();
+        let type = AttackFlowTemplatesMap.get(template) ?? template;
+        
+        // Create SDO
+        let sdo: Sdo = {
+            type                : type,
+            id                  : `${ type }--${ stixId }`,
+            spec_version        : "2.1",
+            created             : now,
+            modified            : now,
+        }
+
+        // Declare extension on Attack Flow SDOs.
+        if (AttackFlowSdos.has(type)) {
+            sdo.extensions = {
+                [`extension-definition--${ AttackFlowExtensionId }`] : {
+                    extension_type: "new-sdo",
+                }
+            };
+        }
+
+        // Return SDO
+        return sdo;
+    }
+
+    /**
+     * Creates a STIX Relationship Object (SRO).
+     * @param parent
+     *  The parent STIX node.
+     * @param child
+     *  The child STIX node.
+     * @param type
+     *  The relationship type.
+     *  (Default: related-to)
+     * @returns
+     *  The SRO object.
+     */
+    private createSro(parent: Sdo, child: Sdo, type: string = "related-to"): Sro {
+        const stixId = crypto.randomUUID();
+        const now = new Date().toISOString();
+        return {
+            type                : "relationship",
+            id                  : `relationship--${ stixId }`,
+            spec_version        : "2.1",
+            created             : now,
+            modified            : now,
+            relationship_type   : type,
+            source_ref          : parent.id,
+            target_ref          : child.id
+        };
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  5. Helpers  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+    
+    /**
+     * Resolves a set of subproperties from a collection property.
+     * @param property
+     *  The collection property.
+     * @param ids
+     *  The subproperty id's.
+     * @returns
+     *  The subproperties.
+     */
+    private getSubproperties(property: CollectionProperty, ...ids: string[]): Property[] {
+        let subproperties = [];
+        for(let id of ids) {
+            let prop = property.value.get(id);
+            if(prop) {
+                subproperties.push(prop);
+            } else {
+                throw new Error(`${ id } was not defined on root property.`); 
+            }
+        }
+        return subproperties;
+    }
+
 }
 
 export default AttackFlowPublisher;
+
+
+///////////////////////////////////////////////////////////////////////////
+//  Internal Types  ///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
+type Sdo = {
+    type         : string,
+    id           : string,
+    spec_version : string,
+    created      : string,
+    modified     : string,
+    extensions?   : {
+        [key: string] : {
+            extension_type: string
+        }
+    },
+    [key: string]: any
+}
+
+type Sro = {
+    type              : string,
+    id                : string,
+    spec_version      : string,
+    created           : string,
+    modified          : string,
+    relationship_type : string,
+    source_ref        : string,
+    target_ref        : string
+}
+
+type ExtensionSdo = Sdo & {
+    name                : string,
+    description         : string,
+    created             : string,
+    modified            : string,
+    created_by_ref      : string,
+    schema              : string,
+    version             : string,
+    extension_types     : string[],
+    external_references : {
+        source_name: string,
+        description: string,
+        url: string
+    }[]
+}
+
+type ExtensionAuthorSdo = Sdo & {
+    create_by_ref  : string,
+    name           : string,
+    identity_class : string,
+    created        : string,
+    modified       : string
+}
+
+type BundleSdo = Sdo & {
+    objects : [ExtensionSdo, ExtensionAuthorSdo, ...Sdo[]]
+}
+
+type Link = {
+    obj: Sdo,
+    via: string
+}
