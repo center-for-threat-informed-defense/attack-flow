@@ -74,7 +74,7 @@ case for new tools, personnel, or security controls to prioritize.
 **Lessons Learned**
 
 Incident responders can use Attack Flow to improve their incident response (IR) planning
-and after-action reveiew. After a security incident has occurred, responders can create
+and after-action review. After a security incident has occurred, responders can create
 flows to understand how their defenses failed and where they can apply controls to
 reduce future risk and enhance threat containment. Mapping a flow will also allow
 defenders to see where their defenses succeeded and what they should continue to do
