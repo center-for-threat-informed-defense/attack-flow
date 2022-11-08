@@ -392,7 +392,7 @@ def test_generate_example_flows():
         '',
         '      .. raw:: html',
         '',
-        '        <p><em>Open:</em> <a target="_blank" href="../ui/?src=%2fcorpus%2fflow1.afb"></i>Attack Flow Builder</a></p>',
+        '        <p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2fflow1.afb"></i>Attack Flow Builder</a></p>',
         '        <p><em>Download:</em> <a href="../corpus/flow1.json">JSON</a> | <a href="../corpus/flow1.dot">GraphViz</a> (<a href="../corpus/flow1.dot.png">PNG</a>) | <a href="../corpus/flow1.mmd">Mermaid</a> (<a href="../corpus/flow1.mmd.png">PNG</a>)',
         '    - John Doe',
         '    - Test flow 1 is used for unit tests.',
