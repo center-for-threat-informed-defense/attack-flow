@@ -1,0 +1,530 @@
+{
+  "type": "bundle",
+  "id": "bundle--1f92eb49-3767-4e74-815d-3d5c9a8846f6",
+  "spec_version": "2.1",
+  "created": "2022-12-06T22:40:22.898Z",
+  "modified": "2022-12-06T22:40:22.898Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--8ccfd5ad-9b4c-4014-8da1-e81863e3bf69",
+      "spec_version": "2.1",
+      "created": "2022-10-27T02:44:54.520Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--07701935-2258-40c4-a419-5f23b0c41880",
+      "start_refs": [
+        "attack-action--b1b20bb1-bdb3-437f-89c7-3cce30687643"
+      ],
+      "name": "Uber Breach",
+      "description": "A breach at Uber by the Lapsus$ group.",
+      "author": [
+        [
+          "name",
+          "Lauren Parker"
+        ],
+        [
+          "identity_class",
+          "23b79ae0fc0f07a3669598dd23c694cc"
+        ],
+        [
+          "contact_information",
+          "lparker@mitre.org"
+        ]
+      ],
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "Uber Investigating Breach of Its Computer Systems",
+          "url": "https://www.nytimes.com/2022/09/15/technology/uber-hacking-breach.html"
+        },
+        {
+          "source_name": "Unpacking the Uber Breach\n\n",
+          "url": "https://www.cyberark.com/resources/blog/unpacking-the-uber-breach"
+        },
+        {
+          "source_name": "Uber Newsroom: Security Update",
+          "url": "https://www.uber.com/newsroom/security-update/"
+        },
+        {
+          "source_name": "Uber Breach 2022 – Everything You Need to Know\n\n",
+          "url": "https://blog.gitguardian.com/uber-breach-2022/"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--07701935-2258-40c4-a419-5f23b0c41880",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "threat-actor",
+      "id": "threat-actor--1acdb3e3-3491-4061-a1cb-098434357051",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "name": "Lapsus$",
+      "description": "organized around a Telegram group; has attacked multiple well-known companies; gains access through social engineering",
+      "sophistication": "expert",
+      "resource_level": "organization",
+      "primary_motivation": "personal-gain"
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--75170181-d3e4-4127-a2ca-7cae5904a79d",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Attackers likely purchased the contractors credentials on the dark web",
+      "on_true_refs": [
+        "attack-action--95926e82-a770-4752-b6ff-cfcd3451a92f"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b1b20bb1-bdb3-437f-89c7-3cce30687643",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Compromise Accounts",
+      "technique_id": "T1586",
+      "description": "Unknown malware was used to compromise the accounts/credentials of an external contractor",
+      "effect_refs": [
+        "attack-condition--75170181-d3e4-4127-a2ca-7cae5904a79d"
+      ],
+      "asset_refs": [
+        "attack-asset--c91f0115-9bef-42b4-9f65-9a836a480e6e"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--95926e82-a770-4752-b6ff-cfcd3451a92f",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Valid Accounts",
+      "technique_id": "T1078",
+      "description": "Attacker attempted to log in to the user's Uber VPN account but were blocked due to multi-factor authentication",
+      "effect_refs": [
+        "attack-action--4b16b17d-0648-49d2-84b7-8ce4aa0dfd24"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--bff2a0f3-2d03-4ad0-9e44-9c5cee176278",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "User accepted one of the multi-factor authentication attempts, unknowingly allowing the attackers access to the user's Uber account",
+      "on_true_refs": [
+        "attack-action--6177c027-6e9b-4fa5-9f4a-78390af7767d"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--4b16b17d-0648-49d2-84b7-8ce4aa0dfd24",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Multi-Factor Authentication Request Generation",
+      "technique_id": "T1621",
+      "description": "Attackers repeatedly tried to use the user's credentials which caused MFA to spam the user requesting access to the VPN",
+      "effect_refs": [
+        "attack-condition--bff2a0f3-2d03-4ad0-9e44-9c5cee176278"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--c91f0115-9bef-42b4-9f65-9a836a480e6e",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "VPN"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--6177c027-6e9b-4fa5-9f4a-78390af7767d",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Network Share Discovery",
+      "technique_id": "T1135",
+      "description": "Winthin the Uber environment, the user had access to a network share",
+      "asset_refs": [
+        "attack-asset--7b89ea24-55eb-4078-b488-b5c7bb592229"
+      ],
+      "effect_refs": [
+        "attack-action--06a47d7f-05a1-4c5d-969e-eeae50417206"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--7b89ea24-55eb-4078-b488-b5c7bb592229",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Network Share",
+      "description": "Network share was either open or misconfigured to allow broad read ACL"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--06a47d7f-05a1-4c5d-969e-eeae50417206",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Unsecured Credentials: Credentials in Files",
+      "technique_id": "T1552.001",
+      "description": "Attackers discovered a PowerShell script containing hard-coded privileged accounts within the network share",
+      "asset_refs": [
+        "attack-asset--2d4ec197-d16e-4e3f-9313-45f6d2a39597"
+      ],
+      "effect_refs": [
+        "attack-condition--7af606cf-8bea-4922-af2e-9e956def699a"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--2d4ec197-d16e-4e3f-9313-45f6d2a39597",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "PowerShell script",
+      "description": "located in the network share; contains hard-coded privileged credentials to Uber's PAM solution"
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--7af606cf-8bea-4922-af2e-9e956def699a",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Attackers have credentials for a privileged account for Uber's PAM solution",
+      "on_true_refs": [
+        "attack-action--d1b3bb69-a9e5-4f7e-9926-66eb7bd951db"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--d1b3bb69-a9e5-4f7e-9926-66eb7bd951db",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Valid Accounts",
+      "technique_id": "T1078",
+      "description": "Attackers used valid account credentials to access the PAM solution",
+      "effect_refs": [
+        "attack-condition--97169908-6aae-41cb-a2d6-e9960cb6ed42"
+      ],
+      "asset_refs": [
+        "attack-asset--7d689c3f-b615-46ac-9af6-05397cbc0ce4"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--97169908-6aae-41cb-a2d6-e9960cb6ed42",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Attacker overtook multiple services/tools and gained access to secrets inside the secure storage",
+      "on_true_refs": [
+        "attack-action--322cb48c-ec57-4311-94b2-489b06f18451"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--322cb48c-ec57-4311-94b2-489b06f18451",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Credentials from Password Stores",
+      "technique_id": "T1555",
+      "description": "Through PAM, attackers compromised access to systems using SSO and consoles, including the cloud management console",
+      "asset_refs": [
+        "attack-asset--adf17440-b32a-4186-a00f-6764d0aec846",
+        "attack-asset--730e66f3-a07c-4738-9cad-c439ce37a008",
+        "attack-asset--4aa0e906-d483-42fc-bb30-4e1577c26fab",
+        "attack-asset--16266dba-b759-4119-93b3-cce9e8baebf9",
+        "attack-asset--6dd42d73-5dbe-4fe6-8456-dc73c29584dd",
+        "attack-asset--65126a0a-4027-45aa-b7e1-3055e43ff59f",
+        "attack-asset--3500b0b1-a618-4cbd-82de-88db1ef29835",
+        "attack-asset--0788d2c3-214f-4c99-9806-2cda35595eac",
+        "attack-asset--4fb4c0f0-d021-4e26-9eb5-186ce97164b6"
+      ],
+      "effect_refs": [
+        "attack-action--3d0c877d-840b-41c1-b50e-94133a67120b"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--adf17440-b32a-4186-a00f-6764d0aec846",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Cloud Management console",
+      "description": "vSphere; stores sensitive customer and financial data"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--730e66f3-a07c-4738-9cad-c439ce37a008",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "AWS"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--4aa0e906-d483-42fc-bb30-4e1577c26fab",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "GCP"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--16266dba-b759-4119-93b3-cce9e8baebf9",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Google Drive"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--6dd42d73-5dbe-4fe6-8456-dc73c29584dd",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "SentinelOne"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--4fb4c0f0-d021-4e26-9eb5-186ce97164b6",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Slack workspace"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--65126a0a-4027-45aa-b7e1-3055e43ff59f",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "HackerOne admin console"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--0788d2c3-214f-4c99-9806-2cda35595eac",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Code repositories"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--3500b0b1-a618-4cbd-82de-88db1ef29835",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "internal employee dashboards"
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--7d689c3f-b615-46ac-9af6-05397cbc0ce4",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Thycotic",
+      "description": "Uber's PAM system; stores end-user credentials for employee access to internal services, 3rd party apps, and DevOps secrets; controls access to different services and has a secrets manager where credentials and passwords are stored"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3d0c877d-840b-41c1-b50e-94133a67120b",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltration",
+      "tactic_id": "TA0010",
+      "description": "Attacker exfiltrated internal Slack messages and information from a finance tool used to manage invoices"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a54263e3-f26b-4e88-a263-f330a94e2d9d",
+      "spec_version": "2.1",
+      "created": "2022-12-06T22:40:22.898Z",
+      "modified": "2022-12-06T22:40:22.898Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--b1b20bb1-bdb3-437f-89c7-3cce30687643",
+      "target_ref": "threat-actor--1acdb3e3-3491-4061-a1cb-098434357051"
+    }
+  ]
+}
