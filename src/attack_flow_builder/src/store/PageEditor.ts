@@ -165,9 +165,9 @@ export class PageEditor {
     }
 
     /**
-     * Tests if the last undone action can be redone.
+     * Tests if the last undone command can be redone.
      * @returns
-     *  True if the last undone action can be redone, false otherwise.
+     *  True if the last undone command can be redone, false otherwise.
      */
     public canRedo(): boolean {
         return 0 < this._redoStack.length;

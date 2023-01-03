@@ -18,10 +18,12 @@ export default {
             return [
                 {
                     shortcut: "Control+R",
+                    repeatable: true,
                     allowBrowserBehavior: true
                 },
                 {
                     shortcut: "Control+Shift+R",
+                    repeatable: true,
                     allowBrowserBehavior: true
                 }
             ]
@@ -49,26 +51,32 @@ export default {
                 {
                     data: () => App.LoadFile.fromNew(ctx),
                     shortcut: file.new_file,
+                    repeatable: false
                 },
                 {
                     data: () => App.LoadFile.fromFileSystem(ctx),
                     shortcut: file.open_file,
+                    repeatable: false
                 },
                 {
                     data: () => new App.SavePageToDevice(ctx, page.id),
-                    shortcut: file.save_file
+                    shortcut: file.save_file,
+                    repeatable: false
                 },
                 {
                     data: () => new App.SavePageImageToDevice(ctx, page.id),
                     shortcut: file.save_image,
+                    repeatable: false
                 },
                 {
                     data: () => new App.SaveSelectionImageToDevice(ctx, page.id),
-                    shortcut: file.save_select_image
+                    shortcut: file.save_select_image,
+                    repeatable: false
                 },
                 {
                     data: () => new App.PublishPageToDevice(ctx, page.id),
                     shortcut: file.publish_file,
+                    repeatable: false,
                     disabled: !ctx.publisher || !isValid
                 }
             ];
@@ -89,41 +97,47 @@ export default {
             let ctx = rootState.ApplicationStore;
             let page = ctx.activePage.page;
             let edit = ctx.settings.hotkeys.edit;
-            let repeat = { delay: 400, interval: 50 };
             return [
                 {
                     data: () => new Page.UndoPageCommand(ctx, page.id),
                     shortcut: edit.undo,
-                    repeat
+                    repeatable: true
                 },
                 {
                     data: () => new Page.RedoPageCommand(ctx, page.id),
                     shortcut: edit.redo,
-                    repeat
+                    repeatable: true
                 },
                 {
                     data: () => new Page.CutSelectedChildren(ctx, page),
                     shortcut: edit.cut,
+                    repeatable: false
                 },
                 {
                     data: () => new App.CopySelectedChildren(ctx, page),
                     shortcut: edit.copy,
+                    repeatable: false,
+                    allowBrowserBehavior: true
                 },
                 {
                     data: () => new Page.PasteToObject(ctx, page),
                     shortcut: edit.paste,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.RemoveSelectedChildren(page),
-                    shortcut: edit.delete
+                    shortcut: edit.delete,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.DuplicateSelectedChildren(ctx, page),
-                    shortcut: edit.duplicate
+                    shortcut: edit.duplicate,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.SelectChildren(page),
-                    shortcut: edit.select_all
+                    shortcut: edit.select_all,
+                    repeatable: false
                 }
             ];
         },
@@ -146,19 +160,23 @@ export default {
             return [
                 {
                     data: () => new Page.RelayerSelection(page, Page.Order.Top),
-                    shortcut: layout.selection_to_front
+                    shortcut: layout.selection_to_front,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
-                    shortcut: layout.selection_to_back
+                    shortcut: layout.selection_to_back,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
-                    shortcut: layout.bring_selection_forward
+                    shortcut: layout.bring_selection_forward,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
-                    shortcut: layout.send_selection_backward
+                    shortcut: layout.send_selection_backward,
+                    repeatable: false
                 }
             ];
         },
@@ -182,42 +200,52 @@ export default {
                 {
                     data: () => new App.ToggleGridDisplay(ctx),
                     shortcut: view.toggle_grid,
+                    repeatable: false
                 },
                 {
                     data: () => new App.ToggleShadowDisplay(ctx),
                     shortcut: view.toggle_shadows,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.ResetCamera(ctx, page),
-                    shortcut: view.reset_view
+                    shortcut: view.reset_view,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.ZoomCamera(ctx, page, 0.25),
-                    shortcut: view.zoom_in
+                    shortcut: view.zoom_in,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.ZoomCamera(ctx, page, -0.25),
-                    shortcut: view.zoom_out
+                    shortcut: view.zoom_out,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.MoveCameraToSelection(ctx, page),
-                    shortcut: view.jump_to_selection
+                    shortcut: view.jump_to_selection,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.MoveCameraToParents(ctx, page),
-                    shortcut: view.jump_to_parents
+                    shortcut: view.jump_to_parents,
+                    repeatable: false
                 },
                 {
                     data: () => new Page.MoveCameraToChildren(ctx, page),
-                    shortcut: view.jump_to_children
+                    shortcut: view.jump_to_children,
+                    repeatable: false
                 },
                 {
                     data: () => new App.SwitchToFullscreen(ctx),
-                    shortcut: view.fullscreen
+                    shortcut: view.fullscreen,
+                    repeatable: false
                 },
                 {
                     data: () => new App.ToggleDebugDisplay(ctx),
                     shortcut: view.toggle_debug_view,
+                    repeatable: false
                 }
             ];
         }

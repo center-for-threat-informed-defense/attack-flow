@@ -20,14 +20,7 @@ class AttackFlowValidator extends DiagramValidator {
         let graph = SemanticAnalyzer.toGraph(diagram);
         // Validate nodes
         for (let [id, node] of graph.nodes) {
-            this.validateNode(id, node); 
-            switch(node.template.id) {
-                case "note":
-                    if(node.next.length === 0) {
-                        this.addError(id, "A Note must point to at least one object.");
-                    }
-                    break;
-            }
+            this.validateNode(id, node);
         }
         // Validate edges
         for (let [id, edge] of graph.edges) {
@@ -43,8 +36,17 @@ class AttackFlowValidator extends DiagramValidator {
      *  The node.
      */
     protected validateNode(id: string, node: GraphObjectExport) {
+        // Validate properties
         for (const [key, value] of node.props.value) {
             this.validateProperty(id, key, value)
+        }
+        // Validate links
+        switch(node.template.id) {
+            case "note":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Note must point to at least one object.");
+                }
+                break;
         }
     }
 

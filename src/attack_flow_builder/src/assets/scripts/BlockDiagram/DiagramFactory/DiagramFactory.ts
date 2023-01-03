@@ -1,3 +1,4 @@
+import { Crypto } from "../Utilities/Crypto";
 import { 
     Font,
     FontDescriptor,
@@ -289,7 +290,7 @@ export class DiagramFactory {
         if(object instanceof DiagramAnchorModel) {
             let clone = this.createObject({
                 ...object.toExport(),
-                id: (crypto as any).randomUUID(),
+                id: Crypto.randomUUID(),
                 children: []
             }) as DiagramAnchorModel;
             clones.set(object.id, clone);
@@ -304,7 +305,7 @@ export class DiagramFactory {
         // Clone object
         let clone = this.createObject({
             ...object.toExport(),
-            id: (crypto as any).randomUUID(),
+            id: Crypto.randomUUID(),
             children
         });
         clones.set(object.id, clone);

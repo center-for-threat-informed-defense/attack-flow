@@ -1,6 +1,6 @@
 <template>
   <FocusBox
-    :class="['enum-field-control', { disabled: !isEditable, open: showMenu }]"
+    :class="['enum-field-control', { disabled, open: showMenu }]"
     @focus="openMenu"
     @unfocus="closeMenu"
   >
@@ -10,7 +10,7 @@
         <div :class="['value-text', { 'is-null': isNull }]">
           {{ _property.toString() }}
         </div>
-        <div class="dropdown-arrow" v-if="isEditable">▼</div>
+        <div class="dropdown-arrow" v-if="!disabled">▼</div>
       </div>
       <!-- Dropdown Options -->
       <ScrollBox :propagateScroll="false" :style="style" v-if="showMenu">
@@ -75,12 +75,12 @@ export default defineComponent({
     },
 
     /**
-     * Tests if the property is editable.
+     * Tests if the property is disabled.
      * @returns
-     *  True if the property is editable, false otherwise. 
+     *  True if the property is disabled, false otherwise. 
      */
-    isEditable(): boolean {
-      return this._property.descriptor.is_editable ?? true;
+    disabled(): boolean {
+      return !(this._property.descriptor.is_editable ?? true);
     },
 
     /**
@@ -117,7 +117,7 @@ export default defineComponent({
      * Opens the options menu.
      */
     openMenu() {
-      if(!this.isEditable) {
+      if(this.disabled) {
         return;
       }
       this.showMenu = true;      

@@ -1,3 +1,4 @@
+import { Crypto } from "../../Utilities/Crypto";
 import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramObjectView } from "../../DiagramViewTypes";
 import { 
@@ -95,7 +96,7 @@ export abstract class DiagramObjectModel {
         template: ObjectTemplate,
         values?: DiagramObjectValues
     ) {
-        this.id = values?.id ?? (crypto as any).randomUUID();
+        this.id = values?.id ?? Crypto.randomUUID();
         this.attrs = values?.attrs ?? PositionSetByUser.False;
         this.setAlignment(Alignment.Free);
         this.setCursor(Cursor.Default);
