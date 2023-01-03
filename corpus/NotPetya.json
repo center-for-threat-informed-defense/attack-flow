@@ -1,9 +1,9 @@
 {
   "type": "bundle",
-  "id": "bundle--3fe2c703-fefe-40c0-af7b-f2c10960e72e",
+  "id": "bundle--6c740aed-67c6-4839-b356-f2515badb0e5",
   "spec_version": "2.1",
-  "created": "2022-12-06T22:10:39.313Z",
-  "modified": "2022-12-06T22:10:39.313Z",
+  "created": "2023-01-03T21:07:36.198Z",
+  "modified": "2023-01-03T21:07:36.198Z",
   "objects": [
     {
       "type": "extension-definition",
@@ -47,16 +47,14 @@
       "id": "attack-flow--dd875c61-26a9-4b8b-879e-9f00346300fd",
       "spec_version": "2.1",
       "created": "2022-10-27T02:44:54.520Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "created_by_ref": "identity--bcfbdd50-4050-4594-9a9c-4294e274c315",
-      "start_refs": [
-        "attack-action--605180eb-64d7-4f54-ae85-a1036cf2dbd3"
-      ],
+      "created_by_ref": "identity--03b9f5a5-79e8-46c7-9eae-efb1e1add341",
+      "start_refs": [],
       "name": "NotPetya",
       "description": "Analysis of 2017 malware outbreak.",
       "author": [
@@ -73,14 +71,36 @@
           "msanchez@mitre.org"
         ]
       ],
-      "scope": "incident"
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "CrowdStrike",
+          "description": "Article",
+          "url": "https://www.crowdstrike.com/blog/petrwrap-ransomware-technical-analysis-triple-threat-file-encryption-mft-encryption-credential-theft/"
+        },
+        {
+          "source_name": "CrowdStrike",
+          "description": "Article",
+          "url": "https://www.crowdstrike.com/blog/petrwrap-technical-analysis-part-2-further-findings-and-potential-for-mbr-recovery/"
+        },
+        {
+          "source_name": "LogRhythm",
+          "description": "Report",
+          "url": "https://gallery.logrhythm.com/threat-intelligence-reports/notpetya-technical-analysis-logrhythm-labs-threat-intelligence-report.pdf"
+        },
+        {
+          "source_name": "Department of Justice",
+          "description": "Indictment",
+          "url": "https://www.justice.gov/opa/press-release/file/1328521/download"
+        }
+      ]
     },
     {
       "type": "identity",
-      "id": "identity--bcfbdd50-4050-4594-9a9c-4294e274c315",
+      "id": "identity--03b9f5a5-79e8-46c7-9eae-efb1e1add341",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "Mia Sanchez",
       "identity_class": "individual",
       "contact_information": "msanchez@mitre.org"
@@ -89,8 +109,8 @@
       "type": "attack-action",
       "id": "attack-action--9ac3cd71-b8e4-4902-a134-5bbf2c3dc9b9",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -99,6 +119,7 @@
       "name": "Supply Chain Compromise",
       "technique_id": "T1195",
       "description": "Attackers added malicious functionality to the files containing software updates for M.E.Doc to collect a list of all EDRPOUs associated with computers using the M.E.Doc software and had downloaded the update file and to send a cookie back to the Update Server",
+      "confidence": 100,
       "asset_refs": [
         "attack-asset--f16ebb0d-0c67-482a-ab1e-673bb376280c"
       ],
@@ -110,8 +131,8 @@
       "type": "attack-action",
       "id": "attack-action--698fd2b3-f021-4f74-8141-d48ba11ce09c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -120,6 +141,7 @@
       "name": "Masquerading",
       "technique_id": "T1036",
       "description": "NotPetya drops the ransomware DLL perfc.dat, writes a resource to C:\\Windows\\dllhost.dat, and drops its ransomware splash and warning files",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--371fe05f-e6b1-41ea-84ef-2c76f8186089",
         "attack-action--3d221636-c915-4e2a-903a-e10047a1f34a"
@@ -129,8 +151,8 @@
       "type": "attack-action",
       "id": "attack-action--371fe05f-e6b1-41ea-84ef-2c76f8186089",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -139,6 +161,7 @@
       "name": "Software Discovery: Security Software Discovery",
       "technique_id": "T1518.001",
       "description": "Malware starts subroutine and hashes every running process on the system and sets PROC_FLAG. It is looking for three hardcoded hashes: Kaspersky, Symantec, Norton Security.",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--d3033b02-3cdc-4554-b39f-a3853bba2c53",
         "attack-condition--7f9d0200-8303-4247-aeeb-8aa9124ccb32"
@@ -148,8 +171,8 @@
       "type": "attack-action",
       "id": "attack-action--2010cb6c-cca8-45a4-99ca-ed2a2ace8d45",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -158,19 +181,17 @@
       "name": "OS Credential Harvester",
       "technique_id": "T1003.001",
       "description": "Operates as a modified version of Mimikatz and uses a named pipe to extract credentials from LSASS",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--085ac3c3-4a2a-45de-a075-b22595d089b2"
-      ],
-      "asset_refs": [
-        "attack-asset--397140c7-95d9-4130-aafc-e6b0f13e0d44"
       ]
     },
     {
       "type": "attack-condition",
       "id": "attack-condition--6c666fe2-0a6c-4bb1-8da7-9955f81b187b",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -185,8 +206,8 @@
       "type": "attack-action",
       "id": "attack-action--8b0ac8bf-9642-4c25-811c-781942284dac",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -195,6 +216,7 @@
       "name": "Access Token Impersonation",
       "technique_id": "T1134.001",
       "description": "Duplicates another user's token and allows attacker to escalate privileges and impersonate another user to spread the malware",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--085ac3c3-4a2a-45de-a075-b22595d089b2"
       ]
@@ -203,8 +225,8 @@
       "type": "attack-action",
       "id": "attack-action--3d221636-c915-4e2a-903a-e10047a1f34a",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -213,6 +235,7 @@
       "name": "Malware Privilege Discovery",
       "technique_id": "N/A",
       "description": "Malware attempts to determine privilege of its running process and sets the PRIV_FLAG: SeTcbPrivilege, SeDebugPrivilege, SeShutdownPrivilege",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--6c666fe2-0a6c-4bb1-8da7-9955f81b187b",
         "attack-condition--3b06b8c3-c293-453f-8754-37b8d1e810d7"
@@ -222,8 +245,8 @@
       "type": "attack-condition",
       "id": "attack-condition--3b06b8c3-c293-453f-8754-37b8d1e810d7",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -238,8 +261,8 @@
       "type": "attack-operator",
       "id": "attack-operator--085ac3c3-4a2a-45de-a075-b22595d089b2",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -254,8 +277,8 @@
       "type": "attack-condition",
       "id": "attack-condition--c6ec09c8-2806-4eb6-8f3a-8729d0364af5",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -274,8 +297,8 @@
       "type": "attack-condition",
       "id": "attack-condition--d3033b02-3cdc-4554-b39f-a3853bba2c53",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -290,8 +313,8 @@
       "type": "attack-operator",
       "id": "attack-operator--ede0a454-a028-4d4a-85fb-b773d891679d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -306,8 +329,8 @@
       "type": "attack-action",
       "id": "attack-action--f75c6409-b123-4c09-85fb-9c3a337c9fdb",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -316,6 +339,7 @@
       "name": "Remote Services: SMB/Windows Admin Shares",
       "technique_id": "T1021.002",
       "description": "To move laterally, the malware logs into any version of SMB with the stolen tokens or harvested credentials and does a  UNC write to Admin$ to execute malware",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--fb2b6b4f-edd2-4b53-8894-a95ddcbb5cb7"
       ]
@@ -324,8 +348,8 @@
       "type": "attack-action",
       "id": "attack-action--efe3d7fe-9a22-4b05-a5af-1eb0f42aa41f",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -334,6 +358,7 @@
       "name": "Exploitation of Remote Services ",
       "technique_id": "T0866",
       "description": "To move laterally, NotPetya tests for vulnerable SMBv1 condition (Eternal Blue/Romance exploit) and deploys an SMB backdoor",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--f519deb9-ffbf-4568-9c18-26313af17849"
       ]
@@ -342,8 +367,8 @@
       "type": "attack-action",
       "id": "attack-action--e72f07e9-2191-4805-9f97-bdd7624b3827",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -352,6 +377,7 @@
       "name": "System Network Configuration Discovery",
       "technique_id": "T1016",
       "description": "Malware issues commands to gather list of known IP addresses and TCP endpoints and enumerate domain controllers",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--a364596b-e618-4b47-b004-cd7e22c8395f"
       ]
@@ -360,8 +386,8 @@
       "type": "attack-condition",
       "id": "attack-condition--a364596b-e618-4b47-b004-cd7e22c8395f",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -376,8 +402,8 @@
       "type": "attack-action",
       "id": "attack-action--fb2b6b4f-edd2-4b53-8894-a95ddcbb5cb7",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -386,6 +412,7 @@
       "name": "System Binary Proxy Execution: Rundll32",
       "technique_id": "T1218.011",
       "description": " Malware executes either using PsExec or WMIC as rundll32.exe",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--d281113f-2715-4058-be9e-11f4058fca71"
       ]
@@ -394,8 +421,8 @@
       "type": "attack-action",
       "id": "attack-action--f519deb9-ffbf-4568-9c18-26313af17849",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -404,6 +431,7 @@
       "name": "Process Injection",
       "technique_id": "T1055",
       "description": "To deploy NotPetya on the system, a staging DLL is injected into lsass.exe",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--146b0928-071a-43e8-b115-5ab2c8934fe0"
       ]
@@ -412,8 +440,8 @@
       "type": "attack-action",
       "id": "attack-action--146b0928-071a-43e8-b115-5ab2c8934fe0",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -422,6 +450,7 @@
       "name": "System Binary Proxy Execution: Rundll32",
       "technique_id": "T1218/011",
       "description": "NotPetya written to c:/windows and executed by the staging DLL as rundll32.exe",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--d281113f-2715-4058-be9e-11f4058fca71"
       ]
@@ -430,8 +459,8 @@
       "type": "attack-operator",
       "id": "attack-operator--d281113f-2715-4058-be9e-11f4058fca71",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -446,8 +475,8 @@
       "type": "attack-operator",
       "id": "attack-operator--330d9dc0-f167-4e4f-b767-9de6eb56f054",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -462,8 +491,8 @@
       "type": "attack-condition",
       "id": "attack-condition--7f9d0200-8303-4247-aeeb-8aa9124ccb32",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -481,8 +510,8 @@
       "type": "attack-condition",
       "id": "attack-condition--34ca6ca1-d6d9-4ad5-9bed-65718289425d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -500,8 +529,8 @@
       "type": "attack-operator",
       "id": "attack-operator--43df19e7-f897-4dec-94c8-8c4f32046618",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -516,8 +545,8 @@
       "type": "attack-operator",
       "id": "attack-operator--94e47dc1-7ca9-4bbf-b98c-7c9857f27bfd",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -532,8 +561,8 @@
       "type": "attack-action",
       "id": "attack-action--088db13a-256f-46ab-9024-a83859f0065b",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -541,14 +570,15 @@
       },
       "name": "N/A",
       "technique_id": "N/A",
-      "description": "NotPetya will not encrypt the MFT and will simply overwrite the first 10 sectors of the physical disk with uninitialized data. It will still render the machine unbootable by overwriting the 2nd section of the C:\\, however, there is the possibility to recover MBR."
+      "description": "NotPetya will not encrypt the MFT and will simply overwrite the first 10 sectors of the physical disk with uninitialized data. It will still render the machine unbootable by overwriting the 2nd section of the C:\\, however, there is the possibility to recover MBR.",
+      "confidence": 100
     },
     {
       "type": "attack-action",
       "id": "attack-action--be8a7164-7483-4c1a-8e07-ae64b5cb2be7",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -557,6 +587,7 @@
       "name": "Pre-OS Boot: BootKit",
       "technique_id": "T1542.003",
       "description": "Malware reads and encodes MBR with a custom boot loader that will encrypt the MFT.  ",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--cd21649c-7134-4d4b-ad33-40daaf36e9c1"
       ]
@@ -565,8 +596,8 @@
       "type": "attack-action",
       "id": "attack-action--cd21649c-7134-4d4b-ad33-40daaf36e9c1",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -575,6 +606,7 @@
       "name": "Scheduled Task/Job: Scheduled Task",
       "technique_id": "T1053.005",
       "description": "NotPetya creates a scheduled task that triggers a reboot 60 min after execution by default",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--c41e27f8-e094-489b-8fee-62698f187dce"
       ]
@@ -583,8 +615,8 @@
       "type": "attack-action",
       "id": "attack-action--fab926e5-88d8-48b4-9bf2-23aa996076d1",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -593,6 +625,7 @@
       "name": "Data Encrypted for Impact",
       "technique_id": "T1486",
       "description": "The custom boot loader encrypts the MFT. NotPetya also encrypted files with specific extensions.",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--9f0ada89-d028-4c87-a1a4-4563705a70b3"
       ]
@@ -601,8 +634,8 @@
       "type": "attack-action",
       "id": "attack-action--9f0ada89-d028-4c87-a1a4-4563705a70b3",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -611,6 +644,7 @@
       "name": "Indicator Removal on Host: Clear Windows Event Logs",
       "technique_id": "T1070.001",
       "description": "The malware clears setup, system, security, application, and USN journal logs",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--351a47ca-c39f-43e5-8493-3bafe24a6338"
       ]
@@ -619,8 +653,8 @@
       "type": "attack-action",
       "id": "attack-action--c41e27f8-e094-489b-8fee-62698f187dce",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -629,6 +663,7 @@
       "name": "System Shutdown/Reboot",
       "technique_id": "T1529",
       "description": "System reboots, displays decoy message",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--fab926e5-88d8-48b4-9bf2-23aa996076d1"
       ]
@@ -637,8 +672,8 @@
       "type": "attack-action",
       "id": "attack-action--351a47ca-c39f-43e5-8493-3bafe24a6338",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -647,6 +682,7 @@
       "name": "System Shutdown/Reboot",
       "technique_id": "T1529",
       "description": "The custom boot loader initiates a disk reboot, and the NotPetya ransomware note is displayed",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--2b64c735-0355-408c-b3a9-755772cc257c"
       ]
@@ -655,8 +691,8 @@
       "type": "attack-action",
       "id": "attack-action--2b64c735-0355-408c-b3a9-755772cc257c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -664,41 +700,51 @@
       },
       "name": "Data Destruction",
       "technique_id": "T1485",
-      "description": "The data is not recoverable"
+      "description": "The data is not recoverable",
+      "confidence": 100
     },
     {
       "type": "tool",
       "id": "tool--acf759e0-39e6-40f1-901c-212d2e9044cd",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "WMIC",
-      "description": "WMIC to run rundll32.exe"
+      "description": "WMIC to run rundll32.exe",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--ddde0280-0aaa-48cf-9b0e-c75e6d55f34a",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "PsExec",
-      "description": "PsExec to run rundll32.exe"
+      "description": "PsExec to run rundll32.exe",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--e0a27f9b-b601-4254-80c0-d70131eae83a",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "perfc.dat",
-      "description": "Ransomware DLL"
+      "description": "Ransomware DLL",
+      "tool_types": [
+        "exploitation"
+      ]
     },
     {
       "type": "threat-actor",
       "id": "threat-actor--b6214cce-f8d3-4d53-9af4-d12212f60600",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "Yuriy Sergeyevich Andrienko",
       "description": "Member of Russian Military Unit 74455; developed components of NetPetya",
       "sophistication": "innovator",
@@ -709,8 +755,8 @@
       "type": "threat-actor",
       "id": "threat-actor--743b2526-fa5b-4bee-95da-f1da91dc9a97",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "Sergey Vladimirovich Destistov",
       "description": "Member of Russian Military Unit 74455; developed components of NetPetya",
       "sophistication": "innovator",
@@ -721,8 +767,8 @@
       "type": "threat-actor",
       "id": "threat-actor--013fe92a-9d43-4e21-9894-7aedf8b22cc4",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "Pavel Valeryevich Frolov",
       "description": "Member of Russian Military Unit 74455; developed components of NetPetya",
       "sophistication": "innovator",
@@ -733,8 +779,8 @@
       "type": "threat-actor",
       "id": "threat-actor--6888bbce-09f7-4a91-8dd4-072691322ef4",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "Petr Nikolayevich Pliskin`",
       "description": "Member of Russian Military Unit 74455; developed components of NetPetya",
       "sophistication": "innovator",
@@ -745,17 +791,20 @@
       "type": "tool",
       "id": "tool--12b617d9-4f78-4814-9372-354886a2e158",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "dllhost.dat",
-      "description": "copy of PsExec utility, which is a telnet replacement that allows execution of processes on other systems "
+      "description": "copy of PsExec utility, which is a telnet replacement that allows execution of processes on other systems ",
+      "tool_types": [
+        "remote-access"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--605180eb-64d7-4f54-ae85-a1036cf2dbd3",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -764,6 +813,7 @@
       "name": "Search Open Websites/Domains",
       "technique_id": "T1593",
       "description": "Attackers conducted reconnaissance by learning about EDRPOU and M.E.Doc, queried EDRPOU website, and changed their computer language sets to the Ukrainian alphabet",
+      "confidence": 100,
       "asset_refs": [
         "attack-asset--480ded6a-f369-45cf-919a-13a081ad0c59",
         "attack-asset--19d7ee4b-340a-4a87-a00d-78f829d3fca0",
@@ -778,8 +828,8 @@
       "type": "attack-asset",
       "id": "attack-asset--480ded6a-f369-45cf-919a-13a081ad0c59",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -792,8 +842,8 @@
       "type": "attack-asset",
       "id": "attack-asset--47d3aa59-6289-4c5a-a464-38d9d7a898db",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -807,8 +857,8 @@
       "type": "attack-asset",
       "id": "attack-asset--19d7ee4b-340a-4a87-a00d-78f829d3fca0",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -822,8 +872,8 @@
       "type": "attack-asset",
       "id": "attack-asset--e62c8723-2e0a-42b0-abf2-01a32cfbf62a",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -836,8 +886,8 @@
       "type": "attack-asset",
       "id": "attack-asset--f16ebb0d-0c67-482a-ab1e-673bb376280c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -849,17 +899,20 @@
       "type": "tool",
       "id": "tool--f94b1a09-8276-40cc-b8e0-7da67db6cc4c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "Cookie",
-      "description": "contained the EDRPOU list and computer username that was logged into the computer running M.E.Docs"
+      "description": "contained the EDRPOU list and computer username that was logged into the computer running M.E.Docs",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--460b67ee-7fbe-4930-a019-fe07ae742c34",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -868,6 +921,7 @@
       "name": "Supply Chain Compromise",
       "technique_id": "T1195",
       "description": "Attackers added malicious functionality to the files containing software updates for M.E.Doc to collect a list of all EDRPOUs associated with computers using the M.E.Doc software which would eventually deliver the NotPetya ",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--0cfbada8-ad55-4b75-a4c6-acd5e34a00d0"
       ]
@@ -876,8 +930,8 @@
       "type": "attack-action",
       "id": "attack-action--0cfbada8-ad55-4b75-a4c6-acd5e34a00d0",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -886,6 +940,7 @@
       "name": "Supply Chain Compromise",
       "technique_id": "T1195",
       "description": "Attackers rerouted internet traffic from computers updating M.E.Doc software via the Update Server to France-based server controlled by attackers",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--698fd2b3-f021-4f74-8141-d48ba11ce09c"
       ]
@@ -894,177 +949,146 @@
       "type": "infrastructure",
       "id": "infrastructure--bcbb1e31-6ed6-491b-84ff-ae39294a11ec",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": "C2",
       "description": "Server based in France that delivered the NotPetya malware to victims ",
+      "infrastructure_types": [
+        "command-and-control"
+      ],
       "first_seen": "2017-06-27T04:00:00.000Z"
     },
     {
       "type": "tool",
       "id": "tool--c6970936-f543-4ef5-bd2d-62edb80be7f1",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "name": ".tmp file",
-      "description": "Credential theft module"
-    },
-    {
-      "type": "attack-asset",
-      "id": "attack-asset--397140c7-95d9-4130-aafc-e6b0f13e0d44",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
-      "extensions": {
-        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
-          "extension_type": "new-sdo"
-        }
-      },
-      "name": "CHANGE TO NOTE",
-      "description": "Credentials are also harvested if the attackers gains the following privileges: SeTcbPrivilege & SeDebugPrivilege, SeShutdownPrivilege & SeDubugPrivilege, and SeTcbPrivilege & SeShutdownPrivilege & SeDebugPrivilege"
+      "description": "Credential theft module",
+      "tool_types": [
+        "credential-exploitation"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--003fe92e-982e-413b-a68f-0f15ffc22ff6",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
-      "name": "Eternal Blue/Romance exploit"
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
+      "name": "Eternal Blue/Romance exploit",
+      "tool_types": [
+        "exploitation"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--ad9bb832-3dd1-4155-86b9-6a4b2c601d2c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
-      "name": "Custom boot loader"
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
+      "name": "Custom boot loader",
+      "tool_types": [
+        "exploitation"
+      ]
+    },
+    {
+      "type": "note",
+      "id": "note--5d3fb047-93cd-46c8-9f06-8c22d897fcf0",
+      "spec_version": "2.1",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
+      "content": "Credentials are also harvested if the attackers gains the following privileges: SeTcbPrivilege & SeDebugPrivilege, SeShutdownPrivilege & SeDubugPrivilege, and SeTcbPrivilege & SeShutdownPrivilege & SeDebugPrivilege",
+      "object_refs": [
+        "attack-action--2010cb6c-cca8-45a4-99ca-ed2a2ace8d45"
+      ]
     },
     {
       "type": "relationship",
-      "id": "relationship--b001c08b-c763-4d0d-afd4-e66a5a278fe6",
+      "id": "relationship--24fd0dab-1a02-4b40-9ccc-46acf16a1f8d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--9ac3cd71-b8e4-4902-a134-5bbf2c3dc9b9",
       "target_ref": "tool--f94b1a09-8276-40cc-b8e0-7da67db6cc4c"
     },
     {
       "type": "relationship",
-      "id": "relationship--8d99bd3d-050f-4e53-8593-53e072f8c30a",
+      "id": "relationship--b878be58-8564-42ed-912e-2490934f6021",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--698fd2b3-f021-4f74-8141-d48ba11ce09c",
       "target_ref": "tool--12b617d9-4f78-4814-9372-354886a2e158"
     },
     {
       "type": "relationship",
-      "id": "relationship--fa133da6-bd84-4ba0-8476-09644192809d",
+      "id": "relationship--5655b416-dd36-4140-8893-79853690ea82",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--698fd2b3-f021-4f74-8141-d48ba11ce09c",
       "target_ref": "tool--e0a27f9b-b601-4254-80c0-d70131eae83a"
     },
     {
       "type": "relationship",
-      "id": "relationship--f4d90c8f-3b59-435f-a807-dde66a632d97",
+      "id": "relationship--5bad1390-7848-46bc-a507-a69f86f8bb27",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--2010cb6c-cca8-45a4-99ca-ed2a2ace8d45",
       "target_ref": "tool--c6970936-f543-4ef5-bd2d-62edb80be7f1"
     },
     {
       "type": "relationship",
-      "id": "relationship--1e1a73ae-d4f3-417c-b27f-284c6fbd3cf2",
+      "id": "relationship--23923c7d-febb-4bf2-8aeb-ee512c6f4be3",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--efe3d7fe-9a22-4b05-a5af-1eb0f42aa41f",
       "target_ref": "tool--003fe92e-982e-413b-a68f-0f15ffc22ff6"
     },
     {
       "type": "relationship",
-      "id": "relationship--0e37cb88-d57f-40b5-b4cb-f15f61c09b39",
+      "id": "relationship--6ffb40b6-b748-4414-aaef-190d582da17d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--fb2b6b4f-edd2-4b53-8894-a95ddcbb5cb7",
       "target_ref": "tool--ddde0280-0aaa-48cf-9b0e-c75e6d55f34a"
     },
     {
       "type": "relationship",
-      "id": "relationship--b169fd75-3e37-4475-a9c1-8c456c10c5db",
+      "id": "relationship--d5076f82-2791-4b83-8479-9f37638a3761",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--fb2b6b4f-edd2-4b53-8894-a95ddcbb5cb7",
       "target_ref": "tool--acf759e0-39e6-40f1-901c-212d2e9044cd"
     },
     {
       "type": "relationship",
-      "id": "relationship--4d0a0c85-cdf7-4221-8149-7379ed343e68",
+      "id": "relationship--f8a72777-f431-42a9-996d-6ecb69f09b57",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.313Z",
-      "modified": "2022-12-06T22:10:39.313Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--be8a7164-7483-4c1a-8e07-ae64b5cb2be7",
       "target_ref": "tool--ad9bb832-3dd1-4155-86b9-6a4b2c601d2c"
     },
     {
       "type": "relationship",
-      "id": "relationship--5f718b64-f441-4287-92b6-5b645822627a",
+      "id": "relationship--9e44a8da-2893-4bb3-acbe-508a67d18951",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.314Z",
-      "modified": "2022-12-06T22:10:39.314Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--605180eb-64d7-4f54-ae85-a1036cf2dbd3",
-      "target_ref": "threat-actor--6888bbce-09f7-4a91-8dd4-072691322ef4"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--d80549ab-2382-4217-b7ea-70d5849624e2",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.314Z",
-      "modified": "2022-12-06T22:10:39.314Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--605180eb-64d7-4f54-ae85-a1036cf2dbd3",
-      "target_ref": "threat-actor--b6214cce-f8d3-4d53-9af4-d12212f60600"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--710edc50-3dc2-4595-878c-1aa3a17afae2",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.314Z",
-      "modified": "2022-12-06T22:10:39.314Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--605180eb-64d7-4f54-ae85-a1036cf2dbd3",
-      "target_ref": "threat-actor--013fe92a-9d43-4e21-9894-7aedf8b22cc4"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--c6b1aa72-7fee-4706-af7c-b750f16568d4",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.314Z",
-      "modified": "2022-12-06T22:10:39.314Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--605180eb-64d7-4f54-ae85-a1036cf2dbd3",
-      "target_ref": "threat-actor--743b2526-fa5b-4bee-95da-f1da91dc9a97"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--82dfb64b-0bb9-4d11-9342-a5088081622b",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:10:39.314Z",
-      "modified": "2022-12-06T22:10:39.314Z",
+      "created": "2023-01-03T21:07:36.199Z",
+      "modified": "2023-01-03T21:07:36.199Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--0cfbada8-ad55-4b75-a4c6-acd5e34a00d0",
       "target_ref": "infrastructure--bcbb1e31-6ed6-491b-84ff-ae39294a11ec"
