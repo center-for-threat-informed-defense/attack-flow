@@ -1,9 +1,9 @@
 {
   "type": "bundle",
-  "id": "bundle--02af2c08-cbf4-44a5-a8ce-1968be7f3303",
+  "id": "bundle--9657d44f-7e7e-4046-a005-826f8f049b62",
   "spec_version": "2.1",
-  "created": "2022-10-27T14:21:39.127Z",
-  "modified": "2022-10-27T14:21:39.127Z",
+  "created": "2023-01-04T19:58:12.146Z",
+  "modified": "2023-01-04T19:58:12.146Z",
   "objects": [
     {
       "type": "extension-definition",
@@ -47,15 +47,16 @@
       "id": "attack-flow--74811f7e-911b-4400-a0e3-64703656ded4",
       "spec_version": "2.1",
       "created": "2022-10-27T02:44:54.520Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "created_by_ref": "identity--9f17240c-6577-4a68-8c5e-1fd03c1b75e4",
+      "created_by_ref": "identity--bffde0e4-5ec5-49e9-8660-777cfe729c97",
       "start_refs": [
-        "attack-action--384373d8-dbe0-425e-aeaf-ad8c70fc11be"
+        "attack-action--384373d8-dbe0-425e-aeaf-ad8c70fc11be",
+        "attack-action--fce268a4-4a5d-46a0-a180-eea719995110"
       ],
       "name": "SolarWinds",
       "description": "A well-known supply chain attack against an Austin, TX software company.",
@@ -73,14 +74,36 @@
           "lparker@mitre.org"
         ]
       ],
-      "scope": "incident"
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "Picus",
+          "description": "Article",
+          "url": "https://www.picussecurity.com/resource/blog/ttps-used-in-the-solarwinds-breach"
+        },
+        {
+          "source_name": "Microsoft",
+          "description": "Article",
+          "url": "https://www.microsoft.com/en-us/security/blog/2020/12/18/analyzing-solorigate-the-compromised-dll-file-that-started-a-sophisticated-cyberattack-and-how-microsoft-defender-helps-protect/"
+        },
+        {
+          "source_name": "Comodo Cybersecurity",
+          "description": "Article",
+          "url": "https://techtalk.comodo.com/2020/12/23/sunburst-apt-against-solarwind-mapped-to-kill-chain/"
+        },
+        {
+          "source_name": "Microsoft",
+          "description": "Article",
+          "url": "https://www.microsoft.com/en-us/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/"
+        }
+      ]
     },
     {
       "type": "identity",
-      "id": "identity--9f17240c-6577-4a68-8c5e-1fd03c1b75e4",
+      "id": "identity--bffde0e4-5ec5-49e9-8660-777cfe729c97",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "Lauren Parker",
       "identity_class": "individual",
       "contact_information": "lparker@mitre.org"
@@ -89,8 +112,8 @@
       "type": "attack-action",
       "id": "attack-action--384373d8-dbe0-425e-aeaf-ad8c70fc11be",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -99,6 +122,7 @@
       "name": "Develop Capabilities: Malware",
       "technique_id": "T1587.001",
       "description": "Attackers embedded their malicious payload on a legitimate component of the SolarWinds Orion Platform software. This component is a DLL library, SolarWinds.Orion.Core.BusinessLayer.dll",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--b0aa9f11-7722-4a9f-becd-065964a53325"
       ]
@@ -107,11 +131,14 @@
       "type": "threat-actor",
       "id": "threat-actor--6eb7eb9a-f5e5-4943-8c29-316084ceb64f",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "APT29",
       "description": "In April 2021, the US and UK governments attributed the SolarWinds breach to the SVR, and public citations referenced APT29.",
       "first_seen": "2008-01-01T00:00:00.000Z",
+      "roles": [
+        "Director"
+      ],
       "sophistication": "strategic",
       "resource_level": "government",
       "primary_motivation": "organizational-gain"
@@ -120,8 +147,8 @@
       "type": "campaign",
       "id": "campaign--ec6a234a-cc7b-46fd-9600-a64e9a8c3184",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "SolarWinds Breach",
       "description": "Attackers compromised the infrastructure of SolarWinds, a network monitoring service. In March 2020, SolarWinds unknowingly pushed out malicious updates to thousands of private and public organizations.",
       "objective": "conduct a supply chain attack to maintain long-term network access in a large number of organizations and potentially government entitites"
@@ -130,8 +157,8 @@
       "type": "attack-action",
       "id": "attack-action--fce268a4-4a5d-46a0-a180-eea719995110",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -140,6 +167,7 @@
       "name": "Subvert Trust Controls: Code Signing",
       "technique_id": "T1553.002",
       "description": "To bypass application control technologies, adversaries sign their malware with valid signatures by creating, acquiring, or stealing code-signing materials. The attackers compromised the SolarWinds digital certificates, allowing them to run privileged actions and maintain a low profile",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--b0aa9f11-7722-4a9f-becd-065964a53325"
       ]
@@ -148,8 +176,8 @@
       "type": "attack-operator",
       "id": "attack-operator--b0aa9f11-7722-4a9f-becd-065964a53325",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -164,8 +192,8 @@
       "type": "attack-action",
       "id": "attack-action--0c739735-a984-4897-bc2f-a8737deff66f",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -174,6 +202,7 @@
       "name": "Supply Chain Compromise: Compromise Software Supply Chain",
       "technique_id": "T1195.002",
       "description": "The malicious DLL file was distributed to victims through an automated update mechanism",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--b9ac316b-c623-4fe3-8ab2-eb8673081edc"
       ]
@@ -182,8 +211,8 @@
       "type": "attack-action",
       "id": "attack-action--b9ac316b-c623-4fe3-8ab2-eb8673081edc",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -192,6 +221,7 @@
       "name": "System Services: Service Execution",
       "technique_id": "T1569.002",
       "description": "During the SolarWinds installation or update to victim machines, the tampered DLL is loaded by legitimate executables and installed as a Windows service. The malicious code calls the function that contains the backdoor capabilities",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--68866dd4-7e92-4e0a-a8dc-aff4df1d46df",
         "attack-action--231bdc8e-30ab-4d7c-8e85-2d8ce9b1278e"
@@ -201,8 +231,8 @@
       "type": "attack-action",
       "id": "attack-action--68866dd4-7e92-4e0a-a8dc-aff4df1d46df",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -211,6 +241,7 @@
       "name": "Virtualization/Sandbox Evasion: Time Based Evasion",
       "technique_id": "T1497.003",
       "description": " Once loaded, the backdoor runs a series of checks to ensure it is running in an actual environment. The backdoor also checks that the last write-time of the malicious DLL was 12-14 days ago",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--f48d14a6-d389-41ad-b3b3-f4cdda81ed99"
       ]
@@ -219,8 +250,8 @@
       "type": "attack-action",
       "id": "attack-action--231bdc8e-30ab-4d7c-8e85-2d8ce9b1278e",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -229,6 +260,7 @@
       "name": "Software Discovery: Security Software Discovery",
       "technique_id": "T1497.003",
       "description": "The backdoor checks for a variety of antivirus/endpoint detection agents prior to execution (e.g. Windbg, Autoruns, Wireshark)",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--f48d14a6-d389-41ad-b3b3-f4cdda81ed99"
       ]
@@ -237,8 +269,8 @@
       "type": "attack-operator",
       "id": "attack-operator--f48d14a6-d389-41ad-b3b3-f4cdda81ed99",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -253,8 +285,8 @@
       "type": "attack-condition",
       "id": "attack-condition--8616b44b-523e-4d70-9535-752cab08d87c",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -272,8 +304,8 @@
       "type": "attack-action",
       "id": "attack-action--b04df257-4f67-487d-a60a-077518519cab",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -282,6 +314,7 @@
       "name": "Process Discovery",
       "technique_id": "T1057",
       "description": "The backdoor conducts basic reconnaissance on the compromised system to determine running processes to report to the C2 server.",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--fea5f208-ab16-4c3c-88b6-4c61c5a58e05"
       ]
@@ -290,8 +323,8 @@
       "type": "attack-action",
       "id": "attack-action--dc540c5c-a840-4cd1-afd3-f887297f9593",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -300,6 +333,7 @@
       "name": "Query Registration",
       "technique_id": "T1012",
       "description": "The attacker obtains the MachineGuid registry value. This value is used to dynamically generate a portion of the C2 domain, along with the physical address of the interface and the domain name of the device",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--fea5f208-ab16-4c3c-88b6-4c61c5a58e05"
       ]
@@ -308,8 +342,8 @@
       "type": "attack-operator",
       "id": "attack-operator--fea5f208-ab16-4c3c-88b6-4c61c5a58e05",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -324,8 +358,8 @@
       "type": "attack-action",
       "id": "attack-action--bf2e8e32-d299-4094-a3ae-103a2488c931",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -334,6 +368,7 @@
       "name": "Dynamic Resolution: Domain Generation Algorithm",
       "technique_id": "T1568.002",
       "description": " Adversaries use DGAs to dynamically generate a C2 domain rather than relying on static IP addresses",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--7fdffb38-02ce-45a5-9041-45610e8a7344"
       ]
@@ -342,8 +377,8 @@
       "type": "attack-condition",
       "id": "attack-condition--7fdffb38-02ce-45a5-9041-45610e8a7344",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -362,8 +397,8 @@
       "type": "attack-action",
       "id": "attack-action--4d69ebea-7c78-41b1-87bb-e75d84d5f319",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -372,6 +407,7 @@
       "name": "Data Encoding",
       "technique_id": "T1132",
       "description": "The C2 responds with an encoded buffer of commands for the backdoor to execute. The commands allow the attackers to run, stop, enumerate processes; read, write, enumerate files and registry keys; collect and upload information about the device; and restart the device",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--e9d27e28-6937-4b24-a6c9-d2cd07517da1"
       ]
@@ -380,8 +416,8 @@
       "type": "attack-action",
       "id": "attack-action--e738e657-299f-4290-b9f8-a6dbec1e8c51",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -390,6 +426,7 @@
       "name": " Masquerading: Match Legitimate Name or Location",
       "technique_id": "T1036.005",
       "description": "The attackers used a legitimate hostname found within the victim's environment as the hostname on their C2 infrastructure to avoid detection. The malware also masquerades its C2 traffic as the Orion Improvement Program (OIP) Protocol",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--e9d27e28-6937-4b24-a6c9-d2cd07517da1"
       ]
@@ -398,8 +435,8 @@
       "type": "attack-action",
       "id": "attack-action--a5c0b555-c306-4629-a9ba-e4a8fc67105e",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -408,6 +445,7 @@
       "name": "Masquerading: Match Legitimate Name or Location",
       "technique_id": "T1036.005",
       "description": "The executing process creates two files on disk. 1) A VBScript typically named after existing services or folders to avoid detection. 2) The second-stage TEARDROP Cobalt Strike loader written into a legitimate-looking subfolder %WinDir%",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--ff70d616-d686-4bfd-a290-0f52985f7846"
       ]
@@ -416,8 +454,8 @@
       "type": "attack-operator",
       "id": "attack-operator--e9d27e28-6937-4b24-a6c9-d2cd07517da1",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -435,8 +473,8 @@
       "type": "attack-action",
       "id": "attack-action--b0bc5a83-a0bb-4bf9-93b9-e63638820963",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -445,6 +483,7 @@
       "name": "Defense Evasion- Impair Defenses: Disable or Modify System Firewall",
       "technique_id": "T1562.004",
       "description": "Attackers used NETSH to configure firewall rules that limit certain UDP outbound packets before intense reconnaissance with NSLOOKUP and ADFIND",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--025e3263-e23a-43fd-a020-fc2b6a1c6491"
       ]
@@ -453,35 +492,44 @@
       "type": "tool",
       "id": "tool--c5ed82e7-96b4-4f42-83e0-2a1f10692da0",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "NETSH",
-      "description": "Command-line scripting utility that allows users to display or modify the network configuration of the running computer"
+      "description": "Command-line scripting utility that allows users to display or modify the network configuration of the running computer",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--e01ce937-a9cd-412b-b38b-7faff606dfce",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "nslookup",
-      "description": "Tool to query DNS to find the mapping between hostnames and IP addresses"
+      "description": "Tool to query DNS to find the mapping between hostnames and IP addresses",
+      "tool_types": [
+        "information-gathering"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--adc37497-0035-4257-a920-f33140543187",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "adfind",
-      "description": "Free command-line query tool that can be used to gather information from Active Directory"
+      "description": "Free command-line query tool that can be used to gather information from Active Directory",
+      "tool_types": [
+        "information-gathering"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--d5ed6bf4-dddc-435a-bd3c-114320a8e730",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -490,6 +538,7 @@
       "name": "Domain Trust Discovery",
       "technique_id": "T1482",
       "description": " Attackers executed ADFIND to enumerate domains and to discover trust between federated accounts with a renamed filename chosen to blend into the environment",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--025e3263-e23a-43fd-a020-fc2b6a1c6491"
       ]
@@ -498,8 +547,8 @@
       "type": "attack-action",
       "id": "attack-action--60ff27b6-55dc-40b5-8eb7-50d340913c43",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -508,6 +557,7 @@
       "name": "Masquerading: Rename System Utilities",
       "technique_id": "T1036.003",
       "description": "The attackers renamed Windows admin tools to conduct reconnaissance to avoid detection",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--025e3263-e23a-43fd-a020-fc2b6a1c6491"
       ]
@@ -516,8 +566,8 @@
       "type": "attack-action",
       "id": "attack-action--57bb50a9-f2eb-4b6f-8754-efcbf4619d4b",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -526,6 +576,7 @@
       "name": "Process Discovery",
       "technique_id": "T1057",
       "description": "Attackers used WMI to discover processes, services, and signed-in users on remote systems",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--025e3263-e23a-43fd-a020-fc2b6a1c6491"
       ]
@@ -534,8 +585,8 @@
       "type": "attack-action",
       "id": "attack-action--ff70d616-d686-4bfd-a290-0f52985f7846",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -544,6 +595,7 @@
       "name": "Event Triggered Execution: Image File Execution Options Injection",
       "technique_id": "T1546",
       "description": "The attackers created a IFEO Debugger registry value for dllhost.exe to trigger execution of the installation of Cobalt Strike",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--8d74fbce-5685-4392-a134-36d67f082742"
       ]
@@ -552,8 +604,8 @@
       "type": "attack-condition",
       "id": "attack-condition--025e3263-e23a-43fd-a020-fc2b6a1c6491",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -570,8 +622,8 @@
       "type": "attack-action",
       "id": "attack-action--1850d451-cbfd-4557-869b-386321a39a44",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -580,6 +632,7 @@
       "name": "Steal or Forge Kerberos Tickets: Kerberoasting",
       "technique_id": "T1558.003",
       "description": "Attackers obtained Ticket Granting Service (TGS) tickets for Active Directory Service Principal Names (SPNs) to crack offline",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--5b48c5ab-bfe1-42b5-a361-cea572b8013d"
       ]
@@ -588,8 +641,8 @@
       "type": "attack-action",
       "id": "attack-action--42e110be-0852-4c33-bb32-a6bde8fc95e8",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -598,6 +651,7 @@
       "name": "Credentials from Password Stores",
       "technique_id": "T1555",
       "description": " Attackers attempted to access Group Managed Service Account (gMSA) passwords with account credentials already compromised ",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--5b48c5ab-bfe1-42b5-a361-cea572b8013d"
       ]
@@ -606,8 +660,8 @@
       "type": "attack-action",
       "id": "attack-action--796fb2bb-4bf5-4139-907b-56411e8d7080",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -616,6 +670,7 @@
       "name": "OS Credential Dumping: DCSync",
       "technique_id": "T1003.006",
       "description": "Attackers executed a DCSync attack in which they leveraged privileged accounts to access credentials",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--5b48c5ab-bfe1-42b5-a361-cea572b8013d"
       ]
@@ -624,8 +679,8 @@
       "type": "attack-action",
       "id": "attack-action--8d74fbce-5685-4392-a134-36d67f082742",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -634,6 +689,7 @@
       "name": "Create or Modify System Process: Windows Service",
       "technique_id": "T1543.003",
       "description": "The TEARDROP malware is run through rundll32.exe, which runs as a service in the background to estabish persistence",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--ec689feb-2e71-45bd-808a-2f7a8cd78a7b"
       ]
@@ -642,8 +698,8 @@
       "type": "attack-action",
       "id": "attack-action--ec689feb-2e71-45bd-808a-2f7a8cd78a7b",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -652,6 +708,7 @@
       "name": "Modify Registry",
       "technique_id": "T1112",
       "description": "The VBScript removes the previously created registry value to clean up any traces of execution and deletes two more registry keys in HKEY_CURRENT_USER\\.DEFAULT",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--4737ef94-c67f-461d-a616-8d04d949a790"
       ]
@@ -660,8 +717,8 @@
       "type": "attack-condition",
       "id": "attack-condition--5b48c5ab-bfe1-42b5-a361-cea572b8013d",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -676,8 +733,8 @@
       "type": "attack-action",
       "id": "attack-action--fbccf7e7-4d2b-4f19-9ebb-6acab1322eb2",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -686,6 +743,7 @@
       "name": "Defense Evasion - Impair Defenses: Disable or Modify Tools",
       "technique_id": "T1562.001",
       "description": "Attackers used the service control manager on a remote system to disable security monitoring processes before moving laterally. After they completed their lateral movement, they reenabled the services to avoid detection",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--f55a3f10-2a62-47f2-98b3-78d4983a2b87",
         "attack-action--1ccc8112-936d-4237-9211-ebf6155d42f1"
@@ -695,8 +753,8 @@
       "type": "attack-action",
       "id": "attack-action--f55a3f10-2a62-47f2-98b3-78d4983a2b87",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -705,6 +763,7 @@
       "name": "Scheduled Task/Job",
       "technique_id": "T1053",
       "description": "PowerShell remote task creation enabling lateral movement ",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--5657cc82-defc-497d-91f0-14de0a9e8f2e"
       ]
@@ -713,8 +772,8 @@
       "type": "attack-action",
       "id": "attack-action--1ccc8112-936d-4237-9211-ebf6155d42f1",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -723,6 +782,7 @@
       "name": "Valid Accounts",
       "technique_id": "T1078",
       "description": "The attackers used valid accounts to move laterally",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--5657cc82-defc-497d-91f0-14de0a9e8f2e"
       ]
@@ -731,8 +791,8 @@
       "type": "attack-operator",
       "id": "attack-operator--5657cc82-defc-497d-91f0-14de0a9e8f2e",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -747,8 +807,8 @@
       "type": "attack-condition",
       "id": "attack-condition--47a4f84e-4c63-49f3-8826-856d3178c0e2",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -763,8 +823,8 @@
       "type": "attack-action",
       "id": "attack-action--4737ef94-c67f-461d-a616-8d04d949a790",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -773,6 +833,7 @@
       "name": "Masquerading",
       "technique_id": "T1036",
       "description": "During lateral movement, custom-loader DLLs, including TEARDROP, were deployed into exiting Windows sub-directories. The files resemble legitimate Windows file and directory names",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--f69ad6fa-05c5-48b9-bfea-7201321c6909"
       ]
@@ -781,8 +842,8 @@
       "type": "attack-action",
       "id": "attack-action--f69ad6fa-05c5-48b9-bfea-7201321c6909",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -791,6 +852,7 @@
       "name": "Windows Management Instrumentation",
       "technique_id": "T1047",
       "description": "When executed during lateral movement, rundll32 ran through WMIC. The Cobalt Strike beacon was loaded onto the machine",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--fbc07276-1257-44e8-a855-3b1fa3d95290"
       ]
@@ -799,16 +861,19 @@
       "type": "tool",
       "id": "tool--a4b72723-7fd9-45d1-a108-1559637aa9eb",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
-      "name": "WMIC"
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
+      "name": "WMIC",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--fbc07276-1257-44e8-a855-3b1fa3d95290",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -816,7 +881,8 @@
       },
       "name": "Indicator Removal on Host",
       "technique_id": "T1070",
-      "description": " According to Microsoft, the Cobalt Strike DLL was likely deleted after execution to avoid forensic discovery   -   confidence: 70",
+      "description": "According to Microsoft, the Cobalt Strike DLL was likely deleted after execution to avoid forensic discovery",
+      "confidence": 70,
       "effect_refs": [
         "attack-action--e08ff657-a12d-4ed7-bbe5-be90b963a153"
       ]
@@ -825,17 +891,20 @@
       "type": "tool",
       "id": "tool--55ef0067-c0ce-4aa0-9ffd-85b1e72a4791",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "AUDITPOL",
-      "description": "Allows users to configure and manage audit settings from an elevated command prompt"
+      "description": "Allows users to configure and manage audit settings from an elevated command prompt",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--e08ff657-a12d-4ed7-bbe5-be90b963a153",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -844,6 +913,7 @@
       "name": "Defense Evasion- Impair Defenses: Disable Windows Event Logging",
       "technique_id": "T1562.002",
       "description": "Attackers used AUDITPOL to disable event logging while carrying out their attacks and reenabling it afterwards",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--e4055553-f146-4d1e-99d7-6910b1e2a224"
       ]
@@ -852,8 +922,8 @@
       "type": "attack-action",
       "id": "attack-action--e4055553-f146-4d1e-99d7-6910b1e2a224",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -861,6 +931,7 @@
       },
       "name": "Checks File Space",
       "description": " Attackers used fsutil to check available free space before executing collection or exfiltration, which might create large files on disk",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--0ce96a7f-cab8-4842-b19d-83db4586deca",
         "attack-action--fcdef663-b82f-4509-b30d-c7222101fe8a"
@@ -870,17 +941,20 @@
       "type": "tool",
       "id": "tool--7845956b-77bd-4da3-82a5-08d723e0ad1c",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "name": "fsutil",
-      "description": "Allows users to view and manage settings of file systems, including FAT, NFTS, and REFS"
+      "description": "Allows users to view and manage settings of file systems, including FAT, NFTS, and REFS",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--0ce96a7f-cab8-4842-b19d-83db4586deca",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.147Z",
+      "modified": "2023-01-04T19:58:12.147Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -889,6 +963,7 @@
       "name": "Data from Local System",
       "technique_id": "T1005",
       "description": "The attackers were able to collect sensitive data from victims",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--5377f7c1-c57e-4c99-97d5-ffeb4c3f9778"
       ]
@@ -897,8 +972,8 @@
       "type": "attack-action",
       "id": "attack-action--fcdef663-b82f-4509-b30d-c7222101fe8a",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -907,6 +982,7 @@
       "name": "Archive Collected Data: Archive via Utility",
       "technique_id": "T1005",
       "description": "The attackers used the 7-zip utility to create a password-protected archive with an extension not associated with archive files",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--5377f7c1-c57e-4c99-97d5-ffeb4c3f9778"
       ]
@@ -915,8 +991,8 @@
       "type": "attack-operator",
       "id": "attack-operator--5377f7c1-c57e-4c99-97d5-ffeb4c3f9778",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -931,8 +1007,8 @@
       "type": "attack-action",
       "id": "attack-action--337844f6-ac0f-4d25-a565-c7af73ea6dcd",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -940,24 +1016,35 @@
       },
       "name": "Exfiltration Over Web Service: Exfiltration to Cloud Storage",
       "technique_id": "T1567.002",
-      "description": "The attackers mapped a OneDrive share from the command-line using the net.exe command-line utility. They also likely used other cloud services such as Google Drive"
+      "description": "The attackers mapped a OneDrive share from the command-line using the net.exe command-line utility. They also likely used other cloud services such as Google Drive",
+      "confidence": 100
     },
     {
       "type": "malware",
       "id": "malware--8d20ebff-787c-4a06-b767-9f28db02d680",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "name": "Sunburst",
       "description": "FireEye named the backdoored version of the DLL file SUNBURST. This backdoor delivers different payloads, such as the memory-only dropper TEARDROP, which deploys a Cobalt Strike Beacon.",
-      "is_family": false
+      "malware_types": [
+        "backdoor",
+        "dropper"
+      ],
+      "is_family": false,
+      "capabilities": [
+        "evades-av",
+        "installs-other-components",
+        "hides-executing-code",
+        "persists-after-system-reboot"
+      ]
     },
     {
       "type": "note",
       "id": "note--72f7a185-0eb3-4177-86a3-b6eea3768a56",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "abstract": "Hiding Cobalt Strike",
       "content": "According to Microsoft, each Cobalt Strike DLL was unique to each machine and avoided overlap and reuse of folder name, file name, export function names, etc. This was done to prevent full identification of all compromised assets inside a network or effective sharing of threat intel between victims",
       "object_refs": [
@@ -968,17 +1055,20 @@
       "type": "malware",
       "id": "malware--02e6f750-080a-43fb-88d4-d7b29926381e",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "name": "Teardrop",
+      "malware_types": [
+        "trojan"
+      ],
       "is_family": false
     },
     {
       "type": "note",
       "id": "note--27fee65d-dfd3-40c5-89b3-72d6fadf61e9",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "abstract": "Malware Design",
       "content": "According to Microsoft, SUNBURST and TEARDROP were designed to execute as separate components to avoid detection.",
       "object_refs": [
@@ -987,120 +1077,100 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--dc30c024-1ceb-4678-b2f3-c60e87fb36d5",
+      "id": "relationship--a501c849-46f5-4e76-a1bb-281f6c362149",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
-      "source_ref": "attack-action--384373d8-dbe0-425e-aeaf-ad8c70fc11be",
-      "target_ref": "campaign--ec6a234a-cc7b-46fd-9600-a64e9a8c3184"
+      "source_ref": "campaign--ec6a234a-cc7b-46fd-9600-a64e9a8c3184",
+      "target_ref": "threat-actor--6eb7eb9a-f5e5-4943-8c29-316084ceb64f"
     },
     {
       "type": "relationship",
-      "id": "relationship--fd78b79e-4772-4b7b-b93c-f561062e51de",
+      "id": "relationship--73e12de7-5240-4af3-a28f-a0787a069d23",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
-      "relationship_type": "related-to",
-      "source_ref": "threat-actor--6eb7eb9a-f5e5-4943-8c29-316084ceb64f",
-      "target_ref": "campaign--ec6a234a-cc7b-46fd-9600-a64e9a8c3184"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--af597561-5fe8-4020-a48e-4bfa44fc8db8",
-      "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--fce268a4-4a5d-46a0-a180-eea719995110",
-      "target_ref": "campaign--ec6a234a-cc7b-46fd-9600-a64e9a8c3184"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--cf6b8081-9683-4be8-84e6-52d4f23cb5e1",
-      "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--a5c0b555-c306-4629-a9ba-e4a8fc67105e",
       "target_ref": "malware--02e6f750-080a-43fb-88d4-d7b29926381e"
     },
     {
       "type": "relationship",
-      "id": "relationship--024c16f5-cf70-405a-88c5-a29e048d2e5c",
+      "id": "relationship--d802a398-6597-4a5c-8802-f34732a3a091",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--b0bc5a83-a0bb-4bf9-93b9-e63638820963",
       "target_ref": "tool--e01ce937-a9cd-412b-b38b-7faff606dfce"
     },
     {
       "type": "relationship",
-      "id": "relationship--1d616b74-c103-4905-b874-abe9d5c2bdfc",
+      "id": "relationship--6ad75459-bc73-4507-aeaf-8a5366804fe8",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--b0bc5a83-a0bb-4bf9-93b9-e63638820963",
       "target_ref": "tool--c5ed82e7-96b4-4f42-83e0-2a1f10692da0"
     },
     {
       "type": "relationship",
-      "id": "relationship--143c5852-237c-441e-b978-e6a08824ccd4",
+      "id": "relationship--f578ede6-caaf-403e-99b7-2b9291b1dbf6",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--b0bc5a83-a0bb-4bf9-93b9-e63638820963",
       "target_ref": "tool--adc37497-0035-4257-a920-f33140543187"
     },
     {
       "type": "relationship",
-      "id": "relationship--0f4c665f-7081-4ca4-8fe1-b937ea53f458",
+      "id": "relationship--426f56ac-ed1b-4194-ae3f-cd73eb340b4e",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--d5ed6bf4-dddc-435a-bd3c-114320a8e730",
       "target_ref": "tool--adc37497-0035-4257-a920-f33140543187"
     },
     {
       "type": "relationship",
-      "id": "relationship--ea4cfe0e-196e-44cc-a04e-d6a167f5ef6e",
+      "id": "relationship--9771e154-0a84-4738-b2b5-9b8565e73c0c",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--f69ad6fa-05c5-48b9-bfea-7201321c6909",
       "target_ref": "tool--a4b72723-7fd9-45d1-a108-1559637aa9eb"
     },
     {
       "type": "relationship",
-      "id": "relationship--f3494f11-eeac-4114-b1b5-e90f8f1c6613",
+      "id": "relationship--1e031170-2c3c-42b2-a140-4a09da7e4572",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--e08ff657-a12d-4ed7-bbe5-be90b963a153",
       "target_ref": "tool--55ef0067-c0ce-4aa0-9ffd-85b1e72a4791"
     },
     {
       "type": "relationship",
-      "id": "relationship--d340e427-00da-4efd-98f9-54452b5cef1b",
+      "id": "relationship--26c1c93a-d3cb-4113-8db6-3eef620e71fb",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--e4055553-f146-4d1e-99d7-6910b1e2a224",
       "target_ref": "tool--7845956b-77bd-4da3-82a5-08d723e0ad1c"
     },
     {
       "type": "relationship",
-      "id": "relationship--ee6e4b1f-c626-4c66-82e9-136c3a705794",
+      "id": "relationship--030530c3-2466-4005-b032-6a92b6ee841a",
       "spec_version": "2.1",
-      "created": "2022-10-27T14:21:39.127Z",
-      "modified": "2022-10-27T14:21:39.127Z",
+      "created": "2023-01-04T19:58:12.148Z",
+      "modified": "2023-01-04T19:58:12.148Z",
       "relationship_type": "related-to",
       "source_ref": "malware--8d20ebff-787c-4a06-b767-9f28db02d680",
       "target_ref": "attack-action--384373d8-dbe0-425e-aeaf-ad8c70fc11be"
