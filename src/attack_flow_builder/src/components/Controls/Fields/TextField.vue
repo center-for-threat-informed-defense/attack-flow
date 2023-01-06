@@ -1,21 +1,15 @@
 <template>
-  <div :class="['text-field-control', { disabled: !isEditable }]" tabindex="0" @focus="onFocus()">
-    <div class="grid-container">
-      <p class="placeholder" v-show="showPlaceholder">
-        Null
-      </p>
-      <div 
-        ref="field"
-        class="field"
-        @input="onInput"
-        @keyup.stop=""
-        @keydown.stop=""
-        @blur="onBlur"
-        :contenteditable="isEditable"
-      >
-        {{ this.value }}
-      </div>
-    </div>
+  <div :class="['text-field-control', { disabled }]" :tabindex="tabIndex" @focus="onFocus()">
+    <textarea
+      v-model="value"
+      ref="field"
+      placeholder="Null"
+      @input="onInput"
+      @keyup.stop=""
+      @keydown.stop=""
+      @blur="onBlur"
+      :disabled="disabled"
+    ></textarea>
   </div>
 </template>
 
@@ -42,8 +36,8 @@ export default defineComponent({
     return {
       sto: 0,
       value: "",
-      showPlaceholder: true,
-      activeProperty: markRaw(this.property)
+      activeProperty: markRaw(this.property),
+      onResizeObserver: null as ResizeObserver | null
     }
   },
   computed: {
@@ -59,12 +53,21 @@ export default defineComponent({
     },
 
     /**
-     * Tests if the property is editable.
+     * Returns the field's tab index.
      * @returns
-     *  True if the property is editable, false otherwise. 
+     *  The field's tab index.
      */
-    isEditable(): boolean {
-      return this._property.descriptor.is_editable ?? true;
+    tabIndex(): null | "0" {
+      return this.disabled ? null: "0";
+    },
+
+    /**
+     * Tests if the property is disabled.
+     * @returns
+     *  True if the property is disabled, false otherwise. 
+     */
+    disabled(): boolean {
+      return !(this._property.descriptor.is_editable ?? true);
     }
 
   },
@@ -74,6 +77,7 @@ export default defineComponent({
      * Field focus behavior.
      */
     onFocus() {
+      // Set focus
       this.$nextTick(() => {
         this.field!.focus();
       });
@@ -84,15 +88,15 @@ export default defineComponent({
      */
     onInput() {
       // Clear timeout
-      clearTimeout(this.sto)
-      // Update cached value
-      this.value = this.field!.innerText;
+      clearTimeout(this.sto);
       // Configure timeout
       this.sto = setTimeout(() => {
         this.updateProperty();
       }, this.updateTimeout);
-      // Update placeholder
-      this.showPlaceholder = this.field!.innerText === "";
+      // Update height
+      this.$nextTick(() => {
+        this.refreshHeight();
+      });
     },
 
     /**
@@ -123,16 +127,36 @@ export default defineComponent({
      * Updates the field's text value.
      */
     refreshValue() {
-      this.value = this._property.toRawValue() || "";
-      this.showPlaceholder = this.value === "";
+      // Update value
+      this.value = this._property.toRawValue() ?? "";
+      // Update height
+      this.$nextTick(() => {
+        this.refreshHeight();
+      }); 
+    },
+
+    /**
+     * Updates the field's height.
+     */
+    refreshHeight() {
+      // If no field, bail
+      if(this.field === null) {
+        return;
+      }
+      // Collapse and calculate height
+      this.field.style.height = "0px";
+      this.field.style.height = `${ this.field.scrollHeight }px`
     }
 
   },
   emits: ["change"],
   watch: {
     "property"() {
+        // Update existing property before switching
         this.updateProperty();
+        // Switch property
         this.activeProperty = markRaw(this.property);
+        // Refresh value
         this.refreshValue();
     },
     "_property.trigger.value"() {
@@ -140,9 +164,16 @@ export default defineComponent({
     }
   },
   mounted() {
+    // Configure resize observer
+    this.onResizeObserver = new ResizeObserver(() => this.refreshHeight());
+    this.onResizeObserver.observe(this.field!);
+    // Update field property value
     this.refreshValue();
   },
   unmounted() {
+    // Disconnect resize observer
+    this.onResizeObserver!.disconnect();
+    // Update property
     this.updateProperty();
   }
 });
@@ -168,33 +199,27 @@ export default defineComponent({
   outline: none;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-  width: 100%;
-}
-
-.field {
-  grid-area: 1 / 1;
+textarea {
+  display: block;
   color: inherit;
   font-size: inherit;
   font-family: inherit;
   width: 100%;
-  padding: 6px 12px;
+  margin: 6px 12px;
   border: none;
-  box-sizing: border-box;
+  padding: 0px;
+  background: none;
+  overflow: hidden;
+  resize: none;
 }
 
-.field:focus {
-  outline: none;
-}
-
-.placeholder {
-  grid-area: 1 / 1;
+textarea::placeholder {
   color: #999;
-  user-select: none;
-  padding: 6px 12px;
+  opacity: 1;
+}
+
+textarea:focus {
+  outline: none;
 }
 
 </style>

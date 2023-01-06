@@ -1,5 +1,5 @@
 <template>
-  <div :class="['number-field-control', { disabled: !isEditable }]" tabindex="0" @focus="onFocus()">
+  <div :class="['number-field-control', { disabled }]" :tabindex="tabIndex" @focus="onFocus()">
     <input
       v-model="value"
       type="text"
@@ -8,9 +8,9 @@
       @input="onInput"
       @keydown="onKeyDown"
       @blur="onBlur"
-      :disabled="!isEditable"
+      :disabled="disabled"
     />
-    <div class="increment-arrows" v-if="isEditable">
+    <div class="increment-arrows" v-if="!disabled">
       <div class="up-arrow" @click="updateProperty(+1)">▲</div>
       <div class="down-arrow" @click="updateProperty(-1)">▼</div>
     </div>
@@ -24,7 +24,9 @@ import { clamp, NumberProperty, PropertyType } from "@/assets/scripts/BlockDiagr
 export default defineComponent({
   name: "NumberField",
   setup() {
-    return { field: ref<HTMLInputElement | null>(null) };
+    return {
+      field: ref<HTMLInputElement | null>(null)
+    };
   },
   props: {
     property: {
@@ -49,14 +51,23 @@ export default defineComponent({
       let trigger = this.activeProperty.trigger.value;
       return trigger ? this.activeProperty : this.activeProperty; 
     },
-    
+
     /**
-     * Tests if the property is editable.
+     * Returns the field's tab index.
      * @returns
-     *  True if the property is editable, false otherwise. 
+     *  The field's tab index.
      */
-    isEditable(): boolean {
-      return this._property.descriptor.is_editable ?? true;
+    tabIndex(): null | "0" {
+      return this.disabled ? null: "0";
+    },
+
+    /**
+     * Tests if the property is disabled.
+     * @returns
+     *  True if the property is disabled, false otherwise. 
+     */
+    disabled(): boolean {
+      return !(this._property.descriptor.is_editable ?? true);
     }
 
   },
@@ -152,8 +163,11 @@ export default defineComponent({
   emits: ["change"],
   watch: {
     "property"() {
+      // Update existing property before switching
       this.updateProperty();
+      // Switch property
       this.activeProperty = markRaw(this.property);
+      // Refresh value
       this.refreshValue();
     },
     "_property.trigger.value"() {

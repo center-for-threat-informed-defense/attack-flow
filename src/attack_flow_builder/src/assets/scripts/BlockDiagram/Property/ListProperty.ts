@@ -1,4 +1,5 @@
 import { MD5 } from "../Utilities";
+import { Crypto } from "../Utilities/Crypto";
 import { 
     CollectionProperty,
     ListPropertyDescriptor,
@@ -119,9 +120,9 @@ export class ListProperty extends CollectionProperty {
      *  A randomly generated id.
      */
     private getNextId() {
-        let id = MD5(crypto.randomUUID());
+        let id = MD5(Crypto.randomUUID());
         while(this.value.has(id)) {
-            id = MD5(crypto.randomUUID());
+            id = MD5(Crypto.randomUUID());
         }
         return id;
     }

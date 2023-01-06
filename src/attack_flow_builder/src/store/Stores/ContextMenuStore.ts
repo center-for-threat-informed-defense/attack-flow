@@ -185,13 +185,17 @@ export default {
          *  The Vuex getters. (Unused)
          * @param rootState
          *  The Vuex root state.
+         * @param rootGetters
+         *  The Vuex root getters.
          * @returns
          *  The undo/redo menu section.
          */
-        undoRedoMenu(_s, _g, rootState): ContextMenuSection {
+        undoRedoMenu(_s, _g, rootState, rootGetters): ContextMenuSection {
             let ctx = rootState.ApplicationStore;
             let page = ctx.activePage.page;
             let edit = ctx.settings.hotkeys.edit;
+            let canUndo = rootGetters["ApplicationStore/canUndo"];
+            let canRedo = rootGetters["ApplicationStore/canRedo"];
             return {
                 id: "undo_redo_options",
                 items: [
@@ -200,14 +204,14 @@ export default {
                         type: MenuType.Item,
                         data: () => new Page.UndoPageCommand(ctx, page.id),
                         shortcut: edit.undo,
-                        disabled: !ctx.activePage.canUndo()
+                        disabled: !canUndo
                     },
                     {
                         text: "Redo",
                         type: MenuType.Item,
                         data: () => new Page.RedoPageCommand(ctx, page.id),
                         shortcut: edit.redo,
-                        disabled: !ctx.activePage.canRedo()
+                        disabled: !canRedo
                     }
                 ],
             }

@@ -8,7 +8,7 @@
       <slot></slot>
     </div>
     <div class="dictionary-contents" v-if="!collapsed">
-      <template v-if="hasEditableProperties">
+      <template v-if="hasVisibleProperties">
         <DictionaryFieldContents
           :property="property"
           @change="(...args) => $emit('change', ...args)"
@@ -29,7 +29,7 @@ import { DictionaryProperty } from "@/assets/scripts/BlockDiagram";
 import { defineComponent, PropType } from "vue";
 // Components
 import CollapseArrow from "@/components/Icons/CollapseArrow.vue";
-import DictionaryFieldContents from "./DictionaryFieldContents.vue";
+import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
 
 export default defineComponent({
   name: "DictionaryField",
@@ -57,11 +57,11 @@ export default defineComponent({
     },
 
     /**
-     * Tests if the property has editable subproperties.
+     * Tests if the property has visible subproperties.
      * @returns
-     *  True if the property has editable subproperties, false otherwise.
+     *  True if the property has visible subproperties, false otherwise.
      */
-    hasEditableProperties(): boolean {
+    hasVisibleProperties(): boolean {
       for(let value of this._property.value.values()) {
         if(value.descriptor.is_visible ?? true)
           return true;

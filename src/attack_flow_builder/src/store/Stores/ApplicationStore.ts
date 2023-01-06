@@ -61,6 +61,28 @@ export default {
         },
 
         /**
+         * Tests if the last command on the active page can be undone.
+         * @returns
+         *  True if the last command can be undone, false otherwise.
+         */
+        canUndo(state): boolean {
+            let p = state.activePage;
+            // Use trigger to trip the reactivity system
+            return (state.activePage.trigger.value ? p : p).canUndo();
+        },
+
+        /**
+         * Tests if the last undone command on the active page can be redone.
+         * @returns
+         *  True if the last undone command can be redone, false otherwise.
+         */
+        canRedo(state): boolean {
+            let p = state.activePage;
+            // Use trigger to trip the reactivity system
+            return (state.activePage.trigger.value ? p : p).canRedo();
+        },
+
+        /**
          * Tests if the active page represents a valid diagram per the
          * configured validator. If the application is not configured with a
          * validator, true is returned by default.
