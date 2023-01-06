@@ -47,23 +47,24 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.bumpver]
-current_version = "2.0.0"
-version_pattern = "MAJOR.MINOR.PATCH"
+current_version = "v2.0.0"
+version_pattern = "vMAJOR.MINOR.PATCH"
 commit_message = "Bump version {old_version} -> {new_version}"
 commit = true
 tag = true
 
 [tool.bumpver.file_patterns]
+# pep440_version does not have the "v" prefix
 "pyproject.toml" = [
-    'version = "{version}"',
+    'version = "{pep440_version}"',
 ]
 "docs/conf.py" = [
-    'version = "v{version}"'
+    'version = "{version}"'
 ]
 "docs/developers.rst" = [
-    "    Installing the current project: attack-flow ({version})",
-    "    Attack Flow version {version}",
+    "    Installing the current project: attack-flow ({pep440_version})",
+    "    Attack Flow version {pep440_version}",
 ]
 "src/attack_flow_builder/package.json" = [
-    '"version": "{version}",'
+    '"version": "{pep440_version}",'
 ]
