@@ -53,6 +53,8 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: '18'
+    - name: Update APT
+      run: sudo apt update
     - name: Install dependencies
       run: sudo apt install graphviz
     - name: Install Poetry
