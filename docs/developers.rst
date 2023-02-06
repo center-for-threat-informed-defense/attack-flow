@@ -89,6 +89,8 @@ Validate one or more Attack Flow JSON files:
 
 There is a Makefile target ``make validate`` that validates the corpus.
 
+.. _cli_viz:
+
 Visualize with GraphViz
 ~~~~~~~~~~~~~~~~~~~~~~~
 

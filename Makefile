@@ -17,6 +17,10 @@ docs-examples:
 	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -I {} mmdc -i "docs/extra/corpus/{}.mmd" -o "docs/extra/corpus/{}.mmd.png"
 	af doc-examples corpus/ docs/example_flows.rst
 
+docs-matrix:
+	mkdir -p docs/extra/matrix
+	cp src/matrix-viz/* docs/extra/matrix/
+
 docs-schema:
 	af doc-schema stix/attack-flow-schema-2.0.0.json stix/attack-flow-example.json docs/language.rst
 

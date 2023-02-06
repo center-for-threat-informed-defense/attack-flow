@@ -75,8 +75,9 @@ function render(svgXml, flowStix) {
     _enumerateTechniqueGeometries(techniqueGeometries, svgDoc.children[0]);
 
     // Create a new <g> to hold all of the Attack Flow overlay elements.
-    const attackFlowOverlay = document.createElement("g");
+    const attackFlowOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
     attackFlowOverlay.setAttribute("class", "attack-flow-overlay");
+    console.log(attackFlowOverlay)
     attackFlowOverlay.appendChild(_getArrowheadMarker());
     svgDoc.children[0].appendChild(attackFlowOverlay);
 
@@ -125,13 +126,7 @@ function render(svgXml, flowStix) {
 
     }
 
-    // The SVG doesn't render correctly if we directly attach it to the page. Instead, create a new SVG
-    // element and copy the contents into it.
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("width", svgDoc.documentElement.getAttribute("width"));
-    svg.setAttribute("height", svgDoc.documentElement.getAttribute("height"));
-    svg.innerHTML = svgDoc.documentElement.innerHTML;
-    document.querySelector("#preview").appendChild(svg);
+    return svgDoc.documentElement.outerHTML;
 }
 
 /**
@@ -347,18 +342,18 @@ function _lookupGeometry(node, techniqueGeometries) {
  */
 function _createTechniqueOverlay(techniqueId, techniqueGeometry) {
     const { x, y, width, height } = techniqueGeometry;
-    const overlay = document.createElement("g");
+    const overlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
     overlay.classList.add("overlay", techniqueId);
     overlay.setAttribute("transform", `translate(${x}, ${y})`);
 
-    const ellipse = document.createElement("ellipse");
+    const ellipse = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
     ellipse.setAttribute("rx", (width * ELLIPSE_SIZE_MULTIPLIER).toString());
     ellipse.setAttribute("ry", (height * ELLIPSE_SIZE_MULTIPLIER).toString());
     ellipse.setAttribute("cx", (width / 2).toString());
     ellipse.setAttribute("cy", (height / 2).toString());
     ellipse.setAttribute("fill", "none");
     ellipse.setAttribute("stroke", OVERLAY_COLOR);
-    ellipse.setAttribute("strokeWidth", STROKE_WIDTH);
+    ellipse.setAttribute("stroke-width", STROKE_WIDTH);
     overlay.appendChild(ellipse);
 
     return overlay;
@@ -374,7 +369,7 @@ function _createTechniqueOverlay(techniqueId, techniqueGeometry) {
  */
 function _createRelationshipOverlay(sourceTid, targetTid, sourceGeometry, targetGeometry, showControlPoints) {
     // Create a container element for the arrow.
-    const overlay = document.createElement("g");
+    const overlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
     overlay.classList.add("overlay", `${sourceTid}-${targetTid}`);
     const translateX = sourceGeometry.x + sourceGeometry.width / 2;
     const translateY = sourceGeometry.y + sourceGeometry.height / 2;
@@ -425,28 +420,28 @@ function _createRelationshipOverlay(sourceTid, targetTid, sourceGeometry, target
 
     // Show control points, if requested for debugging.
     if (showControlPoints) {
-        startPoint = document.createElement("circle");
+        startPoint = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         startPoint.setAttribute("cx", startX);
         startPoint.setAttribute("cy", startY);
         startPoint.setAttribute("r", 2);
         startPoint.style.fill = "green";
         overlay.appendChild(startPoint);
 
-        targetPoint = document.createElement("circle");
+        targetPoint = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         targetPoint.setAttribute("cx", targetX);
         targetPoint.setAttribute("cy", targetY);
         targetPoint.setAttribute("r", 2);
         targetPoint.style.fill = "blue";
         overlay.appendChild(targetPoint);
 
-        controlPoint1 = document.createElement("circle");
+        controlPoint1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         controlPoint1.setAttribute("cx", control1X);
         controlPoint1.setAttribute("cy", control1Y);
         controlPoint1.setAttribute("r", 2);
         controlPoint1.style.fill = "red";
         overlay.appendChild(controlPoint1);
 
-        controlPoint2 = document.createElement("circle");
+        controlPoint2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         controlPoint2.setAttribute("cx", control2X);
         controlPoint2.setAttribute("cy", control2Y);
         controlPoint2.setAttribute("r", 2);
@@ -455,12 +450,12 @@ function _createRelationshipOverlay(sourceTid, targetTid, sourceGeometry, target
     }
 
     // Create the path.
-    path = document.createElement("path");
+    path = document.createElementNS("http://www.w3.org/2000/svg", "path");
     path.setAttribute("d", `M ${startX} ${startY} C ${control1X} ${control1Y} ${control2X} ${control2Y} ${targetX} ${targetY}`);
     path.setAttribute("marker-end", "url(#attack-flow-arrowhead)");
-    path.style.stroke = OVERLAY_COLOR;
-    path.style.strokeWidth = STROKE_WIDTH;
-    path.style.fill = "none";
+    path.setAttribute("stroke", OVERLAY_COLOR);
+    path.setAttribute("stroke-width", STROKE_WIDTH);
+    path.setAttribute("fill", "none");
     overlay.append(path)
 
     return overlay;
@@ -471,7 +466,7 @@ function _createRelationshipOverlay(sourceTid, targetTid, sourceGeometry, target
  * @returns
  */
 function _getArrowheadMarker() {
-    const marker = document.createElement("marker");
+    const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
     marker.setAttribute("id", "attack-flow-arrowhead");
     marker.setAttribute("markerWidth", ARROWHEAD_WIDTH);
     marker.setAttribute("markerHeight", ARROWHEAD_HEIGHT);
@@ -479,7 +474,7 @@ function _getArrowheadMarker() {
     marker.setAttribute("refY", ARROWHEAD_HEIGHT / 2);
     marker.setAttribute("orient", "auto");
 
-    const poly = document.createElement("polygon");
+    const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
     const halfHeight = ARROWHEAD_HEIGHT / 2;
     poly.setAttribute("points", `0 0, ${ARROWHEAD_WIDTH} ${halfHeight}, 0 ${ARROWHEAD_HEIGHT}`);
     poly.style.fill = OVERLAY_COLOR;
