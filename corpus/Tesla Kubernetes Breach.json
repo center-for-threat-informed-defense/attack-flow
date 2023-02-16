@@ -1,9 +1,9 @@
 {
   "type": "bundle",
-  "id": "bundle--f85948c4-79f3-4d17-bdac-0bc3487aa16c",
+  "id": "bundle--569aef73-60c9-4007-9ef1-fee52b8f628f",
   "spec_version": "2.1",
-  "created": "2022-10-27T03:27:08.359Z",
-  "modified": "2022-10-27T03:27:08.359Z",
+  "created": "2023-01-04T21:09:09.059Z",
+  "modified": "2023-01-04T21:09:09.059Z",
   "objects": [
     {
       "type": "extension-definition",
@@ -47,13 +47,13 @@
       "id": "attack-flow--130cfa8f-3152-4a3e-bd99-6f4230907dad",
       "spec_version": "2.1",
       "created": "2022-10-27T02:44:54.520Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "created_by_ref": "identity--b2ba035f-67d6-4167-bc26-120bda1c09aa",
+      "created_by_ref": "identity--40c4bffc-b61e-472f-9401-a6c738a1ebf0",
       "start_refs": [
         "attack-condition--394e0f5c-534b-406d-a714-60124f89e437"
       ],
@@ -84,10 +84,10 @@
     },
     {
       "type": "identity",
-      "id": "identity--b2ba035f-67d6-4167-bc26-120bda1c09aa",
+      "id": "identity--40c4bffc-b61e-472f-9401-a6c738a1ebf0",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.059Z",
+      "modified": "2023-01-04T21:09:09.059Z",
       "name": "Mark Haase",
       "identity_class": "individual",
       "contact_information": "mhaase@mitre.org"
@@ -96,8 +96,8 @@
       "type": "attack-condition",
       "id": "attack-condition--394e0f5c-534b-406d-a714-60124f89e437",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -112,8 +112,8 @@
       "type": "attack-action",
       "id": "attack-action--7edcb647-8d0c-4ba4-86e8-b2a423d9b43a",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -132,8 +132,8 @@
       "type": "attack-action",
       "id": "attack-action--307e4dc4-e109-4ef1-b0f5-7eaa7816ca25",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -151,8 +151,8 @@
       "type": "attack-action",
       "id": "attack-action--3475ec81-5b70-4f9a-a9a9-9a089216ab44",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -170,8 +170,8 @@
       "type": "attack-action",
       "id": "attack-action--5d19b518-7bcd-48d7-9d61-5e6001b130b1",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -186,8 +186,8 @@
       "type": "attack-action",
       "id": "attack-action--fe5fea66-d2a1-4b41-a9eb-7f8eccf9704a",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -205,8 +205,8 @@
       "type": "attack-action",
       "id": "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -224,8 +224,8 @@
       "type": "attack-action",
       "id": "attack-action--837bede5-db2f-40ac-b4df-9798548de067",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -243,8 +243,8 @@
       "type": "attack-operator",
       "id": "attack-operator--2523aded-6d9a-4f28-aea9-be9dd6f490e0",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -259,8 +259,8 @@
       "type": "attack-action",
       "id": "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -275,17 +275,20 @@
       "type": "infrastructure",
       "id": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "name": "Unlisted mining pool",
-      "description": "The mining pool is \"unlisted\" and runs on a non-standard port to evade common blocklists."
+      "description": "The mining pool is \"unlisted\" and runs on a non-standard port to evade common blocklists.",
+      "infrastructure_types": [
+        "unknown"
+      ]
     },
     {
       "type": "note",
       "id": "note--c5d127a0-59be-4ab5-9266-4b3037c7bee3",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "abstract": "Speculation",
       "content": "The authors of this post provided speculation about what the attackers could have done with the leaked credentials, but there is no evidence the adversaries even knew about the credentials.",
       "object_refs": [
@@ -294,20 +297,20 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--6f923a43-b7b1-4ef9-a7b9-bb8863da58f9",
+      "id": "relationship--e50a6920-5419-42d7-8808-9641418d399c",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb",
       "target_ref": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c"
     },
     {
       "type": "relationship",
-      "id": "relationship--d24063d0-5b6d-410f-829c-1853c8e21117",
+      "id": "relationship--af46329b-63b0-4599-94cc-ff5bc6621f99",
       "spec_version": "2.1",
-      "created": "2022-10-27T03:27:08.359Z",
-      "modified": "2022-10-27T03:27:08.359Z",
+      "created": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-01-04T21:09:09.060Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844",
       "target_ref": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c"

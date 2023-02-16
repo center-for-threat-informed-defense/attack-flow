@@ -1,9 +1,9 @@
 {
   "type": "bundle",
-  "id": "bundle--6f3ed9dd-1926-499a-b566-66bd8e3f3e10",
+  "id": "bundle--385a280c-da40-4c82-bb57-7d6a3b5126e7",
   "spec_version": "2.1",
-  "created": "2022-10-27T02:55:05.042Z",
-  "modified": "2022-10-27T02:55:05.042Z",
+  "created": "2022-12-21T20:27:51.106Z",
+  "modified": "2022-12-21T20:27:51.106Z",
   "objects": [
     {
       "type": "extension-definition",
@@ -47,13 +47,13 @@
       "id": "attack-flow--cc1b4136-b914-402e-ba05-bb16768d4a13",
       "spec_version": "2.1",
       "created": "2022-10-27T02:44:54.520Z",
-      "modified": "2022-10-27T02:55:05.042Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "created_by_ref": "identity--daa84b62-7a80-4e31-862e-c1aae6e0a706",
+      "created_by_ref": "identity--a1e7909a-0e52-41f9-bf1b-9fd101cbe64e",
       "start_refs": [
         "attack-action--7e43c3eb-f609-4a53-beb3-40829afb89aa",
         "attack-action--398ab58e-b755-4251-9dc5-293817d349ea",
@@ -96,10 +96,10 @@
     },
     {
       "type": "identity",
-      "id": "identity--daa84b62-7a80-4e31-862e-c1aae6e0a706",
+      "id": "identity--a1e7909a-0e52-41f9-bf1b-9fd101cbe64e",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.042Z",
-      "modified": "2022-10-27T02:55:05.042Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Eric Kannampuzha",
       "identity_class": "individual",
       "contact_information": "ekannampuzha@mitre.org"
@@ -108,8 +108,8 @@
       "type": "attack-action",
       "id": "attack-action--7e43c3eb-f609-4a53-beb3-40829afb89aa",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.042Z",
-      "modified": "2022-10-27T02:55:05.042Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -127,8 +127,8 @@
       "type": "attack-action",
       "id": "attack-action--398ab58e-b755-4251-9dc5-293817d349ea",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.042Z",
-      "modified": "2022-10-27T02:55:05.042Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -147,8 +147,8 @@
       "type": "attack-action",
       "id": "attack-action--508bc600-bbf4-4e31-a789-8971f51dc581",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.042Z",
-      "modified": "2022-10-27T02:55:05.042Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -166,8 +166,8 @@
       "type": "attack-action",
       "id": "attack-action--217d8b41-0faf-415e-be60-1489e39d3ee5",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -185,8 +185,8 @@
       "type": "attack-action",
       "id": "attack-action--d3d7d621-23f1-4536-8777-aa37cfa4789f",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -204,8 +204,8 @@
       "type": "attack-action",
       "id": "attack-action--3488c178-ef07-4ba9-9007-6ca8aaff51c9",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -223,8 +223,8 @@
       "type": "attack-action",
       "id": "attack-action--96bb23ee-9fa2-4442-b49c-4b2dcc49d043",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -242,8 +242,8 @@
       "type": "attack-action",
       "id": "attack-action--8589d97f-43fd-4d11-83a0-41e5902cfe9f",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -261,8 +261,8 @@
       "type": "attack-action",
       "id": "attack-action--a19ca663-f6ef-4925-bef4-94248349f2e6",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -280,8 +280,8 @@
       "type": "attack-action",
       "id": "attack-action--ac381463-471d-4ccb-9177-ebd834ed5706",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -299,8 +299,8 @@
       "type": "attack-action",
       "id": "attack-action--a229d676-e14f-46ee-9bc4-22e769c9abad",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -308,7 +308,7 @@
       },
       "name": "Office Application Startup",
       "technique_id": "T1137",
-      "description": "Malicious Outlook backdoor macroes were to used to communicate with C2 servers and exfiltrate data",
+      "description": "Malicious Outlook backdoor macros were to used to communicate with C2 servers and exfiltrate data",
       "confidence": 100,
       "effect_refs": [
         "attack-operator--c75d6f51-0b7c-4b90-bd97-943385d84391"
@@ -318,8 +318,8 @@
       "type": "attack-action",
       "id": "attack-action--53f217bc-c353-4ada-b782-7391aaee5685",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -336,8 +336,8 @@
       "type": "attack-action",
       "id": "attack-action--4c1cd5fd-27ee-4600-901a-5897e05d1b58",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -357,8 +357,8 @@
       "type": "attack-action",
       "id": "attack-action--436a56c4-7998-45f2-8f4e-3e4709e3e80c",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -376,8 +376,8 @@
       "type": "attack-action",
       "id": "attack-action--a19b78e2-9d90-46a7-bb55-7dc533edee63",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -395,8 +395,8 @@
       "type": "attack-action",
       "id": "attack-action--bad6fe95-996c-432e-9362-e187a87ba485",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -414,8 +414,8 @@
       "type": "attack-action",
       "id": "attack-action--2129fd6d-9887-4a29-b550-3a598b50f641",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -423,7 +423,7 @@
       },
       "name": "Application Layer Protocol: Mail Protocols",
       "technique_id": "T1071.003",
-      "description": "Malicious Outlook macroes were created to utilize email for C2 communication and data exfiltration",
+      "description": "Malicious Outlook macros were created to utilize email for C2 communication and data exfiltration",
       "confidence": 100,
       "effect_refs": [
         "attack-operator--f7a7356a-a39f-438a-9a59-cd6654f88363"
@@ -433,8 +433,8 @@
       "type": "attack-action",
       "id": "attack-action--e70b0b83-e9b0-4188-a1c1-c049cec1c48e",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -452,8 +452,8 @@
       "type": "attack-action",
       "id": "attack-action--90c24039-8903-407d-a9a8-9960faf084e2",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -471,8 +471,8 @@
       "type": "attack-action",
       "id": "attack-action--47a28c6a-51bc-4144-afd3-8117e2ce6828",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -490,8 +490,8 @@
       "type": "attack-action",
       "id": "attack-action--7ec57638-9eba-4456-af50-1a0e4804510d",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -511,8 +511,8 @@
       "type": "attack-action",
       "id": "attack-action--03fd7c2f-1eab-4468-8d67-7a331b75c261",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -531,8 +531,8 @@
       "type": "attack-action",
       "id": "attack-action--c7ef4391-eb20-443b-91c2-cceaf0b06458",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -549,8 +549,8 @@
       "type": "attack-action",
       "id": "attack-action--2a0d98d7-92cc-4087-93ad-ff1db995bec6",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -567,8 +567,8 @@
       "type": "attack-action",
       "id": "attack-action--6c5276a7-4e5c-4807-957b-d1673f27aec5",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -585,8 +585,8 @@
       "type": "attack-operator",
       "id": "attack-operator--f7a7356a-a39f-438a-9a59-cd6654f88363",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -603,8 +603,8 @@
       "type": "attack-action",
       "id": "attack-action--fa7a634c-2450-499a-9bf3-a09d8e34e937",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -622,8 +622,8 @@
       "type": "attack-operator",
       "id": "attack-operator--445fd1d0-da6d-4b9d-9bf2-35465cf2774c",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -639,8 +639,8 @@
       "type": "attack-operator",
       "id": "attack-operator--8e2a58eb-6a0c-486b-b318-8527f5c3357a",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -659,8 +659,8 @@
       "type": "attack-action",
       "id": "attack-action--788fab85-7ed0-42d7-aed2-cec8ac099f32",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -678,10 +678,10 @@
       "type": "threat-actor",
       "id": "threat-actor--f5182f82-449b-4edd-9c74-bf2ad4bcaf9d",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "OceanLotus",
-      "description": "APT32 is a suspected Vietnam-based threat group that has been active since at least 2012. The group has targeted multiple private sector industries as well as foreign governments, dissidents, and journalists with a strong focus on Southeast Asian countries like Vietnam, the Philippines, Laos, and Cambodia. Their primary objective is to collect information related to perceived threats to the Vietnamese government. but with possible geopolitical and economic espionage objectives as well. They have extensively used strategic web compromises to compromise victims.",
+      "description": "APT32 is a suspected Vietnam-based threat group that has been active since at least 2012. The group has targeted multiple private sector industries as well as foreign governments, dissidents, and journalists with a strong focus on Southeast Asian countries like Vietnam, the Philippines, Laos, and Cambodia. Their primary objective is to collect information related to perceived threats to the Vietnamese government, but with possible geopolitical and economic espionage objectives as well. They have extensively used strategic web compromises to compromise victims.",
       "threat_actor_types": [
         "Activist",
         "Crime-syndicate",
@@ -713,18 +713,18 @@
       "type": "campaign",
       "id": "campaign--8ed0c3ff-cecd-40f1-9d6b-e3dbe955ac7a",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Operation Cobalt Kitty",
-      "description": "A large-scale APT in Asia carried out by the OceanLotus Group",
+      "description": "A large-scale campaign in Asia carried out by the OceanLotus Group",
       "objective": "Stealing proprietary business information"
     },
     {
       "type": "attack-operator",
       "id": "attack-operator--5c3ac180-7cb9-42a6-98de-66e906effc2b",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -739,8 +739,8 @@
       "type": "attack-operator",
       "id": "attack-operator--c75d6f51-0b7c-4b90-bd97-943385d84391",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -755,8 +755,8 @@
       "type": "attack-operator",
       "id": "attack-operator--a414b5c1-9edb-455d-b737-72205d43b17a",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -771,8 +771,8 @@
       "type": "tool",
       "id": "tool--e378563e-c6df-4d01-89a9-f3545cc42517",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Windows Management Instrumentation (WMI) ",
       "tool_types": [
         "Information-gathering"
@@ -782,8 +782,8 @@
       "type": "tool",
       "id": "tool--38394be6-1da8-45e2-86c4-180837bd00e8",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Arp",
       "tool_types": [
         "Information-gathering"
@@ -793,8 +793,8 @@
       "type": "tool",
       "id": "tool--127e715e-a04a-4103-84ef-99015b27d94f",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Ipconfig",
       "tool_types": [
         "Information-gathering"
@@ -804,8 +804,8 @@
       "type": "tool",
       "id": "tool--09b75cde-799f-432c-9920-bbf13d0eb336",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Netstat",
       "tool_types": [
         "Information-gathering"
@@ -815,8 +815,8 @@
       "type": "tool",
       "id": "tool--cd07bd67-3e94-4fce-8c86-589ad7c314c0",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "net user/group/localgroup",
       "tool_types": [
         "Information-gathering"
@@ -826,8 +826,8 @@
       "type": "tool",
       "id": "tool--0ade6c1a-d0b5-47d2-a633-b61144024874",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Nslookup",
       "tool_types": [
         "Information-gathering"
@@ -837,8 +837,8 @@
       "type": "tool",
       "id": "tool--b1ddb6da-5c43-440d-9189-39c740659ccc",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Netsh",
       "tool_types": [
         "Information-gathering"
@@ -848,8 +848,8 @@
       "type": "tool",
       "id": "tool--f2fac0de-8565-48ab-9ce8-d67dee1edeb6",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Mimikatz",
       "tool_types": [
         "credential-exploitation"
@@ -859,8 +859,8 @@
       "type": "tool",
       "id": "tool--6c9c4fd4-1e75-45c2-921c-a2df79fd4108",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Net.exe",
       "tool_types": [
         "remote-access"
@@ -870,8 +870,8 @@
       "type": "attack-asset",
       "id": "attack-asset--1eccea60-8db3-4ac0-9db2-d4eef1c3b484",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -883,8 +883,8 @@
       "type": "tool",
       "id": "tool--1d4a5369-38f8-4b40-8390-2c3cf8f940a0",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "WMI",
       "tool_types": [
         "Exploitation"
@@ -894,8 +894,8 @@
       "type": "tool",
       "id": "tool--a1e3e09a-26c1-439c-8985-5bdf2ed377fa",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Net user",
       "tool_types": [
         "remote-access",
@@ -906,8 +906,8 @@
       "type": "tool",
       "id": "tool--750c2016-1016-48d8-95ea-df5b32a8f8ee",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "name": "Mimikatz",
       "tool_types": [
         "credential-exploitation"
@@ -917,8 +917,8 @@
       "type": "attack-operator",
       "id": "attack-operator--65620718-41a3-43e9-842a-e169a076170a",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.043Z",
-      "modified": "2022-10-27T02:55:05.043Z",
+      "created": "2022-12-21T20:27:51.106Z",
+      "modified": "2022-12-21T20:27:51.106Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -928,163 +928,143 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--7ec0315c-1ea1-42b2-9bdd-1dc3c0b93c83",
+      "id": "relationship--022bbe62-7429-4a4c-b8da-aa4fc03e55e0",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--7e43c3eb-f609-4a53-beb3-40829afb89aa",
-      "target_ref": "campaign--8ed0c3ff-cecd-40f1-9d6b-e3dbe955ac7a"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--d68b803e-188c-475d-af36-05d10598e2b9",
-      "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--508bc600-bbf4-4e31-a789-8971f51dc581",
-      "target_ref": "campaign--8ed0c3ff-cecd-40f1-9d6b-e3dbe955ac7a"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--f4bced0b-3a2d-4a64-9298-8faca4919db8",
-      "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--e70b0b83-e9b0-4188-a1c1-c049cec1c48e",
       "target_ref": "tool--e378563e-c6df-4d01-89a9-f3545cc42517"
     },
     {
       "type": "relationship",
-      "id": "relationship--d99a72e8-fc22-458c-a4bf-59c532beaf2f",
+      "id": "relationship--2f6c7bee-cce1-449d-be6a-f0150d9caf65",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--e70b0b83-e9b0-4188-a1c1-c049cec1c48e",
       "target_ref": "tool--127e715e-a04a-4103-84ef-99015b27d94f"
     },
     {
       "type": "relationship",
-      "id": "relationship--be465768-7f5b-42e8-b89c-0f72cd6824ba",
+      "id": "relationship--acf37643-92f2-4ebb-a076-8404ed4af7da",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--e70b0b83-e9b0-4188-a1c1-c049cec1c48e",
       "target_ref": "tool--38394be6-1da8-45e2-86c4-180837bd00e8"
     },
     {
       "type": "relationship",
-      "id": "relationship--3588d014-2780-44cc-abac-cc5993d167cd",
+      "id": "relationship--b193edc4-911a-4694-8423-faf16fcaa20d",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--90c24039-8903-407d-a9a8-9960faf084e2",
       "target_ref": "tool--0ade6c1a-d0b5-47d2-a633-b61144024874"
     },
     {
       "type": "relationship",
-      "id": "relationship--56081c30-833d-4768-8670-498b6e522c17",
+      "id": "relationship--879d78ff-39de-4488-bedb-bde608d4bb14",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--90c24039-8903-407d-a9a8-9960faf084e2",
       "target_ref": "tool--cd07bd67-3e94-4fce-8c86-589ad7c314c0"
     },
     {
       "type": "relationship",
-      "id": "relationship--fe640eb0-e089-412d-98fe-c4b5c6df0afe",
+      "id": "relationship--8d93a2e4-7197-4537-9263-40270f594ffb",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--90c24039-8903-407d-a9a8-9960faf084e2",
       "target_ref": "tool--b1ddb6da-5c43-440d-9189-39c740659ccc"
     },
     {
       "type": "relationship",
-      "id": "relationship--19b3baba-dc94-4b0b-8050-7ef0783183e2",
+      "id": "relationship--65977652-caa7-47c7-b31a-f889260818cd",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--7ec57638-9eba-4456-af50-1a0e4804510d",
       "target_ref": "tool--f2fac0de-8565-48ab-9ce8-d67dee1edeb6"
     },
     {
       "type": "relationship",
-      "id": "relationship--a93d2f01-6d31-4eff-941f-b185d67e217e",
+      "id": "relationship--5c01bb1b-b41e-431a-88e0-95f9d44530ad",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--03fd7c2f-1eab-4468-8d67-7a331b75c261",
       "target_ref": "tool--6c9c4fd4-1e75-45c2-921c-a2df79fd4108"
     },
     {
       "type": "relationship",
-      "id": "relationship--46bc0b86-5222-4e5b-bde5-b761555f9698",
+      "id": "relationship--28aff09f-10fa-4138-8a4a-8d4761a608dd",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--c7ef4391-eb20-443b-91c2-cceaf0b06458",
       "target_ref": "tool--1d4a5369-38f8-4b40-8390-2c3cf8f940a0"
     },
     {
       "type": "relationship",
-      "id": "relationship--52df509d-8bf9-4157-ac96-487512525095",
+      "id": "relationship--7d734ada-00dd-4239-a1c3-bcc4d9967c52",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--c7ef4391-eb20-443b-91c2-cceaf0b06458",
       "target_ref": "tool--a1e3e09a-26c1-439c-8985-5bdf2ed377fa"
     },
     {
       "type": "relationship",
-      "id": "relationship--b1f3d6e3-2b7a-4599-8afc-9373e806064b",
+      "id": "relationship--c3ec283e-7073-4337-8806-6602a47c24cd",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--2a0d98d7-92cc-4087-93ad-ff1db995bec6",
       "target_ref": "tool--750c2016-1016-48d8-95ea-df5b32a8f8ee"
     },
     {
       "type": "relationship",
-      "id": "relationship--d3f999a3-76f9-4765-a280-be07d8b097ac",
+      "id": "relationship--828a8723-10af-42fd-8485-d9861451ee55",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--6c5276a7-4e5c-4807-957b-d1673f27aec5",
       "target_ref": "tool--750c2016-1016-48d8-95ea-df5b32a8f8ee"
     },
     {
       "type": "relationship",
-      "id": "relationship--b6035987-a535-4760-93ed-0499f37619e1",
+      "id": "relationship--ecad827c-3d4d-40c4-9649-4d6386863936",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--fa7a634c-2450-499a-9bf3-a09d8e34e937",
       "target_ref": "tool--09b75cde-799f-432c-9920-bbf13d0eb336"
     },
     {
       "type": "relationship",
-      "id": "relationship--c1c020e2-72a3-46b2-b5db-0f158b1b9815",
+      "id": "relationship--f55a186b-557a-4a9a-bfca-2efaad4ed01a",
       "spec_version": "2.1",
-      "created": "2022-10-27T02:55:05.044Z",
-      "modified": "2022-10-27T02:55:05.044Z",
+      "created": "2022-12-21T20:27:51.107Z",
+      "modified": "2022-12-21T20:27:51.107Z",
       "relationship_type": "related-to",
-      "source_ref": "campaign--8ed0c3ff-cecd-40f1-9d6b-e3dbe955ac7a",
-      "target_ref": "threat-actor--f5182f82-449b-4edd-9c74-bf2ad4bcaf9d"
+      "source_ref": "threat-actor--f5182f82-449b-4edd-9c74-bf2ad4bcaf9d",
+      "target_ref": "campaign--8ed0c3ff-cecd-40f1-9d6b-e3dbe955ac7a"
     }
   ]
 }

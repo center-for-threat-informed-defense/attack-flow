@@ -1,9 +1,9 @@
 {
   "type": "bundle",
-  "id": "bundle--b1d9d27b-9921-47cb-aaef-cd99fe16bb7b",
+  "id": "bundle--e7993890-2819-4140-90df-2563bd3e3879",
   "spec_version": "2.1",
-  "created": "2022-12-06T22:16:56.005Z",
-  "modified": "2022-12-06T22:16:56.005Z",
+  "created": "2023-01-03T22:31:05.755Z",
+  "modified": "2023-01-03T22:31:05.755Z",
   "objects": [
     {
       "type": "extension-definition",
@@ -47,16 +47,17 @@
       "id": "attack-flow--058d93c8-baa2-46fb-b620-29d0fb2da0b5",
       "spec_version": "2.1",
       "created": "2022-10-27T02:44:54.520Z",
-      "modified": "2022-12-06T22:16:56.005Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "created_by_ref": "identity--f3c4b6de-9ca2-4ea9-a0b1-c273feee71d8",
+      "created_by_ref": "identity--fbcdf7ab-4b78-434b-96d9-ce1b36d291c8",
       "start_refs": [
         "attack-action--3e22a477-71cd-4aef-94da-33cdde6da4d8",
-        "attack-action--dac00d37-82b6-4474-b753-88c12a3b9486"
+        "attack-action--dac00d37-82b6-4474-b753-88c12a3b9486",
+        "attack-condition--bdcb1a7b-ad10-41af-8a4d-ef0b009df0d5"
       ],
       "name": "Ragnar Locker",
       "description": "Profile of a ransomware group",
@@ -74,14 +75,41 @@
           "msanchez@mitre.org"
         ]
       ],
-      "scope": "incident"
+      "scope": "threat actor",
+      "external_references": [
+        {
+          "source_name": "Acronis",
+          "description": "Article",
+          "url": "https://www.acronis.com/en-us/blog/posts/ragnar-locker/"
+        },
+        {
+          "source_name": "Avertium",
+          "description": "Article",
+          "url": "https://www.avertium.com/resources/threat-reports/ragnar-locker-ransomware-attacks-analysis"
+        },
+        {
+          "source_name": "Milton Security",
+          "description": "CVE",
+          "url": "https://www.miltonsecurity.com/company/blog/cve-2017-0213-windows-com-privilege-escalation-vulnerability"
+        },
+        {
+          "source_name": "Sophos",
+          "description": "Article",
+          "url": "https://news.sophos.com/en-us/2020/05/21/ragnar-locker-ransomware-deploys-virtual-machine-to-dodge-security/"
+        },
+        {
+          "source_name": "Zscaler",
+          "description": "Article",
+          "url": "https://www.zscaler.com/blogs/security-research/threatlabz-ransomware-review-advent-double-extortion"
+        }
+      ]
     },
     {
       "type": "identity",
-      "id": "identity--f3c4b6de-9ca2-4ea9-a0b1-c273feee71d8",
+      "id": "identity--fbcdf7ab-4b78-434b-96d9-ce1b36d291c8",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.005Z",
-      "modified": "2022-12-06T22:16:56.005Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "Mia Sanchez",
       "identity_class": "individual",
       "contact_information": "msanchez@mitre.org"
@@ -90,8 +118,8 @@
       "type": "threat-actor",
       "id": "threat-actor--38c0871a-8385-4a6c-bcc3-525b2cca5cfd",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.005Z",
-      "modified": "2022-12-06T22:16:56.005Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "Ragnar Locker",
       "description": "Name of a ransomware and a ransomware gang; breached energy, critical manufacturing, financial services, government, and information technology sectors; the ransomware gang is a part of a ransomware family, working with multiple ransomware variants and threat actor groups",
       "first_seen": "2019-12-01T05:00:00.000Z",
@@ -103,8 +131,8 @@
       "type": "attack-action",
       "id": "attack-action--3e22a477-71cd-4aef-94da-33cdde6da4d8",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -113,6 +141,7 @@
       "name": "Brute Force",
       "technique_id": "T1110",
       "description": " Attackers brute force passwords for the RDP service",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--2cab6c72-de7c-4a71-98d7-242af3ce40a6"
       ]
@@ -121,8 +150,8 @@
       "type": "attack-action",
       "id": "attack-action--dac00d37-82b6-4474-b753-88c12a3b9486",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -131,6 +160,7 @@
       "name": "Valid Accounts",
       "technique_id": "T1078",
       "description": "Attackers purchased stolen credentials from the black market for the victim's RDP service",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--2cab6c72-de7c-4a71-98d7-242af3ce40a6"
       ]
@@ -139,8 +169,8 @@
       "type": "attack-condition",
       "id": "attack-condition--bdcb1a7b-ad10-41af-8a4d-ef0b009df0d5",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -155,8 +185,8 @@
       "type": "attack-operator",
       "id": "attack-operator--2cab6c72-de7c-4a71-98d7-242af3ce40a6",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -171,8 +201,8 @@
       "type": "attack-action",
       "id": "attack-action--5342b2fd-c6dd-42ec-a6e0-3ed811f73850",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -181,6 +211,7 @@
       "name": "Event Triggered Execution: Component Object Model Hijacking",
       "technique_id": "T1546.015",
       "description": "Attacker exploited a vulnerability in the Windows COM Aggregate Marshaler",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--6279c87c-9f2c-4d51-9cd6-435fbf25ba03"
       ]
@@ -189,8 +220,8 @@
       "type": "vulnerability",
       "id": "vulnerability--46d6c525-3d83-49a3-b7ee-61cb20432849",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "CVE-2017-0213",
       "description": "vulnerability within Windows COM Aggregate Marshaler to run arbitrary code with elevated privileges"
     },
@@ -198,8 +229,8 @@
       "type": "attack-condition",
       "id": "attack-condition--6279c87c-9f2c-4d51-9cd6-435fbf25ba03",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -217,17 +248,20 @@
       "type": "tool",
       "id": "tool--a041a237-8038-45d2-8264-c86a777710fd",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "Special Application",
-      "description": "To exploit CVE-2017-0213, the attackers run a specially crafted application"
+      "description": "To exploit CVE-2017-0213, the attackers run a specially crafted application",
+      "tool_types": [
+        "exploitation"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--a8c21650-07b5-4afd-b75a-7ab04eb40029",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -236,6 +270,7 @@
       "name": "System Location Discovery: System Language Discovery",
       "technique_id": "T1614.001",
       "description": "Attackers check for locale information. If the machine’s default language matches one on the CIS list, the ransomware process is terminated with the “666” exit code.",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--47d7d677-d9ca-41fc-a6c4-f9911e056b35"
       ]
@@ -244,8 +279,8 @@
       "type": "attack-action",
       "id": "attack-action--4c86708e-d142-4521-909d-3e3ce918042f",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -254,6 +289,7 @@
       "name": "Domain Policy Modification: Group Policy Modification",
       "technique_id": "T1484.001",
       "description": "Attackers use GPO to move laterally",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--70d4f064-5327-4139-88a9-fe6ee09ae73b"
       ]
@@ -262,34 +298,44 @@
       "type": "tool",
       "id": "tool--b5850e52-5d84-4ae3-8e3e-43b8b5b4b659",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "msiexec.exe",
-      "description": "Attackers use Microsoft Installer to pass parameters to a remote web server "
+      "description": "Attackers use Microsoft Installer to pass parameters to a remote web server ",
+      "tool_types": [
+        "remote-access",
+        "exploitation"
+      ]
     },
     {
       "type": "infrastructure",
       "id": "infrastructure--5e1c6ff4-a5b2-4cba-be87-c05e026729d6",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
-      "name": "Remote Web Server"
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
+      "name": "Remote Web Server",
+      "infrastructure_types": [
+        "hosting-malware"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--ab5ee969-33ca-4ead-bc33-90106dd462d9",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "MSI package",
-      "description": "downloaded MSI package contained the following: working installation of an old Oracle VirtualBox hypervisor (Sun xVM VirtualBox version 3.0.4 from Aug 5, 2009) & a virtual disk image (VDI) named micro.vdi  (image is stripped-down version of Windows XP SP3 OS called MicroXP v0.82) that includes the Ragnar Locker ransomware"
+      "description": "downloaded MSI package contained the following: working installation of an old Oracle VirtualBox hypervisor (Sun xVM VirtualBox version 3.0.4 from Aug 5, 2009) & a virtual disk image (VDI) named micro.vdi  (image is stripped-down version of Windows XP SP3 OS called MicroXP v0.82) that includes the Ragnar Locker ransomware",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--7f17b0e9-c97d-4d47-a0e1-7764a470c166",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -298,6 +344,7 @@
       "name": "Command and Scripting Interpreter: PowerShell",
       "technique_id": "T1059.001",
       "description": "Attackers use PowerShell to move laterally",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--70d4f064-5327-4139-88a9-fe6ee09ae73b"
       ]
@@ -306,8 +353,8 @@
       "type": "attack-operator",
       "id": "attack-operator--70d4f064-5327-4139-88a9-fe6ee09ae73b",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -322,8 +369,8 @@
       "type": "attack-condition",
       "id": "attack-condition--9f7b70da-99ce-43a6-98dd-dd05fe6a35c3",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -338,8 +385,8 @@
       "type": "attack-action",
       "id": "attack-action--e0c4c51e-004b-4b3f-91a0-0c6d45683f38",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -348,6 +395,7 @@
       "name": "System Binary Proxy Execution: Msiexec",
       "technique_id": "T1218.007",
       "description": "Attackers used GPO to execute Microsoft Installer ",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--a157005f-50a2-45e4-9e7b-ea713e9bbcc8"
       ]
@@ -356,8 +404,8 @@
       "type": "attack-action",
       "id": "attack-action--258682c6-fad0-4daf-964b-41b1e6cb6fdd",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -366,6 +414,7 @@
       "name": "Ingress Tool Transfer",
       "technique_id": "T1105",
       "description": "Attackers run an executable, batch file, and support files",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--7f8a1ea9-0e16-4229-b40d-148ffafe2ea6",
         "attack-action--d6fcccf3-4f43-4b5a-b966-c24853916163",
@@ -378,8 +427,8 @@
       "type": "attack-action",
       "id": "attack-action--47d7d677-d9ca-41fc-a6c4-f9911e056b35",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -388,6 +437,7 @@
       "name": "Hide Artifacts: Run Virtual Instance",
       "technique_id": "T1564.006",
       "description": "The attacker deploys a VirtualBox VM and loads a Windows XP image",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--065964e1-07c5-468b-ba47-7b59dd3784a2"
       ]
@@ -396,8 +446,8 @@
       "type": "attack-action",
       "id": "attack-action--065964e1-07c5-468b-ba47-7b59dd3784a2",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -406,6 +456,7 @@
       "name": "Peripheral Device Discovery",
       "technique_id": "T1120",
       "description": "The VM image maps all local drives as read/writable into the virtual machine. This allows the ransomware process running inside the VM to encrypt all files. ",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--c4d26264-450d-4fd0-8ae2-64708b5c267c"
       ]
@@ -414,26 +465,32 @@
       "type": "tool",
       "id": "tool--882bf627-a833-43fc-aa06-e5a5591322fc",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "Executable",
-      "description": "va.exe - runs the batch script"
+      "description": "va.exe - runs the batch script",
+      "tool_types": [
+        "exploitation"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--861f6ca6-9684-4f9c-b2be-18b895e85382",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.756Z",
+      "modified": "2023-01-03T22:31:05.756Z",
       "name": "Batch Script",
-      "description": "install.bat"
+      "description": "install.bat",
+      "tool_types": [
+        "exploitation"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--d6fcccf3-4f43-4b5a-b966-c24853916163",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -442,6 +499,7 @@
       "name": "Execution",
       "tactic_id": "TA0002",
       "description": "Batch file registers and runs VirtualBox application extensions - VBoxC.dll and VBoxRT.dll",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--f07207cf-51bc-4f9f-bf2b-7e7f37aabc7d"
       ]
@@ -450,8 +508,8 @@
       "type": "attack-action",
       "id": "attack-action--7f8a1ea9-0e16-4229-b40d-148ffafe2ea6",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -460,6 +518,7 @@
       "name": "Defense Evasion",
       "tactic_id": "TA0005",
       "description": "Batch file stops Windows Shell Hardware Detection (to disable the Windows AutoPlay notification functionality) ",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--f07207cf-51bc-4f9f-bf2b-7e7f37aabc7d"
       ]
@@ -468,8 +527,8 @@
       "type": "attack-action",
       "id": "attack-action--b6f6bf27-9a31-4bd8-a89d-3121e6dc3f7d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -478,6 +537,7 @@
       "name": "Reconnaissance",
       "tactic_id": "TA0043",
       "description": "Batch script enumerates local disks and connects removable drives and mapped network drives to be accessed within the virtual machine",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--f07207cf-51bc-4f9f-bf2b-7e7f37aabc7d"
       ]
@@ -486,8 +546,8 @@
       "type": "attack-action",
       "id": "attack-action--80af5404-8374-4dc8-a254-8503c30b7bcd",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -496,6 +556,7 @@
       "name": "Service Stop",
       "technique_id": "T1489",
       "description": "Batch file terminates many processes/servers and remote management software, closes opened files, and disables AntiVirus software",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--f07207cf-51bc-4f9f-bf2b-7e7f37aabc7d"
       ]
@@ -504,8 +565,8 @@
       "type": "attack-action",
       "id": "attack-action--c4d26264-450d-4fd0-8ae2-64708b5c267c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -514,6 +575,7 @@
       "name": "Exfiltration over Web Service",
       "technique_id": "T1567",
       "description": "The ransomware steals files and uploads them to one or more servers in case the victim refuses to pay the ransom",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--cdcf257c-acd6-4a62-9b9a-f10aca957af5"
       ]
@@ -522,8 +584,8 @@
       "type": "attack-action",
       "id": "attack-action--3fc6b75b-3de3-4879-a5dd-a4c211e3cd3e",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -532,6 +594,7 @@
       "name": "Inhibit System Recovery",
       "technique_id": "T1490",
       "description": "The batch file deletes volume shadow copies (so older unencrypted versions of files cannot be restored)",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--f07207cf-51bc-4f9f-bf2b-7e7f37aabc7d"
       ]
@@ -540,8 +603,8 @@
       "type": "attack-operator",
       "id": "attack-operator--f07207cf-51bc-4f9f-bf2b-7e7f37aabc7d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -556,8 +619,8 @@
       "type": "attack-action",
       "id": "attack-action--33285dd9-ae14-4bfd-9fdc-7e235da39487",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -566,6 +629,7 @@
       "name": "Data Encrypted for Impact",
       "technique_id": "T1486",
       "description": "Ragnar Locker begins the encryption process in 64 simultaneous threads. The encrypted file contains the encrypted Salsa20 key data (40+32 bytes) with the signature ‘_RAGNAR_’ added to the footer at the very end.",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--448cf0df-edca-4dea-a55e-54dfac087ece"
       ]
@@ -574,8 +638,8 @@
       "type": "attack-action",
       "id": "attack-action--a157005f-50a2-45e4-9e7b-ea713e9bbcc8",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -584,6 +648,7 @@
       "name": "Ingress Tool Transfer",
       "technique_id": "T1105",
       "description": "Attackers install a 122MB crafted, unsigned MSI package from the remote web server",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--2ead9766-c614-475f-9cbf-7337f4bb240d"
       ]
@@ -592,8 +657,8 @@
       "type": "attack-condition",
       "id": "attack-condition--2ead9766-c614-475f-9cbf-7337f4bb240d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -608,34 +673,43 @@
       "type": "tool",
       "id": "tool--05df012d-5f72-4f85-af36-51ca022ccf03",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
-      "name": "VirtualBox"
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
+      "name": "VirtualBox",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "tool",
       "id": "tool--7ebc622f-6a40-4bea-9e0d-f17f88b9083c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "name": "micro.vdi",
-      "description": "stripped-down Windows XP image containing ransomware"
+      "description": "stripped-down Windows XP image containing ransomware",
+      "tool_types": [
+        "unknown"
+      ]
     },
     {
       "type": "infrastructure",
       "id": "infrastructure--d853ec10-42cc-4bc1-863e-c67283989e7b",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "name": "Servers",
-      "description": "Receive sensitive files from victim"
+      "description": "Receive sensitive files from victim",
+      "infrastructure_types": [
+        "exfiltration"
+      ]
     },
     {
       "type": "attack-action",
       "id": "attack-action--cdcf257c-acd6-4a62-9b9a-f10aca957af5",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.757Z",
+      "modified": "2023-01-03T22:31:05.757Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -644,6 +718,7 @@
       "name": "Obfuscated Files or Information",
       "technique_id": "T1027",
       "description": "Attackers protect the ransomware code with junk code and encryption",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--33285dd9-ae14-4bfd-9fdc-7e235da39487"
       ]
@@ -652,8 +727,8 @@
       "type": "attack-condition",
       "id": "attack-condition--448cf0df-edca-4dea-a55e-54dfac087ece",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.758Z",
+      "modified": "2023-01-03T22:31:05.758Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -663,120 +738,100 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--9c808a9f-22a2-4f7e-b96e-85de63b8b4e4",
+      "id": "relationship--fb4ba15e-fc8b-4f39-93f5-af5efaac4f55",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--3e22a477-71cd-4aef-94da-33cdde6da4d8",
-      "target_ref": "threat-actor--38c0871a-8385-4a6c-bcc3-525b2cca5cfd"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--9cb44b10-a9df-4eeb-840e-01965462e89f",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--dac00d37-82b6-4474-b753-88c12a3b9486",
-      "target_ref": "threat-actor--38c0871a-8385-4a6c-bcc3-525b2cca5cfd"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--7970c3b6-625f-4f46-9477-29ca2d576a17",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.759Z",
+      "modified": "2023-01-03T22:31:05.759Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--5342b2fd-c6dd-42ec-a6e0-3ed811f73850",
       "target_ref": "vulnerability--46d6c525-3d83-49a3-b7ee-61cb20432849"
     },
     {
       "type": "relationship",
-      "id": "relationship--f6f5ebf5-1ccf-46d7-9b29-af0e5f49e578",
+      "id": "relationship--1a882a60-aa42-48d5-b4f2-596ec9e77815",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.760Z",
+      "modified": "2023-01-03T22:31:05.760Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--5342b2fd-c6dd-42ec-a6e0-3ed811f73850",
       "target_ref": "tool--a041a237-8038-45d2-8264-c86a777710fd"
     },
     {
       "type": "relationship",
-      "id": "relationship--211aedb2-a977-4018-8351-a83701d18dad",
+      "id": "relationship--d87b6a5e-e8a1-4837-b3ae-10c14f393dbf",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.760Z",
+      "modified": "2023-01-03T22:31:05.760Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--e0c4c51e-004b-4b3f-91a0-0c6d45683f38",
       "target_ref": "tool--b5850e52-5d84-4ae3-8e3e-43b8b5b4b659"
     },
     {
       "type": "relationship",
-      "id": "relationship--bfba7f95-33f7-48fa-87bf-5e1e9d559de0",
+      "id": "relationship--9ff70a46-b654-4e3e-9ef4-530e17795a0b",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.760Z",
+      "modified": "2023-01-03T22:31:05.760Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--258682c6-fad0-4daf-964b-41b1e6cb6fdd",
       "target_ref": "tool--861f6ca6-9684-4f9c-b2be-18b895e85382"
     },
     {
       "type": "relationship",
-      "id": "relationship--a12ca3e0-4ae6-472a-ac7e-531f9339c31d",
+      "id": "relationship--5edcb1e6-f076-4eee-a657-29e1bccee7f3",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.760Z",
+      "modified": "2023-01-03T22:31:05.760Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--258682c6-fad0-4daf-964b-41b1e6cb6fdd",
       "target_ref": "tool--882bf627-a833-43fc-aa06-e5a5591322fc"
     },
     {
       "type": "relationship",
-      "id": "relationship--4a1d4900-2c73-4504-9f06-5b851681fc5f",
+      "id": "relationship--6d8a6aaa-939f-49cf-8cd0-4caebc83902c",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.760Z",
+      "modified": "2023-01-03T22:31:05.760Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--47d7d677-d9ca-41fc-a6c4-f9911e056b35",
       "target_ref": "tool--7ebc622f-6a40-4bea-9e0d-f17f88b9083c"
     },
     {
       "type": "relationship",
-      "id": "relationship--340c579e-2e61-4ebb-8fa6-c42cd91ce1a4",
+      "id": "relationship--7422d639-ad21-4c49-906c-83071da3108d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.760Z",
+      "modified": "2023-01-03T22:31:05.760Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--47d7d677-d9ca-41fc-a6c4-f9911e056b35",
       "target_ref": "tool--05df012d-5f72-4f85-af36-51ca022ccf03"
     },
     {
       "type": "relationship",
-      "id": "relationship--2711be0a-f974-40bf-a7a5-5c1512693cc1",
+      "id": "relationship--9dbd6ec8-ba75-4b76-999a-797e7dc0a740",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.760Z",
+      "modified": "2023-01-03T22:31:05.760Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--c4d26264-450d-4fd0-8ae2-64708b5c267c",
       "target_ref": "infrastructure--d853ec10-42cc-4bc1-863e-c67283989e7b"
     },
     {
       "type": "relationship",
-      "id": "relationship--4af56d48-cb8c-4c06-9180-dc13b73f5c3e",
+      "id": "relationship--2f769552-9308-402d-bc88-77f5163218ef",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.761Z",
+      "modified": "2023-01-03T22:31:05.761Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--a157005f-50a2-45e4-9e7b-ea713e9bbcc8",
       "target_ref": "infrastructure--5e1c6ff4-a5b2-4cba-be87-c05e026729d6"
     },
     {
       "type": "relationship",
-      "id": "relationship--0bb2c1ed-4726-471b-af82-4c69233fb9a9",
+      "id": "relationship--1f16ee1f-b3ad-4404-8893-613d2c839774",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:16:56.006Z",
-      "modified": "2022-12-06T22:16:56.006Z",
+      "created": "2023-01-03T22:31:05.761Z",
+      "modified": "2023-01-03T22:31:05.761Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--a157005f-50a2-45e4-9e7b-ea713e9bbcc8",
       "target_ref": "tool--ab5ee969-33ca-4ead-bc33-90106dd462d9"

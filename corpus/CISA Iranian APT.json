@@ -1,0 +1,1083 @@
+{
+  "type": "bundle",
+  "id": "bundle--0061a6b9-cda3-425d-8aac-f6c443f819ec",
+  "spec_version": "2.1",
+  "created": "2023-02-07T20:05:21.546Z",
+  "modified": "2023-02-07T20:05:21.546Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--a2b7e8ad-9fb2-48b3-8e5c-e94da374ab89",
+      "spec_version": "2.1",
+      "created": "2023-01-27T19:55:42.542Z",
+      "modified": "2023-02-07T20:05:21.546Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--36bb2689-d2da-4782-9624-500c2c897f37",
+      "start_refs": [
+        "attack-action--b6143619-dac3-4f9c-ae0a-605961bef9c7"
+      ],
+      "name": "CISA Iranian APT",
+      "description": "Iranian APT exploited Log4Shell and deployed XMRig crypto mining software.",
+      "scope": "threat actor",
+      "external_references": [
+        {
+          "source_name": "CISA",
+          "description": "Cybersecurity Advisory",
+          "url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-320a"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--36bb2689-d2da-4782-9624-500c2c897f37",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.546Z",
+      "modified": "2023-02-07T20:05:21.546Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b6143619-dac3-4f9c-ae0a-605961bef9c7",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exploit Public-Facing Application",
+      "technique_id": "T1190",
+      "description": "Initial access gained through Log4Shell",
+      "confidence": 100,
+      "asset_refs": [
+        "attack-asset--f37681b2-371c-4764-ae2f-36fdf3244460"
+      ],
+      "effect_refs": [
+        "attack-action--0d573bcd-ee5d-4231-ab43-188ef7e809e9"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "id": "vulnerability--924ed7f2-54ae-42ad-b1af-94734ff368e0",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "CVE-2021-44228",
+      "description": "Log4Shell vulnerability that allows attackers to execute arbitrary code loaded from LDAP servers"
+    },
+    {
+      "type": "note",
+      "id": "note--715f87ed-5429-478b-93da-f466a3695f5a",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "content": "LDAP server (51.89.181.64) is used to exploit Log4Shell",
+      "object_refs": [
+        "vulnerability--924ed7f2-54ae-42ad-b1af-94734ff368e0"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--b7ee6cab-d421-4ea9-8f97-d529c383e7fe",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "182.54.217.2",
+      "infrastructure_types": [
+        "command-and-control"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--f37681b2-371c-4764-ae2f-36fdf3244460",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "VMware Horizon server"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0d573bcd-ee5d-4231-ab43-188ef7e809e9",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter: PowerShell",
+      "technique_id": "T1059.001",
+      "description": "PowerShell added an exclusion rule to Windows Defender and was executed on AD to obtain a list of machines on the domain",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--56ca6034-001b-4c5d-99b4-4f9bd3db56ba"
+      ],
+      "asset_refs": [
+        "attack-asset--1713a15d-fa56-404a-92eb-2c4f7089d399"
+      ],
+      "command_ref": "process--3f5b9295-9d49-410e-b542-54f258b52434"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--56ca6034-001b-4c5d-99b4-4f9bd3db56ba",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Impair Defenses: Disable or Modify Tools",
+      "technique_id": "T1562.001",
+      "description": "Exclusion rule allowlisted the entire c:\\drive. Attackers also manually disabled Windows Defender via the GUI",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--cfae690b-64c4-405f-84f1-5e8b65da3f83"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--1713a15d-fa56-404a-92eb-2c4f7089d399",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Active Directory"
+    },
+    {
+      "type": "directory",
+      "id": "directory--02b1765f-0d2e-4991-8ba8-1053ef09de2c",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "path": "c:\\drive"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--cfae690b-64c4-405f-84f1-5e8b65da3f83",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "mde.ps1 downloaded onto disk",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--3fbadab6-0484-4754-85af-fe99f575677e"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--89e310ac-f996-4bc7-9ee7-84b527178fa7",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "mde.ps1",
+      "description": "mdeploy.text downloaded from 182.54.217.2/mdeploy.txt to C:\\users\\public\\mde.ps1",
+      "malware_types": [
+        "downloader"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "communicates-with-c2",
+        "installs-other-components"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--9c30cd6b-b97c-4336-8f91-777437b3824c",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Indicator Removal on Host: File Deletion",
+      "technique_id": "T1070.004",
+      "description": "mde.ps1 is removed from the system",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--857eaaa1-d168-417a-8446-fe6e80095490"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3fbadab6-0484-4754-85af-fe99f575677e",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "mde.ps1 downloads file.zip ",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--9c30cd6b-b97c-4336-8f91-777437b3824c"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--31658705-f1fd-4d16-a928-ecc093820ed4",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "file.zip",
+      "description": "mde.ps1 downloads file.zip from 182.54.217.2; contained 4 files",
+      "malware_types": [
+        "dropper"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "escalates-privileges",
+        "installs-other-components"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--ac51c325-5c08-4c3d-b89e-c31b1a171a84",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "WinRing0x64.sys",
+      "description": "XMRig Miner driver",
+      "malware_types": [
+        "resource-exploitation"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "compromises-system-availability"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--d8f8e9a7-0c82-4094-a811-348661a542ac",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "wuacltservice.exe",
+      "description": "XMRig Miner",
+      "malware_types": [
+        "resource-exploitation"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "compromises-system-availability"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--ab4c411d-58e9-4f99-b0f7-0f67f1f43159",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "RuntimeBroker.exe",
+      "description": "associated file",
+      "malware_types": [
+        "trojan"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "communicates-with-c2",
+        "escalates-privileges",
+        "installs-other-components",
+        "persists-after-system-reboot"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--d783a8af-533c-4ecf-a097-698326a213ed",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "config.json",
+      "description": "XMRig Miner configuration",
+      "tool_types": [
+        "unknown"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--857eaaa1-d168-417a-8446-fe6e80095490",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Create Account: Local Account",
+      "technique_id": "T1136.001",
+      "description": "RuntimeBroker.exe can create local user accounts",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--69978025-0b45-44ae-8a3e-1730d7d93d07"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--69978025-0b45-44ae-8a3e-1730d7d93d07",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Network Configuration Discovery: Internet Connection Discovery",
+      "technique_id": "T1016.001",
+      "description": "Malware tests for internet connectivity by pinging 8.8.8.8",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--de68b787-80bb-424d-8d70-32b0cec8c94f"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--de68b787-80bb-424d-8d70-32b0cec8c94f",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Scheduled Task/Job: Scheduled Task",
+      "technique_id": "T1053.005",
+      "description": "exploit payload created a scheduled task that executed RuntimeBroker.exe daily as SYSTEM",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--f8daeaa9-22f9-4601-96f9-ef3426c4630b"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--3f5b9295-9d49-410e-b542-54f258b52434",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "command_line": "powershell try{Add-MpPreference -ExclusionPath 'C:\\'; Write-Host 'added-exclusion'} catch {Write-Host 'adding-exclusion-failed' }; powershell -enc \"$BASE64 encoded payload to download next stage and execute it\""
+    },
+    {
+      "type": "malware",
+      "id": "malware--ad11d63f-b48d-4c18-b7ff-0baf8edca7e3",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "name": "RuntimeBrokerService.exe",
+      "description": "scheduled task is named RuntimeBrokerService.exe, masquerading as a legitimate Windows task",
+      "malware_types": [
+        "trojan"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "communicates-with-c2",
+        "installs-other-components",
+        "persists-after-system-reboot"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f8daeaa9-22f9-4601-96f9-ef3426c4630b",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Services: Remote Desktop Protocol",
+      "technique_id": "T1021.001",
+      "description": "RDP used to move laterally to multiple hosts on the network",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--57e36a89-fa92-470c-9d78-a90d8bd938a7"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--57e36a89-fa92-470c-9d78-a90d8bd938a7",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Valid Accounts: Default Accounts",
+      "technique_id": "T1078.001",
+      "description": "Actors used built-in Windows account - DefaultAccount",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--c55d72d0-4b7b-4e86-93cf-a65a79ee24ce"
+      ]
+    },
+    {
+      "type": "user-account",
+      "id": "user-account--039865eb-337f-4941-92c5-14de002c7753",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "user_id": "DefaultAccount",
+      "account_type": "windows-local",
+      "display_name": "DefaultAccount"
+    },
+    {
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--903efce3-4a7d-4272-9c33-7868fc767876",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.547Z",
+      "modified": "2023-02-07T20:05:21.547Z",
+      "value": "182.54.217.2"
+    },
+    {
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--c51c9009-568d-46c6-8fac-09b4ce1e848c",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "value": "182.54.217.2"
+    },
+    {
+      "type": "user-account",
+      "id": "user-account--8b025fd8-d5a5-408a-8b29-c6795ba84c37",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "user_id": "SYSTEM",
+      "display_name": "SYSTEM",
+      "is_privileged": true
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--c55d72d0-4b7b-4e86-93cf-a65a79ee24ce",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Lateral Movement",
+      "tactic_id": "TA0008",
+      "description": "actors used DefaultAccount to move laterally to a VMware VDI-KMS host",
+      "confidence": 100,
+      "asset_refs": [
+        "attack-asset--b7164aca-5ac6-449f-b4da-d66f94be41b2"
+      ],
+      "effect_refs": [
+        "attack-action--0606c44c-4fcf-4d24-837c-e78341f77183"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--b7164aca-5ac6-449f-b4da-d66f94be41b2",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "VMware VDI-KMS host"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0606c44c-4fcf-4d24-837c-e78341f77183",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "actors downloaded around 30MB of files from transfer.sh server associated with 144.76.136.153",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--d8ba9c2f-c6a6-4950-8cb3-d2d84c97859f"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--5b7f7115-8d96-4f17-ab2f-b305b476f8c1",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "name": "PsExec",
+      "description": "Microsoft signed tool for system administrators",
+      "tool_types": [
+        "remote-access"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--6f3d8f4c-e92c-42aa-b065-351f552fe10c",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "name": "Mimikatz",
+      "description": "credential recovery/theft tool",
+      "tool_types": [
+        "credential-exploitation"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--5e38cef0-6735-40f6-97dd-1b549424788e",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "name": "Ngrok",
+      "description": "reverse proxy tool for proxying an internal service onto an Ngrok domain, which the user can then access at a randomly generated subdomain at *.ngrok.io",
+      "malware_types": [
+        "webshell"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "persists-after-system-reboot"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--d8ba9c2f-c6a6-4950-8cb3-d2d84c97859f",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Create Account: Domain Account",
+      "tactic_ref": "T1136.002",
+      "technique_id": "T1136.002",
+      "description": "Mimikatz used to create a rogue domain administrator account",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--52069465-600c-487a-8185-e809ed74588b"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--52069465-600c-487a-8185-e809ed74588b",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Services: Remote Desktop Protocol",
+      "technique_id": "T1021.001",
+      "description": "RDP used to move laterally to multiple hosts on the network",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--1d283005-09ce-49d3-8610-625a75635755"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--1d283005-09ce-49d3-8610-625a75635755",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Impair Defenses: Disable or Modify Tools",
+      "technique_id": "T1562.001",
+      "description": "Logging into multiple hosts on the system, attackers manually disabled Windows Defender via the GUI",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--ee829570-2ca7-4948-a3de-a667f81fa2f5"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ee829570-2ca7-4948-a3de-a667f81fa2f5",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Lateral Tool Transfer",
+      "technique_id": "T1570",
+      "description": "actors implanted Ngrok executables and configuration files on multiple hosts",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--4beb5555-7460-4636-a2e4-096a01b54186"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--a6988ce0-635c-47fc-9d91-a4d919e97950",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "name": "Ngrok",
+      "description": "reverse proxy tool for proxying an internal service onto an Ngrok domain, which the user can then access at a randomly generated subdomain at *.ngrok.io",
+      "malware_types": [
+        "webshell"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "persists-after-system-reboot"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--4beb5555-7460-4636-a2e4-096a01b54186",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Proxy",
+      "technique_id": "T1090",
+      "description": "Ngrok used to proxy RDP connections",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--7e2175b8-63f8-4934-82cf-394390accd82"
+      ]
+    },
+    {
+      "type": "url",
+      "id": "url--5cb4ac20-de90-4aba-8467-fe57ba5af2a8",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "value": "tunnel.us.ngrok[.]com"
+    },
+    {
+      "type": "url",
+      "id": "url--3e9fd4ff-625f-42e3-8285-762835bd6b50",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "value": "korgn.su.lennut[.]com "
+    },
+    {
+      "type": "note",
+      "id": "note--31244bf1-3b1c-4ba6-bb41-063352cdcfa4",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "content": "attackers may have configured a custom domain or used other Ngrok tunnel domains - *.ngrok[.]com, *.ngrok[.]io, ngrok.*.tunnel[.]com, or korgn.*.lennut[.]com",
+      "object_refs": [
+        "attack-action--4beb5555-7460-4636-a2e4-096a01b54186"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7e2175b8-63f8-4934-82cf-394390accd82",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Lateral Movement",
+      "tactic_id": "TA0008",
+      "description": "actors moved laterally to the domain controller",
+      "confidence": 100,
+      "asset_refs": [
+        "attack-asset--abf74a16-1d54-4a82-9384-b7eac0d9f4c4"
+      ],
+      "effect_refs": [
+        "attack-action--2f9114f6-e715-448a-b0b7-3ccce0f95f7a"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--abf74a16-1d54-4a82-9384-b7eac0d9f4c4",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Domain Controller"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--45e8b0a1-83a5-41dc-8186-7d6d4c8a7c0a",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote System Discovery",
+      "technique_id": "T1018",
+      "description": "Attackers used PowerShell on the AD to obtain a list of all machines attached to the domain",
+      "confidence": 100,
+      "command_ref": "process--6a0cd876-3fd3-4557-9dfc-7d004cf217ae",
+      "effect_refs": [
+        "attack-action--792aaa39-bd97-4206-b088-2c29e5119da6"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2f9114f6-e715-448a-b0b7-3ccce0f95f7a",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter: PowerShell",
+      "technique_id": "T1059.001",
+      "description": "Attackers executed PowerShell commands on the AD ",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--45e8b0a1-83a5-41dc-8186-7d6d4c8a7c0a"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--6a0cd876-3fd3-4557-9dfc-7d004cf217ae",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "command_line": "Powershell.exe get-adcomputer -filter * -properties * | select name,operatingsystem,ipv4address &gt;"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--792aaa39-bd97-4206-b088-2c29e5119da6",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Account Manipulation",
+      "technique_id": "T1098",
+      "description": "Actors changed the password for the local administrator account on several hosts",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--99406b0d-2c64-4f78-a80b-f50898876197"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--99406b0d-2c64-4f78-a80b-f50898876197",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "OS Credential Dumping: LSASS Memory",
+      "technique_id": "T1003.001",
+      "description": "Actors tried to dump the LSASS process with task manager",
+      "confidence": 100
+    },
+    {
+      "type": "note",
+      "id": "note--ed71e0af-94b7-40ae-a434-81b815dea5c8",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "content": "dumping the LSASS process was stopped by additional AV that was installed on the systems",
+      "object_refs": [
+        "attack-action--99406b0d-2c64-4f78-a80b-f50898876197"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--36a60183-9cdf-4cee-9011-cc231c8945b7",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--b6143619-dac3-4f9c-ae0a-605961bef9c7",
+      "target_ref": "vulnerability--924ed7f2-54ae-42ad-b1af-94734ff368e0"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--05bb1b67-e758-49ca-832b-7df7ae0dc963",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--b6143619-dac3-4f9c-ae0a-605961bef9c7",
+      "target_ref": "infrastructure--b7ee6cab-d421-4ea9-8f97-d529c383e7fe"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--015096d7-4500-40dd-9f6d-8956f25be696",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--56ca6034-001b-4c5d-99b4-4f9bd3db56ba",
+      "target_ref": "directory--02b1765f-0d2e-4991-8ba8-1053ef09de2c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cc9336f6-a127-41ec-8457-959a542a0003",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--cfae690b-64c4-405f-84f1-5e8b65da3f83",
+      "target_ref": "malware--89e310ac-f996-4bc7-9ee7-84b527178fa7"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--73882cb2-1dd1-41e3-8ba3-2a360ffe00e4",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--3fbadab6-0484-4754-85af-fe99f575677e",
+      "target_ref": "malware--31658705-f1fd-4d16-a928-ecc093820ed4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c2b27a21-0360-4565-b037-23ed07e8ecba",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--31658705-f1fd-4d16-a928-ecc093820ed4",
+      "target_ref": "malware--ac51c325-5c08-4c3d-b89e-c31b1a171a84"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8c128a59-8252-466b-b3e7-117ce6c613de",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--31658705-f1fd-4d16-a928-ecc093820ed4",
+      "target_ref": "malware--d8f8e9a7-0c82-4094-a811-348661a542ac"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--52d23424-eb4a-4f72-98e3-187cfaef04a6",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--31658705-f1fd-4d16-a928-ecc093820ed4",
+      "target_ref": "tool--d783a8af-533c-4ecf-a097-698326a213ed"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--748d5279-c459-43e6-9fd1-b43ba09d6288",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.548Z",
+      "modified": "2023-02-07T20:05:21.548Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--31658705-f1fd-4d16-a928-ecc093820ed4",
+      "target_ref": "malware--ab4c411d-58e9-4f99-b0f7-0f67f1f43159"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--008aea3e-eb97-4a72-bccb-be391ff6a260",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--de68b787-80bb-424d-8d70-32b0cec8c94f",
+      "target_ref": "malware--ad11d63f-b48d-4c18-b7ff-0baf8edca7e3"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d00f3bd8-3249-47f6-8938-007820ad0cf1",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--de68b787-80bb-424d-8d70-32b0cec8c94f",
+      "target_ref": "user-account--8b025fd8-d5a5-408a-8b29-c6795ba84c37"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--48db4155-f2d6-42ec-8428-900cf6f8fcf0",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--57e36a89-fa92-470c-9d78-a90d8bd938a7",
+      "target_ref": "user-account--039865eb-337f-4941-92c5-14de002c7753"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--0b8963ec-2c46-4c8f-80c8-3f14a6941154",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "ipv4-addr--903efce3-4a7d-4272-9c33-7868fc767876",
+      "target_ref": "malware--31658705-f1fd-4d16-a928-ecc093820ed4"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--30846561-0b69-4a28-8021-5d06dc9bdb2a",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "ipv4-addr--c51c9009-568d-46c6-8fac-09b4ce1e848c",
+      "target_ref": "malware--89e310ac-f996-4bc7-9ee7-84b527178fa7"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--38cc7c0c-ab22-417c-b6e5-cfe0eae6efb1",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--0606c44c-4fcf-4d24-837c-e78341f77183",
+      "target_ref": "malware--5e38cef0-6735-40f6-97dd-1b549424788e"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a8d02440-9478-4bf7-9416-de2a0a8e4f56",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--0606c44c-4fcf-4d24-837c-e78341f77183",
+      "target_ref": "tool--5b7f7115-8d96-4f17-ab2f-b305b476f8c1"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b101e931-5de9-47bc-a5f2-ac0a24b0d4af",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--0606c44c-4fcf-4d24-837c-e78341f77183",
+      "target_ref": "tool--6f3d8f4c-e92c-42aa-b065-351f552fe10c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--e2cf4e6a-5804-4f38-9c2a-45f3dab8fe22",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--ee829570-2ca7-4948-a3de-a667f81fa2f5",
+      "target_ref": "malware--a6988ce0-635c-47fc-9d91-a4d919e97950"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5433f462-3179-4092-bb0c-fe76e55e424d",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--4beb5555-7460-4636-a2e4-096a01b54186",
+      "target_ref": "url--5cb4ac20-de90-4aba-8467-fe57ba5af2a8"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8f60442e-8fbd-45e2-b6b6-9b97c1fa263b",
+      "spec_version": "2.1",
+      "created": "2023-02-07T20:05:21.549Z",
+      "modified": "2023-02-07T20:05:21.549Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--4beb5555-7460-4636-a2e4-096a01b54186",
+      "target_ref": "url--3e9fd4ff-625f-42e3-8285-762835bd6b50"
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 {
   "type": "bundle",
-  "id": "bundle--1fea2426-9ffb-4ded-b123-a067f335159c",
+  "id": "bundle--f7953e64-50d6-4a75-bda9-06b817fd1127",
   "spec_version": "2.1",
-  "created": "2022-12-06T22:31:28.461Z",
-  "modified": "2022-12-06T22:31:28.461Z",
+  "created": "2023-01-04T17:57:45.147Z",
+  "modified": "2023-01-04T17:57:45.147Z",
   "objects": [
     {
       "type": "extension-definition",
@@ -47,13 +47,13 @@
       "id": "attack-flow--f3b47305-45b4-45ac-872b-6a947b55fc58",
       "spec_version": "2.1",
       "created": "2022-10-27T02:44:54.520Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "modified": "2023-01-04T17:57:45.151Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "created_by_ref": "identity--335b753a-d68f-449e-a42a-36a46d41fdf8",
+      "created_by_ref": "identity--e448f273-4a8d-4adf-b786-4f08d4b538fd",
       "start_refs": [
         "attack-action--d958677e-8790-4ad2-8b04-8d71489f7ac2",
         "attack-action--d6d5a619-e4ca-4e52-ac42-7b27c389d27d"
@@ -74,14 +74,36 @@
           "lparker@mitre.org"
         ]
       ],
-      "scope": "incident"
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "Cyber UK",
+          "description": "Article",
+          "url": "https://cyber.uk/areas-of-cyber-security/nation-state-hackers-case-study-bangladesh-bank-heist/"
+        },
+        {
+          "source_name": "NYTimes",
+          "description": "Article",
+          "url": "https://www.nytimes.com/interactive/2018/05/03/magazine/money-issue-bangladesh-billion-dollar-bank-heist.html?mtrref=undefined&gwh=39B90281F7FE0DFD1876E89D17BFE7C5&gwt=pay&assetType=PAYWALL"
+        },
+        {
+          "source_name": "Wired",
+          "description": "Article",
+          "url": "https://www.wired.com/2016/05/insane-81m-bangladesh-bank-heist-heres-know/"
+        },
+        {
+          "source_name": "Reuters",
+          "description": "Article",
+          "url": "https://www.reuters.com/investigates/special-report/cyber-heist-federal"
+        }
+      ]
     },
     {
       "type": "identity",
-      "id": "identity--335b753a-d68f-449e-a42a-36a46d41fdf8",
+      "id": "identity--e448f273-4a8d-4adf-b786-4f08d4b538fd",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.148Z",
+      "modified": "2023-01-04T17:57:45.148Z",
       "name": "Lauren Parker",
       "identity_class": "individual",
       "contact_information": "lparker@mitre.org"
@@ -90,38 +112,60 @@
       "type": "threat-actor",
       "id": "threat-actor--8f62c6d8-e29a-4cdd-ac01-ea3781817af4",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.153Z",
+      "modified": "2023-01-04T17:57:45.153Z",
       "name": "Maia Santos-Deguito",
       "description": "Manager of Rizal Commercial Banking Corporation's (R.C.B.C.) Jupiter branch; opened accounts for Wong's associates - accounts used to receive money during attack ($81M); moved $81M into 5 different accounts",
+      "threat_actor_types": [
+        "criminal"
+      ],
+      "roles": [
+        "agent"
+      ],
+      "resource_level": "team",
       "primary_motivation": "personal-gain"
     },
     {
       "type": "threat-actor",
       "id": "threat-actor--5ca725de-6057-4c05-af7f-cf5ed0bb2b58",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.154Z",
+      "modified": "2023-01-04T17:57:45.154Z",
       "name": "Kam Sin (Kim) Wong",
       "description": "ran \"casino junkets\" in Manila and Northern Luzon; introduced Filipino associates to Jupiter branch",
+      "threat_actor_types": [
+        "crime-syndicate"
+      ],
+      "roles": [
+        "director"
+      ],
+      "resource_level": "team",
       "primary_motivation": "personal-gain"
     },
     {
       "type": "threat-actor",
       "id": "threat-actor--3aaf17e7-eec7-433f-8a48-d104c116d6a3",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.154Z",
+      "modified": "2023-01-04T17:57:45.154Z",
       "name": "Michael and Salud Bautista",
       "description": "Recived money from Santos-Deguito into their remittance firm (PhilRem); moved about $61M to Wong, Bautistas, and an associate of Wong; laundered money through different casinos",
+      "threat_actor_types": [
+        "crime-syndicate"
+      ],
+      "aliases": [],
+      "roles": [
+        "agent"
+      ],
+      "resource_level": "team",
       "primary_motivation": "personal-gain"
     },
     {
       "type": "attack-action",
       "id": "attack-action--d958677e-8790-4ad2-8b04-8d71489f7ac2",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.154Z",
+      "modified": "2023-01-04T17:57:45.154Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -139,8 +183,8 @@
       "type": "attack-action",
       "id": "attack-action--d6d5a619-e4ca-4e52-ac42-7b27c389d27d",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.154Z",
+      "modified": "2023-01-04T17:57:45.154Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -148,7 +192,7 @@
       },
       "name": "Exploited Vulnerabilities",
       "technique_id": "T1068",
-      "description": "Suspected that attackers gained access by exploiting weaking in a new electronic payment system (real time gross settlement).",
+      "description": "Suspected that attackers gained access by exploiting weakness in a new electronic payment system (real time gross settlement).",
       "confidence": 30,
       "effect_refs": [
         "attack-operator--90340c1f-69b1-481a-82c5-fa9768e14049"
@@ -158,8 +202,8 @@
       "type": "attack-operator",
       "id": "attack-operator--90340c1f-69b1-481a-82c5-fa9768e14049",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.154Z",
+      "modified": "2023-01-04T17:57:45.154Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -174,8 +218,8 @@
       "type": "attack-condition",
       "id": "attack-condition--5d98ea86-4b21-4791-8328-cfe6c2906456",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.154Z",
+      "modified": "2023-01-04T17:57:45.154Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -190,8 +234,8 @@
       "type": "attack-action",
       "id": "attack-action--8d1cbde9-c24f-4d33-b9a6-a8b48edcf7bb",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -200,6 +244,7 @@
       "name": "Stolen Credentials",
       "technique_id": "T1078",
       "description": "Credentials stolen for SWIFT operator at Bangladesh Bank.",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--dd27481f-2aee-41f3-b7f9-19dcc8212c16"
       ]
@@ -208,8 +253,8 @@
       "type": "attack-action",
       "id": "attack-action--dd27481f-2aee-41f3-b7f9-19dcc8212c16",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -218,6 +263,7 @@
       "name": "Ingress Tool Transfer",
       "technique_id": "T1105",
       "description": "Attackers installed 6 types of malware",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--69eb22f3-2858-48a0-97b9-b64231821ddb"
       ]
@@ -226,8 +272,8 @@
       "type": "attack-condition",
       "id": "attack-condition--69eb22f3-2858-48a0-97b9-b64231821ddb",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -242,8 +288,8 @@
       "type": "attack-action",
       "id": "attack-action--c2f53907-f6f2-492f-9cbc-077106ebbc69",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -251,6 +297,7 @@
       },
       "name": "Fraudulent payment orders",
       "description": "Attackers sent fraudulent payment orders via SWIFT",
+      "confidence": 100,
       "effect_refs": [
         "attack-condition--7e2c470d-0772-4fe5-8090-ad013452c775"
       ]
@@ -259,8 +306,8 @@
       "type": "attack-action",
       "id": "attack-action--3f76a094-718d-44bc-9383-218fda3620d7",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -268,6 +315,7 @@
       },
       "name": "Send money to Philippines account",
       "description": "Attackers used fake accounts to receive and traffic stolen funds",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--e66b7512-df8f-4846-8ef3-1492dbf7f16e"
       ]
@@ -276,8 +324,8 @@
       "type": "attack-condition",
       "id": "attack-condition--7e2c470d-0772-4fe5-8090-ad013452c775",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -293,8 +341,8 @@
       "type": "attack-action",
       "id": "attack-action--a0340333-a246-48d0-b405-a6d09375e706",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -302,6 +350,7 @@
       },
       "name": "Accounts opened illegally",
       "description": "Philippines allowed attackers to open accounts using fake driving licenses",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--3f76a094-718d-44bc-9383-218fda3620d7"
       ]
@@ -310,8 +359,8 @@
       "type": "attack-action",
       "id": "attack-action--8d46d723-92b3-4abb-b80e-e8fc223d8509",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -319,6 +368,7 @@
       },
       "name": "Send money to individual accounts",
       "description": "Attackers sent money to individual accounts, rather than institutions",
+      "confidence": 100,
       "effect_refs": [
         "attack-operator--e66b7512-df8f-4846-8ef3-1492dbf7f16e"
       ]
@@ -327,8 +377,8 @@
       "type": "attack-operator",
       "id": "attack-operator--e66b7512-df8f-4846-8ef3-1492dbf7f16e",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -343,8 +393,8 @@
       "type": "attack-action",
       "id": "attack-action--61348e67-38c5-4042-8195-5717b1aa2d2b",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -353,6 +403,7 @@
       "name": "Defense Evasion: Deleted Files",
       "technique_id": "T1070.004",
       "description": "Attackers deleted files associated with SWIFT software to prevent employees from seeing the SWIFT messages",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--90cbb515-964d-4e76-906e-10d25be6c73a"
       ]
@@ -361,8 +412,8 @@
       "type": "attack-action",
       "id": "attack-action--90cbb515-964d-4e76-906e-10d25be6c73a",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -371,6 +422,7 @@
       "name": "Defense Evasion: Disabling System",
       "technique_id": "T1562.001",
       "description": "Attackers used malware to disable printer, which prevented SWIFT acknowledgement messages being printed out for manual review",
+      "confidence": 100,
       "effect_refs": [
         "attack-action--5a60a193-34ba-455e-99dc-1416ce16352e"
       ]
@@ -379,87 +431,28 @@
       "type": "attack-action",
       "id": "attack-action--5a60a193-34ba-455e-99dc-1416ce16352e",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "Defense Evasion: Changing Bank Balances",
-      "description": "Attackers updated bank balances in the New York Fed account to remove evidence of money being debited"
+      "description": "Attackers updated bank balances in the New York Fed account to remove evidence of money being debited",
+      "confidence": 100
     },
     {
       "type": "note",
       "id": "note--000c7ed4-7142-4019-a601-e79bfe49fbef",
       "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
+      "created": "2023-01-04T17:57:45.155Z",
+      "modified": "2023-01-04T17:57:45.155Z",
       "abstract": "Financial theft",
       "content": "Attackers sent 34 orders over the next 4 hours, totaling nearly $1B",
       "object_refs": [
         "attack-action--c2f53907-f6f2-492f-9cbc-077106ebbc69"
       ]
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--57524177-cb31-4f05-9a92-d5c307604aab",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--d958677e-8790-4ad2-8b04-8d71489f7ac2",
-      "target_ref": "threat-actor--8f62c6d8-e29a-4cdd-ac01-ea3781817af4"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--fb304652-ef3d-4124-84df-e7f0b5f4eb91",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--d958677e-8790-4ad2-8b04-8d71489f7ac2",
-      "target_ref": "threat-actor--5ca725de-6057-4c05-af7f-cf5ed0bb2b58"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--26f23cd5-19d6-4fb1-a3a5-7feb99cfbc4a",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--d958677e-8790-4ad2-8b04-8d71489f7ac2",
-      "target_ref": "threat-actor--3aaf17e7-eec7-433f-8a48-d104c116d6a3"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--ec2b72da-2cdf-42a3-a82a-867ab334b6ba",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--d6d5a619-e4ca-4e52-ac42-7b27c389d27d",
-      "target_ref": "threat-actor--8f62c6d8-e29a-4cdd-ac01-ea3781817af4"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--409bfc23-477a-4b7c-b78a-6de35e356320",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--d6d5a619-e4ca-4e52-ac42-7b27c389d27d",
-      "target_ref": "threat-actor--5ca725de-6057-4c05-af7f-cf5ed0bb2b58"
-    },
-    {
-      "type": "relationship",
-      "id": "relationship--4a1162be-3242-4535-ac09-3630be654c3d",
-      "spec_version": "2.1",
-      "created": "2022-12-06T22:31:28.461Z",
-      "modified": "2022-12-06T22:31:28.461Z",
-      "relationship_type": "related-to",
-      "source_ref": "attack-action--d6d5a619-e4ca-4e52-ac42-7b27c389d27d",
-      "target_ref": "threat-actor--3aaf17e7-eec7-433f-8a48-d104c116d6a3"
     }
   ]
 }
