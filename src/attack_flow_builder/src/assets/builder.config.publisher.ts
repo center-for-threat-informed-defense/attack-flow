@@ -1,3 +1,4 @@
+import { Crypto } from "./scripts/BlockDiagram/Utilities/Crypto";
 import { DiagramPublisher } from "./scripts/DiagramPublisher/DiagramPublisher";
 import {
     CollectionProperty,
@@ -144,29 +145,40 @@ class AttackFlowPublisher extends DiagramPublisher {
         }
 
         // Configure flow roots
-        loop1:
         for(let [id, value] of graph.nodes) {
             let type = value.template.id;
-            // Ensure no parents
-            // if(value.prev.length !== 0)
-            //     continue;
-            for (let prevEdgeId of value.prev) {
-                let prevEdge = graph.edges.get(prevEdgeId)!;
-                if (prevEdge.prev.length > 0) {
-                    let prevNode = stixNodes.get(prevEdge.prev[0])!;
-                    if (prevNode.type == "attack-action" || prevNode.type == "attack-condition") {
-                        break loop1;
-                    }
-                }
-            }
-            // Add start ref
-            let stixId = stixNodes.get(id)!.id;
+            // Node must be an action or condition
             switch(type) {
                 case "action":
                 case "condition":
-                    flow.start_refs.push(stixId);
                     break;
+                default:
+                    continue;
             }
+            // Node parent cannot be an action or condition
+            let invalidParentType = false;
+            for(let edgeId of value.prev) {
+                // Resolve parent
+                let edge = graph.edges.get(edgeId)!;
+                let nodeId = edge.prev[0];
+                if(!nodeId) {
+                    continue;
+                }
+                // Check parent type
+                let node = graph.nodes.get(nodeId)!;
+                switch(node.template.id) {
+                    case "action":
+                    case "condition":
+                        invalidParentType = true;
+                        break;
+                }
+            }
+            if(invalidParentType) {
+                continue;
+            }
+            // Add flow root
+            let stixId = stixNodes.get(id)!.id;
+            flow.start_refs.push(stixId);
         }
 
         // Return bundle as string
@@ -223,7 +235,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                         throw new Error("'confidence' is improperly defined.");
                     }
                     [ prop ] = this.getSubproperties(prop, "value");
-                    // Falls through
+                    // Fall through
                 default:
                     if(prop.isDefined()) {
                         node[key] = prop.toRawValue();
@@ -608,12 +620,15 @@ class AttackFlowPublisher extends DiagramPublisher {
         // Merge properties
         for(let [key, prop] of page.props.value) {
             switch(key) {
+                case "author":
+                    // Author SDO is exported separately
+                    break;
                 case "external_references":
                     if(!(prop instanceof ListProperty)) {
-                        throw new Error("'external_references' is improperly defined.");
+                        throw new Error(`'${ key }' is improperly defined.`);
                     }
                     if(prop.descriptor.form.type !== PropertyType.Dictionary) {
-                        throw new Error("'external_references' is improperly defined.");
+                        throw new Error(`'${ key }' is improperly defined.`);
                     }
                     flow[key] = [];
                     for(let ref of prop.value.values()) {
@@ -623,15 +638,15 @@ class AttackFlowPublisher extends DiagramPublisher {
                     break;
                 case "scope":
                     if(!(prop instanceof EnumProperty)) {
-                        throw new Error("'scope' is improperly defined.");
+                        throw new Error(`'${ key }' is improperly defined.`);
                     }
                     if(!prop.isDefined()) {
                         break;
                     }
-                    prop = prop.toReferenceValue()!;
-                    if(prop.isDefined()) {
-                        flow[key] = `${prop.toRawValue()!}`.toLocaleLowerCase();
-                    }
+                    flow[key] = prop
+                        .toReferenceValue()!
+                        .toString()
+                        .toLocaleLowerCase();
                     break;
                 default:
                     if(prop.isDefined()) {
@@ -665,15 +680,15 @@ class AttackFlowPublisher extends DiagramPublisher {
                 switch(key) {
                     case "identity_class":
                         if(!(prop instanceof EnumProperty)) {
-                            throw new Error("'identity_class' is improperly defined.");
+                            throw new Error(`'${ key }' is improperly defined.`);
                         }
                         if(!prop.isDefined()) {
                             break;
                         }
-                        prop = prop.toReferenceValue()!;
-                        if(prop.isDefined()) {
-                            author[key] = `${prop.toRawValue()!}`.toLocaleLowerCase();
-                        }
+                        author[key] = prop
+                            .toReferenceValue()!
+                            .toString()
+                            .toLocaleLowerCase();
                         break;
                     default:
                         if(prop.isDefined()) {
@@ -707,10 +722,9 @@ class AttackFlowPublisher extends DiagramPublisher {
      * @returns
      *  The SDO object.
      */
-    private createSdo(template: string, stixId: string = crypto.randomUUID()): Sdo {
+    private createSdo(template: string, stixId: string = Crypto.randomUUID()): Sdo {
         let now = new Date().toISOString();
-        let type = AttackFlowTemplatesMap.get(template) ?? template;
-        type = type.replace(/_/g, "-");
+        let type = (AttackFlowTemplatesMap.get(template) ?? template).replace(/_/g, "-");
 
         // Create SDO
         let sdo: Sdo = {
@@ -747,7 +761,7 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The SRO object.
      */
     private createSro(parent: Sdo, child: Sdo, type: string = "related-to"): Sro {
-        const stixId = crypto.randomUUID();
+        const stixId = Crypto.randomUUID();
         const now = new Date().toISOString();
         return {
             type                : "relationship",

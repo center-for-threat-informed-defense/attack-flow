@@ -1,5 +1,5 @@
 <template>
-  <div :class="['datetime-field-control', { disabled: !isEditable }]" tabindex="0" @focus="enterEditMode()">
+  <div :class="['datetime-field-control', { disabled }]" :tabindex="tabIndex" @focus="enterEditMode()">
     <div class="grid-container">
       <div class="value" v-show="!showEditor">
         <p v-if="value === null" class="null-value">
@@ -106,12 +106,21 @@ export default defineComponent({
     },
 
     /**
-     * Tests if the property is editable.
+     * Returns the field's tab index.
      * @returns
-     *  True if the property is editable, false otherwise. 
+     *  The field's tab index.
      */
-    isEditable(): boolean {
-      return this._property.descriptor.is_editable ?? true;
+    tabIndex(): null | "0" {
+      return this.disabled ? null: "0";
+    },
+
+    /**
+     * Tests if the property is disabled.
+     * @returns
+     *  True if the property is disabled, false otherwise. 
+     */
+    disabled(): boolean {
+      return !(this._property.descriptor.is_editable ?? true);
     },
 
     /**
@@ -237,7 +246,7 @@ export default defineComponent({
      * Enters edit mode.
      */
     enterEditMode() {
-      if(!this.isEditable) {
+      if(this.disabled) {
         return;
       }
       this.showEditor = true;
@@ -346,8 +355,11 @@ export default defineComponent({
   emits: ["change"],
   watch: {
     "property"() {
+      // Update existing property before switching
       this.updateProperty();
+      // Switch property
       this.activeProperty = markRaw(this.property);
+      // Refresh value
       this.refreshValue();
     },
     "_property.trigger.value"() {
@@ -446,7 +458,6 @@ input:focus {
 
 .value {
   grid-area: 1 / 1;
-  user-select: none;
   padding: 6px 12px;
 }
 

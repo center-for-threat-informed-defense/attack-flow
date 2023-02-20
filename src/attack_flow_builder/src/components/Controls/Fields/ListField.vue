@@ -10,7 +10,7 @@
           @create="(...args) => $emit('create', ...args)"
           @delete="(...args) => $emit('delete', ...args)"
         >
-          <button v-if="isEditable" class="delete-button" @pointerdown="onDelete(key)" tabindex="-1">✗</button>
+          <button v-if="!disabled" class="delete-button" @pointerdown="onDelete(key)" tabindex="-1">✗</button>
         </component>
       </template>
       <!-- Primitive Fields -->
@@ -22,10 +22,10 @@
           @create="(...args) => $emit('create', ...args)"
           @delete="(...args) => $emit('delete', ...args)"
         />
-        <button v-if="isEditable" class="delete-button" @pointerdown="onDelete(key)" tabindex="-1">✗</button>
+        <button v-if="!disabled" class="delete-button" @pointerdown="onDelete(key)" tabindex="-1">✗</button>
       </template>
     </div>
-    <button v-if="isEditable" class="create-button" @pointerdown="onCreate()">
+    <button v-if="!disabled" class="create-button" @pointerdown="onCreate()">
       <span><Plus /></span>Add
     </button>
   </div>
@@ -64,12 +64,12 @@ export default defineComponent({
     },
 
     /**
-     * Tests if the property is editable.
+     * Tests if the property is disabled.
      * @returns
-     *  True if the property is editable, false otherwise. 
+     *  True if the property is disabled, false otherwise. 
      */
-    isEditable(): boolean {
-      return this._property.descriptor.is_editable ?? true;
+    disabled(): boolean {
+      return !(this._property.descriptor.is_editable ?? true);
     }
 
   },

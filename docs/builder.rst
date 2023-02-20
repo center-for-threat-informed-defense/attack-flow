@@ -147,10 +147,10 @@ locally `using Docker <https://www.docker.com/>`__ as shown below.
 .. code:: shell
 
    $ docker pull ghcr.io/center-for-threat-informed-defense/attack-flow:main
-   $ docker run --name AttackFlowBuilder \
+   $ docker run --rm --name AttackFlowBuilder -p8000:80 \
       ghcr.io/center-for-threat-informed-defense/attack-flow:main
 
-Once the container is running, you can open a brower tab to http://localhost:8080/ to
+Once the container is running, you can open a brower tab to http://localhost:8000/ to
 view the Builder.
 
 If you want to customize and build your own Docker images, edit the `Dockerfile` and
