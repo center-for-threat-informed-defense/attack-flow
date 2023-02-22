@@ -166,7 +166,6 @@ resulting visualization.
                 el.remove();
             }
             svgSrc = render(layerSrc, flowSrc);
-            console.log("xmlns matches", svgSrc.match(/xmlns/g).length);
             const container = document.createElement("div");
             container.innerHTML = svgSrc;
             const svg = container.querySelector("svg");

@@ -77,38 +77,33 @@ function render(svgXml, flowStix) {
     // Create a new <g> to hold all of the Attack Flow overlay elements.
     const attackFlowOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
     attackFlowOverlay.setAttribute("class", "attack-flow-overlay");
-    console.log(attackFlowOverlay)
     attackFlowOverlay.appendChild(_getArrowheadMarker());
     svgDoc.children[0].appendChild(attackFlowOverlay);
 
     // Load the Attack Flow STIX bundle and convert it to an action graph.
-    const flowGraph = _convertBundleToGraph(flowStix);
-    const actionGraph = _induceActionGraph(flowGraph);
+    const [nodes, edges] = _convertBundleToGraph(flowStix);
+    const [actionNodes, actionEdges] = _induceActionGraph(nodes, edges);
 
     // Draw ellipses around the (sub-)techniques.
-    const stack = [...Object.values(actionGraph.children)];
-
-    while (node = stack.shift()) {
-        const tid = node["technique_id"];
-        const translation = _lookupGeometry(node, techniqueGeometries);
+    for (const actionNode of Object.values(actionNodes)) {
+        const tid = actionNode["technique_id"];
+        const translation = _lookupGeometry(actionNode, techniqueGeometries);
         if (translation) {
             const techniqueOverlay = _createTechniqueOverlay(tid, translation);
             attackFlowOverlay.appendChild(techniqueOverlay);
         }
-        stack.unshift(...Object.values(node.children));
     }
 
-    // Draw arrows from each technique to its children. Note that we are making a separate pass over the nodes
-    // because in the previous loop we might change a subtechnique to its parent if the subtechnique is not in
-    // the SVG, and we can't draw any arrows until we've confirmed which TIDs to use.
-    stack.push(...Object.values(actionGraph.children));
+    // Draw arrows from each technique to its children.
+    for (const [sourceId, children] of Object.entries(actionEdges)) {
+        const sourceNode = actionNodes[sourceId];
+        const sourceTid = sourceNode["technique_id"];
+        const sourceGeometry = _lookupGeometry(sourceNode, techniqueGeometries);
 
-    while (node = stack.shift()) {
-        const sourceTid = node["technique_id"];
-        const sourceGeometry = _lookupGeometry(node, techniqueGeometries);
-        for (const child of Object.values(node.children)) {
-            const targetTid = child["technique_id"];
-            const targetGeometry = _lookupGeometry(child, techniqueGeometries);
+        for (const child of children) {
+            const targetNode = actionNodes[child];
+            const targetTid = targetNode["technique_id"];
+            const targetGeometry = _lookupGeometry(targetNode, techniqueGeometries);
             if (!(sourceGeometry && targetGeometry)) {
                 // This could happen if a specified technique does not exist in this matrix, e.g. using mobile
                 // techniques on an enterprise matrix.
@@ -122,8 +117,6 @@ function render(svgXml, flowStix) {
                 SHOW_CONTROL_POINTS);
             attackFlowOverlay.appendChild(arrowOverlay);
         }
-        stack.push(...Object.values(node.children));
-
     }
 
     return svgDoc.documentElement.outerHTML;
@@ -131,95 +124,107 @@ function render(svgXml, flowStix) {
 
 /**
  * Convert an Attack Flow STIX bundle to a graph representation.
+ *
+ * Returns an array containing [nodes, edges]. Nodes is a map from nodeId->node.
+ * Edges is a map where each key is a parent node ID and each value is a set of
+ * child node IDs.
+ *
  * @param {*} bundleSrc
- * @returns
+ * @returns [nodes, edges]
  */
 function _convertBundleToGraph(bundleSrc) {
     const bundle = JSON.parse(bundleSrc);
-    let flowMeta = null;
-    const objectLookup = {};
+    const nodes = {};
+    const edges = {};
 
-    // Find the flow object.
-    for (const obj of bundle.objects) {
-        if (obj.type === "attack-flow") {
-            flowMeta = obj;
+    // Create a node for each object.
+    for (const node of bundle.objects) {
+        if (node.type !== "relationship") {
+            nodes[node.id] = node;
+            edges[node.id] = new Set();
         }
-        objectLookup[obj.id] = obj;
-        obj.children = {};
     }
 
-    if (!flowMeta) {
-        throw new Error("Cannot find an attack-flow object in the bundle.")
-    }
-
-    // The initial graph contains the start ref nodes.
-    const root = { type: "root", children: {} };
-    const stack = [];
-    for (const startRef of flowMeta["start_refs"]) {
-        stack.unshift([root, objectLookup[startRef]]);
-    }
-
-    // Add children from direct refs.
-    let i = 0;
-    while (item = stack.shift()) {
-        const [parent, node] = item;
-        parent.children[node.id] = node;
-        for (const [key, value] of Object.entries(node)) {
-            if (key.substring(key.length - 4) == "_ref") {
-                stack.unshift([node, objectLookup[value]]);
-            } else if (key.substring(key.length - 5) == "_refs") {
+    // Add children from each node's [resolvable] direct refs.
+    for (const node of Object.values(nodes)) {
+        for (const [property, value] of Object.entries(node)) {
+            if (property.substring(property.length - 4) == "_ref") {
+                if (value in nodes) {
+                    edges[node.id].add(value);
+                }
+            } else if (property.substring(property.length - 5) == "_refs") {
                 for (const ref of value) {
-                    stack.unshift([node, objectLookup[ref]]);
+                    if (ref in nodes) {
+                        edges[node.id].add(ref);
+                    }
                 }
             }
         }
     }
 
-    // Add children from relationships.
+    // Add children from [resolvable] relationships.
     for (const rel of bundle.objects) {
-        if (rel.type == "relationship") {
-            const src = objectLookup[rel["source_ref"]];
-            const target = objectLookup[rel["target_ref"]];
-            src.children[target.id] = target;
+        if (rel.type === "relationship") {
+            const src = nodes[rel["source_ref"]];
+            const target = nodes[rel["target_ref"]];
+            if (src && target) {
+                edges[src.id].add(target.id);
+            }
         }
     }
 
-    return root;
+    return [nodes, edges];
 }
 
 /**
  * Given an Attack Flow graph, return the induced graph containing only attack-action nodes.
- * @param {*} flowGraph
- * @returns
+ *
+ * Note that we further eliminate attack-action nodes that do no contain a technique ID.
+ *
+ * @param {*} nodes
+ * @param {*} edges
+ * @returns [nodes, edges]
  */
-function _induceActionGraph(flowGraph) {
-    // Deep copy the flow graph.
-    const actionGraph = JSON.parse(JSON.stringify(flowGraph));
+function _induceActionGraph(nodes, edges) {
+    const actionNodes = {};
+    const actionEdges = {};
     const stack = [];
+    const includeNode = (node) => node.type === "attack-action" &&
+        node["technique_id"] !== undefined;
 
-    // Start with the start ref nodes.
-    for (const [id, child] of Object.entries(actionGraph.children)) {
-        stack.unshift([actionGraph, child]);
-    }
-
-    // Iterate through nodes and remove the ones that are not actions.
-    while (item = stack.shift()) {
-        const [parent, node] = item;
-
-        if (node.type != "attack-action") {
-            delete parent.children[node.id];
-            Object.assign(parent.children, node.children);
-            for (const [id, child] of Object.entries(node.children)) {
-                stack.unshift([parent, child]);
-            }
-        } else {
-            for (const [id, child] of Object.entries(node.children)) {
-                stack.unshift([node, child]);
+    // Initialize the graph using the nodes and edges of just the attack-action objects.
+    for (const node of Object.values(nodes)) {
+        if (includeNode(node)) {
+            actionNodes[node.id] = node;
+            actionEdges[node.id] = new Set(edges[node.id]);
+            for (const childId of actionEdges[node.id]) {
+                const child = nodes[childId];
+                if (!includeNode(child)) {
+                    stack.push([node.id, childId]);
+                }
             }
         }
     }
 
-    return actionGraph;
+    // The stack tracks edges from action nodes to non-action nodes. As we pop up each
+    // item off the stack, we copy the grandchildren to the parent and remove the child,
+    // then push any new of those grandchild that are not actions back onto the stack.
+    let stackItem;
+    while (stackItem = stack.pop()) {
+        const [parentId, childId] = stackItem;
+        const grandchildren = edges[childId];
+
+        for (const grandchildId of grandchildren) {
+            actionEdges[parentId].add(grandchildId);
+            const grandchild = nodes[grandchildId];
+            if (!includeNode(grandchild)) {
+                stack.push([parentId, grandchildId]);
+            }
+        }
+        actionEdges[parentId].delete(childId);
+    }
+
+    return [actionNodes, actionEdges];
 }
 
 /**
@@ -303,7 +308,7 @@ function _lookupGeometry(node, techniqueGeometries) {
         geometry = techniqueGeometries[techniqueId];
     }
 
-    // Finally, check if its a subtechnique and its prent technique can be looked up.
+    // Finally, check if its a subtechnique and its parent technique can be looked up.
     if (!geometry) {
         if (techniqueId.includes(".")) {
             // If the TID is not found and it's a subtechnique, then check if the parent TID exists.
