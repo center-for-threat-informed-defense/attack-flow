@@ -1,0 +1,446 @@
+{
+  "type": "bundle",
+  "id": "bundle--33cd4afc-f140-4cee-abc0-9f995699b467",
+  "spec_version": "2.1",
+  "created": "2023-02-20T20:01:53.769Z",
+  "modified": "2023-02-20T20:01:53.769Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--5924382f-e14f-4f29-b0df-08999f51b922",
+      "spec_version": "2.1",
+      "created": "2023-02-20T16:07:26.305Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--ee1779b5-e7fa-4425-b618-fa33f88f216a",
+      "start_refs": [
+        "attack-action--87cf2efa-5784-4ccd-a75e-ec4d964d58a5"
+      ],
+      "name": "TA1 - VMWare Workspace ONE Access exploitation",
+      "description": "Threat Actor 1 exploited VMWare Workspace ONE Access through various methods",
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "CISA",
+          "description": "Alert",
+          "url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-138b"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--ee1779b5-e7fa-4425-b618-fa33f88f216a",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--427f3a5b-4890-4305-951b-b76da8b9651b",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "server downloads a malicious shell script",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--847def26-4d0a-4562-865d-d9c23e3820cf"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "id": "vulnerability--bebccad3-14d6-43c4-b9e4-5dea60ceef76",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "name": "CVE 2022-22954"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--87cf2efa-5784-4ccd-a75e-ec4d964d58a5",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Application Layer Protocol: Web Protocols",
+      "technique_id": "T1071.001",
+      "description": "Freemarker targeted by attackers to send  a customized GET request URI to a compromised server",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--780d1e10-6642-41d2-b1a7-de801a6b972a"
+      ],
+      "asset_refs": [
+        "attack-asset--14c7eab3-bee7-4350-bf52-cbfebb34921a"
+      ]
+    },
+    {
+      "type": "software",
+      "id": "software--32cf10a0-552b-41b0-a80c-111f89903c8f",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "name": "Freemarker"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--780d1e10-6642-41d2-b1a7-de801a6b972a",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exploitation for Client Execution",
+      "technique_id": "T1203",
+      "description": "attackers exploited software vulnerabilities",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--427f3a5b-4890-4305-951b-b76da8b9651b"
+      ]
+    },
+    {
+      "type": "attack-asset",
+      "id": "attack-asset--14c7eab3-bee7-4350-bf52-cbfebb34921a",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "VMWare Workspace ONE Access ",
+      "description": "compromised, public-facing server"
+    },
+    {
+      "type": "malware",
+      "id": "malware--e2710797-ff3a-4465-b4ed-923e15f59b2d",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "name": "80b6ae2cea.sh",
+      "description": "malicious shell script; contains VMWare Workspace ONE Access directory paths and file locations",
+      "malware_types": [
+        "unknown"
+      ],
+      "is_family": false,
+      "capabilities": [
+        "exfiltrates-data",
+        "cleans-traces-of-infection"
+      ]
+    },
+    {
+      "type": "directory",
+      "id": "directory--2f184fcc-a09b-4b6d-8cf2-d0029e360d1f",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "path": "/usr/local/horizon/scripts/"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--847def26-4d0a-4562-865d-d9c23e3820cf",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exploitation for Privilege Escalation",
+      "technique_id": "T1068",
+      "description": "Malicious script run with root privileges (run with SUDO)",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--4c353a44-3987-401a-b578-d4a1e9280bbd"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "id": "vulnerability--7c91bf6f-749b-41a8-80b0-cbce51bcbb7b",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "name": "CVE 2022-22960",
+      "description": "allows root privileges"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--4c353a44-3987-401a-b578-d4a1e9280bbd",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Collection",
+      "tactic_id": "TA0009",
+      "description": "script collects sensitive files, including user names, passwords, master keys, and firewall rules and stored them in a tar ball ",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--af956aab-7dd4-440d-8af4-adb9ae32a63b"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--af956aab-7dd4-440d-8af4-adb9ae32a63b",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Archive Collected Data",
+      "technique_id": "T1560",
+      "description": "collected information stored in a tar ball file on the server",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--a9ddb932-cc96-49fc-acd8-f5675b7368ea"
+      ]
+    },
+    {
+      "type": "directory",
+      "id": "directory--726756ce-5a1c-4ccc-a32e-92975c07f959",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "path": "/opt/vmware/horizon/workspace/webapps/SAAS/horizon/images/"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--a9ddb932-cc96-49fc-acd8-f5675b7368ea",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Indicator Removal on Host",
+      "technique_id": "T1070",
+      "description": "deleted files and logs, including fd86ald0.pem, localhost_access logs, logs associated with the VMWare Horizon application, and greenbox logs for the date of activity",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--7d09b87c-e2c6-4760-9050-92f36a24e9ff"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7d09b87c-e2c6-4760-9050-92f36a24e9ff",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "attackers also downloaded jtest.jsp to the server's web directory from the IP address",
+      "effect_refs": [
+        "attack-action--4edb3b2d-7bc8-4fe2-85d7-66c04ceba3c7"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--ecffdaac-3bc0-4552-bb1b-1da439cc5dbb",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "name": "jtest.jsp",
+      "description": "webshell",
+      "malware_types": [
+        "webshell"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "communicates-with-c2"
+      ]
+    },
+    {
+      "type": "directory",
+      "id": "directory--10e001e1-c3ce-4cc1-a6a7-5eef5b206c88",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "path": "/SAAS/Horizon/js-lib/"
+    },
+    {
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--1fd1c853-b8df-4db5-bfd2-92d445bdf3b3",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "value": "186.233.187.245"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--4edb3b2d-7bc8-4fe2-85d7-66c04ceba3c7",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.769Z",
+      "modified": "2023-02-20T20:01:53.769Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltration",
+      "tactic_id": "TA0010",
+      "description": "sensitive data stored in tar ball is exfiltrated by GET request",
+      "confidence": 100
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4dc48351-de20-4e4e-aab4-72a282a05f4b",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--427f3a5b-4890-4305-951b-b76da8b9651b",
+      "target_ref": "malware--e2710797-ff3a-4465-b4ed-923e15f59b2d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--bc8cd19d-8f67-4f4f-8428-1b810c358043",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--87cf2efa-5784-4ccd-a75e-ec4d964d58a5",
+      "target_ref": "software--32cf10a0-552b-41b0-a80c-111f89903c8f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3c206d9e-06f6-419c-99f9-867306b57707",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--780d1e10-6642-41d2-b1a7-de801a6b972a",
+      "target_ref": "vulnerability--bebccad3-14d6-43c4-b9e4-5dea60ceef76"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--adbd0715-95cd-4957-8f43-c5b0b9f00ade",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "directory--2f184fcc-a09b-4b6d-8cf2-d0029e360d1f",
+      "target_ref": "malware--e2710797-ff3a-4465-b4ed-923e15f59b2d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--227a10d7-8247-4787-95e5-81d2b2e17d34",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--847def26-4d0a-4562-865d-d9c23e3820cf",
+      "target_ref": "vulnerability--7c91bf6f-749b-41a8-80b0-cbce51bcbb7b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8f603332-72fd-418f-89dc-605b218aae08",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--af956aab-7dd4-440d-8af4-adb9ae32a63b",
+      "target_ref": "directory--726756ce-5a1c-4ccc-a32e-92975c07f959"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--07310225-8cb7-487a-971b-77ac621e7370",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--7d09b87c-e2c6-4760-9050-92f36a24e9ff",
+      "target_ref": "malware--ecffdaac-3bc0-4552-bb1b-1da439cc5dbb"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--35ebaa57-bc6f-44f4-a2e5-1fbaa7302961",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--7d09b87c-e2c6-4760-9050-92f36a24e9ff",
+      "target_ref": "directory--10e001e1-c3ce-4cc1-a6a7-5eef5b206c88"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--47c0e008-c488-425e-84c1-c255c8803c52",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:01:53.770Z",
+      "modified": "2023-02-20T20:01:53.770Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--7d09b87c-e2c6-4760-9050-92f36a24e9ff",
+      "target_ref": "ipv4-addr--1fd1c853-b8df-4db5-bfd2-92d445bdf3b3"
+    }
+  ]
+}
