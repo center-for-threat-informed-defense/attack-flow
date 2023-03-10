@@ -76,6 +76,8 @@ jobs:
       run: poetry run make docs-schema
     - name: Copy corpus into docs
       run: poetry run make docs-examples
+    - name: Copy matrix-viz code into docs
+      run: poetry run make docs-matrix
     - name: Build HTML docs
       run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
     - name: Upload HTML docs
