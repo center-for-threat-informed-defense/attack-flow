@@ -1,0 +1,739 @@
+{
+  "type": "bundle",
+  "id": "bundle--8a34ed0e-85d1-46ac-8b23-7da19d427910",
+  "spec_version": "2.1",
+  "created": "2023-03-10T19:52:37.654Z",
+  "modified": "2023-03-10T19:52:37.654Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--d291b8e5-6a89-402e-97c9-20296073e6b3",
+      "spec_version": "2.1",
+      "created": "2023-02-20T20:14:50.991Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--11df22ca-5b26-4ba0-ab37-03e637d2297a",
+      "start_refs": [
+        "attack-action--1249135e-bfdd-48fa-b128-b86236337d73"
+      ],
+      "name": "CISA AA22-138B VMWare Workspace (TA2)",
+      "description": "Threat Actor 2 exploited VMWare Workspace ONE Access through various methods",
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "CISA",
+          "description": "Alert",
+          "url": "https://www.cisa.gov/uscert/ncas/alerts/aa22-138b"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--11df22ca-5b26-4ba0-ab37-03e637d2297a",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--1249135e-bfdd-48fa-b128-b86236337d73",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Application Layer Protocol: Web Protocols",
+      "technique_id": "T1071.001",
+      "description": "multiple GET requests to VMWare Workspace ONE Access to obtain RCE, upload binaries, and upload webshells",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--4b5c1c23-d2c7-464d-813d-439a36f837aa"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--4b5c1c23-d2c7-464d-813d-439a36f837aa",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Attackers attempted to download a webshell ",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--98f53f54-8560-494e-b75f-6736bcd1bf0f"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "id": "vulnerability--7d479fe1-7170-47d5-ada4-c869e7d5c7b3",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "name": "CVE 2022-22954"
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--98f53f54-8560-494e-b75f-6736bcd1bf0f",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "app.jsp downloaded successfully",
+      "on_false_refs": [
+        "attack-action--d32524ea-375d-4c91-8100-c77e2c9f904c"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--9e2ced66-df97-4713-b07d-8b1e57d9ba2a",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "name": "app.jsp",
+      "description": "publicly available webshell known as Godzilla",
+      "malware_types": [
+        "webshell"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "communicates-with-c2"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--d32524ea-375d-4c91-8100-c77e2c9f904c",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Attackers downloaded a JSP webshell",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--a2b22b62-4ab7-483b-8d26-9d8306abc03c"
+      ]
+    },
+    {
+      "type": "url",
+      "id": "url--713c768b-6011-4597-8d16-ca749e6dbd7f",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "value": "http://84.38.133[.]149/img/icon1.gif"
+    },
+    {
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--78464cca-b425-4304-b5dc-7e2064b3cdb1",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "value": "51.79.171.53"
+    },
+    {
+      "type": "malware",
+      "id": "malware--5df8707c-c9ee-4167-bd6d-73d362e82dea",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "name": "JSP webshell",
+      "malware_types": [
+        "webshell"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "communicates-with-c2"
+      ]
+    },
+    {
+      "type": "artifact",
+      "id": "artifact--9c5f22d6-da6d-45d2-9755-43113bf4bcf6",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "hashes": "MD5 4cd8366345ad4068feca4d417738b4b"
+    },
+    {
+      "type": "artifact",
+      "id": "artifact--c95b2009-e52a-4217-a1bd-1ed77f559a8e",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "hashes": "MD5 F8FF5C72E8FFA2112B01802113148BD1"
+    },
+    {
+      "type": "url",
+      "id": "url--b7f982a2-88d0-4e63-9bbe-c204ddc6de15",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "value": "http://84.38.133[.]149/img/icon1.gif"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--a2b22b62-4ab7-483b-8d26-9d8306abc03c",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter: Unix Shell",
+      "technique_id": "T1059.004",
+      "description": "Attackers sent Unix commands",
+      "confidence": 100,
+      "command_ref": "process--ded9bd9f-456d-44f2-9003-62f0a92d52d9",
+      "effect_refs": [
+        "attack-action--a0767d23-cc44-43bd-bd57-807e5e571721"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--ded9bd9f-456d-44f2-9003-62f0a92d52d9",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "command_line": "whoami"
+    },
+    {
+      "type": "process",
+      "id": "process--9c17754e-f5a9-44ae-aa1b-7438d43707ff",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "command_line": "id"
+    },
+    {
+      "type": "process",
+      "id": "process--962988c0-6c99-4e38-87a5-102533e7b019",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "command_line": "cat"
+    },
+    {
+      "type": "ipv4-addr",
+      "id": "ipv4-addr--86821c08-9cd3-419f-acb8-c500d5db6383",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "value": "84.38.133.149"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--a0767d23-cc44-43bd-bd57-807e5e571721",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "OS Credential Dumping: /etc/passwd and /etc/shadow",
+      "technique_id": "T1003.008",
+      "description": "Attackers viewed /etc/passwd and /etc/shadow",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--3a2d7968-b69a-47cc-9fdd-30a7d27bf19d"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3a2d7968-b69a-47cc-9fdd-30a7d27bf19d",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Attackers downloaded 2 copies of a webshell",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--96854c51-e17a-4747-b08b-51dbe773dc00"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--c4bda44a-331f-4f00-b2f7-e0fa0b1d18a2",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "name": "Dingo J-spy webshell",
+      "description": "webshells (horizon_all.jsp and jquery.jsp) located in web directories",
+      "malware_types": [
+        "webshell"
+      ],
+      "is_family": true,
+      "implementation_languages": [],
+      "capabilities": [
+        "communicates-with-c2"
+      ]
+    },
+    {
+      "type": "directory",
+      "id": "directory--9a377862-1ee3-4022-a730-a612e7833932",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "path": "/webapps/cas/static/"
+    },
+    {
+      "type": "file",
+      "id": "file--fefb41eb-5a77-4034-9f19-92cb46f0e770",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "hashes": "MD5 5b0bfda04a1e0d8dcb02556dc4e56e6a",
+      "name": "horizon_all.jsp"
+    },
+    {
+      "type": "directory",
+      "id": "directory--03d5e338-b5ce-4b4b-9e9c-0be03fab23f4",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "path": "/opt/vmware/horizon/workspace/webapps/SAAS/horizon/portal/"
+    },
+    {
+      "type": "file",
+      "id": "file--6d13dae1-12c4-4a72-9e83-f2383fcd5b49",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "hashes": "MD5 5b0bfda04a1e0d8dcb02556dc4e56e6a",
+      "name": "jquery.jsp"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--96854c51-e17a-4747-b08b-51dbe773dc00",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Encrypted Channel: Symmetric Cryptography",
+      "technique_id": "T1573.001",
+      "description": "POST requests used to communicate with webshells; commands and output were encrypted with XOR key",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--049af2f2-8d04-4d37-9c3a-9c4232119a5e"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--abb24ca4-0847-4eb8-9a2f-3330415f3006",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Proxy",
+      "technique_id": "T1090",
+      "description": "Attackers use reverse SOCKS proxy",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--af19a045-d1cd-4854-87b7-047e55033d5c"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--049af2f2-8d04-4d37-9c3a-9c4232119a5e",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Attackers downloaded a reverse SOCKS proxy",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--abb24ca4-0847-4eb8-9a2f-3330415f3006"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--af19a045-d1cd-4854-87b7-047e55033d5c",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "File and Directory Permissions Modification: Linux and Mac File and Directory Permissions Modification",
+      "technique_id": "T1222.002",
+      "description": "GET request with chmod to change permissions of hidden file in /tmp directory",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--22bae6a7-0937-447d-9a5b-8f0327a1c5bf"
+      ]
+    },
+    {
+      "type": "file",
+      "id": "file--c5352f2b-f17b-410d-8167-fbc5e1532b16",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "name": ".tmp12865xax"
+    },
+    {
+      "type": "directory",
+      "id": "directory--63e0c56c-9d2e-4d5c-b8bb-1bf7c85f059b",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "path": "/tmp"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--22bae6a7-0937-447d-9a5b-8f0327a1c5bf",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Attackers downloaded binary",
+      "confidence": 100
+    },
+    {
+      "type": "file",
+      "id": "file--8a1a3cae-07e4-4fce-ab78-07880b4faca0",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "hashes": "MD5  dc88c5fe715b5f706f9fb92547da948a"
+    },
+    {
+      "type": "url",
+      "id": "url--edfa7f23-b6d9-499d-9037-58046765e500",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "value": "https://github[.]com/kost/revsocks/releases/download/v1.1.0/revsocks_linux_amd64"
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--a9c94d6d-3cc0-4423-8e3c-1c0b42393b3d",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "name": "binary",
+      "description": "reverse socks5 tunneling binary with TLS/SSL that connects to the URL",
+      "infrastructure_types": [
+        "anonymization"
+      ]
+    },
+    {
+      "type": "url",
+      "id": "url--0056daec-35d2-48c3-b8af-6b4e93eeb50d",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "value": "https://149.248.35[.]200.sslip.io"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f84f8afa-3c25-4d96-a4b0-5b79851fb00a",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--1249135e-bfdd-48fa-b128-b86236337d73",
+      "target_ref": "vulnerability--7d479fe1-7170-47d5-ada4-c869e7d5c7b3"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--84790934-0acb-4d1e-bb54-277c6bd385e9",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.654Z",
+      "modified": "2023-03-10T19:52:37.654Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--4b5c1c23-d2c7-464d-813d-439a36f837aa",
+      "target_ref": "malware--9e2ced66-df97-4713-b07d-8b1e57d9ba2a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--6eb5652a-fbdb-49ec-815b-ee4aae8c8c7b",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--d32524ea-375d-4c91-8100-c77e2c9f904c",
+      "target_ref": "malware--5df8707c-c9ee-4167-bd6d-73d362e82dea"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--42a94695-4d40-43fb-b45a-32290252eb31",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "url--713c768b-6011-4597-8d16-ca749e6dbd7f",
+      "target_ref": "malware--5df8707c-c9ee-4167-bd6d-73d362e82dea"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5eb998aa-04c1-4882-af51-356e19abee7b",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "ipv4-addr--78464cca-b425-4304-b5dc-7e2064b3cdb1",
+      "target_ref": "malware--9e2ced66-df97-4713-b07d-8b1e57d9ba2a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ac2afeee-a014-4137-9a82-0adfaa0cf106",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "artifact--9c5f22d6-da6d-45d2-9755-43113bf4bcf6",
+      "target_ref": "malware--9e2ced66-df97-4713-b07d-8b1e57d9ba2a"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cb10430a-34c7-4c3f-b664-e552abb94bfa",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "artifact--c95b2009-e52a-4217-a1bd-1ed77f559a8e",
+      "target_ref": "malware--5df8707c-c9ee-4167-bd6d-73d362e82dea"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d78e6821-28e3-4bf2-bb5f-c9d21039f036",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "url--b7f982a2-88d0-4e63-9bbe-c204ddc6de15",
+      "target_ref": "malware--5df8707c-c9ee-4167-bd6d-73d362e82dea"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3e38ff15-1718-4f84-99af-03ae826da5cd",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--a2b22b62-4ab7-483b-8d26-9d8306abc03c",
+      "target_ref": "process--9c17754e-f5a9-44ae-aa1b-7438d43707ff"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--60cac64f-48ee-4232-9559-a11a8b7c8f50",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--a2b22b62-4ab7-483b-8d26-9d8306abc03c",
+      "target_ref": "process--962988c0-6c99-4e38-87a5-102533e7b019"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8dee0f48-8e0e-4c21-af5a-62faffab386e",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--a2b22b62-4ab7-483b-8d26-9d8306abc03c",
+      "target_ref": "ipv4-addr--86821c08-9cd3-419f-acb8-c500d5db6383"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--05ee3b66-a0e0-4b50-bec2-5a4e290e57b0",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--3a2d7968-b69a-47cc-9fdd-30a7d27bf19d",
+      "target_ref": "malware--c4bda44a-331f-4f00-b2f7-e0fa0b1d18a2"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--1230d6d9-740d-4949-9a80-cbe5a3f5c5cc",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "directory--9a377862-1ee3-4022-a730-a612e7833932",
+      "target_ref": "file--6d13dae1-12c4-4a72-9e83-f2383fcd5b49"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--78cc320d-c16c-4c0a-8c2c-98acebd6fb52",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "file--fefb41eb-5a77-4034-9f19-92cb46f0e770",
+      "target_ref": "malware--c4bda44a-331f-4f00-b2f7-e0fa0b1d18a2"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--02aac1bc-3163-4352-b103-aeb49bfa0a0a",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "directory--03d5e338-b5ce-4b4b-9e9c-0be03fab23f4",
+      "target_ref": "file--fefb41eb-5a77-4034-9f19-92cb46f0e770"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--bdfa02a5-ba6a-4413-a6c0-2270c58b96b4",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "file--6d13dae1-12c4-4a72-9e83-f2383fcd5b49",
+      "target_ref": "malware--c4bda44a-331f-4f00-b2f7-e0fa0b1d18a2"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--3ccceb58-a0ae-4f9d-9ea7-473af7309659",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--af19a045-d1cd-4854-87b7-047e55033d5c",
+      "target_ref": "file--c5352f2b-f17b-410d-8167-fbc5e1532b16"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--4a67a4a4-a179-4049-a438-2379c67ec46b",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--af19a045-d1cd-4854-87b7-047e55033d5c",
+      "target_ref": "directory--63e0c56c-9d2e-4d5c-b8bb-1bf7c85f059b"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--efe4725f-87ce-4c92-a5a6-1ef851768f4d",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--22bae6a7-0937-447d-9a5b-8f0327a1c5bf",
+      "target_ref": "url--edfa7f23-b6d9-499d-9037-58046765e500"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--27be5a3e-78da-4917-8e74-9bebf96a635b",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--22bae6a7-0937-447d-9a5b-8f0327a1c5bf",
+      "target_ref": "infrastructure--a9c94d6d-3cc0-4423-8e3c-1c0b42393b3d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--47d73445-6b8c-4a38-a0b5-1d144da9f26a",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "file--8a1a3cae-07e4-4fce-ab78-07880b4faca0",
+      "target_ref": "infrastructure--a9c94d6d-3cc0-4423-8e3c-1c0b42393b3d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--071d43b8-43f7-419d-b767-7be4687125c8",
+      "spec_version": "2.1",
+      "created": "2023-03-10T19:52:37.655Z",
+      "modified": "2023-03-10T19:52:37.655Z",
+      "relationship_type": "related-to",
+      "source_ref": "infrastructure--a9c94d6d-3cc0-4423-8e3c-1c0b42393b3d",
+      "target_ref": "url--0056daec-35d2-48c3-b8af-6b4e93eeb50d"
+    }
+  ]
+}
