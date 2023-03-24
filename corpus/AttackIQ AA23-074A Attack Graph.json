@@ -1,0 +1,619 @@
+{
+  "type": "bundle",
+  "id": "bundle--3b9514f6-68cd-4567-a4f1-eabea8a7df1d",
+  "spec_version": "2.1",
+  "created": "2023-03-24T18:18:16.114Z",
+  "modified": "2023-03-24T18:18:16.114Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--71f171a1-99cc-45c6-b804-3ab262bbf1d9",
+      "spec_version": "2.1",
+      "created": "2023-03-22T17:50:25.495Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--fbfe16c2-1264-4f57-8661-3dc5cdf95fb8",
+      "start_refs": [
+        "attack-action--7ed5a784-0329-4488-8605-db081945875f"
+      ],
+      "name": "AttackIQ AA23-074A Attack Graph",
+      "description": "Vietnamese cybercriminal group exploited a vulnerability in the Progress Telerik UI running on the Federal Civilian Executive Branch's (FCEB) Microsoft Internet Information Services (IIS) web server.",
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "AttackIQ",
+          "description": "Blog",
+          "url": "https://www.attackiq.com/2023/03/17/attack-graph-response-to-aa23-074a/"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fbfe16c2-1264-4f57-8661-3dc5cdf95fb8",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7ed5a784-0329-4488-8605-db081945875f",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transsfer",
+      "tactic_id": "T1105",
+      "description": "Attackers exploit a .NET deserialization vulnerability to upload malicious DLLs masquerading as PNG files",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--85d01a05-d24b-4646-b708-220ad79dbd3b"
+      ]
+    },
+    {
+      "type": "threat-actor",
+      "id": "threat-actor--b6d2056f-5114-42de-b6bf-344ee415d908",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "name": "XE Group",
+      "description": "Vietnamese cybercriminal actor",
+      "threat_actor_types": [
+        "criminal"
+      ],
+      "goals": [
+        "internal reconnaissance",
+        "exfiltration of sensitive data"
+      ]
+    },
+    {
+      "type": "note",
+      "id": "note--04a92ec1-f96a-448d-8427-12e978f659eb",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "abstract": "File Location",
+      "content": "DLLs can be downloaded into memory or the file system",
+      "authors": [
+        "Lauren Parker"
+      ],
+      "object_refs": [
+        "attack-action--7ed5a784-0329-4488-8605-db081945875f"
+      ]
+    },
+    {
+      "type": "vulnerability",
+      "id": "vulnerability--e6939637-337b-4238-bf62-3f273c899142",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "name": "CVE-2019-18935",
+      "description": ".NET deserialization vulnerability in the Progress Telerik UI"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--64841fd0-d0a5-4250-9e70-32de78756940",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Process Injection: Dynamic-Link Library Injection",
+      "tactic_id": "T1055.001",
+      "description": "DLL files are injected into another running process and validates if a canary file can be created",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--d8dae631-b1ff-4ef8-9639-71248f91c772"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--85d01a05-d24b-4646-b708-220ad79dbd3b",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Vulnerability is exploited and a malicious DLL is dropped on to the system"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--d8dae631-b1ff-4ef8-9639-71248f91c772",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool transfer",
+      "tactic_id": "T1055",
+      "description": "2020-08 xesmartshell.tmp sample to file system",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--df80b963-b05c-41a5-a28e-aede4e8ccf5e"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--df80b963-b05c-41a5-a28e-aede4e8ccf5e",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.114Z",
+      "modified": "2023-03-24T18:18:16.114Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Deobfuscate/Decode Files or Information",
+      "tactic_id": "T1140",
+      "description": "Use legitimate certutil binary to decode a base64 encoded payload",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--61145444-ba9b-4b23-b7f1-3afe18431e45"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--61145444-ba9b-4b23-b7f1-3afe18431e45",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "File decoded successfully",
+      "on_true_refs": [
+        "attack-action--80684fd3-0229-46e2-b29e-fe568e3e227c"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--6459ac0f-5f45-40b8-8e24-9141dd547d0f",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Application Layer Protocol: Web Protocols",
+      "tactic_id": "T1071.001",
+      "description": "3 HTTP GET requests are made to an AttackIQ controlled server that mimics the URL format and data sent by a real infection",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--3c9f6cd4-0fe8-4462-a08d-acdaf387e762"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0ca214a0-0a7e-442f-b245-046b1c877b3c",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Information Discovery",
+      "tactic_id": "T1082",
+      "description": "The native systeminfo command is executed to retrieve all of the Windows system information.",
+      "confidence": 100,
+      "command_ref": "process--f435967c-f9ae-432c-a049-06cfc486a46b",
+      "effect_refs": [
+        "attack-action--dee20d4c-2cfd-485e-ad52-ac3351fa9b03"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--f435967c-f9ae-432c-a049-06cfc486a46b",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "systeminfo"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--dee20d4c-2cfd-485e-ad52-ac3351fa9b03",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "File and Directory Discovery",
+      "tactic_id": "T1083",
+      "description": "The traditional dir command to find files of interest and output to a temporary file.",
+      "confidence": 100,
+      "command_ref": "process--d8a09eeb-61a6-422f-b34d-ab0de83f5a1f",
+      "effect_refs": [
+        "attack-action--a26cda6b-c87e-4537-b65a-f5f1d55f12bd"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--d8a09eeb-61a6-422f-b34d-ab0de83f5a1f",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "dir"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--a26cda6b-c87e-4537-b65a-f5f1d55f12bd",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Owner/User Discovery",
+      "tactic_id": "T1033",
+      "description": "Live off the land by running whoami and users to gain details about the currently available accounts and permission groups.",
+      "confidence": 100,
+      "command_ref": "process--4c89b1f5-8265-4e97-91f9-9577f7760713",
+      "effect_refs": [
+        "attack-action--5f5b5b47-1c54-4bda-9e56-e42ba232cc63"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--4c89b1f5-8265-4e97-91f9-9577f7760713",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "whoami"
+    },
+    {
+      "type": "process",
+      "id": "process--ac371098-e5f9-420a-b114-0255741e941c",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "users"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--5f5b5b47-1c54-4bda-9e56-e42ba232cc63",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Network Configuration Discovery",
+      "tactic_id": "T1016",
+      "description": "Native Window’s commands like route, ipconfig, and net use are executed to collect details about the infected host and network shares.",
+      "confidence": 100,
+      "command_ref": "process--6e743a6a-ea2c-42cb-a604-7d314a5cc01a",
+      "effect_refs": [
+        "attack-action--55dfdce3-aabb-450c-b62a-87a861069241"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--374fa835-8254-4d15-9f27-6dc0296eed49",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "route"
+    },
+    {
+      "type": "process",
+      "id": "process--096b0021-b626-4f3a-bea5-b94858552586",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "ipconfig"
+    },
+    {
+      "type": "process",
+      "id": "process--6e743a6a-ea2c-42cb-a604-7d314a5cc01a",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "net use"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3dac0de4-5849-493f-afca-6afb730b2bf4",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "tactic_id": "T1105",
+      "description": "Save DDG botnet malware sample to file system",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--7dbb3d85-71bb-4026-939a-62ae02fec642"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--2793774a-0683-4b46-b304-1a1ad9c47041",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "name": "small.aspx",
+      "description": "Webshell that allows attackers to obtain additional information about the disks available on the system and the files and directories they contain",
+      "malware_types": [
+        "webshell"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "communicates-with-c2",
+        "exfiltrates-data"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7dbb3d85-71bb-4026-939a-62ae02fec642",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Peripheral Device Discovery",
+      "tactic_id": "T1120",
+      "description": "Malware retrieves information about the system’s logical drives through the execution of the fsutil command.",
+      "confidence": 100,
+      "command_ref": "process--261a5c24-1581-429b-8482-1bfda8f06cfd",
+      "effect_refs": [
+        "attack-action--a50124b5-694c-42dd-9d67-cdfa554871d4"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--261a5c24-1581-429b-8482-1bfda8f06cfd",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "fsutil"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--a50124b5-694c-42dd-9d67-cdfa554871d4",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "File and Directory Discovery",
+      "tactic_id": "T1083",
+      "description": "Malware obtains information on what files and directories are located on the logical drives",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--e5081584-12ec-47a6-8274-f722dc6f520f"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--e788ec06-ab2e-4f8c-bc3b-c288b739ff51",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltration over C2 Channel",
+      "tactic_id": "T1041",
+      "description": "Files are exfiltrated to a C2 server using HTTP POST requests",
+      "confidence": 100
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--80684fd3-0229-46e2-b29e-fe568e3e227c",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "tactic_id": "T1105",
+      "description": "2020-06 XEReverseShell.exe sample saved to file system",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--6459ac0f-5f45-40b8-8e24-9141dd547d0f"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--3c9f6cd4-0fe8-4462-a08d-acdaf387e762",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "XeWork Master IP, Port, and Reverse IP Lookup GET request",
+      "on_true_refs": [
+        "attack-action--0ca214a0-0a7e-442f-b245-046b1c877b3c"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--55dfdce3-aabb-450c-b62a-87a861069241",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Information Discovery",
+      "tactic_id": "T1082",
+      "description": "Malware executes the set command to print all the environmental variables. ",
+      "command_ref": "process--c5d328fa-99ad-4b02-a025-12e82cfb900b",
+      "effect_refs": [
+        "attack-action--3dac0de4-5849-493f-afca-6afb730b2bf4"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--c5d328fa-99ad-4b02-a025-12e82cfb900b",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "command_line": "set"
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--e5081584-12ec-47a6-8274-f722dc6f520f",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Successful tun of the webshell and retrieval of information about the system's logical drives",
+      "on_true_refs": [
+        "attack-action--e788ec06-ab2e-4f8c-bc3b-c288b739ff51"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--37c4a451-fd97-49c8-b0a0-d2c09de58b2a",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "relationship_type": "related-to",
+      "source_ref": "vulnerability--e6939637-337b-4238-bf62-3f273c899142",
+      "target_ref": "attack-action--7ed5a784-0329-4488-8605-db081945875f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--731f7df1-ef7a-4fcf-a5a2-dec499ef50f0",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-condition--85d01a05-d24b-4646-b708-220ad79dbd3b",
+      "target_ref": "attack-action--64841fd0-d0a5-4250-9e70-32de78756940"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ba7a535d-8214-423a-bb5b-d2f18c361629",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--a26cda6b-c87e-4537-b65a-f5f1d55f12bd",
+      "target_ref": "process--ac371098-e5f9-420a-b114-0255741e941c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a728b0bf-0688-4df1-ac84-04d6f3d104ba",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--5f5b5b47-1c54-4bda-9e56-e42ba232cc63",
+      "target_ref": "process--374fa835-8254-4d15-9f27-6dc0296eed49"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--aa6301a1-83e9-46be-bbed-1f7971bc8c66",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--5f5b5b47-1c54-4bda-9e56-e42ba232cc63",
+      "target_ref": "process--096b0021-b626-4f3a-bea5-b94858552586"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--7b5ae463-dba0-4470-a8f9-7e8be5de04d8",
+      "spec_version": "2.1",
+      "created": "2023-03-24T18:18:16.115Z",
+      "modified": "2023-03-24T18:18:16.115Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--3dac0de4-5849-493f-afca-6afb730b2bf4",
+      "target_ref": "malware--2793774a-0683-4b46-b304-1a1ad9c47041"
+    }
+  ]
+}
