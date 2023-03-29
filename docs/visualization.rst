@@ -110,7 +110,7 @@ resulting visualization.
         </button>
     </div>
 
-    <script src="/matrix/matrix.js"></script>
+    <script src="../matrix/matrix.js"></script>
 
     <script>
     let layerSrc = null;
@@ -121,7 +121,7 @@ resulting visualization.
         if (el.value === "upload") {
             document.querySelector("#baseLayerUpload").click();
         } else if (el.value !== "") {
-            const url = `/matrix/${el.value}.svg`;
+            const url = `../matrix/${el.value}.svg`;
             fetch(url).then((response) => response.text())
             .then((data) => {
                 layerSrc = data;
