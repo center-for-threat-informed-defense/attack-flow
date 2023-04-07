@@ -1,0 +1,1177 @@
+{
+  "type": "bundle",
+  "id": "bundle--225e2649-f7f1-47f4-bd5f-c48fe7c74a01",
+  "spec_version": "2.1",
+  "created": "2023-04-07T14:41:51.331Z",
+  "modified": "2023-04-07T14:41:51.331Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--37caa819-ace9-4d22-8313-4ab44e46640a",
+      "spec_version": "2.1",
+      "created": "2023-04-05T18:50:21.503Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--02b9fed3-5db8-4ba3-a512-0d0f1f2dba1c",
+      "start_refs": [
+        "attack-action--45238a64-cca7-4b73-b70e-f2bb9d57f5c6",
+        "attack-action--1514add9-71b2-41ab-9be9-2382620367ef"
+      ],
+      "name": "Shamoon",
+      "scope": "malware",
+      "external_references": [
+        {
+          "source_name": "McAfee",
+          "description": "Article",
+          "url": "https://www.mcafee.com/blogs/other-blogs/mcafee-labs/shamoon-returns-to-wipe-systems-in-middle-east-europe/"
+        },
+        {
+          "source_name": "MBC",
+          "description": "Malware corpus",
+          "url": "https://github.com/MBCProject/mbc-markdown/blob/Lauren-malware-corpus/xample-malware/shamoon.md"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--02b9fed3-5db8-4ba3-a512-0d0f1f2dba1c",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--45238a64-cca7-4b73-b70e-f2bb9d57f5c6",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Shamoon is placed on the target system through unknown means",
+      "confidence": 70,
+      "effect_refs": [
+        "attack-action--5042c11d-5d35-4bf0-a8c8-e8913e2505ce"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--b39f76f6-09ed-442f-b696-ac978a5487b5",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Shamoon dropper has received an appropriate argument to run",
+      "on_true_refs": [
+        "attack-action--18ac2f5f-282e-4d62-aa93-bc7567467f76"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--5042c11d-5d35-4bf0-a8c8-e8913e2505ce",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Obfuscated Files or Information",
+      "technique_id": "T1027",
+      "description": "Shamoon dropper contains 3 components masked as encrypted files embedded in the PE sections",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--b39f76f6-09ed-442f-b696-ac978a5487b5"
+      ]
+    },
+    {
+      "type": "file",
+      "id": "file--e46c754c-c096-4f87-920d-ad5c92a47831",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "hashes": "MD5: \tde07c4ac94a50663851e5dabe6e50d1f;\nSHA-1: df177772518a8fcedbbc805ceed8daecc0f42fed; SHA-256: \tc3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f",
+      "size": "1.8 MB",
+      "name": "MaintenaceSrv32.exe",
+      "ctime": "2011-11-28T16:50:59.000Z"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--536348d5-cd08-4031-82e0-612d13187348",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Deobfuscate/Decode Files or Information",
+      "technique_id": "T1140",
+      "description": "Shamoon dropper decrypts the embedded resources into the C:\\Windows\\System32 folder ",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--11e47c90-b34b-4265-b4dc-010d857a5752"
+      ]
+    },
+    {
+      "type": "tool",
+      "id": "tool--c344a37f-c1ae-42a1-ac43-ba185ea4bc21",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "name": "MNU",
+      "description": "communication module",
+      "tool_types": [
+        "unknown"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--61779767-a88b-4883-a433-b05e0cab925d",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "name": "Shamoon",
+      "description": "destructive malware targeting oil, gas, telecom, and energy companies and government organizations",
+      "malware_types": [
+        "dropper",
+        "trojan"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "escalates-privileges",
+        "installs-other-components",
+        "anti-debugging",
+        "anti-vm"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--8330215a-4eb4-4812-87e6-1e5b14ac4205",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "name": "PIC",
+      "description": "64-bit version of the dropper",
+      "malware_types": [
+        "dropper",
+        "trojan"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "escalates-privileges",
+        "installs-other-components",
+        "anti-debugging",
+        "anti-vm"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--c658e292-4c33-44b7-801b-c40323499950",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "name": "LNG",
+      "description": "wiper component",
+      "malware_types": [
+        "wiper"
+      ],
+      "is_family": false,
+      "capabilities": [
+        "compromises-data-availability"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--18ac2f5f-282e-4d62-aa93-bc7567467f76",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Deobfuscate/Decode Files or Information",
+      "technique_id": "T1140",
+      "description": "Shamoon dropper decrypts several strings in memory",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--1fe37889-9591-40d8-b20b-a3578e05f1c0"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--1fe37889-9591-40d8-b20b-a3578e05f1c0",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Information Discovery",
+      "technique_id": "T1082",
+      "description": "Shamoon gathers information on the System and determines whether to drop the 32-bit or 64-bit version",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--f468a33c-d9e2-4938-9412-658e256acedf",
+        "attack-action--bcd6b440-aa42-43c0-90a7-af7a6d29ea61"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f468a33c-d9e2-4938-9412-658e256acedf",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Shamoon drops a file key8854321.pub into the folder c:\\Windows\\Temp\\key8854321.pub",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-operator--adcac5fc-f2c9-439a-8ca4-82a1edba4433"
+      ]
+    },
+    {
+      "type": "file",
+      "id": "file--057c8ab8-947c-47ec-8a01-8296cbbc3907",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "hashes": "MD5: 41f8cd9ac3fb6b1771177e5770537518; SHA-1: \t43ed9c1309d8bb14bd62b016a5c34a2adbe45943; SHA-256: \t9979678be7b89a9f01c2481ea6f420417e67572f52aad66ae4ccce3c65a7b504",
+      "size": "782 B",
+      "name": "key8854321.pub"
+    },
+    {
+      "type": "directory",
+      "id": "directory--713c50dc-64a9-4854-8804-1adffd42791e",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "path": "c:\\Windows\\Temp\\key8854321.pub"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--bcd6b440-aa42-43c0-90a7-af7a6d29ea61",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Deobfuscate/Decode Files or Information",
+      "technique_id": "T1140",
+      "description": "Shamoon dropper decrypts 2 files for later use",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-operator--adcac5fc-f2c9-439a-8ca4-82a1edba4433"
+      ]
+    },
+    {
+      "type": "file",
+      "id": "file--165ada62-d185-4ba9-9c6b-6654c71e017e",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "name": "mdmnis5tQ1.pnf"
+    },
+    {
+      "type": "file",
+      "id": "file--e342d706-bde4-4985-890c-5a679b36399e",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "name": "averbh_noav.pnf"
+    },
+    {
+      "type": "directory",
+      "id": "directory--2ea57f2a-3c00-4f3b-811a-0a10e7685fd9",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "path": "C:\\Windows\\inf\\mdmnis5tQ1.pnf"
+    },
+    {
+      "type": "directory",
+      "id": "directory--280eb736-0baf-4a96-97e0-65a3466cb799",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "path": "C:\\Windows\\inf\\averbh_noav.pnf"
+    },
+    {
+      "type": "attack-operator",
+      "id": "attack-operator--adcac5fc-f2c9-439a-8ca4-82a1edba4433",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "operator": "AND",
+      "effect_refs": [
+        "attack-action--1514add9-71b2-41ab-9be9-2382620367ef"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--1514add9-71b2-41ab-9be9-2382620367ef",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Services",
+      "technique_id": "T1569",
+      "description": "Shamoon enables the service RemoteRegistry to remotely modify the registry",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--0c56e942-1cb5-4335-ac0b-fe11442bcb4a"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0c56e942-1cb5-4335-ac0b-fe11442bcb4a",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Modify Registry",
+      "technique_id": "T1112",
+      "description": "Shamoon enables the registry key LocalAccountTokenFilterPolicy, which disables remote user account control",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--7573f4c7-5cef-4aaf-853b-391dc145dd81"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--7573f4c7-5cef-4aaf-853b-391dc145dd81",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.331Z",
+      "modified": "2023-04-07T14:41:51.331Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Network Share Discovery",
+      "technique_id": "T1135",
+      "description": "Malware checks if specific shares exist to copy and spread itself",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--0ab1c6fd-eb0a-4601-a629-3694f5ed5222"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0ab1c6fd-eb0a-4601-a629-3694f5ed5222",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Service Discovery",
+      "technique_id": "T1007",
+      "description": "Shamoon queries LocalService to retrieve specific information related to the LocalService account",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--536348d5-cd08-4031-82e0-612d13187348"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--842a04a1-0a42-4217-9514-8787ec2e4471",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "name": "ADMIN$",
+      "infrastructure_types": [
+        "network-share"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--11e47c90-b34b-4265-b4dc-010d857a5752",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Timestomp",
+      "technique_id": "T1070.006",
+      "description": "The file times are set to August 2012 as an anti-forensics trick",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--81b765cf-ba71-4818-8b1f-276aee316264"
+      ]
+    },
+    {
+      "type": "note",
+      "id": "note--f9d1fe3d-0efd-4a01-aa69-a668361d0d32",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "content": "Any file Shamoon can destroy, it changes the date to August 2012",
+      "object_refs": [
+        "attack-action--11e47c90-b34b-4265-b4dc-010d857a5752"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--aa463037-9cd7-486b-a70a-4e9c110404eb",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "name": "C$\\WINDOWS",
+      "infrastructure_types": [
+        "network-share"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--f4146823-dc6c-4ece-add5-b99632572876",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "name": "E$\\WINDOWS",
+      "infrastructure_types": [
+        "network-share"
+      ]
+    },
+    {
+      "type": "infrastructure",
+      "id": "infrastructure--e564b7fb-d887-4ba0-a67c-7dec8bc2649f",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "name": "D$\\WINDOWS",
+      "infrastructure_types": [
+        "network-share"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--81b765cf-ba71-4818-8b1f-276aee316264",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Access Token Manipulation: Token Impersonation/Theft",
+      "technique_id": "T1134.001",
+      "description": "Shamoon elevates privileges by impersonating the user's token",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--6934aee5-fb1d-456c-a0f8-020991900f6b"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--6934aee5-fb1d-456c-a0f8-020991900f6b",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Create or Modify System Process: Windows Service",
+      "technique_id": "T1543.003",
+      "description": "Shamoon creates a new service MaintenaceSrv with the Autostart option and runs the service with its own process",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--5bca49d8-ee56-4134-a084-a4936d004801",
+        "attack-condition--d50a040d-b440-4034-8713-23c1c504a9af"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--5bca49d8-ee56-4134-a084-a4936d004801",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "The wiper has been dropped on the system and can now run",
+      "on_true_refs": [
+        "attack-action--b18d81cf-9c59-413d-b148-45a2067adbbd"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b18d81cf-9c59-413d-b148-45a2067adbbd",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Wiper is dropped into the System32 folder",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--128547af-e0f2-4185-afae-9b40736a5c56"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--a55fe43a-7622-4094-ae85-d86304ae71de",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "name": "netbxndxlg2.exe",
+      "description": "This executable is the wiper component. It can have many different names and contains the wiper driver embedded within its resources. It requires a parameter to run.",
+      "malware_types": [
+        "wiper"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "anti-forensics",
+        "hides-executing-driver"
+      ]
+    },
+    {
+      "type": "directory",
+      "id": "directory--e8d2e666-4458-4aac-b1dc-012a94de815c",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "path": "C:\\Windows\\System32"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--128547af-e0f2-4185-afae-9b40736a5c56",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Obfuscated Files or Information",
+      "technique_id": "T1027",
+      "description": "Shamoon wiper component contains the wiper driver embedded in its resources",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--697e8511-7e7e-48b3-aff7-0bf6b15bc868"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--697e8511-7e7e-48b3-aff7-0bf6b15bc868",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Deobfuscate/Decode Files or Information",
+      "technique_id": "T1140",
+      "description": "Shamoon wiper decrypts the wiper driver",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--ce6c04c1-c6ab-4aab-a194-ac50e51640d7"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--e6bee1d3-8348-4b91-a453-86e1d8e9dfc3",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "name": "hdv_725x.sys",
+      "description": "Wiper driver which can have multiple different names.",
+      "malware_types": [
+        "wiper"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "compromises-data-availability",
+        "wipes-data"
+      ]
+    },
+    {
+      "type": "file",
+      "id": "file--5d5d34f0-e5c5-44ec-99dd-a0489af7c07e",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "hashes": "MD5: \t887c614608e7cd9a691858caf468c28f; SHA-1: \tceb7876c01c75673699c74ff7fac64a5ca0e67a1; SHA-256: 391e7b90bf3f0bfeb2c2602cc65aa6be4dd1c01374b89c4a48425f2d22fe231c",
+      "size": "393 KB",
+      "name": "netbxndxlg2.exe",
+      "ctime": "2011-11-28T15:52:52.000Z"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ce6c04c1-c6ab-4aab-a194-ac50e51640d7",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Create or Modify System Process: Windows Service",
+      "technique_id": "T1543.003",
+      "description": "The wiper driver creates a service to run the driver",
+      "confidence": 100,
+      "command_ref": "process--e57d55da-f484-4028-b536-6c1db57e1aac",
+      "effect_refs": [
+        "attack-action--2f8b5bc0-849b-44c2-adbd-4846bfbcf382"
+      ]
+    },
+    {
+      "type": "process",
+      "id": "process--e57d55da-f484-4028-b536-6c1db57e1aac",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "command_line": "sc create hdv_725x type= kernel start= demand binpath= WINDOWS\\hdv_725x.sys 2>&1 >nul"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2f8b5bc0-849b-44c2-adbd-4846bfbcf382",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Disk Wipe",
+      "technique_id": "T1561",
+      "description": "The wiper driver overwrites every file in C:\\Windows\\System32 and all files on the system",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--3a6645fc-5ec3-426b-be28-b2faaa221b1f"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3a6645fc-5ec3-426b-be28-b2faaa221b1f",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Shutdown/Reboot",
+      "technique_id": "T1529",
+      "description": "Disk wiper forces a reboot",
+      "confidence": 100,
+      "command_ref": "process--8a2b6ded-1aab-48fd-a713-7d5cd7bf5cad"
+    },
+    {
+      "type": "process",
+      "id": "process--8a2b6ded-1aab-48fd-a713-7d5cd7bf5cad",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "command_line": "Shutdown -r -f -t 2"
+    },
+    {
+      "type": "note",
+      "id": "note--2506b2a8-07a9-4a3a-a7d8-5621298b9fc8",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "content": "Once reboot, the system shows a blue screen",
+      "object_refs": [
+        "attack-action--3a6645fc-5ec3-426b-be28-b2faaa221b1f"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--d50a040d-b440-4034-8713-23c1c504a9af",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "The worm component is dropped onto the system ",
+      "on_true_refs": [
+        "attack-action--ef1f8cce-2e33-4444-bf37-e5c1d4bc20c2"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ef1f8cce-2e33-4444-bf37-e5c1d4bc20c2",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "technique_id": "T1105",
+      "description": "Worm is dropped into the System32 folder",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--2d0ca7f5-25c6-4f85-aab7-9694e1cb4214"
+      ]
+    },
+    {
+      "type": "malware",
+      "id": "malware--b242717a-18bc-4380-bc3b-9e96a2b6e7b2",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "name": "averfx2swtvZ.exe",
+      "description": "Worm component can have many different names",
+      "malware_types": [
+        "worm"
+      ],
+      "is_family": true,
+      "capabilities": [
+        "access-remote-machines",
+        "infects-remote-machines",
+        "probes-local-network"
+      ]
+    },
+    {
+      "type": "file",
+      "id": "file--538ab06b-7a80-4a90-b586-8e8e837222a6",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "hashes": "MD5: b41f586fc9c95c66f0967f1592641a85; SHA-1: \t10411f07640edcaa6104f078af09e2543aa0ca07; SHA-256: \t0694bdf9f08e4f4a09d13b7b5a68c0148ceb3fcc79442f4db2aa19dd23681afe",
+      "size": "260.50 KB",
+      "name": "averfx2swtvZ.exe",
+      "ctime": "2011-11-28T15:53:13.000Z"
+    },
+    {
+      "type": "directory",
+      "id": "directory--2d04594e-97e6-419f-8846-ecc667d28350",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "path": "C:\\Windows\\System32"
+    },
+    {
+      "type": "file",
+      "id": "file--a8a30517-52b1-4c70-9814-93e3fd456c26",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "hashes": "MD5: 92fff1d754faab445e90651dfb0ded4d; SHA- 1: \tbf3e0bc893859563811e9a481fde84fe7ecd0684; SHA-256: \t6985ef5809d0789eeff623cd2436534b818fd2843f09fa2de2b4a6e2c0e1a879",
+      "size": "27.14 KB",
+      "name": "hdv_725x.sys",
+      "ctime": "2011-12-28T17:51:24.000Z"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2d0ca7f5-25c6-4f85-aab7-9694e1cb4214",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote System Discovery",
+      "technique_id": "T1018",
+      "description": "Worm scans the local network for potential control servers to connect to",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-condition--ad9dc433-b702-4ef9-9a89-84f72a90fe85"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--ad9dc433-b702-4ef9-9a89-84f72a90fe85",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Worm connects to remote servers",
+      "on_true_refs": [
+        "attack-action--dfbfce2d-4710-4333-b591-62ef89bbb868"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--dfbfce2d-4710-4333-b591-62ef89bbb868",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Lateral Tool Transfer",
+      "technique_id": "T1570",
+      "description": "Worm can spread the Shamoon dropper to remote systems",
+      "confidence": 100
+    },
+    {
+      "type": "note",
+      "id": "note--0b87f10c-f4f6-4d97-9d14-c8dc717bc124",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "content": "The wiper can be used independently from the dropper",
+      "object_refs": [
+        "file--5d5d34f0-e5c5-44ec-99dd-a0489af7c07e"
+      ]
+    },
+    {
+      "type": "note",
+      "id": "note--23503f72-803d-41c0-af57-db208344cd82",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "content": "Shamoon has evolved over the years. This is the name of the Shamoon service created in 2018. In 2016, the service created was NtsSrv. In 2017, the service created was NtertSrv.",
+      "object_refs": [
+        "attack-action--6934aee5-fb1d-456c-a0f8-020991900f6b"
+      ]
+    },
+    {
+      "type": "note",
+      "id": "note--7ce81b7a-c7e4-49e9-9011-cb6e8628cbb2",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "content": "The worm component may not run during the infection. The worm and the wiper are mutually exclusive components.",
+      "object_refs": [
+        "attack-condition--d50a040d-b440-4034-8713-23c1c504a9af"
+      ]
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d4e91887-39a6-4e39-81ce-5bf33694c954",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--45238a64-cca7-4b73-b70e-f2bb9d57f5c6",
+      "target_ref": "malware--61779767-a88b-4883-a433-b05e0cab925d"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--935b5414-a177-4b6c-b1d3-b128542e8492",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--536348d5-cd08-4031-82e0-612d13187348",
+      "target_ref": "tool--c344a37f-c1ae-42a1-ac43-ba185ea4bc21"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c34063d7-0c79-4966-92a2-876587db3f2f",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--536348d5-cd08-4031-82e0-612d13187348",
+      "target_ref": "malware--8330215a-4eb4-4812-87e6-1e5b14ac4205"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--dde370c1-08ab-4790-bfc2-bab7963a2176",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--536348d5-cd08-4031-82e0-612d13187348",
+      "target_ref": "malware--c658e292-4c33-44b7-801b-c40323499950"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--18408c53-a2b8-4ef7-bcb9-c209ec619de6",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--61779767-a88b-4883-a433-b05e0cab925d",
+      "target_ref": "file--e46c754c-c096-4f87-920d-ad5c92a47831"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--8a94a741-f6b5-45d0-ad97-fc76fb9f4458",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--f468a33c-d9e2-4938-9412-658e256acedf",
+      "target_ref": "file--057c8ab8-947c-47ec-8a01-8296cbbc3907"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f9306054-6504-4135-b418-7827968084bb",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "file--057c8ab8-947c-47ec-8a01-8296cbbc3907",
+      "target_ref": "directory--713c50dc-64a9-4854-8804-1adffd42791e"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--644a0604-cc8e-43f2-9f9e-cfe920f42391",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--bcd6b440-aa42-43c0-90a7-af7a6d29ea61",
+      "target_ref": "file--e342d706-bde4-4985-890c-5a679b36399e"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--d968c7e9-784b-4a73-8217-7c8911e02c1f",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--bcd6b440-aa42-43c0-90a7-af7a6d29ea61",
+      "target_ref": "file--165ada62-d185-4ba9-9c6b-6654c71e017e"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--935afa9b-96c7-48f9-bb04-c8149d082215",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "file--165ada62-d185-4ba9-9c6b-6654c71e017e",
+      "target_ref": "directory--2ea57f2a-3c00-4f3b-811a-0a10e7685fd9"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--325c313b-353c-4915-83d4-027e1c8314b5",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "file--e342d706-bde4-4985-890c-5a679b36399e",
+      "target_ref": "directory--280eb736-0baf-4a96-97e0-65a3466cb799"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--ea876d39-e445-4803-9d7b-a017f3135692",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--7573f4c7-5cef-4aaf-853b-391dc145dd81",
+      "target_ref": "infrastructure--f4146823-dc6c-4ece-add5-b99632572876"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--fb763d01-56d9-4696-a410-3428cd2cebca",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--7573f4c7-5cef-4aaf-853b-391dc145dd81",
+      "target_ref": "infrastructure--e564b7fb-d887-4ba0-a67c-7dec8bc2649f"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--c305db0a-d997-4592-ac5b-280b22fe81a1",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--7573f4c7-5cef-4aaf-853b-391dc145dd81",
+      "target_ref": "infrastructure--842a04a1-0a42-4217-9514-8787ec2e4471"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--35030a67-50a5-4dcc-8c81-1e7302f54274",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--7573f4c7-5cef-4aaf-853b-391dc145dd81",
+      "target_ref": "infrastructure--aa463037-9cd7-486b-a70a-4e9c110404eb"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cf62ac6f-c6a4-4e4d-b5c5-f0d6b7eb0b91",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--b18d81cf-9c59-413d-b148-45a2067adbbd",
+      "target_ref": "malware--a55fe43a-7622-4094-ae85-d86304ae71de"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b8095159-3de1-4808-9c2f-a4df5743aa73",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--a55fe43a-7622-4094-ae85-d86304ae71de",
+      "target_ref": "directory--e8d2e666-4458-4aac-b1dc-012a94de815c"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--b28e1b22-b6d2-491a-9252-6a7776f7e92d",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--a55fe43a-7622-4094-ae85-d86304ae71de",
+      "target_ref": "file--5d5d34f0-e5c5-44ec-99dd-a0489af7c07e"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--f7d35202-592b-4dbc-8337-d8c04ed417cd",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--697e8511-7e7e-48b3-aff7-0bf6b15bc868",
+      "target_ref": "malware--e6bee1d3-8348-4b91-a453-86e1d8e9dfc3"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--a04703bb-d294-4020-a6ce-45564ba7a2dc",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--e6bee1d3-8348-4b91-a453-86e1d8e9dfc3",
+      "target_ref": "file--a8a30517-52b1-4c70-9814-93e3fd456c26"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--5d23e738-28a5-4939-97c7-8d321d5603b2",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "attack-action--ef1f8cce-2e33-4444-bf37-e5c1d4bc20c2",
+      "target_ref": "malware--b242717a-18bc-4380-bc3b-9e96a2b6e7b2"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--cf483f83-2ad9-443f-bc21-6afa9c7d938c",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--b242717a-18bc-4380-bc3b-9e96a2b6e7b2",
+      "target_ref": "file--538ab06b-7a80-4a90-b586-8e8e837222a6"
+    },
+    {
+      "type": "relationship",
+      "id": "relationship--48f4fc23-e505-41d6-8129-d76af41e4933",
+      "spec_version": "2.1",
+      "created": "2023-04-07T14:41:51.332Z",
+      "modified": "2023-04-07T14:41:51.332Z",
+      "relationship_type": "related-to",
+      "source_ref": "malware--b242717a-18bc-4380-bc3b-9e96a2b6e7b2",
+      "target_ref": "directory--2d04594e-97e6-419f-8846-ecc667d28350"
+    }
+  ]
+}
