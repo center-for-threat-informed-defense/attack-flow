@@ -18,6 +18,7 @@ globally. The project is funded by our `research participants
     introduction
     example_flows
     builder
+    visualization
     language
     best_practices
     developers

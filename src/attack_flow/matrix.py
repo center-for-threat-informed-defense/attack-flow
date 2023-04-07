@@ -1,9 +1,12 @@
 """
 Code for drawing an Attack Flow action graph on top of an ATT&CK Navigator SVG.
 
-This is quite brittle since it depends on the internal structure of the Navigator SVG.
-For future proofing we might want to read the Navigator layer and generate our own
-rendering of the matrix, but in the interest of time this simpler approach will suffice.
+This is quite brittle since it depends on the internal structure of the Navigator SVG. For future proofing we
+might want to read the Navigator layer and generate our own rendering of the matrix, but in the interest of
+time this simpler approach will suffice.
+
+This code has been ported to JavaScript for use on the Attack Flow website. That version of the code contains
+some improvements, such as the ability to incorporate tactic information when selecting a cell on the matrix.
 """
 
 from collections import namedtuple

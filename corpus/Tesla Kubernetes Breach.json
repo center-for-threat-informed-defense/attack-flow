@@ -1,9 +1,9 @@
 {
   "type": "bundle",
-  "id": "bundle--569aef73-60c9-4007-9ef1-fee52b8f628f",
+  "id": "bundle--1db91a92-e50e-44dd-ab83-04fabbf9ba30",
   "spec_version": "2.1",
-  "created": "2023-01-04T21:09:09.059Z",
-  "modified": "2023-01-04T21:09:09.059Z",
+  "created": "2023-02-22T21:42:23.740Z",
+  "modified": "2023-02-22T21:42:23.740Z",
   "objects": [
     {
       "type": "extension-definition",
@@ -47,32 +47,20 @@
       "id": "attack-flow--130cfa8f-3152-4a3e-bd99-6f4230907dad",
       "spec_version": "2.1",
       "created": "2022-10-27T02:44:54.520Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "created_by_ref": "identity--40c4bffc-b61e-472f-9401-a6c738a1ebf0",
+      "created_by_ref": "identity--c09be52b-77e0-45cb-b34c-d089e3887151",
       "start_refs": [
-        "attack-condition--394e0f5c-534b-406d-a714-60124f89e437"
+        "attack-condition--394e0f5c-534b-406d-a714-60124f89e437",
+        "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb",
+        "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844"
       ],
       "name": "Tesla Kubernetes Breach",
       "description": "A cryptomining attack discovered on a Tesla kubernetes (k8s) cluster.",
-      "author": [
-        [
-          "name",
-          "Mark Haase"
-        ],
-        [
-          "identity_class",
-          "23b79ae0fc0f07a3669598dd23c694cc"
-        ],
-        [
-          "contact_information",
-          "mhaase@mitre.org"
-        ]
-      ],
       "scope": "incident",
       "external_references": [
         {
@@ -84,10 +72,10 @@
     },
     {
       "type": "identity",
-      "id": "identity--40c4bffc-b61e-472f-9401-a6c738a1ebf0",
+      "id": "identity--c09be52b-77e0-45cb-b34c-d089e3887151",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.059Z",
-      "modified": "2023-01-04T21:09:09.059Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "name": "Mark Haase",
       "identity_class": "individual",
       "contact_information": "mhaase@mitre.org"
@@ -96,8 +84,8 @@
       "type": "attack-condition",
       "id": "attack-condition--394e0f5c-534b-406d-a714-60124f89e437",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -112,14 +100,15 @@
       "type": "attack-action",
       "id": "attack-action--7edcb647-8d0c-4ba4-86e8-b2a423d9b43a",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "External Remote Services",
+      "tactic_id": "TA0001",
       "technique_id": "T1133",
       "description": "The adversary logs into the Kubernetes console.",
       "confidence": 90,
@@ -132,14 +121,15 @@
       "type": "attack-action",
       "id": "attack-action--307e4dc4-e109-4ef1-b0f5-7eaa7816ca25",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "Unsecured Credentials: Credentials In Files",
+      "tactic_id": "TA0006",
       "technique_id": "T1552.001",
       "description": "The adversary can view plaintext AWS keys in the Kubernetes console.",
       "confidence": 0,
@@ -151,14 +141,15 @@
       "type": "attack-action",
       "id": "attack-action--3475ec81-5b70-4f9a-a9a9-9a089216ab44",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "Valid Accounts: Cloud Accounts",
+      "tactic_id": "TA0004",
       "technique_id": "T1078.004",
       "description": "The adversary authenticates to AWS S3 using the discovered credentials.",
       "confidence": 0,
@@ -170,14 +161,15 @@
       "type": "attack-action",
       "id": "attack-action--5d19b518-7bcd-48d7-9d61-5e6001b130b1",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "Data from Cloud Storage Object",
+      "tactic_id": "TA0009",
       "technique_id": "T1530",
       "description": "The adversary can access data in private S3 buckets.",
       "confidence": 0
@@ -186,14 +178,15 @@
       "type": "attack-action",
       "id": "attack-action--fe5fea66-d2a1-4b41-a9eb-7f8eccf9704a",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "Deploy Container",
+      "tactic_id": "TA0002",
       "technique_id": "T1610",
       "description": "The adversary deploys a new container on the Kubernetes cluster.",
       "confidence": 100,
@@ -205,14 +198,15 @@
       "type": "attack-action",
       "id": "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "Acquire Infrastructure: Server",
+      "tactic_id": "TA0042",
       "technique_id": "T1583.004",
       "description": "The adversary sets up server[s] to run a cryptomining pool.",
       "confidence": 90,
@@ -224,15 +218,16 @@
       "type": "attack-action",
       "id": "attack-action--837bede5-db2f-40ac-b4df-9798548de067",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
-      "name": "Connection Proxy",
-      "technique_id": "T0884",
+      "name": "Proxy",
+      "tactic_id": "TA0011",
+      "technique_id": "T1090",
       "description": "The adversary proxies their mining pool through Cloudflare CDN.",
       "confidence": 100,
       "effect_refs": [
@@ -243,8 +238,8 @@
       "type": "attack-operator",
       "id": "attack-operator--2523aded-6d9a-4f28-aea9-be9dd6f490e0",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
@@ -259,14 +254,15 @@
       "type": "attack-action",
       "id": "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "extensions": {
         "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
           "extension_type": "new-sdo"
         }
       },
       "name": "Resource Highjacking",
+      "tactic_id": "TA0040",
       "technique_id": "T1496",
       "description": "The adversary runs cryptomining software in the container, configured to use their private mining pool.",
       "confidence": 100
@@ -275,8 +271,8 @@
       "type": "infrastructure",
       "id": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "name": "Unlisted mining pool",
       "description": "The mining pool is \"unlisted\" and runs on a non-standard port to evade common blocklists.",
       "infrastructure_types": [
@@ -287,8 +283,8 @@
       "type": "note",
       "id": "note--c5d127a0-59be-4ab5-9266-4b3037c7bee3",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.740Z",
+      "modified": "2023-02-22T21:42:23.740Z",
       "abstract": "Speculation",
       "content": "The authors of this post provided speculation about what the attackers could have done with the leaked credentials, but there is no evidence the adversaries even knew about the credentials.",
       "object_refs": [
@@ -297,20 +293,20 @@
     },
     {
       "type": "relationship",
-      "id": "relationship--e50a6920-5419-42d7-8808-9641418d399c",
+      "id": "relationship--d3a917f5-fafd-43a3-a4e9-876cd36579a9",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.741Z",
+      "modified": "2023-02-22T21:42:23.741Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--ec83e8c9-a209-47cb-aa05-52fae33182bb",
       "target_ref": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c"
     },
     {
       "type": "relationship",
-      "id": "relationship--af46329b-63b0-4599-94cc-ff5bc6621f99",
+      "id": "relationship--4b6381be-314a-40af-a4d6-b76d99062fee",
       "spec_version": "2.1",
-      "created": "2023-01-04T21:09:09.060Z",
-      "modified": "2023-01-04T21:09:09.060Z",
+      "created": "2023-02-22T21:42:23.741Z",
+      "modified": "2023-02-22T21:42:23.741Z",
       "relationship_type": "related-to",
       "source_ref": "attack-action--c640ab9c-44db-4eb9-a73d-8cfcafb0d844",
       "target_ref": "infrastructure--7d02f022-e5dd-461a-b17b-ee25fb34304c"
