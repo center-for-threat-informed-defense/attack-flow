@@ -1,0 +1,293 @@
+{
+  "type": "bundle",
+  "id": "bundle--b4272574-e283-4c91-9718-44c6f7caa333",
+  "spec_version": "2.1",
+  "created": "2023-04-21T19:56:39.762Z",
+  "modified": "2023-04-21T19:56:39.762Z",
+  "objects": [
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ],
+      "external_references": [
+        {
+          "source_name": "Documentation",
+          "description": "Documentation for Attack Flow",
+          "url": "https://center-for-threat-informed-defense.github.io/attack-flow"
+        },
+        {
+          "source_name": "GitHub",
+          "description": "Source code repository for Attack Flow",
+          "url": "https://github.com/center-for-threat-informed-defense/attack-flow"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "create_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "name": "MITRE Engenuity Center for Threat-Informed Defense",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--e312fa60-4316-4433-a6eb-81e4c3111324",
+      "spec_version": "2.1",
+      "created": "2023-04-21T17:46:00.235Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--a81efa8a-7cfd-4aef-8ae0-6d562d552cad",
+      "start_refs": [
+        "attack-action--cb85f8b2-a64d-49a3-beca-c307558fe4cb"
+      ],
+      "name": "SearchAwesome Adware",
+      "description": "SearchAwesome adware intercepts encrypted web traffic to inject ads",
+      "scope": "incident",
+      "external_references": [
+        {
+          "source_name": "Malwarebytes Labs",
+          "description": "Blog",
+          "url": "https://www.malwarebytes.com/blog/news/2018/10/mac-malware-intercepts-encrypted-web-traffic-for-ad-injection"
+        },
+        {
+          "source_name": "Malware Behavior Catalogue",
+          "description": "GitHub",
+          "url": "https://github.com/MBCProject/mbc-markdown/blob/main/xample-malware/searchawesome.md"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--a81efa8a-7cfd-4aef-8ae0-6d562d552cad",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "name": "Lauren Parker",
+      "identity_class": "individual",
+      "contact_information": "lparker@mitre.org"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--cb85f8b2-a64d-49a3-beca-c307558fe4cb",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "User Execution",
+      "technique_id": "E1204",
+      "description": "The user opens a disk image file which invisibly installs its components",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--91742a64-73d0-4302-9b43-5ae374a7516a"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--638fbd7e-e680-4360-86d5-29454f354071",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Install Certificate",
+      "technique_id": "E1608",
+      "description": "The malware installs a certificate",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--912ab340-e636-4742-8333-f692368ef2ee"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--912ab340-e636-4742-8333-f692368ef2ee",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Adversary-in-the-Middle",
+      "technique_id": "T1557",
+      "description": "Malware inserts itself into a chain of custody, typically within network packets",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--f6677d9d-1c87-43bf-9b55-88099a820d4d"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f6677d9d-1c87-43bf-9b55-88099a820d4d",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Subvert Trust Controls",
+      "technique_id": "T1553",
+      "description": "The malware uses certificates to gain access to HTTPS traffic",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--ef2455bc-724f-4abf-9b1d-6883128ae328"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ef2455bc-724f-4abf-9b1d-6883128ae328",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Install Additional Program",
+      "technique_id": "B0023",
+      "description": "Malware installs an open-source program called mitmproxy",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--f829939a-e8cf-4d78-891c-35135405e046"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f829939a-e8cf-4d78-891c-35135405e046",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Proxy ",
+      "technique_id": "T1090",
+      "description": "Malware uses mitmproxy to intercept and modify web traffic",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--d545cf7c-c227-49e8-b3ef-6836f9431513"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--d545cf7c-c227-49e8-b3ef-6836f9431513",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Manipulate Network Traffic",
+      "technique_id": "B0019",
+      "description": "Malware intercepts encrypted web traffic to inject ads",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--5fb732fb-80d7-4815-ba89-44d18484ed94"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3ab0e565-c92d-40c0-a0d8-5795cd1fd6a2",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Browser Session Hijacking",
+      "technique_id": "T1185",
+      "description": "Malware can modify web traffic for the purpose of injecting Javascript",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--9701d9a7-0c9b-4f07-b565-b01ffd871a36"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--5fb732fb-80d7-4815-ba89-44d18484ed94",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter",
+      "technique_id": "E1059",
+      "description": "Malware installs a script to inject a JavaScript script and modify web traffic",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--3ab0e565-c92d-40c0-a0d8-5795cd1fd6a2"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--91742a64-73d0-4302-9b43-5ae374a7516a",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "C2 Communication: Receive Data",
+      "technique_id": "B0030.002",
+      "description": "Malware receives data from the C2 server",
+      "confidence": 100,
+      "effect_refs": [
+        "attack-action--638fbd7e-e680-4360-86d5-29454f354071"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--9701d9a7-0c9b-4f07-b565-b01ffd871a36",
+      "spec_version": "2.1",
+      "created": "2023-04-21T19:56:39.763Z",
+      "modified": "2023-04-21T19:56:39.763Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Self Deletion",
+      "technique_id": "F0007",
+      "description": "Malware will monitor if a specific file gets deleted and then will delete itself",
+      "confidence": 100
+    }
+  ]
+}
