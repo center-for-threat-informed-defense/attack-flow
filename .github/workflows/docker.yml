@@ -32,3 +32,7 @@ jobs:
           push: true
           tags: ${{ steps.af_meta.outputs.tags }}
           labels: ${{ steps.af_meta.outputs.labels }}
+      - name: Launch Attack Flow using Docker Compose
+        uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "docker-compose.yml"
