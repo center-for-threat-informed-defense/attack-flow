@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  attack-flow:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8081:80
+    volumes:
+      - /etc/attackflowbuilder/data:/usr/share/nginx/html/corpus
+    restart: always
