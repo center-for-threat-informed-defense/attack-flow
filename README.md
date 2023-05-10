@@ -38,7 +38,7 @@ review the Example Flows and JSON Schema for the language.
 
 ### Run Attack Flow using Docker Compose
 
-To run the Attack Flow service with Docker Compose, [install Docker](https://docs.docker.com/engine/install/), grab this repository source code,  and run the following command in a terminal: `docker compose up`. This will launch a container with Attack Flow accessible in at [http://localhost:8081](http://localhost:8081).
+To run the Attack Flow service with Docker Compose, [install Docker](https://docs.docker.com/engine/install/), grab this repository source code,  and run the following command in a terminal: `docker compose up`. This will launch a container with Attack Flow accessible at [http://localhost:8081](http://localhost:8081).
 
 ## Getting Involved
 
