@@ -64,11 +64,7 @@ def render(matrix_file, flow_bundle, out_file, show_control_points=False):
         try:
             tid = data["technique_id"]
         except KeyError:
-            logger.warning(
-                'Unable to find technique ID "%s" (is the graph missing node %s?)',
-                tid,
-                node,
-            )
+            logger.warning("Node (%s) does not have a technique ID.", node)
             continue
         if translation := technique_geometries.get(tid):
             technique_overlay = _create_technique_overlay(tid, translation)
