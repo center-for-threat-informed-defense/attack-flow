@@ -47,9 +47,9 @@ class AttackFlowValidator extends DiagramValidator {
             var regex = /^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|Null$/
 
             if(key == "tactic_ref" && !regex.test(String(value))) {
-                this.addError(id, "Tactic Reference regex failure.");
+                this.addError(id, "Invalid STIX tactic reference.");
             } else if (key == "technique_ref" && !regex.test(String(value))) {
-                this.addError(id, "Technique Reference regex failure.");
+                this.addError(id, "Invalid STIX technique reference.");
             }
         }
         // Validate links
