@@ -38,17 +38,15 @@ class AttackFlowValidator extends DiagramValidator {
      */
     protected validateNode(id: string, node: GraphObjectExport) {
         // Validate properties
-        //window.alert([...node.props.value.entries()]);
         for (const [key, value] of node.props.value) {
             this.validateProperty(id, key, value)
 
-            // Validate reference-based (tactic_ref + technique_ref) properties
-            // Using regex pattern from: https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json
-            var regex = /^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|Null$/
+            // Additional validation for reference-based (tactic_ref + technique_ref) properties
+            var STIXregex = /^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|Null$/
 
-            if(key == "tactic_ref" && !regex.test(String(value))) {
+            if(key == "tactic_ref" && !STIXregex.test(String(value))) {
                 this.addError(id, "Invalid STIX tactic reference.");
-            } else if (key == "technique_ref" && !regex.test(String(value))) {
+            } else if (key == "technique_ref" && !STIXregex.test(String(value))) {
                 this.addError(id, "Invalid STIX technique reference.");
             }
         }
