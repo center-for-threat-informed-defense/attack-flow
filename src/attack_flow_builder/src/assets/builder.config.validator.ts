@@ -44,14 +44,12 @@ class AttackFlowValidator extends DiagramValidator {
 
             // Validate reference-based (tactic_ref + technique_ref) properties
             // Using regex pattern from: https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json
-            var regex = /^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
+            var regex = /^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|Null$/
 
-            if(key == "tactic_ref" && String(value) != "Null" && !regex.test(String(value))) {
+            if(key == "tactic_ref" && !regex.test(String(value))) {
                 this.addError(id, "Tactic Reference regex failure.");
-                //window.alert("TACTIC REF DETECTED: " + value);
-            } else if (key == "technique_ref" && String(value) != "Null" && !regex.test(String(value))) {
+            } else if (key == "technique_ref" && !regex.test(String(value))) {
                 this.addError(id, "Technique Reference regex failure.");
-                //window.alert("TECNIQUE REF DETECTED: " + value);
             }
         }
         // Validate links
