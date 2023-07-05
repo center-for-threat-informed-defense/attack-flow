@@ -18,6 +18,7 @@ class AttackFlowValidator extends DiagramValidator {
      */
     protected override validate(diagram: DiagramObjectModel): void {
         let graph = SemanticAnalyzer.toGraph(diagram);
+
         // Validate nodes
         for (let [id, node] of graph.nodes) {
             this.validateNode(id, node);
@@ -37,8 +38,21 @@ class AttackFlowValidator extends DiagramValidator {
      */
     protected validateNode(id: string, node: GraphObjectExport) {
         // Validate properties
+        //window.alert([...node.props.value.entries()]);
         for (const [key, value] of node.props.value) {
             this.validateProperty(id, key, value)
+
+            // Validate reference-based (tactic_ref + technique_ref) properties
+            // Using regex pattern from: https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/stix2.1/schemas/common/identifier.json
+            var regex = /^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
+
+            if(key == "tactic_ref" && String(value) != "Null" && !regex.test(String(value))) {
+                this.addError(id, "Tactic Reference regex failure.");
+                //window.alert("TACTIC REF DETECTED: " + value);
+            } else if (key == "technique_ref" && String(value) != "Null" && !regex.test(String(value))) {
+                this.addError(id, "Technique Reference regex failure.");
+                //window.alert("TECNIQUE REF DETECTED: " + value);
+            }
         }
         // Validate links
         switch(node.template.id) {
