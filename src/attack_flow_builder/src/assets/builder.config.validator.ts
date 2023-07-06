@@ -42,7 +42,7 @@ class AttackFlowValidator extends DiagramValidator {
             this.validateProperty(id, key, value)
 
             // Additional validation for reference-based (tactic_ref + technique_ref) properties
-            var STIXregex = /^[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|Null$/
+            const STIXregex = /^(?:[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|Null)$/i
 
             if(key == "tactic_ref" && !STIXregex.test(String(value))) {
                 this.addError(id, "Invalid STIX tactic reference.");
