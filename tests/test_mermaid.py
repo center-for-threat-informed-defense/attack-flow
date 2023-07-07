@@ -14,13 +14,13 @@ def test_convert_attack_flow_to_mermaid():
             classDef condition fill:#99ff99
             classDef builtin fill:#cccccc
 
-            attack_action__52f2c35a_fa2a_45a4_b84c_46ad9498071f["<b>Action</b> - <b>T1 Action 1</b>:<br>Description of action 1 -<br><b>Confidence</b> Very Probable"]
+            attack_action__52f2c35a_fa2a_45a4_b84c_46ad9498071f["<b>Action</b> - <b>T1 Action 1</b>:  -<br>Description of action 1 -<br><b>Confidence</b> Very Probable"]
             class attack_action__52f2c35a_fa2a_45a4_b84c_46ad9498071f action
-            attack_action__dd3820fa_bae3_4270_8000_5c4642fa780c["<b>Action</b> - <b>Action 2</b>:<br>Description of action 2 -<br><b>Confidence</b> Very Probable"]
+            attack_action__dd3820fa_bae3_4270_8000_5c4642fa780c["<b>Action</b> - <b>Action 2</b>:  -<br>Description of action 2 -<br><b>Confidence</b> Very Probable"]
             class attack_action__dd3820fa_bae3_4270_8000_5c4642fa780c action
-            attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17["<b>Action</b> - <b>T3 Action 3</b>:<br>Description of action 3 -<br><b>Confidence</b> Very Probable"]
+            attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17["<b>Action</b> - <b>T3 Action 3</b>:  -<br>Description of action 3 -<br><b>Confidence</b> Very Probable"]
             class attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17 action
-            attack_action__7ddab166_c83e_4c79_a701_a0dc2a905dd3["<b>Action</b> - <b>T4 Action 4</b>:<br>Description of action 4 -<br><b>Confidence</b> Very Probable"]
+            attack_action__7ddab166_c83e_4c79_a701_a0dc2a905dd3["<b>Action</b> - <b>T4 Action 4</b>:  -<br>Description of action 4 -<br><b>Confidence</b> Very Probable"]
             class attack_action__7ddab166_c83e_4c79_a701_a0dc2a905dd3 action
             attack_condition__64d5bf0b_6acc_4f43_b0f2_aa93a219897a["<b>Condition:</b> My condition"]
             class attack_condition__64d5bf0b_6acc_4f43_b0f2_aa93a219897a condition
