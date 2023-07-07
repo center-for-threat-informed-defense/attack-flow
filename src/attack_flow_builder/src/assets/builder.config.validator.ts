@@ -11,6 +11,8 @@ import {
 
 class AttackFlowValidator extends DiagramValidator {
 
+    static WindowsRegistryregex = /^(?:(HKLM)|(HKEY_LOCAL_MACHINE)|(HKCC)|(HKEY_CURRENT_CONFIG)|(HKCR)|(HKEY_CLASSES_ROOT)|(HKCU)|(HKEY_CURRENT_USER)|(HKU)|(HKEY_USERS))/i
+
     /**
      * Validates a diagram.
      * @param diagram
@@ -54,6 +56,29 @@ class AttackFlowValidator extends DiagramValidator {
         // Validate properties
         for (const [key, value] of node.props.value) {
             this.validateProperty(id, key, value)
+
+            //window.alert(node.template.id);
+            // windows_registry_key
+            // Additional validation for windows registry keys
+            if(node.template.id == "windows_registry_key") {
+                //window.alert(value);
+                /*
+                properties: {
+                    key                          : { type: PropertyType.String, is_primary: true },
+                    values                       : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    modified_time                : { type: PropertyType.Date },
+                    number_of_subkeys            : { type: PropertyType.Int, min: 0 },
+                },
+                */
+               
+                switch(key) {
+                    case "key":
+                        if(!AttackFlowValidator.WindowsRegistryregex.test(String(value))) {
+                            this.addError(id, "Invalid Windows registry key.");
+                        }
+                }
+                console.log(key + " : " + value);
+            }
         }
         // Validate links
         switch(node.template.id) {
