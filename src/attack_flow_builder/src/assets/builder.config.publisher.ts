@@ -345,6 +345,21 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case "attack-operator":
                     sro = this.tryEmbedInOperator(parent, c.obj);
                     break;
+                case "ipv4-addr": // falls through
+                case "ipv6-addr": // falls through
+                case "mac-addr": // falls through
+                case "domain-name":
+                    // Network traffic is a special case where it's _parent_ can be embedded if its one of the
+                    // above types.
+                    if (c.obj.type == "network-traffic") {
+                        sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
+                    } else {
+                        sro = this.tryEmbedInDefault(parent, c.obj);
+                    }
+                    break;
+                case "network-traffic":
+                    sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
+                    break;
                 case "note":
                     this.tryEmbedInNote(parent, c.obj);
                     break;
@@ -474,6 +489,28 @@ class AttackFlowPublisher extends DiagramPublisher {
                 sro = this.createSro(parent, child);
         }
         return sro;
+    }
+
+    /**
+     * Try to embed a reference in a network-traffic object, otherwise return a new SRO.
+     *
+     * Either parent or child must be a network-traffic, the other one should not be a network-traffic.
+     *
+     * @param parent
+     *  A STIX node (network-traffic, ipv4-addr, ipv6-addr, mac-addr, or domain-name)
+     * @param child
+     *  A STIX node (network-traffic, ipv4-addr, ipv6-addr, mac-addr, or domain-name)
+     * @returns
+     *  An SRO, if one was created.
+     */
+    private tryEmbedInNetworkTraffic(parent: Sdo, child: Sdo): Sro | undefined {
+        if (parent.type == "network-traffic" && !parent["dst_ref"]) {
+            parent["dst_ref"] = child.id;
+        } else if (child.type == "network-traffic" && !child["src_ref"]) {
+            child["src_ref"] = parent.id;
+        } else {
+            return this.createSro(parent, child);
+        }
     }
 
     /**
