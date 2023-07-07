@@ -630,10 +630,13 @@ class AttackFlowPublisher extends DiagramPublisher {
                     if(prop.descriptor.form.type !== PropertyType.Dictionary) {
                         throw new Error(`'${ key }' is improperly defined.`);
                     }
-                    flow[key] = [];
+                    const extRefs = [];
                     for(let ref of prop.value.values()) {
                         let entries = ref.toRawValue() as RawEntries;
-                        flow[key].push(Object.fromEntries(entries));
+                        extRefs.push(Object.fromEntries(entries));
+                    }
+                    if (extRefs.length > 0) {
+                        flow[key] = extRefs;
                     }
                     break;
                 case "scope":

@@ -99,7 +99,7 @@ def _get_action_label(action):
     else:
         heading = "Action"
     description = "<br/>".join(
-        textwrap.wrap(label_escape(action.description), width=40)
+        textwrap.wrap(label_escape(action.get("description", "")), width=40)
     )
     confidence = confidence_num_to_label(action.get("confidence", 95))
     return "".join(

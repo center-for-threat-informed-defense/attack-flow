@@ -87,7 +87,7 @@ def convert(bundle):
             confidence = confidence_num_to_label(o.get("confidence", 95))
             label_lines = [
                 "<b>Action</b>",
-                f"<b>{name}</b>: {o.description}",
+                f"<b>{name}</b>: ", o.get("description", ""),
                 f"<b>Confidence</b> {confidence}",
             ]
             graph.add_node(o.id, "action", " - ".join(label_lines))

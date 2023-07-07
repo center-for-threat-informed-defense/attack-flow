@@ -1,12 +1,12 @@
 import { DiagramValidator } from "./scripts/DiagramValidator/DiagramValidator";
-import { 
-    DiagramObjectModel, 
-    DictionaryProperty, 
-    GraphObjectExport, 
-    ListProperty, 
-    Property, 
+import {
+    DiagramObjectModel,
+    DictionaryProperty,
+    GraphObjectExport,
+    ListProperty,
+    Property,
     PropertyType,
-    SemanticAnalyzer 
+    SemanticAnalyzer
 } from "./scripts/BlockDiagram";
 
 class AttackFlowValidator extends DiagramValidator {
@@ -18,10 +18,25 @@ class AttackFlowValidator extends DiagramValidator {
      */
     protected override validate(diagram: DiagramObjectModel): void {
         let graph = SemanticAnalyzer.toGraph(diagram);
+
         // Validate nodes
+        let actionNodeCount = 0;
+        let flowId;
         for (let [id, node] of graph.nodes) {
+            if (node.template.id == "flow") {
+                flowId = id;
+            }
+            if (node.template.id == "action") {
+                actionNodeCount++;
+            }
             this.validateNode(id, node);
         }
+
+        // The flow requires at least one start_ref, which means it must have at least one action node.
+        if (flowId && actionNodeCount == 0) {
+            this.addError(flowId, "The flow must have at least one action in it.");
+        }
+
         // Validate edges
         for (let [id, edge] of graph.edges) {
             this.validateEdge(id, edge);

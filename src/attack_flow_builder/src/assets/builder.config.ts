@@ -37,7 +37,7 @@ const config: AppConfiguration = {
                     author                       : {
                         type: PropertyType.Dictionary,
                         form: {
-                            name: { type: PropertyType.String, is_primary: true },
+                            name: { type: PropertyType.String, is_primary: true, is_required: true },
                             identity_class: {
                                 type: PropertyType.Enum,
                                 options: {
