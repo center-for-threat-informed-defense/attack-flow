@@ -36,10 +36,6 @@ review the Example Flows and JSON Schema for the language.
 | [JSON Schema](/stix/attack-flow-schema-2.0.0.json)                                   | The language specification expressed as a JSON Schema.                                      |
 | [Example Flows](/corpus/)                                                                  | A corpus of example Attack Flows.                                        |
 
-### Run Attack Flow using Docker Compose
-
-To run the Attack Flow service with Docker Compose, [install Docker](https://docs.docker.com/engine/install/), grab this repository source code,  and run the following command in a terminal: `docker compose up`. This will launch a container with Attack Flow accessible at [http://localhost:8081](http://localhost:8081).
-
 ## Getting Involved
 
 There are several ways that you can get involved with this project and help
