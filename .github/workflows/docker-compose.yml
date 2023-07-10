@@ -9,6 +9,7 @@ on:
 
 jobs:
   docker-compose:
+    # run docker-compose file and clean up before action finished
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
