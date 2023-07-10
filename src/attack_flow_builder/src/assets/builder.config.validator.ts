@@ -68,6 +68,7 @@ class AttackFlowValidator extends DiagramValidator {
                 if (!AttackFlowValidator.WindowsRegistryregex.test(String(node.props.value.get("key")))) {
                     this.addError(id, "Invalid Windows registry key.");
                 }
+                break;
         }
     }
 
