@@ -7,7 +7,8 @@ type ValueDescriptorBase<K extends ValueTypes> = {
     type: K,
     value?: ValueTypeScriptType[K]
     is_primary?: boolean,
-    is_visible?: boolean
+    is_visible_chart?: boolean,
+    is_visible_sidebar?: boolean,
     is_editable? : boolean,
     is_required? : boolean,
 }
@@ -87,7 +88,8 @@ export type ListPropertyDescriptor = {
     form: PropertyDescriptor
     value?: any,
     is_primary?: boolean,
-    is_visible?: boolean,
+    is_visible_chart?: boolean,
+    is_visible_sidebar?: boolean,
     is_editable? : boolean
 }
 
@@ -97,7 +99,8 @@ export type DictionaryPropertyDescriptor = {
         [key: string]: PropertyDescriptor
     },
     is_primary?: boolean,
-    is_visible?: boolean,
+    is_visible_chart?: boolean,
+    is_visible_sidebar?: boolean,
 }
 
 export type ListValue
@@ -133,7 +136,8 @@ type ValueDictionaryListDescriptor = {
     form: ValueDictionaryDescriptor,
     value?: any,
     is_primary?: boolean,
-    is_visible?: boolean,
+    is_visible_chart?: boolean,
+    is_visible_sidebar?: boolean,
     is_editable? : boolean
 }
 
@@ -145,7 +149,8 @@ type ValueDictionaryDescriptor = {
             | ValueListDescriptor
     },
     is_primary?: boolean,
-    is_visible?: boolean,
+    is_visible_chart?: boolean,
+    is_visible_sidebar?: boolean,
 }
 
 type ValueListDescriptor = {
@@ -153,7 +158,8 @@ type ValueListDescriptor = {
     form: ValueDescriptor,
     value?: any,
     is_primary?: boolean,
-    is_visible?: boolean,
+    is_visible_chart?: boolean,
+    is_visible_sidebar?: boolean,
     is_editable? : boolean
 }
 

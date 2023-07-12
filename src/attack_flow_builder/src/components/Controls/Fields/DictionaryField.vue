@@ -63,7 +63,7 @@ export default defineComponent({
      */
     hasVisibleProperties(): boolean {
       for(let value of this._property.value.values()) {
-        if(value.descriptor.is_visible ?? true)
+        if(value.descriptor.is_visible_chart ?? true)
           return true;
       }
       return false;
