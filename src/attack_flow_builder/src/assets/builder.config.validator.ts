@@ -25,17 +25,17 @@ class AttackFlowValidator extends DiagramValidator {
         let actionNodeCount = 0;
         let flowId;
         for (let [id, node] of this.graph.nodes) {
-            if (node.template.id == "flow") {
+            if (node.template.id === "flow") {
                 flowId = id;
             }
-            if (node.template.id == "action") {
+            if (node.template.id === "action") {
                 actionNodeCount++;
             }
             this.validateNode(id, node);
         }
 
         // The flow requires at least one start_ref, which means it must have at least one action node.
-        if (flowId && actionNodeCount == 0) {
+        if (flowId && actionNodeCount === 0) {
             this.addError(flowId, "The flow must have at least one action in it.");
         }
 
@@ -172,7 +172,7 @@ class AttackFlowValidator extends DiagramValidator {
                 if(property instanceof ListProperty) {
                     let descriptor = property.descriptor as any;
                     if (descriptor.min_items != null && property.value.size < descriptor.min_items) {
-                        const suffix = descriptor.min_items == 1 ? "" : "s";
+                        const suffix = descriptor.min_items === 1 ? "" : "s";
                         this.addError(id, `${name}: Requires at least ${descriptor.min_items} item${suffix}`);
                     }
                     for(let v of property.value.values()) {

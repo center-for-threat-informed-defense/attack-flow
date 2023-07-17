@@ -351,7 +351,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case "domain-name":
                     // Network traffic is a special case where it's _parent_ can be embedded if its one of the
                     // above types.
-                    if (c.obj.type == "network-traffic") {
+                    if (c.obj.type === "network-traffic") {
                         sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
                     } else {
                         sro = this.tryEmbedInDefault(parent, c.obj);
@@ -504,9 +504,9 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  An SRO, if one was created.
      */
     private tryEmbedInNetworkTraffic(parent: Sdo, child: Sdo): Sro | undefined {
-        if (parent.type == "network-traffic" && !parent["dst_ref"]) {
+        if (parent.type === "network-traffic" && !parent["dst_ref"]) {
             parent["dst_ref"] = child.id;
-        } else if (child.type == "network-traffic" && !child["src_ref"]) {
+        } else if (child.type === "network-traffic" && !child["src_ref"]) {
             child["src_ref"] = parent.id;
         } else {
             return this.createSro(parent, child);
