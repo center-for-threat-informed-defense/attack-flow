@@ -591,7 +591,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         let obj = this.createSdo("identity", AttackFlowExtensionId);
         return {
             ...obj,
-            create_by_ref       : obj.id,
+            created_by_ref      : obj.id,
             name                : AttackFlowExtensionCreatorName,
             identity_class      : "organization",
             created             : AttackFlowExtensionCreatedDate,
@@ -858,7 +858,7 @@ type ExtensionSdo = Sdo & {
 }
 
 type ExtensionAuthorSdo = Sdo & {
-    create_by_ref  : string,
+    created_by_ref : string,
     name           : string,
     identity_class : string,
     created        : string,
