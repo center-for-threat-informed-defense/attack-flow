@@ -156,6 +156,19 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid Windows registry key.");
                 }
                 break;
+            case "location": // Additional validation for location object
+                // console.log(node);
+                // //console.log(node.props.value);
+                // // .isDefined() and .toRawValue()
+                // console.log(node.props.value.get("latitude")?.toRawValue());
+                // console.log(node.props.value.get("latitude")?.isDefined());
+
+                // Latitude + Longitude check
+                if(node.props.value.get("latitude")?.isDefined() !== node.props.value.get("longitude")?.isDefined()) {
+                    this.addError(id, "Latitude and Longitude must be supplied together.");
+                }
+
+                break;
         }
     }
 
