@@ -9,6 +9,4 @@ services:
     #  dockerfile: ./Dockerfile
     ports:
       - 8081:80
-    volumes:
-      - /etc/attackflowbuilder/data:/usr/share/nginx/html/corpus
     restart: always
