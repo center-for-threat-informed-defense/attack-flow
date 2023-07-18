@@ -1,0 +1,20 @@
+name: Test Docker image
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - '*'
+
+jobs:
+  docker-compose:
+    # run docker-compose file and clean up before action finished
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Launch Attack Flow using Docker Compose
+        uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "docker-compose.yml"
