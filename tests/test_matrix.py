@@ -92,7 +92,7 @@ def test_graph_is_missing_node(caplog):
         )
 
     assert (
-        "is the graph missing node attack-action--7976c9b3-b593-45b6-a66e-3a49bfc1008f?"
+        "Node (attack-action--7976c9b3-b593-45b6-a66e-3a49bfc1008f) does not have a technique ID."
         in caplog.text
     )
 
