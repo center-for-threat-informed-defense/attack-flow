@@ -163,8 +163,18 @@ class AttackFlowValidator extends DiagramValidator {
                 // console.log(node.props.value.get("latitude")?.toRawValue());
                 // console.log(node.props.value.get("latitude")?.isDefined());
 
+                const region = node.props.value.get("region");
+                const country = node.props.value.get("country");
+                const latitude = node.props.value.get("latitude");
+                const longitude = node.props.value.get("longitude");
+
+                // Verify one of the required properties is set
+                if(!region?.isDefined() && !country?.isDefined() && !(latitude?.isDefined() || longitude?.isDefined())) {
+                    this.addError(id, "Location requires one of the following properties: Region, Country, Latitude+Longitude.");
+                }
+
                 // Latitude + Longitude check
-                if(node.props.value.get("latitude")?.isDefined() !== node.props.value.get("longitude")?.isDefined()) {
+                if(latitude?.isDefined() !== longitude?.isDefined()) {
                     this.addError(id, "Latitude and Longitude must be supplied together.");
                 }
 
