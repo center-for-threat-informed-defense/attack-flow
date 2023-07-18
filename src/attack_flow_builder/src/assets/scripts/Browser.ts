@@ -57,14 +57,19 @@ export class Browser {
     
     /**
      * Prompts the user to select a text file from their file system.
+     * @param fileTypes
+     *  The file dialog's accepted file types.
      * @returns
      *  A Promise that resolves with the chosen text file.
      */
-    public static openTextFileDialog(): Promise<TextFile> {
+    public static openTextFileDialog(...fileTypes: string[]): Promise<TextFile> {
             
         // Create file input
         let fileInput = document.createElement("input");
         fileInput.type = "file";
+        if(0 < fileTypes.length) {
+            fileInput.accept = fileTypes.map(o => `.${o}`).join(",");
+        }
         
         // Configure file input
         let result = new Promise<TextFile>((resolve) => {
