@@ -11,7 +11,7 @@ import {
 
 class AttackFlowValidator extends DiagramValidator {
 
-    static STIXregex = /^(?:[a-z][a-z0-9-]+[a-z0-9]--[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|Null)$/i
+    static STIXregex = /^(?:[a-z][a-z0-9-]+[a-z0-9]--[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|null)$/i
 
     /**
      * Validates a diagram.
