@@ -259,7 +259,7 @@ export class BranchBlockModel extends DiagramObjectModel {
                         continue;
 
                     // Ignore hidden fields 
-                    if(!(value.descriptor.is_visible ?? true))
+                    if(!(value.descriptor.is_visible_chart ?? true))
                         continue;
                     
                     // Ignore the primary key
@@ -402,7 +402,7 @@ export class BranchBlockModel extends DiagramObjectModel {
         for(let [key, value] of this.props.value) {
             if(key === this.props.primaryKey)
                 continue;
-            if(!(value.descriptor.is_visible ?? true))
+            if(!(value.descriptor.is_visible_chart ?? true))
                 continue;
             if(value.isDefined())
                 return true;
