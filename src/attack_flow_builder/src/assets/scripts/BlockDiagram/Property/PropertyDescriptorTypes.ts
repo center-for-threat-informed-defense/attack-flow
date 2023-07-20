@@ -86,6 +86,7 @@ export type ListPropertyDescriptor = {
     type: PropertyType.List,
     form: PropertyDescriptor
     value?: any,
+    min_items?: number,
     is_primary?: boolean,
     is_visible?: boolean,
     is_editable? : boolean
@@ -152,6 +153,7 @@ type ValueListDescriptor = {
     type: PropertyType.List,
     form: ValueDescriptor,
     value?: any,
+    min_items?: number,
     is_primary?: boolean,
     is_visible?: boolean,
     is_editable? : boolean
