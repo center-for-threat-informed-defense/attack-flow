@@ -258,8 +258,20 @@ class AttackFlowPublisher extends DiagramPublisher {
                     throw new Error("Basic dictionaries cannot contain dictionaries.");
                 case PropertyType.Enum:
                     if (prop instanceof EnumProperty && prop.isDefined()) {
+                        console.log(node);
+                        console.log(node.props);
+                        console.log(node.props.value)
                         let value = prop.toReferenceValue()!.toRawValue()!;
-                        node[key] = value === "True";
+                        if(["True", "False"].includes(value.toString())) {
+                            // case(BoolEnum)
+                            node[key] = value === "True";
+                        }
+                        else {
+                            // case(String | List | Dictionary | null)
+                            value = value.toString();
+                            value = value.toLowerCase().replace(' ', '-');
+                            node[key] = value;
+                        }
                     }
                     break;
                 case PropertyType.List:
