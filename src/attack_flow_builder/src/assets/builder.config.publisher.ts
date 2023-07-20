@@ -666,7 +666,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         for (const [parentId, parentNode] of graph.nodes) {
             // Ignore nodes that are not actions or conditions.
             const parentType = parentNode.template.id;
-            if (parentType != "action" && parentType != "condition") {
+            if (parentType !== "action" && parentType !== "condition") {
                 continue;
             }
             const edges: string[] = [];
@@ -690,7 +690,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                 const descendantNode = graph.nodes.get(descendantId);
                 if (descendantNode) {
                     const descendantType = descendantNode.template.id;
-                    if (descendantType == "action" || descendantType == "condition") {
+                    if (descendantType === "action" || descendantType === "condition") {
                         edges.push(descendantId);
                     } else {
                         stack.push(...getChildNodes(descendantId));
