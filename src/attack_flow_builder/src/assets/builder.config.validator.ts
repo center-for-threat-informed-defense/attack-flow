@@ -20,6 +20,8 @@ class AttackFlowValidator extends DiagramValidator {
 
     protected graph?: GraphExport;
 
+    static STIXregex = /^(?:[a-z][a-z0-9-]+[a-z0-9]--[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|null)$/i
+
     /**
      * Validates a diagram.
      * @param diagram
@@ -132,13 +134,18 @@ class AttackFlowValidator extends DiagramValidator {
         // Validate properties
         for (const [key, value] of node.props.value) {
             this.validateProperty(id, key, value)
-
+            // Additional validation for reference-based (tactic_ref + technique_ref) properties
+            if(key === "tactic_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
+                this.addError(id, "Invalid STIX tactic reference.");
+            } else if (key === "technique_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
+                this.addError(id, "Invalid STIX technique reference.");
+            }
             // Additional validation for network address properties
-            if (node.template.id == "ipv4_addr" && !AttackFlowValidator.IPv4regex.test(String(value))) {
+            else if (node.template.id === "ipv4_addr" && !AttackFlowValidator.IPv4regex.test(String(value))) {
                this.addError(id, "Invalid IPv4 address."); 
-            } else if (node.template.id == "ipv6_addr" && !AttackFlowValidator.IPv6regex.test(String(value))) {
+            } else if (node.template.id === "ipv6_addr" && !AttackFlowValidator.IPv6regex.test(String(value))) {
                 this.addError(id, "Invalid IPv6 address.");
-            } else if (node.template.id == "mac_addr" && !AttackFlowValidator.MACregex.test(String(value))) {
+            } else if (node.template.id === "mac_addr" && !AttackFlowValidator.MACregex.test(String(value))) {
                 this.addError(id, "Invalid MAC address.");
             }
         }
