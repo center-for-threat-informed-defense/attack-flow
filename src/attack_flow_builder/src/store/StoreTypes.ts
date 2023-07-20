@@ -240,6 +240,7 @@ export type SelectHotkeys = {
  */
 export type AppConfiguration = {
     is_web_hosted: boolean,
+    application_name: string,
     file_type_name: string,
     file_type_extension: string,
     schema: BlockDiagramSchema,

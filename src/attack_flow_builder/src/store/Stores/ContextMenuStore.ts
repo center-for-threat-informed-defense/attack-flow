@@ -2,10 +2,10 @@ import Configuration from "@/assets/builder.config";
 import * as App from "@/store/Commands/AppCommands";
 import * as Page from "@/store/Commands/PageCommands";
 import { Module } from "vuex";
+import { version } from "@/../package.json";
+import { Namespace, titleCase } from "@/assets/scripts/BlockDiagram";
 import { ContextMenuStore, ModuleStore } from "../StoreTypes";
 import { ContextMenu, ContextMenuSection, ContextMenuSubmenu, MenuType } from "@/assets/scripts/ContextMenuTypes";
-import { Namespace, titleCase } from "@/assets/scripts/BlockDiagram";
-import { SpawnObject } from "@/store/Commands/PageCommands";
 
 export default {
     namespaced: true,
@@ -769,6 +769,7 @@ export default {
          */
         helpMenu(_s, _g, rootState): ContextMenu {
             let ctx = rootState.ApplicationStore;
+            let name = Configuration.application_name;
             let links = Configuration.menus.help_menu.help_links;
             // Links
             let items: ContextMenu[] = links.map(link => ({
@@ -780,7 +781,20 @@ export default {
             return {
                 text: "Help",
                 type: MenuType.Submenu,
-                sections: [{ id: "help_links", items }]
+                sections: [
+                    { id: "help_links", items },
+                    { 
+                        id: "version_info",
+                        items: [
+                            {
+                                text: `${ name } v${ version }`,
+                                type: MenuType.Item,
+                                data: () => new App.NullCommand(ctx),
+                                disabled: true
+                            }
+                        ]
+                    }
+                ]
             };
         }
 
@@ -799,7 +813,7 @@ export default {
  * @returns
  *  The formatted submenu.
  */
-function generateCreateMenu(key: string, value: Namespace, spawn: (id: string) => SpawnObject): ContextMenuSubmenu {
+function generateCreateMenu(key: string, value: Namespace, spawn: (id: string) => Page.SpawnObject): ContextMenuSubmenu {
     let sm: ContextMenuSubmenu = {
         text: titleCase(key),
         type: MenuType.Submenu,

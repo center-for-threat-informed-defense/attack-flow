@@ -16,8 +16,11 @@ class AttackFlowValidator extends DiagramValidator {
     static IPv4regex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[0-9]))?$/;
     static IPv6regex = /^((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?(\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?$/i;
     static MACregex = /^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/i;
+    static Emailregex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     protected graph?: GraphExport;
+
+    static STIXregex = /^(?:[a-z][a-z0-9-]+[a-z0-9]--[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|null)$/i
 
     /**
      * Validates a diagram.
@@ -131,13 +134,18 @@ class AttackFlowValidator extends DiagramValidator {
         // Validate properties
         for (const [key, value] of node.props.value) {
             this.validateProperty(id, key, value)
-
+            // Additional validation for reference-based (tactic_ref + technique_ref) properties
+            if(key === "tactic_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
+                this.addError(id, "Invalid STIX tactic reference.");
+            } else if (key === "technique_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
+                this.addError(id, "Invalid STIX technique reference.");
+            }
             // Additional validation for network address properties
-            if (node.template.id == "ipv4_addr" && !AttackFlowValidator.IPv4regex.test(String(value))) {
+            else if (node.template.id === "ipv4_addr" && !AttackFlowValidator.IPv4regex.test(String(value))) {
                this.addError(id, "Invalid IPv4 address."); 
-            } else if (node.template.id == "ipv6_addr" && !AttackFlowValidator.IPv6regex.test(String(value))) {
+            } else if (node.template.id === "ipv6_addr" && !AttackFlowValidator.IPv6regex.test(String(value))) {
                 this.addError(id, "Invalid IPv6 address.");
-            } else if (node.template.id == "mac_addr" && !AttackFlowValidator.MACregex.test(String(value))) {
+            } else if (node.template.id === "mac_addr" && !AttackFlowValidator.MACregex.test(String(value))) {
                 this.addError(id, "Invalid MAC address.");
             }
         }
@@ -162,6 +170,27 @@ class AttackFlowValidator extends DiagramValidator {
             case "windows_registry_key": // Additional validation for windows registry keys
                 if (!AttackFlowValidator.WindowsRegistryregex.test(String(node.props.value.get("key")))) {
                     this.addError(id, "Invalid Windows registry key.");
+                }
+                break;
+            case "email_address": // Additional validation for email addresses
+                if (!AttackFlowValidator.Emailregex.test(String(node.props.value.get("value")))) {
+                    this.addError(id, "Invalid email address.")
+                }
+                break;
+            case "location": // Additional validation for location object
+                const region = node.props.value.get("region");
+                const country = node.props.value.get("country");
+                const latitude = node.props.value.get("latitude");
+                const longitude = node.props.value.get("longitude");
+
+                // Verify one of the required properties is set
+                if(!region?.isDefined() && !country?.isDefined() && !(latitude?.isDefined() || longitude?.isDefined())) {
+                    this.addError(id, "Location requires one of the following properties: Region, Country, Latitude+Longitude.");
+                }
+
+                // Latitude + Longitude check
+                if(latitude?.isDefined() !== longitude?.isDefined()) {
+                    this.addError(id, "Latitude and Longitude must be supplied together.");
                 }
                 break;
         }
