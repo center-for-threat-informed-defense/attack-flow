@@ -62,6 +62,11 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "A Note must point to at least one object.");
                 }
                 break;
+            case "opinion":
+                if(node.next.length === 0) {
+                    this.addError(id, "An Opinion must point to at least one object.");
+                }
+                break;
         }
     }
 

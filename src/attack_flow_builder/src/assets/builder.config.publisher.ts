@@ -259,7 +259,17 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case PropertyType.Enum:
                     if (prop instanceof EnumProperty && prop.isDefined()) {
                         let value = prop.toReferenceValue()!.toRawValue()!;
-                        node[key] = value === "True";
+                        console.log(value);
+                        if(["True", "False"].includes(value.toString())) {
+                            // case(BoolEnum)
+                            node[key] = value === "True";
+                        }
+                        else {
+                            // case(String | List | Dictionary | null)
+                            value = value.toString();
+                            value = value.toLowerCase().replace(' ', '-');
+                            node[key] = value;
+                        }
                     }
                     break;
                 case PropertyType.List:
@@ -346,6 +356,9 @@ class AttackFlowPublisher extends DiagramPublisher {
                     sro = this.tryEmbedInOperator(parent, c.obj);
                     break;
                 case "note":
+                    this.tryEmbedInNote(parent, c.obj);
+                    break;
+                case "opinion":
                     this.tryEmbedInNote(parent, c.obj);
                     break;
                 default:

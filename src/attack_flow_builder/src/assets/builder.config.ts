@@ -446,7 +446,21 @@ const config: AppConfiguration = {
                 properties: {
                     explanation                  : { type: PropertyType.String, is_primary: true },
                     authors                      : { type: PropertyType.List, form: { type: PropertyType.String } },
-                    opinion                      : { type: PropertyType.String, is_required: true },
+                    opinion                      : {
+                        type: PropertyType.Enum,
+                        options: {
+                            type: PropertyType.List,
+                            form: { type: PropertyType.String },
+                            value: [
+                                ["strongly-disagree", "Strongly Disagree"],
+                                ["disagree", "Disagree"],
+                                ["neutral", "Neutral"],
+                                ["agree", "Agree"],
+                                ["strongly-agree", "Strongly Agree"]
+                            ]
+                        },
+                        is_required: true
+                    }
                 },
                 anchor_template: "@__builtin__anchor",
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
