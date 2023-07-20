@@ -157,12 +157,6 @@ class AttackFlowValidator extends DiagramValidator {
                 }
                 break;
             case "location": // Additional validation for location object
-                // console.log(node);
-                // //console.log(node.props.value);
-                // // .isDefined() and .toRawValue()
-                // console.log(node.props.value.get("latitude")?.toRawValue());
-                // console.log(node.props.value.get("latitude")?.isDefined());
-
                 const region = node.props.value.get("region");
                 const country = node.props.value.get("country");
                 const latitude = node.props.value.get("latitude");
