@@ -143,15 +143,14 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
-            case "malware-analysis":
-                // This validation case is broken
-                if(node.next.length === 0) {
-                    // Check for if "result" is filled
-                    if(node.props.value.get("result")?.toString() ?? false) {
-                        // If "result" is not filled out, then "analysis_sco_refs" must be filled out to pass validation.
-                        this.addError(id, "A Malware Analysis must have the Result field filled out or point to at least one object captured during analysis.");
+            case "malware_analysis":
+                if(node.props.value.get("result")?.toString() == "Null") {
+                    // If "result" is empty, check for "analysis_sco_refs"
+                    if(node.next.length === 0) {
+                        this.addError(id, "A Malware Analysis must have the Result field filled out or point to at least one object captured during analysis.")
                     }
                 }
+                break;
             case "network_traffic":
                 this.validateNetworkTrafficLinks(id, node);
                 break;

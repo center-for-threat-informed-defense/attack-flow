@@ -366,6 +366,9 @@ class AttackFlowPublisher extends DiagramPublisher {
                         sro = this.tryEmbedInDefault(parent, c.obj);
                     }
                     break;
+                case "malware_analysis":
+                    this.tryEmbedInMalwareAnalysis(parent, c.obj);
+                    break;
                 case "network-traffic":
                     sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
                     break;
@@ -566,6 +569,23 @@ class AttackFlowPublisher extends DiagramPublisher {
             parent.object_refs = [];
         }
         parent.object_refs.push(child.id);
+    }
+
+    /**
+     * Embed a reference to the child in the malware analysis. If the child cannot be
+     * embedded, return a new SRO.
+     * @param parent
+     *  A STIX malware analysis node.
+     * @param child
+     *  A STIX child node.
+     * @returns
+     *  An SRO, if one was created.
+     */
+    private tryEmbedInMalwareAnalysis(parent: Sdo, child: Sdo): void {
+        if (!parent.analysis_sco_refs) {
+            parent.analysis_sco_refs = [];
+        }
+        parent.analysis_sco_refs.push(child.id);
     }
 
     /**
