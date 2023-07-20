@@ -259,7 +259,6 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case PropertyType.Enum:
                     if (prop instanceof EnumProperty && prop.isDefined()) {
                         let value = prop.toReferenceValue()!.toRawValue()!;
-                        console.log(value);
                         if(["True", "False"].includes(value.toString())) {
                             // case(BoolEnum)
                             node[key] = value === "True";
