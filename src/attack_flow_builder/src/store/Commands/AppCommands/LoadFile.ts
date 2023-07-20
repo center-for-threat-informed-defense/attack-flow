@@ -60,7 +60,8 @@ export class LoadFile extends AppCommand {
      *  The {@link LoadFile} command.
      */
     public static async fromFileSystem(context: ApplicationStore): Promise<LoadFile> {
-        let file = (await Browser.openTextFileDialog()).contents as string;
+        let ext = Configuration.file_type_extension;
+        let file = (await Browser.openTextFileDialog(ext)).contents as string;
         let page = await PageEditor.fromFile(file);
         return new LoadFile(context, page);
     }

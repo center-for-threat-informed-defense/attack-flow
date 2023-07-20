@@ -45,7 +45,7 @@ export default defineComponent({
      */
     fields(): [string, Property][] {
       return [...this.property.value.entries()].filter(
-        o => o[1].descriptor.is_visible ?? true
+        o => o[1].descriptor.is_visible_sidebar ?? true
       );
     }
 
