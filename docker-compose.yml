@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  attack-flow:
+    image: ghcr.io/center-for-threat-informed-defense/attack-flow:main
+    ## Uncomment this to use the local Dockerfile instead of the official image
+    #build:
+    #  context: .
+    #  dockerfile: ./Dockerfile
+    ports:
+      - 8081:80
+    restart: always

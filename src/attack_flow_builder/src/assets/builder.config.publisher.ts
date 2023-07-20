@@ -5,6 +5,7 @@ import {
     DiagramObjectModel,
     DictionaryProperty,
     EnumProperty,
+    GraphExport,
     GraphObjectExport,
     ListProperty,
     Property,
@@ -100,7 +101,8 @@ class AttackFlowPublisher extends DiagramPublisher {
         // Create bundle
         let stixBundle = this.createStixBundle();
         let author = this.createFlowAuthorSdo(page);
-        let flow = this.createFlowSdo(pageId, page, author.id);
+        let startRefs = this.computeStartRefs(graph);
+        let flow = this.createFlowSdo(pageId, page, author.id, startRefs);
         stixBundle.objects.push(flow);
         stixBundle.objects.push(author);
 
@@ -142,43 +144,6 @@ class AttackFlowPublisher extends DiagramPublisher {
             let SROs = this.tryEmbed(node, children);
             // If any embeds failed, append SROs
             stixBundle.objects.push(...SROs);
-        }
-
-        // Configure flow roots
-        for(let [id, value] of graph.nodes) {
-            let type = value.template.id;
-            // Node must be an action or condition
-            switch(type) {
-                case "action":
-                case "condition":
-                    break;
-                default:
-                    continue;
-            }
-            // Node parent cannot be an action or condition
-            let invalidParentType = false;
-            for(let edgeId of value.prev) {
-                // Resolve parent
-                let edge = graph.edges.get(edgeId)!;
-                let nodeId = edge.prev[0];
-                if(!nodeId) {
-                    continue;
-                }
-                // Check parent type
-                let node = graph.nodes.get(nodeId)!;
-                switch(node.template.id) {
-                    case "action":
-                    case "condition":
-                        invalidParentType = true;
-                        break;
-                }
-            }
-            if(invalidParentType) {
-                continue;
-            }
-            // Add flow root
-            let stixId = stixNodes.get(id)!.id;
-            flow.start_refs.push(stixId);
         }
 
         // Return bundle as string
@@ -345,6 +310,21 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case "attack-operator":
                     sro = this.tryEmbedInOperator(parent, c.obj);
                     break;
+                case "ipv4-addr": // falls through
+                case "ipv6-addr": // falls through
+                case "mac-addr": // falls through
+                case "domain-name":
+                    // Network traffic is a special case where it's _parent_ can be embedded if its one of the
+                    // above types.
+                    if (c.obj.type === "network-traffic") {
+                        sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
+                    } else {
+                        sro = this.tryEmbedInDefault(parent, c.obj);
+                    }
+                    break;
+                case "network-traffic":
+                    sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
+                    break;
                 case "note":
                     this.tryEmbedInNote(parent, c.obj);
                     break;
@@ -477,6 +457,28 @@ class AttackFlowPublisher extends DiagramPublisher {
     }
 
     /**
+     * Try to embed a reference in a network-traffic object, otherwise return a new SRO.
+     *
+     * Either parent or child must be a network-traffic, the other one should not be a network-traffic.
+     *
+     * @param parent
+     *  A STIX node (network-traffic, ipv4-addr, ipv6-addr, mac-addr, or domain-name)
+     * @param child
+     *  A STIX node (network-traffic, ipv4-addr, ipv6-addr, mac-addr, or domain-name)
+     * @returns
+     *  An SRO, if one was created.
+     */
+    private tryEmbedInNetworkTraffic(parent: Sdo, child: Sdo): Sro | undefined {
+        if (parent.type === "network-traffic" && !parent["dst_ref"]) {
+            parent["dst_ref"] = child.id;
+        } else if (child.type === "network-traffic" && !child["src_ref"]) {
+            child["src_ref"] = parent.id;
+        } else {
+            return this.createSro(parent, child);
+        }
+    }
+
+    /**
      * Embed a reference to the child in the operator. If the child cannot be
      * embedded, return a new SRO.
      * @param parent
@@ -591,7 +593,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         let obj = this.createSdo("identity", AttackFlowExtensionId);
         return {
             ...obj,
-            create_by_ref       : obj.id,
+            created_by_ref      : obj.id,
             name                : AttackFlowExtensionCreatorName,
             identity_class      : "organization",
             created             : AttackFlowExtensionCreatedDate,
@@ -607,14 +609,16 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The page object.
      * @param authorId
      *  The author's id.
+     * @param startRefs
+     *  A list of node IDs to use as the flow's start_refs.
      */
-    private createFlowSdo(id: string, page: GraphObjectExport, authorId: string): Sdo {
+    private createFlowSdo(id: string, page: GraphObjectExport, authorId: string, startRefs: string[]): Sdo {
 
         // Create flow
         let flow: Sdo = {
             ...this.createSdo(page.template.id, id),
             created_by_ref      : authorId,
-            start_refs          : []
+            start_refs          : startRefs,
         }
 
         // Merge properties
@@ -630,10 +634,13 @@ class AttackFlowPublisher extends DiagramPublisher {
                     if(prop.descriptor.form.type !== PropertyType.Dictionary) {
                         throw new Error(`'${ key }' is improperly defined.`);
                     }
-                    flow[key] = [];
+                    const extRefs = [];
                     for(let ref of prop.value.values()) {
                         let entries = ref.toRawValue() as RawEntries;
-                        flow[key].push(Object.fromEntries(entries));
+                        extRefs.push(Object.fromEntries(entries));
+                    }
+                    if (extRefs.length > 0) {
+                        flow[key] = extRefs;
                     }
                     break;
                 case "scope":
@@ -659,6 +666,93 @@ class AttackFlowPublisher extends DiagramPublisher {
         // Return flow
         return flow;
 
+    }
+
+    /**
+     * Determine which action/condition nodes are the starting points for the flow.
+     *
+     * The logic for determining start_refs is:
+     *   1. Impute the graph consisting of only actions and conditions.
+     *   2. Any node with in-degree equal to zero is a start ref.
+     *
+     * @param graph
+     *  A semantic graph
+     * @returns
+     *  A list of node IDs.
+     */
+    private computeStartRefs(graph: GraphExport): string[] {
+        const imputedEdges = new Map<string, string[]>();
+
+        // This helper returns the IDs of child nodes of the given node.
+        const getChildNodes = (nodeId: string) => {
+            const children: string[] = [];
+            const node = graph.nodes.get(nodeId);
+            if (node) {
+                for (const edgeId of node.next) {
+                    const edge = graph.edges.get(edgeId);
+                    if (edge) {
+                        children.push(...edge.next);
+                    }
+                }
+            }
+            return children;
+        };
+
+        // Impute the graph containing only actions and conditions.
+        const stack: string[] = [];
+        for (const [parentId, parentNode] of graph.nodes) {
+            // Ignore nodes that are not actions or conditions.
+            const parentType = parentNode.template.id;
+            if (parentType !== "action" && parentType !== "condition") {
+                continue;
+            }
+            const edges: string[] = [];
+            imputedEdges.set(parentId, edges);
+
+            // Initialize stack with the node's children.
+            stack.push(...getChildNodes(parentId));
+
+            // Breadth-first search of this node's descendants, terminating when an action or condition is
+            // reached.
+            let descendantId;
+            const visited = new Set<string>();
+            while (descendantId = stack.pop()) {
+                // Don't visit the same node twice otherwise we could get caught in an infinite loop.
+                if (visited.has(descendantId)) {
+                    continue;
+                }
+                visited.add(descendantId);
+
+                // Search a descendant node.
+                const descendantNode = graph.nodes.get(descendantId);
+                if (descendantNode) {
+                    const descendantType = descendantNode.template.id;
+                    if (descendantType === "action" || descendantType === "condition") {
+                        edges.push(descendantId);
+                    } else {
+                        stack.push(...getChildNodes(descendantId));
+                    }
+                }
+            }
+        }
+
+        // Compute which nodes have no in-bound edges.
+        const startRefs = new Set<string>(imputedEdges.keys());
+        for (const [parentId, children] of imputedEdges) {
+            for (const childId of children) {
+                startRefs.delete(childId);
+            }
+        }
+
+        // I don't know if this will be a problem in practice, but in theory a cycle in the graph could lead
+        // to a situation where none of the action/conditions nodes have in-degree zero. It's not clear what
+        // the logic should even be in that situation, so for now just throw an exception so that we don't
+        // produce an invalid Attack Flow.
+        if (startRefs.size === 0) {
+            throw new Error("Unable to compute start refs -- does the flow contain a cycle?");
+        }
+
+        return [...startRefs];
     }
 
     /**
@@ -855,7 +949,7 @@ type ExtensionSdo = Sdo & {
 }
 
 type ExtensionAuthorSdo = Sdo & {
-    create_by_ref  : string,
+    created_by_ref : string,
     name           : string,
     identity_class : string,
     created        : string,

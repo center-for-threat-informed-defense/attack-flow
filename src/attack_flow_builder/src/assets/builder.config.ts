@@ -21,6 +21,7 @@ const BoolEnum: EnumPropertyDescriptor = {
 
 const config: AppConfiguration = {
     is_web_hosted: false,
+    application_name: "Attack Flow Builder",
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
     schema: {
@@ -37,7 +38,7 @@ const config: AppConfiguration = {
                     author                       : {
                         type: PropertyType.Dictionary,
                         form: {
-                            name: { type: PropertyType.String, is_primary: true },
+                            name: { type: PropertyType.String, is_primary: true, is_required: true },
                             identity_class: {
                                 type: PropertyType.Enum,
                                 options: {
@@ -676,7 +677,7 @@ const config: AppConfiguration = {
                     is_active                    : BoolEnum,
                     src_port                     : { type: PropertyType.Int, min: 0, max: 65535 },
                     dst_port                     : { type: PropertyType.Int, min: 0, max: 65535 },
-                    protocols                    : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
+                    protocols                    : { type: PropertyType.List, min_items: 1, form: { type: PropertyType.String, is_required: true }},
                     src_byte_count               : { type: PropertyType.Int, min: 0 },
                     dst_byte_count               : { type: PropertyType.Int, min: 0 },
                     src_packets                  : { type: PropertyType.Int, min: 0 },
