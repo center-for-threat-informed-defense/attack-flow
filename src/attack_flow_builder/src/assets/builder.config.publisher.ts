@@ -357,6 +357,9 @@ class AttackFlowPublisher extends DiagramPublisher {
                         sro = this.tryEmbedInDefault(parent, c.obj);
                     }
                     break;
+                case "grouping":
+                    this.tryEmbedInNote(parent, c.obj);
+                    break;
                 case "network-traffic":
                     sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
                     break;

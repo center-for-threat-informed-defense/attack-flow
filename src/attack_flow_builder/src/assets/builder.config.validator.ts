@@ -143,6 +143,11 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
+            case "grouping":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Grouping must point to at least one object.");
+                }
+            break;
             case "network_traffic":
                 this.validateNetworkTrafficLinks(id, node);
                 break;
