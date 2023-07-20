@@ -363,6 +363,9 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case "note":
                     this.tryEmbedInNote(parent, c.obj);
                     break;
+                case "report":
+                    this.tryEmbedInNote(parent, c.obj);
+                    break;
                 default:
                     sro = this.tryEmbedInDefault(parent, c.obj);
             }

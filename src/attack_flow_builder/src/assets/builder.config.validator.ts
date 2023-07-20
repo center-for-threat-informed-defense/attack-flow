@@ -151,6 +151,11 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "A Note must point to at least one object.");
                 }
                 break;
+            case "report":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Report must point to at least one object.");
+                }
+                break;
             case "windows_registry_key": // Additional validation for windows registry keys
                 if (!AttackFlowValidator.WindowsRegistryregex.test(String(node.props.value.get("key")))) {
                     this.addError(id, "Invalid Windows registry key.");
