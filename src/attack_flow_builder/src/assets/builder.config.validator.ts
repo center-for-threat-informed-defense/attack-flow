@@ -169,6 +169,22 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid email address.")
                 }
                 break;
+            case "location": // Additional validation for location object
+                const region = node.props.value.get("region");
+                const country = node.props.value.get("country");
+                const latitude = node.props.value.get("latitude");
+                const longitude = node.props.value.get("longitude");
+
+                // Verify one of the required properties is set
+                if(!region?.isDefined() && !country?.isDefined() && !(latitude?.isDefined() || longitude?.isDefined())) {
+                    this.addError(id, "Location requires one of the following properties: Region, Country, Latitude+Longitude.");
+                }
+
+                // Latitude + Longitude check
+                if(latitude?.isDefined() !== longitude?.isDefined()) {
+                    this.addError(id, "Latitude and Longitude must be supplied together.");
+                }
+                break;
         }
     }
 
