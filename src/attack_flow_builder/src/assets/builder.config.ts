@@ -21,6 +21,7 @@ const BoolEnum: EnumPropertyDescriptor = {
 
 const config: AppConfiguration = {
     is_web_hosted: false,
+    application_name: "Attack Flow Builder",
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
     schema: {

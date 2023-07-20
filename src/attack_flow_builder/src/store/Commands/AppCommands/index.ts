@@ -1,6 +1,7 @@
 export * from "./CopySelectedChildren";
 export * from "./LoadFile";
 export * from "./LoadSettings";
+export * from "./NullCommand";
 export * from "./OpenHyperlink";
 export * from "./PublishPageToDevice";
 export * from "./SavePageImageToDevice";
