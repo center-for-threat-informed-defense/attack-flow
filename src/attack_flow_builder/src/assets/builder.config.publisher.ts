@@ -90,8 +90,6 @@ class AttackFlowPublisher extends DiagramPublisher {
     public override publish(diagram: DiagramObjectModel): string {
         let graph = SemanticAnalyzer.toGraph(diagram);
 
-        console.log("PUBLISHING");
-
         // Extract page
         let pageId = diagram.id;
         let page = graph.nodes.get(pageId);
@@ -189,10 +187,6 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The action's properties.
      */
     private mergeActionProperty(node: Sdo, property: DictionaryProperty) {
-
-        console.log("ACTION PROPERTY");
-        console.log(property);
-
         for(let [key, prop] of property.value) {
             switch(key) {
                 case "confidence":
@@ -216,7 +210,6 @@ class AttackFlowPublisher extends DiagramPublisher {
 
             // Remove trailing whitespace on StringProperties
             if (prop instanceof StringProperty && prop.isDefined()) {
-                console.log("DEFINED STRING ACT");
                 node[key] = prop.toString().trim();
             }
         }
@@ -230,10 +223,6 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The dictionary property.
      */
     private mergeBasicDictProperty(node: Sdo, property: DictionaryProperty) {
-
-        console.log("DICT PROPERTY");
-        console.log(property);
-
         for(let [key, prop] of property.value) {
             switch(prop.type) {
                 case PropertyType.Dictionary:
@@ -251,7 +240,6 @@ class AttackFlowPublisher extends DiagramPublisher {
                     break;
                 case PropertyType.String:
                     if (prop.isDefined()) {
-                        console.log("DEFINED STRING DICT");
                         node[key] = prop.toString().trim();
                     }
                     break;
