@@ -554,7 +554,7 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    number                       : { type: PropertyType.String, is_primary: true, is_required: true },
+                    number                       : { type: PropertyType.Int, is_primary: true, is_required: true },
                     name                         : { type: PropertyType.String },
                     rir                          : { type: PropertyType.String },
                 },

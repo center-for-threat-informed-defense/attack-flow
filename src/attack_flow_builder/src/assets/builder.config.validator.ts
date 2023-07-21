@@ -151,6 +151,11 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
+            case "grouping":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Grouping must point to at least one object.");
+                }
+            break;
             case "malware_analysis":
                 if(!node.props.value.get("result")?.isDefined()) {
                     // If "result" is empty, check for "analysis_sco_refs"
@@ -165,6 +170,11 @@ class AttackFlowValidator extends DiagramValidator {
             case "note":
                 if(node.next.length === 0) {
                     this.addError(id, "A Note must point to at least one object.");
+                }
+                break;
+            case "report":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Report must point to at least one object.");
                 }
                 break;
             case "windows_registry_key": // Additional validation for windows registry keys
