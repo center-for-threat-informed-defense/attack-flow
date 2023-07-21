@@ -3,6 +3,7 @@ import { Module } from "vuex"
 import { PageEditor } from "@/store/PageEditor";
 import { AppCommand } from "@/store/Commands/AppCommand";
 import { PageCommand } from "@/store/Commands/PageCommand";
+import { PageRecoveryBank } from "../PageRecoveryBank";
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram";
 import { ValidationErrorResult, ValidationWarningResult } from "@/assets/scripts/DiagramValidator";
 import { ModuleStore, ApplicationStore, BaseAppSettings } from "@/store/StoreTypes"
@@ -10,16 +11,14 @@ import { ModuleStore, ApplicationStore, BaseAppSettings } from "@/store/StoreTyp
 const Publisher = Configuration.publisher ? 
     new Configuration.publisher() : undefined;
 
-const DummyPage = PageEditor.createDummy();
-
 export default {
     namespaced: true,
     state: {
         settings: BaseAppSettings,
         clipboard: [],
         publisher: Publisher,
-        pages: new Map([[ DummyPage.id, DummyPage ]]),
-        activePage: DummyPage
+        activePage: PageEditor.createDummy(),
+        recoveryBank: new PageRecoveryBank()
     },
     getters: {
 
@@ -141,14 +140,11 @@ export default {
                 if(command.page === PageCommand.NullPage)
                     return;
                 // Execute command
-                let editor = state.pages.get(command.page);
-                if(editor) {
-                    editor.execute(command);
-                } else {
-                    throw new Error(
-                        `'${ command.page }' is not a page.`
-                    );
-                }
+                if(state.activePage.execute(command)) {
+                    // If the command was recorded to the page's undo history,
+                    // store all progress in the recovery bank.
+                    state.recoveryBank.storeEditor(state.activePage);
+                };
             } else {
                 command.execute();
             }

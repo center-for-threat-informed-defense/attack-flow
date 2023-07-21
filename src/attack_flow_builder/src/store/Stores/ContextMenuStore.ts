@@ -33,6 +33,7 @@ export default {
             // Sections
             let sections: ContextMenuSection[] = [
                 getters.openFileMenu,
+                getters.isRecoverFileMenuShown ? getters.recoverFileMenu : null,
                 getters.saveFileMenu,
                 ctx.publisher ? getters.publishFileMenu : null
             ].filter(Boolean);
@@ -71,6 +72,74 @@ export default {
                     }
                 ],
             }
+        },
+
+        /**
+         * Returns the 'recover file' menu section.
+         * @param _s
+         *  The Vuex state. (Unused)
+         * @param _g
+         *  The Vuex getters. (Unused)
+         * @param rootState
+         *  The Vuex root state.
+         * @returns
+         *  The 'recover file' menu section.
+         */
+        recoverFileMenu(_s, _g, rootState): ContextMenuSection {
+            let ctx = rootState.ApplicationStore;
+            let pages = ctx.recoveryBank.pages;
+            
+            // Build page list
+            let items: ContextMenu[] = [];
+            for(let [id, page] of pages.entries()) {
+                // Ignore active page
+                if(id === ctx.activePage.id) {
+                    continue;
+                }
+                // Add page
+                items.push({
+                    text: page.name,
+                    type: MenuType.Item,
+                    data: () => App.LoadFile.fromFile(ctx, page.file)
+                })
+            }
+            if(items.length === 0) {
+                items.push({
+                    text: "No Recovered Files",
+                    type: MenuType.Item,
+                    data: () => new App.NullCommand(ctx),
+                    disabled: true
+                });
+            }
+
+            // Build submenu
+            let submenu: ContextMenu = {
+                text: "Open Recovered Files",
+                type: MenuType.Submenu,
+                sections: [
+                    { 
+                        id: "recovered_files",
+                        items
+                    },
+                    {
+                        id: "bank_controls",
+                        items: [
+                            {
+                                text: "Delete Recovered Files",
+                                type: MenuType.Item,
+                                data: () => new App.ClearPageRecoveryBank(ctx)
+                            }
+                        ]
+                    }
+                ]
+            }
+
+            // Return menu
+            return { 
+                id: "recover_file_options",
+                items: [ submenu ]
+            };
+
         },
         
         /**
@@ -145,6 +214,24 @@ export default {
                     }
                 ]
             }
+        },
+
+        /**
+         * Tests if the 'recovery file' menu should be displayed.
+         * @param _s
+         *  The Vuex state. (Unused)
+         * @param _g
+         *  The Vuex getters. (Unused)
+         * @param rootState
+         *  The Vuex root state.
+         * @returns
+         *  True if the menu should be displayed, false otherwise.
+         */
+        isRecoverFileMenuShown(_s, _g, rootState): boolean {
+            let ctx = rootState.ApplicationStore;
+            let editor = ctx.activePage;
+            let ids = [...ctx.recoveryBank.pages.keys()];
+            return (ids.length === 1 && ids[0] !== editor.id) || 1 < ids.length;
         },
 
 
@@ -813,7 +900,11 @@ export default {
  * @returns
  *  The formatted submenu.
  */
-function generateCreateMenu(key: string, value: Namespace, spawn: (id: string) => Page.SpawnObject): ContextMenuSubmenu {
+function generateCreateMenu(
+    key: string, 
+    value: Namespace,
+    spawn: (id: string) => Page.SpawnObject
+): ContextMenuSubmenu {
     let sm: ContextMenuSubmenu = {
         text: titleCase(key),
         type: MenuType.Submenu,
