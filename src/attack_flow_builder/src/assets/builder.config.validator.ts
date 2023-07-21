@@ -151,12 +151,22 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
+            case "grouping":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Grouping must point to at least one object.");
+                }
+            break;
             case "network_traffic":
                 this.validateNetworkTrafficLinks(id, node);
                 break;
             case "note":
                 if(node.next.length === 0) {
                     this.addError(id, "A Note must point to at least one object.");
+                }
+                break;
+            case "report":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Report must point to at least one object.");
                 }
                 break;
             case "windows_registry_key": // Additional validation for windows registry keys
