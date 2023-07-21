@@ -152,7 +152,7 @@ class AttackFlowValidator extends DiagramValidator {
         // Validate links
         switch(node.template.id) {
             case "malware_analysis":
-                if(node.props.value.get("result")?.toString() == "Null") {
+                if(!node.props.value.get("result")?.isDefined()) {
                     // If "result" is empty, check for "analysis_sco_refs"
                     if(node.next.length === 0) {
                         this.addError(id, "A Malware Analysis must have the Result field filled out or point to at least one object captured during analysis.")
