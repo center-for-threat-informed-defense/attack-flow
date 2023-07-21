@@ -5,11 +5,6 @@ import { EditorViewParameters, PageEditor } from "@/store/PageEditor";
 export class SetEditorViewParams extends AppCommand {
 
     /**
-     * The editor.
-     */
-    private _editor: PageEditor;
-
-    /**
      * The new front-end view parameters.
      */
     private _params: EditorViewParameters;
@@ -26,12 +21,6 @@ export class SetEditorViewParams extends AppCommand {
      */
     constructor(context: ApplicationStore, id: string, params: EditorViewParameters) {
         super(context);
-        let editor = context.pages.get(id);
-        if(!editor) {
-            throw new Error(`Page '${ id }' not found.`);
-        } else {
-            this._editor = editor;
-        }
         this._params = params;
     }
 
@@ -40,7 +29,7 @@ export class SetEditorViewParams extends AppCommand {
      * Executes the command.
      */
     public execute(): void {
-        this._editor.view = this._params;
+        this._context.activePage.view = this._params;
     }
 
 }

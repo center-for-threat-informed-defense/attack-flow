@@ -85,9 +85,6 @@ export class LoadFile extends AppCommand {
      * Executes the command.
      */
     public execute(): void {
-        // NOTE: For now, only one page will be loaded at a time.
-        this._context.pages.clear();
-        this._context.pages.set(this._editor.id, this._editor);
         this._context.activePage = this._editor;
     }
 
