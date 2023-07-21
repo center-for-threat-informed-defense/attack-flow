@@ -279,21 +279,7 @@ the following setup steps:
     $ npm install
     ...
 
-This will download all of the dependencies needed. You also need to initialize the ATT&CK search index (used for autocompletion of ATT&CK objects):
-
-.. code:: shell
-
-    $ npm run fetch-attack
-    Downloading ATT&CK STIX data…
-    * enterprise-attack-11.1.json → data/enterprise-attack.json…  done
-    * ics-attack-11.1.json → data/ics-attack.json…  done
-    * mobile-attack-11.1-beta.json → data/mobile-attack.json…  done
-
-    Finished successfully.
-
-    $ npm run build-index
-
-Finally, to run the application:
+This will download all of the dependencies needed. Finally, to run the application:
 
 .. code:: shell
 
