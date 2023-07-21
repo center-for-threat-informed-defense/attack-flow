@@ -238,7 +238,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                         this.mergeBasicListProperty(node, key, prop as ListProperty);
                     }
                     break;
-                case PropertyType.String:
+                case PropertyType.String: // Remove trailing whitespace on StringProperties
                     if (prop.isDefined()) {
                         node[key] = prop.toString().trim();
                     }
@@ -271,6 +271,11 @@ class AttackFlowPublisher extends DiagramPublisher {
                     throw new Error("Basic lists cannot contain lists.");
                 case PropertyType.Enum:
                     throw new Error("Basic lists cannot contain enums.");
+                case PropertyType.String: // Remove trailing whitespace on StringProperties
+                    if(prop.isDefined()) {
+                        node[key].push(prop.toString().trim());
+                    }
+                    break;
                 default:
                     if(prop.isDefined()) {
                         node[key].push(prop.toRawValue());
