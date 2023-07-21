@@ -816,7 +816,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                         break;
                     default:
                         if(prop.isDefined()) {
-                            author[key] = prop.toRawValue()
+                            author[key] = prop.toString().trim();
                         }
                         break;
                 }
