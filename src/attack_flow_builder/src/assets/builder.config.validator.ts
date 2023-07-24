@@ -155,7 +155,7 @@ class AttackFlowValidator extends DiagramValidator {
                 if(node.next.length === 0) {
                     this.addError(id, "A Grouping must point to at least one object.");
                 }
-            break;
+                break;
             case "malware_analysis":
                 if(!node.props.value.get("result")?.isDefined()) {
                     // If "result" is empty, check for "analysis_sco_refs"
