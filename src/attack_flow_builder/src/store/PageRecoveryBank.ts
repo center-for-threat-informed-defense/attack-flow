@@ -52,14 +52,14 @@ export class PageRecoveryBank {
     }
 
     /**
-     * Withdrawals an editor from the bank.
+     * Withdraws an editor from the bank.
      * @param editor
-     *  The id of the page editor to withdrawal.
+     *  The id of the page editor to withdraw.
      */
-    public withdrawalEditor(id: string) {
+    public withdrawEditor(id: string) {
         let key = `${ PageRecoveryBank.PREFIX }${ id }`;
         if(localStorage.getItem(key) !== null) {
-            // Withdrawal page
+            // Withdraw page
             this.pages.delete(id);
             // Mirror to local storage
             localStorage.removeItem(key);

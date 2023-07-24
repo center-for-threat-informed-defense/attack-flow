@@ -26,8 +26,8 @@ export class SavePageToDevice extends AppCommand {
             editor.toFile(),
             Configuration.file_type_extension
         );
-        // Withdrawal progress from recovery bank
-        this._context.recoveryBank.withdrawalEditor(editor.id);
+        // Withdraw progress from recovery bank
+        this._context.recoveryBank.withdrawEditor(editor.id);
     }
 
 }

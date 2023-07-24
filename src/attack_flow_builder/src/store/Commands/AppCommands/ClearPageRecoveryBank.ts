@@ -22,7 +22,7 @@ export class ClearPageRecoveryBank extends AppCommand {
             if(id === this._context.activePage.id) {
                 continue;
             }
-            this._context.recoveryBank.withdrawalEditor(id);
+            this._context.recoveryBank.withdrawEditor(id);
         }
     }
 
