@@ -2,31 +2,16 @@ import Configuration from "@/assets/builder.config";
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
 import { Browser } from "@/assets/scripts/Browser";
-import { PageEditor } from "@/store/PageEditor";
 
 export class SavePageToDevice extends AppCommand {
-
-    /**
-     * The page's editor.
-     */
-    private _editor: PageEditor;
-
 
     /**
      * Saves a page to the user's file system.
      * @param context
      *  The application context.
-     * @param id
-     *  The id of the page.
      */
-    constructor(context: ApplicationStore, id: string) {
+    constructor(context: ApplicationStore) {
         super(context);
-        let editor = context.pages.get(id);
-        if(!editor) {
-            throw new Error(`Page '${ id }' not found.`);
-        } else {
-            this._editor = editor;
-        }
     }
 
 
@@ -34,11 +19,15 @@ export class SavePageToDevice extends AppCommand {
      * Executes the command.
      */
     public execute(): void {
+        let editor = this._context.activePage;
+        // Download page
         Browser.downloadTextFile(
-            this._editor.page.props.toString(),
-            this._editor.toFile(),
+            editor.page.props.toString(),
+            editor.toFile(),
             Configuration.file_type_extension
         );
+        // Withdraw progress from recovery bank
+        this._context.recoveryBank.withdrawEditor(editor.id);
     }
 
 }

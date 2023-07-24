@@ -1,6 +1,7 @@
 import { PageEditor } from "@/store/PageEditor"
 import { DiagramValidator } from "@/assets/scripts/DiagramValidator/DiagramValidator"
 import { DiagramPublisher } from "@/assets/scripts/DiagramPublisher/DiagramPublisher"
+import { PageRecoveryBank } from "./PageRecoveryBank"
 import { BlockDiagramSchema } from "@/assets/scripts/BlockDiagram/DiagramFactory"
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram"
 
@@ -27,8 +28,8 @@ export type ApplicationStore = {
     settings: AppSettings,
     clipboard: DiagramObjectModel[],
     publisher: DiagramPublisher | undefined,
-    pages: Map<string, PageEditor>,
-    activePage: PageEditor
+    activePage: PageEditor,
+    recoveryBank: PageRecoveryBank
 }
 
 /**

@@ -19,12 +19,7 @@ export class UndoPageCommand extends PageCommand {
      */
     constructor(context: ApplicationStore, page: string) {
         super(page);
-        let editor = context.pages.get(page);
-        if(editor) {
-            this._editor = editor;
-        } else {
-            throw new Error(`'${ page }' is not a page.`);
-        }
+        this._editor = context.activePage;
     }
     
 
