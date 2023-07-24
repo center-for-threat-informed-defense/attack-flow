@@ -1,7 +1,6 @@
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
 import { Browser } from "@/assets/scripts/Browser";
-import { PageEditor } from "@/store/PageEditor";
 
 export class PublishPageToDevice extends AppCommand {
 
@@ -9,14 +8,12 @@ export class PublishPageToDevice extends AppCommand {
      * Publishes a page to the user's file system.
      * @param context
      *  The application context.
-     * @param id
-     *  The id of the page.
      */
-    constructor(context: ApplicationStore, id: string) {
+    constructor(context: ApplicationStore) {
         super(context);
         let editor = context.activePage;
         if(!editor.isValid()) {
-            throw new Error(`Page '${ id }' is not valid.`);
+            throw new Error(`Page '${ editor.id }' is not valid.`);
         } else if(!this._context.publisher) {
             throw new Error(`App is not configured with a publisher.`);
         }

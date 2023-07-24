@@ -165,19 +165,19 @@ export default {
                     {
                         text: "Save",
                         type: MenuType.Item,
-                        data: () => new App.SavePageToDevice(ctx, page.id),
+                        data: () => new App.SavePageToDevice(ctx),
                         shortcut: file.save_file
                     },
                     {
                         text: "Save as Image",
                         type: MenuType.Item,
-                        data: () => new App.SavePageImageToDevice(ctx, page.id),
+                        data: () => new App.SavePageImageToDevice(ctx),
                         shortcut: file.save_image
                     },
                     {
                         text: "Save Selection as Image",
                         type: MenuType.Item,
-                        data: () => new App.SaveSelectionImageToDevice(ctx, page.id),
+                        data: () => new App.SaveSelectionImageToDevice(ctx),
                         shortcut: file.save_select_image,
                         disabled: !rootGetters["ApplicationStore/hasSelection"],
                     }
@@ -208,7 +208,7 @@ export default {
                     {
                         text: `Publish ${ Configuration.file_type_name }`,
                         type: MenuType.Item,
-                        data: () => new App.PublishPageToDevice(ctx, page.id),
+                        data: () => new App.PublishPageToDevice(ctx),
                         shortcut: file.publish_file,
                         disabled: !rootGetters["ApplicationStore/isValid"]
                     }

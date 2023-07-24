@@ -2,7 +2,6 @@ import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
 import { Browser } from "@/assets/scripts/Browser";
 import { PageImage } from "@/assets/scripts/BlockDiagram/PageImage";
-import { PageEditor } from "@/store/PageEditor";
 
 export class SavePageImageToDevice extends AppCommand {
 
@@ -10,10 +9,8 @@ export class SavePageImageToDevice extends AppCommand {
      * Saves a page as an image to the user's file system.
      * @param context
      *  The application context.
-     * @param id
-     *  The id of the page.
      */
-    constructor(context: ApplicationStore, id: string) {
+    constructor(context: ApplicationStore) {
         super(context);
     }
 

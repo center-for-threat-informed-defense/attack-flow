@@ -1,6 +1,6 @@
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
-import { EditorViewParameters, PageEditor } from "@/store/PageEditor";
+import { EditorViewParameters } from "@/store/PageEditor";
 
 export class SetEditorViewParams extends AppCommand {
 
@@ -14,12 +14,10 @@ export class SetEditorViewParams extends AppCommand {
      * Sets a page editor's front-end view parameters.
      * @param context
      *  The application context.
-     * @param id
-     *  The id of the page.
      * @param params
      *  The new front-end view parameters.
      */
-    constructor(context: ApplicationStore, id: string, params: EditorViewParameters) {
+    constructor(context: ApplicationStore, params: EditorViewParameters) {
         super(context);
         this._params = params;
     }

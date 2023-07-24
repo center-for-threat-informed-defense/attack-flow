@@ -1,6 +1,5 @@
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
-import { PageEditor } from "@/store/PageEditor";
 
 export class SetEditorPointerLocation extends AppCommand {
 
@@ -19,14 +18,12 @@ export class SetEditorPointerLocation extends AppCommand {
      * Sets a page editor's pointer location.
      * @param context
      *  The application context.
-     * @param id
-     *  The id of the page.
      * @param x
      *  The pointer's x location.
      * @param y
      *  The pointer's y location.
      */
-    constructor(context: ApplicationStore, id: string, x: number, y: number) {
+    constructor(context: ApplicationStore, x: number, y: number) {
         super(context);
         this._x = x;
         this._y = y;

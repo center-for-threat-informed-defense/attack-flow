@@ -2,7 +2,6 @@ import Configuration from "@/assets/builder.config";
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
 import { Browser } from "@/assets/scripts/Browser";
-import { PageEditor } from "@/store/PageEditor";
 
 export class SavePageToDevice extends AppCommand {
 
@@ -10,10 +9,8 @@ export class SavePageToDevice extends AppCommand {
      * Saves a page to the user's file system.
      * @param context
      *  The application context.
-     * @param id
-     *  The id of the page.
      */
-    constructor(context: ApplicationStore, id: string) {
+    constructor(context: ApplicationStore) {
         super(context);
     }
 

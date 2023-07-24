@@ -267,7 +267,7 @@ export default defineComponent({
      */
     onCanvasClick(e: PointerEvent, x: number, y: number) {
       this.execute(new Page.UnselectDescendants(this.editor.page));
-      this.execute(new App.SetEditorPointerLocation(this.ctx, this.editor.id, x, y));
+      this.execute(new App.SetEditorPointerLocation(this.ctx, x, y));
       if (e.button === MouseClick.Right) {
         this.openContextMenu(x, y);
       }
@@ -366,7 +366,7 @@ export default defineComponent({
       this.view = { x, y, k, w, h };
       this.execute(
         new App.SetEditorViewParams(
-          this.ctx, this.editor.id, { ...this.view }
+          this.ctx, { ...this.view }
         )
       );
     }
@@ -383,7 +383,7 @@ export default defineComponent({
       // Configure view parameters
       this.execute(
         new App.SetEditorViewParams(
-          this.ctx, this.editor.id, { ...this.view }
+          this.ctx, { ...this.view }
         )
       );
     },

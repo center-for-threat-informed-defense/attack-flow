@@ -2,7 +2,6 @@ import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
 import { Browser } from "@/assets/scripts/Browser";
 import { PageImage } from "@/assets/scripts/BlockDiagram/PageImage";
-import { PageEditor } from "@/store/PageEditor";
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram";
 
 export class SaveSelectionImageToDevice extends AppCommand {
@@ -17,10 +16,8 @@ export class SaveSelectionImageToDevice extends AppCommand {
      * Saves a page's selection as an image to the user's file system.
      * @param context
      *  The application context.
-     * @param id
-     *  The id of the page.
      */
-    constructor(context: ApplicationStore, id: string) {
+    constructor(context: ApplicationStore) {
         super(context);
         let editor = context.activePage;
         this._objects = [...editor.page.getSubtree(o => o.isSelected())];
