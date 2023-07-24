@@ -151,32 +151,14 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
-            case "grouping":
-                if(node.next.length === 0) {
-                    this.addError(id, "A Grouping must point to at least one object.");
-                }
-            break;
-            case "network_traffic":
-                this.validateNetworkTrafficLinks(id, node);
-                break;
-            case "note":
-                if(node.next.length === 0) {
-                    this.addError(id, "A Note must point to at least one object.");
-                }
-                break;
-            case "report":
-                if(node.next.length === 0) {
-                    this.addError(id, "A Report must point to at least one object.");
-                }
-                break;
-            case "windows_registry_key": // Additional validation for windows registry keys
-                if (!AttackFlowValidator.WindowsRegistryregex.test(String(node.props.value.get("key")))) {
-                    this.addError(id, "Invalid Windows registry key.");
-                }
-                break;
             case "email_address": // Additional validation for email addresses
                 if (!AttackFlowValidator.Emailregex.test(String(node.props.value.get("value")))) {
                     this.addError(id, "Invalid email address.")
+                }
+                break;
+            case "grouping":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Grouping must point to at least one object.");
                 }
                 break;
             case "location": // Additional validation for location object
@@ -193,6 +175,29 @@ class AttackFlowValidator extends DiagramValidator {
                 // Latitude + Longitude check
                 if(latitude?.isDefined() !== longitude?.isDefined()) {
                     this.addError(id, "Latitude and Longitude must be supplied together.");
+                }
+                break;
+            case "network_traffic":
+                this.validateNetworkTrafficLinks(id, node);
+                break;
+            case "note":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Note must point to at least one object.");
+                }
+                break;
+            case "opinion":
+                if(node.next.length === 0) {
+                    this.addError(id, "An Opinion must point to at least one object.");
+                }
+                break;
+            case "report":
+                if(node.next.length === 0) {
+                    this.addError(id, "A Report must point to at least one object.");
+                }
+                break;
+            case "windows_registry_key": // Additional validation for windows registry keys
+                if (!AttackFlowValidator.WindowsRegistryregex.test(String(node.props.value.get("key")))) {
+                    this.addError(id, "Invalid Windows registry key.");
                 }
                 break;
         }
