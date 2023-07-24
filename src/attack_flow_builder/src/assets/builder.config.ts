@@ -410,7 +410,20 @@ const config: AppConfiguration = {
                     submitted                    : { type: PropertyType.Date },
                     analysis_started             : { type: PropertyType.Date },
                     analysis_ended               : { type: PropertyType.Date },
-                    av_result                    : { type: PropertyType.String},
+                    result                       : {
+                        type: PropertyType.Enum,
+                        options: {
+                            type: PropertyType.List,
+                            form: { type: PropertyType.String },
+                            value: [
+                                ["malicious", "Malicious"],
+                                ["suspicious", "Suspicious"],
+                                ["benign", "Benign"],
+                                ["unknown", "Unknown"]
+                            ]
+                        },
+                        value: null
+                    },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
