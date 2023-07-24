@@ -675,6 +675,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                     flow[key] = prop
                         .toReferenceValue()!
                         .toString()
+                        .trim()
                         .toLocaleLowerCase();
                     break;
                 default:
