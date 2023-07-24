@@ -46,7 +46,7 @@ export class ListProperty extends CollectionProperty {
                     // Create property
                     let prop = Property.create(this, descriptor.form, value);
                     // Add property
-                    this.value.set(MD5(id), prop);
+                    this.value.set(id, prop);
                 }
             } else {
                 for(let id in descriptor.value) {
@@ -54,7 +54,7 @@ export class ListProperty extends CollectionProperty {
                     let value = descriptor.value[id];
                     let prop = Property.create(this, descriptor.form, value);
                     // Add property
-                    this.value.set(MD5(id), prop);
+                    this.value.set(id, prop);
                 }
             }
         }

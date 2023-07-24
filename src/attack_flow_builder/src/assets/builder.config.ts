@@ -21,6 +21,7 @@ const BoolEnum: EnumPropertyDescriptor = {
 
 const config: AppConfiguration = {
     is_web_hosted: false,
+    application_name: "Attack Flow Builder",
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
     schema: {
@@ -82,7 +83,7 @@ const config: AppConfiguration = {
                             }
                         }
                     },
-                    created                      : { type: PropertyType.Date, value: new Date(), is_visible: false }
+                    created                      : { type: PropertyType.Date, value: new Date(), is_visible_chart: false, is_visible_sidebar: false }
                 },
                 style: DarkTheme.Page()
             },
@@ -116,9 +117,9 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     tactic_id                    : { type: PropertyType.String },
-                    tactic_ref                   : { type: PropertyType.String },
+                    tactic_ref                   : { type: PropertyType.String, is_visible_chart: false, is_visible_sidebar: true },
                     technique_id                 : { type: PropertyType.String },
-                    technique_ref                : { type: PropertyType.String },
+                    technique_ref                : { type: PropertyType.String, is_visible_chart: false, is_visible_sidebar: true },
                     description                  : { type: PropertyType.String },
                     confidence                   : {
                         type: PropertyType.Enum,
@@ -196,7 +197,8 @@ const config: AppConfiguration = {
                         type: PropertyType.String,
                         value: "OR",
                         is_primary: true,
-                        is_visible: false,
+                        is_visible_chart: false,
+                        is_visible_sidebar: false,
                         is_editable: false,
                     }
                 },
@@ -213,7 +215,8 @@ const config: AppConfiguration = {
                         type: PropertyType.String,
                         value: "AND",
                         is_primary: true,
-                        is_visible: false,
+                        is_visible_chart: false,
+                        is_visible_sidebar: false,
                         is_editable: false,
                     }
                 },
@@ -407,7 +410,20 @@ const config: AppConfiguration = {
                     submitted                    : { type: PropertyType.Date },
                     analysis_started             : { type: PropertyType.Date },
                     analysis_ended               : { type: PropertyType.Date },
-                    av_result                    : { type: PropertyType.String},
+                    result                       : {
+                        type: PropertyType.Enum,
+                        options: {
+                            type: PropertyType.List,
+                            form: { type: PropertyType.String },
+                            value: [
+                                ["malicious", "Malicious"],
+                                ["suspicious", "Suspicious"],
+                                ["benign", "Benign"],
+                                ["unknown", "Unknown"]
+                            ]
+                        },
+                        value: null
+                    },
                 },
                 anchor_template: "@__builtin__anchor",
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
@@ -446,7 +462,21 @@ const config: AppConfiguration = {
                 properties: {
                     explanation                  : { type: PropertyType.String, is_primary: true },
                     authors                      : { type: PropertyType.List, form: { type: PropertyType.String } },
-                    opinion                      : { type: PropertyType.String, is_required: true },
+                    opinion                      : {
+                        type: PropertyType.Enum,
+                        options: {
+                            type: PropertyType.List,
+                            form: { type: PropertyType.String },
+                            value: [
+                                ["strongly-disagree", "Strongly Disagree"],
+                                ["disagree", "Disagree"],
+                                ["neutral", "Neutral"],
+                                ["agree", "Agree"],
+                                ["strongly-agree", "Strongly Agree"]
+                            ]
+                        },
+                        is_required: true
+                    }
                 },
                 anchor_template: "@__builtin__anchor",
                 style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})

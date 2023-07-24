@@ -61,7 +61,7 @@ export default defineComponent({
         return false;
       }
       for(let value of this.property.value.values()) {
-        if(value.descriptor.is_visible ?? true)
+        if(value.descriptor.is_visible_sidebar ?? true)
           return true;
       }
       return false;
