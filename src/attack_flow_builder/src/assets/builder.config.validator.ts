@@ -198,11 +198,8 @@ class AttackFlowValidator extends DiagramValidator {
                 if(node.next.length === 0) {
                     this.addError(id, "Observed Data must point to at least one stix observable.");
                 } else {
-                    // TODO: Check the type of the node
-                    console.log(node);
-                    console.log(this);
+                    // Check the template.id of every child node
                     for (let [childId, childNode] of this.getOutboundNodes(node.props.object.id)) {
-                        console.log(childNode.template.id);
                         if(!AttackFlowValidator.stixObservable.test(childNode.template.id)) {
                             this.addError(childId, "Observed Data can only be linked to stix observables.");
                         }
