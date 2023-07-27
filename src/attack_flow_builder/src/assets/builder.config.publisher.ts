@@ -241,6 +241,10 @@ class AttackFlowPublisher extends DiagramPublisher {
                     break;
                 default:
                     if(prop.isDefined()) {
+                        if(node.type === "mac-addr") {
+                            node[key] = prop.toRawValue()!.toString().toLowerCase();
+                            break;
+                        }
                         node[key] = prop.toRawValue();
                     }
                     break;
