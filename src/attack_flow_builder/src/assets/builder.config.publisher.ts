@@ -11,7 +11,8 @@ import {
     Property,
     PropertyType,
     RawEntries,
-    SemanticAnalyzer
+    SemanticAnalyzer,
+    StringProperty
 } from "./scripts/BlockDiagram";
 
 
@@ -206,6 +207,11 @@ class AttackFlowPublisher extends DiagramPublisher {
                         node[key] = prop.toRawValue();
                     }
             }
+
+            // Remove trailing whitespace on StringProperties
+            if (prop instanceof StringProperty && prop.isDefined()) {
+                node[key] = prop.toString().trim();
+            }
         }
     }
 
@@ -239,6 +245,11 @@ class AttackFlowPublisher extends DiagramPublisher {
                         this.mergeBasicListProperty(node, key, prop as ListProperty);
                     }
                     break;
+                case PropertyType.String: // Remove trailing whitespace on StringProperties
+                    if (prop.isDefined()) {
+                        node[key] = prop.toString().trim();
+                    }
+                    break;
                 default:
                     if(prop.isDefined()) {
                         node[key] = prop.toRawValue();
@@ -267,6 +278,11 @@ class AttackFlowPublisher extends DiagramPublisher {
                     throw new Error("Basic lists cannot contain lists.");
                 case PropertyType.Enum:
                     throw new Error("Basic lists cannot contain enums.");
+                case PropertyType.String: // Remove trailing whitespace on StringProperties
+                    if(prop.isDefined()) {
+                        node[key].push(prop.toString().trim());
+                    }
+                    break;
                 default:
                     if(prop.isDefined()) {
                         node[key].push(prop.toRawValue());
@@ -689,6 +705,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                     flow[key] = prop
                         .toReferenceValue()!
                         .toString()
+                        .trim()
                         .toLocaleLowerCase();
                     break;
                 default:
@@ -818,11 +835,12 @@ class AttackFlowPublisher extends DiagramPublisher {
                         author[key] = prop
                             .toReferenceValue()!
                             .toString()
+                            .trim()
                             .toLocaleLowerCase();
                         break;
                     default:
                         if(prop.isDefined()) {
-                            author[key] = prop.toRawValue()
+                            author[key] = prop.toString().trim();
                         }
                         break;
                 }
