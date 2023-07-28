@@ -181,6 +181,7 @@ Alternatively, you can run the Attack Flow Builder with Docker Compose:
 
 * `install Docker <https://docs.docker.com/engine/install>`_
 * run the following commands in a terminal:
+
 .. code:: shell
 
    $ curl https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-flow/main/docker-compose.yml
