@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '19'
     - name: Install dependencies
       working-directory: ./src/attack_flow_builder/
       run: npm ci
@@ -45,17 +45,20 @@ jobs:
         python-version: '3.8'
     - uses: actions/setup-node@v3
       with:
-        node-version: '18'
+        node-version: '19'
     - name: Update APT
       run: sudo apt update
-    - name: Install dependencies
+    - name: Install APT dependencies
       run: sudo apt install graphviz
     - name: Install Poetry
       run: curl -sSL https://install.python-poetry.org/ | python -
     - name: Add Poetry to PATH
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-    - name: Install dependencies
+    - name: Install Python dependencies
       run: poetry install
+    - name: Install Node dependencies
+      working-directory: ./src/attack_flow_builder/
+      run: npm ci
     - name: Install Mermaid
       run: npm install -g @mermaid-js/mermaid-cli
     - name: Create client directory
@@ -68,6 +71,9 @@ jobs:
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
     - name: Copy corpus into docs
+      env:
+        # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+        NODE_OPTIONS: "--openssl-legacy-provider"
       run: poetry run make docs-examples
     - name: Copy matrix-viz code into docs
       run: poetry run make docs-matrix
