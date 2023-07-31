@@ -2,8 +2,15 @@
 //  1. Font Store  ////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+import { create } from "d3-selection";
 
-class FontStore {
+interface IFontStore {
+    getFont(descriptor: FontDescriptor): IFont;
+    loadFonts(descriptors: FontDescriptor[], timeout: number): Promise<void>;
+    loadFont(descriptor: FontDescriptor, timeout: number): Promise<boolean>;
+}
+
+class FontStore implements IFontStore {
 
     /**
      * The font store's internal font list.
@@ -27,7 +34,7 @@ class FontStore {
      * @return
      *  The font.
      */
-    public getFont(descriptor: FontDescriptor): Font {
+    public getFont(descriptor: FontDescriptor): IFont {
         let id = FontStore.getCssFontString(descriptor);
         if(this._fontList.has(id)) {
             return this._fontList.get(id)!
@@ -153,13 +160,39 @@ class FontStore {
 
 }
 
+/**
+ * The dummy font store is used in CLI contexts.
+ */
+class FontStoreDummy implements IFontStore {
+    public getFont(descriptor: FontDescriptor): IFont {
+        return new FontDummy();
+    }
+
+    public loadFonts(descriptors: FontDescriptor[], timeout: number): Promise<void> {
+        return new Promise((resolve, reject) => resolve());
+    }
+
+    public loadFont(descriptor: FontDescriptor, timeout: number): Promise<boolean> {
+        return new Promise((resolve, reject) => resolve(true));
+    }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  2. Font  //////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+export interface IFont {
+    css: string;
+    descriptor: FontDescriptor
 
-export class Font { 
+    measureWidth(text: string): number;
+    measure(text: string): { width: number, ascent: number, descent: number };
+    getCharWidth(char: string): number;
+    wordWrap(text: string, width: number): string[];
+}
+
+export class Font implements IFont {
 
     /**
      * The default character to width index.
@@ -355,6 +388,29 @@ export class Font {
 
 }
 
+/**
+ * A dummy font is used in CLI contexts.
+ */
+class FontDummy implements IFont {
+    public css: string = "font-dummy";
+    public descriptor: FontDescriptor = { size: "font-dummy", family: "font-dummy" };
+    
+    public measureWidth(text: string): number {
+        return 0;
+    }
+
+    public measure(text: string): { width: number, ascent: number, descent: number } {
+        return { width: 0, ascent: 0, descent: 0 };
+    }
+
+    public getCharWidth(char: string): number {
+        return 0;
+    }
+
+    public wordWrap(text: string, width: number): string[] {
+        return [];
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 //  3. FontDescriptor  ////////////////////////////////////////////////////////
@@ -373,4 +429,12 @@ export type FontDescriptor = {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export const GlobalFontStore = new FontStore();
+function createFontStore(): IFontStore {
+    if (typeof document === "undefined") {
+        return new FontStoreDummy();
+    } else {
+        return new FontStore();
+    }
+}
+
+export const GlobalFontStore: IFontStore = createFontStore();

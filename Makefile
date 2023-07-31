@@ -10,6 +10,8 @@ docs:
 docs-examples:
 	mkdir -p docs/extra/corpus
 	cp corpus/*.afb docs/extra/corpus
+	pushd src/attack_flow_builder && env VUE_CLI_SERVICE_CONFIG_PATH="${ROOTDIR}src/attack_flow_builder/vue.cli.config.js" npx vue-cli-service build --target lib --name cli --formats commonjs --no-clean src/cli.ts
+	node src/attack_flow_builder/dist/cli.common.js --verbose corpus/*.afb
 	cp corpus/*.json docs/extra/corpus
 	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -t -I {} af graphviz "corpus/{}.json" "docs/extra/corpus/{}.dot"
 	ls -1 docs/extra/corpus/*.dot | xargs -t -I {} dot -Tpng -O -q1 "{}"
