@@ -151,6 +151,44 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
+            case "artifact":
+                const payloadBin = node.props.value.get("payload_bin");
+                const url = node.props.value.get("url");
+                const hashes = node.props.value.get("hashes");
+                const mimeType = node.props.value.get("mime_type");
+
+                const payloadRegex = /^([a-z0-9+/]{4})*([a-z0-9+/]{4}|[a-z0-9+/]{3}=|[a-z0-9+/]{2}==)$/i;
+                const MIME_Regex = /^(application|audio|font|image|message|model|multipart|text|video)\/[a-zA-Z0-9.+_-]+/;
+
+                // Check regex
+                if(payloadBin?.isDefined()) {
+                    if(!payloadRegex.test(payloadBin.toString())) {
+                        this.addError(id, "Invalid Payload Bin.");
+                    }
+                }
+                if(mimeType?.isDefined()) {
+                    if(!MIME_Regex.test(mimeType.toString())) {
+                        this.addError(id, "Invalid MIME Type.");
+                    }
+                }
+
+                if(!payloadBin?.isDefined() && !url?.isDefined() && !hashes?.isDefined()) { // A blank object
+                    this.addError(id, "Artifact only allows 2 combinations of fields: (Payload Bin with the Url field empty), or (URL+Hashes with the Payload Bin field empty)");
+                } else {
+                    // Only allowed combinations: [(Payload), (URL+Hashes-Payload)]
+                    if(payloadBin?.isDefined()) {
+                        if(url?.isDefined()) {
+                            this.addError(id, "Artifact only allows 2 combinations of fields: (Payload) or (URL+Hashes-Payload)");
+                        }
+                    } else {
+                        if(url?.isDefined() && hashes?.isDefined()) {
+                            // Valid
+                        } else {
+                            this.addError(id, "Artifact only allows 2 combinations of fields: (Payload) or (URL+Hashes-Payload)");
+                        }
+                    }
+                }
+                break;
             case "email_address": // Additional validation for email addresses
                 if (!AttackFlowValidator.Emailregex.test(String(node.props.value.get("value")))) {
                     this.addError(id, "Invalid email address.")
