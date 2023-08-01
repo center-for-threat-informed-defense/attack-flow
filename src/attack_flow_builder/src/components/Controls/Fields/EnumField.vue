@@ -1,51 +1,58 @@
 <template>
   <FocusBox
-    :class="['enum-field-control', { disabled, open: showMenu }]"
-    @focus="openMenu"
-    @unfocus="closeMenu"
+    :class="['enum-field-control', { disabled }]"
+    :tabindex="tabIndex"
+    pointerEvent="click"
+    @focusin="onFocusIn"
+    @focusout="onFocusOut"
   >
-    <div class="grid-container">
-      <!-- Value Text -->
-      <div class="value-container">
-        <div :class="['value-text', { 'is-null': isNull }]">
-          {{ _property.toString() }}
-        </div>
-        <div class="dropdown-arrow" v-if="!disabled">▼</div>
+    <div class="options-container">
+      <OptionsList 
+        class="options-list"
+        :select="select"
+        :options="options"
+        :maxHeight="maxHeight"
+        @select="updateProperty"
+        v-if="showMenu"
+      />
+    </div>
+    <div class="value-container">
+      <div 
+        :class="['value-text', { 'is-null': isNull }]"
+        v-show="!showSearch"
+      >
+        {{ selectText }}
       </div>
-      <!-- Dropdown Options -->
-      <ScrollBox :propagateScroll="false" :style="style" v-if="showMenu">
-        <ul class="dropdown-options">
-          <li 
-            :class="[{ active: hovered === 'null' }, 'null']"
-            @mouseenter="hovered = 'null'"
-            @click.stop="updateProperty(null)"
-          >
-            Null
-          </li>
-          <li 
-            v-for="[k, v] in options" :key="k"
-            :class="{ active: hovered === k }"
-            @mouseenter="hovered = k"
-            @click.stop="updateProperty(k)"
-          >
-            {{ v.toString() }}
-          </li>
-        </ul>
-      </ScrollBox>
+      <input 
+          type="text" 
+          ref="search"
+          class="value-search"
+          placeholder="Search"
+          @input="onSearchInput"
+          @keyup.stop=""
+          @keydown.stop="onSearchKeyDown"
+          v-model="searchTerm"
+          v-show="showSearch"
+        />
+      <div class="dropdown-arrow" v-if="!disabled">▼</div>
     </div>
   </FocusBox>
 </template>
 
 <script lang="ts">
+
 // Dependencies
-import { EnumProperty, Property } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, PropType } from "vue";
+import { EnumProperty } from "@/assets/scripts/BlockDiagram";
+import { defineComponent, PropType, ref } from "vue";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
-import ScrollBox from "@/components/Containers/ScrollBox.vue";
+import OptionsList from "./OptionsList.vue";
 
 export default defineComponent({
   name: "EnumField",
+  setup() {
+    return { search: ref<HTMLElement | null>(null) };
+  },
   props: {
     property: {
       type: Object as PropType<EnumProperty>,
@@ -53,13 +60,15 @@ export default defineComponent({
     },
     maxHeight: {
       type: Number,
-      default: 200
+      default: 300
     }
   },
   data() {
     return {
-      hovered: "",
-      showMenu: false
+      select: this.property.toRawValue(),
+      showMenu: false,
+      showSearch: false,
+      searchTerm: ""
     }
   },
   computed: {
@@ -75,6 +84,15 @@ export default defineComponent({
     },
 
     /**
+     * Returns the field's tab index.
+     * @returns
+     *  The field's tab index.
+     */
+    tabIndex(): null | "0" {
+      return this.disabled ? null: "0";
+    },
+
+    /**
      * Tests if the property is disabled.
      * @returns
      *  True if the property is disabled, false otherwise. 
@@ -84,21 +102,46 @@ export default defineComponent({
     },
 
     /**
-     * Returns the property's set of options.
+     * Tests if the null option is selected.
      * @returns
-     *  The property's set of options.
-     */
-    options(): Map<string, Property> {
-      return this._property.options.value;
-    },
-
-    /**
-     * Tests if the property's value is null.
-     * @returns
-     *  True if the property's value is null, false otherwise.
+     *  True if the null option is selected, false otherwise.
      */
     isNull(): boolean {
       return this._property.toRawValue() === null;
+    },
+    
+    /**
+     * Returns the enum's options.
+     * @returns
+     *  The enum's options.
+     */
+    options(): { value: string | null, text: string }[] {
+      let options: { value: string | null, text: string }[] = [];
+      if(this.searchTerm === "") {
+        options.push({ value: null, text: "Null" });
+      }
+      let st = this.searchTerm.toLocaleLowerCase();
+      for(let [value, prop] of this._property.options.value) {
+        let text = prop.toString();
+        if(st === "" || text.toLocaleLowerCase().includes(st)) {
+          options.push({ value, text });
+        }
+      }
+      return options;
+    },
+
+    /**
+     * Returns the enum's current selection text.
+     * @returns
+     *  The enum's current selection text.
+     */
+    selectText(): string {
+      if(this.select !== null) {
+        let prop = this._property.options.value.get(this.select)!;
+        return prop.toString();
+      } else {
+        return "Null";
+      }
     },
 
     /**
@@ -111,26 +154,87 @@ export default defineComponent({
     }
 
   },
+  emits: ["change"],
   methods: {
-    
+
     /**
-     * Opens the options menu.
+     * Field focus in behavior.
      */
-    openMenu() {
-      if(this.disabled) {
-        return;
-      }
-      this.showMenu = true;      
+    onFocusIn() {
+      // Open menu
+      this.showMenu = true;
+      // Show search
+      this.showSearch = true;
+      // Focus search
+      setTimeout(() => {
+        this.search?.focus();
+      }, 0);
     },
 
     /**
-     * Closes the options menu.
+     * Field focus out behavior.
      */
-    closeMenu() {
+    onFocusOut() {
       // Close menu
       this.showMenu = false;
+      // Hide search
+      this.showSearch = false;
+      this.searchTerm = "";
       // Refresh value
       this.refreshValue();
+    },
+
+    /**
+     * Search field input behavior.
+     */
+    onSearchInput() {
+      this.select = null;
+      if(this.searchTerm === "") {
+        this.select = this._property.toRawValue();
+        return;
+      }
+      let st = this.searchTerm.toLocaleLowerCase();
+      for(let [value, prop] of this._property.options.value) {
+        let text = prop.toString();
+        if(text.toLocaleLowerCase().includes(st)) {
+          this.select = value;
+          return;
+        }
+      }
+    },
+
+    /**
+     * Search field keydown behavior.
+     * @param event
+     *  The keydown event.
+     */
+    onSearchKeyDown(event: KeyboardEvent) {
+      let field = event.target as HTMLInputElement;
+      if(field.selectionStart !== field.selectionEnd) {
+        return;
+      }
+      let idx;
+      let options = this.options;
+      switch(event.key) {
+        case "ArrowUp":
+          idx = options.findIndex(o => o.value === this.select);
+          if(0 < idx) {
+            this.select = options[idx - 1].value;
+          }
+          break;
+        case "ArrowDown":
+          idx = options.findIndex(o => o.value === this.select);
+          if(idx < options.length - 1) {
+            this.select = options[idx + 1].value;
+          }
+          break;
+        case "Tab":
+        case "Enter":
+          this.updateProperty(this.select);
+          // Force search field out of focus
+          this.search!.blur();
+          break;
+      }
     },
 
     /**
@@ -146,28 +250,27 @@ export default defineComponent({
         // Refresh value
         this.refreshValue();
       }
-      // Close menu
-      this.showMenu = false;
     },
 
     /**
      * Updates the field's text value.
      */
     refreshValue() {
-      this.hovered = this._property.toRawValue() ?? "null"
+      this.select = this._property.toRawValue()
     }
     
   },
-  emits: ["change"],
   watch: {
     "_property.trigger.value"() {
+      // Refresh value
       this.refreshValue();
     }
   },
   mounted() {
+    // Update field property value
     this.refreshValue();
   },
-  components: { FocusBox, ScrollBox }
+  components: { FocusBox, OptionsList }
 });
 </script>
 
@@ -176,33 +279,21 @@ export default defineComponent({
 /** === Main Field === */
 
 .enum-field-control {
-  display: flex;
-  align-items: center;
-  color: #cccccc;
-}
-
-.enum-field-control.open {
-  border: solid 1px #3d3d3d;
-}
-
-.grid-container {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr) minmax(0, auto);
-  width: 100%;
+  grid-template-rows: minmax(0, 1fr);
+  color: #cccccc;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 
 /** === Value Text === */
 
 .value-container {
+  position: relative;
   grid-area: 1 / 1;
   display: flex;
   align-items: center;
-  cursor: pointer;
-}
-
-.disabled .value-container {
-  cursor: inherit;
 }
 
 .value-text {
@@ -223,6 +314,29 @@ export default defineComponent({
   font-weight: 500;
 }
 
+.value-search {
+  flex: 1;
+  height: 100%;
+  min-width: 0px;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  padding: 6px 8px 6px 12px;
+  border: none;
+  box-sizing: border-box;
+  background: none;
+}
+
+.value-search::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.value-search:focus {
+  outline: none;
+}
+
 .dropdown-arrow {
   color: #666666;
   font-size: 6pt;
@@ -235,37 +349,9 @@ export default defineComponent({
 
 /** === Dropdown Options === */
 
-.scrollbox-container {
-  grid-area: 2 / 1;
-  border-top: dotted 1px #3d3d3d;;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  box-sizing: border-box;
-  background: #242424;
-}
-
-.dropdown-options {
-  padding: 6px 5px;
-}
-
-.dropdown-options li {
-  list-style: none;
-  font-size: 10pt;
-  user-select: none;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding: 5px 12px;
-  overflow: hidden;
-}
-
-.dropdown-options li.active,
-.dropdown-options li.active.null {
-  color: #fff;
-  background: #726de2;
-}
-
-.dropdown-options li.null {
-  color: #999;
+.options-container {
+  position: relative;
+  grid-area: 1 / 1;
 }
 
 </style>

@@ -26,7 +26,7 @@ export class SetStringProperty extends PageCommand {
      * @param value
      *  The property's new value.
      */
-    constructor(property: StringProperty, value: string) {
+    constructor(property: StringProperty, value: string | null) {
         let root = property.root;
         if(!root) {
             throw new Error("Property does not have a root.")

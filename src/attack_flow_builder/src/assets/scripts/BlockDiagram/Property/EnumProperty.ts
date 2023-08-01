@@ -1,4 +1,4 @@
-import { computeHash, MD5 } from "../Utilities";
+import { computeHash } from "../Utilities";
 import {
     CollectionProperty,
     EnumPropertyDescriptor,
@@ -50,14 +50,14 @@ export class EnumProperty extends Property {
         } else if(value !== undefined) {
             v = value;
         } else if(descriptor.value) {
-            v = MD5(descriptor.value)
+            v = descriptor.value
         } else {
             v = null;
         }
         // Set value
         if(v === null) {
             this.setValue(null);
-        } else if(typeof v === "string") { 
+        } else if(typeof v === "string") {
             this.setValue(v);
         } else {
             this.setValue(null);

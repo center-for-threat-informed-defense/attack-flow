@@ -13,6 +13,11 @@ export class StringProperty extends Property {
     public override readonly descriptor: StringPropertyDescriptor;
 
     /**
+     * The property's suggestions.
+     */
+    public suggestions: string[];
+
+    /**
      * The property's value.
      */
     private _value: string | null;
@@ -34,6 +39,7 @@ export class StringProperty extends Property {
     ) {
         super(parent, descriptor);
         this.descriptor = descriptor;
+        this.suggestions = [];
         this._value = null;
         if(value === null) {
             this.setValue(null);
