@@ -13,6 +13,10 @@ type ValueDescriptorBase<K extends ValueTypes> = {
     is_required? : boolean,
 }
 
+type StringValueDescriptor = ValueDescriptorBase<PropertyType.String> & {
+    suggestions?: string[]
+}
+
 type IntValueDescriptor = ValueDescriptorBase<PropertyType.Int> & {
     min?: number,
     max?: number
@@ -71,7 +75,7 @@ export type PropertyDescriptor
     | DictionaryPropertyDescriptor
 
 export type StringPropertyDescriptor
-    = ValueDescriptorBase<PropertyType.String>;
+    = StringValueDescriptor;
 
 export type NumberPropertyDescriptor
     = IntValueDescriptor

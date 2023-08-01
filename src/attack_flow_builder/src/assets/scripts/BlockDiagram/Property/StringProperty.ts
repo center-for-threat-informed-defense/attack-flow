@@ -39,7 +39,7 @@ export class StringProperty extends Property {
     ) {
         super(parent, descriptor);
         this.descriptor = descriptor;
-        this.suggestions = [];
+        this.suggestions = descriptor.suggestions ?? [];
         this._value = null;
         if(value === null) {
             this.setValue(null);
