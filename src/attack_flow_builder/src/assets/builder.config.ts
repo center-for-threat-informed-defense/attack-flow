@@ -556,7 +556,19 @@ const config: AppConfiguration = {
                     payload_bin                  : { type: PropertyType.String },
                     url                          : { type: PropertyType.String },
                     hashes                       : { type: PropertyType.String },
-                    encryption_algorithm         : { type: PropertyType.String },
+                    encryption_algorithm         : {
+                        type: PropertyType.Enum,
+                        options: {
+                            type: PropertyType.List,
+                            form: { type: PropertyType.String },
+                            value: [
+                                ["AES-256-GCM", "AES-256-GCM"],
+                                ["ChaCha20-Poly1305", "ChaCha20-Poly1305"],
+                                ["mime-type-indicated", "Mime Type Indicated"],
+                            ]
+                        },
+                        value: null
+                    },
                     decryption_key               : { type: PropertyType.String },
                 },
                 anchor_template: "@__builtin__anchor",

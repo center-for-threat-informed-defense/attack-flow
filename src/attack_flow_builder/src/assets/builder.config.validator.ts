@@ -156,6 +156,8 @@ class AttackFlowValidator extends DiagramValidator {
                 const url = node.props.value.get("url");
                 const hashes = node.props.value.get("hashes");
                 const mimeType = node.props.value.get("mime_type");
+                const decryptionKey = node.props.value.get("decryption_key");
+                const encryptionAlg = node.props.value.get("encryption_algorithm")
 
                 const payloadRegex = /^([a-z0-9+/]{4})*([a-z0-9+/]{4}|[a-z0-9+/]{3}=|[a-z0-9+/]{2}==)$/i;
                 const MIME_Regex = /^(application|audio|font|image|message|model|multipart|text|video)\/[a-zA-Z0-9.+_-]+/;
@@ -172,19 +174,30 @@ class AttackFlowValidator extends DiagramValidator {
                     }
                 }
 
-                if(!payloadBin?.isDefined() && !url?.isDefined() && !hashes?.isDefined()) { // A blank object
-                    this.addError(id, "Artifact only allows 2 combinations of fields: (Payload Bin with the Url field empty), or (URL+Hashes with the Payload Bin field empty)");
+                if(!payloadBin?.isDefined() && !url?.isDefined() && !hashes?.isDefined() && !encryptionAlg?.isDefined() && !decryptionKey?.isDefined()) { // A blank object
+                    this.addError(id, "Artifact must have one of following combinations of fields filled out: (Payload Bin), or (URL + Hashes - Payload Bin)");
                 } else {
-                    // Only allowed combinations: [(Payload), (URL+Hashes-Payload)]
                     if(payloadBin?.isDefined()) {
                         if(url?.isDefined()) {
-                            this.addError(id, "Artifact only allows 2 combinations of fields: (Payload) or (URL+Hashes-Payload)");
+                            // Invalid combination
+                            this.addError(id, "Artifact must have one of following combinations of fields filled out: (Payload Bin), or (URL + Hashes - Payload Bin)");
                         }
                     } else {
+                        if(encryptionAlg?.isDefined()) {
+                            // Valid
+                            if(encryptionAlg.toRawValue()?.toString() == "mime-type-indicated" && !mimeType?.isDefined()) {
+                                this.addError(id, "For Encryption Algorithm to be 'Mime Type Indicated', the field 'Mime Type' cannot be empty.");
+                            }
+                        } else {
+                            if(decryptionKey?.isDefined()) {
+                                this.addError(id, "An Artifact with a Decryption Key must also have an Encryption Algorithm.");
+                            }
+                        }
+                        
                         if(url?.isDefined() && hashes?.isDefined()) {
                             // Valid
                         } else {
-                            this.addError(id, "Artifact only allows 2 combinations of fields: (Payload) or (URL+Hashes-Payload)");
+                            this.addError(id, "Artifact must have one of following combinations of fields filled out: (Payload Bin), or (URL + Hashes - Payload Bin)");
                         }
                     }
                 }
