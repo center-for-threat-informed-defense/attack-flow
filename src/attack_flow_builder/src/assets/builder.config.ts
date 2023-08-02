@@ -7,7 +7,8 @@ import {
     EnumPropertyDescriptor,
     PropertyType,
     SemanticRole,
-    TemplateType
+    TemplateType,
+    Property
 } from "./scripts/BlockDiagram";
 
 const BoolEnum: EnumPropertyDescriptor = {
@@ -555,7 +556,32 @@ const config: AppConfiguration = {
                     mime_type                    : { type: PropertyType.String },
                     payload_bin                  : { type: PropertyType.String },
                     url                          : { type: PropertyType.String },
-                    hashes                       : { type: PropertyType.String },
+                    hashes                       : {
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                hash_type: {
+                                    type: PropertyType.Enum,
+                                    options: {
+                                        type: PropertyType.List,
+                                        form: { type: PropertyType.String },
+                                        value: [
+                                            ["custom", "Custom hash key"],
+                                            ["md5", "MD5"],
+                                            ["sha-1", "SHA-1"],
+                                            ["sha-256", "SHA-256"],
+                                            ["sha-512", "SHA-512"],
+                                            ["sha3-256", "SHA3-256"],
+                                            ["ssdeep", "SSDEEP"],
+                                            ["tlsh", "TLSH"]
+                                        ]
+                                    }
+                                },
+                                hash_value: { type: PropertyType.String, is_primary: true }
+                            }
+                        }
+                    },
                     encryption_algorithm         : { type: PropertyType.String },
                     decryption_key               : { type: PropertyType.String },
                 },
@@ -638,7 +664,32 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    hashes                       : { type: PropertyType.String },
+                    hashes                       : {
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                hash_type: {
+                                    type: PropertyType.Enum,
+                                    options: {
+                                        type: PropertyType.List,
+                                        form: { type: PropertyType.String },
+                                        value: [
+                                            ["custom", "Custom hash key"],
+                                            ["md5", "MD5"],
+                                            ["sha-1", "SHA-1"],
+                                            ["sha-256", "SHA-256"],
+                                            ["sha-512", "SHA-512"],
+                                            ["sha3-256", "SHA3-256"],
+                                            ["ssdeep", "SSDEEP"],
+                                            ["tlsh", "TLSH"]
+                                        ]
+                                    }
+                                },
+                                hash_value: { type: PropertyType.String, is_primary: true }
+                            }
+                        }
+                    },
                     size                         : { type: PropertyType.String },
                     name                         : { type: PropertyType.String, is_primary: true },
                     name_enc                     : { type: PropertyType.String },
@@ -804,7 +855,32 @@ const config: AppConfiguration = {
                 properties: {
                     subject                      : { type: PropertyType.String, is_primary: true, is_required: true },
                     is_self_signed               : BoolEnum,
-                    hashes                       : { type: PropertyType.String },
+                    hashes                       : {
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                hash_type: {
+                                    type: PropertyType.Enum,
+                                    options: {
+                                        type: PropertyType.List,
+                                        form: { type: PropertyType.String },
+                                        value: [
+                                            ["custom", "Custom hash key"],
+                                            ["md5", "MD5"],
+                                            ["sha-1", "SHA-1"],
+                                            ["sha-256", "SHA-256"],
+                                            ["sha-512", "SHA-512"],
+                                            ["sha3-256", "SHA3-256"],
+                                            ["ssdeep", "SSDEEP"],
+                                            ["tlsh", "TLSH"]
+                                        ]
+                                    }
+                                },
+                                hash_value: { type: PropertyType.String, is_primary: true }
+                            }
+                        }
+                    },
                     version                      : { type: PropertyType.String },
                     serial_number                : { type: PropertyType.String },
                     signature_algorithm          : { type: PropertyType.String },
