@@ -1,11 +1,7 @@
 const { resolve } = require("path");
 const { writeFileSync } = require("fs");
 const { fetchAttackData } = require("./download_attack");
-
-/**
- * The base URL for the ATT&CK repository.
- */
-const BASE_URL = "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master";
+const { STIX_SOURCES } = require("./download_sources");
 
 /**
  * The intel file's export key.
@@ -62,9 +58,4 @@ async function updateApplicationAttackIntel(path, ...urls) {
 /**
  * Main
  */
-updateApplicationAttackIntel(
-    INTEL_FILE_PATH,
-    `${BASE_URL}/enterprise-attack/enterprise-attack-13.0.json`,
-    `${BASE_URL}/ics-attack/ics-attack-13.0.json`,
-    `${BASE_URL}/mobile-attack/mobile-attack-13.0.json`
-);
+updateApplicationAttackIntel(INTEL_FILE_PATH, ...STIX_SOURCES);
