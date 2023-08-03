@@ -5,7 +5,7 @@
         <li 
           ref="items"
           v-for="option in options"
-          :key="option.value"
+          :key="option.value ?? 0"
           :list-id="option.value"
           :class="{ active: isActive(option), null: isNull(option) }"
           @click="$emit('select', option.value)"
@@ -49,7 +49,7 @@ export default defineComponent({
   data() {
     return {
       flip: false,
-      active: this.select,
+      active: this.select ?? null,
       scrollTop: 0
     }
   },
@@ -119,7 +119,7 @@ export default defineComponent({
     // On select change
     select() {
       // Update active item
-      this.active = this.select;
+      this.active = this.select ?? null;
       // Focus the active item
       this.focusActive();
     },
