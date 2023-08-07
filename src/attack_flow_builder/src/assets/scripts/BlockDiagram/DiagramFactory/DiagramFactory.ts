@@ -2,6 +2,7 @@ import { Crypto } from "../Utilities/Crypto";
 import { 
     Font,
     FontDescriptor,
+    IFont,
     GlobalFontStore
 } from "../Utilities";
 import { 
@@ -134,7 +135,7 @@ export class DiagramFactory {
                 this.getFontDescriptorsFromTemplate(template)
             );
         }
-        await GlobalFontStore.loadFonts(fonts);
+        await GlobalFontStore.loadFonts(fonts, 4000);
         
         // Swap font descriptors for fonts
         for(let template of templates.values()) {
@@ -355,7 +356,7 @@ export class DiagramFactory {
 
     /**
      * Swaps all {@link FontDescriptor} defined by a template with 
-     * {@link Font} objects.
+     * {@link IFont} objects.
      * @param template
      *  The template to modify.
      */

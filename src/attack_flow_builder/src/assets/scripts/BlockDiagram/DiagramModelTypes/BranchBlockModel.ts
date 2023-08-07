@@ -17,7 +17,7 @@ import {
     Cursor,
     InheritAlignment
 } from "../Attributes";
-import { Font, titleCase } from "../Utilities";
+import { IFont, titleCase } from "../Utilities";
 
 export class BranchBlockModel extends DiagramObjectModel {
 
@@ -502,7 +502,7 @@ type TextSet = {
     /**
      * The text's fonts.
      */
-    font: Font,
+    font: IFont,
 
     /**
      * The text's color.

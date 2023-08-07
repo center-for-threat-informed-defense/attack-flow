@@ -1,5 +1,5 @@
 import { RootPropertyDescriptor } from "../Property";
-import { Font, FontDescriptor } from "../Utilities";
+import { IFont, FontDescriptor } from "../Utilities";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ export type Template
     | PageTemplate
     | TextBlockTemplate
 
-export type SerializedTemplate = SubstituteType<Template, Font, FontDescriptor>;
+export type SerializedTemplate = SubstituteType<Template, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ export type LineStyle = {
 }
 
 export type SerializedLineStyle =
-    SubstituteType<LineStyle, Font, FontDescriptor>;
+    SubstituteType<LineStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ export type LineEndingPointStyle = {
 }
 
 export type SerializedLineEndingPointStyle =
-    SubstituteType<LineEndingPointStyle, Font, FontDescriptor>;
+    SubstituteType<LineEndingPointStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ export type LineHandlePointStyle = {
 }
 
 export type SerializedLineHandlePointStyle =
-    SubstituteType<LineHandlePointStyle, Font, FontDescriptor>;
+    SubstituteType<LineHandlePointStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -168,7 +168,7 @@ export type AnchorPointStyle = {
 }
 
 export type SerializedAnchorPointStyle =
-    SubstituteType<AnchorPointStyle, Font, FontDescriptor>;
+    SubstituteType<AnchorPointStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -190,18 +190,18 @@ export type DictionaryBlockStyle = {
         stroke_color: string,
         one_title: {
             title: {
-                font: Font,
+                font: IFont,
                 color: string,
             }
         },
         two_title: {
             title: {
-                font: Font,
+                font: IFont,
                 color: string,
                 padding: number
             },
             subtitle:  {
-                font: Font,
+                font: IFont,
                 color: string,
                 line_height: number
             }
@@ -212,12 +212,12 @@ export type DictionaryBlockStyle = {
         fill_color: string,
         stroke_color: string,
         field_name: {
-            font: Font,
+            font: IFont,
             color: string,
             padding: number
         },
         field_value: {
-            font: Font,
+            font: IFont,
             color: string,
             line_height: number,
             padding: number
@@ -238,7 +238,7 @@ export type DictionaryBlockStyle = {
 }
 
 export type SerializedDictionaryBlockStyle =
-    SubstituteType<DictionaryBlockStyle, Font, FontDescriptor>;
+    SubstituteType<DictionaryBlockStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -261,7 +261,7 @@ export type BranchTemplate = {
 
 export type BranchBlockStyle = DictionaryBlockStyle & {
     branch: {
-        font: Font,
+        font: IFont,
         color: string,
         vertical_padding: number,
         horizontal_padding: number
@@ -269,7 +269,7 @@ export type BranchBlockStyle = DictionaryBlockStyle & {
 }
 
 export type SerializedBranchBlockStyle =
-    SubstituteType<BranchBlockStyle, Font, FontDescriptor>;
+    SubstituteType<BranchBlockStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -289,7 +289,7 @@ export type TextBlockStyle = {
     fill_color: string,
     stroke_color: string,
     text: {
-        font: Font,
+        font: IFont,
         color: string,
         line_height: number
     },
@@ -308,7 +308,7 @@ export type TextBlockStyle = {
 }
 
 export type SerializedTextBlockStyle =
-    SubstituteType<TextBlockStyle, Font, FontDescriptor>;
+    SubstituteType<TextBlockStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -355,7 +355,7 @@ export type PageStyle = {
 }
 
 export type SerializedPageStyle =
-    SubstituteType<PageStyle, Font, FontDescriptor>;
+    SubstituteType<PageStyle, IFont, FontDescriptor>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
