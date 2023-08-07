@@ -2,8 +2,6 @@
 //  1. Font Store  ////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-import { create } from "d3-selection";
-
 interface IFontStore {
     getFont(descriptor: FontDescriptor): IFont;
     loadFonts(descriptors: FontDescriptor[], timeout: number): Promise<void>;
