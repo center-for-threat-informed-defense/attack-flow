@@ -268,6 +268,9 @@ an XML file.
 Attack Flow Builder
 -------------------
 
+Dev Server
+~~~~~~~~~~
+
 The Attack Flow Builder is written in JavaScript. To set up a development environment,
 you first need `to install Node.js and npm
 <https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>`__. Then, perform
@@ -279,7 +282,7 @@ the following setup steps:
     $ npm install
     ...
 
-This will download all of the dependencies needed. Finally, to run the application:
+Finally, to run the application:
 
 .. code:: shell
 
@@ -299,6 +302,71 @@ This will download all of the dependencies needed. Finally, to run the applicati
 If this starts up successfully, then you can access the application at
 http://localhost:8080/. As you edit source code and save, the server will automatically
 rebuild the application and you can refresh the browser to run it again.
+
+Preload a Flow
+~~~~~~~~~~~~~~
+
+As you are working, you may need to test a specific Attack Flow through multiple edit/compile/refresh cycles,
+and repeatedly opening the same file in the Builder can be tedious. Here's a trick to automatically load a
+specific flow each time you refresh the page. First, go into the corpus directory and start a mini web server.
+(The first time you run this, it may prompt you to install the Node.js server package. Go ahead and do that.)
+
+.. code:: shell
+
+    $ cd corpus/
+    $ npx serve --cors
+
+
+Now open the URL `<http://localhost:3000/>`_. You will see a listing of files in the corpus.
+
+.. figure:: _static/npx-serve.png
+   :alt: Listing corpus files in a web browser
+   :align: center
+
+   The mini server lists files in the corpus directory.
+
+Right click on the file you want to preload and copy the link. Go back to Attack Flow Builder and edit the URL
+to append ``?src=`` and then paste the URL to your selected flow.
+
+.. figure:: _static/npx-serve-2.png
+   :alt: Edit the Attack Flow Builder URL
+   :align: center
+
+   Edit the Attack Flow Builder URL
+
+Press enter and the builder will load the selected flow.
+
+.. figure:: _static/npx-serve-3.png
+   :alt: Attack Flow Builder preloads the selected flow.
+   :align: center
+
+   Attack Flow Builder preloads the selected flow.
+
+This flow will be automatically loaded each time you refresh the page.
+
+Command Line Publisher
+~~~~~~~~~~~~~~~~~~~~~~
+
+The Attack Flow Builder also includes a command line tool for publishing ``.afb`` files into ``.json`` format.
+First, compile the script:
+
+.. code:: shell
+
+    $ cd src/attack_flow_builder
+    $ env VUE_CLI_SERVICE_CONFIG_PATH="$PWD/vue.cli.config.js" npx vue-cli-service build \
+        --target lib --name cli --formats commonjs --no-clean src/cli.ts
+
+Once the script is compiled, run the script using the Node.js interpreter and pass in one or more builder
+files to publish:
+
+.. code:: shell
+
+    $ node dist/cli.common.js -v ../../corpus/Target\ Breach.afb ../../corpus/Tesla\ Kubernetes\ Breach.afb
+    Publishing ../../corpus/Target Breach.afb -> ../../corpus/Target Breach.json
+    Publishing ../../corpus/Tesla Kubernetes Breach.afb -> ../../corpus/Tesla Kubernetes Breach.json
+
+The JSON files are saved back to the same location as the AFB files, using the same filename stem but with the
+file extension changed from ``.afb`` to ``.json``.
 
 Releases
 --------

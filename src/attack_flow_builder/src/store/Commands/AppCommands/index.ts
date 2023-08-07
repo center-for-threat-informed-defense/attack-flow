@@ -1,3 +1,4 @@
+export * from "./ClearPageRecoveryBank";
 export * from "./CopySelectedChildren";
 export * from "./LoadFile";
 export * from "./LoadSettings";

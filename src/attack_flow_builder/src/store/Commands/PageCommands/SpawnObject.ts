@@ -52,12 +52,7 @@ export class SpawnObject extends GroupCommand {
         y?: number
     ) {
         super();
-        let editor = context.pages.get(parent.root.id);
-        if(!editor) {
-            throw new Error(
-                `'${ parent.id }' must belong to an existing editor.`
-            );
-        }
+        let editor = context.activePage;
         // Create object
         let object = parent.factory.createObject(template);
         // Move object

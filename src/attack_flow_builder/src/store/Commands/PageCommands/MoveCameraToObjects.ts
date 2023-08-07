@@ -36,12 +36,7 @@ export class MoveCameraToObjects extends PageCommand {
                 `Objects must originate from the same root.`
             );
         }
-        let editor = context.pages.get(page.id);
-        if(!editor) {
-            throw new Error(
-                `Objects must be managed by an editor.`
-            );
-        }
+        let editor = context.activePage;
         super(page.id);
         this._editor = editor;
         // Calculate bounding box

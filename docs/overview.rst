@@ -71,7 +71,7 @@ that executives do not need to make a business decision. Defenders can use flows
 communicate the impact of an attack in business terms (i.e. money) and make a convincing
 case for new tools, personnel, or security controls to prioritize.
 
-**Lessons Learned**
+**Incident Reponse**
 
 Incident responders can use Attack Flow to improve their incident response (IR) planning
 and after-action review. After a security incident has occurred, responders can create
@@ -134,20 +134,3 @@ for building up a full understanding of the project:
 * The `GitHub repository
   <https://github.com/center-for-threat-informed-defense/attack-flow>`__ is ready for
   your contributions -- issues and pull requests are welcome!
-
-Notice
-------
-
-© 2022 MITRE Engenuity. Approved for public release. Document number CT0040.
-
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-file except in compliance with the License. You may obtain a copy of the License at
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under
-the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied. See the License for the specific language governing
-permissions and limitations under the License.
-
-This project makes use of ATT&CK®: `ATT&CK Terms of Use
-<https://attack.mitre.org/resources/terms-of-use/>`__

@@ -114,19 +114,23 @@ export class PageEditor {
      * Executes a page command.
      * @param command
      *  The command.
+     * @returns
+     *  True if the command was recorded, false otherwise.
      */
-    public execute(command: PageCommand) {
+    public execute(command: PageCommand): boolean {
         if(command.page !== this.page.id) {
             throw new Error(
                 "Command is not configured to operate on this page."
             );
         }
-        if(command.execute()) {
+        let record = command.execute();
+        if(record) {
             this._redoStack = [];
             this._undoStack.push(command);
         }
         this._validator?.run(this.page);
         this.trigger.value++;
+        return record;
     }
 
 

@@ -20,13 +20,7 @@ export class ResetCamera extends PageCommand {
      */
     constructor(context: ApplicationStore, page: PageModel) {
         super(page.id);
-        let editor = context.pages.get(page.id);
-        if(!editor) {
-            throw new Error(
-                `Page '${ page.id }' does not have an editor.`
-            );
-        }
-        this._editor = editor;
+        this._editor = context.activePage;
     }
     
     

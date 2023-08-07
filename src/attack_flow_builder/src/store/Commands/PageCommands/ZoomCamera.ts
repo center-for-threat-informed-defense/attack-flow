@@ -27,12 +27,7 @@ export class ZoomCamera extends PageCommand {
      */
     constructor(context: ApplicationStore, page: PageModel, delta: number) {
         super(page.id);
-        let editor = context.pages.get(page.id);
-        if(!editor) {
-            throw new Error(
-                `Page '${ page.id }' does not have an editor.`
-            );
-        }
+        let editor = context.activePage;
         this._editor = editor;
         let k = editor.view.k
         let x = ((editor.view.w / 2) - editor.view.x) / k;
