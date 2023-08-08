@@ -3,10 +3,12 @@ import { Module } from "vuex"
 import { PageEditor } from "@/store/PageEditor";
 import { AppCommand } from "@/store/Commands/AppCommand";
 import { PageCommand } from "@/store/Commands/PageCommand";
+import { Finder } from "../Finder";
 import { PageRecoveryBank } from "../PageRecoveryBank";
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram";
 import { ValidationErrorResult, ValidationWarningResult } from "@/assets/scripts/DiagramValidator";
 import { ModuleStore, ApplicationStore, BaseAppSettings } from "@/store/StoreTypes"
+import { FindResult } from "@/store/Finder";
 
 const Publisher = Configuration.publisher ? 
     new Configuration.publisher() : undefined;
@@ -18,6 +20,7 @@ export default {
         clipboard: [],
         publisher: Publisher,
         activePage: PageEditor.createDummy(),
+        finder: new Finder(),
         recoveryBank: new PageRecoveryBank()
     },
     getters: {
@@ -122,6 +125,39 @@ export default {
             let p = state.activePage;
             // Use trigger to trip the reactivity system
             return (state.activePage.trigger.value ? p : p).getValidationWarnings();
+        },
+
+        /**
+         * Indicates whether the find dialog is visible.
+         * @param state
+         *  The Vuex state.
+         * @returns
+         *  True if the find dialog is visible.
+         */
+        isShowingFindDialog(state): boolean {
+            return state.finder.dialogIsVisible;
+        },
+
+        /**
+         * Indicates if there are any find results.
+         * @param state
+         *  The Vuex state.
+         * @returns
+         *  True if there are any find results.
+         */
+        hasFindResults(state): boolean {
+            return state.finder.getCurrentResult() !== null;
+        },
+
+        /**
+         * Returns the current item in the find results.
+         * @param state
+         *  The Vuex state.
+         * @returns
+         *  The current item in the result set.
+         */
+        currentFindResult(state): FindResult | null {
+            return state.finder.getCurrentResult();
         }
 
     },

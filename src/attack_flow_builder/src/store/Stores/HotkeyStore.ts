@@ -135,6 +135,21 @@ export default {
                     repeatable: false
                 },
                 {
+                    data: () => new App.ShowFindDialog(ctx),
+                    shortcut: edit.find,
+                    repeatable: false
+                },
+                // {
+                //     data: () => new App.FindNext(ctx, page),
+                //     shortcut: edit.find,
+                //     repeatable: false
+                // },
+                // {
+                //     data: () => new App.FindPrevious(ctx, page),
+                //     shortcut: edit.find,
+                //     repeatable: false
+                // },
+                {
                     data: () => new Page.SelectChildren(page),
                     shortcut: edit.select_all,
                     repeatable: false
