@@ -242,6 +242,10 @@ class AttackFlowPublisher extends DiagramPublisher {
                     break;
                 case PropertyType.List:
                     if (prop.isDefined()) {
+                        if(key === "hashes") {
+                            this.mergeComplexListProperty(node, key, prop as ListProperty);
+                            break;
+                        }
                         this.mergeBasicListProperty(node, key, prop as ListProperty);
                     }
                     break;
@@ -296,6 +300,37 @@ class AttackFlowPublisher extends DiagramPublisher {
         }
     }
 
+    /**
+     * Merges a more complicated list into a STIX node.
+     * @param node
+     *  The STIX node.
+     * @param key
+     *  The list property's key.
+     * @param property
+     *  The list property.
+     */
+    private mergeComplexListProperty(node: Sdo, key: string, property: ListProperty) {
+        // Check if node[key] has any values first
+
+        switch(key) {
+            case "hashes":
+                let hashList = [];
+                for(let prop of property.value.values()) {
+                    switch(prop.type) {
+                        case PropertyType.Dictionary:
+                            if(prop.isDefined()) {
+                                let entries = prop.toRawValue() as RawEntries;
+                                hashList.push(Object.fromEntries(entries));
+                            }
+                            break;
+                    }
+                }
+                if (hashList.length > 0) {
+                    let hashes = hashList.map(hash => [hash.hash_type, hash.hash_value]); // Drop the property labels
+                    node[key] = Object.fromEntries(hashes);
+                }
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     //  2. Relationships Embeddings  //////////////////////////////////////////

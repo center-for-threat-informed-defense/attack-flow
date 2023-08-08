@@ -7,8 +7,7 @@ import {
     EnumPropertyDescriptor,
     PropertyType,
     SemanticRole,
-    TemplateType,
-    Property
+    TemplateType
 } from "./scripts/BlockDiagram";
 
 const BoolEnum: EnumPropertyDescriptor = {
@@ -567,7 +566,7 @@ const config: AppConfiguration = {
                                         type: PropertyType.List,
                                         form: { type: PropertyType.String },
                                         value: [
-                                            ["custom", "Custom hash key"],
+                                            ["custom", "Custom Hash Key"],
                                             ["md5", "MD5"],
                                             ["sha-1", "SHA-1"],
                                             ["sha-256", "SHA-256"],
@@ -675,7 +674,7 @@ const config: AppConfiguration = {
                                         type: PropertyType.List,
                                         form: { type: PropertyType.String },
                                         value: [
-                                            ["custom", "Custom hash key"],
+                                            ["custom", "Custom Hash Key"],
                                             ["md5", "MD5"],
                                             ["sha-1", "SHA-1"],
                                             ["sha-256", "SHA-256"],
@@ -866,7 +865,7 @@ const config: AppConfiguration = {
                                         type: PropertyType.List,
                                         form: { type: PropertyType.String },
                                         value: [
-                                            ["custom", "Custom hash key"],
+                                            ["custom", "Custom Hash Key"],
                                             ["md5", "MD5"],
                                             ["sha-1", "SHA-1"],
                                             ["sha-256", "SHA-256"],
