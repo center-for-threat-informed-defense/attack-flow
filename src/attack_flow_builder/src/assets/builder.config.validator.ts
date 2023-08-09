@@ -7,6 +7,7 @@ import {
     ListProperty,
     Property,
     PropertyType,
+    RawEntries,
     SemanticAnalyzer
 } from "./scripts/BlockDiagram";
 
@@ -151,11 +152,25 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
+            case "artifact": {
+                const hashes = node.props.value.get("hashes");
+                if(hashes?.isDefined()) {
+                    this.validateHash(id, hashes as ListProperty);
+                }
+                break;
+            }
             case "email_address": // Additional validation for email addresses
                 if (!AttackFlowValidator.Emailregex.test(String(node.props.value.get("value")))) {
                     this.addError(id, "Invalid email address.")
                 }
                 break;
+            case "file": {
+                const hashes = node.props.value.get("hashes");
+                if(hashes?.isDefined()) {
+                    this.validateHash(id, hashes as ListProperty);
+                }
+                break;
+            }
             case "grouping":
                 if(node.next.length === 0) {
                     this.addError(id, "A Grouping must point to at least one object.");
@@ -208,6 +223,13 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid Windows registry key.");
                 }
                 break;
+            case "x509_certificate": {
+                const hashes = node.props.value.get("hashes");
+                if(hashes?.isDefined()) {
+                    this.validateHash(id, hashes as ListProperty);
+                }
+                break;
+            }
         }
     }
 
@@ -280,6 +302,35 @@ class AttackFlowValidator extends DiagramValidator {
     protected validateEdge(id: string, edge: GraphObjectExport) {
         if (edge.prev.length === 0 || edge.next.length === 0) {
             this.addWarning(id, "Edge should connect on both ends.");
+        }
+    }
+
+    /**
+     * Validate a hash from any hash-containing node.
+     * 
+     * Reference: https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_odoabbtwuxyd
+     * 
+     * @param id
+     *  The node's id.
+     * @param hashes
+     *  The list of hashes to validate.
+     */
+    protected validateHash(id: string, hashes: ListProperty) {
+        const validKey = /^[a-zA-Z0-9_-]{3,250}$/;
+        for(let hash of hashes.value.values()) {
+            if(!hash.isDefined()) {
+                this.addError(id, "Hash Value cannot be empty.");
+            }
+            // Make sure hash_type is not empty.
+            let entries = hash.toRawValue()! as RawEntries;
+            if(!Object.fromEntries(entries).hash_type) {
+                this.addError(id, "Hash Type cannot be left empty.");
+            }
+            
+            let key = hash.toString();
+            if (!validKey.test(key)) {
+                this.addError(id, "Invalid hash key.");
+            }
         }
     }
 

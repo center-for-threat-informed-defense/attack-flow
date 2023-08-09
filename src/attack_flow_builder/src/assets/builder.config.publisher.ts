@@ -306,8 +306,6 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The list property.
      */
     private mergeComplexListProperty(node: Sdo, key: string, property: ListProperty) {
-        // Check if node[key] has any values first
-
         switch(key) {
             case "hashes":
                 let hashList = [];
