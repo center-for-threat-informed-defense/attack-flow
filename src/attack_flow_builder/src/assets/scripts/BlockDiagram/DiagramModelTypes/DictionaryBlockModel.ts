@@ -1,4 +1,4 @@
-import { Font, titleCase } from "../Utilities";
+import { IFont, titleCase } from "../Utilities";
 import { RasterCache } from "../DiagramElement/RasterCache";
 import { DictionaryBlockView } from "../DiagramViewTypes";
 import {
@@ -408,7 +408,7 @@ type TextSet = {
     /**
      * The text's fonts.
      */
-    font: Font,
+    font: IFont,
 
     /**
      * The text's color.

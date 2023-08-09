@@ -59,9 +59,9 @@ export class GraphObjectExport {
      * @param props
      *  The object's properties.
      * @param nextLinkMap
-     *  The object's parent link map.
-     * @param prevLinkMap
      *  The object's child link map.
+     * @param prevLinkMap
+     *  The object's parent link map.
      */
     constructor(
         template: ObjectTemplate,

@@ -184,8 +184,8 @@ Alternatively, you can run the Attack Flow Builder with Docker Compose:
 
 .. code:: shell
 
-   $ curl https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-flow/main/docker-compose.yml
-   $ docker compose up
+    $ curl https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-flow/main/docker-compose.yml
+    $ docker compose up
 
 This will launch a container with Attack Flow Builder accessible at `http://localhost:8081 <http://localhost:8081>`_ . You can customize the provided docker-compose.yml sample file (volumes, ports, ...).
 
