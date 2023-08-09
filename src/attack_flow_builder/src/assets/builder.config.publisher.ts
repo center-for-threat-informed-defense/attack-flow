@@ -256,6 +256,10 @@ class AttackFlowPublisher extends DiagramPublisher {
                     break;
                 default:
                     if(prop.isDefined()) {
+                        if(node.type === "mac-addr") {
+                            node[key] = prop.toRawValue()!.toString().toLowerCase();
+                            break;
+                        }
                         node[key] = prop.toRawValue();
                     }
                     break;
@@ -388,6 +392,9 @@ class AttackFlowPublisher extends DiagramPublisher {
                     sro = this.tryEmbedInNetworkTraffic(parent, c.obj);
                     break;
                 case "note":
+                    this.tryEmbedInNote(parent, c.obj);
+                    break;
+                case "observed-data":
                     this.tryEmbedInNote(parent, c.obj);
                     break;
                 case "opinion":
