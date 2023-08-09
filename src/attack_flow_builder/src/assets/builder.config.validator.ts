@@ -17,6 +17,8 @@ class AttackFlowValidator extends DiagramValidator {
     static IPv6regex = /^((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?(\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?$/i;
     static MACregex = /^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/i;
     static Emailregex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    static stixObservables = new Set<string>(["artifact", "directory", "file", "mutex", "process", "software", "user_account", "windows_registry_key", "x509_certificate", "autonomous_system", "domain_name", "email_address", "email_message", "ipv4_addr", "ipv6_addr", "mac_addr", "network_traffic", "url"]);
+
 
     protected graph?: GraphExport;
 
@@ -200,6 +202,18 @@ class AttackFlowValidator extends DiagramValidator {
             case "note":
                 if(node.next.length === 0) {
                     this.addError(id, "A Note must point to at least one object.");
+                }
+                break;
+            case "observed_data":
+                if(node.next.length === 0) {
+                    this.addError(id, "Observed Data must point to at least one stix observable.");
+                } else {
+                    // Check the template.id of every child node
+                    for (let [childId, childNode] of this.getOutboundNodes(node.props.object.id)) {
+                        if(!AttackFlowValidator.stixObservables.has(childNode.template.id)) {
+                            this.addError(childId, "Observed Data can only be linked to Stix Observables.");
+                        }
+                    }
                 }
                 break;
             case "opinion":
