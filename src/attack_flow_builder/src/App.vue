@@ -4,6 +4,7 @@
     <div id="app-body" ref="body" :style="gridLayout">
       <div class="frame center">
         <BlockDiagram id="block-diagram"/>
+        <SplashMenu id="splash-menu" />
       </div>
       <div class="frame right">
         <div class="resize-handle" @pointerdown="startResize($event, Handle.Right)"></div>
@@ -23,14 +24,16 @@ import Configuration from "@/assets/builder.config"
 import { clamp } from "./assets/scripts/BlockDiagram";
 import { PointerTracker } from "./assets/scripts/PointerTracker";
 import { mapMutations, mapState } from 'vuex';
-import { LoadFile, LoadSettings } from './store/Commands/AppCommands';
+import * as App from './store/Commands/AppCommands';
 import { defineComponent, markRaw, ref } from 'vue';
 // Components
+import SplashMenu from "@/components/Controls/SplashMenu.vue";
 import AppTitleBar from "@/components/Elements/AppTitleBar.vue";
 import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
 import EditorSidebar from "@/components/Elements/EditorSidebar.vue";
+import { ShowSplashMenu } from "./store/Commands/AppCommands/ShowSplashMenu";
 
 const Handle = {
   None   : 0,
@@ -156,20 +159,22 @@ export default defineComponent({
         settings = require("../public/settings.json");
     }
     // Load settings
-    this.execute(new LoadSettings(this.context, settings));
+    this.execute(new App.LoadSettings(this.context, settings));
     // Load empty file
-    this.execute(await LoadFile.fromNew(this.context));
+    this.execute(await App.LoadFile.fromNew(this.context));
     // Load file from query parameters, if possible
     let params = new URLSearchParams(window.location.search);
     let src = params.get("src");
     if(src) {
       try {
         // TODO: Incorporate loading dialog
-        this.execute(await LoadFile.fromUrl(this.context, src));
+        this.execute(await App.LoadFile.fromUrl(this.context, src));
       } catch(ex) {
         console.error(`Failed to load file from url: '${ src }'`);
         console.error(ex);
       }
+    } else {
+      this.execute(new ShowSplashMenu(this.context));
     }
   },
   mounted() {
@@ -193,7 +198,8 @@ export default defineComponent({
     AppTitleBar,
     BlockDiagram,
     AppFooterBar,
-    EditorSidebar
+    EditorSidebar,
+    SplashMenu,
   },
 });
 </script>

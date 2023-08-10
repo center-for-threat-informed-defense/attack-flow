@@ -1,12 +1,14 @@
 <template>
   <TitleBar class="app-title-bar-element" :menus="menus" @select="onItemSelect">
     <template v-slot:icon>
-      <span class="logo">AFB</span>
+      <img alt="Logo" title="Logo" class="logo" :src="menuIcon">
     </template>
   </TitleBar>
 </template>
 
 <script lang="ts">
+const Images = require.context("../../assets", false);
+import Configuration from "@/assets/builder.config"
 // Dependencies
 import { ContextMenu } from "@/assets/scripts/ContextMenuTypes";
 import { CommandEmitter } from "@/store/Commands/Command";
@@ -17,6 +19,11 @@ import TitleBar from "@/components/Controls/TitleBar.vue";
 
 export default defineComponent({
   name: "AppTitleBar",
+  data() {
+    return {
+      menuIcon: Images(Configuration.menu_icon),
+    };
+  },
   computed: {
 
     /**
@@ -77,17 +84,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 /** === App Logo === */
 
 .logo {
-    margin: 0px 8px;
-    padding: 2px 4px;
-    color: #f0f1f2;
-    font-size: 7pt;
-    font-weight: 600;
-    border-radius: 3px;
-    background: #726de2;
+  margin: 2px 8px 0px 10px;
+  height: 16px;
 }
-
 </style>

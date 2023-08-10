@@ -1,5 +1,6 @@
 export * from "./ClearPageRecoveryBank";
 export * from "./CopySelectedChildren";
+export * from "./HideSplashMenu";
 export * from "./LoadFile";
 export * from "./LoadSettings";
 export * from "./NullCommand";
@@ -11,6 +12,7 @@ export * from "./SaveSelectionImageToDevice";
 export * from "./SetEditorPointerLocation";
 export * from "./SetEditorViewParams";
 export * from "./SetRenderQuality";
+export * from "./ShowSplashMenu";
 export * from "./SwitchToFullscreen";
 export * from "./ToggleDebugDisplay";
 export * from "./ToggleGridDisplay";
