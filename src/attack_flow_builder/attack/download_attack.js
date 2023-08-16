@@ -15,6 +15,8 @@ const https = require("https");
  *  The object's STIX id.
  * @property {boolean} deprecated
  *  True if the ATT&CK object has been deprecated, false otherwise.
+ * @property {string} matrix
+ *  The ATT&CK object's matrix. 
  */
 
 /**
@@ -69,23 +71,25 @@ function fetchJson(url, options = {}) {
     })
 }
 
-
 /**
  * Parses an ATT&CK object from a STIX object.
  * @param {Object} obj
  *  The STIX object.
+ * @param {string} matrix
+ *  The STIX object's matrix.
  * @returns {AttackObject}
  *  The parsed ATT&CK object.
  */
-function parseStixToAttackObject(obj) {
+function parseStixToAttackObject(obj, matrix) {
 
     // Parse STIX id, name, and type directly
     let parse = {
         stixId : obj.id,
         name   : obj.name,
-        type   : STIX_TO_ATTACK[obj.type]
+        type   : STIX_TO_ATTACK[obj.type],
+        matrix : matrix 
     }
-    
+
     // Parse MITRE reference information
     let mitreRef = obj.external_references.find(
         o => MITRE_SOURCES.has(o.source_name)
@@ -111,12 +115,18 @@ function parseStixToAttackObject(obj) {
  *  The parsed ATT&CK objects.
  */
 function parseAttackObjectsFromManifest(data) {
+    // Parse matrix
+    let collection = data.objects.find(o => o.type === "x-mitre-collection");
+    if(!collection) {
+        throw new Error("STIX collection information missing.");
+    }
+    // Parse objects
     let objs = []
     for(let obj of data.objects) {
         if(!(obj.type in STIX_TO_ATTACK)) {
             continue;
         }
-        objs.push(parseStixToAttackObject(obj));
+        objs.push(parseStixToAttackObject(obj, collection.name));
     }
     return objs;
 }
