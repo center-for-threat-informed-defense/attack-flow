@@ -17,6 +17,8 @@ export class ListProperty extends CollectionProperty {
 
     /**
      * Creates a new {@link ListProperty}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
@@ -25,34 +27,38 @@ export class ListProperty extends CollectionProperty {
      *  The property's values.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: ListPropertyDescriptor,
         values?: RawEntries
     ) {
-        super(parent, descriptor);
+        super(id, parent, descriptor);
         this.descriptor = descriptor;
         // Configure values
         this.value = new Map();
         if(Array.isArray(values)) {
-            for(let [id, value] of values) {
+            for(let [vId, value] of values) {
                 // Create property
-                let prop = Property.create(this, descriptor.form, value);
+                let pId = `${ id }.${ vId }`;
+                let prop = Property.create(pId, this, descriptor.form, value);
                 // Add property
                 this.value.set(id, prop);
             }
         } else if(descriptor.value) {
             if(Array.isArray(descriptor.value)) {
-                for(let [id, value] of descriptor.value) {
+                for(let [vId, value] of descriptor.value) {
                     // Create property
-                    let prop = Property.create(this, descriptor.form, value);
+                    let pId = `${ id }.${ vId }`;
+                    let prop = Property.create(pId, this, descriptor.form, value);
                     // Add property
                     this.value.set(id, prop);
                 }
             } else {
-                for(let id in descriptor.value) {
+                for(let vId in descriptor.value) {
                     // Create property
                     let value = descriptor.value[id];
-                    let prop = Property.create(this, descriptor.form, value);
+                    let pId = `${ id }.${ vId }`;
+                    let prop = Property.create(pId, this, descriptor.form, value);
                     // Add property
                     this.value.set(id, prop);
                 }
@@ -119,7 +125,7 @@ export class ListProperty extends CollectionProperty {
      * @returns
      *  A randomly generated id.
      */
-    private getNextId() {
+    public getNextId() {
         let id = MD5(Crypto.randomUUID());
         while(this.value.has(id)) {
             id = MD5(Crypto.randomUUID());

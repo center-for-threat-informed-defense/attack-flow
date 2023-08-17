@@ -110,7 +110,7 @@ export abstract class DiagramObjectModel {
         this.boundingBox.yMid = values?.y ?? 0;
         // Value configuration
         this.props = new RootProperty(
-            this, template?.properties ?? {}, values?.properties
+            template.id, this, template?.properties ?? {}, values?.properties
         );
         if(values?.children) {
             for(let i = 0; i < values.children.length; i++) {
