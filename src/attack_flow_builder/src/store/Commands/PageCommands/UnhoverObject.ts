@@ -6,7 +6,7 @@ export class UnhoverObject extends PageCommand {
     /**
      * The object to un-hover.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
 
 
     /**
@@ -16,7 +16,7 @@ export class UnhoverObject extends PageCommand {
      */
     constructor(object: DiagramObjectModel) {
         super(object.root.id);
-        this._object = object;
+        this.object = object;
     }
     
 
@@ -26,7 +26,7 @@ export class UnhoverObject extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        let p: DiagramObjectModel | undefined = this._object;
+        let p: DiagramObjectModel | undefined = this.object;
         while(p) {
             p.setHover(Hover.Off);
             p = p.parent;

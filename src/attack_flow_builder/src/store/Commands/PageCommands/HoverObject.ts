@@ -6,7 +6,7 @@ export class HoverObject extends PageCommand {
     /**
      * The object to hover.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
 
 
     /**
@@ -16,7 +16,7 @@ export class HoverObject extends PageCommand {
      */
     constructor(object: DiagramObjectModel) {
         super(object.root.id);
-        this._object = object;
+        this.object = object;
     }
     
 
@@ -27,9 +27,9 @@ export class HoverObject extends PageCommand {
      */
     public execute(): boolean {
         // Directly hover object
-        this._object.setHover(Hover.Direct);
+        this.object.setHover(Hover.Direct);
         // Indirectly hover object's parents
-        let p = this._object.parent;
+        let p = this.object.parent;
         while(p) {
             p.setHover(Hover.Indirect);
             p = p.parent;

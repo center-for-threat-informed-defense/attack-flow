@@ -9,7 +9,7 @@ export class PasteToObject extends GroupCommand {
     /**
      * The application context.
      */
-    private _context: ApplicationStore;
+    public readonly context: ApplicationStore;
 
 
     /**
@@ -21,7 +21,7 @@ export class PasteToObject extends GroupCommand {
      */
     constructor(context: ApplicationStore, object: DiagramObjectModel) {
         super();
-        this._context = context;
+        this.context = context;
         // Clear the object's current selection
         this.add(new UnselectDescendants(object));
         // Copy the clipboard
@@ -42,8 +42,8 @@ export class PasteToObject extends GroupCommand {
      */
     public override execute(): boolean {
         // Offset the clipboard
-        let o = this._context.settings.edit.clone_offset;
-        for(let obj of this._context.clipboard) {
+        let o = this.context.settings.edit.clone_offset;
+        for(let obj of this.context.clipboard) {
             obj.moveBy(o[0], o[1]);
         }
         // Paste the clipboard

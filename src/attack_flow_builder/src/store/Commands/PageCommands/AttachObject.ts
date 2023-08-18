@@ -10,12 +10,12 @@ export class AttachObject extends PageCommand {
     /**
      * The object's anchor.
      */
-    private _anchor: DiagramAnchorModel;
+    public readonly anchor: DiagramAnchorModel;
     
     /**
      * The object.
      */
-    private _object: DiagramAnchorableModel;
+    public readonly object: DiagramAnchorableModel;
 
     
     /**
@@ -32,8 +32,8 @@ export class AttachObject extends PageCommand {
             );
         }
         super(anchor.root.id);
-        this._object = object;
-        this._anchor = anchor;
+        this.object = object;
+        this.anchor = anchor;
     }
     
 
@@ -43,7 +43,7 @@ export class AttachObject extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._anchor.addChild(this._object);
+        this.anchor.addChild(this.object);
         return true;
     }
 
@@ -51,7 +51,7 @@ export class AttachObject extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._anchor.removeChild(this._object);
+        this.anchor.removeChild(this.object);
     }
 
 }
