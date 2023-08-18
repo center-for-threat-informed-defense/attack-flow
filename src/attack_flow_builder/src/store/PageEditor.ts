@@ -244,7 +244,7 @@ export class PageEditor {
         let page = JSON.parse(file) as PageExport;
 
         // Initialize diagram factory
-        let factory = await DiagramFactory.create(page.schema);
+        let factory = await DiagramFactory.create(Configuration.schema);
         
         // Compile export index
         let index = new Map<string, DiagramObjectExport>();
@@ -306,7 +306,6 @@ export class PageEditor {
         let doc: PageExport = {
             version: pkg.version,
             id: this.page.id,
-            schema: this.page.factory.getSchema(),
             objects: [...this.page.getSubtree()].map(o => o.toExport()),
             location: location
         }
@@ -393,8 +392,11 @@ type PageExport = {
 
     /**
      * The page's internal schema.
+     * @deprecated
+     *  Since version 2.1.0. Schemas now rest solely with the application. They
+     *  are no longer exported with each file.
      */
-    schema: BlockDiagramSchema
+    schema?: BlockDiagramSchema
 
     /**
      * The page's diagram objects.
