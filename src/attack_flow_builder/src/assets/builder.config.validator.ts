@@ -331,17 +331,25 @@ class AttackFlowValidator extends DiagramValidator {
      */
     protected validateHash(id: string, hashes: ListProperty) {
         const validKey = /^[a-zA-Z0-9_-]{3,250}$/;
-        for(let hash of hashes.value.values()) {
-            if(!hash.isDefined()) {
+        const hashDictionaryProps = hashes.value;
+
+        if(!hashDictionaryProps) {
+            // This is an older AFB file that does not have the Hash property updated to current version.
+            this.addWarning(id, "This AFB is outdated, please remake it in a new file.");
+            return; 
+        }
+
+        for(let hashDictionary of hashDictionaryProps.values()) {
+            if(!hashDictionary.isDefined()) {
                 this.addError(id, "Hash Value cannot be empty.");
             }
             // Make sure hash_type is not empty.
-            let entries = hash.toRawValue()! as RawEntries;
+            let entries = hashDictionary.toRawValue()! as RawEntries;
             if(!Object.fromEntries(entries).hash_type) {
                 this.addError(id, "Hash Type cannot be left empty.");
             }
             
-            let key = hash.toString();
+            let key = hashDictionary.toString();
             if (!validKey.test(key)) {
                 this.addError(id, "Invalid hash key.");
             }
