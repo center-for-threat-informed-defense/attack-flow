@@ -161,10 +161,8 @@ class AttackFlowValidator extends DiagramValidator {
             case "file":
                 const hash = node.props.value.get("hashes");
                 const name = node.props.value.get("name");
-                if(!hash?.isDefined() || !name?.isDefined()) {
-                    if(!hash?.isDefined() && !name?.isDefined()) {
-                        this.addError(id, "File requires one of the following properties: Hashes, Name");
-                    }
+                if(!hash?.isDefined() && !name?.isDefined()) {
+                    this.addError(id, "File requires one of the following properties: Hashes, Name");
                 }
                 break;
             case "grouping":
