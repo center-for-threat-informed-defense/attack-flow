@@ -136,20 +136,13 @@ class AttackFlowValidator extends DiagramValidator {
     protected validateNode(id: string, node: GraphObjectExport) {
         // Validate properties
         for (const [key, value] of node.props.value) {
-            this.validateProperty(id, key, value)
+            this.validateProperty(id, key, value);
             // Additional validation for reference-based (tactic_ref + technique_ref) properties
-            if(key === "tactic_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
+            if(key === "tactic_ref" && !AttackFlowValidator.STIXregex.test(value.toString())) {
                 this.addError(id, "Invalid STIX tactic reference.");
-            } else if (key === "technique_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
-                this.addError(id, "Invalid STIX technique reference.");
             }
-            // Additional validation for network address properties
-            else if (node.template.id === "ipv4_addr" && !AttackFlowValidator.IPv4regex.test(String(value))) {
-               this.addError(id, "Invalid IPv4 address."); 
-            } else if (node.template.id === "ipv6_addr" && !AttackFlowValidator.IPv6regex.test(String(value))) {
-                this.addError(id, "Invalid IPv6 address.");
-            } else if (node.template.id === "mac_addr" && !AttackFlowValidator.MACregex.test(String(value))) {
-                this.addError(id, "Invalid MAC address.");
+            else if (key === "technique_ref" && !AttackFlowValidator.STIXregex.test(value.toString())) {
+                this.addError(id, "Invalid STIX technique reference.");
             }
         }
         // Validate links
@@ -162,9 +155,12 @@ class AttackFlowValidator extends DiagramValidator {
                 break;
             }
             case "email_address": // Additional validation for email addresses
-                if (!AttackFlowValidator.Emailregex.test(String(node.props.value.get("value")))) {
-                    this.addError(id, "Invalid email address.")
-                }
+                const email = node.props.value.get("value");
+                if(email?.isDefined()) {
+                    if (!AttackFlowValidator.Emailregex.test(email?.toString())) {
+                        this.addError(id, "Invalid email address.");
+                    }
+                }                
                 break;
             case "file": {
                 const hashes = node.props.value.get("hashes");
@@ -176,6 +172,22 @@ class AttackFlowValidator extends DiagramValidator {
             case "grouping":
                 if(node.next.length === 0) {
                     this.addError(id, "A Grouping must point to at least one object.");
+                }
+                break;
+            case "ipv4_addr":
+                const ipv4 = node.props.value.get("value");
+                if(ipv4?.isDefined()) {
+                    if (!AttackFlowValidator.IPv4regex.test(ipv4?.toString())) {
+                        this.addError(id, "Invalid IPv4 address."); 
+                    }
+                }
+                break;
+            case "ipv6_addr":
+                const ipv6 = node.props.value.get("value");
+                if(ipv6?.isDefined()) {
+                    if(!AttackFlowValidator.IPv6regex.test(ipv6.toString())) {
+                        this.addError(id, "Invalid IPv6 address.");
+                    }
                 }
                 break;
             case "location": // Additional validation for location object
@@ -194,11 +206,19 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Latitude and Longitude must be supplied together.");
                 }
                 break;
+            case "mac_addr":
+                const mac = node.props.value.get("value");
+                if(mac?.isDefined()) {
+                    if(!AttackFlowValidator.MACregex.test(mac?.toString())) {
+                        this.addError(id, "Invalid MAC address.");
+                    }
+                }
+                break;
             case "malware_analysis":
                 if(!node.props.value.get("result")?.isDefined()) {
                     // If "result" is empty, check for "analysis_sco_refs"
                     if(node.next.length === 0) {
-                        this.addError(id, "A Malware Analysis must have the Result field filled out or point to at least one object captured during analysis.")
+                        this.addError(id, "A Malware Analysis must have the Result field filled out or point to at least one object captured during analysis.");
                     }
                 }
                 break;
@@ -233,8 +253,11 @@ class AttackFlowValidator extends DiagramValidator {
                 }
                 break;
             case "windows_registry_key": // Additional validation for windows registry keys
-                if (!AttackFlowValidator.WindowsRegistryregex.test(String(node.props.value.get("key")))) {
-                    this.addError(id, "Invalid Windows registry key.");
+                const windows_key = node.props.value.get("key");
+                if(windows_key?.isDefined()) {
+                    if(!AttackFlowValidator.WindowsRegistryregex.test(windows_key.toString())) {
+                        this.addError(id, "Invalid Windows registry key.");
+                    }
                 }
                 break;
             case "x509_certificate": {
