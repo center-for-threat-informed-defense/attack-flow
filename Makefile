@@ -42,9 +42,13 @@ test-ci:
 	pytest --cov=src/ --cov-report=xml
 
 validate:
+	mkdir -p docs/extra/corpus
+	cp corpus/*.afb docs/extra/corpus
+	cd src/attack_flow_builder && env VUE_CLI_SERVICE_CONFIG_PATH="${ROOTDIR}src/attack_flow_builder/vue.cli.config.js" npx vue-cli-service build --target lib --name cli --formats commonjs --no-clean src/cli.ts
+	node src/attack_flow_builder/dist/cli.common.js --verbose corpus/*.afb
 	af validate \
 		stix/attack-flow-example.json \
-		corpus/*.json
+		docs/extra/corpus/*.json
 
 docker-build:
 	docker build . -t attack-flow-builder:latest
