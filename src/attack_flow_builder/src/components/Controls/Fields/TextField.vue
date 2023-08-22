@@ -155,6 +155,10 @@ export default defineComponent({
       let idx = s.findIndex(o => o.value === this.select);
       let canAcceptSuggestion;
       switch(event.key) {
+        case "Escape":
+          this.stopSuggestions();
+          event.preventDefault();
+          break;
         case "ArrowUp":
           if(0 < idx) {
             this.select = s[idx - 1].value;
