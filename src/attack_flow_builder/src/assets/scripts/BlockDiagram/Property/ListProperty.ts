@@ -42,7 +42,7 @@ export class ListProperty extends CollectionProperty {
                 let pId = `${ id }.${ vId }`;
                 let prop = Property.create(pId, this, descriptor.form, value);
                 // Add property
-                this.value.set(id, prop);
+                this.value.set(vId, prop);
             }
         } else if(descriptor.value) {
             if(Array.isArray(descriptor.value)) {
@@ -51,7 +51,7 @@ export class ListProperty extends CollectionProperty {
                     let pId = `${ id }.${ vId }`;
                     let prop = Property.create(pId, this, descriptor.form, value);
                     // Add property
-                    this.value.set(id, prop);
+                    this.value.set(vId, prop);
                 }
             } else {
                 for(let vId in descriptor.value) {
@@ -60,7 +60,7 @@ export class ListProperty extends CollectionProperty {
                     let pId = `${ id }.${ vId }`;
                     let prop = Property.create(pId, this, descriptor.form, value);
                     // Add property
-                    this.value.set(id, prop);
+                    this.value.set(vId, prop);
                 }
             }
         }
