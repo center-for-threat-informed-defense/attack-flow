@@ -158,6 +158,13 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid email address.")
                 }
                 break;
+            case "file":
+                const hash = node.props.value.get("hashes");
+                const name = node.props.value.get("name");
+                if(!hash?.isDefined() && !name?.isDefined()) {
+                    this.addError(id, "File requires one of the following properties: Hashes, Name");
+                }
+                break;
             case "grouping":
                 if(node.next.length === 0) {
                     this.addError(id, "A Grouping must point to at least one object.");
