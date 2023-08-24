@@ -24,6 +24,35 @@ const config: AppConfiguration = {
     application_name: "Attack Flow Builder",
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
+    menu_icon: "./ctid-small.png",
+    splash: {
+        product: "./afb.png",
+        organization: "./ctid.png",
+        buttons: [
+            {
+                action: "new",
+                name: "New Flow",
+                description: "Create a new, blank flow",
+            },
+            {
+                action: "open",
+                name: "Open Flow",
+                description: "Open an existing flow from your computer"
+            },
+            {
+                action: "link",
+                name: "Example Flows",
+                description: "View a list of example flows", 
+                url: "https://center-for-threat-informed-defense.github.io/attack-flow/example_flows/"
+            },
+            {
+                action: "link",
+                name: "Builder Help",
+                description: "View help for Attack Flow Builder", 
+                url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
+            },
+        ],
+    },
     schema: {
         page_template: "flow",
         templates: [
