@@ -11,22 +11,22 @@ export class AddLineObject extends PageCommand {
     /**
      * The line object to add.
      */
-    private _object: DiagramLineModel;
+    public readonly object: DiagramLineModel;
 
     /**
      * The parent object.
      */
-    private _parent: DiagramObjectModel;
+    public readonly parent: DiagramObjectModel;
 
     /**
      * The line's source anchor.
      */
-    private _source: DiagramAnchorModel;
+    public readonly source: DiagramAnchorModel;
 
     /**
      * The line's target anchor.
      */
-    private _target: DiagramAnchorModel | undefined;
+    public readonly target: DiagramAnchorModel | undefined;
 
 
     /**
@@ -47,10 +47,10 @@ export class AddLineObject extends PageCommand {
         target?: DiagramAnchorModel
     ) {
         super(parent.root.id);
-        this._object = object;
-        this._parent = parent;
-        this._source = source;
-        this._target = target;
+        this.object = object;
+        this.parent = parent;
+        this.source = source;
+        this.target = target;
     }
     
 
@@ -61,16 +61,16 @@ export class AddLineObject extends PageCommand {
      */
     public execute(): boolean {
         // Add line
-        this._parent.addChild(this._object);
+        this.parent.addChild(this.object);
         // Connect source
-        let { xMid, yMid } = this._source.boundingBox;
-        this._object.srcEnding.moveTo(xMid, yMid);
-        this._source.addChild(this._object.srcEnding);
+        let { xMid, yMid } = this.source.boundingBox;
+        this.object.srcEnding.moveTo(xMid, yMid);
+        this.source.addChild(this.object.srcEnding);
         // Connect target
-        if(this._target) {
-            let { xMid, yMid } = this._target.boundingBox;
-            this._object.trgEnding.moveTo(xMid, yMid);
-            this._target.addChild(this._object.trgEnding);
+        if(this.target) {
+            let { xMid, yMid } = this.target.boundingBox;
+            this.object.trgEnding.moveTo(xMid, yMid);
+            this.target.addChild(this.object.trgEnding);
         }
         return true;
     }
@@ -79,16 +79,16 @@ export class AddLineObject extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._object.setHover(Hover.Off);
-        this._object.setSelect(Select.False);
+        this.object.setHover(Hover.Off);
+        this.object.setSelect(Select.False);
         // Disconnect source
-        this._source.removeChild(this._object.srcEnding);
+        this.source.removeChild(this.object.srcEnding);
         // Disconnect target
-        if(this._target) {
-            this._target.removeChild(this._object.trgEnding);
+        if(this.target) {
+            this.target.removeChild(this.object.trgEnding);
         }
         // Remove line
-        this._parent.removeChild(this._object);
+        this.parent.removeChild(this.object);
     }
 
 }

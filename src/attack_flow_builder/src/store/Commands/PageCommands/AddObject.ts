@@ -6,12 +6,12 @@ export class AddObject extends PageCommand {
     /**
      * The object to add.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
 
     /**
      * The parent object.
      */
-    private _parent: DiagramObjectModel;
+    public readonly parent: DiagramObjectModel;
 
     
     /**
@@ -23,8 +23,8 @@ export class AddObject extends PageCommand {
      */
     constructor(object: DiagramObjectModel, parent: DiagramObjectModel) {
         super(parent.root.id);
-        this._object = object;
-        this._parent = parent;
+        this.object = object;
+        this.parent = parent;
     }
     
 
@@ -34,7 +34,7 @@ export class AddObject extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._parent.addChild(this._object);
+        this.parent.addChild(this.object);
         return true;
     }
 
@@ -42,11 +42,11 @@ export class AddObject extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._object.setHover(Hover.Off);
-        this._object.setSelect(Select.False);
+        this.object.setHover(Hover.Off);
+        this.object.setSelect(Select.False);
         // Skip check for external attachments. If object entered the diagram
         // with external attachments it should leave with them too.
-        this._parent.removeChild(this._object, true, false);
+        this.parent.removeChild(this.object, true, false);
     }
 
 }

@@ -6,39 +6,59 @@
       <template v-for="item of section.items" :key="item.text">
         <!-- Submenu Item -->
         <li 
-          v-if="item.type === MenuType.Submenu"
           :class="{ disabled: item.disabled }"
           @mouseenter="submenuEnter(item)"
-          @mouseleave="submenuLeave"
+          @mouseleave="submenuLeave(item)"
+          v-if="item.type === MenuType.Submenu"
         >
           <a class="item">
             <span class="text">{{ item.text }}</span>
             <span class="more-arrow"></span>
           </a>
-          <div class="submenu" v-if="item.text === focusedSubMenu">
-            <ContextMenuListing :sections="item.sections" @select="onChildItemSelect"/>
+          <div class="submenu" v-if="isActive(item)">
+            <ContextMenuListing 
+              :root="false"
+              :sections="item.sections"
+              @_select="onChildItemSelect"
+            />
           </div>
         </li>
         <!-- Regular Item -->
-        <li v-else :class="{ disabled: item.disabled }" @click="onItemClick(item)">
-          <a class="item" :href="item.disabled ? null : item.link" target="_blank">
-            <span class="check" v-show="item.value">✓</span>
-            <span class="text">{{ item.text }}</span>
-            <span v-if="item.shortcut" class="shortcut">
-                {{ formatShortcut(item.shortcut) }}
+        <li 
+          :class="{ disabled: item.disabled }"
+          :exit-focus-box="!item.keepMenuOpenOnSelect"
+          @click="onItemClick(item)"
+          v-else
+        >
+          <a 
+            class="item"
+            :href="item.disabled ? null : item.link"
+            target="_blank"
+          >
+            <span class="check" v-show="item.value">
+              ✓
+            </span>
+            <span class="text">
+              {{ item.text }}
+            </span>
+            <span class="shortcut" v-if="item.shortcut">
+              {{ formatShortcut(item.shortcut) }}
             </span>
           </a>
         </li>
       </template>
       <!-- Section Divider -->
-      <a v-if="i < sections.length - 1" class="section-divider"></a>
+      <a class="section-divider" v-if="i < sections.length - 1"></a>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { ContextMenu, ContextMenuItem, ContextMenuSection, MenuType } from "@/assets/scripts/ContextMenuTypes";
+import { 
+  ContextMenu, ContextMenuItem, 
+  ContextMenuSection, MenuType
+} from "@/assets/scripts/ContextMenuTypes";
 
 const KeyToText: { [key: string]: string } = {
   Control    : "Ctrl",
@@ -53,6 +73,10 @@ const KeyToText: { [key: string]: string } = {
 export default defineComponent({
   name: 'ContextMenuListing',
   props: {
+    root: {
+      type: Boolean,
+      default: true,
+    },
     sections: {
       type: Array as PropType<ContextMenuSection[]>,
       required: true
@@ -66,9 +90,9 @@ export default defineComponent({
     return {
       xOffset: 0,
       yOffset: 0,
+      activeSubMenu: null as string | null,
       leaveTimeout: 500,
       leaveTimeoutId: 0,
-      focusedSubMenu: null as string | null,
       MenuType
     }
   },
@@ -87,27 +111,43 @@ export default defineComponent({
     }
 
   },
+  emits: ["select", "_select"],
   methods: {
     
     /**
-     * Submenu mouse enter behavior.
-     * @param item
-     *  The hovered submenu item.
+     * Tests is a submenu is active.
+     * @param menu
+     *  The context submenu.
+     * @returns
+     *  True if the submenu is active, false otherwise.
      */
-    submenuEnter(item: ContextMenu) {
-      clearTimeout(this.leaveTimeoutId);
-      if(!item.disabled) {
-        this.focusedSubMenu = item.text;
+    isActive(menu: ContextMenu) {
+      return menu.text === this.activeSubMenu;
+    },
+
+    /**
+     * Submenu mouse enter behavior.
+     * @param menu
+     *  The hovered submenu.
+     */
+    submenuEnter(menu: ContextMenu) {
+      if(!menu.disabled) {
+        clearTimeout(this.leaveTimeoutId);
+        this.activeSubMenu = menu.text;
       }
     },
 
     /**
      * Submenu mouse leave behavior.
+     * @param menu
+     *  The unhovered submenu.
      */
-    submenuLeave() {
-      this.leaveTimeoutId = setTimeout(() => {
-        this.focusedSubMenu = null;
-      }, this.leaveTimeout)
+    submenuLeave(menu: ContextMenu) {
+      if(!menu.disabled) {
+        this.leaveTimeoutId = setTimeout(() => {
+          this.activeSubMenu = null;
+        }, this.leaveTimeout)
+      }
     },
 
     /**
@@ -116,22 +156,28 @@ export default defineComponent({
      *  The selected menu item.
      */
     onItemClick(item: ContextMenuItem) {
-      if(item.disabled)
-        return;
-      this.$emit("select", item.data, !item.keepMenuOpenOnSelect);
+      if(!item.disabled) {
+        if(this.root) {
+          this.$emit("select", item.data);
+        } else {
+          this.$emit("_select", item);
+        }
+      }
     },
 
     /**
      * Submenu item selection behavior.
-     * @param data
-     *  The menu item's data.
-     * @param closeSubmenu
-     *  If the active submenu should close.
+     * @param item
+     *  The selected menu item.
      */
-    onChildItemSelect(data: any, closeSubmenu: boolean) {
-      this.$emit("select", data, closeSubmenu);
-      if(closeSubmenu) {
-        this.focusedSubMenu = null;
+    onChildItemSelect(item: ContextMenuItem) {
+      if(this.root) {
+        this.$emit("select", item.data);
+      } else {
+        this.$emit("_select", item);
+      }
+      if(!item.keepMenuOpenOnSelect) {
+        this.activeSubMenu = null;
       }
     },
 
@@ -154,7 +200,6 @@ export default defineComponent({
     }
 
   },
-  emits: ["select"],
   mounted() {
     if(!this.forceInsideWindow) return;
     // Offset submenu if outside of viewport

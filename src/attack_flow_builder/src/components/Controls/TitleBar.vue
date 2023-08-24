@@ -1,21 +1,21 @@
 <template>
-  <FocusBox class="title-bar-control" @unfocus="menuClose">
+  <FocusBox class="title-bar-control" pointerEvent="click" @focusout="menuClose">
     <li class="icon">
       <slot name="icon"></slot>
     </li>
     <li 
-      v-for="menu of menus" :key="menu.text"
-      :class="{ focused: menu.text === focusedMenu }"
-      @mouseenter="menuEnter(menu.text)"
+      v-for="menu of menus"
+      :key="menu.text"
+      :class="{ active: isActive(menu) }"
       @click="menuOpen(menu.text)"
+      @mouseenter="menuEnter(menu.text)"
     >
       <p>{{ menu.text }}</p>
       <ContextMenuListing 
         class="menu-listing"
-        v-if="menu.text === focusedMenu"
         :sections="menu.sections"
         @select="menuSelect"
-        @click.stop
+        v-if="isActive(menu)"
       />
     </li>
   </FocusBox> 
@@ -39,11 +39,22 @@ export default defineComponent({
   },
   data() {
     return {
-      focusedMenu: null as string | null
+      activeMenu: null as string | null
     }
   },
   emits: ["select"],
   methods: {
+
+    /**
+     * Tests if a menu is currently active.
+     * @param menu
+     *  The context menu.
+     * @returns
+     *  True if the menu is active, false otherwise.
+     */
+    isActive(menu: ContextMenu): boolean {
+      return menu.text === this.activeMenu;
+    },
     
     /**
      * Menu selection behavior.
@@ -51,7 +62,7 @@ export default defineComponent({
      *  The id of the selected menu.
      */
     menuOpen(id: string) {
-      this.focusedMenu = id;
+      this.activeMenu = id;
     },
 
     /**
@@ -60,29 +71,25 @@ export default defineComponent({
      *  The id of the hovered menu.
      */
     menuEnter(id: string) {
-      if(this.focusedMenu === null)
+      if(this.activeMenu === null)
         return;
-      this.focusedMenu = id;
+      this.activeMenu = id;
     },
 
     /**
      * Menu close behavior.
      */
     menuClose() {
-      this.focusedMenu = null;
+      this.activeMenu = null;
     },
 
     /**
      * Menu item selection behavior.
      * @param data
      *  The menu item's data.
-     * @param closeSubmenu
-     *  If the active menu should close.
-
      */
-    menuSelect(data: any, closeMenu: boolean) {
+    menuSelect(data: any) {
       this.$emit("select", data);
-      if(closeMenu) this.focusedMenu = null;
     }
 
   },

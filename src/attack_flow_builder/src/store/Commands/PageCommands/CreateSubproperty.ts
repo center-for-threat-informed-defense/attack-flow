@@ -6,12 +6,12 @@ export class CreateSubproperty extends PageCommand {
     /**
      * The property to modify.
      */
-    private _property: ListProperty;
+    public readonly property: ListProperty;
 
     /**
      * The subproperty's id.
      */
-    private _id: string | null;
+    private _id: string;
 
     /**
      * The subproperty.
@@ -30,9 +30,9 @@ export class CreateSubproperty extends PageCommand {
             throw new Error("Property does not have a root.")
         }
         super(root.object.root.id);
-        this._id = null;
-        this._property = property;
-        this._subproperty = Property.create(property, property.descriptor.form);
+        this.property = property;
+        this._id = property.getNextId();
+        this._subproperty = Property.create(this._id, property, property.descriptor.form);
     }
     
 
@@ -42,7 +42,7 @@ export class CreateSubproperty extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._id = this._property.addProperty(this._subproperty);
+        this.property.addProperty(this._subproperty, this._id);
         return true;
     }
 
@@ -50,9 +50,7 @@ export class CreateSubproperty extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        if(this._id) {
-            this._property.removeProperty(this._id);
-        }
+        this.property.removeProperty(this._id);
     }
 
 }

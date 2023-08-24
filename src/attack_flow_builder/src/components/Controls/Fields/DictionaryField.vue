@@ -79,10 +79,6 @@ export default defineComponent({
 
 /** === Main Field === */
 
-.dictionary-field-control {
-  overflow: hidden;
-}
-
 .dictionary-header-container {
   display: flex;
 }

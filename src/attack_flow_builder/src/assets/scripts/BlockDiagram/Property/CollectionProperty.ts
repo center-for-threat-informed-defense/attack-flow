@@ -23,16 +23,19 @@ export abstract class CollectionProperty extends Property {
 
     /**
      * Creates a new {@link CollectionProperty}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
      *  The property's descriptor.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: CollectionPropertyDescriptor
     ) {
-        super(parent, descriptor);
+        super(id, parent, descriptor);
         this.descriptor = descriptor;
         this.value = new Map();
     }

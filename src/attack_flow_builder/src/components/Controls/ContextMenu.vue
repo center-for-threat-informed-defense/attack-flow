@@ -2,21 +2,22 @@
   <FocusBox 
     :style="offset" 
     class="context-menu-control"
-    @unfocus="$emit('unfocus')" 
+    pointerEvent="click"
+    @focusout="$emit('focusout')"
     @contextmenu.prevent=""
   >
     <ContextMenuListing 
       :sections="sections" 
-      @select="data => $emit('select', data)"
       :forceInsideWindow="false" 
+      @select="data => $emit('select', data)"
     />
   </FocusBox>
 </template>
 
 <script lang="ts">
 // Dependencies
-import { defineComponent, PropType } from 'vue';
 import { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
+import { defineComponent, PropType } from 'vue';
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import ContextMenuListing from "./ContextMenuListing.vue";
@@ -50,7 +51,7 @@ export default defineComponent({
     }
 
   },
-  emits: ["select", "unfocus"],
+  emits: ["select", "focusout"],
   mounted() {
     // Offset menu if outside of viewport
     let viewWidth  = window.innerWidth;
@@ -59,6 +60,8 @@ export default defineComponent({
     // -1 ensures cursor is over menu and not the element beneath it
     this.xOffset = right > viewWidth ? -(this.$el.clientWidth - 1) : 0;
     this.yOffset = bottom > viewHeight ? -(this.$el.clientHeight - 1) : 0;
+    // Focus context menu
+    this.$el.focus();
   },
   components: { FocusBox, ContextMenuListing }
 });

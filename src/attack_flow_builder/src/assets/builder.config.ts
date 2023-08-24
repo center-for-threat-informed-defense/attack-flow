@@ -1,5 +1,7 @@
+import intel from "./builder.config.intel";
 import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
+import processor from "./builder.config.processor";
 import { AppConfiguration } from "@/store/StoreTypes";
 import { Colors, DarkTheme } from "./scripts/BlockDiagram/DiagramFactory/Themes";
 import {
@@ -145,9 +147,9 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
-                    tactic_id                    : { type: PropertyType.String },
+                    tactic_id                    : { type: PropertyType.String, suggestions: intel.tactic_recs },
                     tactic_ref                   : { type: PropertyType.String, is_visible_chart: false, is_visible_sidebar: true },
-                    technique_id                 : { type: PropertyType.String },
+                    technique_id                 : { type: PropertyType.String, suggestions: intel.technique_recs },
                     technique_ref                : { type: PropertyType.String, is_visible_chart: false, is_visible_sidebar: true },
                     description                  : { type: PropertyType.String },
                     confidence                   : {
@@ -951,7 +953,8 @@ const config: AppConfiguration = {
         }
     },
     validator,
-    publisher
+    publisher,
+    processor
 };
 
 export default config;

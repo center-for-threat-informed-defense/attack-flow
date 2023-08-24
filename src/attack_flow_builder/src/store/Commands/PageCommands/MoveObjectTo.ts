@@ -6,7 +6,17 @@ export class MoveObjectTo extends PageCommand {
     /**
      * The object.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
+
+    /**
+     * The object's next x coordinate. 
+     */
+    public readonly nx: number;
+
+    /**
+     * The object's next y coordinate.
+     */
+    public readonly ny: number;
     
     /**
      * The object's last x coordinate.
@@ -17,16 +27,6 @@ export class MoveObjectTo extends PageCommand {
      * The object's last y coordinate.
      */
     private _ly: number;
-
-    /**
-     * The object's next x coordinate. 
-     */
-    private _nx: number;
-
-    /**
-     * The object's next y coordinate.
-     */
-    private _ny: number;
 
 
     /**
@@ -40,11 +40,11 @@ export class MoveObjectTo extends PageCommand {
      */
     constructor(object: DiagramObjectModel, x: number, y: number) {
         super(object.root.id);
-        this._object = object;
+        this.object = object;
         this._lx = object.boundingBox.xMid;
         this._ly = object.boundingBox.yMid;
-        this._nx = x;
-        this._ny = y;
+        this.nx = x;
+        this.ny = y;
     }
 
 
@@ -54,7 +54,7 @@ export class MoveObjectTo extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._object.moveTo(this._nx, this._ny);
+        this.object.moveTo(this.nx, this.ny);
         return true;
     }
 
@@ -62,7 +62,7 @@ export class MoveObjectTo extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._object.moveTo(this._lx, this._ly);
+        this.object.moveTo(this._lx, this._ly);
     }
 
 }

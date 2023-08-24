@@ -1,6 +1,7 @@
 import { PageEditor } from "@/store/PageEditor"
 import { DiagramValidator } from "@/assets/scripts/DiagramValidator/DiagramValidator"
 import { DiagramPublisher } from "@/assets/scripts/DiagramPublisher/DiagramPublisher"
+import { DiagramProcessor } from "@/assets/scripts/DiagramProcessor/DiagramProcessor"
 import { PageRecoveryBank } from "./PageRecoveryBank"
 import { BlockDiagramSchema } from "@/assets/scripts/BlockDiagram/DiagramFactory"
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram"
@@ -27,6 +28,7 @@ export type ModuleStore = {
 export type ApplicationStore = {
     settings: AppSettings,
     clipboard: DiagramObjectModel[],
+    processor: DiagramProcessor | undefined,
     publisher: DiagramPublisher | undefined,
     activePage: PageEditor,
     recoveryBank: PageRecoveryBank,
@@ -276,7 +278,8 @@ export type AppConfiguration = {
         }
     },
     validator?: typeof DiagramValidator,
-    publisher?: typeof DiagramPublisher
+    publisher?: typeof DiagramPublisher,
+    processor?: typeof DiagramProcessor
 }
 
 

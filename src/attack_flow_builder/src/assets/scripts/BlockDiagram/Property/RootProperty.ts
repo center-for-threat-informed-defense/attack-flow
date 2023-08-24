@@ -21,6 +21,8 @@ export class RootProperty extends DictionaryProperty {
 
     /**
      * Creates a new {@link RootProperty}.
+     * @param id
+     *  The property's id.
      * @param object
      *  The property's associated object.
      * @param descriptor
@@ -29,6 +31,7 @@ export class RootProperty extends DictionaryProperty {
      *  The property's values.
      */
     constructor(
+        id: string,
         object: DiagramObjectModel,
         descriptor: RootPropertyDescriptor,
         values?: any
@@ -37,7 +40,7 @@ export class RootProperty extends DictionaryProperty {
             type: PropertyType.Dictionary,
             form: descriptor
         }
-        super(undefined, dpd, values);
+        super(id, undefined, dpd, values);
         this.object = object;
     }
 
