@@ -22,7 +22,8 @@ export default {
         publisher: Publisher,
         processor: Processor,
         activePage: PageEditor.createDummy(),
-        recoveryBank: new PageRecoveryBank()
+        recoveryBank: new PageRecoveryBank(),
+        splashIsVisible: false,
     },
     getters: {
 
@@ -126,7 +127,18 @@ export default {
             let p = state.activePage;
             // Use trigger to trip the reactivity system
             return (state.activePage.trigger.value ? p : p).getValidationWarnings();
-        }
+        },
+
+        /**
+         * Indicates whether the splash menu is visible.
+         * @param state
+         *  The Vuex state.
+         * @returns
+         *  True if the splash menu is visible.
+         */
+        isShowingSplash(state): boolean {
+            return state.splashIsVisible;
+        },
 
     },
     mutations: {

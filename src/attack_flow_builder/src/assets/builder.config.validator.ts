@@ -7,6 +7,7 @@ import {
     ListProperty,
     Property,
     PropertyType,
+    RawEntries,
     SemanticAnalyzer
 } from "./scripts/BlockDiagram";
 
@@ -153,9 +154,26 @@ class AttackFlowValidator extends DiagramValidator {
         }
         // Validate links
         switch(node.template.id) {
+            case "artifact": {
+                const hashes = node.props.value.get("hashes");
+                if(hashes?.isDefined()) {
+                    this.validateHash(id, hashes as ListProperty);
+                }
+                break;
+            }
             case "email_address": // Additional validation for email addresses
                 if (!AttackFlowValidator.Emailregex.test(String(node.props.value.get("value")))) {
                     this.addError(id, "Invalid email address.")
+                }
+                break;
+            case "file":
+                const hash = node.props.value.get("hashes");
+                const name = node.props.value.get("name");
+                if(!hash?.isDefined() && !name?.isDefined()) {
+                    this.addError(id, "File requires one of the following properties: Hashes, Name");
+                }
+                if(hashes?.isDefined()) {
+                    this.validateHash(id, hashes as ListProperty);
                 }
                 break;
             case "grouping":
@@ -222,6 +240,13 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid Windows registry key.");
                 }
                 break;
+            case "x509_certificate": {
+                const hashes = node.props.value.get("hashes");
+                if(hashes?.isDefined()) {
+                    this.validateHash(id, hashes as ListProperty);
+                }
+                break;
+            }
         }
     }
 
@@ -294,6 +319,43 @@ class AttackFlowValidator extends DiagramValidator {
     protected validateEdge(id: string, edge: GraphObjectExport) {
         if (edge.prev.length === 0 || edge.next.length === 0) {
             this.addWarning(id, "Edge should connect on both ends.");
+        }
+    }
+
+    /**
+     * Validate a hash from any hash-containing node.
+     * 
+     * Reference: https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#_odoabbtwuxyd
+     * 
+     * @param id
+     *  The node's id.
+     * @param hashes
+     *  The list of hashes to validate.
+     */
+    protected validateHash(id: string, hashes: ListProperty) {
+        const validKey = /^[a-zA-Z0-9_-]{3,250}$/;
+        const hashDictionaryProps = hashes.value;
+
+        if(!hashDictionaryProps) {
+            // This is an older AFB file that does not have the Hash property updated to current version.
+            this.addWarning(id, "This AFB is outdated, please remake it in a new file.");
+            return; 
+        }
+
+        for(let hashDictionary of hashDictionaryProps.values()) {
+            if(!hashDictionary.isDefined()) {
+                this.addError(id, "Hash Value cannot be empty.");
+            }
+            // Make sure hash_type is not empty.
+            let entries = hashDictionary.toRawValue()! as RawEntries;
+            if(!Object.fromEntries(entries).hash_type) {
+                this.addError(id, "Hash Type cannot be left empty.");
+            }
+            
+            let key = hashDictionary.toString();
+            if (!validKey.test(key)) {
+                this.addError(id, "Invalid hash key.");
+            }
         }
     }
 

@@ -31,7 +31,8 @@ export type ApplicationStore = {
     processor: DiagramProcessor | undefined,
     publisher: DiagramPublisher | undefined,
     activePage: PageEditor,
-    recoveryBank: PageRecoveryBank
+    recoveryBank: PageRecoveryBank,
+    splashIsVisible: boolean,
 }
 
 /**
@@ -237,6 +238,24 @@ export type SelectHotkeys = {
 //  3. App Configuration  /////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Actions that a splash button can execute.
+ */
+export enum SplashButtonAction {
+    New    = "new",
+    Open   = "open",
+    Link   = "link",
+}
+
+/**
+ * Configuration for a splash button.
+ */
+export type SplashButton = {
+    action: string;
+    name: string;
+    description: string;
+    url?: string;
+}
 
 /**
  * App Configuration File
@@ -244,8 +263,14 @@ export type SelectHotkeys = {
 export type AppConfiguration = {
     is_web_hosted: boolean,
     application_name: string,
+    splash: {
+        product: string,
+        organization: string,
+        buttons: Array<SplashButton>,
+    },
     file_type_name: string,
     file_type_extension: string,
+    menu_icon: string,
     schema: BlockDiagramSchema,
     menus: {
         help_menu: {
