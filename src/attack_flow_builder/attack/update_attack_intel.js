@@ -38,9 +38,9 @@ async function updateApplicationAttackIntel(path, ...urls) {
     console.log("→ Generating Application Intel File...");
     let intel = {
         tactics        : types.get("tactic"),
-        tactic_recs    : types.get("tactic").map(o => o.id).sort(),
+        tactic_recs    : types.get("tactic").map(o => `${o.id} (${o.matrix.split(/\s+/)[0]} / ${o.name})`).sort(),
         technique      : types.get("technique"),
-        technique_recs : types.get("technique").map(o => o.id).sort()
+        technique_recs : types.get("technique").map(o => `${o.id} (${o.name})`).sort()
     };
     
     // Generate intel file

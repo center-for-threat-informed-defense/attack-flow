@@ -96,13 +96,15 @@ class AttackFlowProcessor extends DiagramProcessor {
         if(value !== null && AttackFlowProcessor.TacticRecs.has(value)) {
 
             let cmd = new GroupCommand();
-            cmd.add(command);
 
             // Resolve tactic ID
             let tacticId = /TA[0-9]{4}/i.exec(value);
             if(tacticId === null) {
                 throw new Error("Tactic ID could not be resolved from text.");
             }
+
+            // Update tactic field to tactic ID.
+            cmd.add(new SetStringProperty(property, tacticId[0]));
 
             // Resolve tactic
             let tactic = intel.tactics.find(o => o.id === tacticId![0])!;
@@ -146,13 +148,15 @@ class AttackFlowProcessor extends DiagramProcessor {
         if(value !== null && AttackFlowProcessor.TechniqueRecs.has(value)) {
 
             let cmd = new GroupCommand();
-            cmd.add(command);
 
             // Resolve technique ID
             let techniqueId = /T[0-9]{4}(?:\.[0-9]{3})?/i.exec(value);
             if(techniqueId === null) {
                 throw new Error("Technique ID could not be resolved from text.");
             }
+
+            // Update technique field to tactic ID.
+            cmd.add(new SetStringProperty(property, techniqueId[0]));
 
             // Resolve technique
             let technique = intel.technique.find(o => o.id === techniqueId![0])!;
