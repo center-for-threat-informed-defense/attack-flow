@@ -139,16 +139,16 @@ export default {
                     shortcut: edit.find,
                     repeatable: false
                 },
-                // {
-                //     data: () => new App.FindNext(ctx, page),
-                //     shortcut: edit.find,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new App.FindPrevious(ctx, page),
-                //     shortcut: edit.find,
-                //     repeatable: false
-                // },
+                {
+                    data: () => new App.MoveToNextFindResult(ctx),
+                    shortcut: edit.find_next,
+                    repeatable: false
+                },
+                {
+                    data: () => new App.MoveToPreviousFindResult(ctx),
+                    shortcut: edit.find_previous,
+                    repeatable: false
+                },
                 {
                     data: () => new Page.SelectChildren(page),
                     shortcut: edit.select_all,

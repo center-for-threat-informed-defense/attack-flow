@@ -36,8 +36,8 @@
             "delete": "Backspace",
             "duplicate": "Control+D",
             "find": "Control+F",
-            "find_next": "Control+G",
-            "find_previous": "Control+Shift+G",
+            "find_next": "F3",
+            "find_previous": "Shift+F3",
             "select_all": "Control+A"
         },
         "layout": {

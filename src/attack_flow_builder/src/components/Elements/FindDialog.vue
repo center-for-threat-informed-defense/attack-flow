@@ -33,7 +33,6 @@ import { defineComponent } from "vue";
 import { mapGetters, mapMutations, mapState } from "vuex";
 import * as App from "@/store/Commands/AppCommands";
 import * as Page from "@/store/Commands/PageCommands";
-import { FindResult } from "@/store/Finder";
 import Debouncer from "@/assets/scripts/BlockDiagram/Utilities/Debouncer";
 // Components
 import Close from "@/components/Icons/Close.vue";
@@ -125,6 +124,12 @@ export default defineComponent({
         runQuery(event: KeyboardEvent) {
             if (event.key === "Escape") {
                 this.hideFindDialog();
+            } else if (event.key === "Enter") {
+                if (event.shiftKey) {
+                    this.execute(new App.MoveToPreviousFindResult(this.ctx));
+                } else {
+                    this.execute(new App.MoveToNextFindResult(this.ctx));
+                }
             } else if (this.query !== this.lastQuery) {
                 this.debouncer.call(() => {
                     this.lastQuery = this.query;
