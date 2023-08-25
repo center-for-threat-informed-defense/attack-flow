@@ -1,5 +1,6 @@
 export * from "./ClearPageRecoveryBank";
 export * from "./CopySelectedChildren";
+export * from "./GroupCommand";
 export * from "./HideSplashMenu";
 export * from "./LoadFile";
 export * from "./LoadSettings";
