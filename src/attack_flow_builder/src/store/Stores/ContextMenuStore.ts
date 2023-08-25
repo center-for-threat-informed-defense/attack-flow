@@ -61,13 +61,23 @@ export default {
                     {
                         text: "New File",
                         type: MenuType.Item,
-                        data: () => App.LoadFile.fromNew(ctx),
+                        data: async () => {
+                            const cmd = new App.GroupCommand(ctx);
+                            cmd.add(await App.LoadFile.fromNew(ctx));
+                            cmd.add(new App.HideSplashMenu(ctx));
+                            return cmd;
+                        },
                         shortcut: file.new_file,
                     },
                     {
                         text: `Open File...`,
                         type: MenuType.Item,
-                        data: () => App.LoadFile.fromFileSystem(ctx),
+                        data: async () => {
+                            const cmd = new App.GroupCommand(ctx);
+                            cmd.add(await App.LoadFile.fromFileSystem(ctx));
+                            cmd.add(new App.HideSplashMenu(ctx));
+                            return cmd;
+                        },
                         shortcut: file.open_file,
                     }
                 ],
