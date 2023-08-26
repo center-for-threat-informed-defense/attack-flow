@@ -34,6 +34,7 @@ import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
 import EditorSidebar from "@/components/Elements/EditorSidebar.vue";
 import { ShowSplashMenu } from "./store/Commands/AppCommands/ShowSplashMenu";
+import { Browser, OperatingSystem } from "./assets/scripts/Browser";
 
 const Handle = {
   None   : 0,
@@ -151,12 +152,30 @@ export default defineComponent({
 
   },
   async created() {
+    // Detect operating system
+    let os: OperatingSystem;
+    switch(Browser.getOperatingSystemClass()) {
+      case OperatingSystem.MacOS:
+        os = OperatingSystem.MacOS;
+        break;
+      default:
+        os = OperatingSystem.Other;
+        break;
+    }
     // Import settings
     let settings;
     if(Configuration.is_web_hosted) {
-        settings = await (await fetch("./settings.json")).json();
+        let options = {
+          [OperatingSystem.Other]: "../public/settings_win.json",
+          [OperatingSystem.MacOS]: "../public/settings_macos.json"
+        }
+        settings = await (await fetch(options[os])).json();
     } else {
-        settings = require("../public/settings.json");
+      let options = {
+        [OperatingSystem.Other]: require("../public/settings_win.json"),
+        [OperatingSystem.MacOS]: require("../public/settings_macos.json"),
+      }
+      settings = options[os];
     }
     // Load settings
     this.execute(new App.LoadSettings(this.context, settings));
