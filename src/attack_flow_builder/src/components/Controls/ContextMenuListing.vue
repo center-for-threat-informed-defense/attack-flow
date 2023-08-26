@@ -67,7 +67,8 @@ const KeyToText: { [key: string]: string } = {
   ArrowUp    : "↑",
   ArrowRight : "→",
   ArrowDown  : "↓",
-  Delete     : "Del"
+  Delete     : "Del",
+  Meta       : "⌘"
 }
 
 export default defineComponent({
