@@ -35,6 +35,9 @@
             "paste": "Control+V",
             "delete": "Backspace",
             "duplicate": "Control+D",
+            "find": "Control+F",
+            "find_next": "F3",
+            "find_previous": "Shift+F3",
             "select_all": "Control+A"
         },
         "layout": {

@@ -1,6 +1,7 @@
 <template>
   <AppHotkeyBox id="main">
     <AppTitleBar id="app-title-bar"/>
+    <FindDialog ref="findDialog" id="find-dialog" :style="findDialogLayout" />
     <div id="app-body" ref="body" :style="gridLayout">
       <div class="frame center">
         <BlockDiagram id="block-diagram"/>
@@ -18,13 +19,13 @@
 </template>
 
 <script lang="ts">
+import * as App from './store/Commands/AppCommands';
 import * as Store from "@/store/StoreTypes";
 import Configuration from "@/assets/builder.config"
 // Dependencies
 import { clamp } from "./assets/scripts/BlockDiagram";
 import { PointerTracker } from "./assets/scripts/PointerTracker";
 import { mapMutations, mapState } from 'vuex';
-import * as App from './store/Commands/AppCommands';
 import { defineComponent, markRaw, ref } from 'vue';
 // Components
 import SplashMenu from "@/components/Controls/SplashMenu.vue";
@@ -33,7 +34,7 @@ import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
 import EditorSidebar from "@/components/Elements/EditorSidebar.vue";
-import { ShowSplashMenu } from "./store/Commands/AppCommands/ShowSplashMenu";
+import FindDialog from "@/components/Elements/FindDialog.vue";
 
 const Handle = {
   None   : 0,
@@ -83,6 +84,18 @@ export default defineComponent({
       let r = this.frameSize[Handle.Right];
       return {
         gridTemplateColumns: `minmax(0, 1fr) ${ r }px`
+      }
+    },
+
+    /**
+     * Compute the location of the find dialog
+     * @returns
+     *  The current grid layout.
+     */
+    findDialogLayout(): { right: string } {
+      let r = this.frameSize[Handle.Right] + 25;
+      return {
+        right: `${r}px`
       }
     }
 
@@ -174,7 +187,7 @@ export default defineComponent({
         console.error(ex);
       }
     } else {
-      this.execute(new ShowSplashMenu(this.context));
+      this.execute(new App.ShowSplashMenu(this.context));
     }
   },
   mounted() {
@@ -199,7 +212,8 @@ export default defineComponent({
     BlockDiagram,
     AppFooterBar,
     EditorSidebar,
-    SplashMenu,
+    FindDialog,
+    SplashMenu
   },
 });
 </script>
