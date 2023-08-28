@@ -1,5 +1,7 @@
+import intel from "./builder.config.intel";
 import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
+import processor from "./builder.config.processor";
 import { AppConfiguration } from "@/store/StoreTypes";
 import { Colors, DarkTheme } from "./scripts/BlockDiagram/DiagramFactory/Themes";
 import {
@@ -24,6 +26,35 @@ const config: AppConfiguration = {
     application_name: "Attack Flow Builder",
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
+    menu_icon: "./ctid-small.png",
+    splash: {
+        product: "./afb.png",
+        organization: "./ctid.png",
+        buttons: [
+            {
+                action: "new",
+                name: "New Flow",
+                description: "Create a new, blank flow",
+            },
+            {
+                action: "open",
+                name: "Open Flow",
+                description: "Open an existing flow from your computer"
+            },
+            {
+                action: "link",
+                name: "Example Flows",
+                description: "View a list of example flows", 
+                url: "https://center-for-threat-informed-defense.github.io/attack-flow/example_flows/"
+            },
+            {
+                action: "link",
+                name: "Builder Help",
+                description: "View help for Attack Flow Builder", 
+                url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
+            },
+        ],
+    },
     schema: {
         page_template: "flow",
         templates: [
@@ -116,9 +147,9 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
-                    tactic_id                    : { type: PropertyType.String },
+                    tactic_id                    : { type: PropertyType.String, suggestions: intel.tactic_recs },
                     tactic_ref                   : { type: PropertyType.String, is_visible_chart: false, is_visible_sidebar: true },
-                    technique_id                 : { type: PropertyType.String },
+                    technique_id                 : { type: PropertyType.String, suggestions: intel.technique_recs },
                     technique_ref                : { type: PropertyType.String, is_visible_chart: false, is_visible_sidebar: true },
                     description                  : { type: PropertyType.String },
                     confidence                   : {
@@ -555,7 +586,32 @@ const config: AppConfiguration = {
                     mime_type                    : { type: PropertyType.String },
                     payload_bin                  : { type: PropertyType.String },
                     url                          : { type: PropertyType.String },
-                    hashes                       : { type: PropertyType.String },
+                    hashes                       : {
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                hash_type: {
+                                    type: PropertyType.Enum,
+                                    options: {
+                                        type: PropertyType.List,
+                                        form: { type: PropertyType.String },
+                                        value: [
+                                            ["custom", "Custom Hash Key"],
+                                            ["md5", "MD5"],
+                                            ["sha-1", "SHA-1"],
+                                            ["sha-256", "SHA-256"],
+                                            ["sha-512", "SHA-512"],
+                                            ["sha3-256", "SHA3-256"],
+                                            ["ssdeep", "SSDEEP"],
+                                            ["tlsh", "TLSH"]
+                                        ]
+                                    }
+                                },
+                                hash_value: { type: PropertyType.String, is_primary: true }
+                            }
+                        }
+                    },
                     encryption_algorithm         : { type: PropertyType.String },
                     decryption_key               : { type: PropertyType.String },
                 },
@@ -638,7 +694,32 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    hashes                       : { type: PropertyType.String },
+                    hashes                       : {
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                hash_type: {
+                                    type: PropertyType.Enum,
+                                    options: {
+                                        type: PropertyType.List,
+                                        form: { type: PropertyType.String },
+                                        value: [
+                                            ["custom", "Custom Hash Key"],
+                                            ["md5", "MD5"],
+                                            ["sha-1", "SHA-1"],
+                                            ["sha-256", "SHA-256"],
+                                            ["sha-512", "SHA-512"],
+                                            ["sha3-256", "SHA3-256"],
+                                            ["ssdeep", "SSDEEP"],
+                                            ["tlsh", "TLSH"]
+                                        ]
+                                    }
+                                },
+                                hash_value: { type: PropertyType.String, is_primary: true }
+                            }
+                        }
+                    },
                     size                         : { type: PropertyType.String },
                     name                         : { type: PropertyType.String, is_primary: true },
                     name_enc                     : { type: PropertyType.String },
@@ -804,7 +885,32 @@ const config: AppConfiguration = {
                 properties: {
                     subject                      : { type: PropertyType.String, is_primary: true, is_required: true },
                     is_self_signed               : BoolEnum,
-                    hashes                       : { type: PropertyType.String },
+                    hashes                       : {
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                hash_type: {
+                                    type: PropertyType.Enum,
+                                    options: {
+                                        type: PropertyType.List,
+                                        form: { type: PropertyType.String },
+                                        value: [
+                                            ["custom", "Custom Hash Key"],
+                                            ["md5", "MD5"],
+                                            ["sha-1", "SHA-1"],
+                                            ["sha-256", "SHA-256"],
+                                            ["sha-512", "SHA-512"],
+                                            ["sha3-256", "SHA3-256"],
+                                            ["ssdeep", "SSDEEP"],
+                                            ["tlsh", "TLSH"]
+                                        ]
+                                    }
+                                },
+                                hash_value: { type: PropertyType.String, is_primary: true }
+                            }
+                        }
+                    },
                     version                      : { type: PropertyType.String },
                     serial_number                : { type: PropertyType.String },
                     signature_algorithm          : { type: PropertyType.String },
@@ -847,7 +953,8 @@ const config: AppConfiguration = {
         }
     },
     validator,
-    publisher
+    publisher,
+    processor
 };
 
 export default config;

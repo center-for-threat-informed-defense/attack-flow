@@ -6,7 +6,7 @@
       :style="menuStyle"
       :sections="menuOptions"
       @select="onItemSelect"
-      @unfocus="closeContextMenu"
+      @focusout="closeContextMenu"
     />
   </div>
 </template>
@@ -20,10 +20,7 @@ import { CommandEmitter } from "@/store/Commands/Command";
 import { defineComponent, inject, markRaw } from 'vue';
 import { mapGetters, mapMutations, mapState } from "vuex";
 import {
-  ContextMenu as Menu,
-  ContextMenuSection,
-  ContextMenuSubmenu,
-  MenuType
+  ContextMenuSection
 } from "@/assets/scripts/ContextMenuTypes";
 import { 
   BlockDiagram,CameraLocation,Cursor,
@@ -33,8 +30,6 @@ import {
   DiagramLineModel,
   DiagramObjectModel,
   MouseClick,
-  Namespace,
-  titleCase
 } from "@/assets/scripts/BlockDiagram";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
@@ -188,7 +183,6 @@ export default defineComponent({
       } catch(ex: any) {
         console.error(ex);
       }
-      this.closeContextMenu();
     },
 
     /**

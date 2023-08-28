@@ -6,7 +6,7 @@ export class UnselectObject extends PageCommand {
     /**
      * The object to unselect.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
 
 
     /**
@@ -16,7 +16,7 @@ export class UnselectObject extends PageCommand {
      */
     constructor(object: DiagramObjectModel) {
         super(object.root.id);
-        this._object = object;
+        this.object = object;
     }
     
 
@@ -26,7 +26,7 @@ export class UnselectObject extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._object.setSelect(Select.False);
+        this.object.setSelect(Select.False);
         return false;
     }
 

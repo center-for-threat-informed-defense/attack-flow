@@ -9,7 +9,7 @@ export class ReorderObject extends PageCommand {
     /**
      * The object to reorder.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
 
     /**
      * The object's parent.
@@ -41,7 +41,7 @@ export class ReorderObject extends PageCommand {
             );
         }
         super(object.root.id);
-        this._object = object;
+        this.object = object;
         this._parent = object.parent;
         this._prevIndex = object.getIndexInParent();
         switch(order) {
@@ -67,7 +67,7 @@ export class ReorderObject extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._parent.reorderChild(this._object.id, this._nextIndex);
+        this._parent.reorderChild(this.object.id, this._nextIndex);
         return true;
     }
 
@@ -75,7 +75,7 @@ export class ReorderObject extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._parent.reorderChild(this._object.id, this._prevIndex);
+        this._parent.reorderChild(this.object.id, this._prevIndex);
     }
     
 }

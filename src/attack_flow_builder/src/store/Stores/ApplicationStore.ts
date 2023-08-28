@@ -13,15 +13,20 @@ import { FindResult } from "@/store/Finder";
 const Publisher = Configuration.publisher ? 
     new Configuration.publisher() : undefined;
 
+const Processor = Configuration.processor ?
+    new Configuration.processor() : undefined;
+
 export default {
     namespaced: true,
     state: {
         settings: BaseAppSettings,
         clipboard: [],
         publisher: Publisher,
+        processor: Processor,
         activePage: PageEditor.createDummy(),
         finder: new Finder(),
-        recoveryBank: new PageRecoveryBank()
+        recoveryBank: new PageRecoveryBank(),
+        splashIsVisible: false,
     },
     getters: {
 
@@ -158,6 +163,17 @@ export default {
          */
         currentFindResult(state): FindResult | null {
             return state.finder.getCurrentResult();
+        },
+      
+        /*
+         * Indicates whether the splash menu is visible.
+         * @param state
+         *  The Vuex state.
+         * @returns
+         *  True if the splash menu is visible.
+         */
+        isShowingSplash(state): boolean {
+            return state.splashIsVisible;
         }
 
     },
@@ -176,9 +192,17 @@ export default {
                 if(command.page === PageCommand.NullPage)
                     return;
                 // Execute command
-                if(state.activePage.execute(command)) {
-                    // If the command was recorded to the page's undo history,
-                    // store all progress in the recovery bank.
+                let wasRecorded = true;
+                if(state.processor) {
+                    for(let cmd of state.processor.process(command)) {
+                        wasRecorded &&= state.activePage.execute(cmd);
+                    }
+                } else {
+                    wasRecorded &&= state.activePage.execute(command);
+                }
+                if(wasRecorded) {
+                    // If any commands were recorded to the page's undo
+                    // history, store all progress in the recovery bank.
                     state.recoveryBank.storeEditor(state.activePage);
                 };
             } else {

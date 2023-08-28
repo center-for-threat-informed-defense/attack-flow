@@ -1,7 +1,8 @@
+import { Finder } from "./Finder"
 import { PageEditor } from "@/store/PageEditor"
 import { DiagramValidator } from "@/assets/scripts/DiagramValidator/DiagramValidator"
 import { DiagramPublisher } from "@/assets/scripts/DiagramPublisher/DiagramPublisher"
-import { Finder } from "./Finder"
+import { DiagramProcessor } from "@/assets/scripts/DiagramProcessor/DiagramProcessor"
 import { PageRecoveryBank } from "./PageRecoveryBank"
 import { BlockDiagramSchema } from "@/assets/scripts/BlockDiagram/DiagramFactory"
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram"
@@ -28,10 +29,12 @@ export type ModuleStore = {
 export type ApplicationStore = {
     settings: AppSettings,
     clipboard: DiagramObjectModel[],
+    processor: DiagramProcessor | undefined,
     publisher: DiagramPublisher | undefined,
     activePage: PageEditor,
     finder: Finder,
-    recoveryBank: PageRecoveryBank
+    recoveryBank: PageRecoveryBank,
+    splashIsVisible: boolean,
 }
 
 /**
@@ -243,6 +246,24 @@ export type SelectHotkeys = {
 //  3. App Configuration  /////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Actions that a splash button can execute.
+ */
+export enum SplashButtonAction {
+    New    = "new",
+    Open   = "open",
+    Link   = "link",
+}
+
+/**
+ * Configuration for a splash button.
+ */
+export type SplashButton = {
+    action: string;
+    name: string;
+    description: string;
+    url?: string;
+}
 
 /**
  * App Configuration File
@@ -250,8 +271,14 @@ export type SelectHotkeys = {
 export type AppConfiguration = {
     is_web_hosted: boolean,
     application_name: string,
+    splash: {
+        product: string,
+        organization: string,
+        buttons: Array<SplashButton>,
+    },
     file_type_name: string,
     file_type_extension: string,
+    menu_icon: string,
     schema: BlockDiagramSchema,
     menus: {
         help_menu: {
@@ -259,7 +286,8 @@ export type AppConfiguration = {
         }
     },
     validator?: typeof DiagramValidator,
-    publisher?: typeof DiagramPublisher
+    publisher?: typeof DiagramPublisher,
+    processor?: typeof DiagramProcessor
 }
 
 

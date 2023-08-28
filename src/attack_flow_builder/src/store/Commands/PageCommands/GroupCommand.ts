@@ -6,7 +6,7 @@ export class GroupCommand extends PageCommand {
     /**
      * The list of commands in order of application.
      */
-    private _commands: PageCommand[];
+    public readonly commands: ReadonlyArray<PageCommand>;
     
 
     /**
@@ -14,7 +14,7 @@ export class GroupCommand extends PageCommand {
      */
     constructor() {
         super(PageCommand.NullPage);
-        this._commands = [];
+        this.commands = [];
     }
     
 
@@ -30,7 +30,7 @@ export class GroupCommand extends PageCommand {
             );
         }
         this.page = command.page;
-        this._commands.push(command);
+        (this.commands as PageCommand[]).push(command);
     }
 
     /**
@@ -40,17 +40,17 @@ export class GroupCommand extends PageCommand {
      */
     public execute(): boolean {
         let i = 0;
-        let l = this._commands.length;
+        let l = this.commands.length;
         let record = false;
         try {
             for(; i < l; i++) {
-                let r = this._commands[i].execute();;
+                let r = this.commands[i].execute();;
                 record ||= r;
             }
         } catch (ex) {
             // Rollback on failure
             for(i--; 0 <= i; i--) {
-                this._commands[i].undo();
+                this.commands[i].undo();
             }
             throw ex;
         }
@@ -61,9 +61,9 @@ export class GroupCommand extends PageCommand {
      * Reverts the set of commands.
      */
     public undo() {
-        let l = this._commands.length - 1;
+        let l = this.commands.length - 1;
         for(let i = l; 0 <= i; i--) {
-            this._commands[i].undo();
+            this.commands[i].undo();
         }
     }
 

@@ -6,17 +6,17 @@ export class MoveObjectBy extends PageCommand {
     /**
      * The object.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
     
     /**
      * The object's change in x.
      */
-    private _dx: number;
+    public readonly dx: number;
 
     /**
      * The object's change in y.
      */
-    private _dy: number;
+    public readonly dy: number;
 
 
     /**
@@ -30,9 +30,9 @@ export class MoveObjectBy extends PageCommand {
      */
     constructor(object: DiagramObjectModel, dx: number, dy: number) {
         super(object.root.id);
-        this._object = object;
-        this._dx = dx;
-        this._dy = dy;
+        this.object = object;
+        this.dx = dx;
+        this.dy = dy;
     }
 
     
@@ -42,7 +42,7 @@ export class MoveObjectBy extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._object.moveBy(this._dx, this._dy);
+        this.object.moveBy(this.dx, this.dy);
         return true;
     }
 
@@ -50,7 +50,7 @@ export class MoveObjectBy extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._object.moveBy(-this._dx, -this._dy);
+        this.object.moveBy(-this.dx, -this.dy);
     }
 
 }
