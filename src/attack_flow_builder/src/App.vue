@@ -152,30 +152,21 @@ export default defineComponent({
 
   },
   async created() {
-    // Detect operating system
-    let os: OperatingSystem;
-    switch(Browser.getOperatingSystemClass()) {
-      case OperatingSystem.MacOS:
-        os = OperatingSystem.MacOS;
-        break;
-      default:
-        os = OperatingSystem.Other;
-        break;
-    }
     // Import settings
+    let os = Browser.getOperatingSystemClass();
     let settings;
     if(Configuration.is_web_hosted) {
-        let options = {
-          [OperatingSystem.Other]: "../public/settings_win.json",
-          [OperatingSystem.MacOS]: "../public/settings_macos.json"
-        }
-        settings = await (await fetch(options[os])).json();
+      if(os === OperatingSystem.MacOS) {
+        settings = await (await fetch("../public/settings_macos.json")).json();
+      } else {
+        settings = await (await fetch("../public/settings_win.json")).json();
+      }        
     } else {
-      let options = {
-        [OperatingSystem.Other]: require("../public/settings_win.json"),
-        [OperatingSystem.MacOS]: require("../public/settings_macos.json"),
+      if(os === OperatingSystem.MacOS) {
+        settings = require("../public/settings_macos.json");
+      } else {
+        settings = require("../public/settings_win.json");
       }
-      settings = options[os];
     }
     // Load settings
     this.execute(new App.LoadSettings(this.context, settings));
