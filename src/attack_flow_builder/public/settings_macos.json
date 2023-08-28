@@ -18,7 +18,7 @@
     },
     "hotkeys": {
         "file": {
-            "new_file": "Meta+N",
+            "new_file": "Control+N",
             "open_file": "Meta+O",
             "save_file": "Meta+S",
             "save_image": "",
