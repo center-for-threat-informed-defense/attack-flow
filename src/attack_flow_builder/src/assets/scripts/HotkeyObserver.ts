@@ -117,7 +117,7 @@ export class HotkeyObserver<T> {
      * @remarks
      *  Due to the inconsistent nature of the `keyup` event, this is not
      *  guaranteed to be correct. Refer to: `HotKeyObserver.onKeyUp()` for more
-     *  information. This function will need to be refactored or depreciated in
+     *  information. This function will need to be refactored or deprecated in
      *  the future.
      * @param sequence
      *  The hotkey sequence.
