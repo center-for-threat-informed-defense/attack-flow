@@ -13,17 +13,57 @@ import {
 
 class AttackFlowValidator extends DiagramValidator {
     
-    static WindowsRegistryregex = /^(Computer\\)?((HKEY_LOCAL_MACHINE)|(HKEY_CURRENT_CONFIG)|(HKEY_CLASSES_ROOT)|(HKEY_CURRENT_USER)|(HKEY_YSERS))\\(.*)[^\\]/
-    static IPv4regex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[0-9]))?$/;
-    static IPv6regex = /^((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?(\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?$/i;
-    static MACregex = /^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/i;
-    static Emailregex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    static stixObservables = new Set<string>(["artifact", "directory", "file", "mutex", "process", "software", "user_account", "windows_registry_key", "x509_certificate", "autonomous_system", "domain_name", "email_address", "email_message", "ipv4_addr", "ipv6_addr", "mac_addr", "network_traffic", "url"]);
+    /**
+     * Windows Registry Regex
+     */
+    static WindowsRegistryRegex = /^(Computer\\)?((HKEY_LOCAL_MACHINE)|(HKEY_CURRENT_CONFIG)|(HKEY_CLASSES_ROOT)|(HKEY_CURRENT_USER)|(HKEY_YSERS))\\(.*)[^\\]/
+    
+    /**
+     * IPv4 Regex
+     */
+    static IPv4Regex = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[0-9]))?$/;
+    
+    /**
+     * IPv6 Regex
+     */
+    static IPv6Regex = /^((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?(\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?$/i;
+    
+    /**
+     * Mac Address Regex
+     */
+    static MacAddressRegex = /^([0-9a-f]{2}[:]){5}([0-9a-f]{2})$/i;
+    
+    /**
+     * Email Address Regex
+     */
+    static EmailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    
+    /**
+     * STIX Regex
+     */
+    static StixRegex = /^(?:[a-z][a-z0-9-]+[a-z0-9]--[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|null)$/i
+
+    /**
+     * STIX Observables list
+     */
+    static StixObservables = new Set<string>(["artifact", "directory", "file", "mutex", "process", "software", "user_account", "windows_registry_key", "x509_certificate", "autonomous_system", "domain_name", "email_address", "email_message", "ipv4_addr", "ipv6_addr", "mac_addr", "network_traffic", "url"]);
+
+    /**
+     * Payload Regex
+     */
+    static PayloadRegex = /^([a-z0-9+/]{4})*([a-z0-9+/]{4}|[a-z0-9+/]{3}=|[a-z0-9+/]{2}==)$/i;
+    
+    /**
+     * MIME Type Regex
+     */
+    static MimeTypeRegex = /^(application|audio|font|image|message|model|multipart|text|video)\/[a-zA-Z0-9.+_-]+/;
 
 
+    /**
+     * The validator's parsed graph.
+     */
     protected graph?: GraphExport;
 
-    static STIXregex = /^(?:[a-z][a-z0-9-]+[a-z0-9]--[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|null)$/i
 
     /**
      * Validates a diagram.
@@ -136,47 +176,32 @@ class AttackFlowValidator extends DiagramValidator {
     protected validateNode(id: string, node: GraphObjectExport) {
         // Validate properties
         for (const [key, value] of node.props.value) {
-            this.validateProperty(id, key, value)
+            this.validateProperty(id, key, value);
             // Additional validation for reference-based (tactic_ref + technique_ref) properties
-            if(key === "tactic_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
+            if(key === "tactic_ref" && !AttackFlowValidator.StixRegex.test(value.toString())) {
                 this.addError(id, "Invalid STIX tactic reference.");
-            } else if (key === "technique_ref" && !AttackFlowValidator.STIXregex.test(String(value))) {
-                this.addError(id, "Invalid STIX technique reference.");
             }
-            // Additional validation for network address properties
-            else if (node.template.id === "ipv4_addr" && !AttackFlowValidator.IPv4regex.test(String(value))) {
-               this.addError(id, "Invalid IPv4 address."); 
-            } else if (node.template.id === "ipv6_addr" && !AttackFlowValidator.IPv6regex.test(String(value))) {
-                this.addError(id, "Invalid IPv6 address.");
-            } else if (node.template.id === "mac_addr" && !AttackFlowValidator.MACregex.test(String(value))) {
-                this.addError(id, "Invalid MAC address.");
+            else if (key === "technique_ref" && !AttackFlowValidator.StixRegex.test(value.toString())) {
+                this.addError(id, "Invalid STIX technique reference.");
             }
         }
         // Validate links
         switch(node.template.id) {
+
             case "artifact": {
-                const payloadBin = node.props.value.get("payload_bin");
                 const url = node.props.value.get("url");
                 const hashes = node.props.value.get("hashes");
                 const mimeType = node.props.value.get("mime_type");
+                const payloadBin = node.props.value.get("payload_bin");
                 const decryptionKey = node.props.value.get("decryption_key");
                 const encryptionAlg = node.props.value.get("encryption_algorithm")
-
-                const payloadRegex = /^([a-z0-9+/]{4})*([a-z0-9+/]{4}|[a-z0-9+/]{3}=|[a-z0-9+/]{2}==)$/i;
-                const MIME_Regex = /^(application|audio|font|image|message|model|multipart|text|video)\/[a-zA-Z0-9.+_-]+/;
-
-                // Check regex
-                if(payloadBin?.isDefined()) {
-                    if(!payloadRegex.test(payloadBin.toString())) {
-                        this.addError(id, "Invalid Payload Bin.");
-                    }
+                // Validate regex
+                if(payloadBin?.isDefined() && !AttackFlowValidator.PayloadRegex.test(payloadBin.toString())) {
+                    this.addError(id, "Invalid Payload Bin.");
                 }
-                if(mimeType?.isDefined()) {
-                    if(!MIME_Regex.test(mimeType.toString())) {
-                        this.addError(id, "Invalid MIME Type.");
-                    }
+                if(mimeType?.isDefined() && !AttackFlowValidator.MimeTypeRegex.test(mimeType.toString())) {
+                    this.addError(id, "Invalid MIME Type.");
                 }
-
                 // Validate Payload Bin, URL, and Hashes
                 if(payloadBin?.isDefined() && url?.isDefined()) {
                     this.addError(id, "Artifact must have either have a Payload Bin or URL, not both.");
@@ -184,12 +209,10 @@ class AttackFlowValidator extends DiagramValidator {
                 if(url?.isDefined() && !hashes?.isDefined()) {
                     this.addError(id, "Artifact URL must also have a Hash.");
                 }
-
-                // Check hashes
+                // Validate hashes
                 if(hashes?.isDefined()) {
                     this.validateHash(id, hashes as ListProperty);
                 }
-
                 // Validate encryption and decryption algorithms
                 if(encryptionAlg?.isDefined()) {
                     if(encryptionAlg.toRawValue()?.toString() == "mime-type-indicated" && !mimeType?.isDefined()) {
@@ -200,14 +223,17 @@ class AttackFlowValidator extends DiagramValidator {
                 }
                 break;
             }
+
             case "email_address": // Additional validation for email addresses
-                if (!AttackFlowValidator.Emailregex.test(String(node.props.value.get("value")))) {
-                    this.addError(id, "Invalid email address.")
-                }
+                const email = node.props.value.get("value");
+                if(email?.isDefined() && !AttackFlowValidator.EmailRegex.test(email?.toString())) {
+                    this.addError(id, "Invalid email address.");
+                }                
                 break;
+
             case "file": {
-                const hashes = node.props.value.get("hashes");
                 const name = node.props.value.get("name");
+                const hashes = node.props.value.get("hashes");
                 if(!hashes?.isDefined() && !name?.isDefined()) {
                     this.addError(id, "File requires one of the following properties: Hashes, Name");
                 }
@@ -216,70 +242,100 @@ class AttackFlowValidator extends DiagramValidator {
                 }
                 break;
             }
+            
             case "grouping":
                 if(node.next.length === 0) {
                     this.addError(id, "A Grouping must point to at least one object.");
                 }
                 break;
-            case "location": // Additional validation for location object
+            
+            case "ipv4_addr":
+                const ipv4 = node.props.value.get("value");
+                if(ipv4?.isDefined() && !AttackFlowValidator.IPv4Regex.test(ipv4?.toString())) {
+                    this.addError(id, "Invalid IPv4 address."); 
+                }
+                break;
+            
+            case "ipv6_addr":
+                const ipv6 = node.props.value.get("value");
+                if(ipv6?.isDefined() && !AttackFlowValidator.IPv6Regex.test(ipv6.toString())) {
+                    this.addError(id, "Invalid IPv6 address.");
+                }
+                break;
+            
+            case "location":
                 const region = node.props.value.get("region");
                 const country = node.props.value.get("country");
                 const latitude = node.props.value.get("latitude");
                 const longitude = node.props.value.get("longitude");
-
                 // Verify one of the required properties is set
                 if(!region?.isDefined() && !country?.isDefined() && !(latitude?.isDefined() || longitude?.isDefined())) {
                     this.addError(id, "Location requires one of the following properties: Region, Country, Latitude+Longitude.");
                 }
-
                 // Latitude + Longitude check
                 if(latitude?.isDefined() !== longitude?.isDefined()) {
                     this.addError(id, "Latitude and Longitude must be supplied together.");
                 }
                 break;
+
+            case "mac_addr":
+                const mac = node.props.value.get("value");
+                if(mac?.isDefined() && !AttackFlowValidator.MacAddressRegex.test(mac?.toString())) {
+                    this.addError(id, "Invalid MAC address.");
+                }
+                break;
+                
             case "malware_analysis":
                 if(!node.props.value.get("result")?.isDefined()) {
                     // If "result" is empty, check for "analysis_sco_refs"
                     if(node.next.length === 0) {
-                        this.addError(id, "A Malware Analysis must have the Result field filled out or point to at least one object captured during analysis.")
+                        this.addError(id, "A Malware Analysis must have the Result field filled out or point to at least one object captured during analysis.");
                     }
                 }
                 break;
+            
             case "network_traffic":
                 this.validateNetworkTrafficLinks(id, node);
                 break;
+            
             case "note":
                 if(node.next.length === 0) {
                     this.addError(id, "A Note must point to at least one object.");
                 }
                 break;
+            
             case "observed_data":
                 if(node.next.length === 0) {
                     this.addError(id, "Observed Data must point to at least one stix observable.");
                 } else {
                     // Check the template.id of every child node
                     for (let [childId, childNode] of this.getOutboundNodes(node.props.object.id)) {
-                        if(!AttackFlowValidator.stixObservables.has(childNode.template.id)) {
+                        if(!AttackFlowValidator.StixObservables.has(childNode.template.id)) {
                             this.addError(childId, "Observed Data can only be linked to Stix Observables.");
                         }
                     }
                 }
                 break;
+            
             case "opinion":
                 if(node.next.length === 0) {
                     this.addError(id, "An Opinion must point to at least one object.");
                 }
                 break;
+            
             case "report":
                 if(node.next.length === 0) {
                     this.addError(id, "A Report must point to at least one object.");
                 }
                 break;
+            
             case "windows_registry_key": // Additional validation for windows registry keys
-                if (!AttackFlowValidator.WindowsRegistryregex.test(String(node.props.value.get("key")))) {
+                const windows_key = node.props.value.get("key");
+                if(windows_key?.isDefined() && !AttackFlowValidator.WindowsRegistryRegex.test(windows_key.toString())) {
                     this.addError(id, "Invalid Windows registry key.");
                 }
                 break;
+            
             case "x509_certificate": {
                 const hashes = node.props.value.get("hashes");
                 if(hashes?.isDefined()) {

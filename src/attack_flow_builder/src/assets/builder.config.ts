@@ -706,6 +706,9 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
+                    name                         : { type: PropertyType.String, is_primary: true },
+                    name_enc                     : { type: PropertyType.String },
+                    size                         : { type: PropertyType.String },
                     hashes                       : {
                         type: PropertyType.List,
                         form: {
@@ -732,9 +735,6 @@ const config: AppConfiguration = {
                             }
                         }
                     },
-                    size                         : { type: PropertyType.String },
-                    name                         : { type: PropertyType.String, is_primary: true },
-                    name_enc                     : { type: PropertyType.String },
                     magic_number_hex             : { type: PropertyType.String },
                     mime_type                    : { type: PropertyType.String },
                     ctime                        : { type: PropertyType.Date },
