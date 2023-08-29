@@ -176,32 +176,21 @@ class AttackFlowValidator extends DiagramValidator {
                     }
                 }
 
-                if(!payloadBin?.isDefined() && !url?.isDefined() && !hashes?.isDefined() && !encryptionAlg?.isDefined() && !decryptionKey?.isDefined()) { // A blank object
-                    this.addError(id, "Artifact must have one of following combinations of fields filled out: (Payload Bin), or (URL + Hashes - Payload Bin)");
-                } else {
-                    if(payloadBin?.isDefined()) {
-                        if(url?.isDefined()) {
-                            // Invalid combination
-                            this.addError(id, "Artifact must have one of following combinations of fields filled out: (Payload Bin), or (URL + Hashes - Payload Bin)");
-                        }
-                    } else {
-                        if(encryptionAlg?.isDefined()) {
-                            // Valid
-                            if(encryptionAlg.toRawValue()?.toString() == "mime-type-indicated" && !mimeType?.isDefined()) {
-                                this.addError(id, "For Encryption Algorithm to be 'Mime Type Indicated', the field 'Mime Type' cannot be empty.");
-                            }
-                        } else {
-                            if(decryptionKey?.isDefined()) {
-                                this.addError(id, "An Artifact with a Decryption Key must also have an Encryption Algorithm.");
-                            }
-                        }
-                        
-                        if(url?.isDefined() && hashes?.isDefined()) {
-                            // Valid
-                        } else {
-                            this.addError(id, "Artifact must have one of following combinations of fields filled out: (Payload Bin), or (URL + Hashes - Payload Bin)");
-                        }
+                // Validate Payload Bin, URL, and Hashes
+                if(payloadBin?.isDefined() && url?.isDefined()) {
+                    this.addError(id, "Artifact must have either have a Payload Bin or URL, not both.");
+                }
+                if(url?.isDefined() && !hashes?.isDefined()) {
+                    this.addError(id, "Artifact URL must also have a Hash.");
+                }
+
+                // Validate encryption and decryption algorithms
+                if(encryptionAlg?.isDefined()) {
+                    if(encryptionAlg.toRawValue()?.toString() == "mime-type-indicated" && !mimeType?.isDefined()) {
+                        this.addError(id, "For Encryption Algorithm to be 'Mime Type Indicated', the field 'Mime Type' cannot be empty.");
                     }
+                } else if(decryptionKey?.isDefined()) {
+                    this.addError(id, "An Artifact with a Decryption Key must also have an Encryption Algorithm.");
                 }
                 break;
             case "email_address": // Additional validation for email addresses
