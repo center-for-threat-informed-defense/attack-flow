@@ -13,6 +13,11 @@ export class StringProperty extends Property {
     public override readonly descriptor: StringPropertyDescriptor;
 
     /**
+     * The property's suggestions.
+     */
+    public suggestions: string[];
+
+    /**
      * The property's value.
      */
     private _value: string | null;
@@ -20,6 +25,8 @@ export class StringProperty extends Property {
 
     /**
      * Creates a new {@link StringProperty}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
@@ -28,12 +35,14 @@ export class StringProperty extends Property {
      *  The property's value.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: StringPropertyDescriptor,
         value?: any
     ) {
-        super(parent, descriptor);
+        super(id, parent, descriptor);
         this.descriptor = descriptor;
+        this.suggestions = descriptor.suggestions ?? [];
         this._value = null;
         if(value === null) {
             this.setValue(null);

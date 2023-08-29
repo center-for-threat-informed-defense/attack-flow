@@ -20,6 +20,8 @@ export class DateProperty extends Property {
 
     /**
      * Creates a new {@link DateProperty}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
@@ -28,11 +30,12 @@ export class DateProperty extends Property {
      *  The property's value.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: DatePropertyDescriptor,
         value?: any
     ) {
-        super(parent, descriptor);
+        super(id, parent, descriptor);
         this._value = null;
         this.descriptor = descriptor;
         // Resolve value

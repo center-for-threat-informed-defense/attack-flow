@@ -1,6 +1,8 @@
+import { Finder } from "./Finder"
 import { PageEditor } from "@/store/PageEditor"
 import { DiagramValidator } from "@/assets/scripts/DiagramValidator/DiagramValidator"
 import { DiagramPublisher } from "@/assets/scripts/DiagramPublisher/DiagramPublisher"
+import { DiagramProcessor } from "@/assets/scripts/DiagramProcessor/DiagramProcessor"
 import { PageRecoveryBank } from "./PageRecoveryBank"
 import { BlockDiagramSchema } from "@/assets/scripts/BlockDiagram/DiagramFactory"
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram"
@@ -27,9 +29,12 @@ export type ModuleStore = {
 export type ApplicationStore = {
     settings: AppSettings,
     clipboard: DiagramObjectModel[],
+    processor: DiagramProcessor | undefined,
     publisher: DiagramPublisher | undefined,
     activePage: PageEditor,
-    recoveryBank: PageRecoveryBank
+    finder: Finder,
+    recoveryBank: PageRecoveryBank,
+    splashIsVisible: boolean,
 }
 
 /**
@@ -88,6 +93,9 @@ export const BaseAppSettings: AppSettings = {
             paste: "",
             delete: "",
             duplicate: "",
+            find: "",
+            find_next: "",
+            find_previous: "",
             select_all: ""
         },
         layout: {
@@ -184,6 +192,9 @@ export type EditHotkeys = {
     paste: string,
     delete: string,
     duplicate: string,
+    find: string,
+    find_next: string,
+    find_previous: string,
     select_all: string
 }
 
@@ -235,6 +246,24 @@ export type SelectHotkeys = {
 //  3. App Configuration  /////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Actions that a splash button can execute.
+ */
+export enum SplashButtonAction {
+    New    = "new",
+    Open   = "open",
+    Link   = "link",
+}
+
+/**
+ * Configuration for a splash button.
+ */
+export type SplashButton = {
+    action: string;
+    name: string;
+    description: string;
+    url?: string;
+}
 
 /**
  * App Configuration File
@@ -242,8 +271,14 @@ export type SelectHotkeys = {
 export type AppConfiguration = {
     is_web_hosted: boolean,
     application_name: string,
+    splash: {
+        product: string,
+        organization: string,
+        buttons: Array<SplashButton>,
+    },
     file_type_name: string,
     file_type_extension: string,
+    menu_icon: string,
     schema: BlockDiagramSchema,
     menus: {
         help_menu: {
@@ -251,7 +286,8 @@ export type AppConfiguration = {
         }
     },
     validator?: typeof DiagramValidator,
-    publisher?: typeof DiagramPublisher
+    publisher?: typeof DiagramPublisher,
+    processor?: typeof DiagramProcessor
 }
 
 

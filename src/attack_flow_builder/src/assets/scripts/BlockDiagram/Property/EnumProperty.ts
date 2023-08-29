@@ -1,4 +1,4 @@
-import { computeHash, MD5 } from "../Utilities";
+import { computeHash } from "../Utilities";
 import {
     CollectionProperty,
     EnumPropertyDescriptor,
@@ -26,6 +26,8 @@ export class EnumProperty extends Property {
 
     /**
      * Creates a new {@link EnumProperty}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
@@ -34,12 +36,14 @@ export class EnumProperty extends Property {
      *  The property's value.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: EnumPropertyDescriptor,
         value?: any
     ) {
-        super(parent, descriptor);
-        let options = Property.create(undefined, descriptor.options);
+        super(id, parent, descriptor);
+        let oId = `${ id }.options`;
+        let options = Property.create(oId, undefined, descriptor.options);
         this.descriptor = descriptor;
         this.options = options as ListProperty;
         this._value = null;
@@ -50,14 +54,14 @@ export class EnumProperty extends Property {
         } else if(value !== undefined) {
             v = value;
         } else if(descriptor.value) {
-            v = MD5(descriptor.value)
+            v = descriptor.value
         } else {
             v = null;
         }
         // Set value
         if(v === null) {
             this.setValue(null);
-        } else if(typeof v === "string") { 
+        } else if(typeof v === "string") {
             this.setValue(v);
         } else {
             this.setValue(null);

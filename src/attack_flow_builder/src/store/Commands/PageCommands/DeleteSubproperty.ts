@@ -6,12 +6,12 @@ export class DeleteSubproperty extends PageCommand {
     /**
      * The property to modify.
      */
-    private _property: ListProperty;
+    public readonly property: ListProperty;
 
     /**
      * The subproperty's id.
      */
-    private _id: string;
+    public readonly id: string;
 
     /**
      * The subproperty.
@@ -41,9 +41,9 @@ export class DeleteSubproperty extends PageCommand {
             throw new Error(`Subproperty '${ id }' does not exist.`);
         }
         super(root.object.root.id);
-        this._id = id;
+        this.id = id;
         this._index = property.indexOf(id);
-        this._property = property;
+        this.property = property;
         this._subproperty = subproperty;
     }
     
@@ -54,7 +54,7 @@ export class DeleteSubproperty extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._property.removeProperty(this._id);
+        this.property.removeProperty(this.id);
         return true;
     }
 
@@ -62,7 +62,7 @@ export class DeleteSubproperty extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._property.addProperty(this._subproperty, this._id, this._index);
+        this.property.addProperty(this._subproperty, this.id, this._index);
     }
 
 }

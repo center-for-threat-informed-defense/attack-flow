@@ -31,6 +31,8 @@ export class NumberProperty extends Property {
 
     /**
      * Creates a new {@link NumberProperty}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
@@ -39,11 +41,12 @@ export class NumberProperty extends Property {
      *  The property's value.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: NumberPropertyDescriptor,
         value?: any
     ) {
-        super(parent, descriptor);
+        super(id, parent, descriptor);
         this.min = descriptor.min ?? -Infinity;
         this.max = descriptor.max ?? Infinity;
         this.descriptor = descriptor;

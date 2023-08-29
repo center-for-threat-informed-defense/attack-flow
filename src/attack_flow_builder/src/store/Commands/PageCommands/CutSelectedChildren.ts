@@ -8,12 +8,12 @@ export class CutSelectedChildren extends GroupCommand {
     /**
      * The application context.
      */
-    private _context: ApplicationStore
+    public readonly context: ApplicationStore
 
     /**
      * The objects to add to the clipboard.
      */
-    private _objects: DiagramObjectModel[];
+    public readonly objects: DiagramObjectModel[];
 
 
     /**
@@ -25,11 +25,11 @@ export class CutSelectedChildren extends GroupCommand {
      */
     constructor(context: ApplicationStore, object: DiagramObjectModel) {
         super();
-        this._context = context;
+        this.context = context;
         // Get selected children
         let objects = object.children.filter(c => c.isSelected());
         // Clone selection
-        this._objects = object.factory.cloneObjects(...objects);
+        this.objects = object.factory.cloneObjects(...objects);
         // Remove selected children
         this.add(new RemoveSelectedChildren(object));
     }
@@ -42,7 +42,7 @@ export class CutSelectedChildren extends GroupCommand {
      */
     public override execute(): boolean {
         // Set the clipboard
-        this._context.clipboard = this._objects;
+        this.context.clipboard = this.objects;
         // Remove the selected children
         return super.execute();
     }

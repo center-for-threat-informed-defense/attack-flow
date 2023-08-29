@@ -303,6 +303,32 @@ If this starts up successfully, then you can access the application at
 http://localhost:8080/. As you edit source code and save, the server will automatically
 rebuild the application and you can refresh the browser to run it again.
 
+Update Intelligence File
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The *Intelligence File* (`builder.config.intel.ts`) drives the application's autocomplete features.
+This file is generated automatically by a set of scripts which download and organize relevant ATT&CK
+information into a format the application can leverage.
+
+To update the Intelligence File, simply invoke:
+
+.. code:: shell
+
+    $ npm run update-intel
+
+    > attack-flow-builder@2.0.1 update-intel
+    > node ./attack/update_attack_intel.js
+
+    → Downloading ATT\&CK Data...
+    → .../attack-stix-data/master/enterprise-attack/enterprise-attack-13.0.json
+    → ...m/mitre-attack/attack-stix-data/master/ics-attack/ics-attack-13.0.json
+    → ...e-attack/attack-stix-data/master/mobile-attack/mobile-attack-13.0.json
+    → Generating Application Intel File...
+
+    Intelligence updated successfully.
+
+The configured list of sources can be modified at any time from `download_sources.js`.
+
 Preload a Flow
 ~~~~~~~~~~~~~~
 

@@ -1,22 +1,22 @@
-import { PageCommand } from "../PageCommand";
+import { SetProperty } from "./SetProperty";
 import { DateProperty } from "@/assets/scripts/BlockDiagram";
 
-export class SetDateProperty extends PageCommand {
+export class SetDateProperty extends SetProperty {
 
     /**
      * The property to modify.
      */
-    private _property: DateProperty;
+    public override readonly property: DateProperty;
+
+    /**
+     * The property's new value.
+     */
+    public readonly nextValue: Date | null;
 
     /**
      * The property's current value.
      */
     private _lastValue: Date | null;
-
-    /**
-     * The property's new value.
-     */
-    private _nextValue: Date | null;
 
 
     /**
@@ -28,14 +28,10 @@ export class SetDateProperty extends PageCommand {
      */
     constructor(property: DateProperty, value: Date | null) {
         let lv = property.toRawValue();
-        let root = property.root;
-        if(!root) {
-            throw new Error("Property does not have a root.")
-        }
-        super(root.object.root.id);
-        this._property = property;
+        super(property);
+        this.property = property;
         this._lastValue = lv !== null ? new Date(lv) : lv;
-        this._nextValue = value;
+        this.nextValue = value;
     }
     
 
@@ -45,7 +41,7 @@ export class SetDateProperty extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._property.setValue(this._nextValue);
+        this.property.setValue(this.nextValue);
         return true;
     }
 
@@ -53,7 +49,7 @@ export class SetDateProperty extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._property.setValue(this._lastValue);
+        this.property.setValue(this._lastValue);
     }
 
 }

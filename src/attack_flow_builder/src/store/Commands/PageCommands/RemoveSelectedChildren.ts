@@ -23,7 +23,9 @@ export class RemoveSelectedChildren extends GroupCommand {
             this.add(new UnselectObject(obj));
         }
         // Remove children
-        this.add(new RemoveObjects(objects));
+        if(0 < objects.length) {
+            this.add(new RemoveObjects(objects));
+        }
     }
 
 }

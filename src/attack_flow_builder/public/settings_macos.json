@@ -19,8 +19,8 @@
     "hotkeys": {
         "file": {
             "new_file": "Control+N",
-            "open_file": "Control+O",
-            "save_file": "Control+S",
+            "open_file": "Meta+O",
+            "save_file": "Meta+S",
             "save_image": "",
             "save_select_image": "",
             "publish_file": "",
@@ -28,18 +28,21 @@
             "save_library": ""
         },
         "edit": {
-            "undo": "Control+Z",
-            "redo": "Control+Y",
-            "cut": "Control+X",
-            "copy": "Control+C",
-            "paste": "Control+V",
+            "undo": "Meta+Z",
+            "redo": "Meta+Y",
+            "cut": "Meta+X",
+            "copy": "Meta+C",
+            "paste": "Meta+V",
             "delete": "Backspace",
-            "duplicate": "Control+D",
-            "select_all": "Control+A"
+            "duplicate": "Meta+D",
+            "find": "Meta+F",
+            "find_next": "Meta+G",
+            "find_previous": "Shift+Meta+G",
+            "select_all": "Meta+A"
         },
         "layout": {
-            "selection_to_front": "Control+Shift+F",
-            "selection_to_back": "Control+Shift+B",
+            "selection_to_front": "Shift+Meta+F",
+            "selection_to_back": "Shift+Meta+B",
             "bring_selection_forward": "",
             "send_selection_backward": "",
             "align_left": "",
@@ -48,13 +51,13 @@
             "align_top": "",
             "align_middle": "",
             "align_bottom": "",
-            "group": "Control+G",
-            "ungroup": "Control+Shift+U",
+            "group": "Meta+G",
+            "ungroup": "Meta+Shift+U",
             "open_group": "",
             "close_group": ""
         },
         "view": {
-            "toggle_grid": "Control+Shift+G",
+            "toggle_grid": "Alt+G",
             "toggle_shadows": "",
             "reset_view": "Escape",
             "zoom_in": "",
@@ -66,7 +69,7 @@
             "toggle_debug_view": ""
         },
         "select": {
-            "many": "Control"
+            "many": "Meta"
         }
     }
 }

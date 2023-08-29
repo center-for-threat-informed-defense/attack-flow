@@ -25,6 +25,16 @@ export default {
                     shortcut: "Control+Shift+R",
                     repeatable: true,
                     allowBrowserBehavior: true
+                },
+                {
+                    shortcut: "Meta+R",
+                    repeatable: true,
+                    allowBrowserBehavior: true
+                },
+                {
+                    shortcut: "Meta+Shift+R",
+                    repeatable: true,
+                    allowBrowserBehavior: true
                 }
             ]
         },
@@ -122,7 +132,7 @@ export default {
                 {
                     data: () => new Page.PasteToObject(ctx, page),
                     shortcut: edit.paste,
-                    repeatable: false
+                    repeatable: true
                 },
                 {
                     data: () => new Page.RemoveSelectedChildren(page),
@@ -133,6 +143,21 @@ export default {
                     data: () => new Page.DuplicateSelectedChildren(ctx, page),
                     shortcut: edit.duplicate,
                     repeatable: false
+                },
+                {
+                    data: () => new App.ShowFindDialog(ctx),
+                    shortcut: edit.find,
+                    repeatable: false
+                },
+                {
+                    data: () => new App.MoveToNextFindResult(ctx),
+                    shortcut: edit.find_next,
+                    repeatable: true
+                },
+                {
+                    data: () => new App.MoveToPreviousFindResult(ctx),
+                    shortcut: edit.find_previous,
+                    repeatable: true
                 },
                 {
                     data: () => new Page.SelectChildren(page),
@@ -166,12 +191,12 @@ export default {
                 {
                     data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
                     shortcut: layout.selection_to_back,
-                    repeatable: false
+                    repeatable: true
                 },
                 {
                     data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
                     shortcut: layout.bring_selection_forward,
-                    repeatable: false
+                    repeatable: true
                 },
                 {
                     data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
@@ -215,12 +240,12 @@ export default {
                 {
                     data: () => new Page.ZoomCamera(ctx, page, 0.25),
                     shortcut: view.zoom_in,
-                    repeatable: false
+                    repeatable: true
                 },
                 {
                     data: () => new Page.ZoomCamera(ctx, page, -0.25),
                     shortcut: view.zoom_out,
-                    repeatable: false
+                    repeatable: true
                 },
                 {
                     data: () => new Page.MoveCameraToSelection(ctx, page),
@@ -230,12 +255,12 @@ export default {
                 {
                     data: () => new Page.MoveCameraToParents(ctx, page),
                     shortcut: view.jump_to_parents,
-                    repeatable: false
+                    repeatable: true
                 },
                 {
                     data: () => new Page.MoveCameraToChildren(ctx, page),
                     shortcut: view.jump_to_children,
-                    repeatable: false
+                    repeatable: true
                 },
                 {
                     data: () => new App.SwitchToFullscreen(ctx),

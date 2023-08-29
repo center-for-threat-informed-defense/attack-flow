@@ -20,6 +20,8 @@ export class DictionaryProperty extends CollectionProperty {
 
     /**
      * Creates a new {@link DictionaryProperty}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
@@ -28,11 +30,12 @@ export class DictionaryProperty extends CollectionProperty {
      *  The property's values.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: DictionaryPropertyDescriptor,
         values?: ListValue
     ) {
-        super(parent, descriptor);
+        super(id, parent, descriptor);
         this.descriptor = descriptor;
         this.primaryKey = null;
         // Configure values
@@ -47,7 +50,8 @@ export class DictionaryProperty extends CollectionProperty {
             } else {
                 val = values[key]
             }
-            let prop = Property.create(this, descriptor.form[key], val);
+            let pId = `${ id }.${ key }`;
+            let prop = Property.create(pId, this, descriptor.form[key], val);
             // Add property
             this.value.set(key, prop);
             // Configure primary key

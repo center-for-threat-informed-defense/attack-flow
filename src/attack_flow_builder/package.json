@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "release": "standard-version"
+    "release": "standard-version",
+    "update-intel": "node ./attack/update_attack_intel.js"
   },
   "author": "mcarenzo",
   "dependencies": {

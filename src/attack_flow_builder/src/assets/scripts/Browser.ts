@@ -118,8 +118,43 @@ export class Browser {
             cast.msRequestFullscreen();
         }
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Operating System Detection  ////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns the device's current operating system class.
+     * @returns
+     *  The device's current operating system class.
+     */
+    public static getOperatingSystemClass(): OperatingSystem {
+        if(navigator.userAgent.search("Win") !== -1) {
+            return OperatingSystem.Windows
+        } else if(navigator.userAgent.search("Mac") !== -1) {
+            return OperatingSystem.MacOS;
+        } else if(navigator.userAgent.search("X11") !== -1) {
+            return OperatingSystem.UNIX;
+        } else if(navigator.userAgent.search("Linux") !== -1) {
+            return OperatingSystem.Linux;
+        } else {
+            return OperatingSystem.Other;
+        }
+    }
     
-    
+}
+
+/**
+ * Recognized operating systems.
+ */
+export enum OperatingSystem {
+    Windows,
+    MacOS,
+    UNIX,
+    Linux,
+    Other
 }
 
 

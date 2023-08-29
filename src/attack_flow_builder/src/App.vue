@@ -1,9 +1,11 @@
 <template>
   <AppHotkeyBox id="main">
     <AppTitleBar id="app-title-bar"/>
+    <FindDialog ref="findDialog" id="find-dialog" :style="findDialogLayout" />
     <div id="app-body" ref="body" :style="gridLayout">
       <div class="frame center">
         <BlockDiagram id="block-diagram"/>
+        <SplashMenu id="splash-menu" />
       </div>
       <div class="frame right">
         <div class="resize-handle" @pointerdown="startResize($event, Handle.Right)"></div>
@@ -17,15 +19,18 @@
 </template>
 
 <script lang="ts">
+import * as App from './store/Commands/AppCommands';
 import * as Store from "@/store/StoreTypes";
 import Configuration from "@/assets/builder.config"
 // Dependencies
 import { clamp } from "./assets/scripts/BlockDiagram";
 import { PointerTracker } from "./assets/scripts/PointerTracker";
 import { mapMutations, mapState } from 'vuex';
-import { LoadFile, LoadSettings } from './store/Commands/AppCommands';
+import { Browser, OperatingSystem } from "./assets/scripts/Browser";
 import { defineComponent, markRaw, ref } from 'vue';
 // Components
+import FindDialog from "@/components/Elements/FindDialog.vue";
+import SplashMenu from "@/components/Controls/SplashMenu.vue";
 import AppTitleBar from "@/components/Elements/AppTitleBar.vue";
 import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
@@ -80,6 +85,18 @@ export default defineComponent({
       let r = this.frameSize[Handle.Right];
       return {
         gridTemplateColumns: `minmax(0, 1fr) ${ r }px`
+      }
+    },
+
+    /**
+     * Compute the location of the find dialog
+     * @returns
+     *  The current grid layout.
+     */
+    findDialogLayout(): { right: string } {
+      let r = this.frameSize[Handle.Right] + 25;
+      return {
+        right: `${r}px`
       }
     }
 
@@ -149,27 +166,38 @@ export default defineComponent({
   },
   async created() {
     // Import settings
+    let os = Browser.getOperatingSystemClass();
     let settings;
     if(Configuration.is_web_hosted) {
-        settings = await (await fetch("./settings.json")).json();
+      if(os === OperatingSystem.MacOS) {
+        settings = await (await fetch("../public/settings_macos.json")).json();
+      } else {
+        settings = await (await fetch("../public/settings_win.json")).json();
+      }        
     } else {
-        settings = require("../public/settings.json");
+      if(os === OperatingSystem.MacOS) {
+        settings = require("../public/settings_macos.json");
+      } else {
+        settings = require("../public/settings_win.json");
+      }
     }
     // Load settings
-    this.execute(new LoadSettings(this.context, settings));
+    this.execute(new App.LoadSettings(this.context, settings));
     // Load empty file
-    this.execute(await LoadFile.fromNew(this.context));
+    this.execute(await App.LoadFile.fromNew(this.context));
     // Load file from query parameters, if possible
     let params = new URLSearchParams(window.location.search);
     let src = params.get("src");
     if(src) {
       try {
         // TODO: Incorporate loading dialog
-        this.execute(await LoadFile.fromUrl(this.context, src));
+        this.execute(await App.LoadFile.fromUrl(this.context, src));
       } catch(ex) {
         console.error(`Failed to load file from url: '${ src }'`);
         console.error(ex);
       }
+    } else {
+      this.execute(new App.ShowSplashMenu(this.context));
     }
   },
   mounted() {
@@ -193,7 +221,9 @@ export default defineComponent({
     AppTitleBar,
     BlockDiagram,
     AppFooterBar,
-    EditorSidebar
+    EditorSidebar,
+    FindDialog,
+    SplashMenu
   },
 });
 </script>
