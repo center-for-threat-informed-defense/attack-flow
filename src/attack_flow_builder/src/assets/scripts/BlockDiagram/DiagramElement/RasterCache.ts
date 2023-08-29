@@ -20,7 +20,7 @@ export class RasterCache {
      * Creates a new {@link RasterCache}.
      */
     constructor() {
-        this._scale = 1;
+        this._scale = window.devicePixelRatio;
         this._cache = new Map();
     }
 
@@ -74,7 +74,7 @@ export class RasterCache {
      *  The new scale value.
      */
     public setScale(scale: number) {
-        this._scale = scale;
+        this._scale = scale * window.devicePixelRatio;
         this._cache.clear();
     }
 
@@ -84,7 +84,7 @@ export class RasterCache {
      *  The cache's current scale.
      */
     public getScale(): number {
-        return this._scale;
+        return this._scale / window.devicePixelRatio;
     }
 
 }

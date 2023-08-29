@@ -1,11 +1,11 @@
-export class EventEmitter {
+export class EventEmitter<T extends Object> {
     
     /**
-     * The event emitter's index of event listeners.
+     * The event listeners.
      */
-    private _listeners: Map<string, Function[]>;
+    private _listeners: Map<string, { callback: Function, ctx?: Object }[]>;
 
-    
+
     /**
      * Creates a new {@link EventEmitter}. 
      */
@@ -13,62 +13,133 @@ export class EventEmitter {
         this._listeners = new Map();
     }
 
-
+    
     /**
-     * Adds an event listener to an event.
+     * Adds a listener function for the named event.
      * @param event
      *  The name of the event.
      * @param callback
      *  The function to call when the event is raised.
+     * @param ctx
+     *  The function's execution context.
      */
-    public on(event: string, callback: Function) {
+    public on<K extends keyof T>(event: K, callback: T[K]): void;
+
+    /**
+     * Adds a listener function for the named event.
+     * @param event
+     *  The name of the event.
+     * @param callback
+     *  The function to call when the event is raised.
+     * @param ctx
+     *  The function's execution context.
+     */
+    public on<K extends keyof T>(event: K, callback: T[K], ctx?: Object): void;
+    public on(event: string, callback: Function, ctx?: Object) {
         if(!this._listeners.has(event))
             this._listeners.set(event, []);
-        this._listeners.get(event)!.unshift(callback);
+        this._listeners.get(event)!.unshift({ callback, ctx });
     }
 
     /**
-     * Adds a one-time event listener to an event.
+     * Adds a one-time listener function for the named event.
      * @param event
      *  The name of the event.
      * @param callback
      *  The function to call when the event is raised.
      */
+    public once<K extends keyof T>(event: K, callback: Function): void;
     public once(event: string, callback: Function) {
         let once = (...args: any[]) => {
+            // Remove this function
             let actions = this._listeners.get(event)!;
-            actions.splice(actions.indexOf(once), 1);
+            let index = actions.findIndex(
+                o => o.callback === once
+            );
+            actions.splice(index, 1);
+            // Invoke callback
             callback(...args);
         }
         if(!this._listeners.has(event))
             this._listeners.set(event, []);
-        this._listeners.get(event)!.unshift(once);
+        this._listeners.get(event)!.unshift({ callback: once });
     }
 
     /**
-     * Dispatches the event listeners associated with a given event.
+     * Dispatches the listener functions associated with a given event.
      * @param event
      *  The name of the event to raise.
      * @param args
-     *  The arguments to pass to the event listeners.
+     *  The arguments to pass to the listener functions.
      */
+    protected emit<K extends keyof T>(event: K, ...args: any[]): void;
     protected emit(event: string, ...args: any[]) {
         if(this._listeners.has(event)) {
             let listeners = this._listeners.get(event)!;
             for(let i = listeners.length - 1; 0 <= i; i--) {
-                listeners[i](...args);
+                if(listeners[i].ctx) {
+                    listeners[i].callback.apply(listeners[i].ctx, args);
+                } else {
+                    listeners[i].callback(...args);
+                }
             }
         }
     }
 
     /**
-     * Removes all event listeners associated with a given event. If no event
-     * name is specified, all event listeners are removed.
+     * Removes an event listener function associated with a given event.
+     * @param event
+     *  The name of the event.
+     * @param callback
+     *  The function to remove.
+     */
+    public removeEventListener<K extends keyof T>(event: K, callback: T[K]): void;
+
+    /**
+     * Removes an event listener function associated with a given event.
+     * @param event
+     *  The name of the event.
+     * @param callback
+     *  The function to remove.
+     * @param ctx
+     *  The function's execution context.
+     */
+    public removeEventListener<K extends keyof T>(event: K, callback: T[K], ctx?: Object): void;
+    public removeEventListener(event: string, callback: Function, ctx?: Object) {
+        if(this._listeners.has(event)) {
+            let actions = this._listeners.get(event)!;
+            let index = actions.findIndex(
+                o => o.callback === callback && o.ctx === ctx
+        );
+            actions.splice(index, 1);
+        }
+    }
+
+    /**
+     * Removes all event listeners associated with a given execution context.
+     * @param ctx
+     *  The execution context.
+     */
+    public removeEventListenersWithContext(ctx: Object) {
+        for(let event of this._listeners.keys()) {
+            let listeners = this._listeners.get(event)!.filter(o => o.ctx !== ctx);
+            this._listeners.set(event, listeners);
+        }
+    }
+
+    /**
+     * Removes the listener functions associated with all events.
+     */
+    protected removeAllListeners(): void;
+
+    /**
+     * Removes the listener functions associated with a given event.
      * @param event
      *  The name of the event.
      */
-    public removeAllListeners(event?: string) {
-        if(event !== undefined) {
+    protected removeAllListeners<K extends keyof T>(event?: K): void; 
+    protected removeAllListeners(event?: string) {
+        if(event) {
             this._listeners.delete(event);
         } else {
             this._listeners.clear();

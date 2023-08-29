@@ -1,9 +1,14 @@
 import * as d3 from "d3";
+import { Browser } from "../../Browser";
 import { RasterCache } from "./RasterCache";
 import { ViewportRegion } from "./ViewportRegion";
+import { CameraLocation } from "./Camera";
 import { DiagramObjectMover } from "./DiagramObjectMover";
 import { DiagramDisplaySettings } from "./DiagramDisplaySettings";
-import { CameraLocation } from "./Camera";
+import { 
+    resizeAndTransformContext,
+    resizeContext,
+    transformContext } from "../Utilities/Canvas";
 import {
     EventEmitter,
     MouseClick
@@ -28,7 +33,7 @@ import {
     PositionSetByUser
 } from "../Attributes";
 
-export class BlockDiagram extends EventEmitter {
+export class BlockDiagram extends EventEmitter<DiagramEvents> {
 
     /**
      * The viewport's padding.
@@ -173,19 +178,23 @@ export class BlockDiagram extends EventEmitter {
         this._canvas = d3.select(container)
             .append("canvas")
                 .attr("style", "display:block;")
-                .attr("width", this._elWidth)
-                .attr("height", this._elHeight)
             .on("mousemove", (event) => {
                 this.onHoverSubject(...d3.pointer(event));
             })
             .on("contextmenu", (e: any) => e.preventDefault());
         this._context = this._canvas.node()!.getContext("2d", { alpha: false });
 
+        // Size context
+        resizeContext(this._context!, this._elWidth, this._elHeight);
+
         // Configure resize observer
         this._resizeObserver = new ResizeObserver(
             entries => this.onCanvasResize(entries[0].target)
         );
         this._resizeObserver.observe(container);
+
+        // Configure dppx change behavior
+        Browser.on("dppx-change", this.onDevicePixelRatioChange, this);
 
         // Configure canvas interactions
         this._canvas
@@ -208,61 +217,12 @@ export class BlockDiagram extends EventEmitter {
         this._context = null;
         this.removeAllListeners();
         this._resizeObserver?.disconnect();
+        Browser.removeEventListenersWithContext(this);
     }
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  2. Event Subscription  ////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Adds an event listener to the diagram.
-     * @param event
-     *  The event to subscribe to.
-     * @param callback
-     *  The function to call once the event has fired.
-     */
-    public override on<K extends keyof DiagramEvents>(event: K, callback: DiagramEvents[K]): void {
-        super.on(event, callback);
-    }
-
-    /**
-     * Adds an event listener to the diagram that will be fired once and then
-     * removed.
-     * @param event
-     *  The event to subscribe to.
-     * @param callback
-     *  The function to call once the event has fired. 
-     */
-    public override once<K extends keyof DiagramEvents>(event: K, callback: DiagramEvents[K]): void {
-        super.once(event, callback);
-    }
-
-    /**
-     * Removes all event listeners associated with a given event. If no event
-     * name is specified, all event listeners are removed.
-     * @param event
-     *  The name of the event.
-     */
-    public override removeAllListeners<K extends keyof DiagramEvents>(event?: K): void {
-        super.removeAllListeners(event);
-    }
-
-    /**
-     * Dispatches the event listeners associated with a given event.
-     * @param event
-     *  The name of the event to raise.
-     * @param args
-     *  The arguments to pass to the event listeners.
-     */
-    protected override emit<K extends keyof DiagramEvents>(event: K, ...args: Parameters<DiagramEvents[K]>): void {
-        super.emit(event, ...args);
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  3. Rendering  /////////////////////////////////////////////////////////
+    //  2. Rendering  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -361,7 +321,7 @@ export class BlockDiagram extends EventEmitter {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  4. Canvas Interactions  ///////////////////////////////////////////////
+    //  3. Canvas Interactions  ///////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -622,10 +582,12 @@ export class BlockDiagram extends EventEmitter {
         this._transform = event.transform;
         // Update viewport
         this.updateViewportBounds();
-        this._context?.setTransform(
-            this._transform.k, 0, 0,
-            this._transform.k, this._transform.x, this._transform.y
-        );
+        if(this._context) {
+            transformContext(
+                this._context, this._transform.k,
+                this._transform.x, this._transform.y
+            );
+        }
         // If no source event, then we are already
         // running inside a requestAnimationFrame()
         if(event.sourceEvent === null) {
@@ -665,19 +627,40 @@ export class BlockDiagram extends EventEmitter {
         // Update dimensions
         this._elWidth = newWidth;
         this._elHeight = newHeight;
-        this._canvas
-            ?.attr("width", this._elWidth)
-            ?.attr("height", this._elHeight);
         // Update viewport
         this.updateViewportBounds();
         // Adjust viewport
-        this._context?.setTransform(
-            this._transform.k, 0, 0,
-            this._transform.k, this._transform.x, this._transform.y
-        );
+        if(this._context) {
+            resizeAndTransformContext(
+                this._context, this._elWidth, this._elHeight,
+                this._transform.k, this._transform.x, this._transform.y
+            )
+        }
         // Immediately redraw diagram to context, if possible
         if(this._context)
             this.executeRenderPipeline();
+    }
+
+    /**
+     * Device pixel ratio change behavior.
+     * @remarks
+     *  The device's pixel ratio can change when dragging the window to and
+     *  from a monitor with high pixel density (like Apple Retina displays).
+     */
+    private onDevicePixelRatioChange() {
+        // Update cache
+        let k = this._transform.k * this._display.ssaaScale;
+        this._rasterCache.setScale(k);
+        if(!this._context) {
+            return;
+        }
+        // Resize and transform context
+        resizeAndTransformContext(
+            this._context, this._elWidth, this._elHeight,
+            this._transform.k, this._transform.x, this._transform.y
+        )
+        // Render
+        this.render();
     }
 
     /**
@@ -696,7 +679,7 @@ export class BlockDiagram extends EventEmitter {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  5. Data  //////////////////////////////////////////////////////////////
+    //  4. Data  //////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
     
