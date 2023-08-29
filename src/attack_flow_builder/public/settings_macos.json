@@ -57,7 +57,7 @@
             "close_group": ""
         },
         "view": {
-            "toggle_grid": "Alt+G",
+            "toggle_grid": "Control+G",
             "toggle_shadows": "",
             "reset_view": "Escape",
             "zoom_in": "",
