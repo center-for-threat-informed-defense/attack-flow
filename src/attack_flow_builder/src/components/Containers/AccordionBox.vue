@@ -159,7 +159,9 @@ export default defineComponent({
      * @param track
      *  The mouse tracker.
      */
-    onDrag(_: PointerEvent, track: PointerTracker) {
+    onDrag(event: PointerEvent, track: PointerTracker) {
+      event.preventDefault();
+
       let p = this.panes;
 
       // Ignore no movement

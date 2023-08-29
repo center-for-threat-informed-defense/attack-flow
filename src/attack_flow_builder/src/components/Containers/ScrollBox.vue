@@ -125,7 +125,8 @@ export default defineComponent({
      * @param track
      *  The mouse tracker.
      */
-    onDrag(_: PointerEvent, track: PointerTracker) {
+    onDrag(event: PointerEvent, track: PointerTracker) {
+      event.preventDefault();
       this.moveScrollPosition(
         this.handleTopToTop(this.handle.pos + track.movementY)
       );
