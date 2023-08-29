@@ -155,9 +155,48 @@ class AttackFlowValidator extends DiagramValidator {
         // Validate links
         switch(node.template.id) {
             case "artifact": {
+                const payloadBin = node.props.value.get("payload_bin");
+                const url = node.props.value.get("url");
                 const hashes = node.props.value.get("hashes");
+                const mimeType = node.props.value.get("mime_type");
+                const decryptionKey = node.props.value.get("decryption_key");
+                const encryptionAlg = node.props.value.get("encryption_algorithm")
+
+                const payloadRegex = /^([a-z0-9+/]{4})*([a-z0-9+/]{4}|[a-z0-9+/]{3}=|[a-z0-9+/]{2}==)$/i;
+                const MIME_Regex = /^(application|audio|font|image|message|model|multipart|text|video)\/[a-zA-Z0-9.+_-]+/;
+
+                // Check regex
+                if(payloadBin?.isDefined()) {
+                    if(!payloadRegex.test(payloadBin.toString())) {
+                        this.addError(id, "Invalid Payload Bin.");
+                    }
+                }
+                if(mimeType?.isDefined()) {
+                    if(!MIME_Regex.test(mimeType.toString())) {
+                        this.addError(id, "Invalid MIME Type.");
+                    }
+                }
+
+                // Validate Payload Bin, URL, and Hashes
+                if(payloadBin?.isDefined() && url?.isDefined()) {
+                    this.addError(id, "Artifact must have either have a Payload Bin or URL, not both.");
+                }
+                if(url?.isDefined() && !hashes?.isDefined()) {
+                    this.addError(id, "Artifact URL must also have a Hash.");
+                }
+
+                // Check hashes
                 if(hashes?.isDefined()) {
                     this.validateHash(id, hashes as ListProperty);
+                }
+
+                // Validate encryption and decryption algorithms
+                if(encryptionAlg?.isDefined()) {
+                    if(encryptionAlg.toRawValue()?.toString() == "mime-type-indicated" && !mimeType?.isDefined()) {
+                        this.addError(id, "For Encryption Algorithm to be 'Mime Type Indicated', the field 'Mime Type' cannot be empty.");
+                    }
+                } else if(decryptionKey?.isDefined()) {
+                    this.addError(id, "An Artifact with a Decryption Key must also have an Encryption Algorithm.");
                 }
                 break;
             }
@@ -166,7 +205,7 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid email address.")
                 }
                 break;
-            case "file":
+            case "file": {
                 const hashes = node.props.value.get("hashes");
                 const name = node.props.value.get("name");
                 if(!hashes?.isDefined() && !name?.isDefined()) {
@@ -176,6 +215,7 @@ class AttackFlowValidator extends DiagramValidator {
                     this.validateHash(id, hashes as ListProperty);
                 }
                 break;
+            }
             case "grouping":
                 if(node.next.length === 0) {
                     this.addError(id, "A Grouping must point to at least one object.");
