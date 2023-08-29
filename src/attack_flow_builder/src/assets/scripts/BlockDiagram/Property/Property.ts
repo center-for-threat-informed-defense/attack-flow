@@ -15,6 +15,11 @@ import {
 export abstract class Property {
 
     /**
+     * The property's id.
+     */
+    public readonly id: string;
+
+    /**
      * The property's type.
      */
     public readonly type: PropertyType;
@@ -52,15 +57,19 @@ export abstract class Property {
 
     /**
      * Creates a new {@link Property}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
      *  The property's descriptor.
      */
     constructor(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: PropertyDescriptor
     ) {
+        this.id = id;
         this.type = descriptor.type;
         this.descriptor = descriptor;
         this.trigger = ref(0);
@@ -70,6 +79,8 @@ export abstract class Property {
 
     /**
      * Creates a new {@link Property}.
+     * @param id
+     *  The property's id.
      * @param parent
      *  The property's parent.
      * @param descriptor
@@ -80,24 +91,25 @@ export abstract class Property {
      *  The {@link Property}.
      */
     public static create(
+        id: string,
         parent: CollectionProperty | undefined,
         descriptor: PropertyDescriptor,
         values?: any
     ): Property {
         switch(descriptor.type) {
             case PropertyType.String:
-                return new StringProperty(parent, descriptor, values);
+                return new StringProperty(id, parent, descriptor, values);
             case PropertyType.Int:
             case PropertyType.Float:
-                return new NumberProperty(parent, descriptor, values);
+                return new NumberProperty(id, parent, descriptor, values);
             case PropertyType.Date:
-                return new DateProperty(parent, descriptor, values);
+                return new DateProperty(id, parent, descriptor, values);
             case PropertyType.Enum:
-                return new EnumProperty(parent, descriptor, values);
+                return new EnumProperty(id, parent, descriptor, values);
             case PropertyType.List:
-                return new ListProperty(parent, descriptor, values);
+                return new ListProperty(id, parent, descriptor, values);
             case PropertyType.Dictionary:
-                return new DictionaryProperty(parent, descriptor, values);
+                return new DictionaryProperty(id, parent, descriptor, values);
         }
     }
 

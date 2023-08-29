@@ -8,14 +8,14 @@ import {
 export class DetachObject extends PageCommand {
     
     /**
+     * The object.
+     */
+    public readonly object: DiagramAnchorableModel;
+
+    /**
      * The object's anchor.
      */
     private _anchor: DiagramAnchorModel;
-
-    /**
-     * The object.
-     */
-    private _object: DiagramAnchorableModel;
 
     /**
      * The object's location in its anchor.
@@ -35,7 +35,7 @@ export class DetachObject extends PageCommand {
             );
         }
         super(object.root.id);
-        this._object = object;
+        this.object = object;
         this._anchor = object.anchor!;
         this._index = object.getIndexInAnchor();
     }
@@ -47,7 +47,7 @@ export class DetachObject extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._anchor.removeChild(this._object);
+        this._anchor.removeChild(this.object);
         return true;
     }
 
@@ -55,7 +55,7 @@ export class DetachObject extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._anchor.addChild(this._object, this._index);
+        this._anchor.addChild(this.object, this._index);
     }
 
 }

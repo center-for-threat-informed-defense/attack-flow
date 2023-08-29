@@ -6,7 +6,7 @@ export class UserSetObjectPosition extends PageCommand {
     /**
      * The object.
      */
-    private _object: DiagramObjectModel;
+    public readonly object: DiagramObjectModel;
 
 
     /**
@@ -16,7 +16,7 @@ export class UserSetObjectPosition extends PageCommand {
      */
     constructor(object: DiagramObjectModel) {
         super(object.root.id);
-        this._object = object;
+        this.object = object;
     }
     
 
@@ -26,7 +26,7 @@ export class UserSetObjectPosition extends PageCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): boolean {
-        this._object.setPositionSetByUser(PositionSetByUser.True);
+        this.object.setPositionSetByUser(PositionSetByUser.True);
         return true;
     }
 
@@ -34,7 +34,7 @@ export class UserSetObjectPosition extends PageCommand {
      * Undoes the page command.
      */
     public undo() {
-        this._object.setPositionSetByUser(PositionSetByUser.False);
+        this.object.setPositionSetByUser(PositionSetByUser.False);
     }
 
 }
