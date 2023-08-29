@@ -54,20 +54,35 @@
 </template>
 
 <script lang="ts">
+import { Browser, OperatingSystem } from '@/assets/scripts/Browser';
 import { defineComponent, PropType } from 'vue';
 import { 
   ContextMenu, ContextMenuItem, 
   ContextMenuSection, MenuType
 } from "@/assets/scripts/ContextMenuTypes";
 
-const KeyToText: { [key: string]: string } = {
+const KeyToTextWin: { [key: string]: string } = {
   Control    : "Ctrl",
   Escape     : "Esc",
   ArrowLeft  : "←",
   ArrowUp    : "↑",
   ArrowRight : "→",
   ArrowDown  : "↓",
-  Delete     : "Del"
+  Delete     : "Del",
+  Meta       : "Win"
+}
+
+const KeyToTextMacOS: { [key: string]: string } = {
+  Control    : "⌃",
+  Escape     : "Esc",
+  ArrowLeft  : "←",
+  ArrowUp    : "↑",
+  ArrowRight : "→",
+  ArrowDown  : "↓",
+  Delete     : "Del",
+  Meta       : "⌘",
+  Shift      : "⇧",
+  Alt        : "⌥"
 }
 
 export default defineComponent({
@@ -192,10 +207,17 @@ export default defineComponent({
       if(!shortcut) {
         return shortcut;
       } else {
-        return shortcut
-          .split("+")
-          .map(c => c in KeyToText ? KeyToText[c] : c)
-          .join("+");
+        if(Browser.getOperatingSystemClass() === OperatingSystem.MacOS) {
+          return shortcut
+            .split("+")
+            .map(c => c in KeyToTextMacOS ? KeyToTextMacOS[c] : c)
+            .join("")
+        } else {
+          return shortcut
+            .split("+")
+            .map(c => c in KeyToTextWin ? KeyToTextWin[c] : c)
+            .join("+");
+        }
       }
     }
 

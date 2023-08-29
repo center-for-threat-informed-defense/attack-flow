@@ -26,15 +26,16 @@ import Configuration from "@/assets/builder.config"
 import { clamp } from "./assets/scripts/BlockDiagram";
 import { PointerTracker } from "./assets/scripts/PointerTracker";
 import { mapMutations, mapState } from 'vuex';
+import { Browser, OperatingSystem } from "./assets/scripts/Browser";
 import { defineComponent, markRaw, ref } from 'vue';
 // Components
+import FindDialog from "@/components/Elements/FindDialog.vue";
 import SplashMenu from "@/components/Controls/SplashMenu.vue";
 import AppTitleBar from "@/components/Elements/AppTitleBar.vue";
 import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
 import EditorSidebar from "@/components/Elements/EditorSidebar.vue";
-import FindDialog from "@/components/Elements/FindDialog.vue";
 
 const Handle = {
   None   : 0,
@@ -165,11 +166,20 @@ export default defineComponent({
   },
   async created() {
     // Import settings
+    let os = Browser.getOperatingSystemClass();
     let settings;
     if(Configuration.is_web_hosted) {
-        settings = await (await fetch("./settings.json")).json();
+      if(os === OperatingSystem.MacOS) {
+        settings = await (await fetch("../public/settings_macos.json")).json();
+      } else {
+        settings = await (await fetch("../public/settings_win.json")).json();
+      }        
     } else {
-        settings = require("../public/settings.json");
+      if(os === OperatingSystem.MacOS) {
+        settings = require("../public/settings_macos.json");
+      } else {
+        settings = require("../public/settings_win.json");
+      }
     }
     // Load settings
     this.execute(new App.LoadSettings(this.context, settings));

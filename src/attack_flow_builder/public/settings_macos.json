@@ -1,0 +1,75 @@
+{
+    "file": {
+        "image_export": {
+            "padding": 30
+        }
+    },
+    "edit": {
+        "clone_offset": [20, 20]
+    },
+    "view": {
+        "diagram": {
+            "display_grid": true,
+            "display_shadows": true,
+            "display_debug_mode": false,
+            "render_high_quality": true,
+            "disable_shadows_at": 0.7
+        }
+    },
+    "hotkeys": {
+        "file": {
+            "new_file": "Control+N",
+            "open_file": "Meta+O",
+            "save_file": "Meta+S",
+            "save_image": "",
+            "save_select_image": "",
+            "publish_file": "",
+            "open_library": "",
+            "save_library": ""
+        },
+        "edit": {
+            "undo": "Meta+Z",
+            "redo": "Meta+Y",
+            "cut": "Meta+X",
+            "copy": "Meta+C",
+            "paste": "Meta+V",
+            "delete": "Backspace",
+            "duplicate": "Meta+D",
+            "find": "Meta+F",
+            "find_next": "Meta+G",
+            "find_previous": "Shift+Meta+G",
+            "select_all": "Meta+A"
+        },
+        "layout": {
+            "selection_to_front": "Shift+Meta+F",
+            "selection_to_back": "Shift+Meta+B",
+            "bring_selection_forward": "",
+            "send_selection_backward": "",
+            "align_left": "",
+            "align_center": "",
+            "align_right": "",
+            "align_top": "",
+            "align_middle": "",
+            "align_bottom": "",
+            "group": "Meta+G",
+            "ungroup": "Meta+Shift+U",
+            "open_group": "",
+            "close_group": ""
+        },
+        "view": {
+            "toggle_grid": "Alt+G",
+            "toggle_shadows": "",
+            "reset_view": "Escape",
+            "zoom_in": "",
+            "zoom_out": "",
+            "fullscreen": "",
+            "jump_to_selection": "Shift+Z",
+            "jump_to_parents": "Shift+P",
+            "jump_to_children": "Shift+C",
+            "toggle_debug_view": ""
+        },
+        "select": {
+            "many": "Meta"
+        }
+    }
+}
