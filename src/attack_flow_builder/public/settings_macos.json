@@ -37,12 +37,12 @@
             "duplicate": "Meta+D",
             "find": "Meta+F",
             "find_next": "Meta+G",
-            "find_previous": "Meta+Shift+G",
+            "find_previous": "Shift+Meta+G",
             "select_all": "Meta+A"
         },
         "layout": {
-            "selection_to_front": "Meta+Shift+F",
-            "selection_to_back": "Meta+Shift+B",
+            "selection_to_front": "Shift+Meta+F",
+            "selection_to_back": "Shift+Meta+B",
             "bring_selection_forward": "",
             "send_selection_backward": "",
             "align_left": "",
