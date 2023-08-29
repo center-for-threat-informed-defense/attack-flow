@@ -1,3 +1,4 @@
+import { Finder } from "./Finder"
 import { PageEditor } from "@/store/PageEditor"
 import { DiagramValidator } from "@/assets/scripts/DiagramValidator/DiagramValidator"
 import { DiagramPublisher } from "@/assets/scripts/DiagramPublisher/DiagramPublisher"
@@ -31,6 +32,7 @@ export type ApplicationStore = {
     processor: DiagramProcessor | undefined,
     publisher: DiagramPublisher | undefined,
     activePage: PageEditor,
+    finder: Finder,
     recoveryBank: PageRecoveryBank,
     splashIsVisible: boolean,
 }
@@ -91,6 +93,9 @@ export const BaseAppSettings: AppSettings = {
             paste: "",
             delete: "",
             duplicate: "",
+            find: "",
+            find_next: "",
+            find_previous: "",
             select_all: ""
         },
         layout: {
@@ -187,6 +192,9 @@ export type EditHotkeys = {
     paste: string,
     delete: string,
     duplicate: string,
+    find: string,
+    find_next: string,
+    find_previous: string,
     select_all: string
 }
 

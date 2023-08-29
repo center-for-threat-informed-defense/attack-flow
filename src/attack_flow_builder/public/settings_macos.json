@@ -35,6 +35,9 @@
             "paste": "Meta+V",
             "delete": "Backspace",
             "duplicate": "Meta+D",
+            "find": "Meta+F",
+            "find_next": "Meta+G",
+            "find_previous": "Meta+Shift+G",
             "select_all": "Meta+A"
         },
         "layout": {
@@ -54,7 +57,7 @@
             "close_group": ""
         },
         "view": {
-            "toggle_grid": "Meta+Shift+G",
+            "toggle_grid": "Alt+G",
             "toggle_shadows": "",
             "reset_view": "Escape",
             "zoom_in": "",

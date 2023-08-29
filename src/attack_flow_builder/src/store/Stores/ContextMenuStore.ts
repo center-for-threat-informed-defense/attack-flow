@@ -61,13 +61,23 @@ export default {
                     {
                         text: "New File",
                         type: MenuType.Item,
-                        data: () => App.LoadFile.fromNew(ctx),
+                        data: async () => {
+                            const cmd = new App.GroupCommand(ctx);
+                            cmd.add(await App.LoadFile.fromNew(ctx));
+                            cmd.add(new App.HideSplashMenu(ctx));
+                            return cmd;
+                        },
                         shortcut: file.new_file,
                     },
                     {
                         text: `Open File...`,
                         type: MenuType.Item,
-                        data: () => App.LoadFile.fromFileSystem(ctx),
+                        data: async () => {
+                            const cmd = new App.GroupCommand(ctx);
+                            cmd.add(await App.LoadFile.fromFileSystem(ctx));
+                            cmd.add(new App.HideSplashMenu(ctx));
+                            return cmd;
+                        },
                         shortcut: file.open_file,
                     }
                 ],
@@ -258,6 +268,7 @@ export default {
                     getters.clipboardMenu,
                     getters.deleteMenu,
                     getters.duplicateMenu,
+                    getters.findMenu,
                     getters.createMenu,
                     getters.selectAllMenu
                 ]
@@ -415,6 +426,51 @@ export default {
             };
         },
 
+        /**
+         * Returns the find menu section.
+         * @param _s
+         *  The Vuex state. (Unused)
+         * @param _g
+         *  The Vuex getters. (Unused)
+         * @param rootState
+         *  The Vuex root state.
+         * @param rootGetters
+         *  The Vuex root getters.
+         * @returns
+         *  The undo/redo menu section.
+         */
+        findMenu(_s, _g, rootState, rootGetters): ContextMenuSection {
+            let ctx = rootState.ApplicationStore;
+            let edit = ctx.settings.hotkeys.edit;
+            let hasFindResults = rootGetters["ApplicationStore/hasFindResults"];
+            return {
+                id: "find_options",
+                items: [
+                    {
+                        text: "Find…",
+                        type: MenuType.Item,
+                        data: () => new App.ShowFindDialog(ctx),
+                        shortcut: edit.find
+                    },
+                    {
+                        text: "Find Next",
+                        type: MenuType.Item,
+                        data: () => new App.MoveToNextFindResult(ctx),
+                        shortcut: edit.find_next,
+                        disabled: !hasFindResults
+                    },
+                    {
+                        text: "Find Previous",
+                        type: MenuType.Item,
+                        data: () => new App.MoveToPreviousFindResult(ctx),
+                        shortcut: edit.find_previous,
+                        disabled: !hasFindResults
+                    },
+                ],
+            }
+        },
+
+                
         /**
          * Returns the 'select all' menu section.
          * @param _s
