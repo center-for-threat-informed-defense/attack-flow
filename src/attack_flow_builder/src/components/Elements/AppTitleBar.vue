@@ -1,7 +1,9 @@
 <template>
   <TitleBar class="app-title-bar-element" :menus="menus" @select="onItemSelect">
     <template v-slot:icon>
-      <img alt="Logo" title="Logo" class="logo" :src="menuIcon">
+      <span class="logo">
+        <img alt="Logo" title="Logo" :src="icon">
+      </span>
     </template>
   </TitleBar>
 </template>
@@ -21,7 +23,7 @@ export default defineComponent({
   name: "AppTitleBar",
   data() {
     return {
-      menuIcon: Images(Configuration.menu_icon),
+      icon: Images(Configuration.application_icon),
     };
   },
   computed: {
@@ -84,10 +86,15 @@ export default defineComponent({
 </script>
 
 <style scoped>
+
 /** === App Logo === */
 
 .logo {
-  margin: 2px 8px 0px 10px;
-  height: 16px;
+  margin: 0px 6px 0px 12px;
 }
+
+.logo img {
+  height: 10px;
+}
+
 </style>

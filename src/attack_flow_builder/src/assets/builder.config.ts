@@ -24,9 +24,9 @@ const BoolEnum: EnumPropertyDescriptor = {
 const config: AppConfiguration = {
     is_web_hosted: false,
     application_name: "Attack Flow Builder",
+    application_icon: "./ctid_icon_small.png",
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
-    menu_icon: "./ctid-small.png",
     splash: {
         product: "./afb.png",
         organization: "./ctid.png",

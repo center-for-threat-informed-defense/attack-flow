@@ -271,6 +271,7 @@ export type SplashButton = {
 export type AppConfiguration = {
     is_web_hosted: boolean,
     application_name: string,
+    application_icon: string,
     splash: {
         product: string,
         organization: string,
@@ -278,7 +279,6 @@ export type AppConfiguration = {
     },
     file_type_name: string,
     file_type_extension: string,
-    menu_icon: string,
     schema: BlockDiagramSchema,
     menus: {
         help_menu: {
