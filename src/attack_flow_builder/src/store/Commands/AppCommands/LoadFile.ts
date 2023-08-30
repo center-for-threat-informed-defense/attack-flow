@@ -1,4 +1,4 @@
-import Configuration from "@/assets/builder.config";
+import Configuration from "@/assets/configuration/builder.config";
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
 import { Browser } from "@/assets/scripts/Browser";

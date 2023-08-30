@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-const Images = require.context("../../assets", false);
-import Configuration from "@/assets/builder.config"
+const Images = require.context("../../assets/configuration", false);
+import Configuration from "@/assets/configuration/builder.config"
 // Dependencies
 import { ContextMenu } from "@/assets/scripts/ContextMenuTypes";
 import { CommandEmitter } from "@/store/Commands/Command";

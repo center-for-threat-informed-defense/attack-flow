@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import Configuration from "@/assets/builder.config";
+import Configuration from "@/assets/configuration/builder.config";
 import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 

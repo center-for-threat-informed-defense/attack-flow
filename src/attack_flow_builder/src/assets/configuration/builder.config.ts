@@ -3,14 +3,14 @@ import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
 import processor from "./builder.config.processor";
 import { AppConfiguration } from "@/store/StoreTypes";
-import { Colors, DarkTheme } from "./scripts/BlockDiagram/DiagramFactory/Themes";
+import { Colors, DarkTheme } from "../scripts/BlockDiagram/DiagramFactory/Themes";
 import {
     AnchorAngle,
     EnumPropertyDescriptor,
     PropertyType,
     SemanticRole,
     TemplateType
-} from "./scripts/BlockDiagram";
+} from "../scripts/BlockDiagram";
 
 const BoolEnum: EnumPropertyDescriptor = {
     type: PropertyType.Enum,

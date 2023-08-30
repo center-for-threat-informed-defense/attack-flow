@@ -1,4 +1,4 @@
-import { DiagramValidator } from "./scripts/DiagramValidator/DiagramValidator";
+import { DiagramValidator } from "../scripts/DiagramValidator/DiagramValidator";
 import {
     DiagramObjectModel,
     DictionaryProperty,
@@ -9,7 +9,7 @@ import {
     PropertyType,
     RawEntries,
     SemanticAnalyzer
-} from "./scripts/BlockDiagram";
+} from "../scripts/BlockDiagram";
 
 class AttackFlowValidator extends DiagramValidator {
     

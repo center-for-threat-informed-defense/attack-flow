@@ -21,7 +21,7 @@
 <script lang="ts">
 import * as App from './store/Commands/AppCommands';
 import * as Store from "@/store/StoreTypes";
-import Configuration from "@/assets/builder.config"
+import Configuration from "@/assets/configuration/builder.config"
 // Dependencies
 import { clamp } from "./assets/scripts/BlockDiagram";
 import { PointerTracker } from "./assets/scripts/PointerTracker";

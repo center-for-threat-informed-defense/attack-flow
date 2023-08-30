@@ -1,4 +1,4 @@
-import Configuration from "@/assets/builder.config";
+import Configuration from "@/assets/configuration/builder.config";
 import { Module } from "vuex"
 import { PageEditor } from "@/store/PageEditor";
 import { AppCommand } from "@/store/Commands/AppCommand";

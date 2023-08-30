@@ -1,7 +1,7 @@
 import intel from "./builder.config.intel";
 import { PageCommand } from "@/store/Commands/PageCommand";
-import { StringProperty } from "./scripts/BlockDiagram";
-import { DiagramProcessor } from "./scripts/DiagramProcessor/DiagramProcessor";
+import { StringProperty } from "../scripts/BlockDiagram";
+import { DiagramProcessor } from "../scripts/DiagramProcessor/DiagramProcessor";
 import { GroupCommand, SetStringProperty } from "@/store/Commands/PageCommands";
 
 

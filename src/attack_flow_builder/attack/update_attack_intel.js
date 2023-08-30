@@ -11,7 +11,7 @@ const EXPORT_KEY = "intel";
 /**
  * The intel file's path.
  */
-const INTEL_FILE_PATH = "../src/assets/builder.config.intel.ts";
+const INTEL_FILE_PATH = "../src/assets/configuration/builder.config.intel.ts";
 
 /**
  * JavaScript variable regex.
