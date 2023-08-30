@@ -281,7 +281,10 @@ class AttackFlowPublisher extends DiagramPublisher {
         for(let prop of property.value.values()) {
             switch(prop.type) {
                 case PropertyType.Dictionary:
-                    throw new Error("Basic lists cannot contain dictionaries.");
+                    const obj = {} as any;
+                    this.mergeBasicDictProperty(obj, prop as DictionaryProperty);
+                    node[key].push(obj);
+                    break;
                 case PropertyType.List:
                     throw new Error("Basic lists cannot contain lists.");
                 case PropertyType.Enum:
@@ -729,7 +732,13 @@ class AttackFlowPublisher extends DiagramPublisher {
                     const extRefs = [];
                     for(let ref of prop.value.values()) {
                         let entries = ref.toRawValue() as RawEntries;
-                        extRefs.push(Object.fromEntries(entries));
+                        const entry = {} as any;
+                        for (const [key, value] of entries) {
+                            if (value !== null) {
+                                entry[key] = value;
+                            }
+                        }
+                        extRefs.push(entry);
                     }
                     if (extRefs.length > 0) {
                         flow[key] = extRefs;
@@ -742,11 +751,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                     if(!prop.isDefined()) {
                         break;
                     }
-                    flow[key] = prop
-                        .toReferenceValue()!
-                        .toString()
-                        .trim()
-                        .toLocaleLowerCase();
+                    flow[key] = prop.toRawValue();
                     break;
                 default:
                     if(prop.isDefined()) {
@@ -800,7 +805,9 @@ class AttackFlowPublisher extends DiagramPublisher {
                 continue;
             }
             const edges: string[] = [];
-            imputedEdges.set(parentId, edges);
+            const parentStixType = AttackFlowTemplatesMap.get(parentType);
+            const parentStixId = `${parentStixType}--${parentId}`;
+            imputedEdges.set(parentStixId, edges);
 
             // Initialize stack with the node's children.
             stack.push(...getChildNodes(parentId));
@@ -821,7 +828,9 @@ class AttackFlowPublisher extends DiagramPublisher {
                 if (descendantNode) {
                     const descendantType = descendantNode.template.id;
                     if (descendantType === "action" || descendantType === "condition") {
-                        edges.push(descendantId);
+                        const descendantStixType = AttackFlowTemplatesMap.get(descendantType);
+                        const descendantStixId = `${descendantStixType}--${descendantId}`;
+                        edges.push(descendantStixId);
                     } else {
                         stack.push(...getChildNodes(descendantId));
                     }
@@ -898,7 +907,6 @@ class AttackFlowPublisher extends DiagramPublisher {
     ///////////////////////////////////////////////////////////////////////////
     //  4. SDO & SRO  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-
 
     /**
      * Creates a STIX Domain Object (SDO).

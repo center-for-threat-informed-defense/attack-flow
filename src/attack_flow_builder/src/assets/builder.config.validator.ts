@@ -16,7 +16,7 @@ class AttackFlowValidator extends DiagramValidator {
     /**
      * Windows Registry Regex
      */
-    static WindowsRegistryRegex = /^(Computer\\)?((HKEY_LOCAL_MACHINE)|(HKEY_CURRENT_CONFIG)|(HKEY_CLASSES_ROOT)|(HKEY_CURRENT_USER)|(HKEY_YSERS))\\(.*)[^\\]/
+    static WindowsRegistryRegex = /^(Computer\\)?((HKEY_LOCAL_MACHINE)|(HKEY_CURRENT_CONFIG)|(HKEY_CLASSES_ROOT)|(HKEY_CURRENT_USER)|(HKEY_USERS))\\(.*)[^\\]/
     
     /**
      * IPv4 Regex
@@ -58,6 +58,16 @@ class AttackFlowValidator extends DiagramValidator {
      */
     static MimeTypeRegex = /^(application|audio|font|image|message|model|multipart|text|video)\/[a-zA-Z0-9.+_-]+/;
 
+    /**
+     * Regex for different hash types
+     */
+    static HashRegexes = new Map<string, RegExp>([
+        ["md5", /^[a-zA-Z0-9]{32}$/],
+        ["sha-1", /^[a-zA-Z0-9]{40}$/], 
+        ["sha-256", /^[a-zA-Z0-9]{64}$/], 
+        ["sha-512", /^[a-zA-Z0-9]{128}$/], 
+        ["sha3-256", /^[a-zA-Z0-9]{64}$/], 
+    ]);
 
     /**
      * The validator's parsed graph.
@@ -203,11 +213,10 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid MIME Type.");
                 }
                 // Validate Payload Bin, URL, and Hashes
-                if(payloadBin?.isDefined() && url?.isDefined()) {
-                    this.addError(id, "Artifact must have either have a Payload Bin or URL, not both.");
-                }
-                if(url?.isDefined() && !hashes?.isDefined()) {
-                    this.addError(id, "Artifact URL must also have a Hash.");
+                if (payloadBin?.isDefined() && (url?.isDefined() || hashes?.isDefined()) ||
+                   (url?.isDefined() && !hashes?.isDefined()) ||
+                   (hashes?.isDefined() && !url?.isDefined())) {
+                        this.addError(id, "An artifact must have either a payload or a URL + hash, but not both.");
                 }
                 // Validate hashes
                 if(hashes?.isDefined()) {
@@ -231,7 +240,7 @@ class AttackFlowValidator extends DiagramValidator {
                 }                
                 break;
 
-            case "file": {
+            case "file":
                 const name = node.props.value.get("name");
                 const hashes = node.props.value.get("hashes");
                 if(!hashes?.isDefined() && !name?.isDefined()) {
@@ -241,8 +250,14 @@ class AttackFlowValidator extends DiagramValidator {
                     this.validateHash(id, hashes as ListProperty);
                 }
                 break;
-            }
             
+            case "flow":
+                const scope = node.props.value.get("scope");
+                if (!scope?.isDefined()) {
+                    this.addError(id, "The flow properties must have a selected scope.")
+                }
+                break;
+
             case "grouping":
                 if(node.next.length === 0) {
                     this.addError(id, "A Grouping must point to at least one object.");
@@ -334,6 +349,16 @@ class AttackFlowValidator extends DiagramValidator {
                 if(windows_key?.isDefined() && !AttackFlowValidator.WindowsRegistryRegex.test(windows_key.toString())) {
                     this.addError(id, "Invalid Windows registry key.");
                 }
+                const regValues = node.props.value.get("values") as ListProperty;
+                for (const regValue of regValues.value.values()) {
+                    const regName = (regValue as DictionaryProperty).value.get("name");
+                    const regData = (regValue as DictionaryProperty).value.get("data");
+                    const regType = (regValue as DictionaryProperty).value.get("data_type");
+                    if (!regName?.isDefined() && !regData?.isDefined() && !regType?.isDefined()) {
+                        this.addError(id, "Windows registry value must define name, data, or data type.");
+                    }
+                    break; // only show once per node
+                }
                 break;
             
             case "x509_certificate": {
@@ -388,9 +413,8 @@ class AttackFlowValidator extends DiagramValidator {
                             case PropertyType.String:
                             case PropertyType.Date:
                             case PropertyType.Enum:
-                                let descriptor = v.descriptor as any;
-                                if(descriptor.is_required && !v.isDefined()) {
-                                    this.addError(id, `Empty item in list: '${ name }'.`);
+                                if(!v.isDefined()) {
+                                    this.addError(id, `Empty item in "${ name }" list.`);
                                 }
                                 break;
                             case PropertyType.List:
@@ -444,13 +468,15 @@ class AttackFlowValidator extends DiagramValidator {
             }
             // Make sure hash_type is not empty.
             let entries = hashDictionary.toRawValue()! as RawEntries;
-            if(!Object.fromEntries(entries).hash_type) {
+            let hashType = Object.fromEntries(entries).hash_type?.toString();
+            if (hashType === undefined) {
                 this.addError(id, "Hash Type cannot be left empty.");
-            }
-            
-            let key = hashDictionary.toString();
-            if (!validKey.test(key)) {
-                this.addError(id, "Invalid hash key.");
+            } else {
+                let value = hashDictionary.toString();
+                let regex = AttackFlowValidator.HashRegexes.get(hashType);
+                if (regex && !regex.test(value)) {
+                    this.addError(id, "Invalid hash value.");
+                }
             }
         }
     }

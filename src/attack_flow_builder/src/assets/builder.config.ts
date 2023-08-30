@@ -708,7 +708,7 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true },
                     name_enc                     : { type: PropertyType.String },
-                    size                         : { type: PropertyType.String },
+                    size                         : { type: PropertyType.Int },
                     hashes                       : {
                         type: PropertyType.List,
                         form: {
@@ -882,7 +882,39 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 properties: {
                     key                          : { type: PropertyType.String, is_primary: true },
-                    values                       : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    values                       : { 
+                        type: PropertyType.List,
+                        form: {
+                            type: PropertyType.Dictionary,
+                            form: {
+                                name: { type: PropertyType.String },
+                                data: { type: PropertyType.String, is_primary: true },
+                                data_type: {
+                                    type: PropertyType.Enum,
+                                    options: {
+                                        type: PropertyType.List,
+                                        form: { type: PropertyType.String },
+                                        value: [
+                                            ["REG_NONE", "REG_NONE"],
+                                            ["REG_SZ", "REG_SZ"],
+                                            ["REG_EXPAND_SZ", "REG_EXPAND_SZ"],
+                                            ["REG_BINARY", "REG_BINARY"],
+                                            ["REG_DWORD", "REG_DWORD"],
+                                            ["REG_DWORD_BIG_ENDIAN", "REG_DWORD_BIG_ENDIAN"],
+                                            ["REG_DWORD_LITTLE_ENDIAN", "REG_DWORD_LITTLE_ENDIAN"],
+                                            ["REG_LINK", "REG_LINK"],
+                                            ["REG_MULTI_SZ", "REG_MULTI_SZ"],
+                                            ["REG_RESOURCE_LIST", "REG_RESOURCE_LIST"],
+                                            ["REG_FULL_RESOURCE_DESCRIPTION", "REG_FULL_RESOURCE_DESCRIPTION"],
+                                            ["REG_RESOURCE_REQUIREMENTS_LIST", "REG_RESOURCE_REQUIREMENTS_LIST"],
+                                            ["REG_QWORD", "REG_QWORD"],
+                                            ["REG_INVALID_TYPE", "REG_INVALID_TYPE"],
+                                        ]
+                                    }
+                                },
+                            }
+                        }
+                    },
                     modified_time                : { type: PropertyType.Date },
                     number_of_subkeys            : { type: PropertyType.Int, min: 0 },
                 },
