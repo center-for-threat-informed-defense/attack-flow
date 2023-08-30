@@ -1,5 +1,17 @@
-export class Browser {
+import { EventEmitter } from "./BlockDiagram";
+
+class DeviceManager extends EventEmitter<{
+    "dppx-change" : (dpr: number) => void;
+}> {
     
+    /**
+     * Creates a new {@link DeviceManager}.
+     */
+    constructor() {
+        super();
+        this.listenForPixelRatioChange();
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  1. Download Files  ////////////////////////////////////////////////////
@@ -21,12 +33,12 @@ export class Browser {
      *  The text file's extension.
      *  (Default: 'txt')
      */
-    public static downloadTextFile(filename: string, text: string, ext = "txt") {
+    public downloadTextFile(filename: string, text: string, ext = "txt") {
         let blob = new Blob([text], { type: "octet/stream" });
         let url = window.URL.createObjectURL(blob);
-        this._aLink.href = url;
-        this._aLink.download = `${ filename }.${ ext }`;
-        this._aLink.click();
+        DeviceManager._aLink.href = url;
+        DeviceManager._aLink.download = `${ filename }.${ ext }`;
+        DeviceManager._aLink.click();
         window.URL.revokeObjectURL(url);
     }
 
@@ -37,14 +49,14 @@ export class Browser {
      * @param canvas
      *  The image file's contents.
      */
-    public static downloadImageFile(filename: string, canvas: HTMLCanvasElement) {
+    public downloadImageFile(filename: string, canvas: HTMLCanvasElement) {
         canvas.toBlob(blob => {
             if(!blob)
                 return;
             let url = window.URL.createObjectURL(blob);
-            this._aLink.href = url;
-            this._aLink.download = `${ filename }.png`
-            this._aLink.click();
+            DeviceManager._aLink.href = url;
+            DeviceManager._aLink.download = `${ filename }.png`
+            DeviceManager._aLink.click();
             window.URL.revokeObjectURL(url);
         }, "image/octet-stream")
     }
@@ -62,7 +74,7 @@ export class Browser {
      * @returns
      *  A Promise that resolves with the chosen text file.
      */
-    public static openTextFileDialog(...fileTypes: string[]): Promise<TextFile> {
+    public openTextFileDialog(...fileTypes: string[]): Promise<TextFile> {
             
         // Create file input
         let fileInput = document.createElement("input");
@@ -106,7 +118,7 @@ export class Browser {
      *  The element to fullscreen.
      *  (Default: `document.body`)
      */
-    public static fullscreen(el: HTMLElement = document.body) {
+    public fullscreen(el: HTMLElement = document.body) {
         let cast = el as any;
         if (cast.requestFullscreen) {
             cast.requestFullscreen();
@@ -130,7 +142,7 @@ export class Browser {
      * @returns
      *  The device's current operating system class.
      */
-    public static getOperatingSystemClass(): OperatingSystem {
+    public getOperatingSystemClass(): OperatingSystem {
         if(navigator.userAgent.search("Win") !== -1) {
             return OperatingSystem.Windows
         } else if(navigator.userAgent.search("Mac") !== -1) {
@@ -143,7 +155,24 @@ export class Browser {
             return OperatingSystem.Other;
         }
     }
-    
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  5. Device Events  /////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Listens for changes in the device's current pixel ratio.
+     */
+    private listenForPixelRatioChange() {
+        window.matchMedia(`(resolution: ${ window.devicePixelRatio }dppx)`)
+            .addEventListener("change", () => {
+                this.emit("dppx-change", window.devicePixelRatio);
+                this.listenForPixelRatioChange();
+            }, { once: true });
+    }
+
 }
 
 /**
@@ -167,3 +196,7 @@ type TextFile = {
     filename: string,
     contents: string | ArrayBuffer | null | undefined
 }
+
+
+// Export Browser
+export const Browser = new DeviceManager();
