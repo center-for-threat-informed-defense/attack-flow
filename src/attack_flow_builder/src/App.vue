@@ -118,7 +118,8 @@ export default defineComponent({
     startResize(event: PointerEvent, handle: number) {
       let origin = this.frameSize[handle];
       this.drag.handle = handle;
-      this.drag.track.capture(event, (_, track) => {
+      this.drag.track.capture(event, (e, track) => {
+        e.preventDefault();
         this.onResize(origin, track);
       });
       document.addEventListener("pointerup", this.stopResize, { once: true });

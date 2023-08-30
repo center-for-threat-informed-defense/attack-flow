@@ -116,6 +116,8 @@ export default defineComponent({
      */
     startDrag(event: PointerEvent) {
       this.handle.trk.capture(event, this.onDrag);
+      // Configure stop drag
+      document.addEventListener("pointerup", this.stopDrag, { once: true });
     },
 
     /**
@@ -125,10 +127,21 @@ export default defineComponent({
      * @param track
      *  The mouse tracker.
      */
-    onDrag(_: PointerEvent, track: PointerTracker) {
+    onDrag(event: PointerEvent, track: PointerTracker) {
+      event.preventDefault();
       this.moveScrollPosition(
         this.handleTopToTop(this.handle.pos + track.movementY)
       );
+    },
+
+    /**
+     * Scroll handle drag stop behavior.
+     * @param event
+     *  The pointer event.
+     */
+    stopDrag(event: PointerEvent) {
+      // Release pointer
+      this.handle.trk.release(event);
     },
 
     /**
