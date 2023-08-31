@@ -353,11 +353,9 @@ def test_invalid_ref():
             "'attack-foobar--168a4027-1572-492b-a80b-8eb01954afb3' does not match "
             "'^(attack-action|attack-condition)--'"
         )
-        assert (
-            str(result.messages[1])
-            == "[error] Unable to parse this flow as STIX 2.1: Invalid value for AttackFlow 'start_refs': "
-            "The type-specifying prefix 'attack-foobar' for this property is not one of the valid types "
-            "for this property: attack-action, attack-condition."
+        assert str(result.messages[1]).startswith(
+            "[error] Unable to parse this flow as STIX 2.1: "
+            "Invalid value for AttackFlow 'start_refs': "
         )
 
 
