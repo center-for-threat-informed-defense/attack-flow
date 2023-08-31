@@ -213,10 +213,10 @@ class AttackFlowValidator extends DiagramValidator {
                     this.addError(id, "Invalid MIME Type.");
                 }
                 // Validate Payload Bin, URL, and Hashes
-                if (payloadBin?.isDefined() && (url?.isDefined() || hashes?.isDefined()) ||
-                   (url?.isDefined() && !hashes?.isDefined()) ||
-                   (hashes?.isDefined() && !url?.isDefined())) {
-                        this.addError(id, "An artifact must have either a payload or a URL + hash, but not both.");
+                if (payloadBin?.isDefined() === url?.isDefined()) {
+                    this.addError(id, "An artifact must have either a payload or a URL, but not both.");
+                } else if (url?.isDefined() && !hashes?.isDefined()) {
+                    this.addError(id, "An artifact with a URL must have at least one hash.");
                 }
                 // Validate hashes
                 if(hashes?.isDefined()) {
