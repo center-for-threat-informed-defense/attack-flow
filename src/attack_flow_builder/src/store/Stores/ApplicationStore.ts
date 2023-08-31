@@ -26,7 +26,6 @@ export default {
         activePage: PageEditor.createDummy(),
         finder: new Finder(),
         recoveryBank: new PageRecoveryBank(),
-        splashIsVisible: false,
     },
     getters: {
 
@@ -165,7 +164,7 @@ export default {
             return state.finder.getCurrentResult();
         },
       
-        /*
+        /**
          * Indicates whether the splash menu is visible.
          * @param state
          *  The Vuex state.
@@ -173,7 +172,7 @@ export default {
          *  True if the splash menu is visible.
          */
         isShowingSplash(state): boolean {
-            return state.splashIsVisible;
+            return state.settings.view.splash_menu.display_menu;
         }
 
     },

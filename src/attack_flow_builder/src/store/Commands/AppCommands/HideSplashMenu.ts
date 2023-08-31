@@ -4,7 +4,7 @@ import { ApplicationStore } from "@/store/StoreTypes";
 export class HideSplashMenu extends AppCommand {
 
     /**
-     * Display the find dialog
+     * Hide the splash menu.
      * @param context
      *  The application context.
      */
@@ -16,7 +16,7 @@ export class HideSplashMenu extends AppCommand {
      * Executes the command.
      */
     public execute(): void {
-        this._context.splashIsVisible = false;
+        this._context.settings.view.splash_menu.display_menu = false;
     }
 
 }

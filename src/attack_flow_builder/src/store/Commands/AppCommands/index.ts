@@ -1,5 +1,6 @@
 export * from "./ClearPageRecoveryBank";
 export * from "./CopySelectedChildren";
+export * from "./DeletePageFromRecoveryBank";
 export * from "./GroupCommand";
 export * from "./HideFindDialog";
 export * from "./HideSplashMenu";
@@ -9,6 +10,7 @@ export * from "./MoveToNextFindResult";
 export * from "./MoveToPreviousFindResult";
 export * from "./NullCommand";
 export * from "./OpenHyperlink";
+export * from "./PrepareEditorWithFile";
 export * from "./PublishPageToDevice";
 export * from "./SavePageImageToDevice";
 export * from "./SavePageToDevice"

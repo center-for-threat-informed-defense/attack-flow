@@ -34,7 +34,6 @@ export type ApplicationStore = {
     activePage: PageEditor,
     finder: Finder,
     recoveryBank: PageRecoveryBank,
-    splashIsVisible: boolean,
 }
 
 /**
@@ -72,6 +71,9 @@ export const BaseAppSettings: AppSettings = {
             display_debug_mode: false,
             render_high_quality: true,
             disable_shadows_at: 0
+        },
+        splash_menu: {
+            display_menu: true
         }
     },
     hotkeys: {
@@ -145,7 +147,10 @@ export type AppSettings = {
         clone_offset: [number, number]
     },
     view: {
-        diagram: DiagramDisplaySettings
+        diagram: DiagramDisplaySettings,
+        splash_menu: {
+            display_menu: boolean
+        }
     },
     hotkeys: {
         file: FileHotkeys,
@@ -246,21 +251,12 @@ export type SelectHotkeys = {
 //  3. App Configuration  /////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-/**
- * Actions that a splash button can execute.
- */
-export enum SplashButtonAction {
-    New    = "new",
-    Open   = "open",
-    Link   = "link",
-}
 
 /**
  * Configuration for a splash button.
  */
 export type SplashButton = {
-    action: string;
-    name: string;
+    title: string;
     description: string;
     url?: string;
 }
@@ -273,9 +269,10 @@ export type AppConfiguration = {
     application_name: string,
     application_icon: string,
     splash: {
-        product: string,
         organization: string,
-        buttons: Array<SplashButton>,
+        new_file: SplashButton
+        open_file: SplashButton
+        help_links: SplashButton[]
     },
     file_type_name: string,
     file_type_extension: string,

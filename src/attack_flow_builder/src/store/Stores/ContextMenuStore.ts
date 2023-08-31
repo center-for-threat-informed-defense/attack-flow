@@ -61,23 +61,13 @@ export default {
                     {
                         text: "New File",
                         type: MenuType.Item,
-                        data: async () => {
-                            const cmd = new App.GroupCommand(ctx);
-                            cmd.add(await App.LoadFile.fromNew(ctx));
-                            cmd.add(new App.HideSplashMenu(ctx));
-                            return cmd;
-                        },
+                        data: () => App.PrepareEditorWithFile.fromNew(ctx),
                         shortcut: file.new_file,
                     },
                     {
                         text: `Open File...`,
                         type: MenuType.Item,
-                        data: async () => {
-                            const cmd = new App.GroupCommand(ctx);
-                            cmd.add(await App.LoadFile.fromFileSystem(ctx));
-                            cmd.add(new App.HideSplashMenu(ctx));
-                            return cmd;
-                        },
+                        data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
                         shortcut: file.open_file,
                     }
                 ],
@@ -110,7 +100,7 @@ export default {
                 items.push({
                     text: page.name,
                     type: MenuType.Item,
-                    data: () => App.LoadFile.fromFile(ctx, page.file)
+                    data: () => App.PrepareEditorWithFile.fromFile(ctx, page.file)
                 })
             }
             if(items.length === 0) {

@@ -59,12 +59,12 @@ export default {
             let isValid = rootGetters["ApplicationStore/isValid"];
             return [
                 {
-                    data: () => App.LoadFile.fromNew(ctx),
+                    data: () => App.PrepareEditorWithFile.fromNew(ctx),
                     shortcut: file.new_file,
                     repeatable: false
                 },
                 {
-                    data: () => App.LoadFile.fromFileSystem(ctx),
+                    data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
                     shortcut: file.open_file,
                     repeatable: false
                 },

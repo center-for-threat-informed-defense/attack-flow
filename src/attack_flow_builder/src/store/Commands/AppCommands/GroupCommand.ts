@@ -9,7 +9,7 @@ export class GroupCommand extends AppCommand {
     public readonly commands: ReadonlyArray<AppCommand>;
 
     /**
-     * Executes a series of page commands.
+     * Executes a series of application commands.
      * @param context
      *  The application context.
      */
@@ -35,4 +35,5 @@ export class GroupCommand extends AppCommand {
             command.execute();
         }
     }
+
 }
