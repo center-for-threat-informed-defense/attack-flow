@@ -1,5 +1,5 @@
-import { Crypto } from "./scripts/BlockDiagram/Utilities/Crypto";
-import { DiagramPublisher } from "./scripts/DiagramPublisher/DiagramPublisher";
+import { Crypto } from "../scripts/BlockDiagram/Utilities/Crypto";
+import { DiagramPublisher } from "../scripts/DiagramPublisher/DiagramPublisher";
 import {
     CollectionProperty,
     DiagramObjectModel,
@@ -13,7 +13,7 @@ import {
     RawEntries,
     SemanticAnalyzer,
     StringProperty
-} from "./scripts/BlockDiagram";
+} from "../scripts/BlockDiagram";
 
 
 ///////////////////////////////////////////////////////////////////////////////

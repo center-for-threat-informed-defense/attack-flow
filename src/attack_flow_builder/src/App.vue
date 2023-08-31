@@ -5,7 +5,7 @@
     <div id="app-body" ref="body" :style="gridLayout">
       <div class="frame center">
         <BlockDiagram id="block-diagram"/>
-        <SplashMenu id="splash-menu" />
+        <SplashMenu id="splash-menu" v-if="isShowingSplash" />
       </div>
       <div class="frame right">
         <div class="resize-handle" @pointerdown="startResize($event, Handle.Right)"></div>
@@ -21,16 +21,16 @@
 <script lang="ts">
 import * as App from './store/Commands/AppCommands';
 import * as Store from "@/store/StoreTypes";
-import Configuration from "@/assets/builder.config"
+import Configuration from "@/assets/configuration/builder.config"
 // Dependencies
 import { clamp } from "./assets/scripts/BlockDiagram";
 import { PointerTracker } from "./assets/scripts/PointerTracker";
-import { mapMutations, mapState } from 'vuex';
 import { Browser, OperatingSystem } from "./assets/scripts/Browser";
 import { defineComponent, markRaw, ref } from 'vue';
+import { mapMutations, mapGetters, mapState } from 'vuex';
 // Components
 import FindDialog from "@/components/Elements/FindDialog.vue";
-import SplashMenu from "@/components/Controls/SplashMenu.vue";
+import SplashMenu from "@/components/Elements/SplashMenu.vue";
 import AppTitleBar from "@/components/Elements/AppTitleBar.vue";
 import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
@@ -53,7 +53,7 @@ export default defineComponent({
       bodyWidth: -1,
       bodyHeight: -1,
       frameSize: {
-        [Handle.Right]: 350
+        [Handle.Right]: 355
       },
       minFrameSize: {
         [Handle.Right]: 310
@@ -75,6 +75,11 @@ export default defineComponent({
         return state;
       }
     }),
+
+    /**
+     * Application Store getters
+     */
+    ...mapGetters("ApplicationStore", ["isShowingSplash"]),
 
     /**
      * Returns the current grid layout.
@@ -192,13 +197,11 @@ export default defineComponent({
     if(src) {
       try {
         // TODO: Incorporate loading dialog
-        this.execute(await App.LoadFile.fromUrl(this.context, src));
+        this.execute(await App.PrepareEditorWithFile.fromUrl(this.context, src));
       } catch(ex) {
         console.error(`Failed to load file from url: '${ src }'`);
         console.error(ex);
       }
-    } else {
-      this.execute(new App.ShowSplashMenu(this.context));
     }
   },
   mounted() {
@@ -295,6 +298,10 @@ ul {
   box-sizing: border-box;
 }
 
+#splash-menu {
+  position: absolute;
+}
+
 #app-sidebar {
   width: 100%;
   height: 100%;
@@ -312,6 +319,12 @@ ul {
 
 .frame {
   position: relative;
+}
+
+.frame.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .frame.bottom {

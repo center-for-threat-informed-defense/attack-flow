@@ -1,4 +1,4 @@
-import Configuration from "@/assets/builder.config";
+import Configuration from "@/assets/configuration/builder.config";
 import { Module } from "vuex"
 import { PageEditor } from "@/store/PageEditor";
 import { AppCommand } from "@/store/Commands/AppCommand";
@@ -26,9 +26,14 @@ export default {
         activePage: PageEditor.createDummy(),
         finder: new Finder(),
         recoveryBank: new PageRecoveryBank(),
-        splashIsVisible: false,
     },
     getters: {
+
+        
+        ///////////////////////////////////////////////////////////////////////
+        //  1. Application Clipboard  /////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
 
         /**
          * Tests if the clipboard has contents.
@@ -40,6 +45,12 @@ export default {
         hasClipboardContents(state): boolean {
             return 0 < state.clipboard.length;
         },
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //  2. Application Selection  /////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
 
         /**
          * Tests if the active page has a selection.
@@ -67,6 +78,12 @@ export default {
             return state.activePage.trigger.value ? s : s;
         },
 
+
+        ///////////////////////////////////////////////////////////////////////
+        //  3. Application Command History  ///////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
         /**
          * Tests if the last command on the active page can be undone.
          * @returns
@@ -88,6 +105,12 @@ export default {
             // Use trigger to trip the reactivity system
             return (state.activePage.trigger.value ? p : p).canRedo();
         },
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //  4. Application Page Validation  ///////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
 
         /**
          * Tests if the active page represents a valid diagram per the
@@ -132,6 +155,12 @@ export default {
             return (state.activePage.trigger.value ? p : p).getValidationWarnings();
         },
 
+
+        ///////////////////////////////////////////////////////////////////////
+        //  5. Application Page Find  /////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
         /**
          * Indicates whether the find dialog is visible.
          * @param state
@@ -164,8 +193,12 @@ export default {
         currentFindResult(state): FindResult | null {
             return state.finder.getCurrentResult();
         },
+
+        ///////////////////////////////////////////////////////////////////////
+        //  6. Application Splash Menu  ///////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
       
-        /*
+        /**
          * Indicates whether the splash menu is visible.
          * @param state
          *  The Vuex state.
@@ -173,7 +206,7 @@ export default {
          *  True if the splash menu is visible.
          */
         isShowingSplash(state): boolean {
-            return state.splashIsVisible;
+            return state.settings.view.splash_menu.display_menu;
         }
 
     },

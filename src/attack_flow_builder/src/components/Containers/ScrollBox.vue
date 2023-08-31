@@ -9,6 +9,7 @@
       <slot></slot>
     </div>
     <div
+      ref="scrollbar"
       class="scroll-bar"
       :style="scroll.sty"
       @wheel.passive="onScrollWheel"
@@ -33,7 +34,8 @@ export default defineComponent({
   name: "ScrollBox",
   setup() {
     return { 
-      content: ref<HTMLElement | null>(null)
+      content: ref<HTMLElement | null>(null),
+      scrollbar: ref<HTMLElement | null>(null),
     }
   },
   props: {
@@ -185,9 +187,10 @@ export default defineComponent({
       }
       // Compute ratio
       let ratio = content.clientHeight / content.scrollHeight;
-      // Update scroll state (-4 for the 2px of padding around the scrollbar)
-      this.handle.hei = Math.max(15, Math.round((content.clientHeight - 4) * ratio));
-      this.handle.max = content.clientHeight - this.handle.hei - 4;
+      // Compute scroll parameters
+      let scrollBarSpace = this.getScrollBarHeight();
+      this.handle.hei = Math.max(15, Math.round(scrollBarSpace * ratio));
+      this.handle.max = scrollBarSpace - this.handle.hei;
       this.windowMax  = content.scrollHeight - content.clientHeight;
       // Update scroll handle
       this.showScrollbar = ratio !== 1;
@@ -244,6 +247,21 @@ export default defineComponent({
      */
     handleTopToTop(top: number): number {
       return (top / this.handle.max) * this.windowMax;
+    },
+
+    /**
+     * Returns the scrollbar's height (excluding padding, borders, and margin).
+     * @returns
+     *  The scrollbar's true height.
+     */
+    getScrollBarHeight(): number {
+      if(this.scrollbar) {
+        let cs = getComputedStyle(this.scrollbar);
+        let padding = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+        return this.scrollbar.clientHeight - padding;
+      } else {
+        return 0;
+      }
     }
 
   },

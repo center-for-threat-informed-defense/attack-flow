@@ -3,14 +3,14 @@ import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
 import processor from "./builder.config.processor";
 import { AppConfiguration } from "@/store/StoreTypes";
-import { Colors, DarkTheme } from "./scripts/BlockDiagram/DiagramFactory/Themes";
+import { Colors, DarkTheme } from "../scripts/BlockDiagram/DiagramFactory/Themes";
 import {
     AnchorAngle,
     EnumPropertyDescriptor,
     PropertyType,
     SemanticRole,
     TemplateType
-} from "./scripts/BlockDiagram";
+} from "../scripts/BlockDiagram";
 
 const BoolEnum: EnumPropertyDescriptor = {
     type: PropertyType.Enum,
@@ -24,35 +24,30 @@ const BoolEnum: EnumPropertyDescriptor = {
 const config: AppConfiguration = {
     is_web_hosted: false,
     application_name: "Attack Flow Builder",
+    application_icon: "./engenuity_icon_small.png",
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
-    menu_icon: "./ctid-small.png",
     splash: {
-        product: "./afb.png",
-        organization: "./ctid.png",
-        buttons: [
+        organization: "./ctid_logo.png",
+        new_file: {
+            title: "New Flow",
+            description: "Create a new, blank Flow.",
+        },
+        open_file: {
+            title: "Open Flow",
+            description: "Open an existing Flow."
+        },
+        help_links: [
             {
-                action: "new",
-                name: "New Flow",
-                description: "Create a new, blank flow",
-            },
-            {
-                action: "open",
-                name: "Open Flow",
-                description: "Open an existing flow from your computer"
-            },
-            {
-                action: "link",
-                name: "Example Flows",
-                description: "View a list of example flows", 
+                title: "Example Flows",
+                description: "Visit a list of example Flows.", 
                 url: "https://center-for-threat-informed-defense.github.io/attack-flow/example_flows/"
             },
             {
-                action: "link",
-                name: "Builder Help",
-                description: "View help for Attack Flow Builder", 
+                title: "Builder Help",
+                description: "Read the Builder's User Guide.", 
                 url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
-            },
+            }
         ],
     },
     schema: {

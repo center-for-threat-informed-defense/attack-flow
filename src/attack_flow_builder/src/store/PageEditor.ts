@@ -1,5 +1,5 @@
 import pkg from "~/package.json";
-import Configuration from "@/assets/builder.config";
+import Configuration from "@/assets/configuration/builder.config";
 import { PageCommand } from "./Commands/PageCommand";
 import { markRaw, ref, Ref } from "vue";
 import {

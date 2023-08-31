@@ -1,4 +1,4 @@
-import Configuration from "@/assets/builder.config";
+import Configuration from "@/assets/configuration/builder.config";
 import { AppCommand } from "../AppCommand";
 import { ApplicationStore } from "@/store/StoreTypes";
 import { Browser } from "@/assets/scripts/Browser";
@@ -30,7 +30,7 @@ export class LoadFile extends AppCommand {
      * @param context
      *  The application context.
      * @returns
-     *  The {@link LoadFile} command.
+     *  A Promise that resolves with the {@link LoadFile} command.
      */
     public static async fromNew(context: ApplicationStore): Promise<LoadFile> {
         let schema = structuredClone(Configuration.schema);
@@ -45,7 +45,7 @@ export class LoadFile extends AppCommand {
      * @param file
      *  The page export.
      * @returns
-     *  The {@link LoadFile} command.
+     *  A Promise that resolves with the {@link LoadFile} command.
      */
     public static async fromFile(context: ApplicationStore, file: string): Promise<LoadFile> {
         let page = await PageEditor.fromFile(file);
@@ -57,7 +57,7 @@ export class LoadFile extends AppCommand {
      * @param context
      *  The application context.
      * @returns
-     *  The {@link LoadFile} command.
+     *  A Promise that resolves with the {@link LoadFile} command.
      */
     public static async fromFileSystem(context: ApplicationStore): Promise<LoadFile> {
         let ext = Configuration.file_type_extension;
@@ -73,7 +73,7 @@ export class LoadFile extends AppCommand {
      * @param url
      *  The remote url.
      * @returns
-     *  The {@link LoadFile} command.
+     *  A Promise that resolves with the {@link LoadFile} command.
      */
     public static async fromUrl(context: ApplicationStore, url: string): Promise<LoadFile> {
         let file = await (await fetch(url, { credentials: "omit" })).text();

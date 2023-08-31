@@ -4,7 +4,7 @@ import { ApplicationStore } from "@/store/StoreTypes";
 export class ShowSplashMenu extends AppCommand {
 
     /**
-     * Display the find dialog
+     * Display the splash menu.
      * @param context
      *  The application context.
      */
@@ -16,7 +16,7 @@ export class ShowSplashMenu extends AppCommand {
      * Executes the command.
      */
     public execute(): void {
-        this._context.splashIsVisible = true;
+        this._context.settings.view.splash_menu.display_menu = true;
     }
 
 }

@@ -29,6 +29,7 @@ export class PageRecoveryBank {
             let id = key.substring(PageRecoveryBank.PREFIX.length);
             this.pages.set(id, value);
         }
+        this.sortStore();
     }
 
 
@@ -49,6 +50,8 @@ export class PageRecoveryBank {
         this.pages.set(editor.id, value);
         // Mirror to local storage
         localStorage.setItem(key, JSON.stringify(value));
+        // Resort store
+        this.sortStore();
     }
 
     /**
@@ -64,6 +67,25 @@ export class PageRecoveryBank {
             // Mirror to local storage
             localStorage.removeItem(key);
         }
+    }
+
+    /**
+     * Sorts the page editor bank in reverse chronological order.
+     */
+    private sortStore() {
+        let date = /^(?:.|\n)*\s{1}\((.*)\)$/m;
+        let pages = [...this.pages];
+        pages.sort((a, b) => {
+            let parse1 = date.exec(a[1].name);
+            let parse2 = date.exec(b[1].name);
+            if(!parse1 || !parse2) {
+                return 0;
+            }
+            let date1 = new Date(parse1[1]);
+            let date2 = new Date(parse2[1]);
+            return date2.getTime() - date1.getTime();
+        });
+        this.pages = new Map(pages);
     }
 
 }
