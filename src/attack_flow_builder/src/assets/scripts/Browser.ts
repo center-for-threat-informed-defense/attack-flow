@@ -9,7 +9,10 @@ class DeviceManager extends EventEmitter<{
      */
     constructor() {
         super();
-        this.listenForPixelRatioChange();
+        if (typeof document !== "undefined") {
+            this.listenForPixelRatioChange();
+            this._aLink = document.createElement("a");
+        }
     }
 
 
@@ -21,7 +24,7 @@ class DeviceManager extends EventEmitter<{
     /**
      * The internal download link used to initiate downloads.
      */
-    private static _aLink = document.createElement("a");
+    private _aLink?: HTMLAnchorElement;
 
     /**
      * Downloads a text file.
@@ -34,12 +37,14 @@ class DeviceManager extends EventEmitter<{
      *  (Default: 'txt')
      */
     public downloadTextFile(filename: string, text: string, ext = "txt") {
-        let blob = new Blob([text], { type: "octet/stream" });
-        let url = window.URL.createObjectURL(blob);
-        DeviceManager._aLink.href = url;
-        DeviceManager._aLink.download = `${ filename }.${ ext }`;
-        DeviceManager._aLink.click();
-        window.URL.revokeObjectURL(url);
+        if (this._aLink) {
+            let blob = new Blob([text], { type: "octet/stream" });
+            let url = window.URL.createObjectURL(blob);
+            this._aLink.href = url;
+            this._aLink.download = `${ filename }.${ ext }`;
+            this._aLink.click();
+            window.URL.revokeObjectURL(url);
+        }
     }
 
     /**
@@ -51,14 +56,16 @@ class DeviceManager extends EventEmitter<{
      */
     public downloadImageFile(filename: string, canvas: HTMLCanvasElement) {
         canvas.toBlob(blob => {
-            if(!blob)
-                return;
-            let url = window.URL.createObjectURL(blob);
-            DeviceManager._aLink.href = url;
-            DeviceManager._aLink.download = `${ filename }.png`
-            DeviceManager._aLink.click();
-            window.URL.revokeObjectURL(url);
-        }, "image/octet-stream")
+            if (this._aLink) {
+                if(!blob)
+                    return;
+                let url = window.URL.createObjectURL(blob);
+                this._aLink.href = url;
+                this._aLink.download = `${ filename }.png`
+                this._aLink.click();
+                window.URL.revokeObjectURL(url);
+            }
+        }, "image/octet-stream");
     }
 
 
