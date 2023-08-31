@@ -212,9 +212,11 @@ export default defineComponent({
 .application-info .application-name {
   font-size: 13.5pt;
   font-weight: 700;
+  white-space: nowrap;
 }
 .application-info .application-version {
   font-size: 9.5pt;
+  white-space: nowrap;
 }
 
 .organization {
