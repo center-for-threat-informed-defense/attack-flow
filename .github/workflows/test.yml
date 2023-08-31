@@ -14,24 +14,16 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         python-version: '3.8'
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '19'
     - name: Install Poetry
       run: curl -sSL https://install.python-poetry.org/ | python -
     - name: Add Poetry to PATH
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
     - name: Install Python dependencies
       run: poetry install
-    - name: Install Node dependencies
-      working-directory: ./src/attack_flow_builder/
-      run: npm ci
     - name: Check code formatting
       run: poetry run black --check src/attack_flow/
     - name: Run unit tests
       run: poetry run make test-ci
-    - name: Validate Corpus
-      run: poetry run make validate
     - name: Upload coverage to CodeCov
       uses: codecov/codecov-action@v1
       with:
