@@ -198,7 +198,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 35px;
+  padding: 18px 30px;
   border-bottom: solid 1px #383838;
   background: #2e2e2e;
   pointer-events: none;
