@@ -316,6 +316,7 @@ export default defineComponent({
 
 .file-title {
   font-size: 11pt;
+  margin-right: 20px;
 }
 
 .button-title {
