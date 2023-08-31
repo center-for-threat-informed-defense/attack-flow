@@ -4,6 +4,7 @@ Tools for working with the Attack Flow schema.
 import json
 import functools
 from pathlib import Path
+import re
 import urllib.parse
 
 import jsonschema
@@ -121,10 +122,8 @@ def validate_doc(flow_path):
         graph = bundle_to_networkx(bundle).to_undirected()
         check_graph(graph, result)
         check_best_practices(graph, result)
-    except stix2.exceptions.STIXError:
-        result.add_error(
-            "Unable to parse this flow as STIX 2.1 (maybe as a result of previous errors)"
-        )
+    except stix2.exceptions.STIXError as e:
+        result.add_error(f"Unable to parse this flow as STIX 2.1: {e}")
 
     return result
 
@@ -266,7 +265,8 @@ def check_graph(graph, result):
 
     disconnected = nodes - visited
     for node in disconnected:
-        result.add_warning(f"Node id={node} is not connected to the main flow.")
+        if not re.match(r"^(threat-actor|campaign)--", node):
+            result.add_warning(f"Node id={node} is not connected to the main flow.")
 
     # Check for dangling Attack Flow references.
     for id_, data in graph.nodes(data=True):

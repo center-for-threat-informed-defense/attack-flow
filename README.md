@@ -1,4 +1,6 @@
-[![build](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/build.yml/badge.svg)](https://github.com/center-for-threat-informed-defense/attack-flow/actions)
+[![MITRE ATT&CK® v13](https://img.shields.io/badge/MITRE%20ATT%26CK®-v13-red)](https://attack.mitre.org/versions/v13/)
+[![test](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/test.yml/badge.svg)](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/test.yml)
+[![build](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/build.yml/badge.svg)](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow/branch/main/graph/badge.svg?token=MSGpc9mM6U)](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow)
 
 <!--
@@ -29,12 +31,12 @@ To get started, we suggest skimming the documentation to get familiar with the p
 your own attack flows using the Attack Flow Builder, which is an easy-to-use GUI tool. When you are ready to dive deep,
 review the Example Flows and JSON Schema for the language.
 
-| Resource                                                                                   | Description                                                              |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| [Documentation](https://center-for-threat-informed-defense.github.io/attack-flow/) | Complete documentation for the Attack Flow project. |
-| [Attack Flow Builder](https://center-for-threat-informed-defense.github.io/attack-flow/ui/)                                                                        | An online GUI tool for building Attack Flows.                                    |
-| [JSON Schema](/stix/attack-flow-schema-2.0.0.json)                                   | The language specification expressed as a JSON Schema.                                      |
-| [Example Flows](/corpus/)                                                                  | A corpus of example Attack Flows.                                        |
+| Resource                                                                                    | Description                                            |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| [Documentation](https://center-for-threat-informed-defense.github.io/attack-flow/)          | Complete documentation for the Attack Flow project.    |
+| [Attack Flow Builder](https://center-for-threat-informed-defense.github.io/attack-flow/ui/) | An online GUI tool for building Attack Flows.          |
+| [JSON Schema](/stix/attack-flow-schema-2.0.0.json)                                          | The language specification expressed as a JSON Schema. |
+| [Example Flows](/corpus/)                                                                   | A corpus of example Attack Flows.                      |
 
 ## Getting Involved
 

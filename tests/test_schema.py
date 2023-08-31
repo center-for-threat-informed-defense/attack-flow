@@ -349,11 +349,13 @@ def test_invalid_ref():
         assert len(result.messages) == 2
         assert (
             str(result.messages[0])
-            == "[error] attack-foobar--168a4027-1572-492b-a80b-8eb01954afb3: 'attack-foobar--168a4027-1572-492b-a80b-8eb01954afb3' does not match '^(attack-action|attack-condition)--'"
+            == "[error] attack-foobar--168a4027-1572-492b-a80b-8eb01954afb3: "
+            "'attack-foobar--168a4027-1572-492b-a80b-8eb01954afb3' does not match "
+            "'^(attack-action|attack-condition)--'"
         )
-        assert (
-            str(result.messages[1])
-            == "[error] Unable to parse this flow as STIX 2.1 (maybe as a result of previous errors)"
+        assert str(result.messages[1]).startswith(
+            "[error] Unable to parse this flow as STIX 2.1: "
+            "Invalid value for AttackFlow 'start_refs': "
         )
 
 

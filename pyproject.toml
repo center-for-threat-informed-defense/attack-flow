@@ -11,9 +11,7 @@ authors = [
     "Michael Carenzo <mcarenzo@mitre.org>",
     "Ron Alford <ralford@mitre.org>",
 ]
-packages = [
-    { include = "attack_flow", from = "src" },
-]
+packages = [{ include = "attack_flow", from = "src" }]
 license = "Apache"
 
 [tool.poetry.scripts]
@@ -21,7 +19,7 @@ af = "attack_flow.cli:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-jsonschema = {version = "~=4.1", extras = ["format"]}
+jsonschema = "4.17.3"
 Sphinx = "^4.5.0"
 sphinx-autobuild = "^2021.3.14"
 stix2 = "^3.0.1"
@@ -37,7 +35,7 @@ pytest = "^7.1.2"
 pytest-cov = "2.11.1"
 pytest-flake8 = "1.0.7"
 pytest-mock = "3.5.1"
-safety = "1.10.3"
+safety = "^2.3.5"
 sphinx-rtd-theme = "^1.0.0"
 black = "^22.3.0"
 bumpver = "^2022.1119"
@@ -55,16 +53,10 @@ tag = true
 
 [tool.bumpver.file_patterns]
 # pep440_version does not have the "v" prefix
-"pyproject.toml" = [
-    'version = "{pep440_version}"',
-]
-"docs/conf.py" = [
-    'version = "{version}"'
-]
+"pyproject.toml" = ['version = "{pep440_version}"']
+"docs/conf.py" = ['version = "{version}"']
 "docs/developers.rst" = [
     "    Installing the current project: attack-flow ({pep440_version})",
     "    Attack Flow version {pep440_version}",
 ]
-"src/attack_flow_builder/package.json" = [
-    '"version": "{pep440_version}",'
-]
+"src/attack_flow_builder/package.json" = ['"version": "{pep440_version}",']

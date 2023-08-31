@@ -70,6 +70,11 @@ jobs:
         path: docs/extra/ui
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
+    - name: Validate Corpus
+      env:
+        # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+        NODE_OPTIONS: "--openssl-legacy-provider"
+      run: poetry run make validate
     - name: Copy corpus into docs
       env:
         # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532

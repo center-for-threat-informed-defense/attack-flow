@@ -3,14 +3,15 @@ SOURCEDIR = docs/
 BUILDDIR = docs/_build/
 
 .PHONY: docs
-
 docs:
 	sphinx-build -M dirhtml "$(SOURCEDIR)" "$(BUILDDIR)"
 
-docs-examples:
+src/attack_flow_builder/dist/cli.common.js: src/attack_flow_builder/src/cli.ts
+	cd src/attack_flow_builder && env VUE_CLI_SERVICE_CONFIG_PATH="${ROOTDIR}src/attack_flow_builder/vue.cli.config.js" npx vue-cli-service build --target lib --name cli --formats commonjs --no-clean src/cli.ts
+
+docs-examples: src/attack_flow_builder/dist/cli.common.js
 	mkdir -p docs/extra/corpus
 	cp corpus/*.afb docs/extra/corpus
-	cd src/attack_flow_builder && env VUE_CLI_SERVICE_CONFIG_PATH="${ROOTDIR}src/attack_flow_builder/vue.cli.config.js" npx vue-cli-service build --target lib --name cli --formats commonjs --no-clean src/cli.ts
 	node src/attack_flow_builder/dist/cli.common.js --verbose corpus/*.afb
 	cp corpus/*.json docs/extra/corpus
 	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -t -I {} af graphviz "corpus/{}.json" "docs/extra/corpus/{}.dot"
@@ -41,7 +42,10 @@ test:
 test-ci:
 	pytest --cov=src/ --cov-report=xml
 
-validate:
+validate: src/attack_flow_builder/dist/cli.common.js
+	mkdir -p docs/extra/corpus
+	cp corpus/*.afb docs/extra/corpus
+	node src/attack_flow_builder/dist/cli.common.js --verbose corpus/*.afb
 	af validate \
 		stix/attack-flow-example.json \
 		corpus/*.json

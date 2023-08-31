@@ -23,7 +23,7 @@ def main():
     _setup_logging(args.log_level)
     try:
         result = args.command(args)
-    except Exception as e:
+    except RuntimeError as e:
         if args.log_level == "debug":
             raise
         else:
@@ -55,8 +55,9 @@ def validate(args):
     suggest_verbose = False
 
     for flow_path in args.attack_flow_docs:
-        result = attack_flow.schema.validate_doc(Path(flow_path))
         sys.stdout.write(f"{flow_path}: ")
+        sys.stdout.flush()
+        result = attack_flow.schema.validate_doc(Path(flow_path))
         if result.success:
             status = "OK" + (" (with warnings)" if result.messages else "")
         else:
@@ -171,7 +172,7 @@ def doc_examples(args):
     """
     corpus_path = Path(args.corpus_path)
     if not corpus_path.is_dir():
-        raise Exception("corpus_path must be a directory")
+        raise RuntimeError("corpus_path must be a directory")
     doc_lines = attack_flow.docs.generate_example_flows(
         jsons=corpus_path.glob("*.json"), afds=corpus_path.glob("*.afb")
     )
