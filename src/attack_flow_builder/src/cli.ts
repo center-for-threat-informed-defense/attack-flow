@@ -1,7 +1,7 @@
 // TODO doc blocks everywhere
 
 import { PageEditor } from "../src/store/PageEditor";
-import config from "../src/assets/builder.config";
+import config from "../src/assets/configuration/builder.config";
 
 // Node.js imports must use require() since the Vue compiler will not understand them.
 const fs = require("fs");
