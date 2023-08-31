@@ -101,7 +101,7 @@ jobs:
 
   github_pages:
     # This job only runs when committing or merging to main branch.
-    if: github.ref_name == 'main'
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: docs
     runs-on: ubuntu-latest
     environment:
