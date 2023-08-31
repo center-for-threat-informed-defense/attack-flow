@@ -29,6 +29,12 @@ export default {
     },
     getters: {
 
+        
+        ///////////////////////////////////////////////////////////////////////
+        //  1. Application Clipboard  /////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
         /**
          * Tests if the clipboard has contents.
          * @param state
@@ -39,6 +45,12 @@ export default {
         hasClipboardContents(state): boolean {
             return 0 < state.clipboard.length;
         },
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //  2. Application Selection  /////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
 
         /**
          * Tests if the active page has a selection.
@@ -66,6 +78,12 @@ export default {
             return state.activePage.trigger.value ? s : s;
         },
 
+
+        ///////////////////////////////////////////////////////////////////////
+        //  3. Application Command History  ///////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
         /**
          * Tests if the last command on the active page can be undone.
          * @returns
@@ -87,6 +105,12 @@ export default {
             // Use trigger to trip the reactivity system
             return (state.activePage.trigger.value ? p : p).canRedo();
         },
+
+
+        ///////////////////////////////////////////////////////////////////////
+        //  4. Application Page Validation  ///////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
 
         /**
          * Tests if the active page represents a valid diagram per the
@@ -131,6 +155,12 @@ export default {
             return (state.activePage.trigger.value ? p : p).getValidationWarnings();
         },
 
+
+        ///////////////////////////////////////////////////////////////////////
+        //  5. Application Page Find  /////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
+
         /**
          * Indicates whether the find dialog is visible.
          * @param state
@@ -163,6 +193,10 @@ export default {
         currentFindResult(state): FindResult | null {
             return state.finder.getCurrentResult();
         },
+
+        ///////////////////////////////////////////////////////////////////////
+        //  6. Application Splash Menu  ///////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
       
         /**
          * Indicates whether the splash menu is visible.
