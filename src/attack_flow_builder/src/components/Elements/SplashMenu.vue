@@ -190,6 +190,7 @@ export default defineComponent({
   border-radius: 5px;
   background: #242424;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.35);
+  overflow: hidden;
 }
 
 /** === Header === */
