@@ -35,7 +35,7 @@ const config: AppConfiguration = {
         },
         open_file: {
             title: "Open Flow",
-            description: "Open an existing Flow from your computer."
+            description: "Open an existing Flow."
         },
         help_links: [
             {
