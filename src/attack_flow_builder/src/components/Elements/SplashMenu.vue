@@ -186,6 +186,7 @@ export default defineComponent({
 .splash-menu-element {
   display: flex;
   flex-direction: column;
+  min-width: 640px;
   border: solid 1px #383838;
   border-radius: 5px;
   background: #242424;

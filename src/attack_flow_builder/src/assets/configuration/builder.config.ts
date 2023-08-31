@@ -40,12 +40,12 @@ const config: AppConfiguration = {
         help_links: [
             {
                 title: "Example Flows",
-                description: "Visit a list of example Attack Flows.", 
+                description: "Visit a list of example Flows.", 
                 url: "https://center-for-threat-informed-defense.github.io/attack-flow/example_flows/"
             },
             {
                 title: "Builder Help",
-                description: "View help for the Attack Flow Builder.", 
+                description: "Read the Builder's User Guide.", 
                 url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
             }
         ],
