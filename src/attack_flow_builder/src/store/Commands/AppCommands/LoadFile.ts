@@ -76,7 +76,7 @@ export class LoadFile extends AppCommand {
      *  A Promise that resolves with the {@link LoadFile} command.
      */
     public static async fromUrl(context: ApplicationStore, url: string): Promise<LoadFile> {
-        let file = await (await fetch(url, { credentials: "omit" })).text();
+        let file = await (await fetch(url)).text();
         let page = await PageEditor.fromFile(file);
         return new LoadFile(context, page);
     }
