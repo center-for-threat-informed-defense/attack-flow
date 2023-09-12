@@ -6,7 +6,7 @@ various offensive techniques to achieve their goals. The project helps defenders
 leaders understand how adversaries operate and improve their own defensive posture. This
 project is created and maintained by the `MITRE Engenuity Center for Threat-Informed
 Defense <https://ctid.mitre-engenuity.org/>`__ in futherance of our mission to advance
-the start of the art and and the state of the practice in threat-informed defense
+the state of the art and the state of the practice in threat-informed defense
 globally. The project is funded by our `research participants
 <https://ctid.mitre-engenuity.org/our-work/attack-flow/#RESEARCH-PARTICIPANTS>`__.
 
