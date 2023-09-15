@@ -136,6 +136,11 @@ def load_attack_flow_bundle(path):
     """
     with path.open() as f:
         bundle = parse(f, allow_custom=True)
+    # The STIX library will not parse unknown objects; it just returns them as dict. We should
+    # throw an error since it will break downstream code that expects real STIX objects.
+    for o in bundle.objects:
+        if type(o) == dict:
+            raise Exception("This object could not be parsed into STIX: %s", o)
     return bundle
 
 

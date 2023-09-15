@@ -70,6 +70,7 @@ const AttackFlowTemplatesMap: Map<string, string>
         ["condition", "attack-condition"],
         ["or", "attack-operator"],
         ["and", "attack-operator"],
+        ["email_address", "email-addr"],
     ]);
 
 
