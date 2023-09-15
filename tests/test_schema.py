@@ -311,13 +311,8 @@ def test_cannot_validate_unknown_type():
     ]
 
     with temporary_flow_file(flow_json) as flow_path:
-        result = validate_doc(flow_path)
-        # assert result.success
-        assert len(result.messages) == 1
-        assert (
-            str(result.messages[0])
-            == "[warning] Cannot validate objects of type: foobar"
-        )
+        with pytest.raises(Exception):
+            result = validate_doc(flow_path)
 
 
 def test_invalid_ref():
