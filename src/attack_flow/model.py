@@ -5,7 +5,7 @@ This file duplicates the JSON schema to some extent, which is undesirable, but I
 sure how best to refactor: generate JSON schema from this code, or generate this code
 from the JSON scheme?
 """
-from stix2 import CustomObject, parse
+from stix2 import Bundle, CustomObject, parse
 from stix2.properties import ListProperty, ReferenceProperty, StringProperty
 
 ATTACK_FLOW_EXTENSION_ID = "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4"
@@ -136,6 +136,12 @@ def load_attack_flow_bundle(path):
     """
     with path.open() as f:
         bundle = parse(f, allow_custom=True)
+    # The STIX library will not parse unknown objects; it just returns them as dict. We should
+    # throw an error since it will break downstream code that expects real STIX objects.
+    if isinstance(bundle, Bundle):
+        for o in bundle.objects:
+            if type(o) == dict:
+                raise Exception("This object could not be parsed into STIX: %s", o)
     return bundle
 
 

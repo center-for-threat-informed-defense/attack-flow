@@ -1,4 +1,5 @@
 import html
+import logging
 import textwrap
 
 import graphviz
@@ -9,6 +10,9 @@ from .model import (
     get_viz_ignored_ids,
     VIZ_IGNORE_COMMON_PROPERTIES,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 def label_escape(text):
@@ -28,6 +32,7 @@ def convert(bundle):
     ignored_ids = get_viz_ignored_ids(bundle)
 
     for o in bundle.objects:
+        logger.debug("Processing object id=%s", o.id)
         if o.type == "attack-action":
             gv.node(
                 o.id,
