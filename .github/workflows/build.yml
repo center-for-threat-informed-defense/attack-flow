@@ -57,6 +57,7 @@ jobs:
               "per_page": 50,
               "page": 1,
             });
+            console.log(files);
             const bullets = [];
             for (const file of files) {
               const flowName = file.filename;
