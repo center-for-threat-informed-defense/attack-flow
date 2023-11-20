@@ -44,20 +44,34 @@ jobs:
     - uses: actions/checkout@v3
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
+      env:
+        PR_NUMBER: ${{ github.event.number }}
       with:
           script: |
-            const flowUrl = encodeURIComponent("https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-flow/6c9f1c338515e27be2071ea48156f16b2b8a67e2/corpus/Maastricht%20University%20Ransomware.afb");
-            const builderUrl = `https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=${flowUrl}`;
-            const bullets = [
-              `* [Maastricht University Ransomware.afb](${flowUrl})`,
-            ];
-            const body = "Open this PR's flows in Attack Flow Builder:\n\n" + bullets.join("\n") + "\n";
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body,
-            })
+            const {PR_NUMBER} = process.env;
+            const builderUrl = "https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=";
+            const files = await github.rest.pulls.listFiles({
+              "owner": "center-for-threat-informed-defense",
+              "repo": "attack-flow",
+              "pull_number": PR_NUMBER,
+              "per_page": 50,
+              "page": 1,
+            });
+            const bullets = [];
+            for (const file of files) {
+              const flowName = file.filename;
+              const flowArg = encodeURIComponent(file.raw_url);
+              const flowUrl = `${builderUrl}${flowArg}`;
+              bullets.push(`* [${flowName}](${flowUrl})`);
+            }
+            if (bullets.length > 0) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "Open this PR's flows in Attack Flow Builder:\n\n" + bullets.join("\n") + "\n",
+              })
+            }
 
   # docs:
   #   needs: attack_flow_builder
