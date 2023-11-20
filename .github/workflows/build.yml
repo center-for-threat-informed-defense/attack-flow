@@ -9,8 +9,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
   id-token: write
+  pages: write
+  pull-requests: write
 
 jobs:
   # attack_flow_builder:
