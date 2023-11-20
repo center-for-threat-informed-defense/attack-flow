@@ -14,30 +14,30 @@ permissions:
   pull-requests: write
 
 jobs:
-  # attack_flow_builder:
-  #   runs-on: ubuntu-latest
+  attack_flow_builder:
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - uses: actions/setup-node@v3
-  #     with:
-  #       node-version: '19'
-  #   - name: Install dependencies
-  #     working-directory: ./src/attack_flow_builder/
-  #     run: npm ci
-  #   - name: Build
-  #     working-directory: ./src/attack_flow_builder/
-  #     env:
-  #       # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
-  #       NODE_OPTIONS: "--openssl-legacy-provider"
-  #     run: npm run build
-  #   - name: Upload artifact
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: attack_flow_builder
-  #       path: src/attack_flow_builder/dist/
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '19'
+    - name: Install dependencies
+      working-directory: ./src/attack_flow_builder/
+      run: npm ci
+    - name: Build
+      working-directory: ./src/attack_flow_builder/
+      env:
+        # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+        NODE_OPTIONS: "--openssl-legacy-provider"
+      run: npm run build
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_builder
+        path: src/attack_flow_builder/dist/
 
-  flow_link:
+  comment_flow_links:
     runs-on: ubuntu-latest
 
     steps:
@@ -77,92 +77,92 @@ jobs:
               })
             }
 
-  # docs:
-  #   needs: attack_flow_builder
-  #   runs-on: ubuntu-latest
+  docs:
+    needs: attack_flow_builder
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - uses: actions/setup-python@v4
-  #     with:
-  #       python-version: '3.8'
-  #   - uses: actions/setup-node@v3
-  #     with:
-  #       node-version: '19'
-  #   - name: Update APT
-  #     run: sudo apt update
-  #   - name: Install APT dependencies
-  #     run: sudo apt install graphviz
-  #   - name: Install Poetry
-  #     run: curl -sSL https://install.python-poetry.org/ | python -
-  #   - name: Add Poetry to PATH
-  #     run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-  #   - name: Install Python dependencies
-  #     run: poetry install
-  #   - name: Install Node dependencies
-  #     working-directory: ./src/attack_flow_builder/
-  #     run: npm ci
-  #   - name: Install Mermaid
-  #     run: npm install -g @mermaid-js/mermaid-cli
-  #   - name: Create client directory
-  #     run: mkdir docs/extra/ui
-  #   - name: Download Attack Flow Builder
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: attack_flow_builder
-  #       path: docs/extra/ui
-  #   - name: Make Attack Flow schema
-  #     run: poetry run make docs-schema
-  #   - name: Validate Corpus
-  #     env:
-  #       # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
-  #       NODE_OPTIONS: "--openssl-legacy-provider"
-  #     run: poetry run make validate
-  #   - name: Copy corpus into docs
-  #     env:
-  #       # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
-  #       NODE_OPTIONS: "--openssl-legacy-provider"
-  #     run: poetry run make docs-examples
-  #   - name: Copy matrix-viz code into docs
-  #     run: poetry run make docs-matrix
-  #   - name: Build HTML docs
-  #     run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
-  #   - name: Upload HTML docs
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: attack_flow_docs_html
-  #       path: docs/_build/dirhtml/
-  #   - name: Install TeX Live
-  #     run: sudo apt install -y latexmk texlive texlive-latex-extra
-  #   - name: Build PDF docs
-  #     run: poetry run sphinx-build -M latexpdf docs docs/_build
-  #   - name: Upload PDF docs
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: attack_flow_docs_pdf
-  #       path: docs/_build/latex/attackflow.pdf
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '19'
+    - name: Update APT
+      run: sudo apt update
+    - name: Install APT dependencies
+      run: sudo apt install graphviz
+    - name: Install Poetry
+      run: curl -sSL https://install.python-poetry.org/ | python -
+    - name: Add Poetry to PATH
+      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+    - name: Install Python dependencies
+      run: poetry install
+    - name: Install Node dependencies
+      working-directory: ./src/attack_flow_builder/
+      run: npm ci
+    - name: Install Mermaid
+      run: npm install -g @mermaid-js/mermaid-cli
+    - name: Create client directory
+      run: mkdir docs/extra/ui
+    - name: Download Attack Flow Builder
+      uses: actions/download-artifact@v3
+      with:
+        name: attack_flow_builder
+        path: docs/extra/ui
+    - name: Make Attack Flow schema
+      run: poetry run make docs-schema
+    - name: Validate Corpus
+      env:
+        # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+        NODE_OPTIONS: "--openssl-legacy-provider"
+      run: poetry run make validate
+    - name: Copy corpus into docs
+      env:
+        # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+        NODE_OPTIONS: "--openssl-legacy-provider"
+      run: poetry run make docs-examples
+    - name: Copy matrix-viz code into docs
+      run: poetry run make docs-matrix
+    - name: Build HTML docs
+      run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
+    - name: Upload HTML docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_docs_html
+        path: docs/_build/dirhtml/
+    - name: Install TeX Live
+      run: sudo apt install -y latexmk texlive texlive-latex-extra
+    - name: Build PDF docs
+      run: poetry run sphinx-build -M latexpdf docs docs/_build
+    - name: Upload PDF docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: attack_flow_docs_pdf
+        path: docs/_build/latex/attackflow.pdf
 
-  # github_pages:
-  #   # This job only runs when committing or merging to main branch.
-  #   if: startsWith(github.ref, 'refs/tags/v')
-  #   needs: docs
-  #   runs-on: ubuntu-latest
-  #   environment:
-  #     name: github-pages
-  #     url: ${{ steps.deployment.outputs.page_url }}
+  github_pages:
+    # This job only runs when committing or merging to main branch.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
-  #   steps:
-  #   - name: Setup Pages
-  #     uses: actions/configure-pages@v2
-  #   - name: Download HTML docs
-  #     uses: actions/download-artifact@v3
-  #     with:
-  #       name: attack_flow_docs_html
-  #       path: docs
-  #   - name: Upload artifact
-  #     uses: actions/upload-pages-artifact@v1
-  #     with:
-  #       path: ./docs
-  #   - name: Deploy to GitHub Pages
-  #     id: deployment
-  #     uses: actions/deploy-pages@v1
+    steps:
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
+    - name: Download HTML docs
+      uses: actions/download-artifact@v3
+      with:
+        name: attack_flow_docs_html
+        path: docs
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: ./docs
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
