@@ -61,8 +61,7 @@ jobs:
             for (const file of response.data) {
               if (file.filename.startsWith("corpus/")) {
                 const flowName = file.filename.split("/").pop();
-                const flowArg = encodeURI(file.raw_url);
-                const flowUrl = `${builderUrl}${flowArg}`;
+                const flowUrl = `${builderUrl}${file.raw_url}`;
                 bullets.push(`* [${flowName}](${flowUrl})`);
               }
             }
