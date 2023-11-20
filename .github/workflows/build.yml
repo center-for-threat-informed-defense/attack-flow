@@ -50,20 +50,21 @@ jobs:
           script: |
             const {PR_NUMBER} = process.env;
             const builderUrl = "https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=";
-            const files = await github.rest.pulls.listFiles({
+            const response = await github.rest.pulls.listFiles({
               "owner": "center-for-threat-informed-defense",
               "repo": "attack-flow",
               "pull_number": PR_NUMBER,
               "per_page": 50,
               "page": 1,
             });
-            console.log(files);
             const bullets = [];
-            for (const file of files) {
-              const flowName = file.filename;
-              const flowArg = encodeURIComponent(file.raw_url);
-              const flowUrl = `${builderUrl}${flowArg}`;
-              bullets.push(`* [${flowName}](${flowUrl})`);
+            for (const file of response.data) {
+              if (file.startsWith("corpus/")) {
+                const flowName = file.filename.split("/").pop();
+                const flowArg = encodeURIComponent(file.raw_url);
+                const flowUrl = `${builderUrl}${flowArg}`;
+                bullets.push(`* [${flowName}](${flowUrl})`);
+              }
             }
             if (bullets.length > 0) {
               github.rest.issues.createComment({
