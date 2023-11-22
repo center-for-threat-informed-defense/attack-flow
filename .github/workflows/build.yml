@@ -9,8 +9,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
   id-token: write
+  pages: write
+  pull-requests: write
 
 jobs:
   attack_flow_builder:
@@ -35,6 +36,46 @@ jobs:
       with:
         name: attack_flow_builder
         path: src/attack_flow_builder/dist/
+
+  comment_flow_links:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/github-script@v6
+      if: github.event_name == 'pull_request'
+      env:
+        PR_NUMBER: ${{ github.event.number }}
+      with:
+          script: |
+            const { PR_NUMBER, GITHUB_SHA } = process.env;
+            const builderUrl = "https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=";
+            const baseRawUrl = "https://raw.githubusercontent.com/center-for-threat-informed-defense/attack-flow"
+            const response = await github.rest.pulls.listFiles({
+              "owner": "center-for-threat-informed-defense",
+              "repo": "attack-flow",
+              "pull_number": PR_NUMBER,
+              "per_page": 50,
+              "page": 1,
+            });
+            const bullets = [];
+            for (const file of response.data) {
+              if (file.filename.startsWith("corpus/")) {
+                const flowName = file.filename.split("/").pop();
+                const flowArg = `${baseRawUrl}/${GITHUB_SHA}/corpus/${flowName}`;
+                console.log(flowArg)
+                const flowUrl = builderUrl + encodeURIComponent(flowArg);
+                bullets.push(`* [${flowName}](${flowUrl})`);
+              }
+            }
+            if (bullets.length > 0) {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: "Open this PR's flows in Attack Flow Builder:\n\n" + bullets.join("\n") + "\n",
+              })
+            }
 
   docs:
     needs: attack_flow_builder
