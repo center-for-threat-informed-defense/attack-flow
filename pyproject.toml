@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "attack-flow"
-version = "2.1.0"
+version = "2.1.5"
 description = "Attack Flow helps executives, SOC managers, and defenders easily understand how attackers compose ATT&CK techniques into attacks by developing a representation of attack flows, modeling attack flows for a small corpus of incidents, and creating visualization tools to display attack flows."
 authors = [
     "Desiree Beck <dbeck@mitre.org>",
