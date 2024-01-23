@@ -56,7 +56,7 @@ dependencies do not conflict with other Python packages you may have installed.
 
     ...
 
-    Installing the current project: attack-flow (2.1.5)
+    Installing the current project: attack-flow (2.1.6)
 
 Finally, enter the virtualenv. You can check if the installation succeeded by running
 the ``af`` command.
@@ -65,7 +65,7 @@ the ``af`` command.
 
     $ poetry shell
     py[attack-flow] $ af version
-    Attack Flow version 2.1.5
+    Attack Flow version 2.1.6
 
 .. warning::
 
