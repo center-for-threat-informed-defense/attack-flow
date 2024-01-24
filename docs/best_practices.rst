@@ -136,7 +136,10 @@ This section works through an example of mapping a report to illustrate the proc
 report used is from Cisco Talos: `"Iranian APT MuddyWater targets Turkish users via
 malicious PDFs, executables"
 <https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html>`_.
-The corresponding attack flow can be found in :doc:`example_flows`.
+The corresponding "Muddy Water" Attack Flow can be found in :doc:`example_flows`. The
+"Muddy Water" Attack Flow has some additional details and depicts two variants of the
+Muddy Water beahvior. This section is based on the older variant of Muddy Water
+campaigns.
 
 **Initial Access**
 
