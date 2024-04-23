@@ -666,6 +666,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--09b008a9-b4eb-462a-a751-a0eb58050cd9",
+            "name": "File/Path Exclusions",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1564.012",
+            "url": "https://attack.mitre.org/techniques/T1564/012",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--09b130a2-a77e-4af0-a361-f46f9aad1345",
             "name": "Linux and Mac File and Directory Permissions Modification",
             "type": "technique",
@@ -792,6 +801,15 @@ export const intel = {
             "deprecated": true
         },
         {
+            "stixId": "attack-pattern--0cc222f5-c3ff-48e6-9f52-3314baf9d37e",
+            "name": "Artificial Intelligence",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1588.007",
+            "url": "https://attack.mitre.org/techniques/T1588/007",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--0cf55441-b176-4332-89e7-2c4c7799d0ff",
             "name": "Email Hiding Rules",
             "type": "technique",
@@ -807,6 +825,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1491.002",
             "url": "https://attack.mitre.org/techniques/T1491/002",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--0d91b3c0-5e50-47c3-949a-2a796f04d144",
+            "name": "Encrypted/Encoded File",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1027.013",
+            "url": "https://attack.mitre.org/techniques/T1027/013",
             "deprecated": false
         },
         {
@@ -1023,6 +1050,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1578",
             "url": "https://attack.mitre.org/techniques/T1578",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--149b477f-f364-4824-b1b5-aa1d56115869",
+            "name": "Network Devices",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1584.008",
+            "url": "https://attack.mitre.org/techniques/T1584/008",
             "deprecated": false
         },
         {
@@ -1531,7 +1567,7 @@ export const intel = {
         },
         {
             "stixId": "attack-pattern--24769ab5-14bd-4f4e-a752-cfb185da53ee",
-            "name": "Domain Trust Modification",
+            "name": "Trust Modification",
             "type": "technique",
             "matrix": "Enterprise ATT&CK",
             "id": "T1484.002",
@@ -2043,6 +2079,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--356662f7-e315-4759-86c9-6214e2a50ff8",
+            "name": "AppDomainManager",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1574.014",
+            "url": "https://attack.mitre.org/techniques/T1574/014",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--359b00ad-9425-420b-bba5-6de8d600cbc0",
             "name": "Remote Data Staging",
             "type": "technique",
@@ -2202,6 +2247,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1584.003",
             "url": "https://attack.mitre.org/techniques/T1584/003",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--3a32740a-11b0-4bcf-b0a9-3abd0f6d3cd5",
+            "name": "AutoHotKey & AutoIT",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1059.010",
+            "url": "https://attack.mitre.org/techniques/T1059/010",
             "deprecated": false
         },
         {
@@ -2967,6 +3021,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1596",
             "url": "https://attack.mitre.org/techniques/T1596",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--561ae9aa-c28a-4144-9eec-e7027a14c8c3",
+            "name": "Electron Applications",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1218.015",
+            "url": "https://attack.mitre.org/techniques/T1218/015",
             "deprecated": false
         },
         {
@@ -4600,7 +4663,7 @@ export const intel = {
         },
         {
             "stixId": "attack-pattern--960c3c86-1480-4d72-b4e0-8c242e84a5c5",
-            "name": "Compromise Client Software Binary",
+            "name": "Compromise Host Software Binary",
             "type": "technique",
             "matrix": "Enterprise ATT&CK",
             "id": "T1554",
@@ -5109,6 +5172,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1204.003",
             "url": "https://attack.mitre.org/techniques/T1204/003",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--b0e54bf7-835e-4f44-bd8e-62f431b9b76a",
+            "name": "Container Service",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1543.005",
+            "url": "https://attack.mitre.org/techniques/T1543/005",
             "deprecated": false
         },
         {
@@ -6048,6 +6120,15 @@ export const intel = {
             "deprecated": true
         },
         {
+            "stixId": "attack-pattern--ceaeb6d8-95ee-4da2-9d42-dc6aa6ca43ae",
+            "name": "Conditional Access Policies",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1556.009",
+            "url": "https://attack.mitre.org/techniques/T1556/009",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--cf1c2504-433f-4c4e-a1f8-91de45a0318c",
             "name": "Create Cloud Instance",
             "type": "technique",
@@ -6678,6 +6759,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--e6f19759-dde3-47fc-99cc-d9f5fa4ade60",
+            "name": "SyncAppvPublishingServer",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1216.002",
+            "url": "https://attack.mitre.org/techniques/T1216/002",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--e74de37c-a829-446c-937d-56a44f0e9306",
             "name": "Additional Email Delegate Permissions",
             "type": "technique",
@@ -6711,6 +6801,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1648",
             "url": "https://attack.mitre.org/techniques/T1648",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--e8a0a025-3601-4755-abfb-8d08283329fb",
+            "name": "TCC Manipulation",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1548.006",
+            "url": "https://attack.mitre.org/techniques/T1548/006",
             "deprecated": false
         },
         {
@@ -6786,8 +6885,17 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--eb897572-8979-4242-a089-56f294f4c91d",
+            "name": "Hide Infrastructure",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1665",
+            "url": "https://attack.mitre.org/techniques/T1665",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--ebb42bbe-62d7-47d7-a55f-3b08b61d792d",
-            "name": "Domain Policy Modification",
+            "name": "Domain or Tenant Policy Modification",
             "type": "technique",
             "matrix": "Enterprise ATT&CK",
             "id": "T1484",
@@ -7407,6 +7515,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--1c5cf58c-a34a-40d7-82f4-f987cdfc2b91",
+            "name": "System Binary Proxy Execution",
+            "type": "technique",
+            "matrix": "ICS ATT&CK",
+            "id": "T0894",
+            "url": "https://attack.mitre.org/techniques/T0894",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--23270e54-1d68-4c3b-b763-b25607bcef80",
             "name": "Role Identification",
             "type": "technique",
@@ -7738,6 +7855,15 @@ export const intel = {
             "id": "T0825",
             "url": "https://attack.mitre.org/techniques/T0825",
             "deprecated": true
+        },
+        {
+            "stixId": "attack-pattern--77d9c726-b53e-481d-8bcc-1068aebfbb9d",
+            "name": "Autorun Image",
+            "type": "technique",
+            "matrix": "ICS ATT&CK",
+            "id": "T0895",
+            "url": "https://attack.mitre.org/techniques/T0895",
+            "deprecated": false
         },
         {
             "stixId": "attack-pattern--7830cfcf-b268-4ac0-a69e-73c6affbae9a",
@@ -8595,6 +8721,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--45a5fe76-eda3-4d40-8f22-c186efd6278d",
+            "name": "Internet Connection Discovery",
+            "type": "technique",
+            "matrix": "Mobile ATT&CK",
+            "id": "T1422.001",
+            "url": "https://attack.mitre.org/techniques/T1422/001",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--45dcbc83-4abc-4de1-b643-e528d1e9df09",
             "name": "Biometric Spoofing",
             "type": "technique",
@@ -8817,6 +8952,15 @@ export const intel = {
             "matrix": "Mobile ATT&CK",
             "id": "T1407",
             "url": "https://attack.mitre.org/techniques/T1407",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--6ecbc2eb-e85a-440a-ab68-4d98f8d56fbe",
+            "name": "Exploitation for Initial Access",
+            "type": "technique",
+            "matrix": "Mobile ATT&CK",
+            "id": "T1664",
+            "url": "https://attack.mitre.org/techniques/T1664",
             "deprecated": false
         },
         {
@@ -9288,6 +9432,15 @@ export const intel = {
             "deprecated": true
         },
         {
+            "stixId": "attack-pattern--be63612f-a48f-44f2-a7a6-1763509fcf80",
+            "name": "Wi-Fi Discovery",
+            "type": "technique",
+            "matrix": "Mobile ATT&CK",
+            "id": "T1422.002",
+            "url": "https://attack.mitre.org/techniques/T1422/002",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--c08366bb-8d11-4921-853f-f0a3b6a2a1da",
             "name": "Compromise Hardware Supply Chain",
             "type": "technique",
@@ -9522,6 +9675,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--dfafc230-5465-4993-8dc5-f51fa9fec002",
+            "name": "SSL Pinning",
+            "type": "technique",
+            "matrix": "Mobile ATT&CK",
+            "id": "T1521.003",
+            "url": "https://attack.mitre.org/techniques/T1521/003",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--dfe29258-ce59-421c-9dee-e85cb9fa90cd",
             "name": "Lockscreen Bypass",
             "type": "technique",
@@ -9628,6 +9790,15 @@ export const intel = {
             "id": "T1412",
             "url": "https://attack.mitre.org/techniques/T1412",
             "deprecated": true
+        },
+        {
+            "stixId": "attack-pattern--ea132c68-b518-4478-ae8d-1763cda26ee3",
+            "name": "Conceal Multimedia Files",
+            "type": "technique",
+            "matrix": "Mobile ATT&CK",
+            "id": "T1628.003",
+            "url": "https://attack.mitre.org/techniques/T1628/003",
+            "deprecated": false
         },
         {
             "stixId": "attack-pattern--eb6cf439-1bcb-4d10-bc68-1eed844ed7b3",
@@ -9886,6 +10057,8 @@ export const intel = {
         "T0891 (Hardcoded Credentials)",
         "T0892 (Change Credential)",
         "T0893 (Data from Local System)",
+        "T0894 (System Binary Proxy Execution)",
+        "T0895 (Autorun Image)",
         "T1001 (Data Obfuscation)",
         "T1001.001 (Junk Data)",
         "T1001.002 (Steganography)",
@@ -9948,6 +10121,7 @@ export const intel = {
         "T1027.010 (Command Obfuscation)",
         "T1027.011 (Fileless Storage)",
         "T1027.012 (LNK Icon Smuggling)",
+        "T1027.013 (Encrypted/Encoded File)",
         "T1028 (Windows Remote Management)",
         "T1029 (Scheduled Transfer)",
         "T1030 (Data Transfer Size Limits)",
@@ -10030,6 +10204,7 @@ export const intel = {
         "T1059.007 (JavaScript)",
         "T1059.008 (Network Device CLI)",
         "T1059.009 (Cloud API)",
+        "T1059.010 (AutoHotKey & AutoIT)",
         "T1060 (Registry Run Keys / Startup Folder)",
         "T1061 (Graphical User Interface)",
         "T1062 (Hypervisor)",
@@ -10262,6 +10437,7 @@ export const intel = {
         "T1215 (Kernel Modules and Extensions)",
         "T1216 (System Script Proxy Execution)",
         "T1216.001 (PubPrn)",
+        "T1216.002 (SyncAppvPublishingServer)",
         "T1217 (Browser Information Discovery)",
         "T1218 (System Binary Proxy Execution)",
         "T1218.001 (Compiled HTML File)",
@@ -10277,6 +10453,7 @@ export const intel = {
         "T1218.012 (Verclsid)",
         "T1218.013 (Mavinject)",
         "T1218.014 (MMC)",
+        "T1218.015 (Electron Applications)",
         "T1219 (Remote Access Software)",
         "T1220 (XSL Script Processing)",
         "T1221 (Template Injection)",
@@ -10314,6 +10491,8 @@ export const intel = {
         "T1420 (File and Directory Discovery)",
         "T1421 (System Network Connections Discovery)",
         "T1422 (System Network Configuration Discovery)",
+        "T1422.001 (Internet Connection Discovery)",
+        "T1422.002 (Wi-Fi Discovery)",
         "T1423 (Network Service Scanning)",
         "T1424 (Process Discovery)",
         "T1425 (Insecure Third-Party Libraries)",
@@ -10384,9 +10563,9 @@ export const intel = {
         "T1481.003 (One-Way Communication)",
         "T1482 (Domain Trust Discovery)",
         "T1483 (Domain Generation Algorithms)",
-        "T1484 (Domain Policy Modification)",
+        "T1484 (Domain or Tenant Policy Modification)",
         "T1484.001 (Group Policy Modification)",
-        "T1484.002 (Domain Trust Modification)",
+        "T1484.002 (Trust Modification)",
         "T1485 (Data Destruction)",
         "T1486 (Data Encrypted for Impact)",
         "T1487 (Disk Structure Wipe)",
@@ -10441,6 +10620,7 @@ export const intel = {
         "T1521 (Encrypted Channel)",
         "T1521.001 (Symmetric Cryptography)",
         "T1521.002 (Asymmetric Cryptography)",
+        "T1521.003 (SSL Pinning)",
         "T1522 (Cloud Instance Metadata API)",
         "T1523 (Evade Analysis Environment)",
         "T1525 (Implant Internal Image)",
@@ -10471,6 +10651,7 @@ export const intel = {
         "T1543.002 (Systemd Service)",
         "T1543.003 (Windows Service)",
         "T1543.004 (Launch Daemon)",
+        "T1543.005 (Container Service)",
         "T1544 (Ingress Tool Transfer)",
         "T1546 (Event Triggered Execution)",
         "T1546.001 (Change Default File Association)",
@@ -10511,6 +10692,7 @@ export const intel = {
         "T1548.003 (Sudo and Sudo Caching)",
         "T1548.004 (Elevated Execution with Prompt)",
         "T1548.005 (Temporary Elevated Cloud Access)",
+        "T1548.006 (TCC Manipulation)",
         "T1550 (Use Alternate Authentication Material)",
         "T1550.001 (Application Access Token)",
         "T1550.002 (Pass the Hash)",
@@ -10532,7 +10714,7 @@ export const intel = {
         "T1553.004 (Install Root Certificate)",
         "T1553.005 (Mark-of-the-Web Bypass)",
         "T1553.006 (Code Signing Policy Modification)",
-        "T1554 (Compromise Client Software Binary)",
+        "T1554 (Compromise Host Software Binary)",
         "T1555 (Credentials from Password Stores)",
         "T1555.001 (Keychain)",
         "T1555.002 (Securityd Memory)",
@@ -10549,6 +10731,7 @@ export const intel = {
         "T1556.006 (Multi-Factor Authentication)",
         "T1556.007 (Hybrid Identity)",
         "T1556.008 (Network Provider DLL)",
+        "T1556.009 (Conditional Access Policies)",
         "T1557 (Adversary-in-the-Middle)",
         "T1557.001 (LLMNR/NBT-NS Poisoning and SMB Relay)",
         "T1557.002 (ARP Cache Poisoning)",
@@ -10596,6 +10779,7 @@ export const intel = {
         "T1564.009 (Resource Forking)",
         "T1564.010 (Process Argument Spoofing)",
         "T1564.011 (Ignore Process Interrupts)",
+        "T1564.012 (File/Path Exclusions)",
         "T1565 (Data Manipulation)",
         "T1565.001 (Stored Data Manipulation)",
         "T1565.002 (Transmitted Data Manipulation)",
@@ -10636,6 +10820,7 @@ export const intel = {
         "T1574.011 (Services Registry Permissions Weakness)",
         "T1574.012 (COR_PROFILER)",
         "T1574.013 (KernelCallbackTable)",
+        "T1574.014 (AppDomainManager)",
         "T1575 (Native API)",
         "T1576 (Uninstall Malicious Application)",
         "T1577 (Compromise Application Executable)",
@@ -10666,6 +10851,7 @@ export const intel = {
         "T1584.005 (Botnet)",
         "T1584.006 (Web Services)",
         "T1584.007 (Serverless)",
+        "T1584.008 (Network Devices)",
         "T1585 (Establish Accounts)",
         "T1585.001 (Social Media Accounts)",
         "T1585.002 (Email Accounts)",
@@ -10686,6 +10872,7 @@ export const intel = {
         "T1588.004 (Digital Certificates)",
         "T1588.005 (Exploits)",
         "T1588.006 (Vulnerabilities)",
+        "T1588.007 (Artificial Intelligence)",
         "T1589 (Gather Victim Identity Information)",
         "T1589.001 (Credentials)",
         "T1589.002 (Email Addresses)",
@@ -10782,6 +10969,7 @@ export const intel = {
         "T1628 (Hide Artifacts)",
         "T1628.001 (Suppress Application Icon)",
         "T1628.002 (User Evasion)",
+        "T1628.003 (Conceal Multimedia Files)",
         "T1629 (Impair Defenses)",
         "T1629.001 (Prevent Application Removal)",
         "T1629.002 (Device Lockout)",
@@ -10835,7 +11023,9 @@ export const intel = {
         "T1660 (Phishing)",
         "T1661 (Application Versioning)",
         "T1662 (Data Destruction)",
-        "T1663 (Remote Access Software)"
+        "T1663 (Remote Access Software)",
+        "T1664 (Exploitation for Initial Access)",
+        "T1665 (Hide Infrastructure)"
     ]
 };
 
