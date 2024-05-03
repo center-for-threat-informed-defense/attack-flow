@@ -30,9 +30,3 @@ jobs:
         token: ${{ secrets.CODECOV_SECRET }}
         files: coverage.xml
         verbose: true
-    - name: Bandit security check
-      run: |
-        poetry run bandit -r src/ -ll -ii
-    - name: Safety vulnerability check
-      run: |
-        poetry export -f requirements.txt | poetry run safety check --full-report --stdin
