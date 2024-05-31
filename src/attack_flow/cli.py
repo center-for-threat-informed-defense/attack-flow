@@ -91,7 +91,13 @@ def graphviz(args):
     """
     path = Path(args.attack_flow)
     flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
-    converted = attack_flow.graphviz.convert(flow_bundle)
+    for object in flow_bundle.objects:
+        if object.type == "attack-flow":
+            if object.scope == "attack-tree":
+                converted = attack_flow.graphviz.convert_attack_tree(flow_bundle)
+            else:
+                converted = attack_flow.graphviz.convert_attack_flow(flow_bundle)
+    
     with open(args.output, "w") as out:
         out.write(converted)
     return 0
