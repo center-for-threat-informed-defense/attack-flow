@@ -77,7 +77,7 @@ def convert_attack_tree(bundle):
     :rtype: str
     """
 
-    gv = graphviz.Digraph()
+    gv = graphviz.Digraph(graph_attr={'rankdir':'BT'})
     gv.body = _get_body_label(bundle)
     ignored_ids = get_viz_ignored_ids(bundle)
 
@@ -124,9 +124,9 @@ def convert_attack_tree(bundle):
                     shape="plaintext",
                 )
             for ref in o.get("asset_refs", []):
-                gv.edge(o.id, ref, "asset")
+                gv.edge(o.id, ref)
             for ref in o.get("effect_refs", []):
-                gv.edge(o.id, ref, "effect")
+                gv.edge(o.id, ref)
         elif o.type == "attack-asset":
             gv.node(o.id, _get_asset_label(o), shape="plaintext")
             if object_ref := o.get("object_ref"):
