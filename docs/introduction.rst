@@ -10,7 +10,7 @@ Action Objects
 
 An **action** represents an adversary executing a specific technique. For example,
 `T1566: Phishing <https://attack.mitre.org/techniques/T1566/>`__ is a common adversarial
-technique that captured in the ATT&CK knoweldge base. If an adversary utilizes this behavior
+technique that captured in the ATT&CK knowledge base. If an adversary utilizes this behavior
 during a specific breach, then that is an action.
 
 .. note::
