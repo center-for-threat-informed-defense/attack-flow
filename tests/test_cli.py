@@ -111,7 +111,7 @@ def test_graphviz(load_mock, convert_mock, exit_mock):
     )
     bundle = stix2.Bundle()
     load_mock.return_value = bundle
-    print("printing resp bundle ", bundle)
+    
     with NamedTemporaryFile() as flow, NamedTemporaryFile() as graphviz:
         sys.argv = ["af", "graphviz", flow.name, graphviz.name]
         runpy.run_module("attack_flow.cli", run_name="__main__")
