@@ -9,7 +9,7 @@ from .fixtures import get_flow_bundle
 
 
 def test_convert_attack_flow_to_graphviz():
-    output = attack_flow.graphviz.convert(get_flow_bundle())
+    output = attack_flow.graphviz.convert_attack_flow(get_flow_bundle())
     assert output == dedent(
         """\
         digraph {

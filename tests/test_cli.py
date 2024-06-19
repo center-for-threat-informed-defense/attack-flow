@@ -95,12 +95,12 @@ def test_doc_schema(schema_mock, generate_mock, insert_mock, exit_mock):
 
 
 @patch("sys.exit")
-@patch("attack_flow.graphviz.convert")
+@patch("attack_flow.graphviz.convert_attack_flow")
 @patch("attack_flow.model.load_attack_flow_bundle")
 def test_graphviz(load_mock, convert_mock, exit_mock):
     """
     Test that the script parses a JSON file and passes the resulting object
-    to convert().
+    to convert_attack_flow().
     """
     convert_mock.return_value = dedent(
         r"""\
@@ -111,6 +111,7 @@ def test_graphviz(load_mock, convert_mock, exit_mock):
     )
     bundle = stix2.Bundle()
     load_mock.return_value = bundle
+    print("printing resp bundle ", bundle)
     with NamedTemporaryFile() as flow, NamedTemporaryFile() as graphviz:
         sys.argv = ["af", "graphviz", flow.name, graphviz.name]
         runpy.run_module("attack_flow.cli", run_name="__main__")

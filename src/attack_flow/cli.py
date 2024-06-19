@@ -97,7 +97,7 @@ def graphviz(args):
                 converted = attack_flow.graphviz.convert_attack_tree(flow_bundle)
             else:
                 converted = attack_flow.graphviz.convert_attack_flow(flow_bundle)
-    
+
     with open(args.output, "w") as out:
         out.write(converted)
     return 0
