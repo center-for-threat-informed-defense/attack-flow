@@ -219,9 +219,9 @@ def _get_attack_tree_action_label(action):
         [
             '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
             f'<TR><TD BGCOLOR="#B40000" COLSPAN="2"><font color="white"><B>{heading}</B></font></TD></TR>',
-            f'<TR><TD  ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD  ALIGN="LEFT" BALIGN="LEFT">{label_escape(action.name)}</TD></TR>',
-            f'<TR><TD  ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD  ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>',
-            f'<TR><TD  ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD  ALIGN="LEFT" BALIGN="LEFT">{confidence}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{label_escape(action.name)}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{confidence}</TD></TR>',
             "</TABLE>>",
         ]
     )
@@ -317,9 +317,9 @@ def _get_operator_label(action, operator_type):
         [
             '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
             f'<TR><TD BGCOLOR="{color}" COLSPAN="2"><B>{heading}</B></TD></TR>',
-            f'<TR><TD  ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD  ALIGN="LEFT" BALIGN="LEFT">{label_escape(action.name)}</TD></TR>',
-            f'<TR><TD  ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD  ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>',
-            f'<TR><TD  ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD  ALIGN="LEFT" BALIGN="LEFT">{confidence}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{label_escape(action.name)}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{description}</TD></TR>',
+            f'<TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">{confidence}</TD></TR>',
             "</TABLE>>",
         ]
     )

@@ -5,7 +5,8 @@ from attack_flow.model import (
     AttackAction,
     AttackCondition,
 )
-from .fixtures import get_flow_bundle
+from .fixtures import get_flow_bundle, get_tree_bundle
+import json
 
 
 def test_convert_attack_flow_to_graphviz():
@@ -32,6 +33,36 @@ def test_convert_attack_flow_to_graphviz():
         \t"infrastructure--79d21912-36b7-4af9-8958-38949dd0d6de" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>Infrastructure</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My Infra</TD></TR></TABLE>> shape=plaintext]
         \t"infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>Infrastructure</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Test Infra</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Infrastructure Types</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">workstation</TD></TR></TABLE>> shape=plaintext]
         \t"attack-action--dd3820fa-bae3-4270-8000-5c4642fa780c" -> "infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label="related-to"]
+        }
+        """
+    )
+
+
+def test_convert_attack_tree_to_graphviz():
+    output = attack_flow.graphviz.convert_attack_tree(get_tree_bundle())
+    # Serializing json
+    json_object = json.dumps(output, indent=4)
+    
+    # Writing to sample.json
+    with open("sample.json", "w") as outfile:
+        outfile.write(json_object)
+    assert output == dedent(
+        """\
+        digraph {
+        \tgraph [rankdir=BT]
+        \tlabel=<<font point-size="24">My Flow</font><br/><i>(missing description)</i><br/><font point-size="10">Author: Jane Doe &lt;jdoe@example.com&gt;</font><br/><font point-size="10">Created: 2022-08-25 19:26:31</font><br/><font point-size="10">Modified: 2022-08-25 19:26:31</font>>;
+        \tlabelloc="t";
+        \t"attack-action--d63857d5-1043-45a4-9397-40ef68db4c5f" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#B40000" COLSPAN="2"><font color="white"><B>Action</B></font></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 1</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Description of action 2</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--d63857d5-1043-45a4-9397-40ef68db4c5f" -> "attack-action--1994e9f2-11f1-489a-a5e7-3ad4cfd8890a"
+        \t"attack-action--1994e9f2-11f1-489a-a5e7-3ad4cfd8890a" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#9CE67E" COLSPAN="2"><B>OR</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My Or Operator</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">this is the description</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--1994e9f2-11f1-489a-a5e7-3ad4cfd8890a" -> "attack-action--a0847849-a533-4b1f-a94a-720bbd25fc17"
+        \t"attack-action--24fc6003-33f6-4dd7-a929-b6031927940f" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#B40000" COLSPAN="2"><font color="white"><B>Action</B></font></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 2</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Description of action 2</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--24fc6003-33f6-4dd7-a929-b6031927940f" -> "attack-action--1994e9f2-11f1-489a-a5e7-3ad4cfd8890a"
+        \t"attack-action--a0847849-a533-4b1f-a94a-720bbd25fc17" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#B40000" COLSPAN="2"><font color="white"><B>Action</B></font></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Action 3</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Description of action 3</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-action--a0847849-a533-4b1f-a94a-720bbd25fc17" -> "attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06"
+        \t"infrastructure--79d21912-36b7-4af9-8958-38949dd0d6de" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>Infrastructure</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My Infra</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cc99ff" COLSPAN="2"><B>Asset: My Asset</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT"></TD></TR></TABLE>> shape=plaintext]
+        \t"attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06" -> "infrastructure--79d21912-36b7-4af9-8958-38949dd0d6de" [label=object]
         }
         """
     )
@@ -74,4 +105,26 @@ def test_action_label():
     assert (
         attack_flow.graphviz._get_action_label(action)
         == '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>Action</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My technique</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">This technique has no ID to render in<br/>the header.</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>>'
+    )
+
+def test_get_operator_label():
+    action = AttackAction(
+        id="attack-action--b5696498-66e8-41b6-87e1-19d2657ac48b",
+        name="My technique",
+        description="This technique has no ID to render in the header.",
+    )
+    assert (
+        attack_flow.graphviz._get_operator_label(action, operator_type="AND")
+        == '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ccff" COLSPAN="2"><B>AND</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My technique</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">This technique has no ID to render in<br/>the header.</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>>'
+    )
+
+def test_get_attack_tree_action_label():
+    action = AttackAction(
+        id="attack-action--b5696498-66e8-41b6-87e1-19d2657ac48b",
+        name="My technique",
+        description="This technique has no ID to render in the header.",
+    )
+    assert (
+        attack_flow.graphviz._get_attack_tree_action_label(action)
+        == '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#B40000" COLSPAN="2"><font color="white"><B>Action</B></font></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My technique</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">This technique has no ID to render in<br/>the header.</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Confidence</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Very Probable</TD></TR></TABLE>>'
     )
