@@ -34,7 +34,7 @@ class MermaidGraph:
     def render(self):
         # Mermaid can't handle IDs with hyphens in them:
         convert_id = lambda id_: id_.replace("-", "_")
-        if self.direction: 
+        if self.direction:
             lines = [f"graph {self.direction}"]
         else:
             lines = ["graph TB"]
@@ -50,7 +50,7 @@ class MermaidGraph:
             if self.classes[node_class][0] == "circle":
                 shape_start = "(("
                 shape_end = "))"
-            elif self.classes[node_class][0] =="trap":
+            elif self.classes[node_class][0] == "trap":
                 shape_start = "[/"
                 shape_end = "\]"
             else:
@@ -126,7 +126,8 @@ def convert_attack_flow(bundle):
             graph.add_node(o.id, "builtin", " - ".join(label_lines))
 
     return graph.render()
-   
+
+
 def convert_attack_tree(bundle):
 
     """
@@ -147,7 +148,7 @@ def convert_attack_tree(bundle):
     objects = bundle.objects
     id_to_remove = []
     ids = []
-    
+
     for i, o in enumerate(objects):
         if o.type == "attack-operator":
             id_to_remove.append(
@@ -171,7 +172,6 @@ def convert_attack_tree(bundle):
                 for i, j in enumerate(o.effect_refs):
                     if j == operator["id"]:
                         o.effect_refs[i] = operator["next_id"]
-
 
     for o in bundle.objects:
         if o.type == "attack-action":
