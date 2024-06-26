@@ -122,7 +122,7 @@ def test_graphviz(load_mock, convert_mock, exit_mock):
 
 
 @patch("sys.exit")
-@patch("attack_flow.mermaid.convert")
+@patch("attack_flow.mermaid.convert_attack_flow")
 @patch("attack_flow.model.load_attack_flow_bundle")
 def test_mermaid(load_mock, convert_mock, exit_mock):
     """

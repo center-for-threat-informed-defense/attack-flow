@@ -6,7 +6,6 @@ from attack_flow.model import (
     AttackCondition,
 )
 from .fixtures import get_flow_bundle, get_tree_bundle
-import json
 
 
 def test_convert_attack_flow_to_graphviz():
@@ -40,12 +39,7 @@ def test_convert_attack_flow_to_graphviz():
 
 def test_convert_attack_tree_to_graphviz():
     output = attack_flow.graphviz.convert_attack_tree(get_tree_bundle())
-    # Serializing json
-    json_object = json.dumps(output, indent=4)
-    
-    # Writing to sample.json
-    with open("sample.json", "w") as outfile:
-        outfile.write(json_object)
+
     assert output == dedent(
         """\
         digraph {
