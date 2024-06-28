@@ -91,7 +91,15 @@ def graphviz(args):
     """
     path = Path(args.attack_flow)
     flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
-    converted = attack_flow.graphviz.convert(flow_bundle)
+
+    if (
+        flow_bundle.get("objects", "")
+        and attack_flow.model.get_flow_object(flow_bundle).scope == "attack-tree"
+    ):
+        converted = attack_flow.graphviz.convert_attack_tree(flow_bundle)
+    else:
+        converted = attack_flow.graphviz.convert_attack_flow(flow_bundle)
+
     with open(args.output, "w") as out:
         out.write(converted)
     return 0
@@ -106,7 +114,14 @@ def mermaid(args):
     """
     path = Path(args.attack_flow)
     flow_bundle = attack_flow.model.load_attack_flow_bundle(path)
-    converted = attack_flow.mermaid.convert(flow_bundle)
+    if (
+        flow_bundle.get("objects", "")
+        and attack_flow.model.get_flow_object(flow_bundle).scope == "attack-tree"
+    ):
+        converted = attack_flow.mermaid.convert_attack_tree(flow_bundle)
+    else:
+        converted = attack_flow.mermaid.convert_attack_flow(flow_bundle)
+
     with open(args.output, "w") as out:
         out.write(converted)
     return 0

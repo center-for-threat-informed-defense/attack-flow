@@ -136,3 +136,112 @@ def get_flow_bundle():
         extension_creator,
         id="bundle--06cf9129-8d0d-4d58-9484-b5323caf09ad",
     )
+
+def get_tree_bundle():
+    asset_obj = stix2.Infrastructure(
+        id="infrastructure--79d21912-36b7-4af9-8958-38949dd0d6de",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="My Infra",
+    )
+    asset = AttackAsset(
+        id="attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="My Asset",
+        object_ref=asset_obj.id,
+    )
+    action3 = AttackAction(
+        id="attack-action--a0847849-a533-4b1f-a94a-720bbd25fc17",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="Action 3",
+        technique_id="T3",
+        description="Description of action 3",
+        asset_refs=[asset.id],
+    )
+    or_action = AttackAction(
+        id="attack-action--1994e9f2-11f1-489a-a5e7-3ad4cfd8890a",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="My Or Operator",
+        technique_id="T3",
+        description="this is the description",
+        effect_refs=[action3.id]
+    )
+    or_operator = AttackOperator(
+        id="attack-operator--8932b181-be87-4f81-851a-ab0b4288406a",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        operator="OR",
+        effect_refs=[or_action.id],
+    )
+    action1 = AttackAction(
+        id="attack-action--d63857d5-1043-45a4-9397-40ef68db4c5f",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="Action 1",
+        description="Description of action 2",
+        effect_refs=[or_operator.id],
+    )
+    action2 = AttackAction(
+        id="attack-action--24fc6003-33f6-4dd7-a929-b6031927940f",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="Action 2",
+        description="Description of action 2",
+        effect_refs=[or_operator.id],
+    )
+    infra = stix2.Infrastructure(
+        id="infrastructure--a75c83f7-147e-4695-b173-0981521b2f01",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="Test Infra",
+        infrastructure_types=["workstation"],
+    )
+    infra_rel = stix2.Relationship(
+        id="relationship--5286c903-9afc-4e29-ab42-644976d3aae7",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        source_ref=action2.id,
+        target_ref=infra.id,
+        relationship_type="related-to",
+    )
+    author = stix2.Identity(
+        id="identity--bbe39bd7-9c12-41de-b5c0-dcd3fb98b360",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="Jane Doe",
+        contact_information="jdoe@example.com",
+    )
+    flow = AttackFlow(
+        id="attack-flow--7cabcb58-6930-47b9-b15c-3be2f3a5fce1",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="My Flow",
+        start_refs=[action1.id, action2.id],
+        created_by_ref=author.id,
+    )
+    condition = AttackCondition(
+        id="attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        description="My condition",
+        on_true_refs=[action1.id],
+        on_false_refs=[action2.id],
+    )
+    return stix2.Bundle(
+        flow,
+        author,
+        action1,
+        or_action,
+        action2,
+        or_operator,
+        action3,
+        asset_obj,
+        asset,
+        infra,
+        infra_rel,
+        condition,
+        id="bundle--06cf9129-8d0d-4d58-9484-b5323caf09ad",
+    )

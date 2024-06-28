@@ -93,6 +93,7 @@ const config: AppConfiguration = {
                                 ["campaign", "Campaign"],
                                 ["threat-actor", "Threat Actor"],
                                 ["malware", "Malware"],
+                                ["attack-tree", "Attack Tree"],
                                 ["other", "Other"]
                             ]
                         },
