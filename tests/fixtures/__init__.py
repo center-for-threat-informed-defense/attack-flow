@@ -156,6 +156,7 @@ def get_tree_bundle():
         created=datetime(2022, 8, 25, 19, 26, 31),
         modified=datetime(2022, 8, 25, 19, 26, 31),
         name="Action 3",
+        technique_id="T3",
         description="Description of action 3",
         asset_refs=[asset.id],
     )
@@ -164,6 +165,7 @@ def get_tree_bundle():
         created=datetime(2022, 8, 25, 19, 26, 31),
         modified=datetime(2022, 8, 25, 19, 26, 31),
         name="My Or Operator",
+        technique_id="T3",
         description="this is the description",
         effect_refs=[action3.id]
     )
@@ -190,7 +192,21 @@ def get_tree_bundle():
         description="Description of action 2",
         effect_refs=[or_operator.id],
     )
-
+    infra = stix2.Infrastructure(
+        id="infrastructure--a75c83f7-147e-4695-b173-0981521b2f01",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="Test Infra",
+        infrastructure_types=["workstation"],
+    )
+    infra_rel = stix2.Relationship(
+        id="relationship--5286c903-9afc-4e29-ab42-644976d3aae7",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        source_ref=action2.id,
+        target_ref=infra.id,
+        relationship_type="related-to",
+    )
     author = stix2.Identity(
         id="identity--bbe39bd7-9c12-41de-b5c0-dcd3fb98b360",
         created=datetime(2022, 8, 25, 19, 26, 31),
@@ -216,5 +232,7 @@ def get_tree_bundle():
         action3,
         asset_obj,
         asset,
+        infra,
+        infra_rel,
         id="bundle--06cf9129-8d0d-4d58-9484-b5323caf09ad",
     )

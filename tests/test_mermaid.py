@@ -45,28 +45,31 @@ def test_convert_attack_tree_to_mermaid():
     output = attack_flow.mermaid.convert_attack_tree(get_tree_bundle())
     assert output == dedent(
         """\
-        graph BT
-            classDef action fill:#B40000, color:white
-            classDef AND fill:#99ccff
-            classDef OR fill:#9CE67E
-            classDef condition fill:#99ff99
-            classDef builtin fill:#cccccc
+    graph BT
+        classDef action fill:#B40000, color:white
+        classDef AND fill:#99ccff
+        classDef OR fill:#9CE67E
+        classDef condition fill:#99ff99
+        classDef builtin fill:#cccccc
 
-            attack_action__d63857d5_1043_45a4_9397_40ef68db4c5f["<b>Action</b> - <b>Action 1</b>"]
-            class attack_action__d63857d5_1043_45a4_9397_40ef68db4c5f action
-            attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a[/"<b>OR</b> - <b>My Or Operator</b>"\]
-            class attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a OR
-            attack_action__24fc6003_33f6_4dd7_a929_b6031927940f["<b>Action</b> - <b>Action 2</b>"]
-            class attack_action__24fc6003_33f6_4dd7_a929_b6031927940f action
-            attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17["<b>Action</b> - <b>Action 3</b>"]
-            class attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17 action
-            infrastructure__79d21912_36b7_4af9_8958_38949dd0d6de["<b>Infrastructure</b> - <b>Name</b>: My<br>Infra"]
-            class infrastructure__79d21912_36b7_4af9_8958_38949dd0d6de builtin
-            attack_asset__4ae37379_6a11_44c1_b6a8_d11733cfac06["<b>Attack Asset</b> - <b>Name</b>: My<br>Asset - <b>Object Ref</b>:<br>infrastructure--<br>79d21912-36b7-4af9-8958-38949dd0d6de"]
-            class attack_asset__4ae37379_6a11_44c1_b6a8_d11733cfac06 builtin
+        attack_action__d63857d5_1043_45a4_9397_40ef68db4c5f["<b>Action</b> - <b>Action 1</b>"]
+        class attack_action__d63857d5_1043_45a4_9397_40ef68db4c5f action
+        attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a[/"<b>OR</b> - <b>T3 My Or Operator</b>"\\]
+        class attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a OR
+        attack_action__24fc6003_33f6_4dd7_a929_b6031927940f["<b>Action</b> - <b>Action 2</b>"]
+        class attack_action__24fc6003_33f6_4dd7_a929_b6031927940f action
+        attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17["<b>Action</b> - <b>T3 Action 3</b>"]
+        class attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17 action
+        infrastructure__79d21912_36b7_4af9_8958_38949dd0d6de["<b>Infrastructure</b> - <b>Name</b>: My<br>Infra"]
+        class infrastructure__79d21912_36b7_4af9_8958_38949dd0d6de builtin
+        attack_asset__4ae37379_6a11_44c1_b6a8_d11733cfac06["<b>Attack Asset</b> - <b>Name</b>: My<br>Asset - <b>Object Ref</b>:<br>infrastructure--<br>79d21912-36b7-4af9-8958-38949dd0d6de"]
+        class attack_asset__4ae37379_6a11_44c1_b6a8_d11733cfac06 builtin
+        infrastructure__a75c83f7_147e_4695_b173_0981521b2f01["<b>Infrastructure</b> - <b>Name</b>:<br>Test Infra - <b>Infrastructure<br>Types</b>: workstation"]
+        class infrastructure__a75c83f7_147e_4695_b173_0981521b2f01 builtin
 
-            attack_action__d63857d5_1043_45a4_9397_40ef68db4c5f -->| | attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a
-            attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a -->| | attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17
-            attack_action__24fc6003_33f6_4dd7_a929_b6031927940f -->| | attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a
-        """
+        attack_action__d63857d5_1043_45a4_9397_40ef68db4c5f -->| | attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a
+        attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a -->| | attack_action__a0847849_a533_4b1f_a94a_720bbd25fc17
+        attack_action__24fc6003_33f6_4dd7_a929_b6031927940f -->| | attack_action__1994e9f2_11f1_489a_a5e7_3ad4cfd8890a
+        attack_action__24fc6003_33f6_4dd7_a929_b6031927940f -->|related-to| infrastructure__a75c83f7_147e_4695_b173_0981521b2f01
+    """
     )

@@ -16,6 +16,8 @@ import pytest
 import stix2
 
 import attack_flow.schema
+from attack_flow.model import AttackFlow
+from datetime import datetime
 
 
 @patch("sys.exit")
@@ -97,7 +99,7 @@ def test_doc_schema(schema_mock, generate_mock, insert_mock, exit_mock):
 @patch("sys.exit")
 @patch("attack_flow.graphviz.convert_attack_flow")
 @patch("attack_flow.model.load_attack_flow_bundle")
-def test_graphviz(load_mock, convert_mock, exit_mock):
+def test_graphviz_attack_flow(load_mock, convert_mock, exit_mock):
     """
     Test that the script parses a JSON file and passes the resulting object
     to convert_attack_flow().
@@ -120,11 +122,46 @@ def test_graphviz(load_mock, convert_mock, exit_mock):
     convert_mock.assert_called_with(bundle)
     exit_mock.assert_called_with(0)
 
+@patch("sys.exit")
+@patch("attack_flow.graphviz.convert_attack_tree")
+@patch("attack_flow.model.load_attack_flow_bundle")
+def test_graphviz_attack_tree(load_mock, convert_mock, exit_mock):
+    """
+    Test that the script parses a JSON file and passes the resulting object
+    to convert_attack_flow().
+    """
+    convert_mock.return_value = dedent(
+        r"""\
+        graph {
+            "node1" -> "node2";
+        }
+    """
+    )
+
+    flow = AttackFlow(
+        id="attack-flow--7cabcb58-6930-47b9-b15c-3be2f3a5fce1",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="My Flow",
+        start_refs=[],
+        created_by_ref="identity--bbe39bd7-9c12-41de-b5c0-dcd3fb98b360",
+        scope="attack-tree"
+    )
+    bundle = stix2.Bundle(flow)
+    load_mock.return_value = bundle
+    
+    with NamedTemporaryFile() as flow, NamedTemporaryFile() as graphviz:
+        sys.argv = ["af", "graphviz", flow.name, graphviz.name]
+        runpy.run_module("attack_flow.cli", run_name="__main__")
+    load_mock.assert_called()
+    assert str(load_mock.call_args[0][0]) == flow.name
+    convert_mock.assert_called_with(bundle)
+    exit_mock.assert_called_with(0)
 
 @patch("sys.exit")
 @patch("attack_flow.mermaid.convert_attack_flow")
 @patch("attack_flow.model.load_attack_flow_bundle")
-def test_mermaid(load_mock, convert_mock, exit_mock):
+def test_mermaid_attack_flow(load_mock, convert_mock, exit_mock):
     """
     Test that the script parses a JSON file and passes the resulting object
     to convert().
@@ -145,6 +182,38 @@ def test_mermaid(load_mock, convert_mock, exit_mock):
     convert_mock.assert_called_with(bundle)
     exit_mock.assert_called_with(0)
 
+@patch("sys.exit")
+@patch("attack_flow.mermaid.convert_attack_tree")
+@patch("attack_flow.model.load_attack_flow_bundle")
+def test_mermaid_attack_tree(load_mock, convert_mock, exit_mock):
+    """
+    Test that the script parses a JSON file and passes the resulting object
+    to convert().
+    """
+    convert_mock.return_value = dedent(
+        r"""\
+        graph TB
+            node1 ---> node2
+    """
+    )
+    flow = AttackFlow(
+        id="attack-flow--7cabcb58-6930-47b9-b15c-3be2f3a5fce1",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        name="My Flow",
+        start_refs=[],
+        created_by_ref="identity--bbe39bd7-9c12-41de-b5c0-dcd3fb98b360",
+        scope="attack-tree"
+    )
+    bundle = stix2.Bundle(flow)
+    load_mock.return_value = bundle
+    with NamedTemporaryFile() as flow, NamedTemporaryFile() as graphviz:
+        sys.argv = ["af", "mermaid", flow.name, graphviz.name]
+        runpy.run_module("attack_flow.cli", run_name="__main__")
+    load_mock.assert_called()
+    assert str(load_mock.call_args[0][0]) == flow.name
+    convert_mock.assert_called_with(bundle)
+    exit_mock.assert_called_with(0)
 
 @patch("sys.exit")
 @patch("attack_flow.matrix.render")
