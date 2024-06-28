@@ -222,6 +222,14 @@ def get_tree_bundle():
         start_refs=[action1.id, action2.id],
         created_by_ref=author.id,
     )
+    condition = AttackCondition(
+        id="attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a",
+        created=datetime(2022, 8, 25, 19, 26, 31),
+        modified=datetime(2022, 8, 25, 19, 26, 31),
+        description="My condition",
+        on_true_refs=[action1.id],
+        on_false_refs=[action2.id],
+    )
     return stix2.Bundle(
         flow,
         author,
@@ -234,5 +242,6 @@ def get_tree_bundle():
         asset,
         infra,
         infra_rel,
+        condition,
         id="bundle--06cf9129-8d0d-4d58-9484-b5323caf09ad",
     )

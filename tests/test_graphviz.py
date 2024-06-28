@@ -38,7 +38,6 @@ def test_convert_attack_flow_to_graphviz():
 
 def test_convert_attack_tree_to_graphviz():
     output = attack_flow.graphviz.convert_attack_tree(get_tree_bundle())
-
     assert output == dedent(
         """\
         digraph {
@@ -58,6 +57,9 @@ def test_convert_attack_tree_to_graphviz():
         \t"attack-asset--4ae37379-6a11-44c1-b6a8-d11733cfac06" -> "infrastructure--79d21912-36b7-4af9-8958-38949dd0d6de" [label=object]
         \t"infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#cccccc" COLSPAN="2"><B>Infrastructure</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Name</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">Test Infra</TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Infrastructure Types</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">workstation</TD></TR></TABLE>> shape=plaintext]
         \t"attack-action--24fc6003-33f6-4dd7-a929-b6031927940f" -> "infrastructure--a75c83f7-147e-4695-b173-0981521b2f01" [label="related-to"]
+        \t"attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a" [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5"><TR><TD BGCOLOR="#99ff99" COLSPAN="2"><B>Condition</B></TD></TR><TR><TD ALIGN="LEFT" BALIGN="LEFT"><B>Description</B></TD><TD ALIGN="LEFT" BALIGN="LEFT">My condition</TD></TR></TABLE>> shape=plaintext]
+        \t"attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a" -> "attack-action--d63857d5-1043-45a4-9397-40ef68db4c5f" [label=on_true]
+        \t"attack-condition--64d5bf0b-6acc-4f43-b0f2-aa93a219897a" -> "attack-action--24fc6003-33f6-4dd7-a929-b6031927940f" [label=on_false]
         }
         """
     )
