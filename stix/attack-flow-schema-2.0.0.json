@@ -143,6 +143,7 @@
                         "campaign",
                         "threat-actor",
                         "malware",
+                        "attack-tree",
                         "other"
                     ]
                 },
