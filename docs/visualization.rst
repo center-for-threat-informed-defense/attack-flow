@@ -3,7 +3,7 @@ Visualization
 
 Attack Flow offers several tools for visualizing sequences of behaviors. The :doc:`Attack Flow Builder
 <builder>` is a great option, offers easy navigation of large flows, and exports to PNG format. We also have
-several :ref:`command line visualizations <cli_viz>` as well as some `experimental visualizations
+several :ref:`command line visualizations <viz_graphviz>` as well as some `experimental visualizations
 <https://observablehq.com/@mehaase/attack-flow-business>`__.
 
 ATT&CK Navigator

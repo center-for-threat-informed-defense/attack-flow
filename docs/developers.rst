@@ -89,7 +89,7 @@ Validate one or more Attack Flow JSON files:
 
 There is a Makefile target ``make validate`` that validates the corpus.
 
-.. _cli_viz:
+.. _viz_graphviz:
 
 Visualize with GraphViz
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -119,6 +119,8 @@ It will look something like this:
    :align: center
 
    The result of converting ``tesla.json`` into ``tesla.dot.png``.
+
+.. _viz_mermaid:
 
 Visualize with Mermaid
 ~~~~~~~~~~~~~~~~~~~~~~
