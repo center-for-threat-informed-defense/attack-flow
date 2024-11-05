@@ -1,4 +1,4 @@
-[![MITRE ATT&CK® v15](https://img.shields.io/badge/MITRE%20ATT%26CK®-v15-red)](https://attack.mitre.org/versions/v15/)
+[![MITRE ATT&CK® v16](https://img.shields.io/badge/MITRE%20ATT%26CK®-v16-red)](https://attack.mitre.org/versions/v16/)
 [![test](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/test.yml/badge.svg)](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/test.yml)
 [![build](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/build.yml/badge.svg)](https://github.com/center-for-threat-informed-defense/attack-flow/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow/branch/main/graph/badge.svg?token=MSGpc9mM6U)](https://codecov.io/gh/center-for-threat-informed-defense/attack-flow)

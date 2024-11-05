@@ -810,6 +810,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--0ce73446-8722-4086-9d43-514f1d0f669e",
+            "name": "Modify Cloud Resource Hierarchy",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1666",
+            "url": "https://attack.mitre.org/techniques/T1666",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--0cf55441-b176-4332-89e7-2c4c7799d0ff",
             "name": "Email Hiding Rules",
             "type": "technique",
@@ -907,6 +916,15 @@ export const intel = {
             "id": "T1501",
             "url": "https://attack.mitre.org/techniques/T1501",
             "deprecated": true
+        },
+        {
+            "stixId": "attack-pattern--1001e0d6-ee09-4dfc-aa90-e9320ffc8fe4",
+            "name": "Lifecycle-Triggered Deletion",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1485.001",
+            "url": "https://attack.mitre.org/techniques/T1485/001",
+            "deprecated": false
         },
         {
             "stixId": "attack-pattern--101c3a64-9ba5-46c9-b573-5c501053cbca",
@@ -1015,6 +1033,15 @@ export const intel = {
             "id": "T1099",
             "url": "https://attack.mitre.org/techniques/T1099",
             "deprecated": true
+        },
+        {
+            "stixId": "attack-pattern--130d4494-b2d6-4040-bcea-6e59f05222fe",
+            "name": "SMS Pumping",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1496.003",
+            "url": "https://attack.mitre.org/techniques/T1496/003",
+            "deprecated": false
         },
         {
             "stixId": "attack-pattern--132d5b37-aac5-4378-a8dc-3127b18a73dc",
@@ -1546,6 +1573,15 @@ export const intel = {
             "id": "T1063",
             "url": "https://attack.mitre.org/techniques/T1063",
             "deprecated": true
+        },
+        {
+            "stixId": "attack-pattern--241f9ea8-f6ae-4f38-92f5-cef5b7e539dd",
+            "name": "Publish/Subscribe Protocols",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1071.005",
+            "url": "https://attack.mitre.org/techniques/T1071/005",
+            "deprecated": false
         },
         {
             "stixId": "attack-pattern--24286c33-d4a4-4419-85c2-1d094a896c26",
@@ -2214,6 +2250,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--394220d9-8efc-4252-9040-664f7b115be6",
+            "name": "Ccache Files",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1558.005",
+            "url": "https://attack.mitre.org/techniques/T1558/005",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--3975dbb5-0e1e-4f5b-bae1-cf2ab84b46dc",
             "name": "Clear Network Connection History and Configurations",
             "type": "technique",
@@ -2364,6 +2409,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1586.002",
             "url": "https://attack.mitre.org/techniques/T1586/002",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--3e6831b2-bf4c-4ae6-b328-2e7c6633b291",
+            "name": "Additional Local or Domain Groups",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1098.007",
+            "url": "https://attack.mitre.org/techniques/T1098/007",
             "deprecated": false
         },
         {
@@ -2628,6 +2682,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--48b836c6-e4ca-435a-82a3-29c03e5b492e",
+            "name": "Evil Twin",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1557.004",
+            "url": "https://attack.mitre.org/techniques/T1557/004",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--4933e63b-9b77-476e-ab29-761bc5b7d15a",
             "name": "Reflective Code Loading",
             "type": "technique",
@@ -2643,6 +2706,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1016.002",
             "url": "https://attack.mitre.org/techniques/T1016/002",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--49fca0d2-685d-41eb-8bd4-05451cc3a742",
+            "name": "Mutual Exclusion",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1480.002",
+            "url": "https://attack.mitre.org/techniques/T1480/002",
             "deprecated": false
         },
         {
@@ -3744,6 +3816,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--718cb208-6446-4572-a2f0-9c799c60091e",
+            "name": "Bandwidth Hijacking",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1496.002",
+            "url": "https://attack.mitre.org/techniques/T1496/002",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--723e3a2b-ca0d-4daa-ada8-82ea35d3733a",
             "name": "PowerShell Profile",
             "type": "technique",
@@ -4590,6 +4671,15 @@ export const intel = {
             "deprecated": true
         },
         {
+            "stixId": "attack-pattern--924d273c-be0d-4d8d-af58-2dddb15ef1e2",
+            "name": "Cloud Service Hijacking",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1496.004",
+            "url": "https://attack.mitre.org/techniques/T1496/004",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--926d8cfd-1d0d-4da2-ab49-3ca10ec3f3b5",
             "name": "Cloud Accounts",
             "type": "technique",
@@ -5031,6 +5121,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--a718a0c8-5768-41a1-9958-a1cc3f995e99",
+            "name": "Compute Hijacking",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1496.001",
+            "url": "https://attack.mitre.org/techniques/T1496/001",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--a750a9f6-0bde-4bb3-9aae-1e2786e9780c",
             "name": "Network Share Connection Removal",
             "type": "technique",
@@ -5154,6 +5253,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1574",
             "url": "https://attack.mitre.org/techniques/T1574",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--afddee82-3385-4682-ad90-eeced33f2d07",
+            "name": "Lua",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1059.011",
+            "url": "https://attack.mitre.org/techniques/T1059/011",
             "deprecated": false
         },
         {
@@ -5335,6 +5443,15 @@ export const intel = {
             "id": "T1154",
             "url": "https://attack.mitre.org/techniques/T1154",
             "deprecated": true
+        },
+        {
+            "stixId": "attack-pattern--b577dfc1-0177-4522-8d5a-782127c8592b",
+            "name": "Polymorphic Code",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1027.014",
+            "url": "https://attack.mitre.org/techniques/T1027/014",
+            "deprecated": false
         },
         {
             "stixId": "attack-pattern--b6075259-dba3-44e9-87c7-e954f37ec0d5",
@@ -5550,6 +5667,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1593.001",
             "url": "https://attack.mitre.org/techniques/T1593/001",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--bbfbb096-6561-4d7d-aa2c-a5ee8e44c696",
+            "name": "Customer Relationship Management Software",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1213.004",
+            "url": "https://attack.mitre.org/techniques/T1213/004",
             "deprecated": false
         },
         {
@@ -5779,7 +5905,7 @@ export const intel = {
         },
         {
             "stixId": "attack-pattern--c325b232-d5bc-4dde-a3ec-71f3db9e8adc",
-            "name": "Protocol Impersonation",
+            "name": "Protocol or Service Impersonation",
             "type": "technique",
             "matrix": "Enterprise ATT&CK",
             "id": "T1001.003",
@@ -6030,12 +6156,30 @@ export const intel = {
             "deprecated": true
         },
         {
+            "stixId": "attack-pattern--cc279e50-df85-4c8e-be80-6dc2eda8849c",
+            "name": "ClickOnce",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1127.002",
+            "url": "https://attack.mitre.org/techniques/T1127/002",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--cc3502b5-30cc-4473-ad48-42d51a6ef6d1",
             "name": "Python",
             "type": "technique",
             "matrix": "Enterprise ATT&CK",
             "id": "T1059.006",
             "url": "https://attack.mitre.org/techniques/T1059/006",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--cc36eeae-2209-4e63-89d3-c97e19edf280",
+            "name": "Relocate Malware",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1070.010",
+            "url": "https://attack.mitre.org/techniques/T1070/010",
             "deprecated": false
         },
         {
@@ -6288,6 +6432,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1555.004",
             "url": "https://attack.mitre.org/techniques/T1555/004",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--d349c66e-18e1-4d8b-a2d7-65af7cbd2ba0",
+            "name": "Masquerade Account Name",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1036.010",
+            "url": "https://attack.mitre.org/techniques/T1036/010",
             "deprecated": false
         },
         {
@@ -7164,6 +7317,15 @@ export const intel = {
             "deprecated": false
         },
         {
+            "stixId": "attack-pattern--f4c3f644-ab33-433d-8648-75cc03a95792",
+            "name": "Udev Rules",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1546.017",
+            "url": "https://attack.mitre.org/techniques/T1546/017",
+            "deprecated": false
+        },
+        {
             "stixId": "attack-pattern--f5946b5e-9408-485f-a7f7-b5efc88909b6",
             "name": "Credential API Hooking",
             "type": "technique",
@@ -7323,6 +7485,15 @@ export const intel = {
             "matrix": "Enterprise ATT&CK",
             "id": "T1561.001",
             "url": "https://attack.mitre.org/techniques/T1561/001",
+            "deprecated": false
+        },
+        {
+            "stixId": "attack-pattern--fb75213f-cfb0-40bf-a02f-3bad93d6601e",
+            "name": "Messaging Applications",
+            "type": "technique",
+            "matrix": "Enterprise ATT&CK",
+            "id": "T1213.005",
+            "url": "https://attack.mitre.org/techniques/T1213/005",
             "deprecated": false
         },
         {
@@ -10062,7 +10233,7 @@ export const intel = {
         "T1001 (Data Obfuscation)",
         "T1001.001 (Junk Data)",
         "T1001.002 (Steganography)",
-        "T1001.003 (Protocol Impersonation)",
+        "T1001.003 (Protocol or Service Impersonation)",
         "T1002 (Data Compressed)",
         "T1003 (OS Credential Dumping)",
         "T1003.001 (LSASS Memory)",
@@ -10122,6 +10293,7 @@ export const intel = {
         "T1027.011 (Fileless Storage)",
         "T1027.012 (LNK Icon Smuggling)",
         "T1027.013 (Encrypted/Encoded File)",
+        "T1027.014 (Polymorphic Code)",
         "T1028 (Windows Remote Management)",
         "T1029 (Scheduled Transfer)",
         "T1030 (Data Transfer Size Limits)",
@@ -10140,6 +10312,7 @@ export const intel = {
         "T1036.007 (Double File Extension)",
         "T1036.008 (Masquerade File Type)",
         "T1036.009 (Break Process Trees)",
+        "T1036.010 (Masquerade Account Name)",
         "T1037 (Boot or Logon Initialization Scripts)",
         "T1037.001 (Logon Script (Windows))",
         "T1037.002 (Login Hook)",
@@ -10205,6 +10378,7 @@ export const intel = {
         "T1059.008 (Network Device CLI)",
         "T1059.009 (Cloud API)",
         "T1059.010 (AutoHotKey & AutoIT)",
+        "T1059.011 (Lua)",
         "T1060 (Registry Run Keys / Startup Folder)",
         "T1061 (Graphical User Interface)",
         "T1062 (Hypervisor)",
@@ -10228,11 +10402,13 @@ export const intel = {
         "T1070.007 (Clear Network Connection History and Configurations)",
         "T1070.008 (Clear Mailbox Data)",
         "T1070.009 (Clear Persistence)",
+        "T1070.010 (Relocate Malware)",
         "T1071 (Application Layer Protocol)",
         "T1071.001 (Web Protocols)",
         "T1071.002 (File Transfer Protocols)",
         "T1071.003 (Mail Protocols)",
         "T1071.004 (DNS)",
+        "T1071.005 (Publish/Subscribe Protocols)",
         "T1072 (Software Deployment Tools)",
         "T1073 (DLL Side-Loading)",
         "T1074 (Data Staged)",
@@ -10280,6 +10456,7 @@ export const intel = {
         "T1098.004 (SSH Authorized Keys)",
         "T1098.005 (Device Registration)",
         "T1098.006 (Additional Container Cluster Roles)",
+        "T1098.007 (Additional Local or Domain Groups)",
         "T1099 (Timestomp)",
         "T1100 (Web Shell)",
         "T1101 (Security Support Provider)",
@@ -10320,6 +10497,7 @@ export const intel = {
         "T1126 (Network Share Connection Removal)",
         "T1127 (Trusted Developer Utilities Proxy Execution)",
         "T1127.001 (MSBuild)",
+        "T1127.002 (ClickOnce)",
         "T1128 (Netsh Helper DLL)",
         "T1129 (Shared Modules)",
         "T1130 (Install Root Certificate)",
@@ -10433,6 +10611,8 @@ export const intel = {
         "T1213.001 (Confluence)",
         "T1213.002 (Sharepoint)",
         "T1213.003 (Code Repositories)",
+        "T1213.004 (Customer Relationship Management Software)",
+        "T1213.005 (Messaging Applications)",
         "T1214 (Credentials in Registry)",
         "T1215 (Kernel Modules and Extensions)",
         "T1216 (System Script Proxy Execution)",
@@ -10557,6 +10737,7 @@ export const intel = {
         "T1478 (Install Insecure or Malicious Configuration)",
         "T1480 (Execution Guardrails)",
         "T1480.001 (Environmental Keying)",
+        "T1480.002 (Mutual Exclusion)",
         "T1481 (Web Service)",
         "T1481.001 (Dead Drop Resolver)",
         "T1481.002 (Bidirectional Communication)",
@@ -10567,6 +10748,7 @@ export const intel = {
         "T1484.001 (Group Policy Modification)",
         "T1484.002 (Trust Modification)",
         "T1485 (Data Destruction)",
+        "T1485.001 (Lifecycle-Triggered Deletion)",
         "T1486 (Data Encrypted for Impact)",
         "T1487 (Disk Structure Wipe)",
         "T1488 (Disk Content Wipe)",
@@ -10580,6 +10762,10 @@ export const intel = {
         "T1494 (Runtime Data Manipulation)",
         "T1495 (Firmware Corruption)",
         "T1496 (Resource Hijacking)",
+        "T1496.001 (Compute Hijacking)",
+        "T1496.002 (Bandwidth Hijacking)",
+        "T1496.003 (SMS Pumping)",
+        "T1496.004 (Cloud Service Hijacking)",
         "T1497 (Virtualization/Sandbox Evasion)",
         "T1497.001 (System Checks)",
         "T1497.002 (User Activity Based Checks)",
@@ -10670,6 +10856,7 @@ export const intel = {
         "T1546.014 (Emond)",
         "T1546.015 (Component Object Model Hijacking)",
         "T1546.016 (Installer Packages)",
+        "T1546.017 (Udev Rules)",
         "T1547 (Boot or Logon Autostart Execution)",
         "T1547.001 (Registry Run Keys / Startup Folder)",
         "T1547.002 (Authentication Package)",
@@ -10736,11 +10923,13 @@ export const intel = {
         "T1557.001 (LLMNR/NBT-NS Poisoning and SMB Relay)",
         "T1557.002 (ARP Cache Poisoning)",
         "T1557.003 (DHCP Spoofing)",
+        "T1557.004 (Evil Twin)",
         "T1558 (Steal or Forge Kerberos Tickets)",
         "T1558.001 (Golden Ticket)",
         "T1558.002 (Silver Ticket)",
         "T1558.003 (Kerberoasting)",
         "T1558.004 (AS-REP Roasting)",
+        "T1558.005 (Ccache Files)",
         "T1559 (Inter-Process Communication)",
         "T1559.001 (Component Object Model)",
         "T1559.002 (Dynamic Data Exchange)",
@@ -11025,7 +11214,8 @@ export const intel = {
         "T1662 (Data Destruction)",
         "T1663 (Remote Access Software)",
         "T1664 (Exploitation for Initial Access)",
-        "T1665 (Hide Infrastructure)"
+        "T1665 (Hide Infrastructure)",
+        "T1666 (Modify Cloud Resource Hierarchy)"
     ]
 };
 
