@@ -18,7 +18,7 @@ license = "Apache"
 af = "attack_flow.cli:main"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.12"
 jsonschema = "4.17.3"
 Sphinx = "^4.5.0"
 sphinx-autobuild = "^2021.3.14"

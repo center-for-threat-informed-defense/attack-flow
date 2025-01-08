@@ -19,7 +19,7 @@ The Attack Flow Library is written in Python and contains tools for:
 Set up
 ~~~~~~
 
-The Attack Flow Library requires Python >=3.8. You will also need to install `Python
+The Attack Flow Library requires Python >=3.12. You will also need to install `Python
 Poetry <https://python-poetry.org/>`__ in order to handle dependencies and setting up a
 virtualenv. Clone the repository as follows:
 
