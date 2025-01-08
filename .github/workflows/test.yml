@@ -15,7 +15,7 @@ jobs:
       with:
         python-version: '3.8'
     - name: Install Poetry
-      run: curl -sSL https://install.python-poetry.org/ | python -
+      run: curl -sSL https://install.python-poetry.org/ | python - || cat /home/runner/work/attack-flow/attack-flow/poetry*
     - name: Add Poetry to PATH
       run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
     - name: Install Python dependencies
