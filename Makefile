@@ -24,7 +24,6 @@ docs-examples: src/attack_flow_builder/dist/cli.common.js ## Build example flows
 	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -t -I {} af graphviz "corpus/{}.json" "docs/extra/corpus/{}.dot"
 	ls -1 docs/extra/corpus/*.dot | xargs -t -I {} dot -Tpng -O -q1 "{}"
 	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -t -I {} af mermaid "corpus/{}.json" "docs/extra/corpus/{}.mmd"
-	ls -1 corpus/*.json | sed 's/corpus\/\(.*\)\.json/\1/' | xargs -t -I {} mmdc -i "docs/extra/corpus/{}.mmd" -o "docs/extra/corpus/{}.mmd.png"
 	af doc-examples corpus/ docs/example_flows.rst
 
 docs-matrix: ## Build the Navigator visualization JS code

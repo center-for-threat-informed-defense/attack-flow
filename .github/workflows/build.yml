@@ -123,8 +123,6 @@ jobs:
     - name: Install Node dependencies
       working-directory: ./src/attack_flow_builder/
       run: npm ci
-    - name: Install Mermaid
-      run: npm install -g @mermaid-js/mermaid-cli
     - name: Create client directory
       run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder

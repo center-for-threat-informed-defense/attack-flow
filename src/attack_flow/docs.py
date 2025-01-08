@@ -319,7 +319,7 @@ def generate_example_flows(jsons, afds):
         formats.append(
             f'<p><em>Download:</em> <a href="../corpus/{quoted_stem}.json">JSON</a> | '
             f'<a href="../corpus/{quoted_stem}.dot">GraphViz</a> (<a href="../corpus/{quoted_stem}.dot.png">PNG</a>) | '
-            f'<a href="../corpus/{quoted_stem}.mmd">Mermaid</a> (<a href="../corpus/{quoted_stem}.mmd.png">PNG</a>)'
+            f'<a href="../corpus/{quoted_stem}.mmd">Mermaid</a>'
         )
         doc_lines.append(f"  * - **{name}**")
         doc_lines.append("")
