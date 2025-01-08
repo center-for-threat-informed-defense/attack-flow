@@ -1,6 +1,7 @@
 """
 Tools for working with the Attack Flow schema.
 """
+
 import json
 import functools
 from pathlib import Path

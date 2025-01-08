@@ -5,6 +5,7 @@ This file duplicates the JSON schema to some extent, which is undesirable, but I
 sure how best to refactor: generate JSON schema from this code, or generate this code
 from the JSON scheme?
 """
+
 from stix2 import Bundle, CustomObject, parse
 from stix2.properties import ListProperty, ReferenceProperty, StringProperty
 

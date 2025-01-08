@@ -129,7 +129,6 @@ def convert_attack_flow(bundle):
 
 
 def convert_attack_tree(bundle):
-
     """
     Convert an Attack Flow STIX bundle into Mermaid format.
 

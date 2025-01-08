@@ -1,6 +1,7 @@
 """
 Convert Attack Flow to NeworkX format for standard graph analysis/manipulation.
 """
+
 import networkx as nx
 
 

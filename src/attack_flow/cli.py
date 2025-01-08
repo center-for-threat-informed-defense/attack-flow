@@ -1,6 +1,7 @@
 """
 Attack Flow command line tool for validation and visualization.
 """
+
 import argparse
 from pathlib import Path
 import json
