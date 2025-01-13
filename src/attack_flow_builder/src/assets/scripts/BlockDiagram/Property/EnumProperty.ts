@@ -137,7 +137,7 @@ export class EnumProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        return this.toReferenceValue()?.toString() ?? "Null";
+        return this.toReferenceValue()?.toString() ?? "None";
     }
 
 }

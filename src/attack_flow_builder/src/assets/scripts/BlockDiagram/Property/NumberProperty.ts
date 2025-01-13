@@ -121,7 +121,7 @@ export class NumberProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        return `${ this._value ?? 'Null' }`;
+        return `${ this._value ?? 'None' }`;
     }
 
 }
