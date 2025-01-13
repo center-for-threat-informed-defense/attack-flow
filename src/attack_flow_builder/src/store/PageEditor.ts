@@ -7,7 +7,7 @@ import {
     ValidationErrorResult,
     ValidationWarningResult
 } from "@/assets/scripts/DiagramValidator";
-import { 
+import {
     BlockDiagramSchema,
     CameraLocation,
     DiagramFactory,
@@ -32,7 +32,7 @@ export class PageEditor {
      * The editor's update trigger.
      */
     public trigger: Ref<number>;
-    
+
     /**
      * The editor's front-end view parameters.
      */
@@ -93,7 +93,7 @@ export class PageEditor {
             this._validator.run(page);
         }
     }
-    
+
 
     /**
      * Returns a dummy {@link PageEditor}.
@@ -104,7 +104,7 @@ export class PageEditor {
         return markRaw(new this(PageModel.createDummy()));
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Command Execution  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -175,7 +175,7 @@ export class PageEditor {
      */
     public canRedo(): boolean {
         return 0 < this._redoStack.length;
-    }   
+    }
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -239,13 +239,13 @@ export class PageEditor {
      *  The page's editor.
      */
     public static async fromFile(file: string): Promise<PageEditor> {
-        
+
         // Parse document
         let page = JSON.parse(file) as PageExport;
 
         // Initialize diagram factory
         let factory = await DiagramFactory.create(Configuration.schema);
-        
+
         // Compile export index
         let index = new Map<string, DiagramObjectExport>();
         for(let obj of page.objects) {
@@ -275,7 +275,7 @@ export class PageEditor {
                 let obj = factory.createObject({ ...exp, children });
                 objIndex.set(obj.id, obj);
             }
-            
+
             // Return object
             return objIndex.get(exp.id)!;
 
@@ -309,7 +309,7 @@ export class PageEditor {
             objects: [...this.page.getSubtree()].map(o => o.toExport()),
             location: location
         }
-        return JSON.stringify(doc);
+        return JSON.stringify(doc, null, 2);
     }
 
     /**
@@ -318,7 +318,7 @@ export class PageEditor {
      * more pages can be exported into a document bundle and multiple document
      * bundles can be imported at once. Documents "unwrap" and dump their pages
      * into the application. Documents contain no information other than the
-     * pages.  
+     * pages.
      */
 
 }
@@ -384,7 +384,7 @@ type PageExport = {
      * The application's version number.
      */
     version: string
-    
+
     /**
      * The page's id.
      */
