@@ -3,7 +3,7 @@
     <div class="grid-container">
       <div class="value" v-show="!showEditor">
         <p v-if="value === null" class="null-value">
-          Null
+          None
         </p>
         <p v-else class="date-value">
           {{ prop_M }} {{ prop_D }}, {{ prop_Y }}
@@ -140,7 +140,7 @@ export default defineComponent({
      */
     prop_M(): string {
       let v = this.value;
-      return v ? Months[v.getUTCMonth()] : "Null";
+      return v ? Months[v.getUTCMonth()] : "None";
     },
 
     /**
@@ -150,7 +150,7 @@ export default defineComponent({
      */
     prop_D(): string {
       let v = this.value;
-      return `${ v?.getUTCDate() ?? 'Null' }`;
+      return `${ v?.getUTCDate() ?? 'None' }`;
     },
     
     /**
@@ -160,7 +160,7 @@ export default defineComponent({
      */
     prop_Y(): string {
       let v = this.value;
-      return `${ v?.getUTCFullYear() ?? 'Null' }`;
+      return `${ v?.getUTCFullYear() ?? 'None' }`;
     },
 
     /**
@@ -170,7 +170,7 @@ export default defineComponent({
      */
     prop_H(): string {
       let v = this.value;
-      return v ? `${ v.getUTCHours() }`.padStart(2, '0') : "Null";
+      return v ? `${ v.getUTCHours() }`.padStart(2, '0') : "None";
     },
 
     /**
@@ -180,7 +180,7 @@ export default defineComponent({
      */
     prop_m(): string {
       let v = this.value;
-      return v ? `${ v.getUTCMinutes() }`.padStart(2, '0') : "Null";
+      return v ? `${ v.getUTCMinutes() }`.padStart(2, '0') : "None";
     },
 
     /**
@@ -190,7 +190,7 @@ export default defineComponent({
      */
     prop_s(): string {
       let v = this.value;
-      return v ? `${ v.getUTCSeconds() }`.padStart(2, '0') : "Null";
+      return v ? `${ v.getUTCSeconds() }`.padStart(2, '0') : "None";
     }
 
   },

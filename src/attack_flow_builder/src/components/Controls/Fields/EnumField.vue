@@ -118,7 +118,7 @@ export default defineComponent({
     options(): { value: string | null, text: string }[] {
       let options: { value: string | null, text: string }[] = [];
       if(this.searchTerm === "") {
-        options.push({ value: null, text: "Null" });
+        options.push({ value: null, text: "None" });
       }
       let st = this.searchTerm.toLocaleLowerCase();
       for(let [value, prop] of this._property.options.value) {
@@ -140,7 +140,7 @@ export default defineComponent({
         let prop = this._property.options.value.get(this.select)!;
         return prop.toString();
       } else {
-        return "Null";
+        return "None";
       }
     },
 
