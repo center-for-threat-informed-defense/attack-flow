@@ -1,1 +1,4847 @@
-{"version":"2.1.0","id":"ca2783d5-ddf2-441d-af82-9cfa68abead0","objects":[{"id":"ca2783d5-ddf2-441d-af82-9cfa68abead0","x":-530,"y":1424,"attrs":0,"template":"flow","children":["84454574-3ed2-43eb-979f-66c3d343a71a","bfbfe054-666b-498e-a067-ed49356fab29","495d59d5-30d7-443e-b436-651a390abc25","401fbfb9-930a-43b9-a43e-6cbc7f9e3802","cd81c1d1-f256-4499-8dec-d878d3797e9f","3c019d2c-c56f-47e4-8977-e86a4a359069","f93e229b-778b-4bf8-838f-f459944b93f6","c6e2dfb4-33c5-4908-86a2-db3a3612c0c5","4adf1a83-fb20-4827-b930-38a89f6683f0","1472fccf-cdf4-4a4b-a0c3-b927e3381c02","52458288-98e9-44e8-893b-ce528710fac2","24692f77-c123-4107-923e-937e7cc9349e","23625c13-d92b-4e65-8f82-91a4820319ee","d750be99-9a78-40b1-9d97-6534fe14b3df","bb21f3f6-e177-40dd-a8f1-0ab363d974e6","7fa1a34d-5d0c-4655-8e23-ef9d23771bba","d3955dea-55a0-4e2a-8e6e-ae7b56f60602","07354f90-6d57-4de7-b9af-7f6130ba9dc3","05e4f0aa-49d7-4be0-99d9-19c1393b2b18","298530ff-51b1-43f6-8c1f-59f432625094","35c17809-784f-4aa9-a827-aa7e376de16e","9f558097-d755-4887-a25e-db17618810c7","6f00d94e-3724-4f17-a01d-d2e73c9860cf","6a4e6072-9cf7-4abc-9815-6aef25ca5ae0","6b8158c0-becf-443c-ab7b-c72fba4890ee","7ac6dd9f-cd06-4b87-83b4-e7d678eb3f69","3c3fea04-7678-4ae6-a8dd-0b0c28eafe97","7a8cceb0-2ab8-4f2c-aa01-43e31a3004ae","545cfd59-0603-4476-93fc-c7c91c22e0bd","8182daeb-6e84-4a04-9ab3-8df8cb3ac870","747d2282-1bf8-4848-89f0-0ee82ca3b6a5","99b5706e-013e-4ca3-b3ef-450c30075a92","e01fce30-934b-4d5c-ab81-ca635e99b406","64e570dd-974a-488e-a3e7-ea0ad64b68b2","d277228f-6835-488e-8145-4e43af09f875","24580a69-62d4-447f-8606-dc17134e2371","6dbde84b-f026-46b8-bde6-f963be602a4c","6064c97d-5b15-406a-b63f-4163018463b9","e1c165a0-165b-4760-8da0-dcd112475096","fefaa1b5-e34c-4bb9-9016-933dc6f42aca","20c3a450-1f75-4c04-8714-33620f148749","1ca54adf-82f5-427b-bb74-e748b132af57","2aaea74f-f954-4092-8d64-28cdd79dda76"],"properties":[["name","CISA AA22-138B VMWare Workspace (Alt)"],["description","Alternative method used to exploit VMWare Workspace ONE Access"],["author",[["name","Lauren Parker"],["identity_class",null],["contact_information","lparker@mitre.org"]]],["scope","incident"],["external_references",[["13ef963a481d54ed16189fd28e19e76e",[["source_name","CISA"],["description","Alert"],["url","https://www.cisa.gov/uscert/ncas/alerts/aa22-138b"]]]]],["created","2023-02-21T14:51:27.768Z"]]},{"id":"84454574-3ed2-43eb-979f-66c3d343a71a","x":-250,"y":-270,"attrs":256,"template":"action","children":["9b90debf-5719-4954-a5ee-51de8b4650f5","b557b4d5-bbba-4c94-8f52-8fbe475e51ce","392bc617-395b-4074-b853-9715e0854e2a","5b5bda51-5f40-466f-9189-002bb4f4a7eb","9ded5c4b-61f7-4b81-87d9-08928867d63f","4b47c068-8a35-42bd-9a83-b07c07d5241b","845297f9-e161-4c30-8d86-e5d4649e4139","db674dd8-1429-4ad5-84ff-7d9fb492a60b","65535510-d293-4026-b59e-3ce30bb89ef7","7493648e-10b8-4953-ac34-3493ff63cc1c","167aa568-7640-4d37-b02d-0a38640259b4","1efe9137-c7c0-43c4-bdaa-01e90f8af55a"],"properties":[["name","Exploitation for Client Execution"],["tactic_id","TA0002"],["tactic_ref","x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5"],["technique_id","T1203"],["technique_ref",null],["description","attackers used a Bash script to exploit software vulnerabilities in VMWare Workspace ONE Access"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"bfbfe054-666b-498e-a067-ed49356fab29","x":110,"y":-270,"attrs":256,"template":"vulnerability","children":["455accdd-719b-426e-acaf-df9b8c95686d","1568b383-ad5d-422d-b75e-702f49bbb218","fd60c42d-6bcf-4695-8885-6a0bb3e4e730","6384b27b-7ae0-4c90-991f-171740c8971e","be6e3c60-88a6-41d0-bf66-51dea7d476a7","02e105fb-9a3e-4411-aba9-66836fb59a43","fdce0592-6d56-4c88-bac2-48b81f161a7a","bed07def-aed4-4a47-84ba-113995811454","d5a75fc3-9b01-4cc8-a2ee-acdda755c891","acf00e7f-2e5b-46b4-8536-c5fb94718437","b93e4c4e-e736-435a-b76a-f4e031758cf7","36c98aa3-f02d-437a-8c02-76455fb12056"],"properties":[["name","CVE 2022-22960"],["description",null]]},{"id":"495d59d5-30d7-443e-b436-651a390abc25","x":-29,"y":-270,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["5d00e4e4-eedb-4db0-b86b-207f9a26fc22","b4b7085a-64fe-4a85-9a4d-43579739ea86","397070d5-b518-4b6b-a8af-6b058949fdfa"],"properties":[]},{"id":"401fbfb9-930a-43b9-a43e-6cbc7f9e3802","x":-250,"y":70,"attrs":256,"template":"action","children":["7f80e56b-d608-4652-9a4d-a64a844fbb30","44c35cac-3a32-4867-b673-f704622a1374","98dcde9f-22ef-4494-a218-dd8f3a7e2e68","262d4aed-9ff9-4582-a2d6-36c571fdcdce","1c86771a-8f2e-48b5-a93f-9cb902bfd441","ae87eee7-5901-4a93-a242-199c900d5512","d423a778-b033-4ec8-ac42-846785a13f0e","98470b68-4735-49e8-a12c-55ff9e14c04d","afa3e504-3730-4ef7-bb29-26f9fd3a0b0e","29be5ac6-dc64-4004-9a8d-e96fb2130397","a0e6fade-b645-4b10-9555-763ea5453a5e","07c024cb-6c5c-4626-8f6f-b40e746f29aa"],"properties":[["name","Exploitation for Privilege Escalation"],["tactic_id","TA0004"],["tactic_ref","x-mitre-tactic--5e29b093-294e-49e9-a803-dab3d73b77dd"],["technique_id","T1068"],["technique_ref","attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839"],["description","Horizon user's privileges escalated"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"cd81c1d1-f256-4499-8dec-d878d3797e9f","x":-250,"y":-90,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["17f342c8-67e1-4a3b-9db4-3e7ea74cd6d7","fe5d8276-e4dc-4e43-887d-e941b64537a8","58558d59-5b51-4108-8e0e-8ba8ae94a225"],"properties":[]},{"id":"3c019d2c-c56f-47e4-8977-e86a4a359069","x":-250,"y":390,"attrs":256,"template":"action","children":["fa4e0649-98d8-4723-abe1-7455750b2a35","7a26c272-8a9a-4fb6-931f-11d79c35fcf3","026620d3-cbf9-47c6-8a73-526737287226","5b6e5910-d7a8-4f9d-9844-a7e17e37f643","60aa3bce-2084-4a74-9253-f24ee5bae37a","e75ecd92-f933-4f49-a6b3-c92ee3fef6f7","e4b21f5f-2061-416f-8d9e-f19fceee8b31","54e85d28-a6c5-4bd0-ad4a-8891ff2571e9","4b29f24c-5d90-4a71-8dc9-114613f51a44","66cdce87-f8b2-4993-a5a6-bf0f88a2ca54","0f79077f-7a92-4263-92d3-bc2662ee4aea","43428732-9d7b-470d-815e-0b0203bc5282"],"properties":[["name","Command and Scripting Interpreter"],["tactic_id","TA0002"],["tactic_ref","x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5"],["technique_id","T1059"],["technique_ref","attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830"],["description","Horizon user can execute commands and scripts as a superuser (sudo)"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"f93e229b-778b-4bf8-838f-f459944b93f6","x":-250,"y":225,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["827224f6-dbd3-4f1a-a700-01333ac99ade","17065bd0-1f77-4836-ae01-3f11cbdd87c6","bc1da8f3-10e0-4983-9411-78d7721e800f"],"properties":[]},{"id":"c6e2dfb4-33c5-4908-86a2-db3a3612c0c5","x":-780,"y":-270,"attrs":256,"template":"malware","children":["d5e01e15-32ec-4d10-a87f-15409467aecb","9cb380e5-f6e4-4ddf-aae1-4e9c9f112682","aa52fa1e-1be5-4c62-8e8e-dce2370f1253","3f08749e-3c85-40ed-877e-66d8ec07bdef","d4e43f60-003a-404e-81cc-9e9f1d4efe7c","a99baced-7a43-4f02-932d-9e1c49b01b01","4ddc418a-434c-4d7c-816d-812055fcc2ab","7d1a0c8a-bece-4465-ad8d-b7ba76b3a4c7","cfb8edc4-e559-4ebb-93c4-b9345bf4fa83","8a360277-db48-491b-bddd-cac39c21ba68","f4a85195-9d47-4385-bc98-de09e084ef09","22913bac-89c6-4e42-b912-aefc54087bec"],"properties":[["name","Bash script"],["description","Exploits software vulnerabilities and escalates privileges; overwrites files on the host; executes commands"],["malware_types",[["ed6e950ec230fbce2475bb7cf4ab09e8","webshell"],["4562f8107fbaa6cebe2b8645db5b7a78","downloader"]]],["is_family","false"],["aliases",[]],["kill_chain_phases",[]],["first_seen",null],["last_seen",null],["os_execution_envs",[]],["architecture_execution_envs",[]],["implementation_languages",[["b9c008068c8fa27d7c96306923774596","bash"]]],["capabilities",[["f849be49961d23ef0630802ac1c485bf","cleans-traces-of-infection"],["eea35bb653a071394d16deb683be66ef","escalates-privileges"],["f459be22b0459b3eb2bdf66993835b3c","exfiltrates-data"],["848fa5ffc4ee1e1060387b0a5f6d6a60","communicates-with-c2"],["15545050e96f423634117e05bb3a3185","installs-other-components"],["8c71b484f21d6655016eee547673e042","probes-network-environment"],["7cb579cf43438974ed3bfabd07b0b24f","steals-authentication-credentials"]]]]},{"id":"4adf1a83-fb20-4827-b930-38a89f6683f0","x":-514,"y":-270,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["4ec58df9-70ac-45d5-86a0-c56a30a469b9","f0a4e2d1-5b8b-4e3c-85e9-07a7cbb686d9","e9dbc3ae-085e-444a-9885-7e5d5a92fef7"],"properties":[]},{"id":"1472fccf-cdf4-4a4b-a0c3-b927e3381c02","x":-250,"y":740,"attrs":256,"template":"action","children":["9c704017-060e-4856-be64-7708d610d9cb","d2d4c3b3-fe33-41a6-b036-00343bd43687","3334070f-f1c2-4f1d-b504-f0945169f675","c646a335-f37e-40ac-ae90-3fac7ab5f96a","6ec0f742-2faa-4291-bf09-cb6d9dace2d7","384db637-9227-4857-b6fc-76e1efd72f0f","677415e7-ddc1-48ab-98b9-bdc21396108c","5d0dce0c-2c6d-49e8-aa8f-fd9f972ee082","c680195d-0411-490f-84cf-9c5bd3ed325e","2ec0369f-ce75-4ba8-8b4c-821bc7c403fa","7b697f68-8ba7-4ac2-8cae-dbb6fa4ec199","06aa0dbc-b5af-427a-9239-ec92f01c845b"],"properties":[["name","Discovery"],["tactic_id","TA0007"],["tactic_ref","x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9"],["technique_id",null],["technique_ref",null],["description","The script allows users to collect network information and additional information from the host system"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"52458288-98e9-44e8-893b-ce528710fac2","x":-250,"y":573,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["9b9a1cfb-58d8-4adb-839a-e1eaa2d7ade4","91be84a1-0583-4575-a3c3-854477baa10b","56fca2c8-53e9-4a29-86c2-c0fc828adc71"],"properties":[]},{"id":"24692f77-c123-4107-923e-937e7cc9349e","x":-250,"y":1100,"attrs":256,"template":"action","children":["208c1d03-8515-469c-b590-3536ffe881ed","a14065d2-73f7-4dfc-934b-4bdd6a114a31","2121116c-1387-4606-b3f6-b588f605e9eb","e6f2697e-8acc-4ec6-98ca-f56f838b256c","cf79cd26-90d1-465d-9d2d-16d76c0661a1","5028ef77-a168-4524-b22e-8a14ca9f7c6f","4f06c689-756f-4ad4-8870-0dcb6f431629","a222478c-cc01-4106-abbc-7b48abfacd84","ecb7585f-b166-42c9-bdbd-b90561c606a5","406bb9c8-b156-4d0b-a0ef-b5d95cff3c7b","321a6775-0f8a-43a8-a4e1-96dfdeedc0b9","be97705f-f531-427e-b846-64fc14309e82"],"properties":[["name","Indicator Removal"],["tactic_id","TA0005"],["tactic_ref","x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a"],["technique_id","T1070"],["technique_ref","attack-pattern--799ace7f-e227-4411-baa0-8868704f2a69"],["description","publishCaCert.hzn overwritten with fd86ald0.pem"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"23625c13-d92b-4e65-8f82-91a4820319ee","x":80,"y":1100,"attrs":256,"template":"file","children":["dc2199b7-ecbe-4bed-ab6e-47b75cc3311f","d6d0a36a-c009-47c3-9ba7-c2dbb3462abd","0a17937e-8de7-4973-89e7-613690914235","ffcc2a80-955a-4941-be6b-8b4ab26e149c","96fb5b09-129a-45e1-91b7-e1c5150549fa","723adc95-18a0-414e-9f97-829a287ca590","da029eb9-22d1-4cd6-9584-e92fb6e87ba7","a8176af0-30e2-45bf-a614-89d002f5934b","e58e8dd7-146e-454d-8c4d-feaa3cd25d2c","78795ea0-fbcd-4093-ab24-5802ae6e1289","3f305188-66c0-4551-bd2f-056c57d81e75","f9c3ca7e-a3d5-4f75-bb86-0c142a033d72"],"properties":[["name","fd86ald0.pem"],["name_enc",null],["size",null],["hashes",[]],["magic_number_hex",null],["mime_type",null],["ctime",null],["mtime",null],["atime",null]]},{"id":"d750be99-9a78-40b1-9d97-6534fe14b3df","x":-250,"y":912,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["151ca0b5-5283-4279-a587-11b53f94f2a0","e47124dd-0c4f-42ab-8d03-b4db0b9e0bb1","291079ff-8cc0-4127-84cf-e513e440daed"],"properties":[]},{"id":"bb21f3f6-e177-40dd-a8f1-0ab363d974e6","x":-57,"y":1100,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["1932e334-d941-41fd-afef-ef523f59db22","d80b5211-fb54-406b-85d4-2299bab6a9fd","36b365e7-80ae-47f1-b1e6-61e28a98bbe7"],"properties":[]},{"id":"7fa1a34d-5d0c-4655-8e23-ef9d23771bba","x":-250,"y":1450,"attrs":256,"template":"action","children":["1845170f-9dea-4017-b107-78969de3e505","349cb5f6-3d40-4d14-9109-0efb521df0bc","890af30b-6287-4812-b729-52e2a28884eb","951e1613-c48b-4280-814d-d59ae59e4096","4ccee9fa-d478-47e5-8b11-810f4f5f3740","3c2ab959-35a0-4613-902d-ae6c22e99357","cb52eb43-9f3c-4c3d-ad7d-82baed0315b8","59215479-1360-41a7-9ab9-22c7d40e1123","50971804-c74b-4c34-b006-47d998a91f27","dbb5214c-e152-44d8-a263-2436ef7c8458","63f6766d-eee0-4fe1-8a32-28613ec237ff","124c89bf-b503-4ef4-97ac-6e6a2498343d"],"properties":[["name","Archive via Utility"],["tactic_id","TA0009"],["tactic_ref","x-mitre-tactic--d108ce10-2419-4cf9-a774-46161d6c6cfe"],["technique_id","T1560.001"],["technique_ref","attack-pattern--00f90846-cbd1-4fc5-9233-df5c2bf2a662"],["description","script compresses files containing network interface configurations, users, passwords, masterkeys, hosts, and domains to a TAR archive, located in a VMWare Workspace ONE Access  directory"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"d3955dea-55a0-4e2a-8e6e-ae7b56f60602","x":-250,"y":1260,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["1e6ef434-50a3-4e39-8f72-4b2d373db261","4fb4443d-a918-4f91-81ba-bc5b7f6dab98","7d28347e-e712-481f-9727-f628bf3f0594"],"properties":[]},{"id":"07354f90-6d57-4de7-b9af-7f6130ba9dc3","x":210,"y":1450,"attrs":256,"template":"directory","children":["4de1cecb-7e7d-4d99-a963-33d87549f533","f9b5856b-8d87-423d-ad00-6fed19de6db6","b7d5d0cc-e7ed-467c-9687-7c9ab4ba546c","acdd558f-6725-4fa4-a474-29fada8d667f","9bca4f1a-1592-446a-b057-fbe6e14a5383","da21b88c-6fd0-4ef8-afd4-43564f681894","118da467-b70d-4ef7-a688-e6af0f665085","0128f2c3-0b97-49fb-afe5-4cda390d69ce","fe05f059-939f-40b9-bd32-e04b5e1b0926","77d33ce3-ed4e-4666-b6a5-51a8c57309bf","0de4748b-522e-4b8c-b4e6-3e0134473d2a","25c2c74a-85e2-417c-b7a8-d5fd1c6e9e84"],"properties":[["path","/opt/vmware/horizon/workspace/webapps/SAAS/horizon/images/"],["path_enc",null],["ctime",null],["mtime",null],["atime",null]]},{"id":"05e4f0aa-49d7-4be0-99d9-19c1393b2b18","x":-24,"y":1450,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["e0cfced5-ffe4-4f8c-baa6-527449720109","08b365f4-2316-4963-88ad-193d5f97c04d","8681b9cd-cc6f-452f-b447-327051c9d007"],"properties":[]},{"id":"298530ff-51b1-43f6-8c1f-59f432625094","x":-250,"y":3230,"attrs":256,"template":"action","children":["f5a38692-17b2-4f82-a302-44ab01663e61","3d6e1391-8cf3-42e9-9194-31e744682dda","402a4071-9d16-4854-9315-5c37f4429da7","2ef501bd-f79b-4199-937a-1ff8a41ac23f","a08d4d70-ece0-48a3-ab2c-bd58ae004c2c","6024de50-438b-47b5-8939-3572e6dcd1d1","07c04443-e82f-452b-a0d5-933ed95607af","b8502e50-5afe-4e54-98dc-321405241527","8da7e6e2-803d-4a1a-8758-22f70caa22aa","4b3542f1-47f1-472c-9eb1-cbc1103334ce","aca5d519-6a83-4621-9945-154dcf691d69","42d52afc-85af-482d-8d8f-a294e58004cf"],"properties":[["name","Indicator Removal"],["tactic_id","TA0005"],["tactic_ref","x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a"],["technique_id","T1070"],["technique_ref","attack-pattern--799ace7f-e227-4411-baa0-8868704f2a69"],["description","fd86ald0.pem removed from host"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"35c17809-784f-4aa9-a827-aa7e376de16e","x":-250,"y":1820,"attrs":256,"template":"action","children":["6730afde-b897-4635-beb2-2ded814599ae","782ac959-9035-4e38-85a3-e090ea7088ba","1156cdc8-ae7f-47d6-b2b5-383b32acb52c","200a6c16-b009-49cd-806f-1e6e62bdfdb8","aeec1216-5b51-44d9-b5c8-eb6a7f3b2f79","36abb7ed-ddee-4b00-b470-2c32344695bc","46cd94c1-7872-41ce-a30c-dec9b7c32aa8","bf661998-acbe-4e5b-9d1e-3cc58e0432b9","8d5b1b09-298b-4353-ba68-274d5fc36413","51f41258-4fd4-4710-b6f0-ead98fe849c7","2c82ce63-04c9-47ed-9669-47940b71bb68","b33e0069-9e1f-4f6e-b0ab-0c42ba9972df"],"properties":[["name","Command and Control"],["tactic_id","TA0011"],["tactic_ref","x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813"],["technique_id",null],["technique_ref",null],["description","script communicated with 20.232.97.189 for C2"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"9f558097-d755-4887-a25e-db17618810c7","x":-250,"y":1668,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["df06f83e-ce09-4b26-ac84-ca74676a02ba","b456df08-6c4d-4de1-ae77-6d488cfc5b41","2b752c56-abca-446b-bdf8-d568006f3339"],"properties":[]},{"id":"6f00d94e-3724-4f17-a01d-d2e73c9860cf","x":150,"y":1820,"attrs":256,"template":"infrastructure","children":["b6c54ec4-d1a5-46e7-af70-cf80be1af8b9","e6f6f42b-7a9f-4a8a-8032-58f80838cd48","e886a56d-a8f5-439e-b890-ccf5963721e3","9b8aeaf5-e999-423e-bb86-2dbfdc26b597","7623051e-8d8c-4351-a0f7-61ab8bd9ddce","bcd8f9bd-320f-43bf-8890-ef28176b21db","b86e374a-1d50-48d8-a9a2-7fb76a58cba4","2524ce8b-e03f-4979-b7f6-32faffa044c9","5cfe3095-f438-44b5-91cf-6cfbd326f3e0","c4734bad-44f4-4c5e-8215-b4158ca05fb4","3b135442-b0b8-466f-8ee7-8b35f766172f","71b99aef-08f2-455b-9fe9-32156e0a5879"],"properties":[["name","20.232.97.189"],["description","Command and Control"],["infrastructure_types",[["fa2a0fc0f7f3d652ea862e150e039369","command-and-control"]]],["aliases",[]],["kill_chain_phases",[]],["first_seen",null],["last_seen",null]]},{"id":"6a4e6072-9cf7-4abc-9815-6aef25ca5ae0","x":-9,"y":1820,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["11291f78-a5ad-489b-8cd0-8a31129ada6f","2e65fa61-16ec-4a8f-90f9-207348333d6a","427137b9-8114-42b3-9515-604ce518c4ad"],"properties":[]},{"id":"6b8158c0-becf-443c-ab7b-c72fba4890ee","x":-1270,"y":-270,"attrs":256,"template":"note","children":["941e23cc-91b1-4ea8-809f-f9043daa150a","5ea30a1f-d2cd-4d97-887d-db9ebbe6db47","63c226c1-3010-4a95-ae94-b0029fb06d45","a09ff4dc-8db1-4f45-aba3-17ebaaf6f915","0afe55c8-134a-4a51-81f4-8e5800d5e3c0","0340a1fa-683f-47c7-9107-a608ad703c94","9cbf1293-d871-4a6c-8744-b0724226f07d","9d9edf7e-c886-4328-a940-812b173178e5","593b9404-86e4-4dfb-9835-94fe77c38c26","7c8474ec-9bed-4539-8b5b-2492109a6775","ddb9bb45-2388-4cc1-a96f-3e26e3d2f18a","8b7132f3-f1d8-49ff-8f78-86a53bbe4dfa"],"properties":[["abstract",null],["content","The following IPs download, execute, and check the bash script: 45.72.112.245; 115.167.53.141; 191.102.179.197; 209.127.110.126; 45.72.85.172; 192.241.67.12"],["authors",[["441f8714806e010c61b2a44d712f55b3","Lauren Parker"]]]]},{"id":"7ac6dd9f-cd06-4b87-83b4-e7d678eb3f69","x":-1025,"y":-270,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["852aa5cf-8437-47bc-a8ee-36153cb0981b","e197fd25-ad92-46cb-82cf-64f0c30025d1","a163b4d5-547e-42f5-a52d-3a580991e2b0"],"properties":[]},{"id":"3c3fea04-7678-4ae6-a8dd-0b0c28eafe97","x":-250,"y":2160,"attrs":256,"template":"action","children":["17e3ebe3-47cd-4ec2-b0c8-6a2b35cc5e9c","6abe0746-518e-4283-9060-1d89c110fa8e","262ff2a3-26c4-49fd-8bd4-05e956fc361b","646ac9cb-df89-49b3-b20a-b859d472f472","191c236b-a6cd-427c-944d-a6d984291139","9ffb0577-8ffc-4a05-a03a-3288652ffdcb","aaffab70-42d7-440a-b5bb-f509ee24e334","82a08c02-0067-46ff-b2db-a4349dcfea49","0008403b-fee1-47df-acbf-557be60cfd61","503edcf6-fa8f-4f33-bc3c-c0403f1d08b7","efe62d36-d271-4cd0-831a-683a2dca3dbf","65757f80-b52f-44f5-8c03-4ce8a0dd9ef0"],"properties":[["name","Ingress Tool Transfer"],["tactic_id","TA0011"],["tactic_ref","x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813"],["technique_id","T1105"],["technique_ref","attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"],["description","attackers attempted to download MoneroOcean miner from GitHub from the associated IP"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"7a8cceb0-2ab8-4f2c-aa01-43e31a3004ae","x":-250,"y":1972,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["6193b3c2-1fb0-4401-aa50-14a42e63e7d8","e1be205f-90c1-4935-a5f4-6cfb627eec3b","21c396ce-3888-4639-a3be-859a5104da01"],"properties":[]},{"id":"545cfd59-0603-4476-93fc-c7c91c22e0bd","x":-620,"y":2160,"attrs":256,"template":"ipv4_addr","children":["7f143bef-79f0-49d2-a4df-4dfe47dee1f9","ae263aad-1835-43fe-9f65-086a24fbcf17","0fa42703-c197-49a3-89b0-45840f0d64c4","145009f2-343a-48ec-a08c-b785565d53be","39ebf90e-38d1-4c3b-a8d8-2059f542dfbe","b1d94fa5-3f35-4bea-bf90-2aa10b346ef1","33255141-cfad-4241-ac98-c5770aab2bf2","f08d02c4-fa94-402e-9dc8-89900e2afa7f","292de009-21ec-4b77-918d-b7f700f07886","789bb300-8938-490e-bfa6-5c623c568e2d","ddf6b391-9c8a-41bf-8f89-061fb6ef5fc2","ed941e6b-cf41-42ba-956b-ddb81e876f15"],"properties":[["value","194.31.98.141"]]},{"id":"8182daeb-6e84-4a04-9ab3-8df8cb3ac870","x":-492,"y":2160,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["bcc161bf-2316-4772-a422-4c252d6074c3","0d7db345-d4be-4c21-ac5a-19746057dd66","8ce3ee7f-241b-4b37-93dd-254afdfbc69e"],"properties":[]},{"id":"747d2282-1bf8-4848-89f0-0ee82ca3b6a5","x":-250,"y":2510,"attrs":256,"template":"action","children":["7c0b5c08-ca40-4537-a67f-471d82cc196e","b73b2176-45ce-4247-97f4-3f5d4f551b54","80dbf42e-a7ee-4a67-89bd-85baa5c92c5f","cde65f9d-a5a7-41f8-bd68-16b0b8bb775c","7ce12602-8af3-4abd-a2a3-c4b14c1b26a5","d496d64d-ff31-48de-92d9-da86a1e69843","0c68a253-0e48-4881-a858-8d77936e472c","3b18df65-38cb-40b4-9ca9-c50b14b36608","d0ad4018-3c56-4e60-8e11-23ad14b3960a","ba53108a-17f7-447b-8492-dfa43c903278","1312ba0d-a68d-47db-81c6-b115915d471e","b2c29195-fa6e-4b85-9115-867f39daf955"],"properties":[["name","File and Directory Discovery"],["tactic_id","TA0007"],["tactic_ref","x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9"],["technique_id","T1083"],["technique_ref","attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18"],["description","attackers used an associated IP address to run cat on a number of files in the listed directory"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"99b5706e-013e-4ca3-b3ef-450c30075a92","x":-250,"y":2335,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["555f1a3a-2155-43f6-bb48-a09909ca581f","c775f565-b2e1-4e66-84b2-61a28ad2f2f0","9089f6ba-e0fa-4904-8711-86bab25b0ec3"],"properties":[]},{"id":"e01fce30-934b-4d5c-ab81-ca635e99b406","x":-610,"y":2510,"attrs":256,"template":"ipv4_addr","children":["f2625447-9507-4fbc-888d-fcfca4dd0ec0","35834405-927d-4445-84d1-a7c71b60ade0","f6ae61dd-4a16-4afb-8856-67b7a290ab4b","822cb7e2-5ddd-4945-a407-42c6a5d67a58","cac62749-4240-468f-a34e-5cfeb2b54e20","3f74ca1f-5e3b-4f87-ad14-e76de932ab31","1aeb057f-aa0d-4876-990d-ed7d80b8a21d","276ef36a-0971-49ea-8a4f-67c8688cef0c","290e4bc3-fa29-4bcb-b9bc-ca1151df776e","7c28e6f3-f216-4010-b391-3564ff95f3a9","8b801390-794d-4a1e-9055-1526821b118d","4c5a3137-996a-41b9-9ac2-2937eed6e1eb"],"properties":[["value","8.45.41.114"]]},{"id":"64e570dd-974a-488e-a3e7-ea0ad64b68b2","x":-488,"y":2510,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["024fc946-7ae1-4a06-a7cd-b756accac701","aa5db7fb-d795-4471-96b1-5d6804086f4f","778d8525-9ff3-4faa-a6eb-023080e7e01c"],"properties":[]},{"id":"d277228f-6835-488e-8145-4e43af09f875","x":150,"y":2510,"attrs":256,"template":"directory","children":["45ae9738-1d37-4bda-b279-151f7d288db5","039c5fc5-4ac3-4b6d-ab95-eeeea5ee90e5","b86e8775-8e5e-46bd-93ff-0d70ff4e0214","304c8644-209c-4c1b-a343-1e6364c8535e","aa39b199-058c-4a29-92f2-b1c3176a00c5","0570d897-2357-483e-b820-78d4780a829e","2f64b82a-da59-46fb-a6a8-dda17a8b2425","188623e3-1bec-4deb-a622-90dfd3f32306","28dc4771-2e8b-4c94-9999-11a1a61e9d82","74da50c9-3168-4dd9-8739-a73eebff6230","f3588744-8d7c-4042-bbd1-07582451afed","47a1c684-3bac-4ffc-b730-769cebc95044"],"properties":[["path","/usr/local/horizon/conf"],["path_enc",null],["ctime",null],["mtime",null],["atime",null]]},{"id":"24580a69-62d4-447f-8606-dc17134e2371","x":-23,"y":2510,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["dcbdd090-08c6-4634-9a5e-4aa6e45dd7aa","26644411-74fb-4d2b-86c3-fbd7dc62a26b","75f43e87-21cb-43f6-8edd-b40714b31cd5"],"properties":[]},{"id":"6dbde84b-f026-46b8-bde6-f963be602a4c","x":-250,"y":2870,"attrs":256,"template":"action","children":["55c694a9-b357-4df4-a671-a9552c41b62e","80e26d65-9726-44ef-aca0-cffe575e9711","2f38dca2-e132-476a-9cf0-48e6bdaa5615","bd04fd9f-61be-4e70-8dd0-eee513cd19c1","a1bbaa10-f4a2-4492-8750-401028437e74","d7144dfc-aa7e-4651-9785-f817c9a0100e","4ef9e14c-c269-42a9-bc31-82f67a7d7b5c","780acaa9-a180-4291-8527-5dd26839e187","538b3487-9f80-4558-9e8d-6eb8a0b4c303","29bbbbc7-9690-4670-93bc-d151388161bd","5e8539a9-478a-4911-899f-c4964d9cbfb1","ea31b64c-76d9-4e77-942a-701a998487b8"],"properties":[["name","Ingress Tool Transfer"],["tactic_id","TA0011"],["tactic_ref","x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813"],["technique_id","T1105"],["technique_ref","attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"],["description","attackers attempted to download a JSP webshell from the listed URL"],["confidence",null],["execution_start",null],["execution_end",null]]},{"id":"6064c97d-5b15-406a-b63f-4163018463b9","x":-250,"y":2690,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["ce98cdcb-4cde-4c3a-a618-c3e8aa817a7d","aeb7d2bd-21d9-42bf-848f-e7c0bcba1e0e","afca71d1-908f-4a77-b363-c3d72f7b6ae3"],"properties":[]},{"id":"e1c165a0-165b-4760-8da0-dcd112475096","x":140,"y":2870,"attrs":256,"template":"url","children":["7042d4f7-81bb-4c94-b4af-d6d1d26600f6","66d0f735-be84-4611-99b7-e5b39653c3f1","1adaeb0d-bfba-4a69-be0e-46249501a662","c9fe5ed1-94d5-426c-a731-e01de59edd3f","96466aad-6acf-4789-a990-1950bcdad5ed","ddbb2738-0298-4b7a-84bd-9555c6b23a7b","a15638b9-dfce-41c9-a0e5-42a0cfaa313d","69da00be-9564-4f70-b8ba-3b76cb086c25","a7baa47c-f10b-42e4-a5ea-e9394c30f627","29924f61-09c8-4b5e-a5d9-21cff1855d86","0355edc5-bd13-4225-b89d-643179df3418","b173f8ab-b4e3-4256-9b1d-3aa030a91608"],"properties":[["value","http://84.38.133[.]149/img/icon.gif"]]},{"id":"fefaa1b5-e34c-4bb9-9016-933dc6f42aca","x":-46,"y":2870,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["303a4f24-fb8c-459e-af8c-2d2934557fbe","ac35ba43-bcac-4a62-ac89-85a433549d13","b05a56f0-860b-48f1-9d1a-a509dd3a8014"],"properties":[]},{"id":"20c3a450-1f75-4c04-8714-33620f148749","x":-250,"y":3055,"attrs":0,"template":"@__builtin__line_vertical_elbow","children":["dbe2e0eb-88ef-45bf-8bea-37321efcf30a","5b97ae44-fd1e-4e2a-9a9b-7bae95b060c9","bbc32a05-90d9-4c15-a603-3cb2ce3b6a2c"],"properties":[]},{"id":"1ca54adf-82f5-427b-bb74-e748b132af57","x":-550,"y":1520,"attrs":256,"template":"tool","children":["ac606903-de69-4a33-bef8-b61f8d4af534","5b3940e4-3fef-4346-b6c2-64e63a39eeb6","6cad5e88-15b5-4d3b-98be-8ce662b91df8","fe432078-7193-4ea1-9d96-0a104bc8655a","bfaa7233-ad6d-4508-bb6e-b430429d10ba","246ed9cd-d219-401f-af84-47734f134f84","37bbfd08-6d33-47fd-8d69-fd4fc64762d8","544aa779-22b0-46a5-b096-3bfa2393bfa2","deebf41b-e654-4a48-a10d-a11d784eaa01","ce85e0a0-d9ba-4b06-b197-103f6ec571a4","86023293-7154-4b3f-af8c-d329202f22b3","79a46103-0ae5-4a2d-a79b-6407feead671"],"properties":[["name","TAR"],["description","linux archive utility"],["tool_types",[]],["aliases",[]],["kill_chain_phases",[]],["tool_version",null]]},{"id":"2aaea74f-f954-4092-8d64-28cdd79dda76","x":-445,"y":1485,"attrs":0,"template":"@__builtin__line_horizontal_elbow","children":["e5dc4bb3-b577-46d6-9ae5-ea49b4bbbe58","88f7789f-036d-4e03-b258-04c8d9f87916","95948cce-e27b-475a-a647-adc919063e9d"],"properties":[]},{"id":"9b90debf-5719-4954-a5ee-51de8b4650f5","x":-339,"y":-407,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"b557b4d5-bbba-4c94-8f52-8fbe475e51ce","x":-250,"y":-407,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"392bc617-395b-4074-b853-9715e0854e2a","x":-161,"y":-407,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"5b5bda51-5f40-466f-9189-002bb4f4a7eb","x":-71,"y":-338.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"9ded5c4b-61f7-4b81-87d9-08928867d63f","x":-71,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":["5d00e4e4-eedb-4db0-b86b-207f9a26fc22"],"properties":[],"angle":0},{"id":"4b47c068-8a35-42bd-9a83-b07c07d5241b","x":-71,"y":-201.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"845297f9-e161-4c30-8d86-e5d4649e4139","x":-161,"y":-133,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"db674dd8-1429-4ad5-84ff-7d9fb492a60b","x":-250,"y":-133,"attrs":0,"template":"@__builtin__anchor","children":["17f342c8-67e1-4a3b-9db4-3e7ea74cd6d7"],"properties":[],"angle":1},{"id":"65535510-d293-4026-b59e-3ce30bb89ef7","x":-339,"y":-133,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"7493648e-10b8-4953-ac34-3493ff63cc1c","x":-428,"y":-201.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"167aa568-7640-4d37-b02d-0a38640259b4","x":-428,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":["4ec58df9-70ac-45d5-86a0-c56a30a469b9"],"properties":[],"angle":0},{"id":"1efe9137-c7c0-43c4-bdaa-01e90f8af55a","x":-428,"y":-338.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"455accdd-719b-426e-acaf-df9b8c95686d","x":61.5,"y":-299,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"1568b383-ad5d-422d-b75e-702f49bbb218","x":110,"y":-299,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"fd60c42d-6bcf-4695-8885-6a0bb3e4e730","x":158.5,"y":-299,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"6384b27b-7ae0-4c90-991f-171740c8971e","x":207,"y":-284.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"be6e3c60-88a6-41d0-bf66-51dea7d476a7","x":207,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"02e105fb-9a3e-4411-aba9-66836fb59a43","x":207,"y":-255.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"fdce0592-6d56-4c88-bac2-48b81f161a7a","x":158.5,"y":-240,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"bed07def-aed4-4a47-84ba-113995811454","x":110,"y":-240,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"d5a75fc3-9b01-4cc8-a2ee-acdda755c891","x":61.5,"y":-240,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"acf00e7f-2e5b-46b4-8536-c5fb94718437","x":13,"y":-255.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"b93e4c4e-e736-435a-b76a-f4e031758cf7","x":13,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":["397070d5-b518-4b6b-a8af-6b058949fdfa"],"properties":[],"angle":0},{"id":"36c98aa3-f02d-437a-8c02-76455fb12056","x":13,"y":-284.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"5d00e4e4-eedb-4db0-b86b-207f9a26fc22","x":-71,"y":-270,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"b4b7085a-64fe-4a85-9a4d-43579739ea86","x":-29,"y":-270,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"397070d5-b518-4b6b-a8af-6b058949fdfa","x":13,"y":-270,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"7f80e56b-d608-4652-9a4d-a64a844fbb30","x":-336.5,"y":-46,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"44c35cac-3a32-4867-b673-f704622a1374","x":-250,"y":-46,"attrs":0,"template":"@__builtin__anchor","children":["58558d59-5b51-4108-8e0e-8ba8ae94a225"],"properties":[],"angle":1},{"id":"98dcde9f-22ef-4494-a218-dd8f3a7e2e68","x":-163.5,"y":-46,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"262d4aed-9ff9-4582-a2d6-36c571fdcdce","x":-77,"y":12,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"1c86771a-8f2e-48b5-a93f-9cb902bfd441","x":-77,"y":70,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"ae87eee7-5901-4a93-a242-199c900d5512","x":-77,"y":128,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"d423a778-b033-4ec8-ac42-846785a13f0e","x":-163.5,"y":187,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"98470b68-4735-49e8-a12c-55ff9e14c04d","x":-250,"y":187,"attrs":0,"template":"@__builtin__anchor","children":["827224f6-dbd3-4f1a-a700-01333ac99ade"],"properties":[],"angle":1},{"id":"afa3e504-3730-4ef7-bb29-26f9fd3a0b0e","x":-336.5,"y":187,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"29be5ac6-dc64-4004-9a8d-e96fb2130397","x":-423,"y":128,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"a0e6fade-b645-4b10-9555-763ea5453a5e","x":-423,"y":70,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"07c024cb-6c5c-4626-8f6f-b40e746f29aa","x":-423,"y":12,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"17f342c8-67e1-4a3b-9db4-3e7ea74cd6d7","x":-250,"y":-133,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"fe5d8276-e4dc-4e43-887d-e941b64537a8","x":-250,"y":-89.5,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"58558d59-5b51-4108-8e0e-8ba8ae94a225","x":-250,"y":-46,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"fa4e0649-98d8-4723-abe1-7455750b2a35","x":-336.5,"y":264,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"7a26c272-8a9a-4fb6-931f-11d79c35fcf3","x":-250,"y":264,"attrs":0,"template":"@__builtin__anchor","children":["bc1da8f3-10e0-4983-9411-78d7721e800f"],"properties":[],"angle":1},{"id":"026620d3-cbf9-47c6-8a73-526737287226","x":-163.5,"y":264,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"5b6e5910-d7a8-4f9d-9844-a7e17e37f643","x":-77,"y":327,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"60aa3bce-2084-4a74-9253-f24ee5bae37a","x":-77,"y":390,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"e75ecd92-f933-4f49-a6b3-c92ee3fef6f7","x":-77,"y":453,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"e4b21f5f-2061-416f-8d9e-f19fceee8b31","x":-163.5,"y":517,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"54e85d28-a6c5-4bd0-ad4a-8891ff2571e9","x":-250,"y":517,"attrs":0,"template":"@__builtin__anchor","children":["9b9a1cfb-58d8-4adb-839a-e1eaa2d7ade4"],"properties":[],"angle":1},{"id":"4b29f24c-5d90-4a71-8dc9-114613f51a44","x":-336.5,"y":517,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"66cdce87-f8b2-4993-a5a6-bf0f88a2ca54","x":-423,"y":453,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"0f79077f-7a92-4263-92d3-bc2662ee4aea","x":-423,"y":390,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"43428732-9d7b-470d-815e-0b0203bc5282","x":-423,"y":327,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"827224f6-dbd3-4f1a-a700-01333ac99ade","x":-250,"y":187,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"17065bd0-1f77-4836-ae01-3f11cbdd87c6","x":-250,"y":225.5,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"bc1da8f3-10e0-4983-9411-78d7721e800f","x":-250,"y":264,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"d5e01e15-32ec-4d10-a87f-15409467aecb","x":-870,"y":-499,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"9cb380e5-f6e4-4ddf-aae1-4e9c9f112682","x":-780,"y":-499,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"aa52fa1e-1be5-4c62-8e8e-dce2370f1253","x":-690,"y":-499,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"3f08749e-3c85-40ed-877e-66d8ec07bdef","x":-599,"y":-384.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"d4e43f60-003a-404e-81cc-9e9f1d4efe7c","x":-599,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":["e9dbc3ae-085e-444a-9885-7e5d5a92fef7"],"properties":[],"angle":0},{"id":"a99baced-7a43-4f02-932d-9e1c49b01b01","x":-599,"y":-155.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"4ddc418a-434c-4d7c-816d-812055fcc2ab","x":-690,"y":-40,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"7d1a0c8a-bece-4465-ad8d-b7ba76b3a4c7","x":-780,"y":-40,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"cfb8edc4-e559-4ebb-93c4-b9345bf4fa83","x":-870,"y":-40,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"8a360277-db48-491b-bddd-cac39c21ba68","x":-960,"y":-155.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"f4a85195-9d47-4385-bc98-de09e084ef09","x":-960,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":["a163b4d5-547e-42f5-a52d-3a580991e2b0"],"properties":[],"angle":0},{"id":"22913bac-89c6-4e42-b912-aefc54087bec","x":-960,"y":-384.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"4ec58df9-70ac-45d5-86a0-c56a30a469b9","x":-428,"y":-270,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"f0a4e2d1-5b8b-4e3c-85e9-07a7cbb686d9","x":-513.5,"y":-270,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"e9dbc3ae-085e-444a-9885-7e5d5a92fef7","x":-599,"y":-270,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"9c704017-060e-4856-be64-7708d610d9cb","x":-338,"y":630,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"d2d4c3b3-fe33-41a6-b036-00343bd43687","x":-250,"y":630,"attrs":0,"template":"@__builtin__anchor","children":["56fca2c8-53e9-4a29-86c2-c0fc828adc71"],"properties":[],"angle":1},{"id":"3334070f-f1c2-4f1d-b504-f0945169f675","x":-162,"y":630,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"c646a335-f37e-40ac-ae90-3fac7ab5f96a","x":-73,"y":685,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"6ec0f742-2faa-4291-bf09-cb6d9dace2d7","x":-73,"y":740,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"384db637-9227-4857-b6fc-76e1efd72f0f","x":-73,"y":795,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"677415e7-ddc1-48ab-98b9-bdc21396108c","x":-162,"y":850,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"5d0dce0c-2c6d-49e8-aa8f-fd9f972ee082","x":-250,"y":850,"attrs":0,"template":"@__builtin__anchor","children":["151ca0b5-5283-4279-a587-11b53f94f2a0"],"properties":[],"angle":1},{"id":"c680195d-0411-490f-84cf-9c5bd3ed325e","x":-338,"y":850,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"2ec0369f-ce75-4ba8-8b4c-821bc7c403fa","x":-426,"y":795,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"7b697f68-8ba7-4ac2-8cae-dbb6fa4ec199","x":-426,"y":740,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"06aa0dbc-b5af-427a-9239-ec92f01c845b","x":-426,"y":685,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"9b9a1cfb-58d8-4adb-839a-e1eaa2d7ade4","x":-250,"y":517,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"91be84a1-0583-4575-a3c3-854477baa10b","x":-250,"y":573.5,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"56fca2c8-53e9-4a29-86c2-c0fc828adc71","x":-250,"y":630,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"208c1d03-8515-469c-b590-3536ffe881ed","x":-319,"y":974,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"a14065d2-73f7-4dfc-934b-4bdd6a114a31","x":-250,"y":974,"attrs":0,"template":"@__builtin__anchor","children":["291079ff-8cc0-4127-84cf-e513e440daed"],"properties":[],"angle":1},{"id":"2121116c-1387-4606-b3f6-b588f605e9eb","x":-181,"y":974,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"e6f2697e-8acc-4ec6-98ca-f56f838b256c","x":-112,"y":1037,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"cf79cd26-90d1-465d-9d2d-16d76c0661a1","x":-112,"y":1100,"attrs":0,"template":"@__builtin__anchor","children":["1932e334-d941-41fd-afef-ef523f59db22"],"properties":[],"angle":0},{"id":"5028ef77-a168-4524-b22e-8a14ca9f7c6f","x":-112,"y":1163,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"4f06c689-756f-4ad4-8870-0dcb6f431629","x":-181,"y":1227,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"a222478c-cc01-4106-abbc-7b48abfacd84","x":-250,"y":1227,"attrs":0,"template":"@__builtin__anchor","children":["1e6ef434-50a3-4e39-8f72-4b2d373db261"],"properties":[],"angle":1},{"id":"ecb7585f-b166-42c9-bdbd-b90561c606a5","x":-319,"y":1227,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"406bb9c8-b156-4d0b-a0ef-b5d95cff3c7b","x":-388,"y":1163,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"321a6775-0f8a-43a8-a4e1-96dfdeedc0b9","x":-388,"y":1100,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"be97705f-f531-427e-b846-64fc14309e82","x":-388,"y":1037,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"dc2199b7-ecbe-4bed-ab6e-47b75cc3311f","x":39,"y":1071,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"d6d0a36a-c009-47c3-9ba7-c2dbb3462abd","x":80,"y":1071,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"0a17937e-8de7-4973-89e7-613690914235","x":121,"y":1071,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"ffcc2a80-955a-4941-be6b-8b4ab26e149c","x":162,"y":1085.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"96fb5b09-129a-45e1-91b7-e1c5150549fa","x":162,"y":1100,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"723adc95-18a0-414e-9f97-829a287ca590","x":162,"y":1114.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"da029eb9-22d1-4cd6-9584-e92fb6e87ba7","x":121,"y":1130,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"a8176af0-30e2-45bf-a614-89d002f5934b","x":80,"y":1130,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"e58e8dd7-146e-454d-8c4d-feaa3cd25d2c","x":39,"y":1130,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"78795ea0-fbcd-4093-ab24-5802ae6e1289","x":-2,"y":1114.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"3f305188-66c0-4551-bd2f-056c57d81e75","x":-2,"y":1100,"attrs":0,"template":"@__builtin__anchor","children":["36b365e7-80ae-47f1-b1e6-61e28a98bbe7"],"properties":[],"angle":0},{"id":"f9c3ca7e-a3d5-4f75-bb86-0c142a033d72","x":-2,"y":1085.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"151ca0b5-5283-4279-a587-11b53f94f2a0","x":-250,"y":850,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"e47124dd-0c4f-42ab-8d03-b4db0b9e0bb1","x":-250,"y":912,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"291079ff-8cc0-4127-84cf-e513e440daed","x":-250,"y":974,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"1932e334-d941-41fd-afef-ef523f59db22","x":-112,"y":1100,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"d80b5211-fb54-406b-85d4-2299bab6a9fd","x":-57,"y":1100,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"36b365e7-80ae-47f1-b1e6-61e28a98bbe7","x":-2,"y":1100,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"1845170f-9dea-4017-b107-78969de3e505","x":-336,"y":1293,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"349cb5f6-3d40-4d14-9109-0efb521df0bc","x":-250,"y":1293,"attrs":0,"template":"@__builtin__anchor","children":["7d28347e-e712-481f-9727-f628bf3f0594"],"properties":[],"angle":1},{"id":"890af30b-6287-4812-b729-52e2a28884eb","x":-164,"y":1293,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"951e1613-c48b-4280-814d-d59ae59e4096","x":-77,"y":1371.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"4ccee9fa-d478-47e5-8b11-810f4f5f3740","x":-77,"y":1450,"attrs":0,"template":"@__builtin__anchor","children":["e0cfced5-ffe4-4f8c-baa6-527449720109"],"properties":[],"angle":0},{"id":"3c2ab959-35a0-4613-902d-ae6c22e99357","x":-77,"y":1528.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"cb52eb43-9f3c-4c3d-ad7d-82baed0315b8","x":-164,"y":1607,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"59215479-1360-41a7-9ab9-22c7d40e1123","x":-250,"y":1607,"attrs":0,"template":"@__builtin__anchor","children":["df06f83e-ce09-4b26-ac84-ca74676a02ba"],"properties":[],"angle":1},{"id":"50971804-c74b-4c34-b006-47d998a91f27","x":-336,"y":1607,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"dbb5214c-e152-44d8-a263-2436ef7c8458","x":-422,"y":1528.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"63f6766d-eee0-4fe1-8a32-28613ec237ff","x":-422,"y":1450,"attrs":0,"template":"@__builtin__anchor","children":["e5dc4bb3-b577-46d6-9ae5-ea49b4bbbe58"],"properties":[],"angle":0},{"id":"124c89bf-b503-4ef4-97ac-6e6a2498343d","x":-422,"y":1371.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"1e6ef434-50a3-4e39-8f72-4b2d373db261","x":-250,"y":1227,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"4fb4443d-a918-4f91-81ba-bc5b7f6dab98","x":-250,"y":1260,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"7d28347e-e712-481f-9727-f628bf3f0594","x":-250,"y":1293,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"4de1cecb-7e7d-4d99-a963-33d87549f533","x":120,"y":1409,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"f9b5856b-8d87-423d-ad00-6fed19de6db6","x":210,"y":1409,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"b7d5d0cc-e7ed-467c-9687-7c9ab4ba546c","x":300,"y":1409,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"acdd558f-6725-4fa4-a474-29fada8d667f","x":390,"y":1429.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"9bca4f1a-1592-446a-b057-fbe6e14a5383","x":390,"y":1450,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"da21b88c-6fd0-4ef8-afd4-43564f681894","x":390,"y":1470.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"118da467-b70d-4ef7-a688-e6af0f665085","x":300,"y":1491,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"0128f2c3-0b97-49fb-afe5-4cda390d69ce","x":210,"y":1491,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"fe05f059-939f-40b9-bd32-e04b5e1b0926","x":120,"y":1491,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"77d33ce3-ed4e-4666-b6a5-51a8c57309bf","x":30,"y":1470.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"0de4748b-522e-4b8c-b4e6-3e0134473d2a","x":30,"y":1450,"attrs":0,"template":"@__builtin__anchor","children":["8681b9cd-cc6f-452f-b447-327051c9d007"],"properties":[],"angle":0},{"id":"25c2c74a-85e2-417c-b7a8-d5fd1c6e9e84","x":30,"y":1429.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"e0cfced5-ffe4-4f8c-baa6-527449720109","x":-77,"y":1450,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"08b365f4-2316-4963-88ad-193d5f97c04d","x":-23.5,"y":1450,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"8681b9cd-cc6f-452f-b447-327051c9d007","x":30,"y":1450,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"f5a38692-17b2-4f82-a302-44ab01663e61","x":-315.5,"y":3113,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"3d6e1391-8cf3-42e9-9194-31e744682dda","x":-250,"y":3113,"attrs":0,"template":"@__builtin__anchor","children":["bbc32a05-90d9-4c15-a603-3cb2ce3b6a2c"],"properties":[],"angle":1},{"id":"402a4071-9d16-4854-9315-5c37f4429da7","x":-184.5,"y":3113,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"2ef501bd-f79b-4199-937a-1ff8a41ac23f","x":-118,"y":3171.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"a08d4d70-ece0-48a3-ab2c-bd58ae004c2c","x":-118,"y":3230,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"6024de50-438b-47b5-8939-3572e6dcd1d1","x":-118,"y":3288.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"07c04443-e82f-452b-a0d5-933ed95607af","x":-184.5,"y":3347,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"b8502e50-5afe-4e54-98dc-321405241527","x":-250,"y":3347,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"8da7e6e2-803d-4a1a-8758-22f70caa22aa","x":-315.5,"y":3347,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"4b3542f1-47f1-472c-9eb1-cbc1103334ce","x":-381,"y":3288.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"aca5d519-6a83-4621-9945-154dcf691d69","x":-381,"y":3230,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"42d52afc-85af-482d-8d8f-a294e58004cf","x":-381,"y":3171.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"6730afde-b897-4635-beb2-2ded814599ae","x":-338,"y":1730,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"782ac959-9035-4e38-85a3-e090ea7088ba","x":-250,"y":1730,"attrs":0,"template":"@__builtin__anchor","children":["2b752c56-abca-446b-bdf8-d568006f3339"],"properties":[],"angle":1},{"id":"1156cdc8-ae7f-47d6-b2b5-383b32acb52c","x":-162,"y":1730,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"200a6c16-b009-49cd-806f-1e6e62bdfdb8","x":-73,"y":1775,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"aeec1216-5b51-44d9-b5c8-eb6a7f3b2f79","x":-73,"y":1820,"attrs":0,"template":"@__builtin__anchor","children":["11291f78-a5ad-489b-8cd0-8a31129ada6f"],"properties":[],"angle":0},{"id":"36abb7ed-ddee-4b00-b470-2c32344695bc","x":-73,"y":1865,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"46cd94c1-7872-41ce-a30c-dec9b7c32aa8","x":-162,"y":1910,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"bf661998-acbe-4e5b-9d1e-3cc58e0432b9","x":-250,"y":1910,"attrs":0,"template":"@__builtin__anchor","children":["6193b3c2-1fb0-4401-aa50-14a42e63e7d8"],"properties":[],"angle":1},{"id":"8d5b1b09-298b-4353-ba68-274d5fc36413","x":-338,"y":1910,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"51f41258-4fd4-4710-b6f0-ead98fe849c7","x":-426,"y":1865,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"2c82ce63-04c9-47ed-9669-47940b71bb68","x":-426,"y":1820,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"b33e0069-9e1f-4f6e-b0ab-0c42ba9972df","x":-426,"y":1775,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"df06f83e-ce09-4b26-ac84-ca74676a02ba","x":-250,"y":1607,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"b456df08-6c4d-4de1-ae77-6d488cfc5b41","x":-250,"y":1668.5,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"2b752c56-abca-446b-bdf8-d568006f3339","x":-250,"y":1730,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"b6c54ec4-d1a5-46e7-af70-cf80be1af8b9","x":102.5,"y":1731,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"e6f6f42b-7a9f-4a8a-8032-58f80838cd48","x":150,"y":1731,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"e886a56d-a8f5-439e-b890-ccf5963721e3","x":197.5,"y":1731,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"9b8aeaf5-e999-423e-bb86-2dbfdc26b597","x":246,"y":1775.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"7623051e-8d8c-4351-a0f7-61ab8bd9ddce","x":246,"y":1820,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"bcd8f9bd-320f-43bf-8890-ef28176b21db","x":246,"y":1864.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"b86e374a-1d50-48d8-a9a2-7fb76a58cba4","x":197.5,"y":1910,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"2524ce8b-e03f-4979-b7f6-32faffa044c9","x":150,"y":1910,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"5cfe3095-f438-44b5-91cf-6cfbd326f3e0","x":102.5,"y":1910,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"c4734bad-44f4-4c5e-8215-b4158ca05fb4","x":55,"y":1864.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"3b135442-b0b8-466f-8ee7-8b35f766172f","x":55,"y":1820,"attrs":0,"template":"@__builtin__anchor","children":["427137b9-8114-42b3-9515-604ce518c4ad"],"properties":[],"angle":0},{"id":"71b99aef-08f2-455b-9fe9-32156e0a5879","x":55,"y":1775.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"11291f78-a5ad-489b-8cd0-8a31129ada6f","x":-73,"y":1820,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"2e65fa61-16ec-4a8f-90f9-207348333d6a","x":-9,"y":1820,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"427137b9-8114-42b3-9515-604ce518c4ad","x":55,"y":1820,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"941e23cc-91b1-4ea8-809f-f9043daa150a","x":-1360,"y":-380,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"5ea30a1f-d2cd-4d97-887d-db9ebbe6db47","x":-1270,"y":-380,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"63c226c1-3010-4a95-ae94-b0029fb06d45","x":-1180,"y":-380,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"a09ff4dc-8db1-4f45-aba3-17ebaaf6f915","x":-1090,"y":-325,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"0afe55c8-134a-4a51-81f4-8e5800d5e3c0","x":-1090,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":["852aa5cf-8437-47bc-a8ee-36153cb0981b"],"properties":[],"angle":0},{"id":"0340a1fa-683f-47c7-9107-a608ad703c94","x":-1090,"y":-215,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"9cbf1293-d871-4a6c-8744-b0724226f07d","x":-1180,"y":-160,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"9d9edf7e-c886-4328-a940-812b173178e5","x":-1270,"y":-160,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"593b9404-86e4-4dfb-9835-94fe77c38c26","x":-1360,"y":-160,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"7c8474ec-9bed-4539-8b5b-2492109a6775","x":-1450,"y":-215,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"ddb9bb45-2388-4cc1-a96f-3e26e3d2f18a","x":-1450,"y":-270,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"8b7132f3-f1d8-49ff-8f78-86a53bbe4dfa","x":-1450,"y":-325,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"852aa5cf-8437-47bc-a8ee-36153cb0981b","x":-1090,"y":-270,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"e197fd25-ad92-46cb-82cf-64f0c30025d1","x":-1025,"y":-270,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"a163b4d5-547e-42f5-a52d-3a580991e2b0","x":-960,"y":-270,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"17e3ebe3-47cd-4ec2-b0c8-6a2b35cc5e9c","x":-339.5,"y":2034,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"6abe0746-518e-4283-9060-1d89c110fa8e","x":-250,"y":2034,"attrs":0,"template":"@__builtin__anchor","children":["21c396ce-3888-4639-a3be-859a5104da01"],"properties":[],"angle":1},{"id":"262ff2a3-26c4-49fd-8bd4-05e956fc361b","x":-160.5,"y":2034,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"646ac9cb-df89-49b3-b20a-b859d472f472","x":-70,"y":2097,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"191c236b-a6cd-427c-944d-a6d984291139","x":-70,"y":2160,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"9ffb0577-8ffc-4a05-a03a-3288652ffdcb","x":-70,"y":2223,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"aaffab70-42d7-440a-b5bb-f509ee24e334","x":-160.5,"y":2287,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"82a08c02-0067-46ff-b2db-a4349dcfea49","x":-250,"y":2287,"attrs":0,"template":"@__builtin__anchor","children":["555f1a3a-2155-43f6-bb48-a09909ca581f"],"properties":[],"angle":1},{"id":"0008403b-fee1-47df-acbf-557be60cfd61","x":-339.5,"y":2287,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"503edcf6-fa8f-4f33-bc3c-c0403f1d08b7","x":-429,"y":2223,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"efe62d36-d271-4cd0-831a-683a2dca3dbf","x":-429,"y":2160,"attrs":0,"template":"@__builtin__anchor","children":["bcc161bf-2316-4772-a422-4c252d6074c3"],"properties":[],"angle":0},{"id":"65757f80-b52f-44f5-8c03-4ce8a0dd9ef0","x":-429,"y":2097,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"6193b3c2-1fb0-4401-aa50-14a42e63e7d8","x":-250,"y":1910,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"e1be205f-90c1-4935-a5f4-6cfb627eec3b","x":-250,"y":1972,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"21c396ce-3888-4639-a3be-859a5104da01","x":-250,"y":2034,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"7f143bef-79f0-49d2-a4df-4dfe47dee1f9","x":-652,"y":2107,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"ae263aad-1835-43fe-9f65-086a24fbcf17","x":-620,"y":2107,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"0fa42703-c197-49a3-89b0-45840f0d64c4","x":-588,"y":2107,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"145009f2-343a-48ec-a08c-b785565d53be","x":-555,"y":2133.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"39ebf90e-38d1-4c3b-a8d8-2059f542dfbe","x":-555,"y":2160,"attrs":0,"template":"@__builtin__anchor","children":["8ce3ee7f-241b-4b37-93dd-254afdfbc69e"],"properties":[],"angle":0},{"id":"b1d94fa5-3f35-4bea-bf90-2aa10b346ef1","x":-555,"y":2186.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"33255141-cfad-4241-ac98-c5770aab2bf2","x":-588,"y":2214,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"f08d02c4-fa94-402e-9dc8-89900e2afa7f","x":-620,"y":2214,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"292de009-21ec-4b77-918d-b7f700f07886","x":-652,"y":2214,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"789bb300-8938-490e-bfa6-5c623c568e2d","x":-684,"y":2186.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"ddf6b391-9c8a-41bf-8f89-061fb6ef5fc2","x":-684,"y":2160,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"ed941e6b-cf41-42ba-956b-ddb81e876f15","x":-684,"y":2133.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"bcc161bf-2316-4772-a422-4c252d6074c3","x":-429,"y":2160,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"0d7db345-d4be-4c21-ac5a-19746057dd66","x":-492,"y":2160,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"8ce3ee7f-241b-4b37-93dd-254afdfbc69e","x":-555,"y":2160,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"7c0b5c08-ca40-4537-a67f-471d82cc196e","x":-338,"y":2384,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"b73b2176-45ce-4247-97f4-3f5d4f551b54","x":-250,"y":2384,"attrs":0,"template":"@__builtin__anchor","children":["9089f6ba-e0fa-4904-8711-86bab25b0ec3"],"properties":[],"angle":1},{"id":"80dbf42e-a7ee-4a67-89bd-85baa5c92c5f","x":-162,"y":2384,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"cde65f9d-a5a7-41f8-bd68-16b0b8bb775c","x":-74,"y":2447,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"7ce12602-8af3-4abd-a2a3-c4b14c1b26a5","x":-74,"y":2510,"attrs":0,"template":"@__builtin__anchor","children":["dcbdd090-08c6-4634-9a5e-4aa6e45dd7aa"],"properties":[],"angle":0},{"id":"d496d64d-ff31-48de-92d9-da86a1e69843","x":-74,"y":2573,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"0c68a253-0e48-4881-a858-8d77936e472c","x":-162,"y":2637,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"3b18df65-38cb-40b4-9ca9-c50b14b36608","x":-250,"y":2637,"attrs":0,"template":"@__builtin__anchor","children":["ce98cdcb-4cde-4c3a-a618-c3e8aa817a7d"],"properties":[],"angle":1},{"id":"d0ad4018-3c56-4e60-8e11-23ad14b3960a","x":-338,"y":2637,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"ba53108a-17f7-447b-8492-dfa43c903278","x":-426,"y":2573,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"1312ba0d-a68d-47db-81c6-b115915d471e","x":-426,"y":2510,"attrs":0,"template":"@__builtin__anchor","children":["024fc946-7ae1-4a06-a7cd-b756accac701"],"properties":[],"angle":0},{"id":"b2c29195-fa6e-4b85-9115-867f39daf955","x":-426,"y":2447,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"555f1a3a-2155-43f6-bb48-a09909ca581f","x":-250,"y":2287,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"c775f565-b2e1-4e66-84b2-61a28ad2f2f0","x":-250,"y":2335.5,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"9089f6ba-e0fa-4904-8711-86bab25b0ec3","x":-250,"y":2384,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"f2625447-9507-4fbc-888d-fcfca4dd0ec0","x":-639.5,"y":2457,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"35834405-927d-4445-84d1-a7c71b60ade0","x":-610,"y":2457,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"f6ae61dd-4a16-4afb-8856-67b7a290ab4b","x":-580.5,"y":2457,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"822cb7e2-5ddd-4945-a407-42c6a5d67a58","x":-550,"y":2483.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"cac62749-4240-468f-a34e-5cfeb2b54e20","x":-550,"y":2510,"attrs":0,"template":"@__builtin__anchor","children":["778d8525-9ff3-4faa-a6eb-023080e7e01c"],"properties":[],"angle":0},{"id":"3f74ca1f-5e3b-4f87-ad14-e76de932ab31","x":-550,"y":2536.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"1aeb057f-aa0d-4876-990d-ed7d80b8a21d","x":-580.5,"y":2564,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"276ef36a-0971-49ea-8a4f-67c8688cef0c","x":-610,"y":2564,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"290e4bc3-fa29-4bcb-b9bc-ca1151df776e","x":-639.5,"y":2564,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"7c28e6f3-f216-4010-b391-3564ff95f3a9","x":-669,"y":2536.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"8b801390-794d-4a1e-9055-1526821b118d","x":-669,"y":2510,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"4c5a3137-996a-41b9-9ac2-2937eed6e1eb","x":-669,"y":2483.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"024fc946-7ae1-4a06-a7cd-b756accac701","x":-426,"y":2510,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"aa5db7fb-d795-4471-96b1-5d6804086f4f","x":-488,"y":2510,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"778d8525-9ff3-4faa-a6eb-023080e7e01c","x":-550,"y":2510,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"45ae9738-1d37-4bda-b279-151f7d288db5","x":89.5,"y":2481,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"039c5fc5-4ac3-4b6d-ab95-eeeea5ee90e5","x":150,"y":2481,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"b86e8775-8e5e-46bd-93ff-0d70ff4e0214","x":210.5,"y":2481,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"304c8644-209c-4c1b-a343-1e6364c8535e","x":272,"y":2495.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"aa39b199-058c-4a29-92f2-b1c3176a00c5","x":272,"y":2510,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"0570d897-2357-483e-b820-78d4780a829e","x":272,"y":2524.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"2f64b82a-da59-46fb-a6a8-dda17a8b2425","x":210.5,"y":2540,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"188623e3-1bec-4deb-a622-90dfd3f32306","x":150,"y":2540,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"28dc4771-2e8b-4c94-9999-11a1a61e9d82","x":89.5,"y":2540,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"74da50c9-3168-4dd9-8739-a73eebff6230","x":29,"y":2524.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"f3588744-8d7c-4042-bbd1-07582451afed","x":29,"y":2510,"attrs":0,"template":"@__builtin__anchor","children":["75f43e87-21cb-43f6-8edd-b40714b31cd5"],"properties":[],"angle":0},{"id":"47a1c684-3bac-4ffc-b730-769cebc95044","x":29,"y":2495.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"dcbdd090-08c6-4634-9a5e-4aa6e45dd7aa","x":-74,"y":2510,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"26644411-74fb-4d2b-86c3-fbd7dc62a26b","x":-22.5,"y":2510,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"75f43e87-21cb-43f6-8edd-b40714b31cd5","x":29,"y":2510,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"55c694a9-b357-4df4-a671-a9552c41b62e","x":-325.5,"y":2744,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"80e26d65-9726-44ef-aca0-cffe575e9711","x":-250,"y":2744,"attrs":0,"template":"@__builtin__anchor","children":["afca71d1-908f-4a77-b363-c3d72f7b6ae3"],"properties":[],"angle":1},{"id":"2f38dca2-e132-476a-9cf0-48e6bdaa5615","x":-174.5,"y":2744,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"bd04fd9f-61be-4e70-8dd0-eee513cd19c1","x":-98,"y":2807,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"a1bbaa10-f4a2-4492-8750-401028437e74","x":-98,"y":2870,"attrs":0,"template":"@__builtin__anchor","children":["303a4f24-fb8c-459e-af8c-2d2934557fbe"],"properties":[],"angle":0},{"id":"d7144dfc-aa7e-4651-9785-f817c9a0100e","x":-98,"y":2933,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"4ef9e14c-c269-42a9-bc31-82f67a7d7b5c","x":-174.5,"y":2997,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"780acaa9-a180-4291-8527-5dd26839e187","x":-250,"y":2997,"attrs":0,"template":"@__builtin__anchor","children":["dbe2e0eb-88ef-45bf-8bea-37321efcf30a"],"properties":[],"angle":1},{"id":"538b3487-9f80-4558-9e8d-6eb8a0b4c303","x":-325.5,"y":2997,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"29bbbbc7-9690-4670-93bc-d151388161bd","x":-401,"y":2933,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"5e8539a9-478a-4911-899f-c4964d9cbfb1","x":-401,"y":2870,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"ea31b64c-76d9-4e77-942a-701a998487b8","x":-401,"y":2807,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"ce98cdcb-4cde-4c3a-a618-c3e8aa817a7d","x":-250,"y":2637,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"aeb7d2bd-21d9-42bf-848f-e7c0bcba1e0e","x":-250,"y":2690.5,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"afca71d1-908f-4a77-b363-c3d72f7b6ae3","x":-250,"y":2744,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"7042d4f7-81bb-4c94-b4af-d6d1d26600f6","x":73,"y":2816,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"66d0f735-be84-4611-99b7-e5b39653c3f1","x":140,"y":2816,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"1adaeb0d-bfba-4a69-be0e-46249501a662","x":207,"y":2816,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"c9fe5ed1-94d5-426c-a731-e01de59edd3f","x":274,"y":2843,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"96466aad-6acf-4789-a990-1950bcdad5ed","x":274,"y":2870,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"ddbb2738-0298-4b7a-84bd-9555c6b23a7b","x":274,"y":2897,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"a15638b9-dfce-41c9-a0e5-42a0cfaa313d","x":207,"y":2925,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"69da00be-9564-4f70-b8ba-3b76cb086c25","x":140,"y":2925,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"a7baa47c-f10b-42e4-a5ea-e9394c30f627","x":73,"y":2925,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"29924f61-09c8-4b5e-a5d9-21cff1855d86","x":6,"y":2897,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"0355edc5-bd13-4225-b89d-643179df3418","x":6,"y":2870,"attrs":0,"template":"@__builtin__anchor","children":["b05a56f0-860b-48f1-9d1a-a509dd3a8014"],"properties":[],"angle":0},{"id":"b173f8ab-b4e3-4256-9b1d-3aa030a91608","x":6,"y":2843,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"303a4f24-fb8c-459e-af8c-2d2934557fbe","x":-98,"y":2870,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"ac35ba43-bcac-4a62-ac89-85a433549d13","x":-46,"y":2870,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"b05a56f0-860b-48f1-9d1a-a509dd3a8014","x":6,"y":2870,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"dbe2e0eb-88ef-45bf-8bea-37321efcf30a","x":-250,"y":2997,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"5b97ae44-fd1e-4e2a-9a9b-7bae95b060c9","x":-250,"y":3055,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"bbc32a05-90d9-4c15-a603-3cb2ce3b6a2c","x":-250,"y":3113,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]},{"id":"ac606903-de69-4a33-bef8-b61f8d4af534","x":-591,"y":1457,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"5b3940e4-3fef-4346-b6c2-64e63a39eeb6","x":-550,"y":1457,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"6cad5e88-15b5-4d3b-98be-8ce662b91df8","x":-509,"y":1457,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"fe432078-7193-4ea1-9d96-0a104bc8655a","x":-468,"y":1488.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"bfaa7233-ad6d-4508-bb6e-b430429d10ba","x":-468,"y":1520,"attrs":0,"template":"@__builtin__anchor","children":["95948cce-e27b-475a-a647-adc919063e9d"],"properties":[],"angle":0},{"id":"246ed9cd-d219-401f-af84-47734f134f84","x":-468,"y":1551.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"37bbfd08-6d33-47fd-8d69-fd4fc64762d8","x":-509,"y":1583,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"544aa779-22b0-46a5-b096-3bfa2393bfa2","x":-550,"y":1583,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"deebf41b-e654-4a48-a10d-a11d784eaa01","x":-591,"y":1583,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":1},{"id":"ce85e0a0-d9ba-4b06-b197-103f6ec571a4","x":-632,"y":1551.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"86023293-7154-4b3f-af8c-d329202f22b3","x":-632,"y":1520,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"79a46103-0ae5-4a2d-a79b-6407feead671","x":-632,"y":1488.5,"attrs":0,"template":"@__builtin__anchor","children":[],"properties":[],"angle":0},{"id":"e5dc4bb3-b577-46d6-9ae5-ea49b4bbbe58","x":-422,"y":1450,"attrs":0,"template":"@__builtin__line_source","children":[],"properties":[]},{"id":"88f7789f-036d-4e03-b258-04c8d9f87916","x":-445,"y":1485,"attrs":0,"template":"@__builtin__line_handle","children":[],"properties":[]},{"id":"95948cce-e27b-475a-a647-adc919063e9d","x":-468,"y":1520,"attrs":0,"template":"@__builtin__line_target","children":[],"properties":[]}],"location":{"x":-249,"y":2160.6666666666665,"k":1.5}}
+{
+  "version": "2.1.0",
+  "id": "ca2783d5-ddf2-441d-af82-9cfa68abead0",
+  "objects": [
+    {
+      "id": "ca2783d5-ddf2-441d-af82-9cfa68abead0",
+      "x": -530,
+      "y": 1424,
+      "attrs": 0,
+      "template": "flow",
+      "children": [
+        "84454574-3ed2-43eb-979f-66c3d343a71a",
+        "bfbfe054-666b-498e-a067-ed49356fab29",
+        "495d59d5-30d7-443e-b436-651a390abc25",
+        "401fbfb9-930a-43b9-a43e-6cbc7f9e3802",
+        "cd81c1d1-f256-4499-8dec-d878d3797e9f",
+        "3c019d2c-c56f-47e4-8977-e86a4a359069",
+        "f93e229b-778b-4bf8-838f-f459944b93f6",
+        "c6e2dfb4-33c5-4908-86a2-db3a3612c0c5",
+        "4adf1a83-fb20-4827-b930-38a89f6683f0",
+        "1472fccf-cdf4-4a4b-a0c3-b927e3381c02",
+        "52458288-98e9-44e8-893b-ce528710fac2",
+        "24692f77-c123-4107-923e-937e7cc9349e",
+        "23625c13-d92b-4e65-8f82-91a4820319ee",
+        "d750be99-9a78-40b1-9d97-6534fe14b3df",
+        "bb21f3f6-e177-40dd-a8f1-0ab363d974e6",
+        "7fa1a34d-5d0c-4655-8e23-ef9d23771bba",
+        "d3955dea-55a0-4e2a-8e6e-ae7b56f60602",
+        "07354f90-6d57-4de7-b9af-7f6130ba9dc3",
+        "05e4f0aa-49d7-4be0-99d9-19c1393b2b18",
+        "298530ff-51b1-43f6-8c1f-59f432625094",
+        "35c17809-784f-4aa9-a827-aa7e376de16e",
+        "9f558097-d755-4887-a25e-db17618810c7",
+        "6f00d94e-3724-4f17-a01d-d2e73c9860cf",
+        "6a4e6072-9cf7-4abc-9815-6aef25ca5ae0",
+        "6b8158c0-becf-443c-ab7b-c72fba4890ee",
+        "7ac6dd9f-cd06-4b87-83b4-e7d678eb3f69",
+        "3c3fea04-7678-4ae6-a8dd-0b0c28eafe97",
+        "7a8cceb0-2ab8-4f2c-aa01-43e31a3004ae",
+        "545cfd59-0603-4476-93fc-c7c91c22e0bd",
+        "8182daeb-6e84-4a04-9ab3-8df8cb3ac870",
+        "747d2282-1bf8-4848-89f0-0ee82ca3b6a5",
+        "99b5706e-013e-4ca3-b3ef-450c30075a92",
+        "e01fce30-934b-4d5c-ab81-ca635e99b406",
+        "64e570dd-974a-488e-a3e7-ea0ad64b68b2",
+        "d277228f-6835-488e-8145-4e43af09f875",
+        "24580a69-62d4-447f-8606-dc17134e2371",
+        "6dbde84b-f026-46b8-bde6-f963be602a4c",
+        "6064c97d-5b15-406a-b63f-4163018463b9",
+        "e1c165a0-165b-4760-8da0-dcd112475096",
+        "fefaa1b5-e34c-4bb9-9016-933dc6f42aca",
+        "20c3a450-1f75-4c04-8714-33620f148749",
+        "1ca54adf-82f5-427b-bb74-e748b132af57",
+        "2aaea74f-f954-4092-8d64-28cdd79dda76"
+      ],
+      "properties": [
+        [
+          "name",
+          "CISA AA22-138B VMWare Workspace (Alt)"
+        ],
+        [
+          "description",
+          "Alternative method used to exploit VMWare Workspace ONE Access"
+        ],
+        [
+          "author",
+          [
+            [
+              "name",
+              "Lauren Parker"
+            ],
+            [
+              "identity_class",
+              null
+            ],
+            [
+              "contact_information",
+              "lparker@mitre.org"
+            ]
+          ]
+        ],
+        [
+          "scope",
+          "incident"
+        ],
+        [
+          "external_references",
+          [
+            [
+              "13ef963a481d54ed16189fd28e19e76e",
+              [
+                [
+                  "source_name",
+                  "CISA"
+                ],
+                [
+                  "description",
+                  "Alert"
+                ],
+                [
+                  "url",
+                  "https://www.cisa.gov/uscert/ncas/alerts/aa22-138b"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "created",
+          "2023-02-21T14:51:27.768Z"
+        ]
+      ]
+    },
+    {
+      "id": "84454574-3ed2-43eb-979f-66c3d343a71a",
+      "x": -250,
+      "y": -270,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "9b90debf-5719-4954-a5ee-51de8b4650f5",
+        "b557b4d5-bbba-4c94-8f52-8fbe475e51ce",
+        "392bc617-395b-4074-b853-9715e0854e2a",
+        "5b5bda51-5f40-466f-9189-002bb4f4a7eb",
+        "9ded5c4b-61f7-4b81-87d9-08928867d63f",
+        "4b47c068-8a35-42bd-9a83-b07c07d5241b",
+        "845297f9-e161-4c30-8d86-e5d4649e4139",
+        "db674dd8-1429-4ad5-84ff-7d9fb492a60b",
+        "65535510-d293-4026-b59e-3ce30bb89ef7",
+        "7493648e-10b8-4953-ac34-3493ff63cc1c",
+        "167aa568-7640-4d37-b02d-0a38640259b4",
+        "1efe9137-c7c0-43c4-bdaa-01e90f8af55a"
+      ],
+      "properties": [
+        [
+          "name",
+          "Exploitation for Client Execution"
+        ],
+        [
+          "tactic_id",
+          "TA0002"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5"
+        ],
+        [
+          "technique_id",
+          "T1203"
+        ],
+        [
+          "technique_ref",
+          null
+        ],
+        [
+          "description",
+          "attackers used a Bash script to exploit software vulnerabilities in VMWare Workspace ONE Access"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "bfbfe054-666b-498e-a067-ed49356fab29",
+      "x": 110,
+      "y": -270,
+      "attrs": 256,
+      "template": "vulnerability",
+      "children": [
+        "455accdd-719b-426e-acaf-df9b8c95686d",
+        "1568b383-ad5d-422d-b75e-702f49bbb218",
+        "fd60c42d-6bcf-4695-8885-6a0bb3e4e730",
+        "6384b27b-7ae0-4c90-991f-171740c8971e",
+        "be6e3c60-88a6-41d0-bf66-51dea7d476a7",
+        "02e105fb-9a3e-4411-aba9-66836fb59a43",
+        "fdce0592-6d56-4c88-bac2-48b81f161a7a",
+        "bed07def-aed4-4a47-84ba-113995811454",
+        "d5a75fc3-9b01-4cc8-a2ee-acdda755c891",
+        "acf00e7f-2e5b-46b4-8536-c5fb94718437",
+        "b93e4c4e-e736-435a-b76a-f4e031758cf7",
+        "36c98aa3-f02d-437a-8c02-76455fb12056"
+      ],
+      "properties": [
+        [
+          "name",
+          "CVE 2022-22960"
+        ],
+        [
+          "description",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "495d59d5-30d7-443e-b436-651a390abc25",
+      "x": -29,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "5d00e4e4-eedb-4db0-b86b-207f9a26fc22",
+        "b4b7085a-64fe-4a85-9a4d-43579739ea86",
+        "397070d5-b518-4b6b-a8af-6b058949fdfa"
+      ],
+      "properties": []
+    },
+    {
+      "id": "401fbfb9-930a-43b9-a43e-6cbc7f9e3802",
+      "x": -250,
+      "y": 70,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "7f80e56b-d608-4652-9a4d-a64a844fbb30",
+        "44c35cac-3a32-4867-b673-f704622a1374",
+        "98dcde9f-22ef-4494-a218-dd8f3a7e2e68",
+        "262d4aed-9ff9-4582-a2d6-36c571fdcdce",
+        "1c86771a-8f2e-48b5-a93f-9cb902bfd441",
+        "ae87eee7-5901-4a93-a242-199c900d5512",
+        "d423a778-b033-4ec8-ac42-846785a13f0e",
+        "98470b68-4735-49e8-a12c-55ff9e14c04d",
+        "afa3e504-3730-4ef7-bb29-26f9fd3a0b0e",
+        "29be5ac6-dc64-4004-9a8d-e96fb2130397",
+        "a0e6fade-b645-4b10-9555-763ea5453a5e",
+        "07c024cb-6c5c-4626-8f6f-b40e746f29aa"
+      ],
+      "properties": [
+        [
+          "name",
+          "Exploitation for Privilege Escalation"
+        ],
+        [
+          "tactic_id",
+          "TA0004"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--5e29b093-294e-49e9-a803-dab3d73b77dd"
+        ],
+        [
+          "technique_id",
+          "T1068"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--b21c3b2d-02e6-45b1-980b-e69051040839"
+        ],
+        [
+          "description",
+          "Horizon user's privileges escalated"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "cd81c1d1-f256-4499-8dec-d878d3797e9f",
+      "x": -250,
+      "y": -90,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "17f342c8-67e1-4a3b-9db4-3e7ea74cd6d7",
+        "fe5d8276-e4dc-4e43-887d-e941b64537a8",
+        "58558d59-5b51-4108-8e0e-8ba8ae94a225"
+      ],
+      "properties": []
+    },
+    {
+      "id": "3c019d2c-c56f-47e4-8977-e86a4a359069",
+      "x": -250,
+      "y": 390,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "fa4e0649-98d8-4723-abe1-7455750b2a35",
+        "7a26c272-8a9a-4fb6-931f-11d79c35fcf3",
+        "026620d3-cbf9-47c6-8a73-526737287226",
+        "5b6e5910-d7a8-4f9d-9844-a7e17e37f643",
+        "60aa3bce-2084-4a74-9253-f24ee5bae37a",
+        "e75ecd92-f933-4f49-a6b3-c92ee3fef6f7",
+        "e4b21f5f-2061-416f-8d9e-f19fceee8b31",
+        "54e85d28-a6c5-4bd0-ad4a-8891ff2571e9",
+        "4b29f24c-5d90-4a71-8dc9-114613f51a44",
+        "66cdce87-f8b2-4993-a5a6-bf0f88a2ca54",
+        "0f79077f-7a92-4263-92d3-bc2662ee4aea",
+        "43428732-9d7b-470d-815e-0b0203bc5282"
+      ],
+      "properties": [
+        [
+          "name",
+          "Command and Scripting Interpreter"
+        ],
+        [
+          "tactic_id",
+          "TA0002"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5"
+        ],
+        [
+          "technique_id",
+          "T1059"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--7385dfaf-6886-4229-9ecd-6fd678040830"
+        ],
+        [
+          "description",
+          "Horizon user can execute commands and scripts as a superuser (sudo)"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "f93e229b-778b-4bf8-838f-f459944b93f6",
+      "x": -250,
+      "y": 225,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "827224f6-dbd3-4f1a-a700-01333ac99ade",
+        "17065bd0-1f77-4836-ae01-3f11cbdd87c6",
+        "bc1da8f3-10e0-4983-9411-78d7721e800f"
+      ],
+      "properties": []
+    },
+    {
+      "id": "c6e2dfb4-33c5-4908-86a2-db3a3612c0c5",
+      "x": -780,
+      "y": -270,
+      "attrs": 256,
+      "template": "malware",
+      "children": [
+        "d5e01e15-32ec-4d10-a87f-15409467aecb",
+        "9cb380e5-f6e4-4ddf-aae1-4e9c9f112682",
+        "aa52fa1e-1be5-4c62-8e8e-dce2370f1253",
+        "3f08749e-3c85-40ed-877e-66d8ec07bdef",
+        "d4e43f60-003a-404e-81cc-9e9f1d4efe7c",
+        "a99baced-7a43-4f02-932d-9e1c49b01b01",
+        "4ddc418a-434c-4d7c-816d-812055fcc2ab",
+        "7d1a0c8a-bece-4465-ad8d-b7ba76b3a4c7",
+        "cfb8edc4-e559-4ebb-93c4-b9345bf4fa83",
+        "8a360277-db48-491b-bddd-cac39c21ba68",
+        "f4a85195-9d47-4385-bc98-de09e084ef09",
+        "22913bac-89c6-4e42-b912-aefc54087bec"
+      ],
+      "properties": [
+        [
+          "name",
+          "Bash script"
+        ],
+        [
+          "description",
+          "Exploits software vulnerabilities and escalates privileges; overwrites files on the host; executes commands"
+        ],
+        [
+          "malware_types",
+          [
+            [
+              "ed6e950ec230fbce2475bb7cf4ab09e8",
+              "webshell"
+            ],
+            [
+              "4562f8107fbaa6cebe2b8645db5b7a78",
+              "downloader"
+            ]
+          ]
+        ],
+        [
+          "is_family",
+          "false"
+        ],
+        [
+          "aliases",
+          []
+        ],
+        [
+          "kill_chain_phases",
+          []
+        ],
+        [
+          "first_seen",
+          null
+        ],
+        [
+          "last_seen",
+          null
+        ],
+        [
+          "os_execution_envs",
+          []
+        ],
+        [
+          "architecture_execution_envs",
+          []
+        ],
+        [
+          "implementation_languages",
+          [
+            [
+              "b9c008068c8fa27d7c96306923774596",
+              "bash"
+            ]
+          ]
+        ],
+        [
+          "capabilities",
+          [
+            [
+              "f849be49961d23ef0630802ac1c485bf",
+              "cleans-traces-of-infection"
+            ],
+            [
+              "eea35bb653a071394d16deb683be66ef",
+              "escalates-privileges"
+            ],
+            [
+              "f459be22b0459b3eb2bdf66993835b3c",
+              "exfiltrates-data"
+            ],
+            [
+              "848fa5ffc4ee1e1060387b0a5f6d6a60",
+              "communicates-with-c2"
+            ],
+            [
+              "15545050e96f423634117e05bb3a3185",
+              "installs-other-components"
+            ],
+            [
+              "8c71b484f21d6655016eee547673e042",
+              "probes-network-environment"
+            ],
+            [
+              "7cb579cf43438974ed3bfabd07b0b24f",
+              "steals-authentication-credentials"
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "4adf1a83-fb20-4827-b930-38a89f6683f0",
+      "x": -514,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "4ec58df9-70ac-45d5-86a0-c56a30a469b9",
+        "f0a4e2d1-5b8b-4e3c-85e9-07a7cbb686d9",
+        "e9dbc3ae-085e-444a-9885-7e5d5a92fef7"
+      ],
+      "properties": []
+    },
+    {
+      "id": "1472fccf-cdf4-4a4b-a0c3-b927e3381c02",
+      "x": -250,
+      "y": 740,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "9c704017-060e-4856-be64-7708d610d9cb",
+        "d2d4c3b3-fe33-41a6-b036-00343bd43687",
+        "3334070f-f1c2-4f1d-b504-f0945169f675",
+        "c646a335-f37e-40ac-ae90-3fac7ab5f96a",
+        "6ec0f742-2faa-4291-bf09-cb6d9dace2d7",
+        "384db637-9227-4857-b6fc-76e1efd72f0f",
+        "677415e7-ddc1-48ab-98b9-bdc21396108c",
+        "5d0dce0c-2c6d-49e8-aa8f-fd9f972ee082",
+        "c680195d-0411-490f-84cf-9c5bd3ed325e",
+        "2ec0369f-ce75-4ba8-8b4c-821bc7c403fa",
+        "7b697f68-8ba7-4ac2-8cae-dbb6fa4ec199",
+        "06aa0dbc-b5af-427a-9239-ec92f01c845b"
+      ],
+      "properties": [
+        [
+          "name",
+          "Discovery"
+        ],
+        [
+          "tactic_id",
+          "TA0007"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9"
+        ],
+        [
+          "technique_id",
+          null
+        ],
+        [
+          "technique_ref",
+          null
+        ],
+        [
+          "description",
+          "The script allows users to collect network information and additional information from the host system"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "52458288-98e9-44e8-893b-ce528710fac2",
+      "x": -250,
+      "y": 573,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "9b9a1cfb-58d8-4adb-839a-e1eaa2d7ade4",
+        "91be84a1-0583-4575-a3c3-854477baa10b",
+        "56fca2c8-53e9-4a29-86c2-c0fc828adc71"
+      ],
+      "properties": []
+    },
+    {
+      "id": "24692f77-c123-4107-923e-937e7cc9349e",
+      "x": -250,
+      "y": 1100,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "208c1d03-8515-469c-b590-3536ffe881ed",
+        "a14065d2-73f7-4dfc-934b-4bdd6a114a31",
+        "2121116c-1387-4606-b3f6-b588f605e9eb",
+        "e6f2697e-8acc-4ec6-98ca-f56f838b256c",
+        "cf79cd26-90d1-465d-9d2d-16d76c0661a1",
+        "5028ef77-a168-4524-b22e-8a14ca9f7c6f",
+        "4f06c689-756f-4ad4-8870-0dcb6f431629",
+        "a222478c-cc01-4106-abbc-7b48abfacd84",
+        "ecb7585f-b166-42c9-bdbd-b90561c606a5",
+        "406bb9c8-b156-4d0b-a0ef-b5d95cff3c7b",
+        "321a6775-0f8a-43a8-a4e1-96dfdeedc0b9",
+        "be97705f-f531-427e-b846-64fc14309e82"
+      ],
+      "properties": [
+        [
+          "name",
+          "Indicator Removal"
+        ],
+        [
+          "tactic_id",
+          "TA0005"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a"
+        ],
+        [
+          "technique_id",
+          "T1070"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--799ace7f-e227-4411-baa0-8868704f2a69"
+        ],
+        [
+          "description",
+          "publishCaCert.hzn overwritten with fd86ald0.pem"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "23625c13-d92b-4e65-8f82-91a4820319ee",
+      "x": 80,
+      "y": 1100,
+      "attrs": 256,
+      "template": "file",
+      "children": [
+        "dc2199b7-ecbe-4bed-ab6e-47b75cc3311f",
+        "d6d0a36a-c009-47c3-9ba7-c2dbb3462abd",
+        "0a17937e-8de7-4973-89e7-613690914235",
+        "ffcc2a80-955a-4941-be6b-8b4ab26e149c",
+        "96fb5b09-129a-45e1-91b7-e1c5150549fa",
+        "723adc95-18a0-414e-9f97-829a287ca590",
+        "da029eb9-22d1-4cd6-9584-e92fb6e87ba7",
+        "a8176af0-30e2-45bf-a614-89d002f5934b",
+        "e58e8dd7-146e-454d-8c4d-feaa3cd25d2c",
+        "78795ea0-fbcd-4093-ab24-5802ae6e1289",
+        "3f305188-66c0-4551-bd2f-056c57d81e75",
+        "f9c3ca7e-a3d5-4f75-bb86-0c142a033d72"
+      ],
+      "properties": [
+        [
+          "name",
+          "fd86ald0.pem"
+        ],
+        [
+          "name_enc",
+          null
+        ],
+        [
+          "size",
+          null
+        ],
+        [
+          "hashes",
+          []
+        ],
+        [
+          "magic_number_hex",
+          null
+        ],
+        [
+          "mime_type",
+          null
+        ],
+        [
+          "ctime",
+          null
+        ],
+        [
+          "mtime",
+          null
+        ],
+        [
+          "atime",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "d750be99-9a78-40b1-9d97-6534fe14b3df",
+      "x": -250,
+      "y": 912,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "151ca0b5-5283-4279-a587-11b53f94f2a0",
+        "e47124dd-0c4f-42ab-8d03-b4db0b9e0bb1",
+        "291079ff-8cc0-4127-84cf-e513e440daed"
+      ],
+      "properties": []
+    },
+    {
+      "id": "bb21f3f6-e177-40dd-a8f1-0ab363d974e6",
+      "x": -57,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "1932e334-d941-41fd-afef-ef523f59db22",
+        "d80b5211-fb54-406b-85d4-2299bab6a9fd",
+        "36b365e7-80ae-47f1-b1e6-61e28a98bbe7"
+      ],
+      "properties": []
+    },
+    {
+      "id": "7fa1a34d-5d0c-4655-8e23-ef9d23771bba",
+      "x": -250,
+      "y": 1450,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "1845170f-9dea-4017-b107-78969de3e505",
+        "349cb5f6-3d40-4d14-9109-0efb521df0bc",
+        "890af30b-6287-4812-b729-52e2a28884eb",
+        "951e1613-c48b-4280-814d-d59ae59e4096",
+        "4ccee9fa-d478-47e5-8b11-810f4f5f3740",
+        "3c2ab959-35a0-4613-902d-ae6c22e99357",
+        "cb52eb43-9f3c-4c3d-ad7d-82baed0315b8",
+        "59215479-1360-41a7-9ab9-22c7d40e1123",
+        "50971804-c74b-4c34-b006-47d998a91f27",
+        "dbb5214c-e152-44d8-a263-2436ef7c8458",
+        "63f6766d-eee0-4fe1-8a32-28613ec237ff",
+        "124c89bf-b503-4ef4-97ac-6e6a2498343d"
+      ],
+      "properties": [
+        [
+          "name",
+          "Archive via Utility"
+        ],
+        [
+          "tactic_id",
+          "TA0009"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--d108ce10-2419-4cf9-a774-46161d6c6cfe"
+        ],
+        [
+          "technique_id",
+          "T1560.001"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--00f90846-cbd1-4fc5-9233-df5c2bf2a662"
+        ],
+        [
+          "description",
+          "script compresses files containing network interface configurations, users, passwords, masterkeys, hosts, and domains to a TAR archive, located in a VMWare Workspace ONE Access  directory"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "d3955dea-55a0-4e2a-8e6e-ae7b56f60602",
+      "x": -250,
+      "y": 1260,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "1e6ef434-50a3-4e39-8f72-4b2d373db261",
+        "4fb4443d-a918-4f91-81ba-bc5b7f6dab98",
+        "7d28347e-e712-481f-9727-f628bf3f0594"
+      ],
+      "properties": []
+    },
+    {
+      "id": "07354f90-6d57-4de7-b9af-7f6130ba9dc3",
+      "x": 210,
+      "y": 1450,
+      "attrs": 256,
+      "template": "directory",
+      "children": [
+        "4de1cecb-7e7d-4d99-a963-33d87549f533",
+        "f9b5856b-8d87-423d-ad00-6fed19de6db6",
+        "b7d5d0cc-e7ed-467c-9687-7c9ab4ba546c",
+        "acdd558f-6725-4fa4-a474-29fada8d667f",
+        "9bca4f1a-1592-446a-b057-fbe6e14a5383",
+        "da21b88c-6fd0-4ef8-afd4-43564f681894",
+        "118da467-b70d-4ef7-a688-e6af0f665085",
+        "0128f2c3-0b97-49fb-afe5-4cda390d69ce",
+        "fe05f059-939f-40b9-bd32-e04b5e1b0926",
+        "77d33ce3-ed4e-4666-b6a5-51a8c57309bf",
+        "0de4748b-522e-4b8c-b4e6-3e0134473d2a",
+        "25c2c74a-85e2-417c-b7a8-d5fd1c6e9e84"
+      ],
+      "properties": [
+        [
+          "path",
+          "/opt/vmware/horizon/workspace/webapps/SAAS/horizon/images/"
+        ],
+        [
+          "path_enc",
+          null
+        ],
+        [
+          "ctime",
+          null
+        ],
+        [
+          "mtime",
+          null
+        ],
+        [
+          "atime",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "05e4f0aa-49d7-4be0-99d9-19c1393b2b18",
+      "x": -24,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "e0cfced5-ffe4-4f8c-baa6-527449720109",
+        "08b365f4-2316-4963-88ad-193d5f97c04d",
+        "8681b9cd-cc6f-452f-b447-327051c9d007"
+      ],
+      "properties": []
+    },
+    {
+      "id": "298530ff-51b1-43f6-8c1f-59f432625094",
+      "x": -250,
+      "y": 3230,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "f5a38692-17b2-4f82-a302-44ab01663e61",
+        "3d6e1391-8cf3-42e9-9194-31e744682dda",
+        "402a4071-9d16-4854-9315-5c37f4429da7",
+        "2ef501bd-f79b-4199-937a-1ff8a41ac23f",
+        "a08d4d70-ece0-48a3-ab2c-bd58ae004c2c",
+        "6024de50-438b-47b5-8939-3572e6dcd1d1",
+        "07c04443-e82f-452b-a0d5-933ed95607af",
+        "b8502e50-5afe-4e54-98dc-321405241527",
+        "8da7e6e2-803d-4a1a-8758-22f70caa22aa",
+        "4b3542f1-47f1-472c-9eb1-cbc1103334ce",
+        "aca5d519-6a83-4621-9945-154dcf691d69",
+        "42d52afc-85af-482d-8d8f-a294e58004cf"
+      ],
+      "properties": [
+        [
+          "name",
+          "Indicator Removal"
+        ],
+        [
+          "tactic_id",
+          "TA0005"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a"
+        ],
+        [
+          "technique_id",
+          "T1070"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--799ace7f-e227-4411-baa0-8868704f2a69"
+        ],
+        [
+          "description",
+          "fd86ald0.pem removed from host"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "35c17809-784f-4aa9-a827-aa7e376de16e",
+      "x": -250,
+      "y": 1820,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "6730afde-b897-4635-beb2-2ded814599ae",
+        "782ac959-9035-4e38-85a3-e090ea7088ba",
+        "1156cdc8-ae7f-47d6-b2b5-383b32acb52c",
+        "200a6c16-b009-49cd-806f-1e6e62bdfdb8",
+        "aeec1216-5b51-44d9-b5c8-eb6a7f3b2f79",
+        "36abb7ed-ddee-4b00-b470-2c32344695bc",
+        "46cd94c1-7872-41ce-a30c-dec9b7c32aa8",
+        "bf661998-acbe-4e5b-9d1e-3cc58e0432b9",
+        "8d5b1b09-298b-4353-ba68-274d5fc36413",
+        "51f41258-4fd4-4710-b6f0-ead98fe849c7",
+        "2c82ce63-04c9-47ed-9669-47940b71bb68",
+        "b33e0069-9e1f-4f6e-b0ab-0c42ba9972df"
+      ],
+      "properties": [
+        [
+          "name",
+          "Command and Control"
+        ],
+        [
+          "tactic_id",
+          "TA0011"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813"
+        ],
+        [
+          "technique_id",
+          null
+        ],
+        [
+          "technique_ref",
+          null
+        ],
+        [
+          "description",
+          "script communicated with 20.232.97.189 for C2"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "9f558097-d755-4887-a25e-db17618810c7",
+      "x": -250,
+      "y": 1668,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "df06f83e-ce09-4b26-ac84-ca74676a02ba",
+        "b456df08-6c4d-4de1-ae77-6d488cfc5b41",
+        "2b752c56-abca-446b-bdf8-d568006f3339"
+      ],
+      "properties": []
+    },
+    {
+      "id": "6f00d94e-3724-4f17-a01d-d2e73c9860cf",
+      "x": 150,
+      "y": 1820,
+      "attrs": 256,
+      "template": "infrastructure",
+      "children": [
+        "b6c54ec4-d1a5-46e7-af70-cf80be1af8b9",
+        "e6f6f42b-7a9f-4a8a-8032-58f80838cd48",
+        "e886a56d-a8f5-439e-b890-ccf5963721e3",
+        "9b8aeaf5-e999-423e-bb86-2dbfdc26b597",
+        "7623051e-8d8c-4351-a0f7-61ab8bd9ddce",
+        "bcd8f9bd-320f-43bf-8890-ef28176b21db",
+        "b86e374a-1d50-48d8-a9a2-7fb76a58cba4",
+        "2524ce8b-e03f-4979-b7f6-32faffa044c9",
+        "5cfe3095-f438-44b5-91cf-6cfbd326f3e0",
+        "c4734bad-44f4-4c5e-8215-b4158ca05fb4",
+        "3b135442-b0b8-466f-8ee7-8b35f766172f",
+        "71b99aef-08f2-455b-9fe9-32156e0a5879"
+      ],
+      "properties": [
+        [
+          "name",
+          "20.232.97.189"
+        ],
+        [
+          "description",
+          "Command and Control"
+        ],
+        [
+          "infrastructure_types",
+          [
+            [
+              "fa2a0fc0f7f3d652ea862e150e039369",
+              "command-and-control"
+            ]
+          ]
+        ],
+        [
+          "aliases",
+          []
+        ],
+        [
+          "kill_chain_phases",
+          []
+        ],
+        [
+          "first_seen",
+          null
+        ],
+        [
+          "last_seen",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "6a4e6072-9cf7-4abc-9815-6aef25ca5ae0",
+      "x": -9,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "11291f78-a5ad-489b-8cd0-8a31129ada6f",
+        "2e65fa61-16ec-4a8f-90f9-207348333d6a",
+        "427137b9-8114-42b3-9515-604ce518c4ad"
+      ],
+      "properties": []
+    },
+    {
+      "id": "6b8158c0-becf-443c-ab7b-c72fba4890ee",
+      "x": -1270,
+      "y": -270,
+      "attrs": 256,
+      "template": "note",
+      "children": [
+        "941e23cc-91b1-4ea8-809f-f9043daa150a",
+        "5ea30a1f-d2cd-4d97-887d-db9ebbe6db47",
+        "63c226c1-3010-4a95-ae94-b0029fb06d45",
+        "a09ff4dc-8db1-4f45-aba3-17ebaaf6f915",
+        "0afe55c8-134a-4a51-81f4-8e5800d5e3c0",
+        "0340a1fa-683f-47c7-9107-a608ad703c94",
+        "9cbf1293-d871-4a6c-8744-b0724226f07d",
+        "9d9edf7e-c886-4328-a940-812b173178e5",
+        "593b9404-86e4-4dfb-9835-94fe77c38c26",
+        "7c8474ec-9bed-4539-8b5b-2492109a6775",
+        "ddb9bb45-2388-4cc1-a96f-3e26e3d2f18a",
+        "8b7132f3-f1d8-49ff-8f78-86a53bbe4dfa"
+      ],
+      "properties": [
+        [
+          "abstract",
+          null
+        ],
+        [
+          "content",
+          "The following IPs download, execute, and check the bash script: 45.72.112.245; 115.167.53.141; 191.102.179.197; 209.127.110.126; 45.72.85.172; 192.241.67.12"
+        ],
+        [
+          "authors",
+          [
+            [
+              "441f8714806e010c61b2a44d712f55b3",
+              "Lauren Parker"
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "7ac6dd9f-cd06-4b87-83b4-e7d678eb3f69",
+      "x": -1025,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "852aa5cf-8437-47bc-a8ee-36153cb0981b",
+        "e197fd25-ad92-46cb-82cf-64f0c30025d1",
+        "a163b4d5-547e-42f5-a52d-3a580991e2b0"
+      ],
+      "properties": []
+    },
+    {
+      "id": "3c3fea04-7678-4ae6-a8dd-0b0c28eafe97",
+      "x": -250,
+      "y": 2160,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "17e3ebe3-47cd-4ec2-b0c8-6a2b35cc5e9c",
+        "6abe0746-518e-4283-9060-1d89c110fa8e",
+        "262ff2a3-26c4-49fd-8bd4-05e956fc361b",
+        "646ac9cb-df89-49b3-b20a-b859d472f472",
+        "191c236b-a6cd-427c-944d-a6d984291139",
+        "9ffb0577-8ffc-4a05-a03a-3288652ffdcb",
+        "aaffab70-42d7-440a-b5bb-f509ee24e334",
+        "82a08c02-0067-46ff-b2db-a4349dcfea49",
+        "0008403b-fee1-47df-acbf-557be60cfd61",
+        "503edcf6-fa8f-4f33-bc3c-c0403f1d08b7",
+        "efe62d36-d271-4cd0-831a-683a2dca3dbf",
+        "65757f80-b52f-44f5-8c03-4ce8a0dd9ef0"
+      ],
+      "properties": [
+        [
+          "name",
+          "Ingress Tool Transfer"
+        ],
+        [
+          "tactic_id",
+          "TA0011"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813"
+        ],
+        [
+          "technique_id",
+          "T1105"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+        ],
+        [
+          "description",
+          "attackers attempted to download MoneroOcean miner from GitHub from the associated IP"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "7a8cceb0-2ab8-4f2c-aa01-43e31a3004ae",
+      "x": -250,
+      "y": 1972,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "6193b3c2-1fb0-4401-aa50-14a42e63e7d8",
+        "e1be205f-90c1-4935-a5f4-6cfb627eec3b",
+        "21c396ce-3888-4639-a3be-859a5104da01"
+      ],
+      "properties": []
+    },
+    {
+      "id": "545cfd59-0603-4476-93fc-c7c91c22e0bd",
+      "x": -620,
+      "y": 2160,
+      "attrs": 256,
+      "template": "ipv4_addr",
+      "children": [
+        "7f143bef-79f0-49d2-a4df-4dfe47dee1f9",
+        "ae263aad-1835-43fe-9f65-086a24fbcf17",
+        "0fa42703-c197-49a3-89b0-45840f0d64c4",
+        "145009f2-343a-48ec-a08c-b785565d53be",
+        "39ebf90e-38d1-4c3b-a8d8-2059f542dfbe",
+        "b1d94fa5-3f35-4bea-bf90-2aa10b346ef1",
+        "33255141-cfad-4241-ac98-c5770aab2bf2",
+        "f08d02c4-fa94-402e-9dc8-89900e2afa7f",
+        "292de009-21ec-4b77-918d-b7f700f07886",
+        "789bb300-8938-490e-bfa6-5c623c568e2d",
+        "ddf6b391-9c8a-41bf-8f89-061fb6ef5fc2",
+        "ed941e6b-cf41-42ba-956b-ddb81e876f15"
+      ],
+      "properties": [
+        [
+          "value",
+          "194.31.98.141"
+        ]
+      ]
+    },
+    {
+      "id": "8182daeb-6e84-4a04-9ab3-8df8cb3ac870",
+      "x": -492,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "bcc161bf-2316-4772-a422-4c252d6074c3",
+        "0d7db345-d4be-4c21-ac5a-19746057dd66",
+        "8ce3ee7f-241b-4b37-93dd-254afdfbc69e"
+      ],
+      "properties": []
+    },
+    {
+      "id": "747d2282-1bf8-4848-89f0-0ee82ca3b6a5",
+      "x": -250,
+      "y": 2510,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "7c0b5c08-ca40-4537-a67f-471d82cc196e",
+        "b73b2176-45ce-4247-97f4-3f5d4f551b54",
+        "80dbf42e-a7ee-4a67-89bd-85baa5c92c5f",
+        "cde65f9d-a5a7-41f8-bd68-16b0b8bb775c",
+        "7ce12602-8af3-4abd-a2a3-c4b14c1b26a5",
+        "d496d64d-ff31-48de-92d9-da86a1e69843",
+        "0c68a253-0e48-4881-a858-8d77936e472c",
+        "3b18df65-38cb-40b4-9ca9-c50b14b36608",
+        "d0ad4018-3c56-4e60-8e11-23ad14b3960a",
+        "ba53108a-17f7-447b-8492-dfa43c903278",
+        "1312ba0d-a68d-47db-81c6-b115915d471e",
+        "b2c29195-fa6e-4b85-9115-867f39daf955"
+      ],
+      "properties": [
+        [
+          "name",
+          "File and Directory Discovery"
+        ],
+        [
+          "tactic_id",
+          "TA0007"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9"
+        ],
+        [
+          "technique_id",
+          "T1083"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--7bc57495-ea59-4380-be31-a64af124ef18"
+        ],
+        [
+          "description",
+          "attackers used an associated IP address to run cat on a number of files in the listed directory"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "99b5706e-013e-4ca3-b3ef-450c30075a92",
+      "x": -250,
+      "y": 2335,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "555f1a3a-2155-43f6-bb48-a09909ca581f",
+        "c775f565-b2e1-4e66-84b2-61a28ad2f2f0",
+        "9089f6ba-e0fa-4904-8711-86bab25b0ec3"
+      ],
+      "properties": []
+    },
+    {
+      "id": "e01fce30-934b-4d5c-ab81-ca635e99b406",
+      "x": -610,
+      "y": 2510,
+      "attrs": 256,
+      "template": "ipv4_addr",
+      "children": [
+        "f2625447-9507-4fbc-888d-fcfca4dd0ec0",
+        "35834405-927d-4445-84d1-a7c71b60ade0",
+        "f6ae61dd-4a16-4afb-8856-67b7a290ab4b",
+        "822cb7e2-5ddd-4945-a407-42c6a5d67a58",
+        "cac62749-4240-468f-a34e-5cfeb2b54e20",
+        "3f74ca1f-5e3b-4f87-ad14-e76de932ab31",
+        "1aeb057f-aa0d-4876-990d-ed7d80b8a21d",
+        "276ef36a-0971-49ea-8a4f-67c8688cef0c",
+        "290e4bc3-fa29-4bcb-b9bc-ca1151df776e",
+        "7c28e6f3-f216-4010-b391-3564ff95f3a9",
+        "8b801390-794d-4a1e-9055-1526821b118d",
+        "4c5a3137-996a-41b9-9ac2-2937eed6e1eb"
+      ],
+      "properties": [
+        [
+          "value",
+          "8.45.41.114"
+        ]
+      ]
+    },
+    {
+      "id": "64e570dd-974a-488e-a3e7-ea0ad64b68b2",
+      "x": -488,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "024fc946-7ae1-4a06-a7cd-b756accac701",
+        "aa5db7fb-d795-4471-96b1-5d6804086f4f",
+        "778d8525-9ff3-4faa-a6eb-023080e7e01c"
+      ],
+      "properties": []
+    },
+    {
+      "id": "d277228f-6835-488e-8145-4e43af09f875",
+      "x": 150,
+      "y": 2510,
+      "attrs": 256,
+      "template": "directory",
+      "children": [
+        "45ae9738-1d37-4bda-b279-151f7d288db5",
+        "039c5fc5-4ac3-4b6d-ab95-eeeea5ee90e5",
+        "b86e8775-8e5e-46bd-93ff-0d70ff4e0214",
+        "304c8644-209c-4c1b-a343-1e6364c8535e",
+        "aa39b199-058c-4a29-92f2-b1c3176a00c5",
+        "0570d897-2357-483e-b820-78d4780a829e",
+        "2f64b82a-da59-46fb-a6a8-dda17a8b2425",
+        "188623e3-1bec-4deb-a622-90dfd3f32306",
+        "28dc4771-2e8b-4c94-9999-11a1a61e9d82",
+        "74da50c9-3168-4dd9-8739-a73eebff6230",
+        "f3588744-8d7c-4042-bbd1-07582451afed",
+        "47a1c684-3bac-4ffc-b730-769cebc95044"
+      ],
+      "properties": [
+        [
+          "path",
+          "/usr/local/horizon/conf"
+        ],
+        [
+          "path_enc",
+          null
+        ],
+        [
+          "ctime",
+          null
+        ],
+        [
+          "mtime",
+          null
+        ],
+        [
+          "atime",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "24580a69-62d4-447f-8606-dc17134e2371",
+      "x": -23,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "dcbdd090-08c6-4634-9a5e-4aa6e45dd7aa",
+        "26644411-74fb-4d2b-86c3-fbd7dc62a26b",
+        "75f43e87-21cb-43f6-8edd-b40714b31cd5"
+      ],
+      "properties": []
+    },
+    {
+      "id": "6dbde84b-f026-46b8-bde6-f963be602a4c",
+      "x": -250,
+      "y": 2870,
+      "attrs": 256,
+      "template": "action",
+      "children": [
+        "55c694a9-b357-4df4-a671-a9552c41b62e",
+        "80e26d65-9726-44ef-aca0-cffe575e9711",
+        "2f38dca2-e132-476a-9cf0-48e6bdaa5615",
+        "bd04fd9f-61be-4e70-8dd0-eee513cd19c1",
+        "a1bbaa10-f4a2-4492-8750-401028437e74",
+        "d7144dfc-aa7e-4651-9785-f817c9a0100e",
+        "4ef9e14c-c269-42a9-bc31-82f67a7d7b5c",
+        "780acaa9-a180-4291-8527-5dd26839e187",
+        "538b3487-9f80-4558-9e8d-6eb8a0b4c303",
+        "29bbbbc7-9690-4670-93bc-d151388161bd",
+        "5e8539a9-478a-4911-899f-c4964d9cbfb1",
+        "ea31b64c-76d9-4e77-942a-701a998487b8"
+      ],
+      "properties": [
+        [
+          "name",
+          "Ingress Tool Transfer"
+        ],
+        [
+          "tactic_id",
+          "TA0011"
+        ],
+        [
+          "tactic_ref",
+          "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813"
+        ],
+        [
+          "technique_id",
+          "T1105"
+        ],
+        [
+          "technique_ref",
+          "attack-pattern--e6919abc-99f9-4c6c-95a5-14761e7b2add"
+        ],
+        [
+          "description",
+          "attackers attempted to download a JSP webshell from the listed URL"
+        ],
+        [
+          "confidence",
+          null
+        ],
+        [
+          "execution_start",
+          null
+        ],
+        [
+          "execution_end",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "6064c97d-5b15-406a-b63f-4163018463b9",
+      "x": -250,
+      "y": 2690,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "ce98cdcb-4cde-4c3a-a618-c3e8aa817a7d",
+        "aeb7d2bd-21d9-42bf-848f-e7c0bcba1e0e",
+        "afca71d1-908f-4a77-b363-c3d72f7b6ae3"
+      ],
+      "properties": []
+    },
+    {
+      "id": "e1c165a0-165b-4760-8da0-dcd112475096",
+      "x": 140,
+      "y": 2870,
+      "attrs": 256,
+      "template": "url",
+      "children": [
+        "7042d4f7-81bb-4c94-b4af-d6d1d26600f6",
+        "66d0f735-be84-4611-99b7-e5b39653c3f1",
+        "1adaeb0d-bfba-4a69-be0e-46249501a662",
+        "c9fe5ed1-94d5-426c-a731-e01de59edd3f",
+        "96466aad-6acf-4789-a990-1950bcdad5ed",
+        "ddbb2738-0298-4b7a-84bd-9555c6b23a7b",
+        "a15638b9-dfce-41c9-a0e5-42a0cfaa313d",
+        "69da00be-9564-4f70-b8ba-3b76cb086c25",
+        "a7baa47c-f10b-42e4-a5ea-e9394c30f627",
+        "29924f61-09c8-4b5e-a5d9-21cff1855d86",
+        "0355edc5-bd13-4225-b89d-643179df3418",
+        "b173f8ab-b4e3-4256-9b1d-3aa030a91608"
+      ],
+      "properties": [
+        [
+          "value",
+          "http://84.38.133[.]149/img/icon.gif"
+        ]
+      ]
+    },
+    {
+      "id": "fefaa1b5-e34c-4bb9-9016-933dc6f42aca",
+      "x": -46,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "303a4f24-fb8c-459e-af8c-2d2934557fbe",
+        "ac35ba43-bcac-4a62-ac89-85a433549d13",
+        "b05a56f0-860b-48f1-9d1a-a509dd3a8014"
+      ],
+      "properties": []
+    },
+    {
+      "id": "20c3a450-1f75-4c04-8714-33620f148749",
+      "x": -250,
+      "y": 3055,
+      "attrs": 0,
+      "template": "@__builtin__line_vertical_elbow",
+      "children": [
+        "dbe2e0eb-88ef-45bf-8bea-37321efcf30a",
+        "5b97ae44-fd1e-4e2a-9a9b-7bae95b060c9",
+        "bbc32a05-90d9-4c15-a603-3cb2ce3b6a2c"
+      ],
+      "properties": []
+    },
+    {
+      "id": "1ca54adf-82f5-427b-bb74-e748b132af57",
+      "x": -550,
+      "y": 1520,
+      "attrs": 256,
+      "template": "tool",
+      "children": [
+        "ac606903-de69-4a33-bef8-b61f8d4af534",
+        "5b3940e4-3fef-4346-b6c2-64e63a39eeb6",
+        "6cad5e88-15b5-4d3b-98be-8ce662b91df8",
+        "fe432078-7193-4ea1-9d96-0a104bc8655a",
+        "bfaa7233-ad6d-4508-bb6e-b430429d10ba",
+        "246ed9cd-d219-401f-af84-47734f134f84",
+        "37bbfd08-6d33-47fd-8d69-fd4fc64762d8",
+        "544aa779-22b0-46a5-b096-3bfa2393bfa2",
+        "deebf41b-e654-4a48-a10d-a11d784eaa01",
+        "ce85e0a0-d9ba-4b06-b197-103f6ec571a4",
+        "86023293-7154-4b3f-af8c-d329202f22b3",
+        "79a46103-0ae5-4a2d-a79b-6407feead671"
+      ],
+      "properties": [
+        [
+          "name",
+          "TAR"
+        ],
+        [
+          "description",
+          "linux archive utility"
+        ],
+        [
+          "tool_types",
+          []
+        ],
+        [
+          "aliases",
+          []
+        ],
+        [
+          "kill_chain_phases",
+          []
+        ],
+        [
+          "tool_version",
+          null
+        ]
+      ]
+    },
+    {
+      "id": "2aaea74f-f954-4092-8d64-28cdd79dda76",
+      "x": -445,
+      "y": 1485,
+      "attrs": 0,
+      "template": "@__builtin__line_horizontal_elbow",
+      "children": [
+        "e5dc4bb3-b577-46d6-9ae5-ea49b4bbbe58",
+        "88f7789f-036d-4e03-b258-04c8d9f87916",
+        "95948cce-e27b-475a-a647-adc919063e9d"
+      ],
+      "properties": []
+    },
+    {
+      "id": "9b90debf-5719-4954-a5ee-51de8b4650f5",
+      "x": -339,
+      "y": -407,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "b557b4d5-bbba-4c94-8f52-8fbe475e51ce",
+      "x": -250,
+      "y": -407,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "392bc617-395b-4074-b853-9715e0854e2a",
+      "x": -161,
+      "y": -407,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "5b5bda51-5f40-466f-9189-002bb4f4a7eb",
+      "x": -71,
+      "y": -338.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "9ded5c4b-61f7-4b81-87d9-08928867d63f",
+      "x": -71,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "5d00e4e4-eedb-4db0-b86b-207f9a26fc22"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "4b47c068-8a35-42bd-9a83-b07c07d5241b",
+      "x": -71,
+      "y": -201.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "845297f9-e161-4c30-8d86-e5d4649e4139",
+      "x": -161,
+      "y": -133,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "db674dd8-1429-4ad5-84ff-7d9fb492a60b",
+      "x": -250,
+      "y": -133,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "17f342c8-67e1-4a3b-9db4-3e7ea74cd6d7"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "65535510-d293-4026-b59e-3ce30bb89ef7",
+      "x": -339,
+      "y": -133,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "7493648e-10b8-4953-ac34-3493ff63cc1c",
+      "x": -428,
+      "y": -201.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "167aa568-7640-4d37-b02d-0a38640259b4",
+      "x": -428,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "4ec58df9-70ac-45d5-86a0-c56a30a469b9"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "1efe9137-c7c0-43c4-bdaa-01e90f8af55a",
+      "x": -428,
+      "y": -338.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "455accdd-719b-426e-acaf-df9b8c95686d",
+      "x": 61.5,
+      "y": -299,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "1568b383-ad5d-422d-b75e-702f49bbb218",
+      "x": 110,
+      "y": -299,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "fd60c42d-6bcf-4695-8885-6a0bb3e4e730",
+      "x": 158.5,
+      "y": -299,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "6384b27b-7ae0-4c90-991f-171740c8971e",
+      "x": 207,
+      "y": -284.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "be6e3c60-88a6-41d0-bf66-51dea7d476a7",
+      "x": 207,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "02e105fb-9a3e-4411-aba9-66836fb59a43",
+      "x": 207,
+      "y": -255.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "fdce0592-6d56-4c88-bac2-48b81f161a7a",
+      "x": 158.5,
+      "y": -240,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "bed07def-aed4-4a47-84ba-113995811454",
+      "x": 110,
+      "y": -240,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "d5a75fc3-9b01-4cc8-a2ee-acdda755c891",
+      "x": 61.5,
+      "y": -240,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "acf00e7f-2e5b-46b4-8536-c5fb94718437",
+      "x": 13,
+      "y": -255.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "b93e4c4e-e736-435a-b76a-f4e031758cf7",
+      "x": 13,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "397070d5-b518-4b6b-a8af-6b058949fdfa"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "36c98aa3-f02d-437a-8c02-76455fb12056",
+      "x": 13,
+      "y": -284.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "5d00e4e4-eedb-4db0-b86b-207f9a26fc22",
+      "x": -71,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "b4b7085a-64fe-4a85-9a4d-43579739ea86",
+      "x": -29,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "397070d5-b518-4b6b-a8af-6b058949fdfa",
+      "x": 13,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "7f80e56b-d608-4652-9a4d-a64a844fbb30",
+      "x": -336.5,
+      "y": -46,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "44c35cac-3a32-4867-b673-f704622a1374",
+      "x": -250,
+      "y": -46,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "58558d59-5b51-4108-8e0e-8ba8ae94a225"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "98dcde9f-22ef-4494-a218-dd8f3a7e2e68",
+      "x": -163.5,
+      "y": -46,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "262d4aed-9ff9-4582-a2d6-36c571fdcdce",
+      "x": -77,
+      "y": 12,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "1c86771a-8f2e-48b5-a93f-9cb902bfd441",
+      "x": -77,
+      "y": 70,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "ae87eee7-5901-4a93-a242-199c900d5512",
+      "x": -77,
+      "y": 128,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "d423a778-b033-4ec8-ac42-846785a13f0e",
+      "x": -163.5,
+      "y": 187,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "98470b68-4735-49e8-a12c-55ff9e14c04d",
+      "x": -250,
+      "y": 187,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "827224f6-dbd3-4f1a-a700-01333ac99ade"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "afa3e504-3730-4ef7-bb29-26f9fd3a0b0e",
+      "x": -336.5,
+      "y": 187,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "29be5ac6-dc64-4004-9a8d-e96fb2130397",
+      "x": -423,
+      "y": 128,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "a0e6fade-b645-4b10-9555-763ea5453a5e",
+      "x": -423,
+      "y": 70,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "07c024cb-6c5c-4626-8f6f-b40e746f29aa",
+      "x": -423,
+      "y": 12,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "17f342c8-67e1-4a3b-9db4-3e7ea74cd6d7",
+      "x": -250,
+      "y": -133,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "fe5d8276-e4dc-4e43-887d-e941b64537a8",
+      "x": -250,
+      "y": -89.5,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "58558d59-5b51-4108-8e0e-8ba8ae94a225",
+      "x": -250,
+      "y": -46,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "fa4e0649-98d8-4723-abe1-7455750b2a35",
+      "x": -336.5,
+      "y": 264,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "7a26c272-8a9a-4fb6-931f-11d79c35fcf3",
+      "x": -250,
+      "y": 264,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "bc1da8f3-10e0-4983-9411-78d7721e800f"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "026620d3-cbf9-47c6-8a73-526737287226",
+      "x": -163.5,
+      "y": 264,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "5b6e5910-d7a8-4f9d-9844-a7e17e37f643",
+      "x": -77,
+      "y": 327,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "60aa3bce-2084-4a74-9253-f24ee5bae37a",
+      "x": -77,
+      "y": 390,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "e75ecd92-f933-4f49-a6b3-c92ee3fef6f7",
+      "x": -77,
+      "y": 453,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "e4b21f5f-2061-416f-8d9e-f19fceee8b31",
+      "x": -163.5,
+      "y": 517,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "54e85d28-a6c5-4bd0-ad4a-8891ff2571e9",
+      "x": -250,
+      "y": 517,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "9b9a1cfb-58d8-4adb-839a-e1eaa2d7ade4"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "4b29f24c-5d90-4a71-8dc9-114613f51a44",
+      "x": -336.5,
+      "y": 517,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "66cdce87-f8b2-4993-a5a6-bf0f88a2ca54",
+      "x": -423,
+      "y": 453,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "0f79077f-7a92-4263-92d3-bc2662ee4aea",
+      "x": -423,
+      "y": 390,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "43428732-9d7b-470d-815e-0b0203bc5282",
+      "x": -423,
+      "y": 327,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "827224f6-dbd3-4f1a-a700-01333ac99ade",
+      "x": -250,
+      "y": 187,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "17065bd0-1f77-4836-ae01-3f11cbdd87c6",
+      "x": -250,
+      "y": 225.5,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "bc1da8f3-10e0-4983-9411-78d7721e800f",
+      "x": -250,
+      "y": 264,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "d5e01e15-32ec-4d10-a87f-15409467aecb",
+      "x": -870,
+      "y": -499,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "9cb380e5-f6e4-4ddf-aae1-4e9c9f112682",
+      "x": -780,
+      "y": -499,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "aa52fa1e-1be5-4c62-8e8e-dce2370f1253",
+      "x": -690,
+      "y": -499,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "3f08749e-3c85-40ed-877e-66d8ec07bdef",
+      "x": -599,
+      "y": -384.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "d4e43f60-003a-404e-81cc-9e9f1d4efe7c",
+      "x": -599,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "e9dbc3ae-085e-444a-9885-7e5d5a92fef7"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "a99baced-7a43-4f02-932d-9e1c49b01b01",
+      "x": -599,
+      "y": -155.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "4ddc418a-434c-4d7c-816d-812055fcc2ab",
+      "x": -690,
+      "y": -40,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "7d1a0c8a-bece-4465-ad8d-b7ba76b3a4c7",
+      "x": -780,
+      "y": -40,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "cfb8edc4-e559-4ebb-93c4-b9345bf4fa83",
+      "x": -870,
+      "y": -40,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "8a360277-db48-491b-bddd-cac39c21ba68",
+      "x": -960,
+      "y": -155.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "f4a85195-9d47-4385-bc98-de09e084ef09",
+      "x": -960,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "a163b4d5-547e-42f5-a52d-3a580991e2b0"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "22913bac-89c6-4e42-b912-aefc54087bec",
+      "x": -960,
+      "y": -384.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "4ec58df9-70ac-45d5-86a0-c56a30a469b9",
+      "x": -428,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "f0a4e2d1-5b8b-4e3c-85e9-07a7cbb686d9",
+      "x": -513.5,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "e9dbc3ae-085e-444a-9885-7e5d5a92fef7",
+      "x": -599,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "9c704017-060e-4856-be64-7708d610d9cb",
+      "x": -338,
+      "y": 630,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "d2d4c3b3-fe33-41a6-b036-00343bd43687",
+      "x": -250,
+      "y": 630,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "56fca2c8-53e9-4a29-86c2-c0fc828adc71"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "3334070f-f1c2-4f1d-b504-f0945169f675",
+      "x": -162,
+      "y": 630,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "c646a335-f37e-40ac-ae90-3fac7ab5f96a",
+      "x": -73,
+      "y": 685,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "6ec0f742-2faa-4291-bf09-cb6d9dace2d7",
+      "x": -73,
+      "y": 740,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "384db637-9227-4857-b6fc-76e1efd72f0f",
+      "x": -73,
+      "y": 795,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "677415e7-ddc1-48ab-98b9-bdc21396108c",
+      "x": -162,
+      "y": 850,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "5d0dce0c-2c6d-49e8-aa8f-fd9f972ee082",
+      "x": -250,
+      "y": 850,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "151ca0b5-5283-4279-a587-11b53f94f2a0"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "c680195d-0411-490f-84cf-9c5bd3ed325e",
+      "x": -338,
+      "y": 850,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "2ec0369f-ce75-4ba8-8b4c-821bc7c403fa",
+      "x": -426,
+      "y": 795,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "7b697f68-8ba7-4ac2-8cae-dbb6fa4ec199",
+      "x": -426,
+      "y": 740,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "06aa0dbc-b5af-427a-9239-ec92f01c845b",
+      "x": -426,
+      "y": 685,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "9b9a1cfb-58d8-4adb-839a-e1eaa2d7ade4",
+      "x": -250,
+      "y": 517,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "91be84a1-0583-4575-a3c3-854477baa10b",
+      "x": -250,
+      "y": 573.5,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "56fca2c8-53e9-4a29-86c2-c0fc828adc71",
+      "x": -250,
+      "y": 630,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "208c1d03-8515-469c-b590-3536ffe881ed",
+      "x": -319,
+      "y": 974,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "a14065d2-73f7-4dfc-934b-4bdd6a114a31",
+      "x": -250,
+      "y": 974,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "291079ff-8cc0-4127-84cf-e513e440daed"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "2121116c-1387-4606-b3f6-b588f605e9eb",
+      "x": -181,
+      "y": 974,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "e6f2697e-8acc-4ec6-98ca-f56f838b256c",
+      "x": -112,
+      "y": 1037,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "cf79cd26-90d1-465d-9d2d-16d76c0661a1",
+      "x": -112,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "1932e334-d941-41fd-afef-ef523f59db22"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "5028ef77-a168-4524-b22e-8a14ca9f7c6f",
+      "x": -112,
+      "y": 1163,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "4f06c689-756f-4ad4-8870-0dcb6f431629",
+      "x": -181,
+      "y": 1227,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "a222478c-cc01-4106-abbc-7b48abfacd84",
+      "x": -250,
+      "y": 1227,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "1e6ef434-50a3-4e39-8f72-4b2d373db261"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "ecb7585f-b166-42c9-bdbd-b90561c606a5",
+      "x": -319,
+      "y": 1227,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "406bb9c8-b156-4d0b-a0ef-b5d95cff3c7b",
+      "x": -388,
+      "y": 1163,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "321a6775-0f8a-43a8-a4e1-96dfdeedc0b9",
+      "x": -388,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "be97705f-f531-427e-b846-64fc14309e82",
+      "x": -388,
+      "y": 1037,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "dc2199b7-ecbe-4bed-ab6e-47b75cc3311f",
+      "x": 39,
+      "y": 1071,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "d6d0a36a-c009-47c3-9ba7-c2dbb3462abd",
+      "x": 80,
+      "y": 1071,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "0a17937e-8de7-4973-89e7-613690914235",
+      "x": 121,
+      "y": 1071,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "ffcc2a80-955a-4941-be6b-8b4ab26e149c",
+      "x": 162,
+      "y": 1085.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "96fb5b09-129a-45e1-91b7-e1c5150549fa",
+      "x": 162,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "723adc95-18a0-414e-9f97-829a287ca590",
+      "x": 162,
+      "y": 1114.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "da029eb9-22d1-4cd6-9584-e92fb6e87ba7",
+      "x": 121,
+      "y": 1130,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "a8176af0-30e2-45bf-a614-89d002f5934b",
+      "x": 80,
+      "y": 1130,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "e58e8dd7-146e-454d-8c4d-feaa3cd25d2c",
+      "x": 39,
+      "y": 1130,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "78795ea0-fbcd-4093-ab24-5802ae6e1289",
+      "x": -2,
+      "y": 1114.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "3f305188-66c0-4551-bd2f-056c57d81e75",
+      "x": -2,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "36b365e7-80ae-47f1-b1e6-61e28a98bbe7"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "f9c3ca7e-a3d5-4f75-bb86-0c142a033d72",
+      "x": -2,
+      "y": 1085.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "151ca0b5-5283-4279-a587-11b53f94f2a0",
+      "x": -250,
+      "y": 850,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "e47124dd-0c4f-42ab-8d03-b4db0b9e0bb1",
+      "x": -250,
+      "y": 912,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "291079ff-8cc0-4127-84cf-e513e440daed",
+      "x": -250,
+      "y": 974,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "1932e334-d941-41fd-afef-ef523f59db22",
+      "x": -112,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "d80b5211-fb54-406b-85d4-2299bab6a9fd",
+      "x": -57,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "36b365e7-80ae-47f1-b1e6-61e28a98bbe7",
+      "x": -2,
+      "y": 1100,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "1845170f-9dea-4017-b107-78969de3e505",
+      "x": -336,
+      "y": 1293,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "349cb5f6-3d40-4d14-9109-0efb521df0bc",
+      "x": -250,
+      "y": 1293,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "7d28347e-e712-481f-9727-f628bf3f0594"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "890af30b-6287-4812-b729-52e2a28884eb",
+      "x": -164,
+      "y": 1293,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "951e1613-c48b-4280-814d-d59ae59e4096",
+      "x": -77,
+      "y": 1371.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "4ccee9fa-d478-47e5-8b11-810f4f5f3740",
+      "x": -77,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "e0cfced5-ffe4-4f8c-baa6-527449720109"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "3c2ab959-35a0-4613-902d-ae6c22e99357",
+      "x": -77,
+      "y": 1528.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "cb52eb43-9f3c-4c3d-ad7d-82baed0315b8",
+      "x": -164,
+      "y": 1607,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "59215479-1360-41a7-9ab9-22c7d40e1123",
+      "x": -250,
+      "y": 1607,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "df06f83e-ce09-4b26-ac84-ca74676a02ba"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "50971804-c74b-4c34-b006-47d998a91f27",
+      "x": -336,
+      "y": 1607,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "dbb5214c-e152-44d8-a263-2436ef7c8458",
+      "x": -422,
+      "y": 1528.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "63f6766d-eee0-4fe1-8a32-28613ec237ff",
+      "x": -422,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "e5dc4bb3-b577-46d6-9ae5-ea49b4bbbe58"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "124c89bf-b503-4ef4-97ac-6e6a2498343d",
+      "x": -422,
+      "y": 1371.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "1e6ef434-50a3-4e39-8f72-4b2d373db261",
+      "x": -250,
+      "y": 1227,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "4fb4443d-a918-4f91-81ba-bc5b7f6dab98",
+      "x": -250,
+      "y": 1260,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "7d28347e-e712-481f-9727-f628bf3f0594",
+      "x": -250,
+      "y": 1293,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "4de1cecb-7e7d-4d99-a963-33d87549f533",
+      "x": 120,
+      "y": 1409,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "f9b5856b-8d87-423d-ad00-6fed19de6db6",
+      "x": 210,
+      "y": 1409,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "b7d5d0cc-e7ed-467c-9687-7c9ab4ba546c",
+      "x": 300,
+      "y": 1409,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "acdd558f-6725-4fa4-a474-29fada8d667f",
+      "x": 390,
+      "y": 1429.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "9bca4f1a-1592-446a-b057-fbe6e14a5383",
+      "x": 390,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "da21b88c-6fd0-4ef8-afd4-43564f681894",
+      "x": 390,
+      "y": 1470.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "118da467-b70d-4ef7-a688-e6af0f665085",
+      "x": 300,
+      "y": 1491,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "0128f2c3-0b97-49fb-afe5-4cda390d69ce",
+      "x": 210,
+      "y": 1491,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "fe05f059-939f-40b9-bd32-e04b5e1b0926",
+      "x": 120,
+      "y": 1491,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "77d33ce3-ed4e-4666-b6a5-51a8c57309bf",
+      "x": 30,
+      "y": 1470.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "0de4748b-522e-4b8c-b4e6-3e0134473d2a",
+      "x": 30,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "8681b9cd-cc6f-452f-b447-327051c9d007"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "25c2c74a-85e2-417c-b7a8-d5fd1c6e9e84",
+      "x": 30,
+      "y": 1429.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "e0cfced5-ffe4-4f8c-baa6-527449720109",
+      "x": -77,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "08b365f4-2316-4963-88ad-193d5f97c04d",
+      "x": -23.5,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "8681b9cd-cc6f-452f-b447-327051c9d007",
+      "x": 30,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "f5a38692-17b2-4f82-a302-44ab01663e61",
+      "x": -315.5,
+      "y": 3113,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "3d6e1391-8cf3-42e9-9194-31e744682dda",
+      "x": -250,
+      "y": 3113,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "bbc32a05-90d9-4c15-a603-3cb2ce3b6a2c"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "402a4071-9d16-4854-9315-5c37f4429da7",
+      "x": -184.5,
+      "y": 3113,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "2ef501bd-f79b-4199-937a-1ff8a41ac23f",
+      "x": -118,
+      "y": 3171.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "a08d4d70-ece0-48a3-ab2c-bd58ae004c2c",
+      "x": -118,
+      "y": 3230,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "6024de50-438b-47b5-8939-3572e6dcd1d1",
+      "x": -118,
+      "y": 3288.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "07c04443-e82f-452b-a0d5-933ed95607af",
+      "x": -184.5,
+      "y": 3347,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "b8502e50-5afe-4e54-98dc-321405241527",
+      "x": -250,
+      "y": 3347,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "8da7e6e2-803d-4a1a-8758-22f70caa22aa",
+      "x": -315.5,
+      "y": 3347,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "4b3542f1-47f1-472c-9eb1-cbc1103334ce",
+      "x": -381,
+      "y": 3288.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "aca5d519-6a83-4621-9945-154dcf691d69",
+      "x": -381,
+      "y": 3230,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "42d52afc-85af-482d-8d8f-a294e58004cf",
+      "x": -381,
+      "y": 3171.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "6730afde-b897-4635-beb2-2ded814599ae",
+      "x": -338,
+      "y": 1730,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "782ac959-9035-4e38-85a3-e090ea7088ba",
+      "x": -250,
+      "y": 1730,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "2b752c56-abca-446b-bdf8-d568006f3339"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "1156cdc8-ae7f-47d6-b2b5-383b32acb52c",
+      "x": -162,
+      "y": 1730,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "200a6c16-b009-49cd-806f-1e6e62bdfdb8",
+      "x": -73,
+      "y": 1775,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "aeec1216-5b51-44d9-b5c8-eb6a7f3b2f79",
+      "x": -73,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "11291f78-a5ad-489b-8cd0-8a31129ada6f"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "36abb7ed-ddee-4b00-b470-2c32344695bc",
+      "x": -73,
+      "y": 1865,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "46cd94c1-7872-41ce-a30c-dec9b7c32aa8",
+      "x": -162,
+      "y": 1910,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "bf661998-acbe-4e5b-9d1e-3cc58e0432b9",
+      "x": -250,
+      "y": 1910,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "6193b3c2-1fb0-4401-aa50-14a42e63e7d8"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "8d5b1b09-298b-4353-ba68-274d5fc36413",
+      "x": -338,
+      "y": 1910,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "51f41258-4fd4-4710-b6f0-ead98fe849c7",
+      "x": -426,
+      "y": 1865,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "2c82ce63-04c9-47ed-9669-47940b71bb68",
+      "x": -426,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "b33e0069-9e1f-4f6e-b0ab-0c42ba9972df",
+      "x": -426,
+      "y": 1775,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "df06f83e-ce09-4b26-ac84-ca74676a02ba",
+      "x": -250,
+      "y": 1607,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "b456df08-6c4d-4de1-ae77-6d488cfc5b41",
+      "x": -250,
+      "y": 1668.5,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "2b752c56-abca-446b-bdf8-d568006f3339",
+      "x": -250,
+      "y": 1730,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "b6c54ec4-d1a5-46e7-af70-cf80be1af8b9",
+      "x": 102.5,
+      "y": 1731,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "e6f6f42b-7a9f-4a8a-8032-58f80838cd48",
+      "x": 150,
+      "y": 1731,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "e886a56d-a8f5-439e-b890-ccf5963721e3",
+      "x": 197.5,
+      "y": 1731,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "9b8aeaf5-e999-423e-bb86-2dbfdc26b597",
+      "x": 246,
+      "y": 1775.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "7623051e-8d8c-4351-a0f7-61ab8bd9ddce",
+      "x": 246,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "bcd8f9bd-320f-43bf-8890-ef28176b21db",
+      "x": 246,
+      "y": 1864.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "b86e374a-1d50-48d8-a9a2-7fb76a58cba4",
+      "x": 197.5,
+      "y": 1910,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "2524ce8b-e03f-4979-b7f6-32faffa044c9",
+      "x": 150,
+      "y": 1910,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "5cfe3095-f438-44b5-91cf-6cfbd326f3e0",
+      "x": 102.5,
+      "y": 1910,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "c4734bad-44f4-4c5e-8215-b4158ca05fb4",
+      "x": 55,
+      "y": 1864.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "3b135442-b0b8-466f-8ee7-8b35f766172f",
+      "x": 55,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "427137b9-8114-42b3-9515-604ce518c4ad"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "71b99aef-08f2-455b-9fe9-32156e0a5879",
+      "x": 55,
+      "y": 1775.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "11291f78-a5ad-489b-8cd0-8a31129ada6f",
+      "x": -73,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "2e65fa61-16ec-4a8f-90f9-207348333d6a",
+      "x": -9,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "427137b9-8114-42b3-9515-604ce518c4ad",
+      "x": 55,
+      "y": 1820,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "941e23cc-91b1-4ea8-809f-f9043daa150a",
+      "x": -1360,
+      "y": -380,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "5ea30a1f-d2cd-4d97-887d-db9ebbe6db47",
+      "x": -1270,
+      "y": -380,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "63c226c1-3010-4a95-ae94-b0029fb06d45",
+      "x": -1180,
+      "y": -380,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "a09ff4dc-8db1-4f45-aba3-17ebaaf6f915",
+      "x": -1090,
+      "y": -325,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "0afe55c8-134a-4a51-81f4-8e5800d5e3c0",
+      "x": -1090,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "852aa5cf-8437-47bc-a8ee-36153cb0981b"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "0340a1fa-683f-47c7-9107-a608ad703c94",
+      "x": -1090,
+      "y": -215,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "9cbf1293-d871-4a6c-8744-b0724226f07d",
+      "x": -1180,
+      "y": -160,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "9d9edf7e-c886-4328-a940-812b173178e5",
+      "x": -1270,
+      "y": -160,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "593b9404-86e4-4dfb-9835-94fe77c38c26",
+      "x": -1360,
+      "y": -160,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "7c8474ec-9bed-4539-8b5b-2492109a6775",
+      "x": -1450,
+      "y": -215,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "ddb9bb45-2388-4cc1-a96f-3e26e3d2f18a",
+      "x": -1450,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "8b7132f3-f1d8-49ff-8f78-86a53bbe4dfa",
+      "x": -1450,
+      "y": -325,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "852aa5cf-8437-47bc-a8ee-36153cb0981b",
+      "x": -1090,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "e197fd25-ad92-46cb-82cf-64f0c30025d1",
+      "x": -1025,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "a163b4d5-547e-42f5-a52d-3a580991e2b0",
+      "x": -960,
+      "y": -270,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "17e3ebe3-47cd-4ec2-b0c8-6a2b35cc5e9c",
+      "x": -339.5,
+      "y": 2034,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "6abe0746-518e-4283-9060-1d89c110fa8e",
+      "x": -250,
+      "y": 2034,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "21c396ce-3888-4639-a3be-859a5104da01"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "262ff2a3-26c4-49fd-8bd4-05e956fc361b",
+      "x": -160.5,
+      "y": 2034,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "646ac9cb-df89-49b3-b20a-b859d472f472",
+      "x": -70,
+      "y": 2097,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "191c236b-a6cd-427c-944d-a6d984291139",
+      "x": -70,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "9ffb0577-8ffc-4a05-a03a-3288652ffdcb",
+      "x": -70,
+      "y": 2223,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "aaffab70-42d7-440a-b5bb-f509ee24e334",
+      "x": -160.5,
+      "y": 2287,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "82a08c02-0067-46ff-b2db-a4349dcfea49",
+      "x": -250,
+      "y": 2287,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "555f1a3a-2155-43f6-bb48-a09909ca581f"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "0008403b-fee1-47df-acbf-557be60cfd61",
+      "x": -339.5,
+      "y": 2287,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "503edcf6-fa8f-4f33-bc3c-c0403f1d08b7",
+      "x": -429,
+      "y": 2223,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "efe62d36-d271-4cd0-831a-683a2dca3dbf",
+      "x": -429,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "bcc161bf-2316-4772-a422-4c252d6074c3"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "65757f80-b52f-44f5-8c03-4ce8a0dd9ef0",
+      "x": -429,
+      "y": 2097,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "6193b3c2-1fb0-4401-aa50-14a42e63e7d8",
+      "x": -250,
+      "y": 1910,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "e1be205f-90c1-4935-a5f4-6cfb627eec3b",
+      "x": -250,
+      "y": 1972,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "21c396ce-3888-4639-a3be-859a5104da01",
+      "x": -250,
+      "y": 2034,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "7f143bef-79f0-49d2-a4df-4dfe47dee1f9",
+      "x": -652,
+      "y": 2107,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "ae263aad-1835-43fe-9f65-086a24fbcf17",
+      "x": -620,
+      "y": 2107,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "0fa42703-c197-49a3-89b0-45840f0d64c4",
+      "x": -588,
+      "y": 2107,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "145009f2-343a-48ec-a08c-b785565d53be",
+      "x": -555,
+      "y": 2133.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "39ebf90e-38d1-4c3b-a8d8-2059f542dfbe",
+      "x": -555,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "8ce3ee7f-241b-4b37-93dd-254afdfbc69e"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "b1d94fa5-3f35-4bea-bf90-2aa10b346ef1",
+      "x": -555,
+      "y": 2186.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "33255141-cfad-4241-ac98-c5770aab2bf2",
+      "x": -588,
+      "y": 2214,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "f08d02c4-fa94-402e-9dc8-89900e2afa7f",
+      "x": -620,
+      "y": 2214,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "292de009-21ec-4b77-918d-b7f700f07886",
+      "x": -652,
+      "y": 2214,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "789bb300-8938-490e-bfa6-5c623c568e2d",
+      "x": -684,
+      "y": 2186.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "ddf6b391-9c8a-41bf-8f89-061fb6ef5fc2",
+      "x": -684,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "ed941e6b-cf41-42ba-956b-ddb81e876f15",
+      "x": -684,
+      "y": 2133.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "bcc161bf-2316-4772-a422-4c252d6074c3",
+      "x": -429,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "0d7db345-d4be-4c21-ac5a-19746057dd66",
+      "x": -492,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "8ce3ee7f-241b-4b37-93dd-254afdfbc69e",
+      "x": -555,
+      "y": 2160,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "7c0b5c08-ca40-4537-a67f-471d82cc196e",
+      "x": -338,
+      "y": 2384,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "b73b2176-45ce-4247-97f4-3f5d4f551b54",
+      "x": -250,
+      "y": 2384,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "9089f6ba-e0fa-4904-8711-86bab25b0ec3"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "80dbf42e-a7ee-4a67-89bd-85baa5c92c5f",
+      "x": -162,
+      "y": 2384,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "cde65f9d-a5a7-41f8-bd68-16b0b8bb775c",
+      "x": -74,
+      "y": 2447,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "7ce12602-8af3-4abd-a2a3-c4b14c1b26a5",
+      "x": -74,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "dcbdd090-08c6-4634-9a5e-4aa6e45dd7aa"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "d496d64d-ff31-48de-92d9-da86a1e69843",
+      "x": -74,
+      "y": 2573,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "0c68a253-0e48-4881-a858-8d77936e472c",
+      "x": -162,
+      "y": 2637,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "3b18df65-38cb-40b4-9ca9-c50b14b36608",
+      "x": -250,
+      "y": 2637,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "ce98cdcb-4cde-4c3a-a618-c3e8aa817a7d"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "d0ad4018-3c56-4e60-8e11-23ad14b3960a",
+      "x": -338,
+      "y": 2637,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "ba53108a-17f7-447b-8492-dfa43c903278",
+      "x": -426,
+      "y": 2573,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "1312ba0d-a68d-47db-81c6-b115915d471e",
+      "x": -426,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "024fc946-7ae1-4a06-a7cd-b756accac701"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "b2c29195-fa6e-4b85-9115-867f39daf955",
+      "x": -426,
+      "y": 2447,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "555f1a3a-2155-43f6-bb48-a09909ca581f",
+      "x": -250,
+      "y": 2287,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "c775f565-b2e1-4e66-84b2-61a28ad2f2f0",
+      "x": -250,
+      "y": 2335.5,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "9089f6ba-e0fa-4904-8711-86bab25b0ec3",
+      "x": -250,
+      "y": 2384,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "f2625447-9507-4fbc-888d-fcfca4dd0ec0",
+      "x": -639.5,
+      "y": 2457,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "35834405-927d-4445-84d1-a7c71b60ade0",
+      "x": -610,
+      "y": 2457,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "f6ae61dd-4a16-4afb-8856-67b7a290ab4b",
+      "x": -580.5,
+      "y": 2457,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "822cb7e2-5ddd-4945-a407-42c6a5d67a58",
+      "x": -550,
+      "y": 2483.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "cac62749-4240-468f-a34e-5cfeb2b54e20",
+      "x": -550,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "778d8525-9ff3-4faa-a6eb-023080e7e01c"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "3f74ca1f-5e3b-4f87-ad14-e76de932ab31",
+      "x": -550,
+      "y": 2536.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "1aeb057f-aa0d-4876-990d-ed7d80b8a21d",
+      "x": -580.5,
+      "y": 2564,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "276ef36a-0971-49ea-8a4f-67c8688cef0c",
+      "x": -610,
+      "y": 2564,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "290e4bc3-fa29-4bcb-b9bc-ca1151df776e",
+      "x": -639.5,
+      "y": 2564,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "7c28e6f3-f216-4010-b391-3564ff95f3a9",
+      "x": -669,
+      "y": 2536.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "8b801390-794d-4a1e-9055-1526821b118d",
+      "x": -669,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "4c5a3137-996a-41b9-9ac2-2937eed6e1eb",
+      "x": -669,
+      "y": 2483.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "024fc946-7ae1-4a06-a7cd-b756accac701",
+      "x": -426,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "aa5db7fb-d795-4471-96b1-5d6804086f4f",
+      "x": -488,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "778d8525-9ff3-4faa-a6eb-023080e7e01c",
+      "x": -550,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "45ae9738-1d37-4bda-b279-151f7d288db5",
+      "x": 89.5,
+      "y": 2481,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "039c5fc5-4ac3-4b6d-ab95-eeeea5ee90e5",
+      "x": 150,
+      "y": 2481,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "b86e8775-8e5e-46bd-93ff-0d70ff4e0214",
+      "x": 210.5,
+      "y": 2481,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "304c8644-209c-4c1b-a343-1e6364c8535e",
+      "x": 272,
+      "y": 2495.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "aa39b199-058c-4a29-92f2-b1c3176a00c5",
+      "x": 272,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "0570d897-2357-483e-b820-78d4780a829e",
+      "x": 272,
+      "y": 2524.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "2f64b82a-da59-46fb-a6a8-dda17a8b2425",
+      "x": 210.5,
+      "y": 2540,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "188623e3-1bec-4deb-a622-90dfd3f32306",
+      "x": 150,
+      "y": 2540,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "28dc4771-2e8b-4c94-9999-11a1a61e9d82",
+      "x": 89.5,
+      "y": 2540,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "74da50c9-3168-4dd9-8739-a73eebff6230",
+      "x": 29,
+      "y": 2524.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "f3588744-8d7c-4042-bbd1-07582451afed",
+      "x": 29,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "75f43e87-21cb-43f6-8edd-b40714b31cd5"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "47a1c684-3bac-4ffc-b730-769cebc95044",
+      "x": 29,
+      "y": 2495.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "dcbdd090-08c6-4634-9a5e-4aa6e45dd7aa",
+      "x": -74,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "26644411-74fb-4d2b-86c3-fbd7dc62a26b",
+      "x": -22.5,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "75f43e87-21cb-43f6-8edd-b40714b31cd5",
+      "x": 29,
+      "y": 2510,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "55c694a9-b357-4df4-a671-a9552c41b62e",
+      "x": -325.5,
+      "y": 2744,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "80e26d65-9726-44ef-aca0-cffe575e9711",
+      "x": -250,
+      "y": 2744,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "afca71d1-908f-4a77-b363-c3d72f7b6ae3"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "2f38dca2-e132-476a-9cf0-48e6bdaa5615",
+      "x": -174.5,
+      "y": 2744,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "bd04fd9f-61be-4e70-8dd0-eee513cd19c1",
+      "x": -98,
+      "y": 2807,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "a1bbaa10-f4a2-4492-8750-401028437e74",
+      "x": -98,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "303a4f24-fb8c-459e-af8c-2d2934557fbe"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "d7144dfc-aa7e-4651-9785-f817c9a0100e",
+      "x": -98,
+      "y": 2933,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "4ef9e14c-c269-42a9-bc31-82f67a7d7b5c",
+      "x": -174.5,
+      "y": 2997,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "780acaa9-a180-4291-8527-5dd26839e187",
+      "x": -250,
+      "y": 2997,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "dbe2e0eb-88ef-45bf-8bea-37321efcf30a"
+      ],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "538b3487-9f80-4558-9e8d-6eb8a0b4c303",
+      "x": -325.5,
+      "y": 2997,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "29bbbbc7-9690-4670-93bc-d151388161bd",
+      "x": -401,
+      "y": 2933,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "5e8539a9-478a-4911-899f-c4964d9cbfb1",
+      "x": -401,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "ea31b64c-76d9-4e77-942a-701a998487b8",
+      "x": -401,
+      "y": 2807,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "ce98cdcb-4cde-4c3a-a618-c3e8aa817a7d",
+      "x": -250,
+      "y": 2637,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "aeb7d2bd-21d9-42bf-848f-e7c0bcba1e0e",
+      "x": -250,
+      "y": 2690.5,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "afca71d1-908f-4a77-b363-c3d72f7b6ae3",
+      "x": -250,
+      "y": 2744,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "7042d4f7-81bb-4c94-b4af-d6d1d26600f6",
+      "x": 73,
+      "y": 2816,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "66d0f735-be84-4611-99b7-e5b39653c3f1",
+      "x": 140,
+      "y": 2816,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "1adaeb0d-bfba-4a69-be0e-46249501a662",
+      "x": 207,
+      "y": 2816,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "c9fe5ed1-94d5-426c-a731-e01de59edd3f",
+      "x": 274,
+      "y": 2843,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "96466aad-6acf-4789-a990-1950bcdad5ed",
+      "x": 274,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "ddbb2738-0298-4b7a-84bd-9555c6b23a7b",
+      "x": 274,
+      "y": 2897,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "a15638b9-dfce-41c9-a0e5-42a0cfaa313d",
+      "x": 207,
+      "y": 2925,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "69da00be-9564-4f70-b8ba-3b76cb086c25",
+      "x": 140,
+      "y": 2925,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "a7baa47c-f10b-42e4-a5ea-e9394c30f627",
+      "x": 73,
+      "y": 2925,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "29924f61-09c8-4b5e-a5d9-21cff1855d86",
+      "x": 6,
+      "y": 2897,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "0355edc5-bd13-4225-b89d-643179df3418",
+      "x": 6,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "b05a56f0-860b-48f1-9d1a-a509dd3a8014"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "b173f8ab-b4e3-4256-9b1d-3aa030a91608",
+      "x": 6,
+      "y": 2843,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "303a4f24-fb8c-459e-af8c-2d2934557fbe",
+      "x": -98,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "ac35ba43-bcac-4a62-ac89-85a433549d13",
+      "x": -46,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "b05a56f0-860b-48f1-9d1a-a509dd3a8014",
+      "x": 6,
+      "y": 2870,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "dbe2e0eb-88ef-45bf-8bea-37321efcf30a",
+      "x": -250,
+      "y": 2997,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "5b97ae44-fd1e-4e2a-9a9b-7bae95b060c9",
+      "x": -250,
+      "y": 3055,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "bbc32a05-90d9-4c15-a603-3cb2ce3b6a2c",
+      "x": -250,
+      "y": 3113,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "ac606903-de69-4a33-bef8-b61f8d4af534",
+      "x": -591,
+      "y": 1457,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "5b3940e4-3fef-4346-b6c2-64e63a39eeb6",
+      "x": -550,
+      "y": 1457,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "6cad5e88-15b5-4d3b-98be-8ce662b91df8",
+      "x": -509,
+      "y": 1457,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "fe432078-7193-4ea1-9d96-0a104bc8655a",
+      "x": -468,
+      "y": 1488.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "bfaa7233-ad6d-4508-bb6e-b430429d10ba",
+      "x": -468,
+      "y": 1520,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [
+        "95948cce-e27b-475a-a647-adc919063e9d"
+      ],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "246ed9cd-d219-401f-af84-47734f134f84",
+      "x": -468,
+      "y": 1551.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "37bbfd08-6d33-47fd-8d69-fd4fc64762d8",
+      "x": -509,
+      "y": 1583,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "544aa779-22b0-46a5-b096-3bfa2393bfa2",
+      "x": -550,
+      "y": 1583,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "deebf41b-e654-4a48-a10d-a11d784eaa01",
+      "x": -591,
+      "y": 1583,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 1
+    },
+    {
+      "id": "ce85e0a0-d9ba-4b06-b197-103f6ec571a4",
+      "x": -632,
+      "y": 1551.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "86023293-7154-4b3f-af8c-d329202f22b3",
+      "x": -632,
+      "y": 1520,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "79a46103-0ae5-4a2d-a79b-6407feead671",
+      "x": -632,
+      "y": 1488.5,
+      "attrs": 0,
+      "template": "@__builtin__anchor",
+      "children": [],
+      "properties": [],
+      "angle": 0
+    },
+    {
+      "id": "e5dc4bb3-b577-46d6-9ae5-ea49b4bbbe58",
+      "x": -422,
+      "y": 1450,
+      "attrs": 0,
+      "template": "@__builtin__line_source",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "88f7789f-036d-4e03-b258-04c8d9f87916",
+      "x": -445,
+      "y": 1485,
+      "attrs": 0,
+      "template": "@__builtin__line_handle",
+      "children": [],
+      "properties": []
+    },
+    {
+      "id": "95948cce-e27b-475a-a647-adc919063e9d",
+      "x": -468,
+      "y": 1520,
+      "attrs": 0,
+      "template": "@__builtin__line_target",
+      "children": [],
+      "properties": []
+    }
+  ],
+  "location": {
+    "x": -249,
+    "y": 2160.6666666666665,
+    "k": 1.5
+  }
+}
