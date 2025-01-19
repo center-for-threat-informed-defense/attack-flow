@@ -8,7 +8,7 @@ import json
 import logging
 import sys
 
-import pkg_resources
+import importlib.metadata
 
 import attack_flow.docs
 import attack_flow.graphviz
@@ -40,7 +40,7 @@ def version(args):
     :param args: argparse arguments
     :returns: exit code
     """
-    version = pkg_resources.get_distribution("attack-flow").version
+    version = importlib.metadata.distribution("attack-flow").version
     print(f"Attack Flow version {version}")
     return 0
 

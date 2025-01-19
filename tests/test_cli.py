@@ -267,7 +267,7 @@ def test_version(exit_mock):
 
 
 @patch("sys.exit")
-@patch("pkg_resources.get_distribution")
+@patch("importlib.metadata.distribution")
 def test_reraises_in_debug_mode(get_dist_mock, exit_mock):
     def throw(*args, **kwargs):
         raise ValueError("unit test")
