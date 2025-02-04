@@ -1,16 +1,17 @@
+// Dependencies
 import intel from "./builder.config.intel";
 import validator from "./builder.config.validator";
 import publisher from "./builder.config.publisher";
 import processor from "./builder.config.processor";
-import { AppConfiguration } from "@/store/StoreTypes";
 import { Colors, DarkTheme } from "../scripts/BlockDiagram/DiagramFactory/Themes";
 import {
     AnchorAngle,
-    EnumPropertyDescriptor,
     PropertyType,
     SemanticRole,
-    TemplateType
+    TemplateType,
+    type EnumPropertyDescriptor
 } from "../scripts/BlockDiagram";
+import type { AppConfiguration } from "@/stores/StoreTypes";
 
 const BoolEnum: EnumPropertyDescriptor = {
     type: PropertyType.Enum,
@@ -20,18 +21,20 @@ const BoolEnum: EnumPropertyDescriptor = {
         value : [["true", "True"], ["false", "False"]]
     }
 };
+// Images
+import ctid_logo from "./ctid_logo.png";
+import engenuity_icon from "./engenuity_icon_small.png";
 
 const config: AppConfiguration = {
-    is_web_hosted: false,
     application_name: "Attack Flow Builder",
-    application_icon: "./favicon.png",
+    application_icon: engenuity_icon,
     file_type_name: "Attack Flow",
     file_type_extension: "afb",
     splash: {
-        organization: "./ctid_logo.png",
+        organization: ctid_logo,
         new_file: {
             title: "New Flow",
-            description: "Create a new, blank Flow.",
+            description: "Create a new, blank Flow."
         },
         open_file: {
             title: "Open Flow",
@@ -40,15 +43,15 @@ const config: AppConfiguration = {
         help_links: [
             {
                 title: "Example Flows",
-                description: "Visit a list of example Flows.", 
+                description: "Visit a list of example Flows.",
                 url: "https://center-for-threat-informed-defense.github.io/attack-flow/example_flows/"
             },
             {
                 title: "Builder Help",
-                description: "Read the Builder's User Guide.", 
+                description: "Read the Builder's User Guide.",
                 url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
             }
-        ],
+        ]
     },
     schema: {
         page_template: "flow",
@@ -106,7 +109,7 @@ const config: AppConfiguration = {
                             form: {
                                 source_name: { type: PropertyType.String, is_primary: true, is_required: true },
                                 description: { type: PropertyType.String },
-                                url: { type: PropertyType.String },
+                                url: { type: PropertyType.String }
                             }
                         }
                     },
@@ -120,8 +123,8 @@ const config: AppConfiguration = {
                 role: SemanticRole.None,
                 radius: 10,
                 line_templates: {
-                    [AnchorAngle.DEG_0] : `@__builtin__line_horizontal_elbow`,
-                    [AnchorAngle.DEG_90]: `@__builtin__line_vertical_elbow`
+                    [AnchorAngle.DEG_0] : "@__builtin__line_horizontal_elbow",
+                    [AnchorAngle.DEG_90]: "@__builtin__line_vertical_elbow"
                 },
                 style: DarkTheme.AnchorPoint()
             },
@@ -131,8 +134,8 @@ const config: AppConfiguration = {
                 role: SemanticRole.None,
                 radius: 10,
                 line_templates: {
-                    [AnchorAngle.DEG_0] : `@__builtin__line_horizontal_elbow`,
-                    [AnchorAngle.DEG_90]: `@__builtin__line_vertical_elbow`
+                    [AnchorAngle.DEG_0] : "@__builtin__line_horizontal_elbow",
+                    [AnchorAngle.DEG_90]: "@__builtin__line_vertical_elbow"
                 },
                 style: DarkTheme.AnchorPoint()
             },
@@ -172,10 +175,10 @@ const config: AppConfiguration = {
                         value: null
                     },
                     execution_start              : { type: PropertyType.Date },
-                    execution_end                : { type: PropertyType.Date },
+                    execution_end                : { type: PropertyType.Date }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Blue }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Blue } })
             },
             {
                 id: "asset",
@@ -183,11 +186,11 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    name                         : { type: PropertyType.String, is_primary: true, is_required: true},
+                    name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     description                  : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Orange }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Orange } })
             },
             {
                 id: "condition",
@@ -204,7 +207,7 @@ const config: AppConfiguration = {
                 branches: [
                     {
                         text: "True",
-                        anchor_template: "true_anchor",
+                        anchor_template: "true_anchor"
                     },
                     {
                         text: "False",
@@ -212,7 +215,7 @@ const config: AppConfiguration = {
                     }
                 ],
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.BranchBlock({ head: { ...Colors.Green }})
+                style: DarkTheme.BranchBlock({ head: { ...Colors.Green } })
             },
             {
                 id: "or",
@@ -226,7 +229,7 @@ const config: AppConfiguration = {
                         is_primary: true,
                         is_visible_chart: false,
                         is_visible_sidebar: false,
-                        is_editable: false,
+                        is_editable: false
                     }
                 },
                 anchor_template: "@__builtin__anchor",
@@ -244,7 +247,7 @@ const config: AppConfiguration = {
                         is_primary: true,
                         is_visible_chart: false,
                         is_visible_sidebar: false,
-                        is_editable: false,
+                        is_editable: false
                     }
                 },
                 anchor_template: "@__builtin__anchor",
@@ -258,11 +261,11 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     description                  : { type: PropertyType.String },
-                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String }},
-                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String } }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "campaign",
@@ -275,10 +278,10 @@ const config: AppConfiguration = {
                     aliases                      : { type: PropertyType.List, form: { type: PropertyType.String } },
                     first_seen                   : { type: PropertyType.Date },
                     last_seen                    : { type: PropertyType.Date },
-                    objective                    : { type: PropertyType.String },
+                    objective                    : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "course_of_action",
@@ -293,7 +296,7 @@ const config: AppConfiguration = {
                     action_bin                   : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "grouping",
@@ -303,10 +306,10 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true },
                     description                  : { type: PropertyType.String },
-                    context                      : { type: PropertyType.String, is_required: true },
+                    context                      : { type: PropertyType.String, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "identity",
@@ -322,7 +325,7 @@ const config: AppConfiguration = {
                     contact_information          : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "indicator",
@@ -336,12 +339,12 @@ const config: AppConfiguration = {
                     pattern                      : { type: PropertyType.String, is_required: true },
                     pattern_type                 : { type: PropertyType.String, is_required: true },
                     pattern_version              : { type: PropertyType.String },
-                    valid_from                   : { type: PropertyType.Date, is_required: true},
+                    valid_from                   : { type: PropertyType.Date, is_required: true },
                     valid_until                  : { type: PropertyType.Date },
-                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String } }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "infrastructure",
@@ -351,14 +354,14 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     description                  : { type: PropertyType.String },
-                    infrastructure_types         : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
-                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String }},
-                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    infrastructure_types         : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true } },
+                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String } },
                     first_seen                   : { type: PropertyType.Date },
                     last_seen                    : { type: PropertyType.Date }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "intrusion_set",
@@ -368,16 +371,16 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     description                  : { type: PropertyType.String },
-                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
+                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true } },
                     first_seen                   : { type: PropertyType.Date },
                     last_seen                    : { type: PropertyType.Date },
-                    goals                        : { type: PropertyType.List, form: { type: PropertyType.String }},
-                    resource_level               : { type: PropertyType.String},
-                    primary_motivation           : { type: PropertyType.String},
-                    secondary_motivations        : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    goals                        : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    resource_level               : { type: PropertyType.String },
+                    primary_motivation           : { type: PropertyType.String },
+                    secondary_motivations        : { type: PropertyType.List, form: { type: PropertyType.String } }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "location",
@@ -398,7 +401,7 @@ const config: AppConfiguration = {
                     postal_code                  : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "malware",
@@ -408,7 +411,7 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true },
                     description                  : { type: PropertyType.String },
-                    malware_types                : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
+                    malware_types                : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true } },
                     is_family                    : { ...BoolEnum, is_required: true },
                     aliases                      : { type: PropertyType.List, form: { type: PropertyType.String } },
                     kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String } },
@@ -417,10 +420,10 @@ const config: AppConfiguration = {
                     os_execution_envs            : { type: PropertyType.List, form: { type: PropertyType.String } },
                     architecture_execution_envs  : { type: PropertyType.List, form: { type: PropertyType.String } },
                     implementation_languages     : { type: PropertyType.List, form: { type: PropertyType.String } },
-                    capabilities                 : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    capabilities                 : { type: PropertyType.List, form: { type: PropertyType.String } }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "malware_analysis",
@@ -450,10 +453,10 @@ const config: AppConfiguration = {
                             ]
                         },
                         value: null
-                    },
+                    }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "note",
@@ -463,10 +466,10 @@ const config: AppConfiguration = {
                 properties: {
                     abstract                     : { type: PropertyType.String, is_primary: true },
                     content                      : { type: PropertyType.String, is_required: true },
-                    authors                      : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    authors                      : { type: PropertyType.List, form: { type: PropertyType.String } }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "observed_data",
@@ -476,10 +479,10 @@ const config: AppConfiguration = {
                 properties: {
                     first_observed               : { type: PropertyType.Date, is_required: true },
                     last_observed                : { type: PropertyType.Date, is_required: true },
-                    number_observed              : { type: PropertyType.Int, min: 0, is_required: true },
+                    number_observed              : { type: PropertyType.Int, min: 0, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "opinion",
@@ -506,7 +509,7 @@ const config: AppConfiguration = {
                     }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "report",
@@ -516,11 +519,11 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     description                  : { type: PropertyType.String },
-                    report_types                 : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
-                    published                    : { type: PropertyType.Date, is_required: true },
+                    report_types                 : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true } },
+                    published                    : { type: PropertyType.Date, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "threat_actor",
@@ -530,20 +533,20 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     description                  : { type: PropertyType.String },
-                    threat_actor_types           : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
-                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    threat_actor_types           : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true } },
+                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String } },
                     first_seen                   : { type: PropertyType.Date },
                     last_seen                    : { type: PropertyType.Date },
-                    roles                        : { type: PropertyType.List, form: { type: PropertyType.String }},
-                    goals                        : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    roles                        : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    goals                        : { type: PropertyType.List, form: { type: PropertyType.String } },
                     sophistication               : { type: PropertyType.String },
                     resource_level               : { type: PropertyType.String },
                     primary_motivation           : { type: PropertyType.String },
-                    secondary_motivations        : { type: PropertyType.List, form: { type: PropertyType.String }},
-                    personal_motivations         : { type: PropertyType.List, form: { type: PropertyType.String }},
+                    secondary_motivations        : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    personal_motivations         : { type: PropertyType.List, form: { type: PropertyType.String } }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "tool",
@@ -553,13 +556,13 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     description                  : { type: PropertyType.String },
-                    tool_types                   : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true }},
-                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String }},
-                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String }},
-                    tool_version                 : { type: PropertyType.String },
+                    tool_types                   : { type: PropertyType.List, form: { type: PropertyType.String, is_required: true } },
+                    aliases                      : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    kill_chain_phases            : { type: PropertyType.List, form: { type: PropertyType.String } },
+                    tool_version                 : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "vulnerability",
@@ -568,10 +571,10 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
-                    description                  : { type: PropertyType.String },
+                    description                  : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "artifact",
@@ -616,15 +619,15 @@ const config: AppConfiguration = {
                             value: [
                                 ["AES-256-GCM", "AES-256-GCM"],
                                 ["ChaCha20-Poly1305", "ChaCha20-Poly1305"],
-                                ["mime-type-indicated", "Mime Type Indicated"],
+                                ["mime-type-indicated", "Mime Type Indicated"]
                             ]
                         },
                         value: null
                     },
-                    decryption_key               : { type: PropertyType.String },
+                    decryption_key               : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "autonomous_system",
@@ -634,10 +637,10 @@ const config: AppConfiguration = {
                 properties: {
                     number                       : { type: PropertyType.Int, is_primary: true, is_required: true },
                     name                         : { type: PropertyType.String },
-                    rir                          : { type: PropertyType.String },
+                    rir                          : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "directory",
@@ -649,10 +652,10 @@ const config: AppConfiguration = {
                     path_enc                     : { type: PropertyType.String },
                     ctime                        : { type: PropertyType.Date },
                     mtime                        : { type: PropertyType.Date },
-                    atime                        : { type: PropertyType.Date },
+                    atime                        : { type: PropertyType.Date }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "domain_name",
@@ -660,10 +663,10 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    value                        : { type: PropertyType.String, is_required: true },
+                    value                        : { type: PropertyType.String, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "email_address",
@@ -672,10 +675,10 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 properties: {
                     value                        : { type: PropertyType.String, is_required: true },
-                    display_name                 : { type: PropertyType.String },
+                    display_name                 : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "email_message",
@@ -691,10 +694,10 @@ const config: AppConfiguration = {
                     received_lines               : { type: PropertyType.String },
                     additional_header_fields     : { type: PropertyType.String },
                     body                         : { type: PropertyType.String },
-                    body_multipart               : { type: PropertyType.String },
+                    body_multipart               : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "file",
@@ -735,10 +738,10 @@ const config: AppConfiguration = {
                     mime_type                    : { type: PropertyType.String },
                     ctime                        : { type: PropertyType.Date },
                     mtime                        : { type: PropertyType.Date },
-                    atime                        : { type: PropertyType.Date },
+                    atime                        : { type: PropertyType.Date }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "ipv4_addr",
@@ -746,10 +749,10 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    value                        : { type: PropertyType.String, is_required: true },
+                    value                        : { type: PropertyType.String, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "ipv6_addr",
@@ -757,10 +760,10 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    value                        : { type: PropertyType.String, is_required: true },
+                    value                        : { type: PropertyType.String, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "mac_addr",
@@ -768,10 +771,10 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    value                        : { type: PropertyType.String, is_required: true },
+                    value                        : { type: PropertyType.String, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "mutex",
@@ -779,10 +782,10 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    name                         : { type: PropertyType.String, is_required: true },
+                    name                         : { type: PropertyType.String, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "network_traffic",
@@ -795,15 +798,15 @@ const config: AppConfiguration = {
                     is_active                    : BoolEnum,
                     src_port                     : { type: PropertyType.Int, min: 0, max: 65535 },
                     dst_port                     : { type: PropertyType.Int, min: 0, max: 65535 },
-                    protocols                    : { type: PropertyType.List, min_items: 1, form: { type: PropertyType.String, is_required: true }},
+                    protocols                    : { type: PropertyType.List, min_items: 1, form: { type: PropertyType.String, is_required: true } },
                     src_byte_count               : { type: PropertyType.Int, min: 0 },
                     dst_byte_count               : { type: PropertyType.Int, min: 0 },
                     src_packets                  : { type: PropertyType.Int, min: 0 },
                     dst_packets                  : { type: PropertyType.Int, min: 0 },
-                    ipfix                        : { type: PropertyType.String },
+                    ipfix                        : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "process",
@@ -816,10 +819,10 @@ const config: AppConfiguration = {
                     created_time                 : { type: PropertyType.Date },
                     cwd                          : { type: PropertyType.String },
                     command_line                 : { type: PropertyType.String, is_required: true },
-                    environment_variables        : { type: PropertyType.String },
+                    environment_variables        : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "software",
@@ -829,12 +832,12 @@ const config: AppConfiguration = {
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
                     cpe                          : { type: PropertyType.String },
-                    languages                    : { type: PropertyType.List, form: {type: PropertyType.String}},
+                    languages                    : { type: PropertyType.List, form: { type: PropertyType.String } },
                     vendor                       : { type: PropertyType.String },
-                    version                      : { type: PropertyType.String },
+                    version                      : { type: PropertyType.String }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "url",
@@ -842,10 +845,10 @@ const config: AppConfiguration = {
                 type: TemplateType.DictionaryBlock,
                 role: SemanticRole.Node,
                 properties: {
-                    value                        : { type: PropertyType.String, is_required: true },
+                    value                        : { type: PropertyType.String, is_required: true }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "user_account",
@@ -866,10 +869,10 @@ const config: AppConfiguration = {
                     account_expires              : { type: PropertyType.Date },
                     credential_last_changed      : { type: PropertyType.Date },
                     account_first_login          : { type: PropertyType.Date },
-                    account_last_login           : { type: PropertyType.Date },
+                    account_last_login           : { type: PropertyType.Date }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "windows_registry_key",
@@ -878,7 +881,7 @@ const config: AppConfiguration = {
                 role: SemanticRole.Node,
                 properties: {
                     key                          : { type: PropertyType.String, is_primary: true },
-                    values                       : { 
+                    values                       : {
                         type: PropertyType.List,
                         form: {
                             type: PropertyType.Dictionary,
@@ -904,18 +907,18 @@ const config: AppConfiguration = {
                                             ["REG_FULL_RESOURCE_DESCRIPTION", "REG_FULL_RESOURCE_DESCRIPTION"],
                                             ["REG_RESOURCE_REQUIREMENTS_LIST", "REG_RESOURCE_REQUIREMENTS_LIST"],
                                             ["REG_QWORD", "REG_QWORD"],
-                                            ["REG_INVALID_TYPE", "REG_INVALID_TYPE"],
+                                            ["REG_INVALID_TYPE", "REG_INVALID_TYPE"]
                                         ]
                                     }
-                                },
+                                }
                             }
                         }
                     },
                     modified_time                : { type: PropertyType.Date },
-                    number_of_subkeys            : { type: PropertyType.Int, min: 0 },
+                    number_of_subkeys            : { type: PropertyType.Int, min: 0 }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             },
             {
                 id: "x509_certificate",
@@ -959,10 +962,10 @@ const config: AppConfiguration = {
                     validity_not_after           : { type: PropertyType.Date },
                     subject_public_key_algorithm : { type: PropertyType.String },
                     subject_public_key_modulus   : { type: PropertyType.String },
-                    subject_public_key_exponent  : { type: PropertyType.Int, min: 0 },
+                    subject_public_key_exponent  : { type: PropertyType.Int, min: 0 }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray }})
+                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Gray } })
             }
         ]
     },

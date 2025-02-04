@@ -19,7 +19,7 @@ export class PointerTracker {
      * The pointer's current delta-y.
      */
     public movementY: number;
-    
+
     /**
      * The drag target.
      */
@@ -102,7 +102,7 @@ export class PointerTracker {
      *  The pointer up event.
      */
     public release(event: PointerEvent) {
-        if(this.target !== null) {
+        if (this.target !== null) {
             this.target.releasePointerCapture(event.pointerId);
             this.target.onpointermove = null;
             this.target = null;

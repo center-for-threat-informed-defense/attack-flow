@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Crypto } from "../scripts/BlockDiagram/Utilities/Crypto";
 import { DiagramPublisher } from "../scripts/DiagramPublisher/DiagramPublisher";
 import {
@@ -5,14 +7,16 @@ import {
     DiagramObjectModel,
     DictionaryProperty,
     EnumProperty,
-    GraphExport,
     GraphObjectExport,
     ListProperty,
     Property,
     PropertyType,
-    RawEntries,
     SemanticAnalyzer,
     StringProperty
+} from "../scripts/BlockDiagram";
+import type {
+    GraphExport,
+    RawEntries
 } from "../scripts/BlockDiagram";
 
 
@@ -70,7 +74,7 @@ const AttackFlowTemplatesMap: Map<string, string>
         ["condition", "attack-condition"],
         ["or", "attack-operator"],
         ["and", "attack-operator"],
-        ["email_address", "email-addr"],
+        ["email_address", "email-addr"]
     ]);
 
 
@@ -89,61 +93,62 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The published diagram in text form.
      */
     public override publish(diagram: DiagramObjectModel): string {
-        let graph = SemanticAnalyzer.toGraph(diagram);
+        const graph = SemanticAnalyzer.toGraph(diagram);
 
         // Extract page
-        let pageId = diagram.id;
-        let page = graph.nodes.get(pageId);
-        if(page) {
+        const pageId = diagram.id;
+        const page = graph.nodes.get(pageId);
+        if (page) {
             graph.nodes.delete(pageId);
         } else {
-            throw new Error("Page object missing from export.")
+            throw new Error("Page object missing from export.");
         }
 
         // Create bundle
-        let stixBundle = this.createStixBundle();
-        let author = this.createFlowAuthorSdo(page);
-        let startRefs = this.computeStartRefs(graph);
-        let flow = this.createFlowSdo(pageId, page, author.id, startRefs);
+        const stixBundle = this.createStixBundle();
+        const author = this.createFlowAuthorSdo(page);
+        const startRefs = this.computeStartRefs(graph);
+        const flow = this.createFlowSdo(pageId, page, author.id, startRefs);
         stixBundle.objects.push(flow);
         stixBundle.objects.push(author);
 
         // Graph ID -> STIX node.
-        let stixNodes = new Map<string, Sdo>();
+        const stixNodes = new Map<string, Sdo>();
         // Parent STIX node -> Child Links
-        let stixChildren = new Map<Sdo, Link[]>();
+        const stixChildren = new Map<Sdo, Link[]>();
 
         // Create SDOs and SCOs from graph nodes
-        for (let [id, node] of graph.nodes) {
-            let stixNode = this.toStixNode(id, node);
+        for (const [id, node] of graph.nodes) {
+            const stixNode = this.toStixNode(id, node);
             stixBundle.objects.push(stixNode);
             stixNodes.set(id, stixNode);
             stixChildren.set(stixNode, []);
         }
 
         // Create adjacency list from graph edges
-        for (let edge of graph.edges.values()) {
-            let prev = edge.prev;
-            let next = edge.next;
+        for (const edge of graph.edges.values()) {
+            const prev = edge.prev;
+            const next = edge.next;
             // Skip edges that don't connect two nodes
-            if(prev.length !== 1 || next.length !== 1)
+            if (prev.length !== 1 || next.length !== 1) {
                 continue;
+            }
             // Register link
-            let prevNode = stixNodes.get(prev[0]);
-            let nextNode = stixNodes.get(next[0]);
+            const prevNode = stixNodes.get(prev[0]);
+            const nextNode = stixNodes.get(next[0]);
             if (prevNode && nextNode) {
                 stixChildren.get(prevNode)!.push({
                     obj: nextNode,
-                    via: edge.prevLinkMap.keys().next().value
+                    via: (edge.prevLinkMap.keys().next().value)!
                 });
             } else {
-                throw new Error(`Edge '${ edge }' is missing one or more nodes.`);
+                throw new Error(`Edge '${edge}' is missing one or more nodes.`);
             }
         }
 
         // Embed references
-        for (let [node, children] of stixChildren) {
-            let SROs = this.tryEmbed(node, children);
+        for (const [node, children] of stixChildren) {
+            const SROs = this.tryEmbed(node, children);
             // If any embeds failed, append SROs
             stixBundle.objects.push(...SROs);
         }
@@ -168,8 +173,8 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The exported SDO or SCO.
      */
     private toStixNode(id: string, node: GraphObjectExport): Sdo {
-        let obj = this.createSdo(node.template.id, id);
-        switch(obj.type) {
+        const obj = this.createSdo(node.template.id, id);
+        switch (obj.type) {
             case "attack-action":
                 this.mergeActionProperty(obj, node.props);
                 break;
@@ -188,23 +193,23 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The action's properties.
      */
     private mergeActionProperty(node: Sdo, property: DictionaryProperty) {
-        for(let [key, prop] of property.value) {
-            switch(key) {
+        for (let [key, prop] of property.value) {
+            switch (key) {
                 case "confidence":
-                    if(!(prop instanceof EnumProperty)) {
+                    if (!(prop instanceof EnumProperty)) {
                         throw new Error("'confidence' is improperly defined.");
                     }
-                    if(!prop.isDefined()) {
+                    if (!prop.isDefined()) {
                         break;
                     }
                     prop = prop.toReferenceValue()!;
-                    if(!(prop instanceof DictionaryProperty)) {
+                    if (!(prop instanceof DictionaryProperty)) {
                         throw new Error("'confidence' is improperly defined.");
                     }
-                    [ prop ] = this.getSubproperties(prop, "value");
+                    [prop] = this.getSubproperties(prop, "value");
                     // Fall through
                 default:
-                    if(prop.isDefined()) {
+                    if (prop.isDefined()) {
                         node[key] = prop.toRawValue();
                     }
             }
@@ -224,14 +229,14 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The dictionary property.
      */
     private mergeBasicDictProperty(node: Sdo, property: DictionaryProperty) {
-        for(let [key, prop] of property.value) {
-            switch(prop.type) {
+        for (const [key, prop] of property.value) {
+            switch (prop.type) {
                 case PropertyType.Dictionary:
                     throw new Error("Basic dictionaries cannot contain dictionaries.");
                 case PropertyType.Enum:
                     if (prop instanceof EnumProperty && prop.isDefined()) {
-                        let value = prop.toRawValue()!;
-                        if(["true", "false"].includes(value.toString())) {
+                        const value = prop.toRawValue()!;
+                        if (["true", "false"].includes(value.toString())) {
                             // case(BoolEnum)
                             node[key] = value === "true";
                         }
@@ -243,7 +248,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                     break;
                 case PropertyType.List:
                     if (prop.isDefined()) {
-                        if(key === "hashes") {
+                        if (key === "hashes") {
                             this.mergeComplexListProperty(node, key, prop as ListProperty);
                             break;
                         }
@@ -256,8 +261,8 @@ class AttackFlowPublisher extends DiagramPublisher {
                     }
                     break;
                 default:
-                    if(prop.isDefined()) {
-                        if(node.type === "mac-addr") {
+                    if (prop.isDefined()) {
+                        if (node.type === "mac-addr") {
                             node[key] = prop.toRawValue()!.toString().toLowerCase();
                             break;
                         }
@@ -279,10 +284,10 @@ class AttackFlowPublisher extends DiagramPublisher {
      */
     private mergeBasicListProperty(node: Sdo, key: string, property: ListProperty) {
         node[key] = [];
-        for(let prop of property.value.values()) {
-            switch(prop.type) {
+        for (const prop of property.value.values()) {
+            switch (prop.type) {
                 case PropertyType.Dictionary:
-                    const obj = {} as any;
+                    const obj = {} as Sdo;
                     this.mergeBasicDictProperty(obj, prop as DictionaryProperty);
                     node[key].push(obj);
                     break;
@@ -291,12 +296,12 @@ class AttackFlowPublisher extends DiagramPublisher {
                 case PropertyType.Enum:
                     throw new Error("Basic lists cannot contain enums.");
                 case PropertyType.String: // Remove trailing whitespace on StringProperties
-                    if(prop.isDefined()) {
+                    if (prop.isDefined()) {
                         node[key].push(prop.toString().trim());
                     }
                     break;
                 default:
-                    if(prop.isDefined()) {
+                    if (prop.isDefined()) {
                         node[key].push(prop.toRawValue());
                     }
                     break;
@@ -314,21 +319,21 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The list property.
      */
     private mergeComplexListProperty(node: Sdo, key: string, property: ListProperty) {
-        switch(key) {
+        switch (key) {
             case "hashes":
-                let hashList = [];
-                for(let prop of property.value.values()) {
-                    switch(prop.type) {
+                const hashList = [];
+                for (const prop of property.value.values()) {
+                    switch (prop.type) {
                         case PropertyType.Dictionary:
-                            if(prop.isDefined()) {
-                                let entries = prop.toRawValue() as RawEntries;
+                            if (prop.isDefined()) {
+                                const entries = prop.toRawValue() as RawEntries;
                                 hashList.push(Object.fromEntries(entries));
                             }
                             break;
                     }
                 }
                 if (hashList.length > 0) {
-                    let hashes = hashList.map(hash => [hash.hash_type, hash.hash_value]); // Drop the property labels
+                    const hashes = hashList.map(hash => [hash.hash_type, hash.hash_value]); // Drop the property labels
                     node[key] = Object.fromEntries(hashes);
                 }
         }
@@ -357,7 +362,7 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  Zero or more SROs.
      */
     private tryEmbed(parent: Sdo, children: Link[]): Sro[] {
-        let SROs = [];
+        const SROs = [];
         // Attempt to embed children in parent
         for (const c of children) {
             let sro = null;
@@ -511,7 +516,7 @@ class AttackFlowPublisher extends DiagramPublisher {
             case "attack-operator":
                 // Falls through
             case "attack-condition":
-                switch(via) {
+                switch (via) {
                     case "true_anchor":
                         if (!parent.on_true_refs) {
                             parent.on_true_refs = [];
@@ -597,7 +602,7 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  An SRO, if one was created.
      */
     private tryEmbedInNote(parent: Sdo, child: Sdo): void {
-        if(!parent.object_refs) {
+        if (!parent.object_refs) {
             parent.object_refs = [];
         }
         parent.object_refs.push(child.id);
@@ -662,7 +667,7 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The extension-definition SDO.
      */
     private createExtensionSdo(creatorId: string): ExtensionSdo {
-        let obj = this.createSdo("extension-definition", AttackFlowExtensionId);
+        const obj = this.createSdo("extension-definition", AttackFlowExtensionId);
         return {
             ...obj,
             name                : "Attack Flow",
@@ -675,9 +680,9 @@ class AttackFlowPublisher extends DiagramPublisher {
             extension_types     : ["new-sdo"],
             external_references : [
                 AttackFlowDocsExternalReference,
-                AttackFlowGitHubExternalReference,
+                AttackFlowGitHubExternalReference
             ]
-        }
+        };
     }
 
     /**
@@ -686,7 +691,7 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The extension-definition author SDO.
      */
     private createExtensionAuthorSdo(): ExtensionAuthorSdo {
-        let obj = this.createSdo("identity", AttackFlowExtensionId);
+        const obj = this.createSdo("identity", AttackFlowExtensionId);
         return {
             ...obj,
             created_by_ref      : obj.id,
@@ -711,28 +716,28 @@ class AttackFlowPublisher extends DiagramPublisher {
     private createFlowSdo(id: string, page: GraphObjectExport, authorId: string, startRefs: string[]): Sdo {
 
         // Create flow
-        let flow: Sdo = {
+        const flow: Sdo = {
             ...this.createSdo(page.template.id, id),
             created_by_ref      : authorId,
-            start_refs          : startRefs,
-        }
+            start_refs          : startRefs
+        };
 
         // Merge properties
-        for(let [key, prop] of page.props.value) {
-            switch(key) {
+        for (const [key, prop] of page.props.value) {
+            switch (key) {
                 case "author":
                     // Author SDO is exported separately
                     break;
                 case "external_references":
-                    if(!(prop instanceof ListProperty)) {
-                        throw new Error(`'${ key }' is improperly defined.`);
+                    if (!(prop instanceof ListProperty)) {
+                        throw new Error(`'${key}' is improperly defined.`);
                     }
-                    if(prop.descriptor.form.type !== PropertyType.Dictionary) {
-                        throw new Error(`'${ key }' is improperly defined.`);
+                    if (prop.descriptor.form.type !== PropertyType.Dictionary) {
+                        throw new Error(`'${key}' is improperly defined.`);
                     }
                     const extRefs = [];
-                    for(let ref of prop.value.values()) {
-                        let entries = ref.toRawValue() as RawEntries;
+                    for (const ref of prop.value.values()) {
+                        const entries = ref.toRawValue() as RawEntries;
                         const entry = {} as any;
                         for (const [key, value] of entries) {
                             if (value !== null) {
@@ -746,17 +751,17 @@ class AttackFlowPublisher extends DiagramPublisher {
                     }
                     break;
                 case "scope":
-                    if(!(prop instanceof EnumProperty)) {
-                        throw new Error(`'${ key }' is improperly defined.`);
+                    if (!(prop instanceof EnumProperty)) {
+                        throw new Error(`'${key}' is improperly defined.`);
                     }
-                    if(!prop.isDefined()) {
+                    if (!prop.isDefined()) {
                         break;
                     }
                     flow[key] = prop.toRawValue();
                     break;
                 default:
-                    if(prop.isDefined()) {
-                        flow[key] = prop.toRawValue()
+                    if (prop.isDefined()) {
+                        flow[key] = prop.toRawValue();
                     }
                     break;
             }
@@ -841,7 +846,7 @@ class AttackFlowPublisher extends DiagramPublisher {
 
         // Compute which nodes have no in-bound edges.
         const startRefs = new Set<string>(imputedEdges.keys());
-        for (const [parentId, children] of imputedEdges) {
+        for (const children of imputedEdges.values()) {
             for (const childId of children) {
                 startRefs.delete(childId);
             }
@@ -866,20 +871,20 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The attack flow author SDO.
      */
     private createFlowAuthorSdo(page: GraphObjectExport): Sdo {
-        let props = page.props.value.get("author");
+        const props = page.props.value.get("author");
 
         // Create author
-        let author = this.createSdo("identity");
+        const author = this.createSdo("identity");
 
         // Merge properties
-        if(props instanceof CollectionProperty) {
-            for(let [key, prop] of props.value) {
-                switch(key) {
+        if (props instanceof CollectionProperty) {
+            for (const [key, prop] of props.value) {
+                switch (key) {
                     case "identity_class":
-                        if(!(prop instanceof EnumProperty)) {
-                            throw new Error(`'${ key }' is improperly defined.`);
+                        if (!(prop instanceof EnumProperty)) {
+                            throw new Error(`'${key}' is improperly defined.`);
                         }
-                        if(!prop.isDefined()) {
+                        if (!prop.isDefined()) {
                             break;
                         }
                         author[key] = prop
@@ -889,7 +894,7 @@ class AttackFlowPublisher extends DiagramPublisher {
                             .toLocaleLowerCase();
                         break;
                     default:
-                        if(prop.isDefined()) {
+                        if (prop.isDefined()) {
                             author[key] = prop.toString().trim();
                         }
                         break;
@@ -920,23 +925,23 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The SDO object.
      */
     private createSdo(template: string, stixId: string = Crypto.randomUUID()): Sdo {
-        let now = new Date().toISOString();
-        let type = (AttackFlowTemplatesMap.get(template) ?? template).replace(/_/g, "-");
+        const now = new Date().toISOString();
+        const type = (AttackFlowTemplatesMap.get(template) ?? template).replace(/_/g, "-");
 
         // Create SDO
-        let sdo: Sdo = {
+        const sdo: Sdo = {
             type                : type,
-            id                  : `${ type }--${ stixId }`,
+            id                  : `${type}--${stixId}`,
             spec_version        : "2.1",
             created             : now,
-            modified            : now,
-        }
+            modified            : now
+        };
 
         // Declare extension on Attack Flow SDOs.
         if (AttackFlowSdos.has(type)) {
             sdo.extensions = {
-                [`extension-definition--${ AttackFlowExtensionId }`] : {
-                    extension_type: "new-sdo",
+                [`extension-definition--${AttackFlowExtensionId}`] : {
+                    extension_type: "new-sdo"
                 }
             };
         }
@@ -962,7 +967,7 @@ class AttackFlowPublisher extends DiagramPublisher {
         const now = new Date().toISOString();
         return {
             type                : "relationship",
-            id                  : `relationship--${ stixId }`,
+            id                  : `relationship--${stixId}`,
             spec_version        : "2.1",
             created             : now,
             modified            : now,
@@ -988,13 +993,13 @@ class AttackFlowPublisher extends DiagramPublisher {
      *  The subproperties.
      */
     private getSubproperties(property: CollectionProperty, ...ids: string[]): Property[] {
-        let subproperties = [];
-        for(let id of ids) {
-            let prop = property.value.get(id);
-            if(prop) {
+        const subproperties = [];
+        for (const id of ids) {
+            const prop = property.value.get(id);
+            if (prop) {
                 subproperties.push(prop);
             } else {
-                throw new Error(`${ id } was not defined on root property.`);
+                throw new Error(`${id} was not defined on root property.`);
             }
         }
         return subproperties;
@@ -1011,59 +1016,59 @@ export default AttackFlowPublisher;
 
 
 type Sdo = {
-    type         : string,
-    id           : string,
-    spec_version : string,
-    created      : string,
-    modified     : string,
+    type         : string;
+    id           : string;
+    spec_version : string;
+    created      : string;
+    modified     : string;
     extensions?   : {
         [key: string] : {
-            extension_type: string
-        }
-    },
-    [key: string]: any
-}
+            extension_type: string;
+        };
+    };
+    [key: string]: any;
+};
 
 type Sro = {
-    type              : string,
-    id                : string,
-    spec_version      : string,
-    created           : string,
-    modified          : string,
-    relationship_type : string,
-    source_ref        : string,
-    target_ref        : string
-}
+    type              : string;
+    id                : string;
+    spec_version      : string;
+    created           : string;
+    modified          : string;
+    relationship_type : string;
+    source_ref        : string;
+    target_ref        : string;
+};
 
 type ExtensionSdo = Sdo & {
-    name                : string,
-    description         : string,
-    created             : string,
-    modified            : string,
-    created_by_ref      : string,
-    schema              : string,
-    version             : string,
-    extension_types     : string[],
+    name                : string;
+    description         : string;
+    created             : string;
+    modified            : string;
+    created_by_ref      : string;
+    schema              : string;
+    version             : string;
+    extension_types     : string[];
     external_references : {
-        source_name: string,
-        description: string,
-        url: string
-    }[]
-}
+        source_name: string;
+        description: string;
+        url: string;
+    }[];
+};
 
 type ExtensionAuthorSdo = Sdo & {
-    created_by_ref : string,
-    name           : string,
-    identity_class : string,
-    created        : string,
-    modified       : string
-}
+    created_by_ref : string;
+    name           : string;
+    identity_class : string;
+    created        : string;
+    modified       : string;
+};
 
 type BundleSdo = Sdo & {
-    objects : [ExtensionSdo, ExtensionAuthorSdo, ...Sdo[]]
-}
+    objects : [ExtensionSdo, ExtensionAuthorSdo, ...Sdo[]];
+};
 
 type Link = {
-    obj: Sdo,
-    via: string
-}
+    obj: Sdo;
+    via: string;
+};

@@ -1,7 +1,13 @@
 <template>
   <AccordionBox class="editor-tabs-element">
-    <AccordionPane name="Properties" :units="3">
-      <PropertyEditor class="properties-pane" :property="selected">
+    <AccordionPane
+      name="Properties"
+      :units="3"
+    >
+      <PropertyEditor
+        class="properties-pane"
+        :property="selected"
+      >
         <template #no-props>
           The selected object has no properties.
         </template>
@@ -10,18 +16,20 @@
         </template>
       </PropertyEditor>
     </AccordionPane>
-    <AccordionPane name="Problems" :units="1">
+    <AccordionPane
+      name="Problems"
+      :units="1"
+    >
       <ValidatorProblems class="validator-problems-pane" />
     </AccordionPane>
   </AccordionBox>
 </template>
 
 <script lang="ts">
-import * as Store from "@/store/StoreTypes";
 // Dependencies
 import { defineComponent } from "vue";
-import { mapGetters, mapState } from "vuex";
-import { DictionaryProperty, PageModel } from "@/assets/scripts/BlockDiagram";
+import { DictionaryProperty } from "@/assets/scripts/BlockDiagram";
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
 // Components
 import AccordionBox from "@/components/Containers/AccordionBox.vue";
 import AccordionPane from "@/components/Containers/AccordionPane.vue";
@@ -30,20 +38,12 @@ import ValidatorProblems from "@/components/Elements/ValidatorProblems.vue";
 
 export default defineComponent({
   name: "EditorSidebar",
+  data() {
+    return {
+      application: useApplicationStore()
+    }
+  },
   computed: {
-
-    /**
-     * Application Store data
-     */
-    ...mapState("ApplicationStore", {
-      page(state: Store.ApplicationStore): PageModel {
-        return state.activePage.page;
-      },
-    }),
-
-    ...mapGetters("ApplicationStore", [
-      "hasSelection", "getSelection"
-    ]),
 
     /**
      * Returns the currently selected object's properties.
@@ -51,10 +51,11 @@ export default defineComponent({
      *  The currently selected object's properties.
      */
     selected(): DictionaryProperty | undefined {
-      if(this.hasSelection === 0) {
-        return this.page.props;
-      } else if(this.hasSelection === 1) {
-        return this.getSelection[0].props;
+      const hasSelection = this.application.hasSelection;
+      if(hasSelection === 0) {
+        return this.application.activePage.page.props;
+      } else if(hasSelection === 1) {
+        return this.application.getSelection[0].props;
       }
       return undefined;
     }

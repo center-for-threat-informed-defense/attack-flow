@@ -1,46 +1,104 @@
 <template>
-  <div :class="['datetime-field-control', { disabled }]" :tabindex="tabIndex" @focus="enterEditMode()">
+  <div
+    :class="['datetime-field-control', { disabled }]"
+    :tabindex="tabIndex"
+    @focus="enterEditMode()"
+  >
     <div class="grid-container">
-      <div class="value" v-show="!showEditor">
-        <p v-if="value === null" class="null-value">
+      <div
+        class="value"
+        v-show="!showEditor"
+      >
+        <p
+          v-if="value === null"
+          class="null-value"
+        >
           None
         </p>
-        <p v-else class="date-value">
+        <p
+          v-else
+          class="date-value"
+        >
           {{ prop_M }} {{ prop_D }}, {{ prop_Y }}
           -
           {{ prop_H }}:{{ prop_m }}:{{ prop_s }}
         </p>
       </div>
-      <div class="editor" v-show="showEditor">
+      <div
+        class="editor"
+        v-show="showEditor"
+      >
         <input 
-          type="text" maxlength="2" segment="M" ref="M" class="M" placeholder="MM"
-          @blur="onBlur" @keydown="onKeyDown" v-model="value_M"
-        />
+          type="text"
+          maxlength="2"
+          segment="M"
+          ref="M"
+          class="M"
+          placeholder="MM"
+          @blur="onBlur"
+          @keydown="onKeyDown"
+          v-model="value_M"
+        >
         <span>/</span>
         <input 
-          type="text" maxlength="2" segment="D" ref="D" class="D" placeholder="DD"
-          @blur="onBlur" @keydown="onKeyDown" v-model="value_D" 
-        />
+          type="text"
+          maxlength="2"
+          segment="D"
+          ref="D"
+          class="D"
+          placeholder="DD"
+          @blur="onBlur"
+          @keydown="onKeyDown"
+          v-model="value_D" 
+        >
         <span>/</span>
         <input
-          type="text" maxlength="4" segment="Y" ref="Y" class="Y" placeholder="YYYY"
-          @blur="onBlur" @keydown="onKeyDown" v-model="value_Y" 
-        />
-        <span class="space"></span>
+          type="text"
+          maxlength="4"
+          segment="Y"
+          ref="Y"
+          class="Y"
+          placeholder="YYYY"
+          @blur="onBlur"
+          @keydown="onKeyDown"
+          v-model="value_Y" 
+        >
+        <span class="space" />
         <input
-          type="text" maxlength="2" segment="H" ref="H" class="H" placeholder="HH"
-          @blur="onBlur" @keydown="onKeyDown" v-model="value_H" 
-        />
+          type="text"
+          maxlength="2"
+          segment="H"
+          ref="H"
+          class="H"
+          placeholder="HH"
+          @blur="onBlur"
+          @keydown="onKeyDown"
+          v-model="value_H" 
+        >
         <span>:</span>
         <input
-          type="text" maxlength="2" segment="m" ref="m" class="m" placeholder="mm"
-          @blur="onBlur" @keydown="onKeyDown" v-model="value_m"   
-        />
+          type="text"
+          maxlength="2"
+          segment="m"
+          ref="m"
+          class="m"
+          placeholder="mm"
+          @blur="onBlur"
+          @keydown="onKeyDown"
+          v-model="value_m"   
+        >
         <span>:</span>
         <input
-          type="text" maxlength="2" segment="s" ref="s" class="s" placeholder="ss"
-          @blur="onBlur" @keydown="onKeyDown" v-model="value_s" 
-        />
+          type="text"
+          maxlength="2"
+          segment="s"
+          ref="s"
+          class="s"
+          placeholder="ss"
+          @blur="onBlur"
+          @keydown="onKeyDown"
+          v-model="value_s" 
+        >
         <span class="timezone">Z</span>
       </div>
     </div>
@@ -49,12 +107,16 @@
 
 <script lang="ts">
 import { DateProperty } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, markRaw, PropType, ref } from "vue";
+import { defineComponent, markRaw, type PropType, ref } from "vue";
+
+type Segments =  
+  "M" | "D" | "Y" | 
+  "H" | "m" | "s";
 
 const Segment = [
   "M", "D", "Y",
   "H", "m", "s"
-]
+] as Segments[]
 
 const Months = [
   "Jan", "Feb", "Mar", 
@@ -101,7 +163,7 @@ export default defineComponent({
      *  The property.
      */
     _property(): DateProperty {
-      let trigger = this.activeProperty.trigger.value;
+      const trigger = this.activeProperty.trigger.value;
       return trigger ? this.activeProperty : this.activeProperty;
     },
 
@@ -110,8 +172,8 @@ export default defineComponent({
      * @returns
      *  The field's tab index.
      */
-    tabIndex(): null | "0" {
-      return this.disabled ? null: "0";
+    tabIndex(): undefined | "0" {
+      return this.disabled ? undefined : "0";
     },
 
     /**
@@ -129,7 +191,7 @@ export default defineComponent({
      *  the property's raw value.
      */
     value(): Date | null {
-      let value = this._property.toRawValue();
+      const value = this._property.toRawValue();
       return value !== null ? new Date(value) : value;
     },
 
@@ -139,7 +201,7 @@ export default defineComponent({
      *  The currently configured month.
      */
     prop_M(): string {
-      let v = this.value;
+      const v = this.value;
       return v ? Months[v.getUTCMonth()] : "None";
     },
 
@@ -149,7 +211,7 @@ export default defineComponent({
      *  The currently configured day.
      */
     prop_D(): string {
-      let v = this.value;
+      const v = this.value;
       return `${ v?.getUTCDate() ?? 'None' }`;
     },
     
@@ -159,7 +221,7 @@ export default defineComponent({
      *  The currently configured year.
      */
     prop_Y(): string {
-      let v = this.value;
+      const v = this.value;
       return `${ v?.getUTCFullYear() ?? 'None' }`;
     },
 
@@ -169,7 +231,7 @@ export default defineComponent({
      *  The currently configured hour.
      */
     prop_H(): string {
-      let v = this.value;
+      const v = this.value;
       return v ? `${ v.getUTCHours() }`.padStart(2, '0') : "None";
     },
 
@@ -179,7 +241,7 @@ export default defineComponent({
      *  The currently configured minute.
      */
     prop_m(): string {
-      let v = this.value;
+      const v = this.value;
       return v ? `${ v.getUTCMinutes() }`.padStart(2, '0') : "None";
     },
 
@@ -189,7 +251,7 @@ export default defineComponent({
      *  The currently configured second.
      */
     prop_s(): string {
-      let v = this.value;
+      const v = this.value;
       return v ? `${ v.getUTCSeconds() }`.padStart(2, '0') : "None";
     }
 
@@ -213,7 +275,7 @@ export default defineComponent({
      *  The keydown event.
      */
     onKeyDown(event: KeyboardEvent) {
-      let field = event.target as HTMLInputElement;
+      const field = event.target as HTMLInputElement;
       if(field.selectionStart !== field.selectionEnd) {
         return;
       }
@@ -253,8 +315,8 @@ export default defineComponent({
       this.$nextTick(() => {
         // Select field
         let field: HTMLInputElement;
-        for(let s of Segment) {
-          field = (this as any)[s];
+        for(const s of Segment) {
+          field = this[s]!;
           if(!field.value) break;
         }
         // Focus field
@@ -284,12 +346,13 @@ export default defineComponent({
      *  (Default: true)
      */
     shiftFocus(delta: number, start: boolean = true) {
-      let field = document.activeElement as HTMLInputElement;
-      let index = Segment.indexOf(field.getAttribute("segment")!) + delta;
+      const field = document.activeElement as HTMLInputElement;
+      const attr = field.getAttribute("segment")! as Segments;
+      const index = Segment.indexOf(attr) + delta;
       if(0 <= index && index < Segment.length) {
         this.$nextTick(() => {
           // Get adjacent segment
-          let adj: HTMLInputElement = (this as any)[Segment[index]];
+          const adj: HTMLInputElement = this[Segment[index]]!;
           // Focus adjacent segment
           adj.focus();
           // Position caret
@@ -303,7 +366,7 @@ export default defineComponent({
      */
     updateProperty() {
       // Parse date
-      let ISO8601 = `${ 
+      const ISO8601 = `${ 
         this.value_Y.padStart(4, "0")
       }-${
         this.value_M.padStart(2, "0")
@@ -316,7 +379,7 @@ export default defineComponent({
       }:${
         this.value_s.padStart(2, "0")
       }.000Z`;
-      let date = new Date(ISO8601);
+      const date = new Date(ISO8601);
       // Parse value
       let value;
       if(ISO8601 === "0000-00-00T00:00:00.000Z") {
@@ -340,8 +403,8 @@ export default defineComponent({
      */
     refreshValue() {
       // Parse date
-      let date = this.value?.toISOString() ?? "--T::";
-      let [ Y, M, D, H, m, s ] = date.split(/[-T:\.]/);
+      const date = this.value?.toISOString() ?? "--T::";
+      const [ Y, M, D, H, m, s ] = date.split(/[-T:\.]/);
       // Update values
       this.value_Y = Y;
       this.value_M = M;

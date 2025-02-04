@@ -2,14 +2,14 @@ import { drawArrowHead } from "../Utilities";
 import { RasterCache } from "../DiagramElement/RasterCache";
 import { ViewportRegion } from "../DiagramElement";
 import { LineVerticalElbowModel } from "../DiagramModelTypes";
-import { 
+import {
     DiagramLineEndingView,
     DiagramLineView
 } from ".";
 import { Select, SelectMask } from "../Attributes";
 
 export class LineVerticalElbowView extends DiagramLineView {
-    
+
     /**
      * The underlying model.
      */
@@ -35,7 +35,7 @@ export class LineVerticalElbowView extends DiagramLineView {
 
 
     /**
-     * Moves one of the line's children relative to its current position. 
+     * Moves one of the line's children relative to its current position.
      * @param id
      *  The id of the child.
      * @param dx
@@ -48,22 +48,23 @@ export class LineVerticalElbowView extends DiagramLineView {
      */
     public moveChild(id: string, dx: number, dy: number, attrs?: number): void {
         // Select child
-        let obj = this.children.find(o => o.el.id === id)!;
-        if(!obj)
+        const obj = this.children.find(o => o.el.id === id)!;
+        if (!obj) {
             return;
+        }
         // Move ending
-        if(obj instanceof DiagramLineEndingView) {
+        if (obj instanceof DiagramLineEndingView) {
             obj.moveBy(dx, dy, undefined, true);
         }
-        let [e1, h1, e2] = this.children;
+        const [e1, h1, e2] = this.children;
         // Move handle
-        let hdx = ((e1.x + e2.x) / 2) - h1.x,
+        const hdx = ((e1.x + e2.x) / 2) - h1.x,
             hdy = ((e1.y + e2.y) / 2) - h1.y;
-        // attrs must ONLY override the child being moved, we 
+        // attrs must ONLY override the child being moved, we
         // can't override h1 unless we're explicitly moving h1
-        if(!h1.el.hasUserSetPosition(obj === h1 ? attrs : undefined)) {
+        if (!h1.el.hasUserSetPosition(obj === h1 ? attrs : undefined)) {
             h1.moveBy(0, hdy, undefined, true);
-        } else if(obj === h1) {
+        } else if (obj === h1) {
             h1.moveBy(0, dy, undefined, true);
         }
         h1.moveBy(hdx, 0, undefined, true);
@@ -94,16 +95,16 @@ export class LineVerticalElbowView extends DiagramLineView {
     public override renderTo(
         ctx: CanvasRenderingContext2D, vr: ViewportRegion,
         dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
-        if(!this.isVisible(vr)) {
+    ) {
+        if (!this.isVisible(vr)) {
             return;
         }
 
         // Init
-        let {
+        const {
             children: c
-        } = this;        
-        let {
+        } = this;
+        const {
             cap_size: cs,
             width,
             color,
@@ -113,7 +114,7 @@ export class LineVerticalElbowView extends DiagramLineView {
         // Configure line
         ctx.lineWidth = width;
         let lineColor;
-        switch(this.el.attrs & SelectMask) {            
+        switch (this.el.attrs & SelectMask) {
             case Select.True:
                 lineColor = select_color;
                 break;
@@ -126,10 +127,10 @@ export class LineVerticalElbowView extends DiagramLineView {
         ctx.strokeStyle = lineColor;
 
         // Line width offset
-        let wo = width % 2 ? 0.5 : 0;
+        const wo = width % 2 ? 0.5 : 0;
         // End offset
-        let eo = Math.sign(c[1].y - c[2].y) * (cs >> 1);
-        
+        const eo = Math.sign(c[1].y - c[2].y) * (cs >> 1);
+
         // Draw line
         ctx.beginPath();
         ctx.moveTo(c[0].x + wo, c[0].y);
@@ -140,7 +141,7 @@ export class LineVerticalElbowView extends DiagramLineView {
 
         // Draw arrow head
         drawArrowHead(
-            ctx, 
+            ctx,
             c[2].x + wo, c[1].y,
             c[2].x + wo, c[2].y,
             cs
@@ -148,7 +149,7 @@ export class LineVerticalElbowView extends DiagramLineView {
         ctx.fill();
 
         // Draw handles and ends
-        if(this.el.isSelected(attrs)) {
+        if (this.el.isSelected(attrs)) {
             super.renderTo(ctx, vr, dsx, dsy);
         }
 
@@ -162,15 +163,15 @@ export class LineVerticalElbowView extends DiagramLineView {
      *  The context's viewport.
      */
     public override renderDebugTo(ctx: CanvasRenderingContext2D, vr: ViewportRegion) {
-        if(!this.isVisible(vr)) {
+        if (!this.isVisible(vr)) {
             return;
         }
-        let radius = 2;
-        let p = Math.PI * 2;
+        const radius = 2;
+        const p = Math.PI * 2;
         // Draw hitbox points
         ctx.beginPath();
-        for(let hitbox of this.el.hitboxes) {
-            for(let i = 0; i < hitbox.length; i += 2) {
+        for (const hitbox of this.el.hitboxes) {
+            for (let i = 0; i < hitbox.length; i += 2) {
                 ctx.moveTo(hitbox[i] + radius, hitbox[i + 1]);
                 ctx.arc(hitbox[i], hitbox[i + 1], radius, 0, p);
             }

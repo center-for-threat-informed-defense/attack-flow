@@ -1,8 +1,8 @@
 /**
  * Developers Note:
  * This file explicitly defines the module loading order. In order to prevent
- * circular dependencies, all files that need access to these modules should 
- * import them directly from this file, not the source files themselves. 
+ * circular dependencies, all files that need access to these modules should
+ * import them directly from this file, not the source files themselves.
  */
 
 export * from "./DiagramObjectModel";

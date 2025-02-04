@@ -1,33 +1,46 @@
 <template>
   <AppHotkeyBox id="main">
-    <AppTitleBar id="app-title-bar"/>
-    <FindDialog ref="findDialog" id="find-dialog" :style="findDialogLayout" />
-    <div id="app-body" ref="body" :style="gridLayout">
+    <AppTitleBar id="app-title-bar" />
+    <FindDialog
+      ref="findDialog"
+      id="find-dialog"
+      :style="findDialogLayout"
+    />
+    <div
+      id="app-body"
+      ref="body"
+      :style="gridLayout"
+    >
       <div class="frame center">
-        <BlockDiagram id="block-diagram"/>
-        <SplashMenu id="splash-menu" v-if="isShowingSplash" />
+        <BlockDiagram id="block-diagram" />
+        <SplashMenu
+          id="splash-menu"
+          v-if="application.isShowingSplash"
+        />
       </div>
       <div class="frame right">
-        <div class="resize-handle" @pointerdown="startResize($event, Handle.Right)"></div>
-        <EditorSidebar id="app-sidebar"/>
+        <div
+          class="resize-handle"
+          @pointerdown="startResize($event, Handle.Right)"
+        />
+        <EditorSidebar id="app-sidebar" />
       </div>
       <div class="frame bottom">
-        <AppFooterBar id="app-footer-bar"/>
+        <AppFooterBar id="app-footer-bar" />
       </div>
     </div>
   </AppHotkeyBox>
 </template>
 
 <script lang="ts">
-import * as App from './store/Commands/AppCommands';
-import * as Store from "@/store/StoreTypes";
-import Configuration from "@/assets/configuration/builder.config"
+import * as App from '@/stores/Commands/AppCommands';
 // Dependencies
 import { clamp } from "./assets/scripts/BlockDiagram";
 import { PointerTracker } from "./assets/scripts/PointerTracker";
+import { useApplicationStore } from './stores/Stores/ApplicationStore';
 import { Browser, OperatingSystem } from "./assets/scripts/Browser";
 import { defineComponent, markRaw, ref } from 'vue';
-import { mapMutations, mapGetters, mapState } from 'vuex';
+import type { Command } from './stores/Commands/Command';
 // Components
 import FindDialog from "@/components/Elements/FindDialog.vue";
 import SplashMenu from "@/components/Elements/SplashMenu.vue";
@@ -49,6 +62,7 @@ export default defineComponent({
   },
   data() {
     return {
+      application: useApplicationStore(),
       Handle,
       bodyWidth: -1,
       bodyHeight: -1,
@@ -68,26 +82,12 @@ export default defineComponent({
   computed: {
 
     /**
-     * Application Store data
-     */
-    ...mapState("ApplicationStore", {
-      context(state: Store.ApplicationStore): Store.ApplicationStore {
-        return state;
-      }
-    }),
-
-    /**
-     * Application Store getters
-     */
-    ...mapGetters("ApplicationStore", ["isShowingSplash"]),
-
-    /**
      * Returns the current grid layout.
      * @returns
      *  The current grid layout.
      */
     gridLayout(): { gridTemplateColumns: string } {
-      let r = this.frameSize[Handle.Right];
+      const r = this.frameSize[Handle.Right];
       return {
         gridTemplateColumns: `minmax(0, 1fr) ${ r }px`
       }
@@ -99,7 +99,7 @@ export default defineComponent({
      *  The current grid layout.
      */
     findDialogLayout(): { right: string } {
-      let r = this.frameSize[Handle.Right] + 25;
+      const r = this.frameSize[Handle.Right] + 25;
       return {
         right: `${r}px`
       }
@@ -107,12 +107,16 @@ export default defineComponent({
 
   },
   methods: {
-    
-    /**
-     * Application Store mutations
-     */
-    ...mapMutations("ApplicationStore", ["execute"]),
 
+    /**
+     * Executes an application command.
+     * @param command
+     *  The command to execute.
+     */
+    execute(command: Command) {
+      this.application.execute(command);
+    },
+    
     /**
      * Resize handle drag start behavior.
      * @param event
@@ -121,7 +125,7 @@ export default defineComponent({
      *  The id of the handle being dragged.
      */
     startResize(event: PointerEvent, handle: number) {
-      let origin = this.frameSize[handle];
+      const origin = this.frameSize[handle];
       this.drag.handle = handle;
       this.drag.track.capture(event, (e, track) => {
         e.preventDefault();
@@ -164,40 +168,33 @@ export default defineComponent({
      *  The new size of the right frame.
      */
     setRightFrameSize(size: number) {
-      let max = this.bodyWidth;
-      let min = this.minFrameSize[Handle.Right];
+      const max = this.bodyWidth;
+      const min = this.minFrameSize[Handle.Right];
       this.frameSize[Handle.Right] = clamp(size, min, max);
     }
 
   },
   async created() {
+    const ctx = this.application;
     // Import settings
-    let os = Browser.getOperatingSystemClass();
+    const os = Browser.getOperatingSystemClass();
     let settings;
-    if(Configuration.is_web_hosted) {
-      if(os === OperatingSystem.MacOS) {
-        settings = await (await fetch("../public/settings_macos.json")).json();
-      } else {
-        settings = await (await fetch("../public/settings_win.json")).json();
-      }        
+    if(os === OperatingSystem.MacOS) {
+      settings = await (await fetch("./settings_macos.json")).json();
     } else {
-      if(os === OperatingSystem.MacOS) {
-        settings = require("../public/settings_macos.json");
-      } else {
-        settings = require("../public/settings_win.json");
-      }
-    }
+      settings = await (await fetch("./settings_win.json")).json();
+    }        
     // Load settings
-    this.execute(new App.LoadSettings(this.context, settings));
+    this.execute(new App.LoadSettings(ctx, settings));
     // Load empty file
-    this.execute(await App.LoadFile.fromNew(this.context));
+    this.execute(await App.LoadFile.fromNew(ctx));
     // Load file from query parameters, if possible
-    let params = new URLSearchParams(window.location.search);
-    let src = params.get("src");
+    const params = new URLSearchParams(window.location.search);
+    const src = params.get("src");
     if(src) {
       try {
         // TODO: Incorporate loading dialog
-        this.execute(await App.PrepareEditorWithFile.fromUrl(this.context, src));
+        this.execute(await App.PrepareEditorWithFile.fromUrl(ctx, src));
       } catch(ex) {
         console.error(`Failed to load file from url: '${ src }'`);
         console.error(ex);

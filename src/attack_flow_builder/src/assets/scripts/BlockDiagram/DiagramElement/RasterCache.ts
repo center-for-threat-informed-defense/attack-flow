@@ -39,7 +39,7 @@ export class RasterCache {
      */
     public createRaster(id: string, w: number, h: number, p: number = 0): Raster {
         // Create raster
-        let raster = new Raster(w, h, p, this._scale);
+        const raster = new Raster(w, h, p, this._scale);
         // Register raster
         this._cache.set(id, raster);
         // Return raster
@@ -56,11 +56,11 @@ export class RasterCache {
      *  The x-axis coordinate on the destination context.
      * @param y
      *  The y-axis coordinate on the destination context.
-     * @returns 
+     * @returns
      *  True if the raster was drawn, false if no raster with that id exists.
      */
     public drawRaster(context: CanvasRenderingContext2D, id: string, x: number, y: number): boolean {
-        let r = this._cache.get(id);
+        const r = this._cache.get(id);
         if (r) {
             context.drawImage(r.canvas, x - r.cx, y - r.cy, r.w, r.h);
             return true;
@@ -181,7 +181,7 @@ export class Raster {
      *  The scale of the raster.
      */
     constructor(w: number, h: number, p: number, k: number) {
-        let tp = p << 1;
+        const tp = p << 1;
         // Prepare canvas
         this.canvas = document.createElement("canvas");
         this.canvas.width = Math.round((w + tp) * k);
@@ -217,7 +217,7 @@ export class Raster {
     /**
      * Begins a new sub-path at the point specified
      * @param x
-     *  The x-axis coordinate. 
+     *  The x-axis coordinate.
      * @param y
      *  The y-axis coordinate.
      */
@@ -310,7 +310,7 @@ export class Raster {
         r: BorderRadius,
         s?: number
     ): void;
-    
+
     public drawRect(
         x: number, y: number,
         w: number, h: number,
@@ -324,12 +324,12 @@ export class Raster {
         h -= s;
         // Parse radius
         if (typeof r === "number") {
-            r = { tl: r, tr: r, br: r, bl: r }
+            r = { tl: r, tr: r, br: r, bl: r };
         } else {
             r = { tl: 0, tr: 0, br: 0, bl: 0, ...r };
         }
         // Draw rectangular path
-        let ctx = this.context;
+        const ctx = this.context;
         ctx.beginPath();
         ctx.moveTo(x + r.tl!, y);
         ctx.lineTo(x + w - r.tr!, y);
@@ -342,7 +342,7 @@ export class Raster {
         ctx.quadraticCurveTo(x, y, x + r.tl!, y);
         ctx.closePath();
     }
-  
+
 }
 
 
@@ -352,25 +352,25 @@ export class Raster {
 
 
 export type BorderRadius = {
-    
+
     /**
      * Top left radius.
      */
-    tl?: number,
+    tl?: number;
 
     /**
      * Top right radius.
      */
-    tr?: number,
+    tr?: number;
 
     /**
      * Bottom right radius.
      */
-    br?: number,
+    br?: number;
 
     /**
      * Bottom left radius.
      */
-    bl?: number
+    bl?: number;
 
-}
+};

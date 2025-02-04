@@ -1,55 +1,51 @@
 <template>
-  <HotkeyBox class="app-hotkey-box-element" :hotkeys="hotkeys" :global="true" @fire="onHotkeyFired">
-    <slot></slot>
+  <HotkeyBox
+    class="app-hotkey-box-element"
+    :hotkeys="hotkeySet"
+    :global="true"
+    @fire="onHotkeyFired"
+  >
+    <slot />
   </HotkeyBox>
 </template>
 
 <script lang="ts">
 // Dependencies
-import { Hotkey } from "@/assets/scripts/HotkeyObserver";
 import { defineComponent } from "vue";
-import { Command, CommandEmitter } from "@/store/Commands/Command";
-import { mapGetters, mapMutations } from "vuex";
+import { useHotkeyStore } from "@/stores/Stores/HotkeyStore";
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import type { Hotkey } from "@/assets/scripts/HotkeyObserver";
+import type { CommandEmitter } from "@/stores/Commands/Command";
 // Components
 import HotkeyBox from "@/components/Containers/HotkeyBox.vue";
 
 export default defineComponent({
   name: "AppHotkeyBox",
+  data() {
+    return {
+      hotkeys: useHotkeyStore(),
+      application: useApplicationStore()
+    }
+  },
   computed: {
 
-    /**
-     * Hotkey Store data
-     */
-    ...mapGetters("HotkeyStore", [
-      "nativeHotkeys",
-      "fileHotkeys",
-      "editHotKeys",
-      "layoutHotkeys",
-      "viewHotkeys"
-    ]),
-    
     /**
      * Returns the application's hotkeys.
      * @returns
      *  The application's hotkeys.
      */
-    hotkeys(): Hotkey<() => Command>[] {
+    hotkeySet(): Hotkey<CommandEmitter>[] {
       return [
-        ...this.nativeHotkeys, 
-        ...this.fileHotkeys,
-        ...this.editHotKeys,
-        ...this.layoutHotkeys,
-        ...this.viewHotkeys
+        ...this.hotkeys.nativeHotkeys, 
+        ...this.hotkeys.fileHotkeys,
+        ...this.hotkeys.editHotKeys,
+        ...this.hotkeys.layoutHotkeys,
+        ...this.hotkeys.viewHotkeys
       ]
     }
 
   },
   methods: {
-
-    /**
-     * Application Store mutations
-     */
-    ...mapMutations("ApplicationStore", ["execute"]),
 
     /**
      * Hotkey fired behavior.
@@ -58,14 +54,14 @@ export default defineComponent({
      */
     async onHotkeyFired(emitter: CommandEmitter) {
       try {
-        let cmd = emitter();
+        const cmd = emitter();
         if(cmd instanceof Promise) {
-          let test = await cmd;
-          this.execute(test);
+          const test = await cmd;
+          this.application.execute(test);
         } else {
-          this.execute(cmd);
+          this.application.execute(cmd);
         }
-      } catch(ex: any) {
+      } catch(ex: unknown) {
         console.error(ex);
       }
     }

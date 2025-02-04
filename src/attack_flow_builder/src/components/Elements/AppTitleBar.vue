@@ -1,21 +1,29 @@
 <template>
-  <TitleBar class="app-title-bar-element" :menus="menus" @select="onItemSelect">
-    <template v-slot:icon>
+  <TitleBar
+    class="app-title-bar-element"
+    :menus="menus"
+    @select="onItemSelect"
+  >
+    <template #icon>
       <span class="logo">
-        <img alt="Logo" title="Logo" :src="icon">
+        <img
+          alt="Logo"
+          title="Logo"
+          :src="icon"
+        >
       </span>
     </template>
   </TitleBar>
 </template>
 
 <script lang="ts">
-const Images = require.context("../../assets/configuration", false);
-import Configuration from "@/assets/configuration/builder.config"
+import Configuration from "@/assets/configuration/builder.config";
 // Dependencies
-import { ContextMenu } from "@/assets/scripts/ContextMenuTypes";
-import { CommandEmitter } from "@/store/Commands/Command";
 import { defineComponent } from "vue";
-import { mapGetters, mapMutations } from "vuex";
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useContextMenuStore } from "@/stores/Stores/ContextMenuStore";
+import type { CommandEmitter } from "@/stores/Commands/Command";
+import type { ContextMenuSubmenu } from "@/assets/scripts/ContextMenuTypes";
 // Components
 import TitleBar from "@/components/Controls/TitleBar.vue";
 
@@ -23,44 +31,30 @@ export default defineComponent({
   name: "AppTitleBar",
   data() {
     return {
-      icon: Images(Configuration.application_icon),
+      application: useApplicationStore(),
+      contextMenus: useContextMenuStore(),
+      icon: Configuration.application_icon
     };
   },
   computed: {
-
-    /**
-     * Context Menu Store data
-     */
-    ...mapGetters("ContextMenuStore", [
-      "fileMenu",
-      "editMenu",
-      "layoutMenu",
-      "viewMenu",
-      "helpMenu"
-    ]),
-    
+   
     /**
      * Returns the application's menus.
      * @returns
      *  The application's menus.
      */
-    menus(): ContextMenu[] {
+    menus(): ContextMenuSubmenu<CommandEmitter>[] {
       return [
-        this.fileMenu, 
-        this.editMenu,
-        this.layoutMenu,
-        this.viewMenu,
-        this.helpMenu
+        this.contextMenus.fileMenu, 
+        this.contextMenus.editMenu,
+        this.contextMenus.layoutMenu,
+        this.contextMenus.viewMenu,
+        this.contextMenus.helpMenu
       ]
     }
 
   },
   methods: {
-
-    /**
-     * Application Store actions
-     */
-    ...mapMutations("ApplicationStore", ["execute"]),
 
     /**
      * Menu item selection behavior.
@@ -69,13 +63,13 @@ export default defineComponent({
      */
     async onItemSelect(emitter: CommandEmitter) {
       try {
-        let cmd = emitter();
+        const cmd = emitter();
         if(cmd instanceof Promise) {
-          this.execute(await cmd);
+          this.application.execute(await cmd);
         } else {
-          this.execute(cmd);
+          this.application.execute(cmd);
         }
-      } catch(ex: any) {
+      } catch(ex: unknown) {
         console.error(ex);
       }
     }

@@ -22,17 +22,18 @@ export abstract class DiagramLineView extends DiagramObjectView {
      * The line's source ending.
      */
     public get srcEnding(): DiagramLineEndingView {
-        return this.children.at(0) as DiagramLineEndingView;
+        return this.children[0] as DiagramLineEndingView;
     }
 
     /**
      * The line's target ending.
      */
     public get trgEnding(): DiagramLineEndingView {
-        return this.children.at(-1) as DiagramLineEndingView;
+        const index = this.children.length - 1;
+        return this.children[index] as DiagramLineEndingView;
     }
 
-    
+
     /**
      * Creates a new {@link DiagramLineView}.
      * @param el
@@ -51,9 +52,9 @@ export abstract class DiagramLineView extends DiagramObjectView {
     //  1. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
-     * Moves one of the line's children relative to its current position. 
+     * Moves one of the line's children relative to its current position.
      * @param id
      *  The id of the child.
      * @param dx
@@ -74,6 +75,6 @@ export abstract class DiagramLineView extends DiagramObjectView {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-type DiagramLineObjectView 
-    = DiagramLineEndingView 
+type DiagramLineObjectView
+    = DiagramLineEndingView
     | DiagramLineHandleView;

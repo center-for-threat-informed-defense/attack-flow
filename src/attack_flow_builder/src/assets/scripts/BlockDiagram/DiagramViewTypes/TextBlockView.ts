@@ -1,10 +1,11 @@
+/* eslint-disable prefer-const */
 import { drawRect } from "../Utilities";
 import { RasterCache, ViewportRegion } from "../DiagramElement";
 import { TextBlockModel } from "../DiagramModelTypes";
 import { DiagramObjectView } from ".";
 
 export class TextBlockView extends DiagramObjectView {
-    
+
     /**
      * The underlying model.
      */
@@ -42,16 +43,16 @@ export class TextBlockView extends DiagramObjectView {
 
 
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param attrs
      *  If specified, this set of attributes will override the object's
      *  underlying attributes.
      */
-    public override moveBy(dx: number, dy: number, attrs?: number) {
+    public override moveBy(dx: number, dy: number, _attrs?: number) {
         super.moveBy(dx, dy);
         // Move top left corner
         this.tlx += dx;
@@ -63,7 +64,7 @@ export class TextBlockView extends DiagramObjectView {
     //  2. Render  ////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Renders the object to a context.
      * @param ctx
@@ -83,21 +84,21 @@ export class TextBlockView extends DiagramObjectView {
     public override renderTo(
         ctx: CanvasRenderingContext2D, vr: ViewportRegion,
         dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
-        if(!this.isVisible(vr)) {
+    ) {
+        if (!this.isVisible(vr)) {
             return;
         }
 
         // Init
-        let { tlx: x, tly: y } = this;
-        let {
+        const { tlx: x, tly: y } = this;
+        const {
             text,
             fill_color,
             stroke_color,
             select_outline: so,
-            border_radius: br,
+            border_radius: br
         } = this.el.style;
-        let {
+        const {
             width: w,
             height: h,
             text: placements
@@ -105,7 +106,7 @@ export class TextBlockView extends DiagramObjectView {
 
         // Draw body
         ctx.lineWidth = 1.1;
-        if(dsx | dsy){
+        if (dsx | dsy) {
             drawRect(ctx, x, y, w, h, br);
             ctx.shadowOffsetX = dsx + (0.5 * vr.scale);
             ctx.shadowOffsetY = dsy + (0.5 * vr.scale);
@@ -126,14 +127,14 @@ export class TextBlockView extends DiagramObjectView {
         // Draw text
         ctx.font = text.font.css;
         ctx.fillStyle = text.color;
-        for(let p of placements) {
-            ctx.fillText(p.t, x + p.x, y + p.y)
+        for (const p of placements) {
+            ctx.fillText(p.t, x + p.x, y + p.y);
         }
 
-        if(this.el.isSelected(attrs)) {
-            
+        if (this.el.isSelected(attrs)) {
+
             // Init
-            let { 
+            let {
                 color,
                 padding: p,
                 border_radius: br
@@ -141,32 +142,32 @@ export class TextBlockView extends DiagramObjectView {
             p += 1;
 
             // Draw select border
-            drawRect(ctx, x - p, y - p, w + p*2, h + p*2, br, 1);
+            drawRect(ctx, x - p, y - p, w + p * 2, h + p * 2, br, 1);
             ctx.strokeStyle = color;
             ctx.stroke();
 
-        } else if(this.el.isHovered(attrs)) {
+        } else if (this.el.isHovered(attrs)) {
 
             // Init
-            let {
+            const {
                 color,
                 size
             } = this.el.style.anchor_markers;
-            
+
             // Draw anchors
-            super.renderTo(ctx, vr, dsx, dsy);    
+            super.renderTo(ctx, vr, dsx, dsy);
 
             // Draw anchor markers
             ctx.strokeStyle = color;
             ctx.beginPath();
-            for(let o of this.children) {
+            for (const o of this.children) {
                 ctx.moveTo(o.x - size, o.y - size);
                 ctx.lineTo(o.x + size, o.y + size);
                 ctx.moveTo(o.x + size, o.y - size);
                 ctx.lineTo(o.x - size, o.y + size);
             }
             ctx.stroke();
-        
+
         }
 
     }

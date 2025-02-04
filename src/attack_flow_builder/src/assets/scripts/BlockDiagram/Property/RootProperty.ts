@@ -1,10 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DiagramObjectModel } from "../DiagramModelTypes";
-import {
-    DictionaryProperty,
-    DictionaryPropertyDescriptor,
-    PropertyType,
-    RootPropertyDescriptor
-} from ".";
+import { DictionaryProperty, PropertyType } from ".";
+import type { DictionaryPropertyDescriptor, RootPropertyDescriptor } from ".";
 
 export class RootProperty extends DictionaryProperty {
 
@@ -36,21 +33,21 @@ export class RootProperty extends DictionaryProperty {
         descriptor: RootPropertyDescriptor,
         values?: any
     ) {
-        let dpd: DictionaryPropertyDescriptor = {
+        const dpd: DictionaryPropertyDescriptor = {
             type: PropertyType.Dictionary,
             form: descriptor
-        }
+        };
         super(id, undefined, dpd, values);
         this.object = object;
     }
 
 
     /**
-     * Updates the property's trigger. 
+     * Updates the property's trigger.
      */
     protected override updateProperty(): void {
         super.updateProperty();
-        if(this._notifyPropertyUpdate) {
+        if (this._notifyPropertyUpdate) {
             this._notifyPropertyUpdate();
         }
     }

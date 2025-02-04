@@ -1,11 +1,11 @@
 import { RasterCache } from "../../DiagramElement/RasterCache";
+import { DiagramFactory } from "../../DiagramFactory";
 import { DiagramLineEndingView } from "../../DiagramViewTypes";
 import {
     DiagramLineModel,
     DiagramAnchorableModel
 } from "./BaseModels";
-import {
-    DiagramFactory,
+import type {
     DiagramObjectValues,
     ObjectTemplate
 } from "../../DiagramFactory";
@@ -15,7 +15,7 @@ export abstract class DiagramLineEndingModel extends DiagramAnchorableModel {
     /**
      * The line ending's parent.
      */
-    public override parent: DiagramLineModel | undefined;
+    declare parent: DiagramLineModel | undefined;
 
 
     /**
@@ -25,7 +25,7 @@ export abstract class DiagramLineEndingModel extends DiagramAnchorableModel {
      * @param template
      *  The line ending's template.
      * @param values
-     *  The line ending's values. 
+     *  The line ending's values.
      */
     constructor(
         factory: DiagramFactory,
@@ -42,10 +42,10 @@ export abstract class DiagramLineEndingModel extends DiagramAnchorableModel {
 
 
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param updateParent
      *  If the parent's layout should be updated.
@@ -57,7 +57,7 @@ export abstract class DiagramLineEndingModel extends DiagramAnchorableModel {
     public override moveBy(
         dx: number, dy: number, updateParent: boolean = true, useSuper: boolean = false
     ): void {
-        if(useSuper) {
+        if (useSuper) {
             super.moveBy(dx, dy, updateParent);
         } else {
             this.parent?.moveChild(this.id, dx, dy, updateParent);

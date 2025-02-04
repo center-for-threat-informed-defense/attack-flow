@@ -9,7 +9,7 @@ export class DiagramDisplaySettings {
      * If shadow's should be displayed or not.
      */
     public showShadows: boolean;
-    
+
     /**
      * If debug information should be displayed or not.
      */

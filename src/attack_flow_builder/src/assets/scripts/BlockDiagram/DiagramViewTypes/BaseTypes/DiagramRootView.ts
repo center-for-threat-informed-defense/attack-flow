@@ -47,7 +47,7 @@ export abstract class DiagramRootView extends DiagramObjectView {
      */
     public override renderDebugTo(ctx: CanvasRenderingContext2D, vr: ViewportRegion) {
         ctx.save();
-        ctx.lineWidth = 1
+        ctx.lineWidth = 1;
         ctx.fillStyle = "#00ff00";
         ctx.strokeStyle = "#ffffff";
         ctx.setLineDash([2, 2]);
@@ -71,15 +71,15 @@ export abstract class DiagramRootView extends DiagramObjectView {
         super.updateView();
         // Update cache
         this._objectCache.clear();
-        for(let obj of this.getSubtree()) {
+        for (const obj of this.getSubtree()) {
             this._objectCache.set(obj.el.id, obj);
         }
         // Update anchors
-        for(let obj of this.el.anchorCache) {
-            let anchor = this.lookup<DiagramAnchorView>(obj.id)!;
+        for (const obj of this.el.anchorCache) {
+            const anchor = this.lookup<DiagramAnchorView>(obj.id)!;
             anchor.children = new Array(obj.children.length);
-            for(let i = 0; i < anchor.children.length; i++) {
-                let child = obj.children[i]; 
+            for (let i = 0; i < anchor.children.length; i++) {
+                const child = obj.children[i];
                 // Add object to anchor
                 anchor.children[i] = this.lookup(child.id)!;
                 // Add anchor to object
@@ -88,7 +88,7 @@ export abstract class DiagramRootView extends DiagramObjectView {
         }
         return this;
     }
-    
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  3. Object Lookup  /////////////////////////////////////////////////////

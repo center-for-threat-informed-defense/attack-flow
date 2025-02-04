@@ -1,50 +1,51 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 ///////////////////////////////////////////////////////////////////////////////
 //  1. Value Types  ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
 type ValueDescriptorBase<K extends ValueTypes> = {
-    type: K,
-    value?: ValueTypeScriptType[K]
-    is_primary?: boolean,
-    is_visible_chart?: boolean,
-    is_visible_sidebar?: boolean,
-    is_editable? : boolean,
-    is_required? : boolean,
-}
+    type: K;
+    value?: ValueTypeScriptType[K];
+    is_primary?: boolean;
+    is_visible_chart?: boolean;
+    is_visible_sidebar?: boolean;
+    is_editable? : boolean;
+    is_required? : boolean;
+};
 
 type StringValueDescriptor = ValueDescriptorBase<PropertyType.String> & {
-    suggestions?: string[]
-}
+    suggestions?: string[];
+};
 
 type IntValueDescriptor = ValueDescriptorBase<PropertyType.Int> & {
-    min?: number,
-    max?: number
-}
+    min?: number;
+    max?: number;
+};
 
 type FloatValueDescriptor = ValueDescriptorBase<PropertyType.Float> & {
-    min?: number,
-    max?: number,
-}
+    min?: number;
+    max?: number;
+};
 
 type EnumValueDescriptor = ValueDescriptorBase<PropertyType.Enum> & {
-    options: ListPropertyDescriptor 
-}
+    options: ListPropertyDescriptor;
+};
 
 type ValueTypes
     = PropertyType.Int
     | PropertyType.Float
     | PropertyType.String
     | PropertyType.Date
-    | PropertyType.Enum
+    | PropertyType.Enum;
 
 type ValueTypeScriptType = {
-    [PropertyType.Int]: number | null,
-    [PropertyType.Float]: number | null,
-    [PropertyType.String]: string | null,
-    [PropertyType.Date]: Date | null,
-    [PropertyType.Enum]: string | null
-}
+    [PropertyType.Int]: number | null;
+    [PropertyType.Float]: number | null;
+    [PropertyType.String]: string | null;
+    [PropertyType.Date]: Date | null;
+    [PropertyType.Enum]: string | null;
+};
 
 export enum PropertyType {
     Int        = 0,
@@ -53,7 +54,7 @@ export enum PropertyType {
     Date       = 3,
     Enum       = 4,
     List       = 5,
-    Dictionary = 6,
+    Dictionary = 6
 }
 
 
@@ -72,7 +73,7 @@ export type PropertyDescriptor
     | DatePropertyDescriptor
     | EnumPropertyDescriptor
     | ListPropertyDescriptor
-    | DictionaryPropertyDescriptor
+    | DictionaryPropertyDescriptor;
 
 export type StringPropertyDescriptor
     = StringValueDescriptor;
@@ -88,37 +89,37 @@ export type EnumPropertyDescriptor
     = EnumValueDescriptor;
 
 export type ListPropertyDescriptor = {
-    type: PropertyType.List,
-    form: PropertyDescriptor
-    value?: any,
-    min_items?: number,
-    is_primary?: boolean,
-    is_visible_chart?: boolean,
-    is_visible_sidebar?: boolean,
-    is_editable? : boolean
-}
+    type: PropertyType.List;
+    form: PropertyDescriptor;
+    value?: any;
+    min_items?: number;
+    is_primary?: boolean;
+    is_visible_chart?: boolean;
+    is_visible_sidebar?: boolean;
+    is_editable? : boolean;
+};
 
 export type DictionaryPropertyDescriptor = {
-    type: PropertyType.Dictionary,
-    form: { 
-        [key: string]: PropertyDescriptor
-    },
-    is_primary?: boolean,
-    is_visible_chart?: boolean,
-    is_visible_sidebar?: boolean,
-}
+    type: PropertyType.Dictionary;
+    form: {
+        [key: string]: PropertyDescriptor;
+    };
+    is_primary?: boolean;
+    is_visible_chart?: boolean;
+    is_visible_sidebar?: boolean;
+};
 
 export type ListValue
     = ListValueEntries
-    | ListValueDictionary
+    | ListValueDictionary;
 
 export type ListValueEntries = [
     string, ListValueEntries | ListValueDictionary | null | string | number | Date
-][]
+][];
 
 export type ListValueDictionary = {
-    [key: string]: ListValueEntries | ListValueDictionary | null | string | number | Date
-}
+    [key: string]: ListValueEntries | ListValueDictionary | null | string | number | Date;
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -130,50 +131,50 @@ export type ListValueDictionary = {
  * Restricted Property Descriptor:
  * Restricts recursive definitions of both arrays and dictionaries.
  */
- export type RestrictedPropertyDescriptor
+export type RestrictedPropertyDescriptor
     = ValueDescriptor
     | ValueListDescriptor
     | ValueDictionaryDescriptor
-    | ValueDictionaryListDescriptor
+    | ValueDictionaryListDescriptor;
 
 type ValueDictionaryListDescriptor = {
-    type: PropertyType.List,
-    form: ValueDictionaryDescriptor,
-    value?: any,
-    is_primary?: boolean,
-    is_visible_chart?: boolean,
-    is_visible_sidebar?: boolean,
-    is_editable? : boolean
-}
+    type: PropertyType.List;
+    form: ValueDictionaryDescriptor;
+    value?: any;
+    is_primary?: boolean;
+    is_visible_chart?: boolean;
+    is_visible_sidebar?: boolean;
+    is_editable? : boolean;
+};
 
 type ValueDictionaryDescriptor = {
-    type: PropertyType.Dictionary,
+    type: PropertyType.Dictionary;
     form: {
         [key: string]
-            : ValueDescriptor
-            | ValueListDescriptor
-    },
-    is_primary?: boolean,
-    is_visible_chart?: boolean,
-    is_visible_sidebar?: boolean,
-}
+        : ValueDescriptor
+            | ValueListDescriptor;
+    };
+    is_primary?: boolean;
+    is_visible_chart?: boolean;
+    is_visible_sidebar?: boolean;
+};
 
 type ValueListDescriptor = {
-    type: PropertyType.List,
-    form: ValueDescriptor,
-    value?: any,
-    min_items?: number,
-    is_primary?: boolean,
-    is_visible_chart?: boolean,
-    is_visible_sidebar?: boolean,
-    is_editable? : boolean
-}
+    type: PropertyType.List;
+    form: ValueDescriptor;
+    value?: any;
+    min_items?: number;
+    is_primary?: boolean;
+    is_visible_chart?: boolean;
+    is_visible_sidebar?: boolean;
+    is_editable? : boolean;
+};
 
-type ValueDescriptor
+export type ValueDescriptor
     = StringPropertyDescriptor
     | NumberPropertyDescriptor
     | DatePropertyDescriptor
-    | EnumPropertyDescriptor
+    | EnumPropertyDescriptor;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -182,5 +183,5 @@ type ValueDescriptor
 
 
 export type RootPropertyDescriptor = {
-    [key: string]: RestrictedPropertyDescriptor
-}
+    [key: string]: RestrictedPropertyDescriptor;
+};

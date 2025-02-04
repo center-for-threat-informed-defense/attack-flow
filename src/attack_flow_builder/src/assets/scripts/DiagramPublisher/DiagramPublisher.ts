@@ -9,8 +9,8 @@ export class DiagramPublisher {
      * @returns
      *  The published diagram in text form.
      */
-    public publish(diagram: DiagramObjectModel): string {
+    public publish(_diagram: DiagramObjectModel): string {
         return "";
-    };
+    }
 
 }

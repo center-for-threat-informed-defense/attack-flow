@@ -1,23 +1,33 @@
 <template>
   <div class="validator-problems-element">
     <template v-if="0 < getValidationErrors.length || 0 < getValidationWarnings.length">
-      <ScrollBox class="scrollbox" :alwaysShowScrollBar="true" scrollColor="#1f1f1f">
+      <ScrollBox
+        class="scrollbox"
+        :always-show-scroll-bar="true"
+        scroll-color="#1f1f1f"
+      >
         <div class="content">
           <div 
             class="validation-result error"
-            v-for="error of getValidationErrors" :key="error"
+            v-for="error of getValidationErrors"
+            :key="key(error)"
             @click="focus(error.object)"
           >
             <span class="icon"></span>
-            <p class="message">{{ error.reason }}</p>
+            <p class="message">
+              {{ error.reason }}
+            </p>
           </div>
           <div
             class="validation-result warning"
-            v-for="warning of getValidationWarnings" :key="warning"
+            v-for="warning of getValidationWarnings"
+            :key="key(warning)"
             @click="focus(warning.object)"
           >
             <span class="icon"></span>
-            <p class="message">{{ warning.reason }}</p>
+            <p class="message">
+              {{ warning.reason }}
+            </p>
           </div>
         </div>
       </ScrollBox>
@@ -26,41 +36,52 @@
 </template>
 
 <script lang="ts">
-import * as Page from "@/store/Commands/PageCommands";
-import * as Store from "@/store/StoreTypes";
+import * as Page from "@/stores/Commands/PageCommands";
 // Dependencies
 import { defineComponent } from "vue";
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import type { Command } from "@/stores/Commands/Command";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 
 export default defineComponent({
   name: "ValidatorProblems",
+  data() {
+    return {
+      application: useApplicationStore()
+    }
+  },
   computed: {
 
     /**
-     * Application Store data
+     * Returns the application's validation errors.
+     * @returns
+     *  The application's validation errors.
      */
-    ...mapState("ApplicationStore", {
-      ctx(state: Store.ApplicationStore): Store.ApplicationStore {
-        return state;
-      },
-      editor(state: Store.ApplicationStore): Store.PageEditor {
-        return state.activePage;
-      }
-    }),
+    getValidationErrors() {
+      return this.application.getValidationErrors;
+    },
 
-    ...mapGetters("ApplicationStore", [
-        "getValidationErrors", "getValidationWarnings"
-    ])
-  
+    /**
+     * Returns the application's validation warnings.
+     * @returns
+     *  The application's validation warnings.
+     */
+    getValidationWarnings() {
+      return this.application.getValidationWarnings;
+    }
+
   },
   methods: {
 
     /**
-     * Application Store actions
+     * Executes an application command.
+     * @param command
+     *  The command to execute.
      */
-    ...mapMutations("ApplicationStore", ["execute"]),
+    execute(command: Command) {
+      this.application.execute(command);
+    },
 
     /**
      * Focuses the camera on an object.
@@ -68,14 +89,24 @@ export default defineComponent({
      *  The id of the object.
      */
     focus(id: string) {
-      let obj = this.editor.page.lookup(id);
-      if(obj === this.editor.page) {
-        this.execute(new Page.UnselectDescendants(this.editor.page));
+      const editor = this.application.activePage;
+      const obj = editor.page.lookup(id);
+      if(obj === editor.page) {
+        this.execute(new Page.UnselectDescendants(editor.page));
       } else if(obj) {
-        this.execute(new Page.UnselectDescendants(this.editor.page));
+        this.execute(new Page.UnselectDescendants(editor.page));
         this.execute(new Page.SelectObject(obj));
-        this.execute(new Page.MoveCameraToSelection(this.ctx, this.editor.page))
+        this.execute(new Page.MoveCameraToSelection(this.application, editor.page))
       }
+    },
+
+    /**
+     * Returns a validation object's key.
+     * @returns
+     *  The validation object's key.
+     */
+    key(obj: { object: string, reason: string}): string {
+      return `${ obj.object }.${ obj.reason }`
     }
 
   },

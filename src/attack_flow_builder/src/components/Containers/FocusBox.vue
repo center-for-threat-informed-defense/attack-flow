@@ -1,16 +1,21 @@
 <template>
-  <div class="focus-box-container" :tabindex="tabindex" @focusin="onFocusIn" @focusout="onFocusOut">
-    <slot></slot>
+  <div
+    class="focus-box-container"
+    :tabindex="tabIndex"
+    @focusin="onFocusIn"
+    @focusout="onFocusOut"
+  >
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, type PropType } from 'vue';
 
 export default defineComponent({
   name: 'FocusBox',
   props: {
-    tabindex: {
+    tabIndex: {
       type: String as PropType<string>,
       default: "-1"
     },

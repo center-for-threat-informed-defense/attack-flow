@@ -1,4 +1,4 @@
-import { 
+import type {
     SerializedAnchorPointStyle,
     SerializedBranchBlockStyle,
     SerializedDictionaryBlockStyle,
@@ -21,7 +21,7 @@ export const Colors = {
     Green  : { fill_color: "#2a9642", stroke_color: "#32b34e" },
     Red    : { fill_color: "#c94040", stroke_color: "#dd5050" },
     Gray   : { fill_color: "#737373", stroke_color: "#8c8c8c" }
-}
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -34,9 +34,9 @@ class BlockDiagramTheme {
     /**
      * The theme definition.
      */
-    private readonly _theme: Theme
+    private readonly _theme: Theme;
 
-    
+
     /**
      * Creates a new {@link Theme}.
      * @param theme
@@ -51,7 +51,7 @@ class BlockDiagramTheme {
      * Returns the anchor point style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The anchor point style.
      */
@@ -65,7 +65,7 @@ class BlockDiagramTheme {
      * Returns the branch block style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The branch block style.
      */
@@ -79,7 +79,7 @@ class BlockDiagramTheme {
      * Returns the dictionary block style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The dictionary block style.
      */
@@ -93,7 +93,7 @@ class BlockDiagramTheme {
      * Returns the line style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The line style.
      */
@@ -107,7 +107,7 @@ class BlockDiagramTheme {
      * Returns the line ending style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The line ending style.
      */
@@ -121,7 +121,7 @@ class BlockDiagramTheme {
      * Returns the line handle style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The line handle style.
      */
@@ -135,7 +135,7 @@ class BlockDiagramTheme {
      * Returns the text block style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The text block style.
      */
@@ -149,7 +149,7 @@ class BlockDiagramTheme {
      * Returns the page style.
      * @param style
      *  The style parameters.
-     *  (Default: {}) 
+     *  (Default: {})
      * @returns
      *  The page style.
      */
@@ -168,19 +168,30 @@ class BlockDiagramTheme {
      * @returns
      *  The destination object.
      */
-    private merge<T>(src: T, dst: T) {
-        for(let key in src) {
-            if(!(key in dst)) {
+    private merge<K extends MergeObject, T extends MergeObject>(src: K, dst: T): T {
+        for (const key in src) {
+            // Validate value
+            if (src[key] === undefined) {
+                continue;
+            }
+            // Validate overlap
+            if (!(key in dst)) {
                 throw new Error("Objects do not overlap.");
             }
-            if(typeof src[key] !== typeof dst[key]) {
-                throw new Error(`'${ key }' has mismatching types.`);
+            // Validate types
+            const srcType = src[key]?.constructor;
+            const dstType = dst[key]?.constructor;
+            if (srcType !== dstType) {
+                throw new Error(`'${key}' has mismatching types.`);
             }
-
-            if(typeof src[key] === "object") {
-                this.merge(src[key], dst[key]);
+            // Traverse
+            if (srcType === Object) {
+                this.merge(
+                    src[key] as MergeObject,
+                    dst[key] as MergeObject
+                );
             } else {
-                dst[key] = src[key];
+                (dst[key] as unknown as Primitives) = src[key] as Primitives;
             }
         }
         return dst;
@@ -188,6 +199,8 @@ class BlockDiagramTheme {
 
 }
 
+type Primitives = string | number | boolean | undefined | null;
+type MergeObject = { [key: string]: Primitives | Primitives[] | MergeObject };
 
 ///////////////////////////////////////////////////////////////////////////////
 //  3. Themes  ////////////////////////////////////////////////////////////////
@@ -198,15 +211,15 @@ class BlockDiagramTheme {
  * Theme definition.
  */
 type Theme = {
-    anchor: SerializedAnchorPointStyle,
-    branch: SerializedBranchBlockStyle,
-    dictionary: SerializedDictionaryBlockStyle,
-    line: SerializedLineStyle,
-    lineEnding: SerializedLineEndingPointStyle,
-    lineHandle: SerializedLineHandlePointStyle,
-    text: SerializedTextBlockStyle,
-    page: SerializedPageStyle,
-}
+    anchor: SerializedAnchorPointStyle;
+    branch: SerializedBranchBlockStyle;
+    dictionary: SerializedDictionaryBlockStyle;
+    line: SerializedLineStyle;
+    lineEnding: SerializedLineEndingPointStyle;
+    lineHandle: SerializedLineHandlePointStyle;
+    text: SerializedTextBlockStyle;
+    page: SerializedPageStyle;
+};
 
 /**
  * Dark Theme
@@ -337,7 +350,7 @@ export const DarkTheme = new BlockDiagramTheme({
         color: "#646464",
         select_color: "#646464"
     },
-    
+
     lineEnding: {
         radius: 6,
         fill_color: "#fedb22",
@@ -382,8 +395,8 @@ export const DarkTheme = new BlockDiagramTheme({
             color: "rgba(0,0,0,.4)",
             offset: [3, 3]
         }
-    },
-    
+    }
+
 });
 
 

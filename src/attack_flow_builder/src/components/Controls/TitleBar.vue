@@ -1,7 +1,11 @@
 <template>
-  <FocusBox class="title-bar-control" pointerEvent="click" @focusout="menuClose">
+  <FocusBox
+    class="title-bar-control"
+    pointer-event="click"
+    @focusout="menuClose"
+  >
     <li class="icon">
-      <slot name="icon"></slot>
+      <slot name="icon" />
     </li>
     <li 
       v-for="menu of menus"
@@ -23,8 +27,9 @@
 
 <script lang="ts">
 // Dependencies
-import { defineComponent, PropType } from 'vue';
-import { ContextMenu } from "@/assets/scripts/ContextMenuTypes";
+import { defineComponent, type PropType } from 'vue';
+import type { CommandEmitter } from '@/stores/Commands/Command';
+import type { ContextMenuSubmenu } from "@/assets/scripts/ContextMenuTypes";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import ContextMenuListing from "./ContextMenuListing.vue";
@@ -33,8 +38,8 @@ export default defineComponent({
   name: 'TitleBar',
   props: {
     menus: {
-      type: Array as PropType<ContextMenu[]>,
-      default: []
+      type: Array as PropType<ContextMenuSubmenu<CommandEmitter>[]>,
+      default: () => []
     }
   },
   data() {
@@ -52,7 +57,7 @@ export default defineComponent({
      * @returns
      *  True if the menu is active, false otherwise.
      */
-    isActive(menu: ContextMenu): boolean {
+    isActive(menu: ContextMenuSubmenu<CommandEmitter>): boolean {
       return menu.text === this.activeMenu;
     },
     
@@ -88,7 +93,7 @@ export default defineComponent({
      * @param data
      *  The menu item's data.
      */
-    menuSelect(data: any) {
+    menuSelect(data: CommandEmitter) {
       this.$emit("select", data);
     }
 

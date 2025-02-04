@@ -31,30 +31,30 @@ export abstract class DiagramAnchorView extends DiagramObjectView {
         this.el = el;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param attrs
      *  If specified, this set of attributes will override the object's
      *  underlying attributes.
      */
-    public override moveBy(dx: number, dy: number, attrs?: number) {
+    public override moveBy(dx: number, dy: number, _attrs?: number) {
         // Move self
         this.x += dx;
         this.y += dy;
         // Move anchored children
-        for(let obj of this.children) {
-            if(!obj.el.isAttached(this.el)) {
-                console.warn(`'${ obj.el.id }' incorrectly attached to anchor.`);
+        for (const obj of this.children) {
+            if (!obj.el.isAttached(this.el)) {
+                console.warn(`'${obj.el.id}' incorrectly attached to anchor.`);
                 continue;
             }
             obj.moveTo(this.x, this.y);
@@ -69,13 +69,13 @@ export abstract class DiagramAnchorView extends DiagramObjectView {
 
     /**
      * Synchronizes the view with the underlying model.
-     * 
+     *
      * NOTE:
      * Anchors simply reference other objects in the tree. Anchors cannot spawn
      * view objects on behalf of their children. Instead, the root of the tree
      * will ensure that each anchor receives a reference to their children. Due
      * to this limitation, anchor linkage cannot be updated independently.
-     * 
+     *
      * @returns
      *  The view.
      */

@@ -3,17 +3,17 @@ export class ViewportRegion {
     /**
      * The viewport's minimum x coordinate.
      */
-    public xMin: number
+    public xMin: number;
 
     /**
      * The viewport's minimum y coordinate.
      */
-    public yMin: number
+    public yMin: number;
 
     /**
      * The viewport's maximum x coordinate.
      */
-    public xMax: number
+    public xMax: number;
 
     /**
      * The viewport's maximum y coordinate.

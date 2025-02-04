@@ -15,7 +15,7 @@ export abstract class DiagramLineEndingView extends DiagramAnchorableView {
     /**
      * The line ending's parent.
      */
-    public override parent: DiagramLineView | undefined;
+    declare parent: DiagramLineView | undefined;
 
 
     /**
@@ -30,17 +30,17 @@ export abstract class DiagramLineEndingView extends DiagramAnchorableView {
         this.el = el;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param attrs
      *  If specified, this set of attributes will override the object's
@@ -49,7 +49,7 @@ export abstract class DiagramLineEndingView extends DiagramAnchorableView {
      *  If true, the object will use its inherited `moveBy()` function.
      */
     public override moveBy(dx: number, dy: number, attrs?: number, useSuper: boolean = false): void {
-        if(useSuper) {
+        if (useSuper) {
             super.moveBy(dx, dy, attrs);
         } else {
             this.parent?.moveChild(this.el.id, dx, dy, attrs);

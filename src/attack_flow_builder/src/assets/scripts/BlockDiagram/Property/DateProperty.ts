@@ -1,12 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { computeHash } from "../Utilities";
-import {
-    CollectionProperty,
-    DatePropertyDescriptor,
-    Property
-} from ".";
+import { CollectionProperty, Property } from ".";
+import type { DatePropertyDescriptor } from ".";
 
 export class DateProperty extends Property {
-    
+
     /**
      * The property's descriptor.
      */
@@ -40,21 +38,21 @@ export class DateProperty extends Property {
         this.descriptor = descriptor;
         // Resolve value
         let v;
-        if(value === null) {
+        if (value === null) {
             v = null;
         } else {
             v = value ?? descriptor.value ?? null;
         }
         // Set value
-        if(v === null) {
+        if (v === null) {
             this.setValue(null);
-        } else if(v instanceof Date || typeof v === "string") {
+        } else if (v instanceof Date || typeof v === "string") {
             this.setValue(new Date(v));
         } else {
             this.setValue(new Date());
         }
     }
-    
+
 
     /**
      * Tests if the property is defined.
@@ -70,7 +68,7 @@ export class DateProperty extends Property {
      * @param value
      *  The new value.
      */
-     public setValue(value: Date | null) {
+    public setValue(value: Date | null) {
         this._value = value;
         this.updateProperty();
     }
@@ -90,8 +88,8 @@ export class DateProperty extends Property {
      *  The property's hashed value.
      */
     public toHashValue(): number {
-        if(this._value === null) {
-            return computeHash("")
+        if (this._value === null) {
+            return computeHash("");
         } else {
             return computeHash(this._value.toString());
         }
@@ -103,7 +101,7 @@ export class DateProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        return `${ this._value ?? 'None' }`;
+        return `${this._value ?? "None"}`;
     }
 
 }

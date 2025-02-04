@@ -1,16 +1,27 @@
 <template>
   <div class="list-field-control">
-    <div class="field-item" v-for="[key, value] in _property.value" :key="key">
+    <div
+      class="field-item"
+      v-for="[key, value] in _property.value"
+      :key="key"
+    >
       <!-- Dictionary Field -->
       <template v-if="getField(value.type) === 'DictionaryField'">
         <component
           :is="getField(value.type)"
           :property="value"
-          @change="(...args) => $emit('change', ...args)"
-          @create="(...args) => $emit('create', ...args)"
-          @delete="(...args) => $emit('delete', ...args)"
+          @change="(...args: any) => $emit('change', ...args)"
+          @create="(...args: any) => $emit('create', ...args)"
+          @delete="(...args: any) => $emit('delete', ...args)"
         >
-          <button v-if="!disabled" class="delete-button" @pointerdown="onDelete(key)" tabindex="-1">✗</button>
+          <button
+            v-if="!disabled"
+            class="delete-button"
+            @pointerdown="onDelete(key)"
+            tabindex="-1"
+          >
+            ✗
+          </button>
         </component>
       </template>
       <!-- Primitive Fields -->
@@ -18,15 +29,26 @@
         <component
           :is="getField(value.type)"
           :property="value"
-          @change="(...args) => $emit('change', ...args)"
-          @create="(...args) => $emit('create', ...args)"
-          @delete="(...args) => $emit('delete', ...args)"
+          @change="(...args: any) => $emit('change', ...args)"
+          @create="(...args: any) => $emit('create', ...args)"
+          @delete="(...args: any) => $emit('delete', ...args)"
         />
-        <button v-if="!disabled" class="delete-button" @pointerdown="onDelete(key)" tabindex="-1">✗</button>
+        <button
+          v-if="!disabled"
+          class="delete-button"
+          @pointerdown="onDelete(key)"
+          tabindex="-1"
+        >
+          ✗
+        </button>
       </template>
     </div>
-    <button v-if="!disabled" class="create-button" @pointerdown="onCreate()">
-      <span><Plus /></span>Add
+    <button
+      v-if="!disabled"
+      class="create-button"
+      @pointerdown="onCreate()"
+    >
+      <span><PlusIcon /></span>Add
     </button>
   </div>
 </template>
@@ -34,13 +56,14 @@
 <script lang="ts">
 // Dependencies
 import { ListProperty, PropertyType } from "@/assets/scripts/BlockDiagram";
-import { defineAsyncComponent, defineComponent, PropType } from "vue";
+import { defineAsyncComponent, defineComponent, type PropType } from "vue";
 // Components
-import Plus from "@/components/Icons/Plus.vue";
+import PlusIcon from "@/components/Icons/PlusIcon.vue";
 import TextField from "./TextField.vue";
 import EnumField from "./EnumField.vue";
 import NumberField from "./NumberField.vue";
 import DateTimeField from "./DateTimeField.vue";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
 
 export default defineComponent({
@@ -59,7 +82,7 @@ export default defineComponent({
      *  The property.
      */
     _property(): ListProperty {
-      let trigger = this.property.trigger.value;
+      const trigger = this.property.trigger.value;
       return trigger ? this.property : this.property; 
     },
 
@@ -119,7 +142,7 @@ export default defineComponent({
   },
   emits: ["change", "create", "delete"],
   components: {
-    Plus,
+    PlusIcon,
     TextField,
     EnumField,
     NumberField,

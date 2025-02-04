@@ -9,10 +9,10 @@ export enum MenuType {
     Submenu = 2
 }
 
-export type ContextMenu
-    = ContextMenuItem
-    | ContextMenuToggleItem
-    | ContextMenuSubmenu;
+export type ContextMenu<T>
+    = ContextMenuItem<T>
+    | ContextMenuToggleItem<T>
+    | ContextMenuSubmenu<T>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -21,9 +21,9 @@ export type ContextMenu
 
 
 interface ContextMenuBase<T> {
-    type: T
-    text: string
-    disabled?: boolean
+    type: T;
+    text: string;
+    disabled?: boolean;
 }
 
 
@@ -32,9 +32,9 @@ interface ContextMenuBase<T> {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export interface ContextMenuSection {
-    id: string,
-    items: ContextMenu[]
+export interface ContextMenuSection<T> {
+    id: string;
+    items: ContextMenu<T>[];
 }
 
 
@@ -43,19 +43,19 @@ export interface ContextMenuSection {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-export interface ContextMenuItem extends ContextMenuBase<MenuType.Item> {
-    data: any
-    shortcut?: string,
-    keepMenuOpenOnSelect?: boolean
+export interface ContextMenuItem<T> extends ContextMenuBase<MenuType.Item> {
+    data: T;
+    shortcut?: string;
+    keepMenuOpenOnSelect?: boolean;
 }
 
-export interface ContextMenuToggleItem extends ContextMenuBase<MenuType.Toggle> {
-    data: any
-    value: boolean,
-    shortcut?: string,
-    keepMenuOpenOnSelect?: boolean
+export interface ContextMenuToggleItem<T> extends ContextMenuBase<MenuType.Toggle> {
+    data: T;
+    value: boolean;
+    shortcut?: string;
+    keepMenuOpenOnSelect?: boolean;
 }
 
-export interface ContextMenuSubmenu extends ContextMenuBase<MenuType.Submenu> {
-    sections : ContextMenuSection[]
+export interface ContextMenuSubmenu<T> extends ContextMenuBase<MenuType.Submenu> {
+    sections : ContextMenuSection<T>[];
 }

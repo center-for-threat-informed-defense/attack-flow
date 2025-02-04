@@ -4,7 +4,7 @@ import { LineHandlePointModel } from "../DiagramModelTypes";
 import { DiagramLineHandleView } from "./BaseTypes/BaseViews";
 
 export class LineHandlePointView extends DiagramLineHandleView {
-    
+
     /**
      * The underlying model.
      */
@@ -27,8 +27,8 @@ export class LineHandlePointView extends DiagramLineHandleView {
     ///////////////////////////////////////////////////////////////////////////
     //  1. Render  ////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
-    
+
+
     /**
      * Renders the object to a context.
      * @param ctx
@@ -46,25 +46,25 @@ export class LineHandlePointView extends DiagramLineHandleView {
      *  attributes.
      */
     public override renderTo(
-        ctx: CanvasRenderingContext2D, vr: ViewportRegion,
-        dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
-        
+        ctx: CanvasRenderingContext2D, _vr: ViewportRegion,
+        _dsx: number = 0, _dsy: number = 0, _attrs?: number
+    ) {
+
         // Init
-        let { 
+        const {
             radius,
             fill_color,
             stroke_color,
             stroke_width
         } = this.el.style;
-        
+
         // Configure canvas
         ctx.fillStyle = fill_color;
         ctx.lineWidth = stroke_width;
         ctx.strokeStyle = stroke_color;
 
         // Stroke width offset
-        let wo = stroke_width % 2 ? 0.5 : 0;
+        const wo = stroke_width % 2 ? 0.5 : 0;
 
         // Draw handle
         ctx.beginPath();
@@ -72,7 +72,7 @@ export class LineHandlePointView extends DiagramLineHandleView {
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
-    
+
     }
 
 }

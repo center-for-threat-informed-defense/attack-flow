@@ -1,11 +1,11 @@
 import { Crypto } from "../Utilities/Crypto";
-import { 
+import {
     Font,
-    FontDescriptor,
-    IFont,
-    GlobalFontStore
+    GlobalFontStore,
+    type FontDescriptor,
+    type IFont
 } from "../Utilities";
-import { 
+import {
     AnchorPointModel,
     BranchBlockModel,
     DiagramAnchorableModel,
@@ -19,14 +19,17 @@ import {
     TextBlockModel,
     PageModel
 } from "../DiagramModelTypes";
-import { 
-    BlockDiagramSchema,
+import {
     BuiltinTemplates,
     DiagramFactoryError,
+    TemplateType
+} from ".";
+import type {
+    BlockDiagramSchema,
     DiagramObjectValues,
     SerializedTemplate,
-    Template,
-    TemplateType,
+    SubstituteType,
+    Template
 } from ".";
 
 export class DiagramFactory {
@@ -39,8 +42,8 @@ export class DiagramFactory {
     /**
      * The diagram factory's list of templates.
      */
-    public readonly templates: Map<string, Template>
-    
+    public readonly templates: Map<string, Template>;
+
     /**
      * The diagram factory's namespace.
      */
@@ -65,7 +68,7 @@ export class DiagramFactory {
 
     /**
      * Returns a dummy {@link DiagramFactory}.
-     * @returns 
+     * @returns
      *  A dummy {@link DiagramFactory}.
      */
     public static createDummy(): DiagramFactory {
@@ -86,76 +89,79 @@ export class DiagramFactory {
      *  If any of the schema's fonts failed to load.
      */
     public static async create(schema: BlockDiagramSchema) {
-        
+
         // Clone schema
-        let copy = structuredClone(schema);
+        const copy = structuredClone(schema);
 
         // Validate unique ids
-        let ids = new Set();
-        for(let template of copy.templates) {
-            if(ids.has(template.id)){
+        const ids = new Set();
+        for (const template of copy.templates) {
+            if (ids.has(template.id)) {
                 throw new DiagramFactoryError(
-                    `Template '${ template.id }' can only be defined once.`
+                    `Template '${template.id}' can only be defined once.`
                 );
             }
             ids.add(template.id);
         }
 
         // Register schema templates
-        let templates = new Map<string, SerializedTemplate>();
-        for(let template of [...BuiltinTemplates, ...copy.templates]) {
+        const templates = new Map<string, SerializedTemplate>();
+        for (const template of [...BuiltinTemplates, ...copy.templates]) {
             templates.set(template.id, template);
         }
-        
+
         // Build namespace
-        let namespace: Namespace = new Map([["@", new Map()]]);
-        for(let value of templates.values()) {
-            if(value.namespace === undefined)
+        const namespace: Namespace = new Map([["@", new Map()]]);
+        for (const value of templates.values()) {
+            if (value.namespace === undefined) {
                 continue;
-            let path = ["@", ...value.namespace.split(".")];
-            for(var i = 0, ns = namespace; i < path.length - 1; i++) {
-                if(!ns.has(path[i])) {
-                    ns.set(path[i], new Map())
+            }
+            const path = ["@", ...value.namespace.split(".")];
+            let i = 0;
+            let ns = namespace;
+            for (; i < path.length - 1; i++) {
+                if (!ns.has(path[i])) {
+                    ns.set(path[i], new Map());
                 }
                 ns = ns.get(path[i])! as Namespace;
             }
-            if(!ns.has(path[i])) {
+            if (!ns.has(path[i])) {
                 ns.set(path[i], value.id);
             } else {
                 throw new DiagramFactoryError(
-                    `Namespace '${ path.join(".") }' is already defined.`
-                )
+                    `Namespace '${path.join(".")}' is already defined.`
+                );
             }
         }
 
         // Load font descriptors
         let fonts: FontDescriptor[] = [];
-        for(let template of templates.values()) {
+        for (const template of templates.values()) {
             fonts = fonts.concat(
                 this.getFontDescriptorsFromTemplate(template)
             );
         }
         await GlobalFontStore.loadFonts(fonts, 4000);
-        
+
         // Swap font descriptors for fonts
-        for(let template of templates.values()) {
+        for (const template of templates.values()) {
             this.swapFontDescriptorsWithFonts(template);
         }
-        
-        // Return new diagram factory 
+
+        // Return new diagram factory
         return new this(
             schema,
             templates as Map<string, Template>,
             namespace
         );
-    
+
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Templates  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Returns a template from the factory.
@@ -177,7 +183,7 @@ export class DiagramFactory {
         return this._namespace;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. Object Creation  ///////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -193,7 +199,7 @@ export class DiagramFactory {
      *  If no template with the specified name exists.
      */
     public createObject(template: string): DiagramObjectModel;
-    
+
     /**
      * Instantiates a diagram object.
      * @param object
@@ -205,22 +211,22 @@ export class DiagramFactory {
      */
     public createObject(object: DiagramObjectValues): DiagramObjectModel;
     public createObject(param1: DiagramObjectValues | string): DiagramObjectModel {
-        let name, vals: any;
-        if(param1 instanceof Object) {
-            name = param1.template,
-            vals = param1
+        let name: string, vals: DiagramObjectValues | undefined = undefined;
+        if (param1 instanceof Object) {
+            name = param1.template;
+            vals = param1;
         } else {
             name = param1;
         }
         // Resolve template
-        let temp = this.templates.get(name);
-        if(!temp) {
+        const temp = this.templates.get(name);
+        if (!temp) {
             throw new DiagramFactoryError(
-                `Template '${ name }' does not exist.`
+                `Template '${name}' does not exist.`
             );
         }
         // Create diagram object
-        switch(temp.type) {
+        switch (temp.type) {
             case TemplateType.Page:
                 return new PageModel(this, temp, vals);
             case TemplateType.AnchorPoint:
@@ -241,7 +247,7 @@ export class DiagramFactory {
                 return new TextBlockModel(this, temp, vals);
             default:
                 throw new DiagramFactoryError(
-                    `Unknown template type: '${ (temp as any).type }'.`
+                    `Unknown template type: '${temp}'.`
                 );
         }
     }
@@ -255,14 +261,14 @@ export class DiagramFactory {
      */
     public cloneObjects(...objects: DiagramObjectModel[]): DiagramObjectModel[] {
         // Clone objects
-        let clones = new Map<string, DiagramObjectModel>();
-        let anchors = new Map<DiagramAnchorModel, string[]>();
-        let objs = objects.map(o => this.cloneObject(o, clones, anchors));
+        const clones = new Map<string, DiagramObjectModel>();
+        const anchors = new Map<DiagramAnchorModel, string[]>();
+        const objs = objects.map(o => this.cloneObject(o, clones, anchors));
         // Link clones
-        for(let [anchor, links] of anchors) {
-            for(let link of links) {
-                let obj = clones.get(link) as DiagramAnchorableModel;
-                if(obj) {
+        for (const [anchor, links] of anchors) {
+            for (const link of links) {
+                const obj = clones.get(link) as DiagramAnchorableModel;
+                if (obj) {
                     anchor.addChild(obj);
                 }
             }
@@ -288,8 +294,8 @@ export class DiagramFactory {
         anchors: Map<DiagramAnchorModel, string[]>
     ): DiagramObjectModel {
         // Clone anchor
-        if(object instanceof DiagramAnchorModel) {
-            let clone = this.createObject({
+        if (object instanceof DiagramAnchorModel) {
+            const clone = this.createObject({
                 ...object.toExport(),
                 id: Crypto.randomUUID(),
                 children: []
@@ -297,14 +303,14 @@ export class DiagramFactory {
             clones.set(object.id, clone);
             anchors.set(clone, object.children.map(o => o.id));
             return clone;
-        };
+        }
         // Clone children
-        let children = [];
-        for(let obj of object.children) {
+        const children = [];
+        for (const obj of object.children) {
             children.push(this.cloneObject(obj, clones, anchors));
         }
         // Clone object
-        let clone = this.createObject({
+        const clone = this.createObject({
             ...object.toExport(),
             id: Crypto.randomUUID(),
             children
@@ -326,14 +332,14 @@ export class DiagramFactory {
      */
     private static getFontDescriptorsFromTemplate(template: SerializedTemplate): FontDescriptor[] {
         let descriptors: FontDescriptor[] = [];
-        switch(template.type) {
+        switch (template.type) {
             case TemplateType.BranchBlock:
-                let { style: s1 } = template;
+                const { style: s1 } = template;
                 descriptors.push(
                     s1.branch.font
                 );
             case TemplateType.DictionaryBlock:
-                let { style: s2 } = template;
+                const { style: s2 } = template;
                 descriptors = descriptors.concat([
                     s2.head.one_title.title.font,
                     s2.head.two_title.title.font,
@@ -343,10 +349,10 @@ export class DiagramFactory {
                 ]);
                 break;
             case TemplateType.TextBlock:
-                let { style: s3 } = template;
+                const { style: s3 } = template;
                 descriptors.push(
                     s3.text.font
-                )
+                );
                 break;
             default:
                 break;
@@ -355,28 +361,30 @@ export class DiagramFactory {
     }
 
     /**
-     * Swaps all {@link FontDescriptor} defined by a template with 
+     * Swaps all {@link FontDescriptor} defined by a template with
      * {@link IFont} objects.
      * @param template
      *  The template to modify.
      */
     private static swapFontDescriptorsWithFonts(template: SerializedTemplate) {
-        let font = GlobalFontStore.getFont.bind(GlobalFontStore);
-        switch(template.type) {
+        const font = GlobalFontStore.getFont.bind(GlobalFontStore);
+        switch (template.type) {
             case TemplateType.BranchBlock:
-                let { branch: br } = template.style as any;    
-                br.font = font(br.font);
+                const { branch: br } = template.style;
+                (br.font as unknown as IFont) = font(br.font);
             case TemplateType.DictionaryBlock:
-                let { head: h, body: b } = template.style as any;
-                h.one_title.title.font = font(h.one_title.title.font);
-                h.two_title.title.font = font(h.two_title.title.font);
-                h.two_title.subtitle.font = font(h.two_title.subtitle.font);
-                b.field_name.font = font(b.field_name.font);
-                b.field_value.font = font(b.field_value.font);
+                const { head: h, body: b } = template.style;
+                const _h = h as unknown as SubstituteType<typeof h, FontDescriptor, IFont>;
+                const _b = b as unknown as SubstituteType<typeof b, FontDescriptor, IFont>;
+                _h.one_title.title.font = font(h.one_title.title.font);
+                _h.two_title.title.font = font(h.two_title.title.font);
+                _h.two_title.subtitle.font = font(h.two_title.subtitle.font);
+                _b.field_name.font = font(b.field_name.font);
+                _b.field_value.font = font(b.field_value.font);
                 break;
             case TemplateType.TextBlock:
-                let { text: t } = template.style as any;
-                t.font = font(t.font);
+                const { text: t } = template.style;
+                (t.font as unknown as IFont) = font(t.font);
                 break;
             default:
                 break;
@@ -396,10 +404,10 @@ export class DiagramFactory {
      */
     public getSchema(): BlockDiagramSchema {
         // Compile templates
-        let templates: SerializedTemplate[] = []
-        for(let template of this.templates.values()) {
-            let cloneTemplate = JSON.stringify(template, 
-                (_: string, obj: any) => obj instanceof Font ? obj.descriptor : obj
+        const templates: SerializedTemplate[] = [];
+        for (const template of this.templates.values()) {
+            const cloneTemplate = JSON.stringify(template,
+                (_: string, obj: unknown) => obj instanceof Font ? obj.descriptor : obj
             );
             templates.push(JSON.parse(cloneTemplate));
         }
@@ -407,7 +415,7 @@ export class DiagramFactory {
         return {
             page_template: this.schema.page_template,
             templates: templates
-        }
+        };
     }
 
 }

@@ -3,7 +3,7 @@ import { EventEmitter } from "./BlockDiagram";
 class DeviceManager extends EventEmitter<{
     "dppx-change" : (dpr: number) => void;
 }> {
-    
+
     /**
      * Creates a new {@link DeviceManager}.
      */
@@ -38,10 +38,10 @@ class DeviceManager extends EventEmitter<{
      */
     public downloadTextFile(filename: string, text: string, ext = "txt") {
         if (this._aLink) {
-            let blob = new Blob([text], { type: "octet/stream" });
-            let url = window.URL.createObjectURL(blob);
+            const blob = new Blob([text], { type: "octet/stream" });
+            const url = window.URL.createObjectURL(blob);
             this._aLink.href = url;
-            this._aLink.download = `${ filename }.${ ext }`;
+            this._aLink.download = `${filename}.${ext}`;
             this._aLink.click();
             window.URL.revokeObjectURL(url);
         }
@@ -57,11 +57,12 @@ class DeviceManager extends EventEmitter<{
     public downloadImageFile(filename: string, canvas: HTMLCanvasElement) {
         canvas.toBlob(blob => {
             if (this._aLink) {
-                if(!blob)
+                if (!blob) {
                     return;
-                let url = window.URL.createObjectURL(blob);
+                }
+                const url = window.URL.createObjectURL(blob);
                 this._aLink.href = url;
-                this._aLink.download = `${ filename }.png`
+                this._aLink.download = `${filename}.png`;
                 this._aLink.click();
                 window.URL.revokeObjectURL(url);
             }
@@ -72,8 +73,8 @@ class DeviceManager extends EventEmitter<{
     ///////////////////////////////////////////////////////////////////////////
     //  2. File Selection Dialogs  ////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
-    
+
+
     /**
      * Prompts the user to select a text file from their file system.
      * @param fileTypes
@@ -81,33 +82,40 @@ class DeviceManager extends EventEmitter<{
      * @returns
      *  A Promise that resolves with the chosen text file.
      */
-    public openTextFileDialog(...fileTypes: string[]): Promise<TextFile> {
-            
+    public openTextFileDialog(...fileTypes: string[]): Promise<TextFile | void> {
+
         // Create file input
-        let fileInput = document.createElement("input");
+        const fileInput = document.createElement("input");
         fileInput.type = "file";
-        if(0 < fileTypes.length) {
+        if (0 < fileTypes.length) {
             fileInput.accept = fileTypes.map(o => `.${o}`).join(",");
         }
-        
+
         // Configure file input
-        let result = new Promise<TextFile>((resolve) => {
+        const result = new Promise<TextFile | void>((resolve) => {
             fileInput.addEventListener("change", (event) => {
-                let file = (event.target as any).files[0];
-                let reader = new FileReader();
-                reader.onload = (e: ProgressEvent<FileReader>) => {
-                    resolve({
-                        filename: file.name,
-                        contents: e.target?.result
-                    });
+                const target = event.target as HTMLInputElement | null;
+                if (target === null) {
+                    resolve();
+                } else if (target.files === null) {
+                    resolve();
+                } else {
+                    const file = target.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (e: ProgressEvent<FileReader>) => {
+                        resolve({
+                            filename: file.name,
+                            contents: e.target?.result
+                        });
+                    };
+                    reader.readAsText(file);
                 }
-                reader.readAsText(file);
             });
         });
-        
+
         // Click file input
         fileInput.click();
-        
+
         // Return result
         return result;
 
@@ -126,7 +134,11 @@ class DeviceManager extends EventEmitter<{
      *  (Default: `document.body`)
      */
     public fullscreen(el: HTMLElement = document.body) {
-        let cast = el as any;
+        const cast = el as {
+            webkitRequestFullscreen?: () => void;
+            msRequestFullscreen?: () => void;
+            requestFullscreen?: () => void;
+        };
         if (cast.requestFullscreen) {
             cast.requestFullscreen();
         } else if (cast.webkitRequestFullscreen) {
@@ -150,13 +162,13 @@ class DeviceManager extends EventEmitter<{
      *  The device's current operating system class.
      */
     public getOperatingSystemClass(): OperatingSystem {
-        if(navigator.userAgent.search("Win") !== -1) {
-            return OperatingSystem.Windows
-        } else if(navigator.userAgent.search("Mac") !== -1) {
+        if (navigator.userAgent.search("Win") !== -1) {
+            return OperatingSystem.Windows;
+        } else if (navigator.userAgent.search("Mac") !== -1) {
             return OperatingSystem.MacOS;
-        } else if(navigator.userAgent.search("X11") !== -1) {
+        } else if (navigator.userAgent.search("X11") !== -1) {
             return OperatingSystem.UNIX;
-        } else if(navigator.userAgent.search("Linux") !== -1) {
+        } else if (navigator.userAgent.search("Linux") !== -1) {
             return OperatingSystem.Linux;
         } else {
             return OperatingSystem.Other;
@@ -173,7 +185,7 @@ class DeviceManager extends EventEmitter<{
      * Listens for changes in the device's current pixel ratio.
      */
     private listenForPixelRatioChange() {
-        window.matchMedia(`(resolution: ${ window.devicePixelRatio }dppx)`)
+        window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
             .addEventListener("change", () => {
                 this.emit("dppx-change", window.devicePixelRatio);
                 this.listenForPixelRatioChange();
@@ -200,9 +212,9 @@ export enum OperatingSystem {
 
 
 type TextFile = {
-    filename: string,
-    contents: string | ArrayBuffer | null | undefined
-}
+    filename: string;
+    contents: string | ArrayBuffer | null | undefined;
+};
 
 
 // Export Browser

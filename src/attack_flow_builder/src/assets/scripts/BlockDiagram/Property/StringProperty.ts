@@ -1,12 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { computeHash } from "../Utilities";
-import {
-    CollectionProperty,
-    Property,
-    StringPropertyDescriptor
-} from ".";
+import { CollectionProperty, Property } from ".";
+import type { StringPropertyDescriptor } from ".";
 
 export class StringProperty extends Property {
-    
+
     /**
      * The property's descriptor.
      */
@@ -44,11 +42,11 @@ export class StringProperty extends Property {
         this.descriptor = descriptor;
         this.suggestions = descriptor.suggestions ?? [];
         this._value = null;
-        if(value === null) {
+        if (value === null) {
             this.setValue(null);
         } else {
-            let v = value ?? descriptor.value ?? null;
-            this.setValue(v === null ? null : `${ v }`);
+            const v = value ?? descriptor.value ?? null;
+            this.setValue(v === null ? null : `${v}`);
         }
     }
 
@@ -71,7 +69,7 @@ export class StringProperty extends Property {
         this._value = value;
         this.updateProperty();
     }
-    
+
     /**
      * Returns the property's raw value.
      * @returns
@@ -87,10 +85,10 @@ export class StringProperty extends Property {
      *  The property's hashed value.
      */
     public toHashValue(): number {
-        if(this._value === null) {
+        if (this._value === null) {
             return computeHash("");
         } else {
-            return computeHash(`v:${ this._value }`);
+            return computeHash(`v:${this._value}`);
         }
     }
 

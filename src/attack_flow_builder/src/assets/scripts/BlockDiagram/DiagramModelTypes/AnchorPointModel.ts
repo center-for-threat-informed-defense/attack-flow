@@ -1,18 +1,18 @@
 import { RasterCache } from "../DiagramElement/RasterCache";
+import { DiagramFactory } from "../DiagramFactory";
 import { AnchorPointView } from "../DiagramViewTypes";
-import { 
+import {
     DiagramAnchorModel,
     LayoutUpdateReason
 } from ".";
-import {
+import type {
     AnchorPointStyle,
     AnchorPointTemplate,
-    DiagramAnchorValues,
-    DiagramFactory
+    DiagramAnchorValues
 } from "../DiagramFactory";
 
 export class AnchorPointModel extends DiagramAnchorModel {
-    
+
     /**
      * The template the object was configured with.
      */
@@ -56,22 +56,22 @@ export class AnchorPointModel extends DiagramAnchorModel {
     /**
      * Updates the anchor point's bounding box.
      * @param reasons
-     *  The reasons the layout was updated. 
+     *  The reasons the layout was updated.
      * @param updateParent
      *  If the parent's layout should be updated.
      *  (Default: true)
      */
     public override updateLayout(reasons: number, updateParent: boolean = true) {
-        let bb = this.boundingBox;
+        const bb = this.boundingBox;
         // Update bounding box
         bb.xMin = bb.xMid - this.radius;
         bb.yMin = bb.yMid - this.radius;
         bb.xMax = bb.xMid + this.radius;
         bb.yMax = bb.yMid + this.radius;
         // Update parent
-        if(updateParent) {
+        if (updateParent) {
             this.parent?.updateLayout(reasons);
-        }   
+        }
     }
 
     /**
@@ -84,5 +84,5 @@ export class AnchorPointModel extends DiagramAnchorModel {
     public override createView(cache: RasterCache): AnchorPointView {
         return new AnchorPointView(this, cache);
     }
-    
+
 }

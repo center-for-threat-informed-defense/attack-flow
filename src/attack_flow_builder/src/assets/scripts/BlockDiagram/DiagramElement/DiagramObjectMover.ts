@@ -2,7 +2,7 @@ import { round } from "../Utilities";
 import { Alignment } from "../Attributes";
 import { DiagramAnchorModel } from "../DiagramModelTypes";
 
-export class DiagramObjectMover { 
+export class DiagramObjectMover {
 
     /**
      * The object's current delta-x.
@@ -83,7 +83,7 @@ export class DiagramObjectMover {
     /**
      * Creates a new {@link DiagramObjectMover}.
      * @param gridX
-     *  The grid size on the x-axis. 
+     *  The grid size on the x-axis.
      * @param gridY
      *  The grid size on the y-axis.
      */
@@ -99,7 +99,7 @@ export class DiagramObjectMover {
         this._cy = 0;
         this._cdx = 0;
         this._cdy = 0;
-        this._alignment = Alignment.Free,
+        this._alignment = Alignment.Free;
         this._gridX = gridX;
         this._gridY = gridY;
         this._anchors = [];
@@ -121,7 +121,7 @@ export class DiagramObjectMover {
      *  The set of anchors to track.
      */
     public reset(
-        alignment: number, 
+        alignment: number,
         cx: number, cy: number,
         ox: number, oy: number,
         anchors?: DiagramAnchorModel[]
@@ -151,16 +151,16 @@ export class DiagramObjectMover {
     public updateDelta(dx: number, dy: number) {
         this._cdx += dx;
         this._cdy += dy;
-        let cursorX = this._cx + this._cdx;
-        let cursorY = this._cy + this._cdy;
+        const cursorX = this._cx + this._cdx;
+        const cursorY = this._cy + this._cdy;
         // Assess anchors
         let r, ax, ay, bb;
-        for(let anchor of this._anchors) {
+        for (const anchor of this._anchors) {
             bb = anchor.boundingBox;
             r = anchor.radius;
             ax = bb.xMid - cursorX;
             ay = bb.yMid - cursorY;
-            if(ax * ax + ay * ay < r * r) {
+            if (ax * ax + ay * ay < r * r) {
                 this.dx = bb.xMid - (this.ox + this.odx);
                 this.dy = bb.yMid - (this.oy + this.ody);
                 this.odx += this.dx;
@@ -171,10 +171,10 @@ export class DiagramObjectMover {
         }
         // Assess position
         this.anchor = undefined;
-        switch(this._alignment) {
+        switch (this._alignment) {
             case Alignment.Grid:
                 this.dx = round(this._cdx, this._gridX) - this.odx;
-                this.dy = round(this._cdy, this._gridY) - this.ody; 
+                this.dy = round(this._cdy, this._gridY) - this.ody;
                 break;
             case Alignment.Free:
             default:

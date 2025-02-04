@@ -1,14 +1,10 @@
 import { MD5 } from "../Utilities";
 import { Crypto } from "../Utilities/Crypto";
-import { 
-    CollectionProperty,
-    ListPropertyDescriptor,
-    Property,
-    RawEntries
-} from ".";
+import { CollectionProperty, Property } from ".";
+import type { ListPropertyDescriptor, RawEntries } from ".";
 
 export class ListProperty extends CollectionProperty {
-    
+
     /**
      * The property's descriptor.
      */
@@ -36,36 +32,36 @@ export class ListProperty extends CollectionProperty {
         this.descriptor = descriptor;
         // Configure values
         this.value = new Map();
-        if(Array.isArray(values)) {
-            for(let [vId, value] of values) {
+        if (Array.isArray(values)) {
+            for (const [vId, value] of values) {
                 // Create property
-                let pId = `${ id }.${ vId }`;
-                let prop = Property.create(pId, this, descriptor.form, value);
+                const pId = `${id}.${vId}`;
+                const prop = Property.create(pId, this, descriptor.form, value);
                 // Add property
                 this.value.set(vId, prop);
             }
-        } else if(descriptor.value) {
-            if(Array.isArray(descriptor.value)) {
-                for(let [vId, value] of descriptor.value) {
+        } else if (descriptor.value) {
+            if (Array.isArray(descriptor.value)) {
+                for (const [vId, value] of descriptor.value) {
                     // Create property
-                    let pId = `${ id }.${ vId }`;
-                    let prop = Property.create(pId, this, descriptor.form, value);
+                    const pId = `${id}.${vId}`;
+                    const prop = Property.create(pId, this, descriptor.form, value);
                     // Add property
                     this.value.set(vId, prop);
                 }
             } else {
-                for(let vId in descriptor.value) {
+                for (const vId in descriptor.value) {
                     // Create property
-                    let value = descriptor.value[id];
-                    let pId = `${ id }.${ vId }`;
-                    let prop = Property.create(pId, this, descriptor.form, value);
+                    const value = descriptor.value[id];
+                    const pId = `${id}.${vId}`;
+                    const prop = Property.create(pId, this, descriptor.form, value);
                     // Add property
                     this.value.set(vId, prop);
                 }
             }
         }
     }
-    
+
 
     /**
      * Adds a property to the collection.
@@ -85,13 +81,13 @@ export class ListProperty extends CollectionProperty {
         id: string = this.getNextId(),
         index: number = this.value.size
     ): string {
-        let entries = [...this.value.entries()];
+        const entries = [...this.value.entries()];
         entries.splice(index, 0, [id, property]);
         this.value = new Map(entries);
         this.updateProperty();
         return id;
     }
-    
+
     /**
      * Removes a property from the collection.
      * @param id
@@ -127,7 +123,7 @@ export class ListProperty extends CollectionProperty {
      */
     public getNextId() {
         let id = MD5(Crypto.randomUUID());
-        while(this.value.has(id)) {
+        while (this.value.has(id)) {
             id = MD5(Crypto.randomUUID());
         }
         return id;

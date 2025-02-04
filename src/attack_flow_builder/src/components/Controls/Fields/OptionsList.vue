@@ -1,21 +1,31 @@
 <template>
   <div :class="['options-list-field-control', { flip }]">
-    <ScrollBox :top="scrollTop" :style="style" :propagateScroll="false">
-      <ul class="options" v-if="hasOptions">
+    <ScrollBox
+      :top="scrollTop"
+      :style="style"
+      :propagate-scroll="false"
+    >
+      <ul
+        class="options"
+        v-if="hasOptions"
+      >
         <li 
           ref="items"
-          v-for="option in options"
-          :key="option.value ?? 0"
-          :list-id="option.value"
-          :class="{ active: isActive(option), null: isNull(option) }"
-          @click="$emit('select', option.value)"
-          @mouseenter="active = option.value"
+          v-for="opt in options"
+          :key="opt.value ?? 0"
+          :list-id="opt.value"
+          :class="{ active: isActive(opt), null: isNull(opt) }"
+          @click="$emit('select', opt.value)"
+          @mouseenter="active = opt.value"
           exit-focus-box
         >
-          {{ option.text }}
+          {{ opt.text }}
         </li>
       </ul>
-      <div class="no-options" v-if="!hasOptions">
+      <div
+        class="no-options"
+        v-if="!hasOptions"
+      >
         No matches
       </div> 
     </ScrollBox>
@@ -24,7 +34,7 @@
 
 <script lang="ts">
 // Dependencies
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, type PropType } from "vue";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 
@@ -39,17 +49,15 @@ export default defineComponent({
       type: Array as PropType<{ value: string | null, text: string }[]>,
       required: true
     },
-    select: {
-      type: String
-    },
-    align: {
-      type: Number
-    },
+    option: {
+      type: String as PropType<string | null>,
+      default: null
+    }
   },
   data() {
     return {
       flip: false,
-      active: this.select ?? null,
+      active: this.option ?? null,
       scrollTop: 0
     }
   },
@@ -101,8 +109,8 @@ export default defineComponent({
     focusActive() {
       // Resolve active item
       let item: HTMLElement | undefined;
-      for(let el of this.$refs.items as HTMLElement[]) {
-        if(this.select === el.getAttribute("list-id")) {
+      for(const el of this.$refs.items as HTMLElement[]) {
+        if(this.option === el.getAttribute("list-id")) {
           item = el as HTMLElement;
           break;
         }
@@ -119,7 +127,7 @@ export default defineComponent({
     // On select change
     select() {
       // Update active item
-      this.active = this.select ?? null;
+      this.active = this.option ?? null;
       // Focus the active item
       this.focusActive();
     },
@@ -142,16 +150,16 @@ export default defineComponent({
      */
     
     // Resolve parent
-    let sc = "scroll-content";
-    let ele = this.$el;
+    const sc = "scroll-content";
+    const ele = this.$el;
     let par = this.$el.parentElement;
-    let body = document.body;
+    const body = document.body;
     while(par !== body && !par.classList.contains(sc)) {
       par = par.parentElement;
     }
     // Resolve overlap
-    let { bottom: b1 } = par.getBoundingClientRect();
-    let { bottom: b2 } = ele.getBoundingClientRect();
+    const { bottom: b1 } = par.getBoundingClientRect();
+    const { bottom: b2 } = ele.getBoundingClientRect();
     if(b1 < b2) {
       this.flip = true;
     } else {

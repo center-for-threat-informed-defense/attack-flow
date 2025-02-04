@@ -1,17 +1,17 @@
 <template>
   <FocusBox
     :class="['enum-field-control', { disabled }]"
-    :tabindex="tabIndex"
-    pointerEvent="click"
+    :tab-index="tabIndex"
+    pointer-event="click"
     @focusin="onFocusIn"
     @focusout="onFocusOut"
   >
     <div class="options-container">
       <OptionsList 
         class="options-list"
-        :select="select"
+        :option="select"
         :options="options"
-        :maxHeight="maxHeight"
+        :max-height="maxHeight"
         @select="updateProperty"
         v-if="showMenu"
       />
@@ -24,17 +24,22 @@
         {{ selectText }}
       </div>
       <input 
-          type="text" 
-          ref="search"
-          class="value-search"
-          placeholder="Search"
-          @input="onSearchInput"
-          @keyup.stop=""
-          @keydown.stop="onSearchKeyDown"
-          v-model="searchTerm"
-          v-show="showSearch"
-        />
-      <div class="dropdown-arrow" v-if="!disabled">▼</div>
+        type="text" 
+        ref="search"
+        class="value-search"
+        placeholder="Search"
+        @input="onSearchInput"
+        @keyup.stop=""
+        @keydown.stop="onSearchKeyDown"
+        v-model="searchTerm"
+        v-show="showSearch"
+      >
+      <div
+        class="dropdown-arrow"
+        v-if="!disabled"
+      >
+        ▼
+      </div>
     </div>
   </FocusBox>
 </template>
@@ -43,7 +48,7 @@
 
 // Dependencies
 import { EnumProperty } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, type PropType, ref } from "vue";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";
@@ -79,7 +84,7 @@ export default defineComponent({
      *  The property.
      */
     _property(): EnumProperty {
-      let trigger = this.property.trigger.value;
+      const trigger = this.property.trigger.value;
       return trigger ? this.property : this.property; 
     },
 
@@ -88,8 +93,8 @@ export default defineComponent({
      * @returns
      *  The field's tab index.
      */
-    tabIndex(): null | "0" {
-      return this.disabled ? null: "0";
+    tabIndex(): undefined | "0" {
+      return this.disabled ? undefined : "0";
     },
 
     /**
@@ -116,13 +121,13 @@ export default defineComponent({
      *  The enum's options.
      */
     options(): { value: string | null, text: string }[] {
-      let options: { value: string | null, text: string }[] = [];
+      const options: { value: string | null, text: string }[] = [];
       if(this.searchTerm === "") {
         options.push({ value: null, text: "None" });
       }
-      let st = this.searchTerm.toLocaleLowerCase();
-      for(let [value, prop] of this._property.options.value) {
-        let text = prop.toString();
+      const st = this.searchTerm.toLocaleLowerCase();
+      for(const [value, prop] of this._property.options.value) {
+        const text = prop.toString();
         if(st === "" || text.toLocaleLowerCase().includes(st)) {
           options.push({ value, text });
         }
@@ -137,7 +142,7 @@ export default defineComponent({
      */
     selectText(): string {
       if(this.select !== null) {
-        let prop = this._property.options.value.get(this.select)!;
+        const prop = this._property.options.value.get(this.select)!;
         return prop.toString();
       } else {
         return "None";
@@ -193,9 +198,9 @@ export default defineComponent({
         this.select = this._property.toRawValue();
         return;
       }
-      let st = this.searchTerm.toLocaleLowerCase();
-      for(let [value, prop] of this._property.options.value) {
-        let text = prop.toString();
+      const st = this.searchTerm.toLocaleLowerCase();
+      for(const [value, prop] of this._property.options.value) {
+        const text = prop.toString();
         if(text.toLocaleLowerCase().includes(st)) {
           this.select = value;
           return;
@@ -209,12 +214,12 @@ export default defineComponent({
      *  The keydown event.
      */
     onSearchKeyDown(event: KeyboardEvent) {
-      let field = event.target as HTMLInputElement;
+      const field = event.target as HTMLInputElement;
       if(field.selectionStart !== field.selectionEnd) {
         return;
       }
       let idx;
-      let options = this.options;
+      const options = this.options;
       switch(event.key) {
         case "ArrowUp":
           idx = options.findIndex(o => o.value === this.select);

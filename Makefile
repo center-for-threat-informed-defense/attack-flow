@@ -39,6 +39,9 @@ docs-pdf: ## Build Sphinx documentation in PDF format.
 		bash -c "pip install -r requirements.txt && sphinx-build -M latexpdf /docs /docs/_build"
 	rm docs/requirements.txt
 
+lint:
+	cd src/attack_flow_builder/ && npm run lint
+
 test: ## Run Python tests
 	pytest --cov=src/ --cov-report=term-missing
 
@@ -58,3 +61,4 @@ docker-build: ## Build the Docker image.
 
 docker-run: ## Run the Docker image.
 	docker run --rm -p 8080:80 attack-flow-builder:latest
+

@@ -2,7 +2,10 @@
   <div class="object-editor-element">
     <template v-if="property">
       <template v-if="hasEditableProperties">
-        <ScrollBox :alwaysShowScrollBar="true" scrollColor="#1f1f1f">
+        <ScrollBox
+          :always-show-scroll-bar="true"
+          scroll-color="#1f1f1f"
+        >
           <DictionaryFieldContents
             class="contents"
             :property="property"
@@ -13,20 +16,24 @@
         </ScrollBox>
       </template>
       <template v-else>
-        <p class="no-prop"><slot name="no-props"></slot></p>
+        <p class="no-prop">
+          <slot name="no-props" />
+        </p>
       </template>
     </template>
     <template v-else>
-      <p class="no-prop"><slot name="no-prop"></slot></p>
+      <p class="no-prop">
+        <slot name="no-prop" />
+      </p>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import * as Page from "@/store/Commands/PageCommands";
+import * as Page from "@/stores/Commands/PageCommands";
 // Dependencies
-import { mapMutations } from "vuex";
-import { defineComponent, PropType } from "vue";
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { defineComponent, type PropType } from "vue";
 import { 
   DateProperty,
   DictionaryProperty,
@@ -37,6 +44,7 @@ import {
   PropertyType,
   StringProperty
 } from "@/assets/scripts/BlockDiagram";
+import type { Command } from "@/stores/Commands/Command";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
@@ -47,6 +55,11 @@ export default defineComponent({
     property: {
       type: Object as PropType<DictionaryProperty>,
       default: undefined
+    }
+  },
+  data() {
+    return {
+      application: useApplicationStore()
     }
   },
   computed: {
@@ -60,7 +73,7 @@ export default defineComponent({
       if(!this.property) {
         return false;
       }
-      for(let value of this.property.value.values()) {
+      for(const value of this.property.value.values()) {
         if(value.descriptor.is_visible_sidebar ?? true)
           return true;
       }
@@ -69,12 +82,16 @@ export default defineComponent({
 
   },
   methods: {
-
+    
     /**
-     * Application Store actions
+     * Executes an application command.
+     * @param command
+     *  The command to execute.
      */
-    ...mapMutations("ApplicationStore", ["execute"]),
-
+    execute(command: Command) {
+      this.application.execute(command);
+    },
+    
     /**
      * Field change behavior.
      * @param property
@@ -82,26 +99,38 @@ export default defineComponent({
      * @param value
      *  The field's new value.
      */
-    onChange(property: Property, value: any) {
+    onChange(property: Property, value: string | number | null) {
       switch(property.type) {
         case PropertyType.Int:
         case PropertyType.Float:
-          if(property instanceof NumberProperty) {
+          if(
+            property instanceof NumberProperty &&
+            (value === null || value.constructor === Number)
+          ) {
             this.execute(new Page.SetNumberProperty(property, value));
           }
           break;
         case PropertyType.String:
-          if(property instanceof StringProperty) {
+          if(
+            property instanceof StringProperty &&
+            (value === null || value.constructor === String)
+          ) {
             this.execute(new Page.SetStringProperty(property, value));
           }
           break;
         case PropertyType.Date:
-          if(property instanceof DateProperty) {
+          if(
+            property instanceof DateProperty &&
+            (value === null || value.constructor === Date)
+          ) {
             this.execute(new Page.SetDateProperty(property, value));
           }
           break;
         case PropertyType.Enum:
-          if(property instanceof EnumProperty) {
+          if(
+            property instanceof EnumProperty &&
+            (value && value.constructor === String)
+          ) {
             this.execute(new Page.SetEnumProperty(property, value));
           }
           break;

@@ -1,8 +1,8 @@
+import { Property } from ".";
 import { computeHash } from "../Utilities";
-import { 
+import type {
     DictionaryPropertyDescriptor,
     ListPropertyDescriptor,
-    Property,
     RawEntries
 } from ".";
 
@@ -14,7 +14,7 @@ export abstract class CollectionProperty extends Property {
      * The property's descriptor.
      */
     public override readonly descriptor: CollectionPropertyDescriptor;
-    
+
     /**
      * The set of properties.
      */
@@ -40,7 +40,7 @@ export abstract class CollectionProperty extends Property {
         this.value = new Map();
     }
 
-    
+
     /**
      * Adds a property to the collection.
      * @param property
@@ -53,7 +53,7 @@ export abstract class CollectionProperty extends Property {
      *  The property's id.
      */
     public abstract addProperty(property: Property, id: string, index: number): string;
-    
+
     /**
      * Removes a property from the collection.
      * @param id
@@ -87,7 +87,7 @@ export abstract class CollectionProperty extends Property {
      *  The property's hashed value.
      */
     public toHashValue(): number {
-        let text = [...this.value.values()].map(v => v.toHashValue()).join(".");
+        const text = [...this.value.values()].map(v => v.toHashValue()).join(".");
         return computeHash(text);
     }
 
@@ -101,4 +101,4 @@ export abstract class CollectionProperty extends Property {
 
 type CollectionPropertyDescriptor
     = ListPropertyDescriptor
-    | DictionaryPropertyDescriptor
+    | DictionaryPropertyDescriptor;

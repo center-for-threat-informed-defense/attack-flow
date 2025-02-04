@@ -1,8 +1,8 @@
 <template>
   <FocusBox
     :class="['text-field-control', { disabled }]"
-    :tabindex="tabIndex"
-    pointerEvent="click"
+    :tab-index="tabIndex"
+    pointer-event="click"
     @focusin="onFocusIn"
     @focusout="onFocusOut"
   >
@@ -11,7 +11,7 @@
         class="options-list"
         :select="select"
         :options="suggestions"
-        :maxHeight="maxHeight"
+        :max-height="maxHeight"
         @select="updatePropertyFromSuggestion"
         v-if="select !== null"
       />
@@ -25,7 +25,7 @@
         @keyup.stop=""
         @keydown.stop="onKeyDown"
         :disabled="disabled"
-      ></textarea>
+      />
     </div>
   </FocusBox>
 </template>
@@ -34,7 +34,7 @@
 
 // Dependencies
 import { MD5, StringProperty } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, markRaw, PropType, ref } from "vue";
+import { defineComponent, markRaw, type PropType, ref } from "vue";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";
@@ -70,7 +70,7 @@ export default defineComponent({
      *  The property.
      */
     _property(): StringProperty {
-      let trigger = this.activeProperty.trigger.value;
+      const trigger = this.activeProperty.trigger.value;
       return trigger ? this.activeProperty : this.activeProperty; 
     },
 
@@ -79,8 +79,8 @@ export default defineComponent({
      * @returns
      *  The field's tab index.
      */
-    tabIndex(): null | "0" {
-      return this.disabled ? null: "0";
+    tabIndex(): undefined | "0" {
+      return this.disabled ? undefined: "0";
     },
 
     /**
@@ -98,10 +98,10 @@ export default defineComponent({
      *  The field's suggestions.
      */
     suggestions(): { value: string, text: string }[] {
-      let suggestions = [];
-      let v = this.value.toLocaleLowerCase();
+      const suggestions = [];
+      const v = this.value.toLocaleLowerCase();
       for(let i = 0; i < this._property.suggestions.length; i++) {
-        let text = this._property.suggestions[i];
+        const text = this._property.suggestions[i];
         if(text.toLocaleLowerCase().includes(v)) {
           suggestions.push({ value: MD5(text), text });
         }
@@ -147,12 +147,12 @@ export default defineComponent({
      *  The keydown event.
      */
     onKeyDown(event: KeyboardEvent) {
-      let field = event.target as HTMLInputElement;
+      const field = event.target as HTMLInputElement;
       if(field.selectionStart !== field.selectionEnd) {
         return;
       }
-      let s = this.suggestions;
-      let idx = s.findIndex(o => o.value === this.select);
+      const s = this.suggestions;
+      const idx = s.findIndex(o => o.value === this.select);
       let canAcceptSuggestion;
       switch(event.key) {
         case "Escape":
@@ -201,15 +201,15 @@ export default defineComponent({
      * Prompts zero or more suggestions.
      */
     promptSuggestions() {
-      let isExactTextMatch = this.value === this.suggestions[0]?.text;
-      let isSingleSuggestion = this.suggestions.length === 1;
+      const isExactTextMatch = this.value === this.suggestions[0]?.text;
+      const isSingleSuggestion = this.suggestions.length === 1;
       if(isExactTextMatch && isSingleSuggestion) {
         this.select = null;
         return;
       }
       this.select = null;
-      let v = this.value.toLocaleLowerCase();
-      for(let s of this.suggestions) {
+      const v = this.value.toLocaleLowerCase();
+      for(const s of this.suggestions) {
         if(s.text.toLocaleLowerCase().includes(v)) {
           this.select = s.value;
           return;
@@ -230,7 +230,7 @@ export default defineComponent({
      *  The suggestion's hash.
      */
     updatePropertyFromSuggestion(hash: string) {
-      let suggestion = this.suggestions.find(o => o.value === hash);
+      const suggestion = this.suggestions.find(o => o.value === hash);
       if(suggestion) {
         this.updateProperty(suggestion.text);
       }
@@ -242,7 +242,7 @@ export default defineComponent({
      *  The property's new value.
      */
     updateProperty(value: string) {
-      let v = value || null;
+      const v = value || null;
       if(this._property.toRawValue() !== v) {
         // Update property
         this.$emit("change", this._property, v);

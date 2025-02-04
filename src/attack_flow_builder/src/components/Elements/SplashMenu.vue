@@ -2,25 +2,52 @@
   <div class="splash-menu-element">
     <div class="menu-header">
       <div class="application-info">
-        <p class="application-name">{{ applicationName }}</p>
-        <p class="application-version">Version {{ applicationVersion }}</p>
+        <p class="application-name">
+          {{ applicationName }}
+        </p>
+        <p class="application-version">
+          Version {{ applicationVersion }}
+        </p>
       </div>
-      <img class="organization" v-if="organization" :src="organization" />
+      <img
+        class="organization"
+        v-if="organization"
+        :src="organization"
+      >
     </div>
     <div class="menu-body">
-      <div class="section open-recovered-file" v-if="pages.size">
-        <p class="section-title">RECOVER FILE</p>
+      <div
+        class="section open-recovered-file"
+        v-if="pages.size"
+      >
+        <p class="section-title">
+          RECOVER FILE
+        </p>
         <ScrollBox class="file-scrollbox">
           <div :class="['file-grid', { 'has-scrollbar': 4 < pages.size }]">
-            <div class="file-entry" v-for="[k, p] of pages" :key="k">
-              <div class="file" @click="onRecoverFile(p.file)">
+            <div
+              class="file-entry"
+              v-for="[k, p] of pages"
+              :key="k"
+            >
+              <div
+                class="file"
+                @click="onRecoverFile(p.file)"
+              >
                 <div class="file-header">
-                  <FullPage class="file-icon"/>
-                  <p class="file-title">{{ p.name }}</p>
+                  <FullPageIcon class="file-icon" />
+                  <p class="file-title">
+                    {{ p.name }}
+                  </p>
                 </div>
-                <p class="file-date">{{ p.date }}</p>
+                <p class="file-date">
+                  {{ p.date }}
+                </p>
               </div>
-              <div class="delete-file" @click="onDeleteFile(k)">
+              <div
+                class="delete-file"
+                @click="onDeleteFile(k)"
+              >
                 Delete ✗
               </div>
             </div>
@@ -28,33 +55,63 @@
         </ScrollBox>
       </div>
       <div class="section open-file">
-        <p class="section-title">OPEN FILE</p>
+        <p class="section-title">
+          OPEN FILE
+        </p>
         <div class="button-grid">
-          <div class="button" @click="onNewFile">
+          <div
+            class="button"
+            @click="onNewFile"
+          >
             <div class="button-header">
-              <span class="button-icon"><EmptyPage /></span>
-              <p class="button-title">{{ newFile.title }}</p>
+              <span class="button-icon"><EmptyPageIcon /></span>
+              <p class="button-title">
+                {{ newFile.title }}
+              </p>
             </div>
-            <p class="button-description">{{ newFile.description }}</p>
+            <p class="button-description">
+              {{ newFile.description }}
+            </p>
           </div>
-          <div class="button" @click="onOpenFile">
+          <div
+            class="button"
+            @click="onOpenFile"
+          >
             <div class="button-header">
-              <span class="button-icon"><Folder /></span>
-              <p class="button-title">{{ openFile.title }}</p>
+              <span class="button-icon"><FolderIcon /></span>
+              <p class="button-title">
+                {{ openFile.title }}
+              </p>
             </div>
-            <p class="button-description">{{ openFile.description }}</p>
+            <p class="button-description">
+              {{ openFile.description }}
+            </p>
           </div>
         </div>
       </div>
-      <div class="section resources" v-if="helpLinks.length">
-        <p class="section-title">RESOURCES</p>
+      <div
+        class="section resources"
+        v-if="helpLinks.length"
+      >
+        <p class="section-title">
+          RESOURCES
+        </p>
         <div class="button-grid">
-          <div class="button" v-for="l of helpLinks" :key="l.url" @click="onOpenHelp(l.url!)">
+          <div
+            class="button"
+            v-for="l of helpLinks"
+            :key="l.url"
+            @click="onOpenHelp(l.url!)"
+          >
             <div class="button-header">
-              <span class="button-icon"><Link /></span>
-              <p class="button-title">{{ l.title }}</p>
+              <span class="button-icon"><LinkIcon /></span>
+              <p class="button-title">
+                {{ l.title }}
+              </p>
             </div>
-            <p class="button-description">{{ l.description }}</p>
+            <p class="button-description">
+              {{ l.description }}
+            </p>
           </div>
         </div>
       </div>
@@ -63,19 +120,18 @@
 </template>
 
 <script lang="ts">
-const Images = require.context("../../assets/configuration", false);
-import * as App from "@/store/Commands/AppCommands";
-import * as Store from "@/store/StoreTypes";
+import * as App from "@/stores/Commands/AppCommands";
 import Configuration from "@/assets/configuration/builder.config"
 // Dependencies
 import { version } from "@/../package.json";
 import { defineComponent } from 'vue';
-import { mapGetters, mapMutations, mapState } from 'vuex';
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import type { Command } from "@/stores/Commands/Command";
 // Components
-import Link from "@/components/Icons/Link.vue";
-import Folder from "@/components/Icons/Folder.vue";
-import FullPage from "@/components/Icons/FullPage.vue";
-import EmptyPage from "@/components/Icons/EmptyPage.vue";
+import LinkIcon from "@/components/Icons/LinkIcon.vue";
+import FolderIcon from "@/components/Icons/FolderIcon.vue";
+import FullPageIcon from "@/components/Icons/FullPageIcon.vue";
+import EmptyPageIcon from "@/components/Icons/EmptyPageIcon.vue";
 import ScrollBox from "../Containers/ScrollBox.vue";
 
 export default defineComponent({
@@ -83,9 +139,10 @@ export default defineComponent({
   data() {
     let organization;
     if (Configuration.splash.organization) {
-      organization = Images(Configuration.splash.organization);
+      organization = Configuration.splash.organization;
     }
     return {
+      application: useApplicationStore(),
       applicationName: Configuration.application_name,
       applicationVersion: version,
       organization,
@@ -97,29 +154,17 @@ export default defineComponent({
   computed: {
 
     /**
-     * Application Store data
-     */
-    ...mapState("ApplicationStore", {
-      context(state: Store.ApplicationStore): Store.ApplicationStore {
-        return state;
-      },
-      recoveredPages(state: Store.ApplicationStore): Map<string, { name: string, file: string }> {
-        return state.recoveryBank.pages;
-      }
-    }),
-
-    /**
      * Returns the application's recovered pages.
      * @returns
      *  The application's recovered pages.
      */
     pages(): Map<string, { name: string, date: string, file: string }> {
-      let pages = new Map();
-      for(let [key, page] of this.recoveredPages) {
-        let parse = /^((?:.|\n)*)\s{1}\((.*)\)$/m.exec(page.name);
-        let file = page.file;
-        let name = parse ? parse[1] : "Unknown";
-        let date = parse ? parse[2] : "Unknown";
+      const pages = new Map();
+      for(const [key, page] of this.application.recoveryBank.pages) {
+        const parse = /^((?:.|\n)*)\s{1}\((.*)\)$/m.exec(page.name);
+        const file = page.file;
+        const name = parse ? parse[1] : "Unknown";
+        const date = parse ? parse[2] : "Unknown";
         pages.set(key, { name, date, file });
       }
       return pages;
@@ -129,22 +174,28 @@ export default defineComponent({
   methods: {
 
     /**
-     * Application Store mutations
+     * Executes an application command.
+     * @param command
+     *  The command to execute.
      */
-    ...mapMutations("ApplicationStore", ["execute"]),
+    execute(command: Command) {
+      this.application.execute(command);
+    },
 
     /**
      * New File behavior.
      */
     async onNewFile() {
-      this.execute(await App.PrepareEditorWithFile.fromNew(this.context));
+      const ctx = this.application;
+      this.execute(await App.PrepareEditorWithFile.fromNew(ctx));
     },
 
     /**
      * Open File behavior.
      */
     async onOpenFile() {
-      this.execute(await App.PrepareEditorWithFile.fromFileSystem(this.context));
+      const ctx = this.application;
+      this.execute(await App.PrepareEditorWithFile.fromFileSystem(ctx));
     },
 
     /**
@@ -153,7 +204,8 @@ export default defineComponent({
      *  The file to recover.
      */
     async onRecoverFile(file: string) {
-      this.execute(await App.PrepareEditorWithFile.fromFile(this.context, file));
+      const ctx = this.application;
+      this.execute(await App.PrepareEditorWithFile.fromFile(ctx, file));
     },
 
     /**
@@ -162,7 +214,8 @@ export default defineComponent({
      *  The id of the file to delete.
      */
     onDeleteFile(id: string) {
-      this.execute(new App.DeletePageFromRecoveryBank(this.context, id));
+      const ctx = this.application;
+      this.execute(new App.DeletePageFromRecoveryBank(ctx, id));
     },
 
     /**
@@ -171,11 +224,16 @@ export default defineComponent({
      *  The url to open.
      */
     onOpenHelp(url: string) {
-      this.execute(new App.OpenHyperlink(this.context, url));
+      const ctx = this.application;
+      this.execute(new App.OpenHyperlink(ctx, url));
     }
 
   },
-  components: { Link, Folder, FullPage, EmptyPage, ScrollBox },
+  components: { 
+    LinkIcon, FolderIcon, 
+    FullPageIcon, EmptyPageIcon,
+    ScrollBox
+  },
 });
 </script>
 

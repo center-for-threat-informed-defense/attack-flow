@@ -10,7 +10,7 @@ import { SemanticRole as SemanticRoleEnum } from "./DiagramFactory";
 export const Alignment = {
     Free       : 0b000000000000000,
     Grid       : 0b000000000000001
-}
+};
 export const AlignmentMask = generateBitMask(Alignment);
 
 export const Cursor = {
@@ -29,38 +29,38 @@ export const Cursor = {
     NS_Resize  : 0b000000000011000,
     Col_Resize : 0b000000000011010,
     Row_Resize : 0b000000000011100
-}
+};
 export const CursorMask = generateBitMask(Cursor);
 
 export const Hover = {
     Off        : 0b000000000000000,
     Direct     : 0b000000000100000,
     Indirect   : 0b000000001000000
-}
+};
 export const HoverMask = generateBitMask(Hover);
 
 export const InheritAlignment = {
     False      : 0b000000000000000,
     True       : 0b000000010000000
-}
+};
 export const InheritAlignmentMask = generateBitMask(InheritAlignment);
 
 export const PositionSetByUser = {
     False      : 0b000000000000000,
     True       : 0b000000100000000
-}
+};
 export const PositionSetByUserMask = generateBitMask(PositionSetByUser);
 
 export const Priority = {
     Normal     : 0b000001000000000,
     High       : 0b000010000000000
-}
+};
 export const PriorityMask = generateBitMask(Priority);
 
 export const Select = {
     False      : 0b000000000000000,
-    True       : 0b000100000000000,
-}
+    True       : 0b000100000000000
+};
 export const SelectMask = generateBitMask(Select);
 
 const SemanticRole = {
@@ -69,7 +69,7 @@ const SemanticRole = {
     Edge       : SemanticRoleEnum.Edge,
     LinkSource : SemanticRoleEnum.LinkSource,
     LinkTarget : SemanticRoleEnum.LinkTarget
-}
+};
 export const SemanticRoleMask = generateBitMask(SemanticRole);
 
 
@@ -94,4 +94,4 @@ export const CursorCssName = {
     [Cursor.NS_Resize]  : "ns-resize",
     [Cursor.Col_Resize] : "col-resize",
     [Cursor.Row_Resize] : "row-resize"
-}
+};

@@ -1,16 +1,17 @@
-import { ref, Ref } from "vue";
-import { 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ref, type Ref } from "vue";
+import {
     CollectionProperty,
     DateProperty,
     DictionaryProperty,
     EnumProperty,
     ListProperty,
     NumberProperty,
-    PropertyDescriptor,
     PropertyType,
     RootProperty,
     StringProperty
 } from ".";
+import type { PropertyDescriptor } from ".";
 
 export abstract class Property {
 
@@ -32,7 +33,7 @@ export abstract class Property {
     /**
      * The property's reactive trigger.
      */
-    public readonly trigger: Ref<number>
+    public readonly trigger: Ref<number>;
 
     /**
      * The property's parent.
@@ -44,16 +45,16 @@ export abstract class Property {
      */
     public get root(): RootProperty | undefined {
         let owner = this as Property;
-        while(owner._parent) {
+        while (owner._parent) {
             owner = owner._parent;
         }
-        if(owner instanceof RootProperty) {
+        if (owner instanceof RootProperty) {
             return owner;
         } else {
             return undefined;
         }
     }
-    
+
 
     /**
      * Creates a new {@link Property}.
@@ -96,7 +97,7 @@ export abstract class Property {
         descriptor: PropertyDescriptor,
         values?: any
     ): Property {
-        switch(descriptor.type) {
+        switch (descriptor.type) {
             case PropertyType.String:
                 return new StringProperty(id, parent, descriptor, values);
             case PropertyType.Int:
@@ -114,7 +115,7 @@ export abstract class Property {
     }
 
     /**
-     * Updates the property's trigger. 
+     * Updates the property's trigger.
      */
     protected updateProperty() {
         this.trigger.value = this.toHashValue();
@@ -141,7 +142,7 @@ export abstract class Property {
      *  The property's hashed value.
      */
     public abstract toHashValue(): number;
-    
+
     /**
      * Returns the property as a string.
      * @returns
@@ -152,8 +153,7 @@ export abstract class Property {
 }
 
 export type RawTypes =
-    null | string | number
+    null | string | number;
 
 export type RawEntries
-    = [string, RawEntries | RawTypes][]
- 
+    = [string, RawEntries | RawTypes][];

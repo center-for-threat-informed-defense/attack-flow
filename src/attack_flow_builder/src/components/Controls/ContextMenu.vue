@@ -2,13 +2,13 @@
   <FocusBox 
     :style="offset" 
     class="context-menu-control"
-    pointerEvent="click"
+    pointer-event="click"
     @focusout="$emit('focusout')"
     @contextmenu.prevent=""
   >
     <ContextMenuListing 
       :sections="sections" 
-      :forceInsideWindow="false" 
+      :force-inside-window="false" 
       @select="data => $emit('select', data)"
     />
   </FocusBox>
@@ -16,8 +16,9 @@
 
 <script lang="ts">
 // Dependencies
-import { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, type PropType } from 'vue';
+import type { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
+import type { CommandEmitter } from '@/stores/Commands/Command';
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import ContextMenuListing from "./ContextMenuListing.vue";
@@ -26,7 +27,7 @@ export default defineComponent({
   name: 'ContextMenu',
   props: {
     sections: {
-      type: Array as PropType<ContextMenuSection[]>,
+      type: Array as PropType<ContextMenuSection<CommandEmitter>[]>,
       required: true
     }
   },
@@ -54,9 +55,9 @@ export default defineComponent({
   emits: ["select", "focusout"],
   mounted() {
     // Offset menu if outside of viewport
-    let viewWidth  = window.innerWidth;
-    let viewHeight = window.innerHeight;
-    let { bottom, right } = this.$el.getBoundingClientRect();
+    const viewWidth  = window.innerWidth;
+    const viewHeight = window.innerHeight;
+    const { bottom, right } = this.$el.getBoundingClientRect();
     // -1 ensures cursor is over menu and not the element beneath it
     this.xOffset = right > viewWidth ? -(this.$el.clientWidth - 1) : 0;
     this.yOffset = bottom > viewHeight ? -(this.$el.clientHeight - 1) : 0;

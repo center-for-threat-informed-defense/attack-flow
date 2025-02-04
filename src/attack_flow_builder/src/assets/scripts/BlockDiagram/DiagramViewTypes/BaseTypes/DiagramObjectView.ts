@@ -5,7 +5,7 @@ import {
     DiagramAnchorView,
     DiagramAnchorableView
 } from "./BaseViews";
-import { 
+import {
     AlignmentMask,
     CursorMask,
     HoverMask,
@@ -40,12 +40,12 @@ export abstract class DiagramObjectView {
     /**
      * The object's children.
      */
-    public children: DiagramObjectView[]
+    public children: DiagramObjectView[];
 
     /**
      * The view's raster cache.
      */
-    protected _rasterCache: RasterCache; 
+    protected _rasterCache: RasterCache;
 
 
     /**
@@ -64,7 +64,7 @@ export abstract class DiagramObjectView {
         this._rasterCache = rasterCache;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Structure  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -78,31 +78,31 @@ export abstract class DiagramObjectView {
      * @returns
      *  This object and all child objects.
      */
-     public *getSubtree(
+    public *getSubtree(
         match?: (o: DiagramObjectView) => boolean
-     ): IterableIterator<DiagramObjectView> {
-        let visited = new Set<string>([this.el.id]);
-        let queue: DiagramObjectView[] = [this];
-        while(queue.length != 0) {
-            let obj = queue.shift()!;
+    ): IterableIterator<DiagramObjectView> {
+        const visited = new Set<string>([this.el.id]);
+        const queue: DiagramObjectView[] = [this];
+        while (queue.length != 0) {
+            const obj = queue.shift()!;
             // Yield object
-            if(!match || match(obj)) {
+            if (!match || match(obj)) {
                 yield obj;
             }
             // Don't traverse anchors
-            if(obj instanceof DiagramAnchorView) {
+            if (obj instanceof DiagramAnchorView) {
                 continue;
             }
             // Enumerate children
-            for(let child of obj.children){
-                if(!visited.has(child.el.id)) {
+            for (const child of obj.children) {
+                if (!visited.has(child.el.id)) {
                     visited.add(child.el.id);
                     queue.push(child);
                 }
             }
         }
     }
-    
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  2. Movement  //////////////////////////////////////////////////////////
@@ -119,7 +119,7 @@ export abstract class DiagramObjectView {
      *  If specified, this set of attributes will override the object's
      *  underlying attributes.
      */
-     public moveTo(x: number, y: number, attrs?: number) {
+    public moveTo(x: number, y: number, _attrs?: number) {
         this.moveBy(
             x - this.x,
             y - this.y
@@ -127,22 +127,22 @@ export abstract class DiagramObjectView {
     }
 
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param attrs
      *  If specified, this set of attributes will override the object's
      *  underlying attributes.
      */
-    public moveBy(dx: number, dy: number, attrs?: number) {
+    public moveBy(dx: number, dy: number, _attrs?: number) {
         // Move self
         this.x += dx;
         this.y += dy;
         // Move non-anchored children
-        for(let obj of this.children) {
-            if(obj instanceof DiagramAnchorableView && obj.el.isAttached()) {
+        for (const obj of this.children) {
+            if (obj instanceof DiagramAnchorableView && obj.el.isAttached()) {
                 continue;
             }
             obj.moveBy(dx, dy);
@@ -173,15 +173,15 @@ export abstract class DiagramObjectView {
      */
     public renderTo(
         ctx: CanvasRenderingContext2D, vr: ViewportRegion,
-        dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
-        if(!this.isVisible(vr)) {
+        dsx: number = 0, dsy: number = 0, _attrs?: number
+    ) {
+        if (!this.isVisible(vr)) {
             return;
         }
-        for(let obj of this.children) {
+        for (const obj of this.children) {
             obj.renderTo(ctx, vr, dsx, dsy);
         }
-    };
+    }
 
     /**
      * Renders the object's debug information to a context.
@@ -191,15 +191,15 @@ export abstract class DiagramObjectView {
      *  The context's viewport.
      */
     public renderDebugTo(ctx: CanvasRenderingContext2D, vr: ViewportRegion) {
-        if(!this.isVisible(vr)) {
+        if (!this.isVisible(vr)) {
             return;
         }
         // Configure canvas
-        for(let obj of this.children) {
+        for (const obj of this.children) {
             obj.renderDebugTo(ctx, vr);
         }
         // Draw bounding box
-        let bb = this.el.boundingBox;
+        const bb = this.el.boundingBox;
         ctx.beginPath();
         ctx.moveTo(bb.xMin + 0.5, bb.yMin + 0.5);
         ctx.lineTo(bb.xMax - 0.5, bb.yMin + 0.5);
@@ -218,9 +218,9 @@ export abstract class DiagramObjectView {
      *  True if the object overlaps the viewport, false otherwise.
      */
     public isVisible(viewport: ViewportRegion) {
-        let { xMin, yMin, xMax, yMax } = this.el.boundingBox;
-        return (viewport.xMin <= xMax && viewport.xMax >= xMin) && 
-               (viewport.yMin <= yMax && viewport.yMax >= yMin)
+        const { xMin, yMin, xMax, yMax } = this.el.boundingBox;
+        return (viewport.xMin <= xMax && viewport.xMax >= xMin) &&
+               (viewport.yMin <= yMax && viewport.yMax >= yMin);
     }
 
 
@@ -236,10 +236,10 @@ export abstract class DiagramObjectView {
      */
     public updateView(): DiagramObjectView {
         // Update children
-        let children = new Array<DiagramObjectView>(this.el.children.length);
-        for(let i = 0; i < children.length; i++) {
-            let id = this.el.children[i].id;
-            let obj = this.children.find(o => o.el.id === id);
+        const children = new Array<DiagramObjectView>(this.el.children.length);
+        for (let i = 0; i < children.length; i++) {
+            const id = this.el.children[i].id;
+            const obj = this.children.find(o => o.el.id === id);
             // Update child
             children[i] = obj ?? this.el.children[i].createView(this._rasterCache);
             // Update child's parent
@@ -280,7 +280,7 @@ export abstract class DiagramObjectView {
      *  The altered attributes.
      */
     public fakeCursor(cursor: number) {
-       return (this.el.attrs & ~CursorMask) | cursor;
+        return (this.el.attrs & ~CursorMask) | cursor;
     }
 
     /**

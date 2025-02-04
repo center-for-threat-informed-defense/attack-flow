@@ -1,18 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { clamp, computeHash } from "../Utilities";
-import {
-    CollectionProperty,
-    NumberPropertyDescriptor,
-    Property,
-    PropertyType
-} from ".";
+import { CollectionProperty, Property, PropertyType } from ".";
+import type { NumberPropertyDescriptor } from ".";
 
 export class NumberProperty extends Property {
-    
+
     /**
      * The property's descriptor.
      */
     public override readonly descriptor: NumberPropertyDescriptor;
-    
+
     /**
      * The property's minimum allowed value.
      */
@@ -53,22 +50,22 @@ export class NumberProperty extends Property {
         this._value = null;
         // Resolve value
         let v;
-        if(value === null) {
+        if (value === null) {
             v = null;
         } else {
             v = value ?? descriptor.value ?? null;
         }
         // Set value
-        if(v === null) {
+        if (v === null) {
             this.setValue(null);
-        } else if(typeof v === "number"){
+        } else if (typeof v === "number") {
             this.setValue(v);
         } else {
             this.setValue(0);
         }
     }
-    
-    
+
+
     /**
      * Tests if the property is defined.
      * @returns
@@ -84,11 +81,11 @@ export class NumberProperty extends Property {
      *  The new value.
      */
     public setValue(value: number | null) {
-        if(value === null) {
+        if (value === null) {
             this._value = null;
         } else {
-            let v = clamp(value, this.min, this.max);
-            if(this.type === PropertyType.Int) {
+            const v = clamp(value, this.min, this.max);
+            if (this.type === PropertyType.Int) {
                 this._value = Math.round(v);
             } else {
                 this._value = v;
@@ -112,7 +109,7 @@ export class NumberProperty extends Property {
      *  The property's hashed value.
      */
     public toHashValue(): number {
-        return computeHash(`${ this._value ?? "" }`);
+        return computeHash(`${this._value ?? ""}`);
     }
 
     /**
@@ -121,7 +118,7 @@ export class NumberProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        return `${ this._value ?? 'None' }`;
+        return `${this._value ?? "None"}`;
     }
 
 }

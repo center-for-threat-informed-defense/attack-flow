@@ -24,7 +24,7 @@ export class PageImage {
      * If shadow's should be displayed or not.
      */
     private _showShadows: boolean;
-     
+
     /**
      * If debug information should be displayed or not.
      */
@@ -78,15 +78,15 @@ export class PageImage {
      */
     public capture(objs?: DiagramObjectModel[]): HTMLCanvasElement;
     public capture(objs?: DiagramObjectModel[]): HTMLCanvasElement {
-        
+
         // Calculate region
         let xMin, yMin, xMax, yMax;
-        if(objs?.length) {
+        if (objs?.length) {
             xMin = Infinity;
             yMin = Infinity;
             xMax = -Infinity;
             yMax = -Infinity;
-            for(let obj of objs) {
+            for (const obj of objs) {
                 xMin = Math.min(xMin, obj.boundingBox.xMin);
                 yMin = Math.min(yMin, obj.boundingBox.yMin);
                 xMax = Math.max(xMax, obj.boundingBox.xMax);
@@ -98,38 +98,38 @@ export class PageImage {
             xMax = this._page.boundingBox.xMax;
             yMax = this._page.boundingBox.yMax;
         }
-        
+
         // Create view
-        let cache = new RasterCache();
-        let view = this._page.createView(cache);
+        const cache = new RasterCache();
+        const view = this._page.createView(cache);
         view.updateView();
-        
+
         // Configure canvas
-        let can = document.createElement("canvas");
+        const can = document.createElement("canvas");
         can.width  = Math.round(xMax - xMin) + (this._padding * 2);
         can.height = Math.round(yMax - yMin) + (this._padding * 2);
-        
+
         // Configure context
-        let ctx = can.getContext("2d")!;
+        const ctx = can.getContext("2d")!;
         ctx.setTransform(
-            1, 0, 0, 1, 
+            1, 0, 0, 1,
             -xMin + this._padding,
             -yMin + this._padding
         );
 
         // Configure viewport
-        let viewport = new ViewportRegion();
+        const viewport = new ViewportRegion();
         viewport.xMin = xMin - this._padding;
         viewport.yMin = yMin - this._padding;
         viewport.xMax = xMax + this._padding;
         viewport.yMax = yMax + this._padding;
 
         // Cache and clear visual attributes
-        let attrCache = new Map<DiagramObjectModel, number>();
-        let attrObjs = this._page.getSubtree(
+        const attrCache = new Map<DiagramObjectModel, number>();
+        const attrObjs = this._page.getSubtree(
             o => o.isHoveredOrSelected()
         );
-        for(let obj of attrObjs) {
+        for (const obj of attrObjs) {
             attrCache.set(obj, obj.attrs);
             obj.setSelect(Select.False);
             obj.setHover(Hover.Off);
@@ -137,17 +137,17 @@ export class PageImage {
 
         // Render image
         view.renderPageSurfaceTo(ctx, viewport, this._showGrid);
-        if(this._showShadows) {
+        if (this._showShadows) {
             view.renderTo(ctx, viewport);
         } else {
             view.renderTo(ctx, viewport, 0, 0);
         }
-        if(this._showDebug) {
+        if (this._showDebug) {
             view.renderDebugTo(ctx, viewport);
         }
 
         // Restore visual attributes
-        for(let [obj, attrs] of attrCache) {
+        for (const [obj, attrs] of attrCache) {
             obj.attrs = attrs;
         }
 

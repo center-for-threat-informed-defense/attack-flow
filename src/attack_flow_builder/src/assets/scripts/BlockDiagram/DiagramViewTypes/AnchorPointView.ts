@@ -46,12 +46,13 @@ export class AnchorPointView extends DiagramAnchorView {
      *  attributes.
      */
     public override renderTo(
-        ctx: CanvasRenderingContext2D, vr: ViewportRegion,
-        dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
+        ctx: CanvasRenderingContext2D, _vr: ViewportRegion,
+        _dsx: number = 0, _dsy: number = 0, attrs?: number
+    ) {
         // Only visible when hovered
-        if(!this.el.isHovered(attrs))
+        if (!this.el.isHovered(attrs)) {
             return;
+        }
         ctx.fillStyle = this.el.style.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.el.radius, 0, 2 * Math.PI);

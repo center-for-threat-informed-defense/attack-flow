@@ -3,13 +3,15 @@ import { PageView } from "../DiagramViewTypes";
 import {
     DiagramRootModel,
     LayoutUpdateReason
-} from "./BaseTypes/BaseModels"
+} from "./BaseTypes/BaseModels";
 import {
     DiagramFactory,
+    TemplateType,
+    SemanticRole
+} from "../DiagramFactory";
+import type {
     PageStyle,
     PageTemplate,
-    TemplateType,
-    SemanticRole,
     DiagramObjectValues
 } from "../DiagramFactory";
 
@@ -19,12 +21,12 @@ export class PageModel extends DiagramRootModel {
      * The template the object was configured with.
      */
     public override readonly template: PageTemplate;
-    
+
     /**
      * The page's grid size.
      */
     public readonly grid: [number, number];
-    
+
     /**
      * The page's style.
      */
@@ -64,12 +66,12 @@ export class PageModel extends DiagramRootModel {
     public static createDummy(): PageModel {
         return new this(
             DiagramFactory.createDummy(),
-            { 
+            {
                 id: "",
-                type: TemplateType.Page, 
+                type: TemplateType.Page,
                 role: SemanticRole.None,
                 grid: [10, 10],
-                style: { 
+                style: {
                     grid_color: "#1d1d1d",
                     background_color: "#141414",
                     drop_shadow: {

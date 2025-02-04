@@ -1,17 +1,17 @@
+import { Cursor } from "../Attributes";
 import { RasterCache } from "../DiagramElement/RasterCache";
+import { DiagramFactory } from "../DiagramFactory";
 import { LineEndingPointView } from "../DiagramViewTypes";
-import { 
+import {
     DiagramLineEndingModel,
     DiagramObjectModel,
     LayoutUpdateReason
 } from "./BaseTypes/BaseModels";
-import {
-    DiagramFactory,
+import type {
     DiagramObjectValues,
     LineEndingPointStyle,
     LineEndingPointTemplate
 } from "../DiagramFactory";
-import { Cursor } from "../Attributes";
 
 export class LineEndingPointModel extends DiagramLineEndingModel {
 
@@ -49,7 +49,7 @@ export class LineEndingPointModel extends DiagramLineEndingModel {
         // Update Layout
         this.updateLayout(LayoutUpdateReason.Initialization);
     }
-    
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  1. Selection  /////////////////////////////////////////////////////////
@@ -66,9 +66,9 @@ export class LineEndingPointModel extends DiagramLineEndingModel {
      *  The topmost object, undefined if there isn't one.
      */
     public override getObjectAt(x: number, y: number): DiagramObjectModel | undefined {
-        let dx = x - this.boundingBox.xMid;
-        let dy = y - this.boundingBox.yMid;
-        let r = this.style.radius;
+        const dx = x - this.boundingBox.xMid;
+        const dy = y - this.boundingBox.yMid;
+        const r = this.style.radius;
         return dx * dx + dy * dy < r * r ? this : undefined;
     }
 
@@ -81,20 +81,20 @@ export class LineEndingPointModel extends DiagramLineEndingModel {
     /**
      * Updates the line ending's bounding box.
      * @param reasons
-     *  The reasons the layout was updated. 
+     *  The reasons the layout was updated.
      * @param updateParent
      *  If the parent's layout should be updated.
      *  (Default: true)
      */
     public override updateLayout(reasons: number, updateParent: boolean = true) {
-        let bb = this.boundingBox;
+        const bb = this.boundingBox;
         // Update bounding box
         bb.xMin = bb.xMid - this.style.radius;
         bb.yMin = bb.yMid - this.style.radius;
         bb.xMax = bb.xMid + this.style.radius;
         bb.yMax = bb.yMid + this.style.radius;
         // Update parent
-        if(updateParent) {
+        if (updateParent) {
             this.parent?.updateLayout(reasons);
         }
     }

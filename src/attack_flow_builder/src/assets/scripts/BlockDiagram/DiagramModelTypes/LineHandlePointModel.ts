@@ -1,20 +1,20 @@
+import { Cursor } from "../Attributes";
 import { RasterCache } from "../DiagramElement/RasterCache";
+import { DiagramFactory } from "../DiagramFactory";
 import { LineHandlePointView } from "../DiagramViewTypes";
 import {
     DiagramLineHandleModel,
     DiagramObjectModel,
     LayoutUpdateReason
 } from "./BaseTypes/BaseModels";
-import {
-    DiagramFactory,
+import type {
     DiagramObjectValues,
     LineHandlePointStyle,
     LineHandlePointTemplate
 } from "../DiagramFactory";
-import { Cursor } from "../Attributes";
 
 export class LineHandlePointModel extends DiagramLineHandleModel {
-    
+
     /**
      * The template the object was configured with.
      */
@@ -66,9 +66,9 @@ export class LineHandlePointModel extends DiagramLineHandleModel {
      *  The topmost object, undefined if there isn't one.
      */
     public override getObjectAt(x: number, y: number): DiagramObjectModel | undefined {
-        let dx = x - this.boundingBox.xMid;
-        let dy = y - this.boundingBox.yMid;
-        let r = this.style.radius;
+        const dx = x - this.boundingBox.xMid;
+        const dy = y - this.boundingBox.yMid;
+        const r = this.style.radius;
         return dx * dx + dy * dy < r * r ? this : undefined;
     }
 
@@ -87,14 +87,14 @@ export class LineHandlePointModel extends DiagramLineHandleModel {
      *  (Default: true)
      */
     public override updateLayout(reasons: number, updateParent: boolean = true) {
-        let bb = this.boundingBox;
+        const bb = this.boundingBox;
         // Update bounding box
         bb.xMin = bb.xMid - this.style.radius;
         bb.yMin = bb.yMid - this.style.radius;
         bb.xMax = bb.xMid + this.style.radius;
         bb.yMax = bb.yMid + this.style.radius;
         // Update parent
-        if(updateParent) {
+        if (updateParent) {
             this.parent?.updateLayout(reasons);
         }
     }

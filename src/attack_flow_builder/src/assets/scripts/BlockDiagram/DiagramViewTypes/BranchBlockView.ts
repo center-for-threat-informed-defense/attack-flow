@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { drawRect } from "../Utilities";
 import { RasterCache } from "../DiagramElement/RasterCache";
 import { ViewportRegion } from "../DiagramElement";
@@ -5,7 +6,7 @@ import { BranchBlockModel } from "../DiagramModelTypes";
 import { DiagramObjectView } from ".";
 
 export class BranchBlockView extends DiagramObjectView {
-    
+
     /**
      * The underlying model.
      */
@@ -43,16 +44,16 @@ export class BranchBlockView extends DiagramObjectView {
 
 
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param attrs
      *  If specified, this set of attributes will override the object's
      *  underlying attributes.
      */
-    public override moveBy(dx: number, dy: number, attrs?: number) {
+    public override moveBy(dx: number, dy: number, _attrs?: number) {
         super.moveBy(dx, dy);
         // Move top left corner
         this.tlx += dx;
@@ -64,7 +65,7 @@ export class BranchBlockView extends DiagramObjectView {
     //  2. Render  ////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Renders the object to a context.
      * @param ctx
@@ -84,20 +85,20 @@ export class BranchBlockView extends DiagramObjectView {
     public override renderTo(
         ctx: CanvasRenderingContext2D, vr: ViewportRegion,
         dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
-        if(!this.isVisible(vr)) {
+    ) {
+        if (!this.isVisible(vr)) {
             return;
         }
 
         // Init
-        let { tlx: x, tly: y } = this;
-        let { 
-            body, 
+        const { tlx: x, tly: y } = this;
+        const {
+            body,
             head,
             select_outline: so,
-            border_radius: br,
+            border_radius: br
         } = this.el.style;
-        let {
+        const {
             width: w,
             height: h,
             headerHeight: hh,
@@ -108,7 +109,7 @@ export class BranchBlockView extends DiagramObjectView {
         // Draw body
         ctx.lineWidth = 1.1;
         drawRect(ctx, x, y, w, h, br);
-        if(dsx | dsy) {
+        if (dsx | dsy) {
             ctx.shadowOffsetX = dsx + (0.5 * vr.scale);
             ctx.shadowOffsetY = dsy + (0.5 * vr.scale);
             ctx.fillStyle = body.fill_color;
@@ -125,7 +126,7 @@ export class BranchBlockView extends DiagramObjectView {
         }
 
         // Draw lines
-        for(let line of lines) {
+        for (const line of lines) {
             ctx.moveTo(x + line.x0, y + line.y0);
             ctx.lineTo(x + line.x1, y + line.y1);
         }
@@ -139,18 +140,18 @@ export class BranchBlockView extends DiagramObjectView {
         ctx.stroke();
 
         // Draw text
-        for(let set of text) {
+        for (const set of text) {
             ctx.font = set.font.css;
             ctx.fillStyle = set.color;
-            for(let text of set.text) {
-                ctx.fillText(text.t, x + text.x, y + text.y)
+            for (const text of set.text) {
+                ctx.fillText(text.t, x + text.x, y + text.y);
             }
         }
 
-        if(this.el.isSelected(attrs)) {
-            
+        if (this.el.isSelected(attrs)) {
+
             // Init
-            let { 
+            let {
                 color,
                 padding: p,
                 border_radius: br
@@ -158,32 +159,32 @@ export class BranchBlockView extends DiagramObjectView {
             p += 1;
 
             // Draw select border
-            drawRect(ctx, x - p, y - p, w + p*2, h + p*2, br, 1);
+            drawRect(ctx, x - p, y - p, w + p * 2, h + p * 2, br, 1);
             ctx.strokeStyle = color;
             ctx.stroke();
 
-        } else if(this.el.isHovered(attrs)) {
+        } else if (this.el.isHovered(attrs)) {
 
             // Init
-            let {
+            const {
                 color,
                 size
             } = this.el.style.anchor_markers;
-            
+
             // Draw anchors
-            super.renderTo(ctx, vr, dsx, dsy);    
+            super.renderTo(ctx, vr, dsx, dsy);
 
             // Draw anchor markers
             ctx.strokeStyle = color;
             ctx.beginPath();
-            for(let o of this.children) {
+            for (const o of this.children) {
                 ctx.moveTo(o.x - size, o.y - size);
                 ctx.lineTo(o.x + size, o.y + size);
                 ctx.moveTo(o.x + size, o.y - size);
                 ctx.lineTo(o.x - size, o.y + size);
             }
             ctx.stroke();
-        
+
         }
 
     }

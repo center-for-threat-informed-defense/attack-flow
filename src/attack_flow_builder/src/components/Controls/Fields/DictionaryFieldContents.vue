@@ -1,6 +1,10 @@
 <template>
   <div class="dictionary-field-contents-control">
-    <div class="field-item" v-for="[key, value] in fields" :key="key">
+    <div
+      class="field-item"
+      v-for="[key, value] in fields"
+      :key="key"
+    >
       <p class="field-name">
         {{ titleCase(key) }}
       </p>
@@ -8,9 +12,9 @@
         class="field-value"
         :is="getField(value.type)"
         :property="value"
-        @change="(...args) => $emit('change', ...args)"
-        @create="(...args) => $emit('create', ...args)"
-        @delete="(...args) => $emit('delete', ...args)"
+        @change="(...args: any) => $emit('change', ...args)"
+        @create="(...args: any) => $emit('create', ...args)"
+        @delete="(...args: any) => $emit('delete', ...args)"
       />
     </div>
   </div>
@@ -18,7 +22,7 @@
 
 <script lang="ts">
 // Dependencies
-import { defineAsyncComponent, defineComponent, PropType } from "vue";
+import { defineAsyncComponent, defineComponent, type PropType } from "vue";
 import { DictionaryProperty, Property, PropertyType, titleCase } from "@/assets/scripts/BlockDiagram";
 // Components
 import TextField from "./TextField.vue";
@@ -26,6 +30,7 @@ import ListField from "./ListField.vue";
 import EnumField from "./EnumField.vue";
 import NumberField from "./NumberField.vue";
 import DateTimeField from "./DateTimeField.vue";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
 
 export default defineComponent({

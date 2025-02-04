@@ -1,12 +1,12 @@
 import { RasterCache } from "../../DiagramElement/RasterCache";
+import { DiagramFactory } from "../../DiagramFactory";
 import { DiagramAnchorableView } from "../../DiagramViewTypes";
-import { 
+import {
     DiagramAnchorModel,
     DiagramObjectModel,
     DiagramObjectModelError
 } from "./BaseModels";
-import { 
-    DiagramFactory,
+import type {
     DiagramObjectValues,
     ObjectTemplate
 } from "../../DiagramFactory";
@@ -16,7 +16,7 @@ export abstract class DiagramAnchorableModel extends DiagramObjectModel {
     /**
      * The anchorable's anchor.
      */
-    public anchor: DiagramAnchorModel | undefined; 
+    public anchor: DiagramAnchorModel | undefined;
 
 
     /**
@@ -26,7 +26,7 @@ export abstract class DiagramAnchorableModel extends DiagramObjectModel {
      * @param template
      *  The anchorable's template.
      * @param values
-     *  The anchorable's values. 
+     *  The anchorable's values.
      */
     constructor(
         factory: DiagramFactory,
@@ -41,14 +41,14 @@ export abstract class DiagramAnchorableModel extends DiagramObjectModel {
     ///////////////////////////////////////////////////////////////////////////
     //  1. Structure  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
-    
+
+
     /**
      * Adds a child object.
      */
     public override addChild() {
         throw new DiagramObjectModelError(
-            `Anchorable objects cannot have children.`, this
+            "Anchorable objects cannot have children.", this
         );
     }
 
@@ -57,7 +57,7 @@ export abstract class DiagramAnchorableModel extends DiagramObjectModel {
      */
     public override removeChild() {
         throw new DiagramObjectModelError(
-            `Anchorable objects cannot have children.`, this
+            "Anchorable objects cannot have children.", this
         );
     }
 
@@ -66,7 +66,7 @@ export abstract class DiagramAnchorableModel extends DiagramObjectModel {
      */
     public override reorderChild() {
         throw new DiagramObjectModelError(
-            `Anchorable objects cannot be reordered.`, this
+            "Anchorable objects cannot be reordered.", this
         );
     }
 

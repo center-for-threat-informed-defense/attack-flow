@@ -1,11 +1,11 @@
 import { RasterCache } from "../../DiagramElement/RasterCache";
+import { DiagramFactory } from "../../DiagramFactory";
 import { DiagramLineHandleView } from "../../DiagramViewTypes";
 import {
     DiagramLineModel,
     DiagramObjectModel
 } from "./BaseModels";
-import {
-    DiagramFactory,
+import type {
     DiagramObjectValues,
     ObjectTemplate
 } from "../../DiagramFactory";
@@ -15,7 +15,7 @@ export abstract class DiagramLineHandleModel extends DiagramObjectModel {
     /**
      * The line handle's parent.
      */
-    public override parent: DiagramLineModel | undefined;
+    declare parent: DiagramLineModel | undefined;
 
 
     /**
@@ -25,7 +25,7 @@ export abstract class DiagramLineHandleModel extends DiagramObjectModel {
      * @param template
      *  The line handle's template.
      * @param values
-     *  The line handle's values. 
+     *  The line handle's values.
      */
     constructor(
         factory: DiagramFactory,
@@ -42,10 +42,10 @@ export abstract class DiagramLineHandleModel extends DiagramObjectModel {
 
 
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param updateParent
      *  If the parent's layout should be updated.
@@ -57,7 +57,7 @@ export abstract class DiagramLineHandleModel extends DiagramObjectModel {
     public override moveBy(
         dx: number, dy: number, updateParent: boolean = true, useSuper: boolean = false
     ): void {
-        if(useSuper) {
+        if (useSuper) {
             super.moveBy(dx, dy, updateParent);
         } else {
             this.parent?.moveChild(this.id, dx, dy, updateParent);

@@ -1,4 +1,4 @@
-export * from "./MD5"
+export * from "./MD5";
 export * from "./Drawing";
 export * from "./Events";
 export * from "./Fonts";

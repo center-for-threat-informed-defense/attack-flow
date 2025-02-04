@@ -1,13 +1,21 @@
 <template>
   <div class="app-footer-bar-element">
     <div class="info left">
-      <p class="selected"><span>Selected:</span> {{ hasSelection }}</p>
+      <p class="selected">
+        <span>Selected:</span> {{ application.hasSelection }}
+      </p>
     </div>
     <div class="info right">
-      <div v-if="isValid" class="page-check valid">
+      <div
+        v-if="application.isValid"
+        class="page-check valid"
+      >
         <span>✓</span> Valid {{ fileName }}
       </div>
-      <div v-else class="page-check invalid">
+      <div
+        v-else
+        class="page-check invalid"
+      >
         <span>⚠</span> Invalid {{ fileName }}
       </div>
     </div>
@@ -17,25 +25,16 @@
 <script lang="ts">
 import Configuration from "@/assets/configuration/builder.config";
 import { defineComponent } from "vue";
-import { mapGetters } from "vuex";
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
 
 export default defineComponent({
   name: "AppFooterBar",
   data(){
     return {
+      application: useApplicationStore(),
       fileName: Configuration.file_type_name
     }
   },
-  computed: {
-
-    /**
-     * Application Store getters
-     */
-    ...mapGetters("ApplicationStore", [
-        "hasSelection", "isValid"
-    ])
-    
-  }
 });
 </script>
 

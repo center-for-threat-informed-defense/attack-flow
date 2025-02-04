@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { drawRect } from "../Utilities";
 import { RasterCache } from "../DiagramElement/RasterCache";
 import { ViewportRegion } from "../DiagramElement";
@@ -5,7 +6,7 @@ import { DictionaryBlockModel } from "../DiagramModelTypes";
 import { DiagramObjectView } from ".";
 
 export class DictionaryBlockView extends DiagramObjectView {
-    
+
     /**
      * The underlying model.
      */
@@ -43,16 +44,16 @@ export class DictionaryBlockView extends DiagramObjectView {
 
 
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param attrs
      *  If specified, this set of attributes will override the object's
      *  underlying attributes.
      */
-    public override moveBy(dx: number, dy: number, attrs?: number) {
+    public override moveBy(dx: number, dy: number, _attrs?: number) {
         super.moveBy(dx, dy);
         // Move top left corner
         this.tlx += dx;
@@ -64,7 +65,7 @@ export class DictionaryBlockView extends DiagramObjectView {
     //  2. Render  ////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Renders the object to a context.
      * @param ctx
@@ -84,39 +85,39 @@ export class DictionaryBlockView extends DiagramObjectView {
     public override renderTo(
         ctx: CanvasRenderingContext2D, vr: ViewportRegion,
         dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
-        if(!this.isVisible(vr)) {
+    ) {
+        if (!this.isVisible(vr)) {
             return;
         }
 
         // Init
-        let { tlx: x, tly: y } = this;
-        let { 
-            body, 
+        const { tlx: x, tly: y } = this;
+        const {
+            body,
             head,
             select_outline: so,
-            border_radius: br,
+            border_radius: br
         } = this.el.style;
-        let {
+        const {
             width: w,
             height: h,
             headerHeight: hh,
             text
         } = this.el.layout;
-        let isSplitBlock = hh !== h;
+        const isSplitBlock = hh !== h;
 
         // Draw body
         let bf, bs;
-        if(isSplitBlock) {
-            bf = body.fill_color
-            bs = body.stroke_color
+        if (isSplitBlock) {
+            bf = body.fill_color;
+            bs = body.stroke_color;
         } else {
-            bf = head.fill_color
-            bs = head.stroke_color
+            bf = head.fill_color;
+            bs = head.stroke_color;
         }
         ctx.lineWidth = 1.1;
         drawRect(ctx, x, y, w, h, br);
-        if(dsx | dsy) {
+        if (dsx | dsy) {
             ctx.shadowOffsetX = dsx + (0.5 * vr.scale);
             ctx.shadowOffsetY = dsy + (0.5 * vr.scale);
             ctx.fillStyle = bf;
@@ -133,7 +134,7 @@ export class DictionaryBlockView extends DiagramObjectView {
         }
 
         // Draw head
-        if(isSplitBlock) {
+        if (isSplitBlock) {
             drawRect(ctx, x, y, w, hh, { tr: br, tl: br });
             ctx.fillStyle = head.fill_color;
             ctx.strokeStyle = head.stroke_color;
@@ -142,18 +143,18 @@ export class DictionaryBlockView extends DiagramObjectView {
         }
 
         // Draw text
-        for(let set of text) {
+        for (const set of text) {
             ctx.font = set.font.css;
             ctx.fillStyle = set.color;
-            for(let text of set.text) {
-                ctx.fillText(text.t, x + text.x, y + text.y)
+            for (const text of set.text) {
+                ctx.fillText(text.t, x + text.x, y + text.y);
             }
         }
 
-        if(this.el.isSelected(attrs)) {
-            
+        if (this.el.isSelected(attrs)) {
+
             // Init
-            let { 
+            let {
                 color,
                 padding: p,
                 border_radius: br
@@ -161,32 +162,32 @@ export class DictionaryBlockView extends DiagramObjectView {
             p += 1;
 
             // Draw select border
-            drawRect(ctx, x - p, y - p, w + p*2, h + p*2, br, 1);
+            drawRect(ctx, x - p, y - p, w + p * 2, h + p * 2, br, 1);
             ctx.strokeStyle = color;
             ctx.stroke();
 
-        } else if(this.el.isHovered(attrs)) {
+        } else if (this.el.isHovered(attrs)) {
 
             // Init
-            let {
+            const {
                 color,
                 size
             } = this.el.style.anchor_markers;
-            
+
             // Draw anchors
-            super.renderTo(ctx, vr, dsx, dsy);    
+            super.renderTo(ctx, vr, dsx, dsy);
 
             // Draw anchor markers
             ctx.strokeStyle = color;
             ctx.beginPath();
-            for(let o of this.children) {
+            for (const o of this.children) {
                 ctx.moveTo(o.x - size, o.y - size);
                 ctx.lineTo(o.x + size, o.y + size);
                 ctx.moveTo(o.x + size, o.y - size);
                 ctx.lineTo(o.x - size, o.y + size);
             }
             ctx.stroke();
-        
+
         }
 
     }

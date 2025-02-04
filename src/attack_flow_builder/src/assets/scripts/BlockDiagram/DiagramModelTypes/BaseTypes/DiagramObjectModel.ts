@@ -1,26 +1,28 @@
 import { Crypto } from "../../Utilities/Crypto";
 import { RasterCache } from "../../DiagramElement/RasterCache";
 import { DiagramObjectView } from "../../DiagramViewTypes";
-import { 
+import {
     DiagramAnchorableModel,
     DiagramAnchorModel
 } from "./BaseModels";
 import {
     RootProperty
 } from "../../Property";
-import { 
+import {
     DiagramFactory,
-    DiagramObjectExport,
-    DiagramObjectValues,
-    ObjectTemplate,
     SemanticRole
 } from "../../DiagramFactory";
 import {
     Alignment, AlignmentMask, Cursor, CursorMask, Hover, HoverMask,
     InheritAlignmentMask, InheritAlignment, PositionSetByUser,
     PositionSetByUserMask, Priority, PriorityMask, Select, SelectMask,
-    SemanticRoleMask     
+    SemanticRoleMask
 } from "../../Attributes";
+import type {
+    DiagramObjectExport,
+    DiagramObjectValues,
+    ObjectTemplate
+} from "../../DiagramFactory";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,7 +47,7 @@ export abstract class DiagramObjectModel {
      */
     public parent: DiagramObjectModel | undefined;
 
-     /**
+    /**
       * The object's children.
       */
     public readonly children: DiagramObjectModel[];
@@ -75,13 +77,13 @@ export abstract class DiagramObjectModel {
      */
     public get root(): DiagramObjectModel {
         let owner = this as DiagramObjectModel;
-        while(owner.parent) {
+        while (owner.parent) {
             owner = owner.parent;
         }
         return owner;
     }
 
-    
+
     /**
      * Creates a new {@link DiagramObjectModel}.
      * @param factory
@@ -92,7 +94,7 @@ export abstract class DiagramObjectModel {
      *  The object's values.
      */
     constructor(
-        factory: DiagramFactory, 
+        factory: DiagramFactory,
         template: ObjectTemplate,
         values?: DiagramObjectValues
     ) {
@@ -112,14 +114,14 @@ export abstract class DiagramObjectModel {
         this.props = new RootProperty(
             template.id, this, template?.properties ?? {}, values?.properties
         );
-        if(values?.children) {
-            for(let i = 0; i < values.children.length; i++) {
+        if (values?.children) {
+            for (let i = 0; i < values.children.length; i++) {
                 this.addChild(values.children[i], i, false);
             }
         }
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Structure  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -136,21 +138,21 @@ export abstract class DiagramObjectModel {
     public *getSubtree(
         match?: (o: DiagramObjectModel) => boolean
     ): IterableIterator<DiagramObjectModel> {
-        let visited = new Set<string>([this.id]);
-        let queue: DiagramObjectModel[] = [this];
-        while(queue.length != 0) {
-            let obj = queue.shift()!;
+        const visited = new Set<string>([this.id]);
+        const queue: DiagramObjectModel[] = [this];
+        while (queue.length != 0) {
+            const obj = queue.shift()!;
             // Yield object
-            if(!match || match(obj)) {
+            if (!match || match(obj)) {
                 yield obj;
             }
             // Don't traverse anchors
-            if(obj instanceof DiagramAnchorModel) {
+            if (obj instanceof DiagramAnchorModel) {
                 continue;
             }
             // Enumerate children
-            for(let child of obj.children){
-                if(!visited.has(child.id)) {
+            for (const child of obj.children) {
+                if (!visited.has(child.id)) {
                     visited.add(child.id);
                     queue.push(child);
                 }
@@ -172,20 +174,20 @@ export abstract class DiagramObjectModel {
     public addChild(
         obj: DiagramObjectModel,
         index: number = this.children.length,
-        update: boolean = true,
+        update: boolean = true
     ) {
         // Ensure it isn't already added
-        if(this.children.indexOf(obj) !== -1) {
+        if (this.children.indexOf(obj) !== -1) {
             throw new DiagramObjectModelError(
-                `Object already has a child with the id '${ obj.id }'.`, this
-            )
+                `Object already has a child with the id '${obj.id}'.`, this
+            );
         }
         // Set object's parent
         obj.parent = this;
         // Add object to children
         this.children.splice(index, 0, obj);
         // Update layout
-        if(update) {
+        if (update) {
             this.updateLayout(LayoutUpdateReason.ChildAdded);
         }
     }
@@ -200,22 +202,22 @@ export abstract class DiagramObjectModel {
      * @param safely
      *  If the object should be checked for external attachments. Ordinarily,
      *  all external attachments should be removed before removing an object to
-     *  ensure references to the object aren't kept elsewhere. However, when 
+     *  ensure references to the object aren't kept elsewhere. However, when
      *  executing a mass removal, removing ALL external attachments may not be
-     *  needed or wanted. Only disable this if you know what you're doing. 
+     *  needed or wanted. Only disable this if you know what you're doing.
      *  (Default: true)
      */
     public removeChild(obj: DiagramObjectModel, update: boolean = true, safely: boolean = true) {
-        let i = this.children.indexOf(obj);
-        if(i === -1) {
+        const i = this.children.indexOf(obj);
+        if (i === -1) {
             throw new DiagramObjectModelError(
-                `'${ obj.id }' is not a child of '${ this.id }'.`, obj
+                `'${obj.id}' is not a child of '${this.id}'.`, obj
             );
         }
         // Check for external attachments
-        if(safely && obj.hasExternalAttachments()) {
+        if (safely && obj.hasExternalAttachments()) {
             throw new DiagramObjectModelError(
-                `'${ obj.id }' still maintains external attachments.`, obj
+                `'${obj.id}' still maintains external attachments.`, obj
             );
         }
         // Clear object's parent
@@ -223,7 +225,7 @@ export abstract class DiagramObjectModel {
         // Remove object from children
         this.children.splice(i, 1);
         // Update layout
-        if(update) {
+        if (update) {
             this.updateLayout(LayoutUpdateReason.ChildDeleted);
         }
     }
@@ -236,11 +238,11 @@ export abstract class DiagramObjectModel {
      *  The object's new location.
      */
     public reorderChild(id: string, index: number) {
-        let i = this.children.findIndex(o => o.id === id);
-        let obj = this.children[i];
-        if(!obj) {
+        const i = this.children.findIndex(o => o.id === id);
+        const obj = this.children[i];
+        if (!obj) {
             throw new DiagramObjectModelError(
-                `Object has no child with the id '${ id }'.`
+                `Object has no child with the id '${id}'.`
             );
         }
         // Remove child
@@ -256,9 +258,9 @@ export abstract class DiagramObjectModel {
      */
     protected hasExternalAttachments(): boolean {
         // Compile list of anchors and anchor-ables
-        let map = new Map<string, DiagramObjectModel>();
-        for(let obj of this.getSubtree()) {
-            if(
+        const map = new Map<string, DiagramObjectModel>();
+        for (const obj of this.getSubtree()) {
+            if (
                 obj instanceof DiagramAnchorModel ||
                 obj instanceof DiagramAnchorableModel
             ) {
@@ -266,16 +268,18 @@ export abstract class DiagramObjectModel {
             }
         }
         // Look for any dependencies that can't be found in the list
-        for(let obj of map.values()) {
-            if(obj instanceof DiagramAnchorableModel) {
-                if(obj.isAttached() && !map.has(obj.anchor!.id))
+        for (const obj of map.values()) {
+            if (obj instanceof DiagramAnchorableModel) {
+                if (obj.isAttached() && !map.has(obj.anchor!.id)) {
                     return true;
+                }
                 continue;
             }
-            if(obj instanceof DiagramAnchorModel) {
-                for(let c of obj.children) {
-                    if(!map.has(c.id))
+            if (obj instanceof DiagramAnchorModel) {
+                for (const c of obj.children) {
+                    if (!map.has(c.id)) {
                         return true;
+                    }
                 }
             }
         }
@@ -309,16 +313,16 @@ export abstract class DiagramObjectModel {
     public getObjectAt(x: number, y: number): DiagramObjectModel | undefined {
         let object = undefined;
         let select = undefined;
-        for(let i = this.children.length - 1; 0 <= i; i--) {
-            let child = this.children[i];
-            if(child instanceof DiagramAnchorableModel && child.isAttached()) {
+        for (let i = this.children.length - 1; 0 <= i; i--) {
+            const child = this.children[i];
+            if (child instanceof DiagramAnchorableModel && child.isAttached()) {
                 // If child is attached to an anchor, selection is decided by anchor
                 continue;
             }
             select = child.getObjectAt(x, y);
-            if(select && (!object || select.hasHigherPriorityThan(object))) {
+            if (select && (!object || select.hasHigherPriorityThan(object))) {
                 object = select;
-                if(object.getPriority() === Priority.High) {
+                if (object.getPriority() === Priority.High) {
                     break;
                 }
             }
@@ -351,10 +355,10 @@ export abstract class DiagramObjectModel {
     }
 
     /**
-     * Moves the object relative to its current position. 
+     * Moves the object relative to its current position.
      * @param dx
      *  The change in x.
-     * @param dy 
+     * @param dy
      *  The change in y.
      * @param updateParent
      *  If the parent's layout should be updated.
@@ -370,15 +374,15 @@ export abstract class DiagramObjectModel {
         this.boundingBox.yMax += dy;
         // Move non-anchored children
         let atBaseOfMovement = true;
-        for(let obj of this.children) {
-            if(obj instanceof DiagramAnchorableModel && obj.isAttached()) {
+        for (const obj of this.children) {
+            if (obj instanceof DiagramAnchorableModel && obj.isAttached()) {
                 continue;
             }
             atBaseOfMovement = false;
             obj.moveBy(dx, dy);
         }
         // Update layout
-        if(atBaseOfMovement) {
+        if (atBaseOfMovement) {
             this.updateLayout(LayoutUpdateReason.Movement, updateParent);
         }
     }
@@ -394,11 +398,11 @@ export abstract class DiagramObjectModel {
      */
     public recalculateLayout() {
         let atBaseOfLayout = true;
-        for(let obj of this.children) {
+        for (const obj of this.children) {
             atBaseOfLayout = false;
             obj.recalculateLayout();
         }
-        if(atBaseOfLayout){
+        if (atBaseOfLayout) {
             this.updateLayout(LayoutUpdateReason.Initialization);
         }
     }
@@ -406,13 +410,13 @@ export abstract class DiagramObjectModel {
     /**
      * Updates the object's alignment and bounding box.
      * @param reasons
-     *  The reasons the layout was updated. 
+     *  The reasons the layout was updated.
      * @param updateParent
      *  If the parent's layout should be updated.
      *  (Default: true)
      */
     public updateLayout(reasons: number, updateParent: boolean = true) {
-        let bb = this.boundingBox;
+        const bb = this.boundingBox;
         // Reset bounding box
         bb.xMin = Infinity;
         bb.yMin = Infinity;
@@ -421,7 +425,7 @@ export abstract class DiagramObjectModel {
         // Reset alignment
         let align = Alignment.Free;
         // Update bounding box
-        for(let obj of this.children) {
+        for (const obj of this.children) {
             bb.xMin = Math.min(bb.xMin, obj.boundingBox.xMin);
             bb.yMin = Math.min(bb.yMin, obj.boundingBox.yMin);
             bb.xMax = Math.max(bb.xMax, obj.boundingBox.xMax);
@@ -432,11 +436,11 @@ export abstract class DiagramObjectModel {
         bb.xMid = Math.floor((bb.xMin + bb.xMax) / 2);
         bb.yMid = Math.floor((bb.yMin + bb.yMax) / 2);
         // Update alignment
-        if(this.isAlignmentInherited()) {
+        if (this.isAlignmentInherited()) {
             this.setAlignment(align);
         }
         // Update parent
-        if(updateParent) {
+        if (updateParent) {
             this.parent?.updateLayout(reasons);
         }
     }
@@ -464,7 +468,7 @@ export abstract class DiagramObjectModel {
      *  The object's alignment.
      */
     public getAlignment(attrs: number = this.attrs): number {
-        return attrs & AlignmentMask
+        return attrs & AlignmentMask;
     }
 
     /**
@@ -499,7 +503,7 @@ export abstract class DiagramObjectModel {
     public isHoveredOrSelected(attrs: number = this.attrs): boolean {
         return 0 < (attrs & (SelectMask | HoverMask));
     }
-    
+
     /**
      * Test if the object inherits alignment from it's children.
      * @param attrs
@@ -523,14 +527,14 @@ export abstract class DiagramObjectModel {
     }
 
     /**
-     * Returns the object's 'position set by user' attribute. 
+     * Returns the object's 'position set by user' attribute.
      * @param attrs
      *  If specified, these attributes will override the object's attributes.
      * @returns
      *  The object's 'position set by user' attribute.
      */
     public getPositionSetByUser(attrs: number = this.attrs): number {
-        return attrs & PositionSetByUserMask
+        return attrs & PositionSetByUserMask;
     }
 
     /**
@@ -543,7 +547,7 @@ export abstract class DiagramObjectModel {
     public getPriority(attrs: number = this.attrs): number  {
         return attrs & PriorityMask;
     }
-    
+
     /**
      * Tests which object has the higher selection priority.
      * @param obj
@@ -672,7 +676,7 @@ export abstract class DiagramObjectModel {
     ///////////////////////////////////////////////////////////////////////////
     //  7. Content  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Exports the {@link DiagramObjectModel}.
@@ -688,7 +692,7 @@ export abstract class DiagramObjectModel {
             template: this.template.id,
             children: this.children.map(el => el.id),
             properties: this.props.toRawValue()
-        }
+        };
     }
 
 }
@@ -729,12 +733,12 @@ export class BoundingBox {
     /**
      * The bounding region's minimum x coordinate.
      */
-    public xMin: number
+    public xMin: number;
 
     /**
      * The bounding region's minimum y coordinate.
      */
-    public yMin: number
+    public yMin: number;
 
     /**
      * The bounding region's center x coordinate.
@@ -749,7 +753,7 @@ export class BoundingBox {
     /**
      * The bounding region's maximum x coordinate.
      */
-    public xMax: number
+    public xMax: number;
 
     /**
      * The bounding region's maximum y coordinate.
@@ -782,4 +786,4 @@ export const LayoutUpdateReason = {
     ChildAdded     : 0b00100,
     ChildDeleted   : 0b01000,
     PropUpdate     : 0b10000
-}
+};

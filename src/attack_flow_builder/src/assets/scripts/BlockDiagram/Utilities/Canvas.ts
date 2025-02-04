@@ -14,8 +14,8 @@ export function resizeContext(
 ) {
     context.canvas.width = width * window.devicePixelRatio;
     context.canvas.height = height * window.devicePixelRatio;
-    context.canvas.style.width = `${ width }px`;
-    context.canvas.style.height = `${ height }px`;
+    context.canvas.style.width = `${width}px`;
+    context.canvas.style.height = `${height}px`;
     context.scale(window.devicePixelRatio, window.devicePixelRatio);
 }
 
@@ -36,8 +36,8 @@ export function transformContext(
     x: number,
     y: number
 ) {
-    k *= window.devicePixelRatio,
-    x *= window.devicePixelRatio,
+    k *= window.devicePixelRatio;
+    x *= window.devicePixelRatio;
     y *= window.devicePixelRatio;
     context.setTransform(
         k, 0, 0,
@@ -71,7 +71,7 @@ export function resizeAndTransformContext(
 ) {
     context.canvas.width = width * window.devicePixelRatio;
     context.canvas.height = height * window.devicePixelRatio;
-    context.canvas.style.width = `${ width }px`;
-    context.canvas.style.height = `${ height }px`;
+    context.canvas.style.width = `${width}px`;
+    context.canvas.style.height = `${height}px`;
     transformContext(context, k, x, y);
 }

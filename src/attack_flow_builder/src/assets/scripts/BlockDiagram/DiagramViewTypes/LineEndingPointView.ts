@@ -4,7 +4,7 @@ import { LineEndingPointModel } from "../DiagramModelTypes";
 import { DiagramLineEndingView } from "./BaseTypes/BaseViews";
 
 export class LineEndingPointView extends DiagramLineEndingView {
-    
+
     /**
      * The underlying model.
      */
@@ -23,7 +23,7 @@ export class LineEndingPointView extends DiagramLineEndingView {
         this.el = el;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Render  ////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -46,18 +46,18 @@ export class LineEndingPointView extends DiagramLineEndingView {
      *  attributes.
      */
     public override renderTo(
-        ctx: CanvasRenderingContext2D, vr: ViewportRegion,
-        dsx: number = 0, dsy: number = 0, attrs?: number
-    ) { 
-        
+        ctx: CanvasRenderingContext2D, _vr: ViewportRegion,
+        _dsx: number = 0, _dsy: number = 0, _attrs?: number
+    ) {
+
         // Init
-        let { 
+        const {
             radius,
             fill_color,
             stroke_color,
             stroke_width
         } = this.el.style;
-        
+
         // Configure canvas
         ctx.fillStyle = fill_color;
         ctx.lineWidth = stroke_width;

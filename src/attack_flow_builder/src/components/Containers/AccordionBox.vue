@@ -3,7 +3,7 @@
 import { PointerTracker } from "@/assets/scripts/PointerTracker";
 import { defineComponent, h, markRaw } from "vue";
 // Components
-import CollapseArrow from "@/components/Icons/CollapseArrow.vue";
+import CollapseArrowIcon from "@/components/Icons/CollapseArrowIcon.vue";
 
 export default defineComponent({
   name: "AccordionBox",
@@ -29,7 +29,7 @@ export default defineComponent({
      *  The accordion box's style.
      */
     boxStyle() {
-      let gridTemplateRows = this.panes.map(
+      const gridTemplateRows = this.panes.map(
         o => `${ o.activeHeight + this.collapseHeight }px`
       ).join(" ");
       return { gridTemplateRows }
@@ -46,7 +46,7 @@ export default defineComponent({
      * @param i
      *  The index of the pane.
      */
-    onCollapse(event: PointerEvent, i: number) {
+    onCollapse(i: number) {
       if(this.panes[i].collapsed) {
         this.uncollapsePane(i);
       } else {
@@ -60,15 +60,15 @@ export default defineComponent({
      *  The index of the pane.
      */
     collapsePane(i: number) {
-      let p = this.panes;
+      const p = this.panes;
 
       // Cache heights
       this.cacheHeights();
 
       // Calculate next height
-      let currentHeight = p.reduce((a,o) => a + o.cachedHeight, 0);
-      let elementHeight = this.getAvailableHeight(); 
-      let nextHeight = currentHeight - p[i].cachedHeight;
+      const currentHeight = p.reduce((a,o) => a + o.cachedHeight, 0);
+      const elementHeight = this.getAvailableHeight(); 
+      const nextHeight = currentHeight - p[i].cachedHeight;
       
       // Collapse window
       p[i].collapsed = true;
@@ -77,8 +77,8 @@ export default defineComponent({
 
       // Return collapsed height if room available.
       if(nextHeight < elementHeight) {
-        let available = elementHeight - nextHeight;
-        let availableDelta = Math.min(available, p[i].cachedHeight);
+        const available = elementHeight - nextHeight;
+        const availableDelta = Math.min(available, p[i].cachedHeight);
         for(let j = p.length - 1; 0 <= j; j--) {
           if(p[j].collapsed) {
             continue;
@@ -99,15 +99,15 @@ export default defineComponent({
      *  The index of the pane.
      */
     uncollapsePane(i: number) {
-      let p = this.panes;
+      const p = this.panes;
       let neededHeight = p[i].uncollapsedHeight;
       
       // Cache heights
       this.cacheHeights();
 
       // Take collapsed height from element if available
-      let currentHeight = p.reduce((a,o) => a + o.cachedHeight, 0);
-      let elementHeight = this.getAvailableHeight();
+      const currentHeight = p.reduce((a,o) => a + o.cachedHeight, 0);
+      const elementHeight = this.getAvailableHeight();
       if(currentHeight === 0) {
         p[i].activeHeight += elementHeight;
         neededHeight -= Math.min(neededHeight, elementHeight);
@@ -118,8 +118,8 @@ export default defineComponent({
         if(p[j].collapsed) {
           continue;
         }
-        let available = p[j].cachedHeight - p[j].minHeight;
-        let availableDelta = Math.min(available, neededHeight);
+        const available = p[j].cachedHeight - p[j].minHeight;
+        const availableDelta = Math.min(available, neededHeight);
         p[j].activeHeight -= availableDelta;
         p[i].activeHeight += availableDelta;
         neededHeight -= availableDelta;
@@ -162,7 +162,7 @@ export default defineComponent({
     onDrag(event: PointerEvent, track: PointerTracker) {
       event.preventDefault();
 
-      let p = this.panes;
+      const p = this.panes;
 
       // Ignore no movement
       if(track.movementY === 0)
@@ -190,12 +190,12 @@ export default defineComponent({
           if(p[i].collapsed) {
             continue;
           }
-          let available = p[i].cachedHeight - p[i].minHeight;
-          let availableDelta = Math.min(available, remainingDelta);
+          const available = p[i].cachedHeight - p[i].minHeight;
+          const availableDelta = Math.min(available, remainingDelta);
           p[i].activeHeight = p[i].cachedHeight - availableDelta;
           remainingDelta -= availableDelta;
         }
-        let growAmount = Math.abs(track.deltaY) - remainingDelta;
+        const growAmount = Math.abs(track.deltaY) - remainingDelta;
         p[growPane].activeHeight = p[growPane].cachedHeight + growAmount; 
       }
 
@@ -218,12 +218,12 @@ export default defineComponent({
           if(p[i].collapsed) {
             continue;
           }
-          let available = p[i].cachedHeight - p[i].minHeight;
-          let availableDelta = Math.min(available, remainingDelta);
+          const available = p[i].cachedHeight - p[i].minHeight;
+          const availableDelta = Math.min(available, remainingDelta);
           p[i].activeHeight = p[i].cachedHeight - availableDelta;
           remainingDelta -= availableDelta;
         }
-        let growAmount = track.deltaY - remainingDelta;
+        const growAmount = track.deltaY - remainingDelta;
         p[growPane].activeHeight = p[growPane].cachedHeight + growAmount;
       }
       
@@ -245,9 +245,9 @@ export default defineComponent({
      * Refits the panes inside the container.
      */
     refit() {
-      let p = this.panes;
-      let currentHeight = p.reduce((a,o) => a + o.cachedHeight, 0);
-      let elementHeight = this.getAvailableHeight();
+      const p = this.panes;
+      const currentHeight = p.reduce((a,o) => a + o.cachedHeight, 0);
+      const elementHeight = this.getAvailableHeight();
       
       // If no height, bail
       if(currentHeight === 0) {
@@ -256,7 +256,7 @@ export default defineComponent({
 
       // Grow
       else if(currentHeight <= elementHeight) {
-        let proportions = p.map(o => o.cachedHeight / currentHeight);
+        const proportions = p.map(o => o.cachedHeight / currentHeight);
         for(let i = 0; i < p.length; i++) {
           p[i].activeHeight = elementHeight * proportions[i];
         }
@@ -264,15 +264,15 @@ export default defineComponent({
 
       // Shrink
       else {
-        let minElementHeight = p.reduce((a,o) => a + (o.collapsed ? 0 : o.minHeight), 0);
-        let n = currentHeight - Math.max(minElementHeight, elementHeight);
-        let d = currentHeight - minElementHeight;
-        let percentToMinimum = d !== 0 ? n / d : 1;
+        const minElementHeight = p.reduce((a,o) => a + (o.collapsed ? 0 : o.minHeight), 0);
+        const n = currentHeight - Math.max(minElementHeight, elementHeight);
+        const d = currentHeight - minElementHeight;
+        const percentToMinimum = d !== 0 ? n / d : 1;
         for(let i = 0; i < p.length; i++) {
           if(p[i].collapsed) {
             continue;
           }
-          let delta = (p[i].cachedHeight - p[i].minHeight) * percentToMinimum;
+          const delta = (p[i].cachedHeight - p[i].minHeight) * percentToMinimum;
           p[i].activeHeight = p[i].cachedHeight - delta;
         }
       }
@@ -287,9 +287,9 @@ export default defineComponent({
         return;
 
       // Setup panes and heights
-      let panes: AccordionPaneHeight[] = [];
-      let units: number[] = [];
-      for(let slot of this.$slots.default()) {
+      const panes: AccordionPaneHeight[] = [];
+      const units: number[] = [];
+      for(const slot of this.$slots.default()) {
         units.push(slot.props?.units ?? 1);
         panes.push({
           minHeight: slot.props?.minHeight ?? 100,
@@ -299,13 +299,13 @@ export default defineComponent({
           collapsed: slot.props?.collapsed ?? false
         });
       }
-      let totalHeight = this.getAvailableHeight();
+      const totalHeight = this.getAvailableHeight();
 
       // Configure base height
-      let totalUnits = units.reduce((a,b) => a+b);
+      const totalUnits = units.reduce((a,b) => a+b);
       for(let i = 0; i < panes.length; i++) {
-        let p = panes[i];
-        let height = totalHeight * (units[i] / totalUnits)
+        const p = panes[i];
+        const height = totalHeight * (units[i] / totalUnits)
         p.cachedHeight = Math.max(p.minHeight, height);
       }
       this.panes = panes;
@@ -325,11 +325,11 @@ export default defineComponent({
      * Returns the amount of useable space available from the container.
      */
     getAvailableHeight() {
-      let height = this.$el.clientHeight;
+      const height = this.$el.clientHeight;
       if(!this.$slots.default) {
         return height;
       } else {
-        let totalPanes = this.$slots.default().length;
+        const totalPanes = this.$slots.default().length;
         return height - (totalPanes * this.collapseHeight);
       }
     },
@@ -338,7 +338,7 @@ export default defineComponent({
      * Caches the height of each pane.
      */
     cacheHeights() {
-      for(let pane of this.panes) {
+      for(const pane of this.panes) {
         pane.cachedHeight = pane.activeHeight;
       }
     }
@@ -355,14 +355,14 @@ export default defineComponent({
     this.onResizeObserver!.disconnect();
   },
   render() {
-    let children = [];
+    const children = [];
     if(this.$slots.default) {
-      let _slots = this.$slots.default();
+      const _slots = this.$slots.default();
       // Generate accordion boxes
       for(let i = 0; i < _slots.length; i++) {
-        let slot = _slots[i];
+        const slot = _slots[i];
         // Generate handle
-        let handle = h(
+        const handle = h(
           "div",
           {
             class: "accordion-box-handle",
@@ -371,16 +371,16 @@ export default defineComponent({
           }
         );
         // Generate head
-        let head = h(
+        const head = h(
           "div",
           {
             class: "accordion-box-head",
             style: { height: `${ this.$props.collapseHeight }px` },
-            onClick: (e: PointerEvent) => this.onCollapse(e, i)
+            onClick: () => this.onCollapse(i)
           },
           [
             h(
-              CollapseArrow,
+              CollapseArrowIcon,
               { 
                 class: "collapse-arrow",
                 collapsed: this.panes[i]?.collapsed
@@ -390,9 +390,9 @@ export default defineComponent({
           ]
         );
         // Generate body
-        let body = h("div", { class: "accordion-box-body" }, slot);
+        const body = h("div", { class: "accordion-box-body" }, slot);
         // Generate box
-        let box = h(
+        const box = h(
           "div",
           { 
             class: [

@@ -1,5 +1,8 @@
 <template>
-  <div class="block-diagram-element" :style="cursorStyle">
+  <div
+    class="block-diagram-element"
+    :style="cursorStyle"
+  >
     <ContextMenu
       class="block-diagram-menu"
       v-if="menu.show"
@@ -12,25 +15,26 @@
 </template>
 
 <script lang="ts">
-import * as App from "@/store/Commands/AppCommands";
-import * as Page from "@/store/Commands/PageCommands";
-import * as Store from "@/store/StoreTypes";
+import * as App from "@/stores/Commands/AppCommands";
+import * as Page from "@/stores/Commands/PageCommands";
 // Dependencies
-import { CommandEmitter } from "@/store/Commands/Command";
 import { defineComponent, inject, markRaw } from 'vue';
-import { mapGetters, mapMutations, mapState } from "vuex";
-import {
-  ContextMenuSection
-} from "@/assets/scripts/ContextMenuTypes";
 import { 
-  BlockDiagram,CameraLocation,Cursor,
+  BlockDiagram,
+  Cursor,
   CursorCssName,
   DiagramAnchorableModel,
   DiagramAnchorModel,
   DiagramLineModel,
   DiagramObjectModel,
   MouseClick,
+  type CameraLocation
 } from "@/assets/scripts/BlockDiagram";
+import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useContextMenuStore } from "@/stores/Stores/ContextMenuStore";
+import type { PageEditor } from "@/stores/PageEditor";
+import type { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
+import type { Command, CommandEmitter } from "@/stores/Commands/Command";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
 
@@ -44,6 +48,8 @@ export default defineComponent({
   },
   data() {
     return {
+      application: useApplicationStore(),
+      contextMenus: useContextMenuStore(),
       cursor: Cursor.Default,
       diagram: markRaw(new BlockDiagram()),
       menu: {
@@ -62,56 +68,34 @@ export default defineComponent({
     /**
      * Application Store data
      */
-    ...mapState("ApplicationStore", {
-      ctx(state: Store.ApplicationStore): Store.ApplicationStore {
-        return state;
-      },
-      editor(state: Store.ApplicationStore): Store.PageEditor {
-        return state.activePage;
-      },
-      camera(state: Store.ApplicationStore): CameraLocation {
-        return state.activePage.location.value;
-      },
-      pageUpdate(state: Store.ApplicationStore): number {
-        return state.activePage.trigger.value;
-      },
-      displayGrid(state: Store.ApplicationStore): boolean {
-        return state.settings.view.diagram.display_grid;
-      },
-      displayShadows(state: Store.ApplicationStore): boolean {
-        return state.settings.view.diagram.display_shadows;
-      },
-      displayDebugMode(state: Store.ApplicationStore): boolean {
-        return state.settings.view.diagram.display_debug_mode;
-      },
-      renderHighQuality(state: Store.ApplicationStore): boolean {
-        return state.settings.view.diagram.render_high_quality;
-      },
-      disableShadowsAt(state: Store.ApplicationStore): number {
-        return state.settings.view.diagram.disable_shadows_at;
-      },
-      multiselectHotkey(state: Store.ApplicationStore): string {
-        return state.settings.hotkeys.select.many;
-      }
-    }),
 
-    ...mapGetters("ApplicationStore", ["hasSelection"]),
-
-    /**
-     * Context Menu Store data
-     */
-    ...mapGetters("ContextMenuStore", [
-      "deleteMenu",
-      "clipboardMenu",
-      "duplicateMenu",
-      "layeringMenu",
-      "jumpMenu",
-      "undoRedoMenu",
-      "createAtMenu",
-      "selectAllMenu",
-      "zoomMenu",
-      "diagramViewMenu"
-    ]),
+    editor(): PageEditor {
+      return this.application.activePage;
+    },
+    camera(): CameraLocation {
+      return this.application.activePage.location.value;
+    },
+    pageUpdate(): number {
+      return this.application.activePage.trigger.value;
+    },
+    displayGrid(): boolean {
+      return this.application.settings.view.diagram.display_grid;
+    },
+    displayShadows(): boolean {
+      return this.application.settings.view.diagram.display_shadows;
+    },
+    displayDebugMode(): boolean {
+      return this.application.settings.view.diagram.display_debug_mode;
+    },
+    renderHighQuality(): boolean {
+      return this.application.settings.view.diagram.render_high_quality;
+    },
+    disableShadowsAt(): number {
+      return this.application.settings.view.diagram.disable_shadows_at;
+    },
+    multiselectHotkey(): string {
+      return this.application.settings.hotkeys.select.many;
+    },
 
     /**
      * Returns the current cursor style.
@@ -139,22 +123,22 @@ export default defineComponent({
      * @returns
      *  The context menu options.
      */
-    menuOptions(): ContextMenuSection[] {
-      if(this.hasSelection) {
+    menuOptions(): ContextMenuSection<CommandEmitter>[] {
+      if(this.application.hasSelection) {
         return [
-          this.deleteMenu,
-          this.clipboardMenu,
-          this.duplicateMenu,
-          this.layeringMenu,
-          this.jumpMenu
+          this.contextMenus.deleteMenu,
+          this.contextMenus.clipboardMenu,
+          this.contextMenus.duplicateMenu,
+          this.contextMenus.layeringMenu,
+          this.contextMenus.jumpMenu
         ];
       } else {
         return [
-          this.undoRedoMenu,
-          this.createAtMenu,
-          this.selectAllMenu,
-          this.zoomMenu,
-          this.diagramViewMenu
+          this.contextMenus.undoRedoMenu,
+          this.contextMenus.createAtMenu,
+          this.contextMenus.selectAllMenu,
+          this.contextMenus.zoomMenu,
+          this.contextMenus.diagramViewMenu
         ];
       }
     }
@@ -163,9 +147,13 @@ export default defineComponent({
   methods: {
 
     /**
-     * Application Store mutations
+     * Executes an application command.
+     * @param command
+     *  The command to execute.
      */
-    ...mapMutations("ApplicationStore", ["execute"]),
+    execute(command: Command) {
+      this.application.execute(command);
+    },
 
     /**
      * Menu item selection behavior.
@@ -174,13 +162,13 @@ export default defineComponent({
      */
     async onItemSelect(emitter: CommandEmitter) {
       try {
-        let cmd = emitter();
+        const cmd = emitter();
         if(cmd instanceof Promise) {
           this.execute(await cmd);
         } else {
           this.execute(cmd);
         }
-      } catch(ex: any) {
+      } catch(ex: unknown) {
         console.error(ex);
       }
     },
@@ -238,7 +226,7 @@ export default defineComponent({
      */
     onObjectClick(e: PointerEvent, o: DiagramObjectModel, x: number, y: number) {
       // Unselect items, if needed
-      let isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
+      const isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
       if(!isMultiselect && !o.isSelected()) {
         this.execute(new Page.UnselectDescendants(this.editor.page));
       }
@@ -261,7 +249,7 @@ export default defineComponent({
      */
     onCanvasClick(e: PointerEvent, x: number, y: number) {
       this.execute(new Page.UnselectDescendants(this.editor.page));
-      this.execute(new App.SetEditorPointerLocation(this.ctx, x, y));
+      this.execute(new App.SetEditorPointerLocation(this.application, x, y));
       if (e.button === MouseClick.Right) {
         this.openContextMenu(x, y);
       }
@@ -277,8 +265,8 @@ export default defineComponent({
      *  The change in y.
      */
     onObjectMove(o: DiagramObjectModel[], dx: number, dy:number) {
-      let cmd = new Page.GroupCommand();
-      for(let obj of o) {
+      const cmd = new Page.GroupCommand();
+      for(const obj of o) {
         if(!obj.hasUserSetPosition()) {
             cmd.add(new Page.UserSetObjectPosition(obj));
         }
@@ -295,8 +283,8 @@ export default defineComponent({
      *  The object's anchor.
      */
     onObjectAttach(o: DiagramAnchorableModel, a: DiagramAnchorModel) {
-      let { xMid, yMid } = a.boundingBox;
-      let cmd = new Page.GroupCommand();
+      const { xMid, yMid } = a.boundingBox;
+      const cmd = new Page.GroupCommand();
       if(o.isAttached()) {
         cmd.add(new Page.DetachObject(o));  
       }
@@ -315,7 +303,7 @@ export default defineComponent({
      *  The change in y.
      */
     onObjectDetach(o: DiagramAnchorableModel, dx: number, dy: number) {
-      let cmd = new Page.GroupCommand();
+      const cmd = new Page.GroupCommand();
       cmd.add(new Page.DetachObject(o));
       cmd.add(new Page.MoveObjectBy(o, dx, dy));
       this.execute(cmd);
@@ -360,7 +348,7 @@ export default defineComponent({
       this.view = { x, y, k, w, h };
       this.execute(
         new App.SetEditorViewParams(
-          this.ctx, { ...this.view }
+          this.application, { ...this.view }
         )
       );
     }
@@ -377,7 +365,7 @@ export default defineComponent({
       // Configure view parameters
       this.execute(
         new App.SetEditorViewParams(
-          this.ctx, { ...this.view }
+          this.application, { ...this.view }
         )
       );
     },

@@ -7,6 +7,6 @@ export class DiagramFactoryError extends Error {
      */
     constructor(message: string) {
         super(message);
-    } 
+    }
 
 }

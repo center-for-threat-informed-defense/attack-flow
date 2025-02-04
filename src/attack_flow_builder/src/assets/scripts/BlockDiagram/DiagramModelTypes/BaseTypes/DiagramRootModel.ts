@@ -1,23 +1,23 @@
 import { RasterCache } from "../../DiagramElement/RasterCache";
+import { DiagramFactory } from "../../DiagramFactory";
 import { DiagramRootView } from "../../DiagramViewTypes";
 import {
     DiagramAnchorModel,
     DiagramObjectModel,
     LayoutUpdateReason
 } from "./BaseModels";
-import {
-    DiagramFactory,
+import type {
     DiagramObjectValues,
     ObjectTemplate
 } from "../../DiagramFactory";
 
 export abstract class DiagramRootModel extends DiagramObjectModel {
-    
+
     /**
      * The root's internal anchor cache.
      */
     public readonly anchorCache: DiagramAnchorModel[];
-    
+
     /**
      * The root's internal object cache.
      */
@@ -30,7 +30,7 @@ export abstract class DiagramRootModel extends DiagramObjectModel {
      *  The root's diagram factory.
      * @param template
      *  The root's template.
-     * @param values 
+     * @param values
      *  The root's values.
      */
     constructor(factory: DiagramFactory, template: ObjectTemplate, values?: DiagramObjectValues) {
@@ -65,18 +65,18 @@ export abstract class DiagramRootModel extends DiagramObjectModel {
     /**
      * Updates the root's alignment, bounding box, and object cache.
      * @param reasons
-     *  The reasons the layout was updated. 
+     *  The reasons the layout was updated.
      */
     public override updateLayout(reasons: number): void {
-        let { ChildAdded, ChildDeleted, Initialization } = LayoutUpdateReason;
+        const { ChildAdded, ChildDeleted, Initialization } = LayoutUpdateReason;
         // Update layout
         super.updateLayout(reasons);
         // Rebuild caches
-        if(reasons & (Initialization | ChildAdded | ChildDeleted)){
+        if (reasons & (Initialization | ChildAdded | ChildDeleted)) {
             this._objectCache.clear();
             this.anchorCache.splice(0, this.anchorCache.length);
-            for(let obj of this.getSubtree()) {
-                if(obj instanceof DiagramAnchorModel) {
+            for (const obj of this.getSubtree()) {
+                if (obj instanceof DiagramAnchorModel) {
                     this.anchorCache.push(obj);
                 }
                 this._objectCache.set(obj.id, obj);

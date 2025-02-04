@@ -2,13 +2,13 @@ import * as d3 from "d3";
 import { Browser } from "../../Browser";
 import { RasterCache } from "./RasterCache";
 import { ViewportRegion } from "./ViewportRegion";
-import { CameraLocation } from "./Camera";
 import { DiagramObjectMover } from "./DiagramObjectMover";
 import { DiagramDisplaySettings } from "./DiagramDisplaySettings";
-import { 
+import {
     resizeAndTransformContext,
     resizeContext,
-    transformContext } from "../Utilities/Canvas";
+    transformContext
+} from "../Utilities/Canvas";
 import {
     EventEmitter,
     MouseClick
@@ -32,6 +32,7 @@ import {
     Cursor,
     PositionSetByUser
 } from "../Attributes";
+import type { CameraLocation } from "./Camera";
 
 export class BlockDiagram extends EventEmitter<DiagramEvents> {
 
@@ -56,7 +57,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * The diagram's context.
      */
     private _context: CanvasRenderingContext2D | null;
-    
+
     /**
      * The diagram's display settings.
      */
@@ -75,7 +76,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
     /**
      * The object currently being hovered over.
      */
-    private _hovObj: DiagramObjectModel | undefined;
+    private _hovObj: DiagramObjectModel | undefined | null;
 
     /**
      * The diagram's object mover.
@@ -106,7 +107,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * An observer that monitors the size of the diagram's container.
      */
     private _resizeObserver: ResizeObserver | null;
-    
+
     /**
      * The context's current transform.
      */
@@ -116,7 +117,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * The context's viewport.
      */
     private _viewport: ViewportRegion;
-    
+
     /**
      * The id of the late zoom timeout request.
      */
@@ -133,8 +134,8 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      */
     constructor() {
         super();
-        let page = PageModel.createDummy();
-        let cache = new RasterCache();
+        const page = PageModel.createDummy();
+        const cache = new RasterCache();
         this._canvas = null;
         this._context = null;
         this._display = new DiagramDisplaySettings();
@@ -142,7 +143,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
         this._elHeight = 0;
         this._mover = new DiagramObjectMover(...page.grid);
         this._layoutLocked = false;
-        this._page = page.createView(cache); 
+        this._page = page.createView(cache);
         this._rafId = 0;
         this._rasterCache = cache;
         this._resizeObserver = null;
@@ -154,7 +155,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
             .on("zoom", this.onCanvasZoom.bind(this))
             .on("end", () => this.onCanvasZoomEnd());
         // `null` ensures cursor is updated immediately
-        this._hovObj = null as any;
+        this._hovObj = null;
     }
 
 
@@ -177,11 +178,11 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
         // Setup canvas & context
         this._canvas = d3.select(container)
             .append("canvas")
-                .attr("style", "display:block;")
+            .attr("style", "display:block;")
             .on("mousemove", (event) => {
                 this.onHoverSubject(...d3.pointer(event));
             })
-            .on("contextmenu", (e: any) => e.preventDefault());
+            .on("contextmenu", (e: Event) => e.preventDefault());
         this._context = this._canvas.node()!.getContext("2d", { alpha: false });
 
         // Size context
@@ -205,7 +206,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
                 .on("drag", this.onObjectDragged.bind(this))
                 .on("end", this.onObjectDragEnded.bind(this))
             ).call(this._zoom);
-        
+
     }
 
     /**
@@ -247,7 +248,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      *   Disables shadows.
      */
     public setShadowsDisplay(display: boolean) {
-        this._display.showShadows = display;        
+        this._display.showShadows = display;
     }
 
     /**
@@ -287,12 +288,13 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * Renders the block diagram.
      */
     public render() {
-        if (this._rafId != 0)
+        if (this._rafId != 0) {
             return;
+        }
         this._rafId = requestAnimationFrame(() => {
             this._rafId = 0;
             this.executeRenderPipeline();
-        })
+        });
     }
 
     /**
@@ -300,13 +302,14 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      */
     private executeRenderPipeline() {
         // Return if there's no context to render to
-        if(this._context === null)
+        if (this._context === null) {
             return;
-        let d = this._display;
+        }
+        const d = this._display;
         // Render page surface
         this._page.renderPageSurfaceTo(this._context, this._viewport, d.showGrid);
         // Render page contents
-        if(d.showShadows && d.shadowsDisableAt <= this._transform.k) {
+        if (d.showShadows && d.shadowsDisableAt <= this._transform.k) {
             // With drop shadow
             this._page.renderTo(this._context, this._viewport);
         } else {
@@ -314,7 +317,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
             this._page.renderTo(this._context, this._viewport, 0, 0);
         }
         // Render debug display
-        if(d.showDebug) {
+        if (d.showDebug) {
             this._page.renderDebugTo(this._context, this._viewport);
         }
     }
@@ -338,8 +341,8 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
     private onHoverSubject(x: number, y: number, cursor?: number) {
         x = this._transform.invertX(x);
         y = this._transform.invertY(y);
-        let hovObj = this._page.el.getObjectAt(x, y);
-        if(this._hovObj !== hovObj) {
+        const hovObj = this._page.el.getObjectAt(x, y);
+        if (this._hovObj !== hovObj) {
             // Update hover object
             this._hovObj = hovObj;
             // Pick cursor
@@ -356,75 +359,76 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * @returns
      *  The drag action to perform or `undefined` if no object was clicked.
      */
-     private onSelectSubject(event: any): DragAction | undefined {
-        let evt = event.sourceEvent;
-        let x = this._transform.invertX(event.x);
-        let y = this._transform.invertY(event.y);
-        let obj = this._page.el.getObjectAt(x, y);
-        let rc = evt.button === MouseClick.Right;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private onSelectSubject(event: any): DragAction | undefined {
+        const evt = event.sourceEvent;
+        const x = this._transform.invertX(event.x);
+        const y = this._transform.invertY(event.y);
+        const obj = this._page.el.getObjectAt(x, y);
+        const rc = evt.button === MouseClick.Right;
         let mv: DiagramObjectView[];
 
         // If no object:
-        if(!obj) {
+        if (!obj) {
             this.emit("canvas-click", evt, event.x, event.y);
-            return undefined; 
+            return undefined;
         }
-        
+
         // If object is an anchor:
-        if(obj instanceof DiagramAnchorModel) {
+        if (obj instanceof DiagramAnchorModel) {
             // Select canvas
             this.emit("canvas-click", evt, event.x, event.y);
-            if(rc) {
+            if (rc) {
                 return undefined;
             }
             // Create line
-            let line = obj.makeLine();
+            const line = obj.makeLine();
             // Configure line
-            let x = obj.boundingBox.xMid;
-            let y = obj.boundingBox.yMid;
+            const x = obj.boundingBox.xMid;
+            const y = obj.boundingBox.yMid;
             line.srcEnding.moveTo(x, y);
             line.trgEnding.moveTo(x, y);
             // Create line view
-            let view = line
+            const view = line
                 .createView(this._rasterCache)
                 .updateView() as DiagramLineView;
             // Initiate line move
             return {
                 type: DragActionType.CreateLine,
                 line: view,
-                parent: this._page, 
+                parent: this._page,
                 anchor: obj,
                 obj: view.trgEnding
             };
         }
 
         // If object is child of line:
-        if(obj.parent instanceof DiagramLineModel) { 
+        if (obj.parent instanceof DiagramLineModel) {
             // Select line
             this.emit("object-click", evt, obj.parent, event.x, event.y);
-            if(rc) {
+            if (rc) {
                 return undefined;
             }
             // Move the child
             mv = [this._page.lookup(obj.id)!];
-        } 
-        
+        }
+
         // If any other object type:
         else {
             // Select object
             this.emit("object-click", evt, obj, event.x, event.y);
-            if(rc) {
+            if (rc) {
                 return undefined;
             }
             // Move the current selection
-            mv = this._page.selects;   
+            mv = this._page.selects;
         }
 
         // Initiate object move
-        if(mv[0] instanceof DiagramAnchorableView && mv.length === 1) {
-            return { type: DragActionType.MoveAnchorable, obj: mv[0] }
+        if (mv[0] instanceof DiagramAnchorableView && mv.length === 1) {
+            return { type: DragActionType.MoveAnchorable, obj: mv[0] };
         } else {
-            return { type: DragActionType.Move, objs: mv }
+            return { type: DragActionType.Move, objs: mv };
         }
 
     }
@@ -434,6 +438,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * @param event
      *  The drag event.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onObjectDragStarted(event: any) {
         /**
          * Developers Note:
@@ -446,16 +451,16 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
          */
         setTimeout(() => {
             this._layoutLocked = true;
-            let s = event.subject as DragAction;
-            let cx = this._transform.invertX(event.x);
-            let cy = this._transform.invertY(event.y);
+            const s = event.subject as DragAction;
+            const cx = this._transform.invertX(event.x);
+            const cy = this._transform.invertY(event.y);
             let ox = 0;
             let oy = 0;
             let al = Alignment.Free;
             let an = undefined;
-            switch(s.type) {
+            switch (s.type) {
                 case DragActionType.Move:
-                    for(let obj of s.objs) {
+                    for (const obj of s.objs) {
                         ox += obj.x;
                         oy += obj.y;
                         al = Math.max(al, obj.el.getAlignment());
@@ -481,8 +486,9 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * @param event
      *  The drag event.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onObjectDragged(event: any) {
-        let s = event.subject as DragAction;
+        const s = event.subject as DragAction;
         // Calculate delta
         this._mover.updateDelta(
             event.dx / this._transform.k,
@@ -490,9 +496,9 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
         );
         // Move elements
         let attrs;
-        switch(s.type) {
+        switch (s.type) {
             case DragActionType.Move:
-                for(let obj of s.objs) {
+                for (const obj of s.objs) {
                     attrs = obj.fakePositionSetByUser(PositionSetByUser.True);
                     obj.moveBy(this._mover.dx, this._mover.dy, attrs);
                 }
@@ -514,43 +520,44 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * @param event
      *  The drag event.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onObjectDragEnded(event: any) {
         this._layoutLocked = false;
-        let s = event.subject as DragAction;
-        let tdx = this._mover.odx;
-        let tdy = this._mover.ody;
-        switch(s.type) {
+        const s = event.subject as DragAction;
+        const tdx = this._mover.odx;
+        const tdy = this._mover.ody;
+        switch (s.type) {
             case DragActionType.Move:
-                if(!(tdx || tdy)) {
+                if (!(tdx || tdy)) {
                     // If no movement, bail
                     return;
                 }
-                let ids = s.objs.map((o: any) => o.el);
+                const ids = s.objs.map((o: DiagramObjectView) => o.el);
                 this.emit("object-move", ids, tdx, tdy);
                 break;
             case DragActionType.MoveAnchorable:
-                if(!(tdx || tdy)) {
+                if (!(tdx || tdy)) {
                     // If no movement, bail
                     return;
                 }
-                if(this._mover.anchor) {
-                    let anchor = this._mover.anchor;
-                    let object = s.obj.el;
+                if (this._mover.anchor) {
+                    const anchor = this._mover.anchor;
+                    const object = s.obj.el;
                     this.emit("object-attach", object, anchor);
-                } else if(s.obj.el.isAttached()) {
-                    let object = s.obj.el;
+                } else if (s.obj.el.isAttached()) {
+                    const object = s.obj.el;
                     this.emit("object-detach", object, tdx, tdy);
                 } else {
-                    let ids = [s.obj.el];
+                    const ids = [s.obj.el];
                     this.emit("object-move", ids, tdx, tdy);
                 }
                 break;
             case DragActionType.CreateLine:
-                if((tdx || tdy) && s.anchor !== this._mover.anchor) {
-                    let obj = s.line.el;
-                    let par = s.parent.el;
-                    let src = s.anchor;
-                    let trg = this._mover.anchor;
+                if ((tdx || tdy) && s.anchor !== this._mover.anchor) {
+                    const obj = s.line.el;
+                    const par = s.parent.el;
+                    const src = s.anchor;
+                    const trg = this._mover.anchor;
                     this.emit("line-create", obj, par, src, trg);
                 } else {
                     // If no movement, reset view and bail
@@ -566,23 +573,24 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * @param event
      *  The zoom event.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onCanvasZoom(event: any) {
         // Update cache
         if (this._transform.k !== event.transform.k) {
             clearTimeout(this._ztoId);
-            this._ztoId = setTimeout(() => {
-                let k = this._transform.k * this._display.ssaaScale;
-                if(this._rasterCache.getScale() !== k) {
+            this._ztoId = window.setTimeout(() => {
+                const k = this._transform.k * this._display.ssaaScale;
+                if (this._rasterCache.getScale() !== k) {
                     this._rasterCache.setScale(k);
                     this.render();
                 }
-            }, BlockDiagram.RASTER_CACHE_UPDATE_DELAY)
+            }, BlockDiagram.RASTER_CACHE_UPDATE_DELAY);
         }
         // Update transform
         this._transform = event.transform;
         // Update viewport
         this.updateViewportBounds();
-        if(this._context) {
+        if (this._context) {
             transformContext(
                 this._context, this._transform.k,
                 this._transform.x, this._transform.y
@@ -590,9 +598,9 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
         }
         // If no source event, then we are already
         // running inside a requestAnimationFrame()
-        if(event.sourceEvent === null) {
+        if (event.sourceEvent === null) {
             // If no render scheduled, run render pipeline
-            if(this._rafId === 0) {
+            if (this._rafId === 0) {
                 this.executeRenderPipeline();
             }
         } else {
@@ -604,7 +612,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * Canvas zoom end behavior.
      */
     private onCanvasZoomEnd() {
-        this.emit("view-transform", 
+        this.emit("view-transform",
             this._transform.x,
             this._transform.y,
             this._transform.k,
@@ -619,26 +627,28 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      *  The block diagram's container.
      */
     private onCanvasResize(el: Element) {
-        let newWidth = el.clientWidth;
-        let newHeight = el.clientHeight;
+        const newWidth = el.clientWidth;
+        const newHeight = el.clientHeight;
         // Center viewport
-        (this._transform as any).x += (newWidth - this._elWidth) / 2;
-        (this._transform as any).y += (newHeight - this._elHeight) / 2;
+        const transform = this._transform as { x:number, y: number };
+        transform.x += (newWidth - this._elWidth) / 2;
+        transform.y += (newHeight - this._elHeight) / 2;
         // Update dimensions
         this._elWidth = newWidth;
         this._elHeight = newHeight;
         // Update viewport
         this.updateViewportBounds();
         // Adjust viewport
-        if(this._context) {
+        if (this._context) {
             resizeAndTransformContext(
                 this._context, this._elWidth, this._elHeight,
                 this._transform.k, this._transform.x, this._transform.y
-            )
+            );
         }
         // Immediately redraw diagram to context, if possible
-        if(this._context)
+        if (this._context) {
             this.executeRenderPipeline();
+        }
     }
 
     /**
@@ -649,16 +659,16 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      */
     private onDevicePixelRatioChange() {
         // Update cache
-        let k = this._transform.k * this._display.ssaaScale;
+        const k = this._transform.k * this._display.ssaaScale;
         this._rasterCache.setScale(k);
-        if(!this._context) {
+        if (!this._context) {
             return;
         }
         // Resize and transform context
         resizeAndTransformContext(
             this._context, this._elWidth, this._elHeight,
             this._transform.k, this._transform.x, this._transform.y
-        )
+        );
         // Render
         this.render();
     }
@@ -668,8 +678,8 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * dimensions.
      */
     private updateViewportBounds() {
-        let t = this._transform;
-        let padding = BlockDiagram.VIEWPORT_PADDING;
+        const t = this._transform;
+        const padding = BlockDiagram.VIEWPORT_PADDING;
         this._viewport.xMin = Math.round(t.invertX(-padding));
         this._viewport.xMax = Math.round(t.invertX(this._elWidth + padding));
         this._viewport.yMin = Math.round(t.invertY(-padding));
@@ -682,7 +692,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
     //  4. Data  //////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Configures the diagram's current page.
      * @param page
@@ -699,7 +709,7 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      * Syncs the view with the underlying model.
      */
     public updateView() {
-        if(!this._layoutLocked) {
+        if (!this._layoutLocked) {
             this._page.updateView();
         }
     }
@@ -713,17 +723,18 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
      *  (Default: 1000)
      */
     public setCameraLocation(location: CameraLocation, animate: number = 1000) {
-        if(!this._canvas)
+        if (!this._canvas) {
             return;
-        let k = location.k;
-        let x = Math.round((this._elWidth / 2) - (location.x * k));
-        let y = Math.round((this._elHeight / 2) - (location.y * k))
+        }
+        const k = location.k;
+        const x = Math.round((this._elWidth / 2) - (location.x * k));
+        const y = Math.round((this._elHeight / 2) - (location.y * k));
         // Move camera
         this._canvas.transition()
             .duration(animate)
-            .call(this._zoom.transform, 
+            .call(this._zoom.transform,
                 d3.zoomIdentity.translate(x, y).scale(k)
-            )
+            );
     }
 
 }
@@ -735,9 +746,9 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
 
 
 // D3 types
-type CanvasZoomBehavior = 
+type CanvasZoomBehavior =
     d3.ZoomBehavior<HTMLCanvasElement, unknown>;
-type CanvasSelection = 
+type CanvasSelection =
     d3.Selection<HTMLCanvasElement, unknown, null, undefined>;
 
 // Event types
@@ -761,12 +772,12 @@ interface DiagramEvents {
         obj: DiagramAnchorableModel, dx: number, dy: number
     ) => void;
     "line-create"   : (
-        obj: DiagramLineModel, parent: DiagramObjectModel, 
+        obj: DiagramLineModel, parent: DiagramObjectModel,
         src: DiagramAnchorModel, trg?: DiagramAnchorModel
     ) => void;
     "view-transform": (
         x: number, y: number, k: number, w: number, h: number
-    ) => void
+    ) => void;
 }
 
 // Drag Actions
@@ -776,7 +787,7 @@ type DragAction
     | CreateLineDragAction;
 
 
-enum DragActionType { 
+enum DragActionType {
     Move,
     MoveAnchorable,
     CreateLine
@@ -787,53 +798,53 @@ type MoveDragAction = {
     /**
      * The move type.
      */
-    type: DragActionType.Move,
-    
+    type: DragActionType.Move;
+
     /**
      * The objects to move.
      */
-    objs: DiagramObjectView[]
+    objs: DiagramObjectView[];
 
-}
+};
 
 type MoveAnchorableDragAction = {
 
     /**
      * The move type.
      */
-    type: DragActionType.MoveAnchorable,
+    type: DragActionType.MoveAnchorable;
 
     /**
      * The anchorable to move.
      */
-    obj: DiagramAnchorableView
-}
+    obj: DiagramAnchorableView;
+};
 
 type CreateLineDragAction = {
 
     /**
      * The move type.
      */
-    type: DragActionType.CreateLine,
-    
+    type: DragActionType.CreateLine;
+
     /**
      * The line.
      */
-    line: DiagramLineView,
+    line: DiagramLineView;
 
     /**
      * The line's parent.
      */
-    parent: DiagramObjectView,
+    parent: DiagramObjectView;
 
     /**
      * The anchor that created the line.
      */
-    anchor: DiagramAnchorModel, 
+    anchor: DiagramAnchorModel;
 
     /**
      * The line ending to move.
      */
-    obj: DiagramLineEndingView
+    obj: DiagramLineEndingView;
 
-}
+};

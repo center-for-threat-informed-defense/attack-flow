@@ -1,41 +1,41 @@
-import { RootProperty } from "../Property"
-import { ObjectTemplate } from "../DiagramFactory"
+import { RootProperty } from "../Property";
+import type { ObjectTemplate } from "../DiagramFactory";
 
 export type GraphExport = {
 
     /**
      * The graph's nodes.
      */
-    nodes: Map<string, GraphObjectExport>
-    
+    nodes: Map<string, GraphObjectExport>;
+
     /**
      * The graph's edges.
      */
-    edges: Map<string, GraphObjectExport>
+    edges: Map<string, GraphObjectExport>;
 
-}
+};
 
 export class GraphObjectExport {
-    
+
     /**
      * The object's template.
      */
-    public template: ObjectTemplate
+    public template: ObjectTemplate;
 
     /**
      * The object's properties.
      */
-    public props: RootProperty
- 
+    public props: RootProperty;
+
     /**
      * The object's parent link map.
      */
-    public prevLinkMap: Map<string, string[]>
- 
+    public prevLinkMap: Map<string, string[]>;
+
     /**
      * The object's child link map.
      */
-    public nextLinkMap: Map<string, string[]>
+    public nextLinkMap: Map<string, string[]>;
 
     /**
      * The object's parents.

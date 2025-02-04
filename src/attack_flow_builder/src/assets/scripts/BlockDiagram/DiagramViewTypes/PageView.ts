@@ -1,18 +1,18 @@
 import { RasterCache } from "../DiagramElement/RasterCache";
 import { ViewportRegion } from "../DiagramElement";
 import { PageModel } from "../DiagramModelTypes";
-import { 
+import {
     DiagramObjectView,
     DiagramRootView
 } from ".";
 
 export class PageView extends DiagramRootView {
-    
+
     /**
      * The underlying model.
      */
-    public override el: PageModel;    
-    
+    public override el: PageModel;
+
     /**
      * The page's grid pattern.
      */
@@ -37,7 +37,7 @@ export class PageView extends DiagramRootView {
         super(el, rasterCache);
         this.el = el;
         // Create grid pattern
-        let { 
+        const {
             grid_color: gc, background_color: bc
         } = this.el.style;
         this._gridPattern = this.createGridPattern(
@@ -87,10 +87,10 @@ export class PageView extends DiagramRootView {
      */
     public override renderTo(
         ctx: CanvasRenderingContext2D, vr: ViewportRegion,
-        dsx: number = this.el.style.drop_shadow.offset[0], 
+        dsx: number = this.el.style.drop_shadow.offset[0],
         dsy: number = this.el.style.drop_shadow.offset[1],
-        attrs?: number
-    ) { 
+        _attrs?: number
+    ) {
         // Configure drop shadow
         ctx.shadowColor = this.el.style.drop_shadow.color;
         // Draw contents
@@ -111,8 +111,8 @@ export class PageView extends DiagramRootView {
      *  The grid canvas pattern centered on the origin.
      */
     private createGridPattern(gridX: number, gridY: number, fillColor: string, strokeColor: string): CanvasPattern {
-        let can = document.createElement("canvas");
-        let ctx = can.getContext("2d", { alpha: false })!;
+        const can = document.createElement("canvas");
+        const ctx = can.getContext("2d", { alpha: false })!;
         can.width = gridX;
         can.height = gridY;
         ctx.fillStyle = fillColor;
@@ -123,7 +123,7 @@ export class PageView extends DiagramRootView {
         ctx.lineTo(0, gridY);
         ctx.lineTo(gridX, gridY);
         ctx.stroke();
-        let ptr = ctx.createPattern(can, "repeat")!;
+        const ptr = ctx.createPattern(can, "repeat")!;
         ptr.setTransform(new DOMMatrix().translate(0, 1));
         return ptr;
     }

@@ -1,4 +1,6 @@
+import { Cursor } from "../Attributes";
 import { RasterCache } from "../DiagramElement/RasterCache";
+import { DiagramFactory } from "../DiagramFactory";
 import { LineHorizontalElbowView } from "../DiagramViewTypes";
 import { getLineHitbox, isInsideRegion } from "../Utilities";
 import {
@@ -8,12 +10,10 @@ import {
     LineEndingPointModel,
     LineHandlePointModel
 } from ".";
-import {
-    DiagramFactory,
+import type {
     DiagramObjectValues,
     LineHorizontalElbowTemplate
 } from "../DiagramFactory";
-import { Cursor } from "../Attributes";
 
 export class LineHorizontalElbowModel extends DiagramLineModel {
 
@@ -40,35 +40,35 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
      * @param values
      *  The line's values.
      */
-     constructor(
-        factory: DiagramFactory, 
+    constructor(
+        factory: DiagramFactory,
         template: LineHorizontalElbowTemplate,
         values?: DiagramObjectValues
     ) {
         super(factory, template, values);
-        this.hitboxes = [[],[],[]];
+        this.hitboxes = [[], [], []];
         this.setCursor(Cursor.Move);
         // Template configuration
         this.setSemanticRole(template.role);
         this.template = template;
-        // Define children 
-        if(!this.children.length) {
-            let x = this.boundingBox.xMid;
-            let y = this.boundingBox.yMid;
+        // Define children
+        if (!this.children.length) {
+            const x = this.boundingBox.xMid;
+            const y = this.boundingBox.yMid;
             // Define Caps and Handles
-            let src = template.line_ending_template.source;
-            let han = template.line_handle_template;
-            let trg = template.line_ending_template.target;
+            const src = template.line_ending_template.source;
+            const han = template.line_handle_template;
+            const trg = template.line_ending_template.target;
             this.addChild(factory.createObject(src) as LineEndingPointModel, 0, false);
             this.addChild(factory.createObject(han) as LineHandlePointModel, 1, false);
             this.addChild(factory.createObject(trg) as LineEndingPointModel, 2, false);
             // Define position
-            for(let obj of this.children) {
+            for (const obj of this.children) {
                 obj.moveTo(x, y);
             }
             this.children[0].moveBy(-100, 50);
             this.children[2].moveBy(100, -50);
-        }        
+        }
         // Update layout
         this.updateLayout(LayoutUpdateReason.Initialization);
     }
@@ -77,7 +77,7 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
     ///////////////////////////////////////////////////////////////////////////
     //  1. Selection  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Returns the topmost object at the given coordinate.
@@ -89,39 +89,40 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
      *  The topmost object, undefined if there isn't one.
      */
     public override getObjectAt(x: number, y: number): DiagramObjectModel | undefined {
-        if(this.isAnchored()) {
+        if (this.isAnchored()) {
             // Try points
-            let obj = super.getObjectAt(x, y);
-            if(obj) {
+            const obj = super.getObjectAt(x, y);
+            if (obj) {
                 return obj;
             }
             // Try segments
-            for(let i = 0; i < this.hitboxes.length; i++) {
-                if(!isInsideRegion(x, y, this.hitboxes[i]))
+            for (let i = 0; i < this.hitboxes.length; i++) {
+                if (!isInsideRegion(x, y, this.hitboxes[i])) {
                     continue;
-                if(i === 1) {
+                }
+                if (i === 1) {
                     return this.children[i];
                 } else {
                     return this;
                 }
             }
         } else {
-            if(this.isSelected()) {
+            if (this.isSelected()) {
                 // Try points
-                let obj = super.getObjectAt(x, y);
-                if(obj) {
+                const obj = super.getObjectAt(x, y);
+                if (obj) {
                     return obj;
                 }
             }
             // Try segments
-            for(let hitbox of this.hitboxes) {
-                if(isInsideRegion(x, y, hitbox)) {
+            for (const hitbox of this.hitboxes) {
+                if (isInsideRegion(x, y, hitbox)) {
                     return this;
                 }
             }
         }
         return undefined;
-    }   
+    }
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -130,7 +131,7 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
 
 
     /**
-     * Moves one of the line's children relative to its current position. 
+     * Moves one of the line's children relative to its current position.
      * @param id
      *  The id of the child.
      * @param dx
@@ -143,16 +144,17 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
      */
     public moveChild(id: string, dx: number, dy: number, updateParent: boolean = true) {
         // Select child
-        let obj = this.children.find(o => o.id === id)!;
-        if(!obj)
+        const obj = this.children.find(o => o.id === id)!;
+        if (!obj) {
             return;
+        }
         // Move ending
-        if(obj instanceof LineEndingPointModel) {
+        if (obj instanceof LineEndingPointModel) {
             obj.moveBy(dx, dy, updateParent, true);
         }
         // Move handle
-        let [e1, h1, e2] = this.children;
-        let e1x = e1.boundingBox.xMid,
+        const [e1, h1, e2] = this.children;
+        const e1x = e1.boundingBox.xMid,
             e1y = e1.boundingBox.yMid,
             e2x = e2.boundingBox.xMid,
             e2y = e2.boundingBox.yMid,
@@ -160,9 +162,9 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
             h2y = h1.boundingBox.yMid,
             hdx = ((e1x + e2x) / 2) - h1x,
             hdy = ((e1y + e2y) / 2) - h2y;
-        if(!h1.hasUserSetPosition()) {
+        if (!h1.hasUserSetPosition()) {
             h1.moveBy(hdx, 0, updateParent, true);
-        } else if(obj === h1) {
+        } else if (obj === h1) {
             h1.moveBy(dx, 0, updateParent, true);
         }
         h1.moveBy(0, hdy, updateParent, true);
@@ -172,7 +174,7 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
     ///////////////////////////////////////////////////////////////////////////
     //  3. Layout & View  /////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Updates the line's alignment, cursor, bounding box, and hitbox.
@@ -183,9 +185,9 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
      *  (Default: true)
      */
     public override updateLayout(reasons: number, updateParent: boolean = true) {
-        let [e1, h1, e2] = this.children.map(o => o.boundingBox);
+        const [e1, h1, e2] = this.children.map(o => o.boundingBox);
         // Update hitboxes
-        let w = this.hitboxWidth;
+        const w = this.hitboxWidth;
         this.hitboxes[0] = getLineHitbox(e1.xMid, e1.yMid, h1.xMid, e1.yMid, w);
         this.hitboxes[1] = getLineHitbox(h1.xMid, e1.yMid, h1.xMid, e2.yMid, w);
         this.hitboxes[2] = getLineHitbox(h1.xMid, e2.yMid, e2.xMid, e2.yMid, w);

@@ -6,7 +6,7 @@
       @wheel.passive="onScrollWheel"
       @scroll="onScrollContent"
     >
-      <slot></slot>
+      <slot />
     </div>
     <div
       ref="scrollbar"
@@ -20,7 +20,7 @@
         :style="handle.sty"
         @pointerdown="startDrag"
         v-show="showScrollbar"
-      ></div>
+      />
     </div>
   </div>
 </template>
@@ -178,17 +178,17 @@ export default defineComponent({
      *  (Default: true)
      */
     recalculateScrollState(resetTop: boolean = true) {
-      let showScrollbar = this.showScrollbar;
-      let content = this.content;
+      const showScrollbar = this.showScrollbar;
+      const content = this.content;
       // Ignore scroll content with no height
       if(!content || content.clientHeight === 0) {
        this.showScrollbar = false;
        return;
       }
       // Compute ratio
-      let ratio = content.clientHeight / content.scrollHeight;
+      const ratio = content.clientHeight / content.scrollHeight;
       // Compute scroll parameters
-      let scrollBarSpace = this.getScrollBarHeight();
+      const scrollBarSpace = this.getScrollBarHeight();
       this.handle.hei = Math.max(15, Math.round(scrollBarSpace * ratio));
       this.handle.max = scrollBarSpace - this.handle.hei;
       this.windowMax  = content.scrollHeight - content.clientHeight;
@@ -214,14 +214,14 @@ export default defineComponent({
       if(!this.content) {
         return;
       }
-      let scrollTop = this.scrollTop;
+      const scrollTop = this.scrollTop;
       this.scrollTop = clamp(Math.round(position), 0, this.windowMax);
       this.handle.pos = this.topToHandleTop(this.scrollTop);
       this.handle.sty.transform = `translateY(${this.handle.pos}px)`;
       this.content.scrollTop = this.scrollTop;
       // Selectively propagate scroll event
-      let canMove = 0 < this.scrollTop && this.scrollTop < this.windowMax;
-      let hasMoved = scrollTop - this.scrollTop !== 0;
+      const canMove = 0 < this.scrollTop && this.scrollTop < this.windowMax;
+      const hasMoved = scrollTop - this.scrollTop !== 0;
       if(!this.propagateScroll || hasMoved || canMove) {
         event?.stopPropagation();
       }
@@ -256,8 +256,8 @@ export default defineComponent({
      */
     getScrollBarHeight(): number {
       if(this.scrollbar) {
-        let cs = getComputedStyle(this.scrollbar);
-        let padding = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+        const cs = getComputedStyle(this.scrollbar);
+        const padding = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
         return this.scrollbar.clientHeight - padding;
       } else {
         return 0;
@@ -273,7 +273,7 @@ export default defineComponent({
   },
   mounted() {
     // Configure mutation observer
-    let mutateOptions = { childList: true, characterData: true, subtree: true };
+    const mutateOptions = { childList: true, characterData: true, subtree: true };
     this.onMutateObserver = new MutationObserver(() => 
       this.recalculateScrollState(this.resetScrollOnChange)
     );

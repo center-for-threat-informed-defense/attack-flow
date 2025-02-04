@@ -1,13 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { computeHash } from "../Utilities";
-import {
-    CollectionProperty,
-    EnumPropertyDescriptor,
-    ListProperty,
-    Property
-} from ".";
+import { CollectionProperty, ListProperty, Property } from ".";
+import type { EnumPropertyDescriptor } from ".";
 
 export class EnumProperty extends Property {
-    
+
     /**
      * The property's descriptor.
      */
@@ -42,26 +39,26 @@ export class EnumProperty extends Property {
         value?: any
     ) {
         super(id, parent, descriptor);
-        let oId = `${ id }.options`;
-        let options = Property.create(oId, undefined, descriptor.options);
+        const oId = `${id}.options`;
+        const options = Property.create(oId, undefined, descriptor.options);
         this.descriptor = descriptor;
         this.options = options as ListProperty;
         this._value = null;
         // Resolve value
         let v;
-        if(value === null) {
+        if (value === null) {
             v = null;
-        } else if(value !== undefined) {
+        } else if (value !== undefined) {
             v = value;
-        } else if(descriptor.value) {
-            v = descriptor.value
+        } else if (descriptor.value) {
+            v = descriptor.value;
         } else {
             v = null;
         }
         // Set value
-        if(v === null) {
+        if (v === null) {
             this.setValue(null);
-        } else if(typeof v === "string") {
+        } else if (typeof v === "string") {
             this.setValue(v);
         } else {
             this.setValue(null);
@@ -84,10 +81,10 @@ export class EnumProperty extends Property {
      *  The new value.
      */
     public setValue(value: string | null) {
-        if(value === null) {
+        if (value === null) {
             this._value = null;
         } else {
-            if(this.options.value.has(value)) {
+            if (this.options.value.has(value)) {
                 this._value = value;
             } else {
                 this._value = null;
@@ -102,13 +99,13 @@ export class EnumProperty extends Property {
      *  The property's reference value.
      */
     public toReferenceValue(): Property | null {
-        if(this._value === null) {
+        if (this._value === null) {
             return null;
         } else {
             return this.options.value.get(this._value)!;
         }
     }
-    
+
     /**
      * Returns the property's raw value.
      * @returns
@@ -117,17 +114,17 @@ export class EnumProperty extends Property {
     public toRawValue(): string | null {
         return this._value;
     }
-    
+
     /**
      * Returns the property's hashed value.
      * @returns
      *  The property's hashed value.
      */
     public toHashValue(): number {
-        if(this._value === null) {
+        if (this._value === null) {
             return computeHash("");
         } else {
-            return computeHash(`v:${ this._value }`);
+            return computeHash(`v:${this._value}`);
         }
     }
 

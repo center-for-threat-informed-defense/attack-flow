@@ -1,5 +1,5 @@
-import { RootPropertyDescriptor } from "../Property";
-import { IFont, FontDescriptor } from "../Utilities";
+import type { RootPropertyDescriptor } from "../Property";
+import type { IFont, FontDescriptor } from "../Utilities";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -8,9 +8,9 @@ import { IFont, FontDescriptor } from "../Utilities";
 
 
 export type BlockDiagramSchema = {
-    page_template: string,
-    templates: SerializedTemplate[]
-}
+    page_template: string;
+    templates: SerializedTemplate[];
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@ export enum TemplateType {
     LineHorizontalElbow  = 5,
     LineVerticalElbow    = 6,
     Page                 = 7,
-    TextBlock            = 8,
+    TextBlock            = 8
 }
 
 export enum SemanticRole {
@@ -38,7 +38,7 @@ export enum SemanticRole {
     LinkTarget           = 0b100000000000000
 }
 
-export type Template 
+export type Template
     = AnchorPointTemplate
     | BranchBlockTemplate
     | DictionaryBlockTemplate
@@ -47,7 +47,7 @@ export type Template
     | LineHorizontalElbowTemplate
     | LineVerticalElbowTemplate
     | PageTemplate
-    | TextBlockTemplate
+    | TextBlockTemplate;
 
 export type SerializedTemplate = SubstituteType<Template, IFont, FontDescriptor>;
 
@@ -59,9 +59,9 @@ export type SerializedTemplate = SubstituteType<Template, IFont, FontDescriptor>
 
 export type ObjectTemplate = {
     id: string;
-    namespace?: string,
-    properties?: RootPropertyDescriptor
-}
+    namespace?: string;
+    properties?: RootPropertyDescriptor;
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -70,15 +70,15 @@ export type ObjectTemplate = {
 
 
 export type AnchorTemplate = ObjectTemplate & {
-    radius: number,
+    radius: number;
     line_templates: {
-        [key: number]: string
-    }
-}
+        [key: number]: string;
+    };
+};
 
 export enum AnchorAngle {
     DEG_0  = 0,
-    DEG_90 = 1,
+    DEG_90 = 1
 }
 
 
@@ -88,21 +88,21 @@ export enum AnchorAngle {
 
 
 export type LineTemplate = ObjectTemplate & {
-    hitbox_width: number,
-    line_handle_template: string,
+    hitbox_width: number;
+    line_handle_template: string;
     line_ending_template: {
-        source: string,
-        target: string
-    }
-    style: LineStyle
-}
+        source: string;
+        target: string;
+    };
+    style: LineStyle;
+};
 
 export type LineStyle = {
-    width: number,
-    cap_size: number,
-    color: string,
-    select_color: string
-}
+    width: number;
+    cap_size: number;
+    color: string;
+    select_color: string;
+};
 
 export type SerializedLineStyle =
     SubstituteType<LineStyle, IFont, FontDescriptor>;
@@ -114,17 +114,17 @@ export type SerializedLineStyle =
 
 
 export type LineEndingPointTemplate = ObjectTemplate & {
-    type: TemplateType.LineEndingPoint,
-    role: SemanticRole.None | SemanticRole.LinkSource | SemanticRole.LinkTarget
-    style: LineEndingPointStyle
-}
+    type: TemplateType.LineEndingPoint;
+    role: SemanticRole.None | SemanticRole.LinkSource | SemanticRole.LinkTarget;
+    style: LineEndingPointStyle;
+};
 
 export type LineEndingPointStyle = {
-    radius: number,
-    fill_color: string,
-    stroke_color: string,
-    stroke_width: number
-}
+    radius: number;
+    fill_color: string;
+    stroke_color: string;
+    stroke_width: number;
+};
 
 export type SerializedLineEndingPointStyle =
     SubstituteType<LineEndingPointStyle, IFont, FontDescriptor>;
@@ -136,17 +136,17 @@ export type SerializedLineEndingPointStyle =
 
 
 export type LineHandlePointTemplate = ObjectTemplate & {
-    type: TemplateType.LineHandlePoint,
-    role: SemanticRole.None,
+    type: TemplateType.LineHandlePoint;
+    role: SemanticRole.None;
     style: LineHandlePointStyle;
-}
+};
 
 export type LineHandlePointStyle = {
-    radius: number,
-    fill_color: string,
-    stroke_color: string,
-    stroke_width: number
-}
+    radius: number;
+    fill_color: string;
+    stroke_color: string;
+    stroke_width: number;
+};
 
 export type SerializedLineHandlePointStyle =
     SubstituteType<LineHandlePointStyle, IFont, FontDescriptor>;
@@ -158,14 +158,14 @@ export type SerializedLineHandlePointStyle =
 
 
 export type AnchorPointTemplate = AnchorTemplate & {
-    type: TemplateType.AnchorPoint,
-    role: SemanticRole.None,
-    style: AnchorPointStyle
-}
+    type: TemplateType.AnchorPoint;
+    role: SemanticRole.None;
+    style: AnchorPointStyle;
+};
 
 export type AnchorPointStyle = {
-    color: string
-}
+    color: string;
+};
 
 export type SerializedAnchorPointStyle =
     SubstituteType<AnchorPointStyle, IFont, FontDescriptor>;
@@ -177,65 +177,65 @@ export type SerializedAnchorPointStyle =
 
 
 export type DictionaryBlockTemplate = ObjectTemplate & {
-    type: TemplateType.DictionaryBlock,
-    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
-    anchor_template: string,
-    style: DictionaryBlockStyle
-}
+    type: TemplateType.DictionaryBlock;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+    anchor_template: string;
+    style: DictionaryBlockStyle;
+};
 
 export type DictionaryBlockStyle = {
-    max_width: number,
+    max_width: number;
     head: {
-        fill_color: string,
-        stroke_color: string,
+        fill_color: string;
+        stroke_color: string;
         one_title: {
             title: {
-                font: IFont,
-                color: string,
-            }
-        },
+                font: IFont;
+                color: string;
+            };
+        };
         two_title: {
             title: {
-                font: IFont,
-                color: string,
-                padding: number
-            },
+                font: IFont;
+                color: string;
+                padding: number;
+            };
             subtitle:  {
-                font: IFont,
-                color: string,
-                line_height: number
-            }
-        }
-        vertical_padding: number
-    },
+                font: IFont;
+                color: string;
+                line_height: number;
+            };
+        };
+        vertical_padding: number;
+    };
     body: {
-        fill_color: string,
-        stroke_color: string,
+        fill_color: string;
+        stroke_color: string;
         field_name: {
-            font: IFont,
-            color: string,
-            padding: number
-        },
+            font: IFont;
+            color: string;
+            padding: number;
+        };
         field_value: {
-            font: IFont,
-            color: string,
-            line_height: number,
-            padding: number
-        },
-        vertical_padding: number,
-    },
+            font: IFont;
+            color: string;
+            line_height: number;
+            padding: number;
+        };
+        vertical_padding: number;
+    };
     select_outline: {
-        color: string,
-        padding: number
-        border_radius: number,
-    },
+        color: string;
+        padding: number;
+        border_radius: number;
+    };
     anchor_markers: {
-        color: string,
-        size: number
-    }
-    border_radius: number,
-    horizontal_padding: number
-}
+        color: string;
+        size: number;
+    };
+    border_radius: number;
+    horizontal_padding: number;
+};
 
 export type SerializedDictionaryBlockStyle =
     SubstituteType<DictionaryBlockStyle, IFont, FontDescriptor>;
@@ -247,26 +247,26 @@ export type SerializedDictionaryBlockStyle =
 
 
 export type BranchBlockTemplate = ObjectTemplate & {
-    type: TemplateType.BranchBlock,
-    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
-    branches: [BranchTemplate, ...BranchTemplate[]]
-    anchor_template: string,
-    style: BranchBlockStyle
-}
+    type: TemplateType.BranchBlock;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+    branches: [BranchTemplate, ...BranchTemplate[]];
+    anchor_template: string;
+    style: BranchBlockStyle;
+};
 
-export type BranchTemplate = { 
-    text: string,
-    anchor_template: string
-}
+export type BranchTemplate = {
+    text: string;
+    anchor_template: string;
+};
 
 export type BranchBlockStyle = DictionaryBlockStyle & {
     branch: {
-        font: IFont,
-        color: string,
-        vertical_padding: number,
-        horizontal_padding: number
-    }
-}
+        font: IFont;
+        color: string;
+        vertical_padding: number;
+        horizontal_padding: number;
+    };
+};
 
 export type SerializedBranchBlockStyle =
     SubstituteType<BranchBlockStyle, IFont, FontDescriptor>;
@@ -278,34 +278,34 @@ export type SerializedBranchBlockStyle =
 
 
 export type TextBlockTemplate = ObjectTemplate & {
-    type: TemplateType.TextBlock,
-    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
-    anchor_template: string,
-    style: TextBlockStyle
-}
+    type: TemplateType.TextBlock;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+    anchor_template: string;
+    style: TextBlockStyle;
+};
 
 export type TextBlockStyle = {
-    max_width: number,
-    fill_color: string,
-    stroke_color: string,
+    max_width: number;
+    fill_color: string;
+    stroke_color: string;
     text: {
-        font: IFont,
-        color: string,
-        line_height: number
-    },
-    border_radius: number,
+        font: IFont;
+        color: string;
+        line_height: number;
+    };
+    border_radius: number;
     select_outline: {
-        color: string,
-        padding: number
-        border_radius: number,
-    },
+        color: string;
+        padding: number;
+        border_radius: number;
+    };
     anchor_markers: {
-        color: string,
-        size: number
-    },
-    vertical_padding: number,
-    horizontal_padding: number
-}
+        color: string;
+        size: number;
+    };
+    vertical_padding: number;
+    horizontal_padding: number;
+};
 
 export type SerializedTextBlockStyle =
     SubstituteType<TextBlockStyle, IFont, FontDescriptor>;
@@ -317,9 +317,9 @@ export type SerializedTextBlockStyle =
 
 
 export type LineHorizontalElbowTemplate = LineTemplate & {
-    type: TemplateType.LineHorizontalElbow
-    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
-}
+    type: TemplateType.LineHorizontalElbow;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -328,9 +328,9 @@ export type LineHorizontalElbowTemplate = LineTemplate & {
 
 
 export type LineVerticalElbowTemplate = LineTemplate & {
-    type: TemplateType.LineVerticalElbow
-    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
-}
+    type: TemplateType.LineVerticalElbow;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -339,20 +339,20 @@ export type LineVerticalElbowTemplate = LineTemplate & {
 
 
 export type PageTemplate = ObjectTemplate & {
-    type: TemplateType.Page
-    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge,
-    grid: [number, number]
-    style: PageStyle
-}
+    type: TemplateType.Page;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+    grid: [number, number];
+    style: PageStyle;
+};
 
 export type PageStyle = {
-    grid_color: string,
-    background_color: string,
+    grid_color: string;
+    background_color: string;
     drop_shadow: {
-        color: string,
-        offset: [number, number]
-    }
-}
+        color: string;
+        offset: [number, number];
+    };
+};
 
 export type SerializedPageStyle =
     SubstituteType<PageStyle, IFont, FontDescriptor>;
@@ -367,9 +367,9 @@ export type SerializedPageStyle =
  * Substitutes all types of type `A` in type `T` with type `B`.
  * ({@link https://stackoverflow.com/a/59833891 Source})
  */
-type SubstituteType<T, A, B> =
+export type SubstituteType<T, A, B> =
     T extends A
-    ? B
-    : T extends {}
-    ? { [K in keyof T]: SubstituteType<T[K], A, B> }
-    : T;
+        ? B
+        : T extends object
+            ? { [K in keyof T]: SubstituteType<T[K], A, B> }
+            : T;

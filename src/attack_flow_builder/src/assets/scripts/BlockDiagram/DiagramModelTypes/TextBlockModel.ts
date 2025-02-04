@@ -8,12 +8,18 @@ import {
 } from ".";
 import {
     AnchorAngle,
-    DiagramFactory,
+    DiagramFactory
+} from "../DiagramFactory";
+import {
+    Alignment,
+    Cursor,
+    InheritAlignment
+} from "../Attributes";
+import type {
     DiagramObjectValues,
     TextBlockStyle,
     TextBlockTemplate
 } from "../DiagramFactory";
-import { Alignment, Cursor, InheritAlignment } from "../Attributes";
 
 export class TextBlockModel extends DiagramObjectModel {
 
@@ -25,7 +31,7 @@ export class TextBlockModel extends DiagramObjectModel {
     /**
      * The block's style.
      */
-    public readonly style: TextBlockStyle
+    public readonly style: TextBlockStyle;
 
     /**
      * The block's render layout.
@@ -43,24 +49,24 @@ export class TextBlockModel extends DiagramObjectModel {
      *  The block's values.
      */
     constructor(
-        factory: DiagramFactory, 
-        template: TextBlockTemplate, 
+        factory: DiagramFactory,
+        template: TextBlockTemplate,
         values?: DiagramObjectValues
     ) {
         super(factory, template, values);
         this.setInheritAlignment(InheritAlignment.False);
         this.setAlignment(Alignment.Grid);
         this.setCursor(Cursor.Move);
-        this.layout = {} as any;
+        this.layout = {} as TextBlockRenderLayout;
         // Template configuration
         this.setSemanticRole(template.role);
         this.template = template;
         this.style = template.style;
         // Anchor configuration
-        if(!this.children.length) {
-            let t = template.anchor_template;
-            let a = [AnchorAngle.DEG_90, AnchorAngle.DEG_0];
-            for(let i = 0, anchor; i < 12; i++) {
+        if (!this.children.length) {
+            const t = template.anchor_template;
+            const a = [AnchorAngle.DEG_90, AnchorAngle.DEG_0];
+            for (let i = 0, anchor; i < 12; i++) {
                 anchor = factory.createObject(t) as AnchorPointModel;
                 anchor.angle = a[Math.floor(i / 3) % 2];
                 this.addChild(anchor, i, false);
@@ -73,7 +79,7 @@ export class TextBlockModel extends DiagramObjectModel {
         // Update Layout
         this.updateLayout(LayoutUpdateReason.Initialization);
     }
-    
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  1. Selection  /////////////////////////////////////////////////////////
@@ -91,15 +97,15 @@ export class TextBlockModel extends DiagramObjectModel {
      */
     public override getObjectAt(x: number, y: number): DiagramObjectModel | undefined {
         // Try anchors
-        let obj = super.getObjectAt(x, y);
-        if(obj) {
+        const obj = super.getObjectAt(x, y);
+        if (obj) {
             return obj;
         }
         // Try object
-        let bb = this.boundingBox;
-        if(
+        const bb = this.boundingBox;
+        if (
             bb.xMin <= x && x <= bb.xMax &&
-            bb.yMin <= y && y <= bb.yMax  
+            bb.yMin <= y && y <= bb.yMax
         ) {
             return this;
         } else {
@@ -116,36 +122,36 @@ export class TextBlockModel extends DiagramObjectModel {
     /**
      * Updates the block's bounding box and render layout.
      * @param reasons
-     *  The reasons the layout was updated. 
+     *  The reasons the layout was updated.
      * @param updateParent
      *  If the parent's layout should be updated.
      *  (Default: true)
      */
     public override updateLayout(reasons: number, updateParent: boolean = true) {
-        let contentHash = computeHash(this.props.toString());
-        let contentChanged = this.layout.contentHash !== contentHash;
-        let fullLayoutRequired = reasons & LayoutUpdateReason.Initialization;
-        
-        // Update layout
-        if(fullLayoutRequired || contentChanged)  {
+        const contentHash = computeHash(this.props.toString());
+        const contentChanged = this.layout.contentHash !== contentHash;
+        const fullLayoutRequired = reasons & LayoutUpdateReason.Initialization;
 
-            let {
+        // Update layout
+        if (fullLayoutRequired || contentChanged)  {
+
+            const {
                 max_width,
                 text: t,
                 vertical_padding: vp,
                 horizontal_padding: hp
             } = this.style;
-            let strokeWidth = 1;
+            const strokeWidth = 1;
 
             // Calculate text
-            let text = [];
-            let lines = t.font.wordWrap(this.props.toString(), max_width);
+            const text = [];
+            const lines = t.font.wordWrap(this.props.toString(), max_width);
             let m = t.font.measure(lines[0]);
             let w = m.width;
             let x = strokeWidth + hp;
             let y = strokeWidth + vp + m.ascent;
             text.push({ x, y, t: lines[0] });
-            for(let i = 1; i < lines.length; i++) {
+            for (let i = 1; i < lines.length; i++) {
                 m = t.font.measure(lines[i]);
                 w = Math.max(w, m.width);
                 y += t.line_height;
@@ -155,20 +161,20 @@ export class TextBlockModel extends DiagramObjectModel {
             x += w + x;
 
             // Calculate block's size
-            let width = Math.round(x);
-            let height = Math.round(y);
+            const width = Math.round(x);
+            const height = Math.round(y);
 
             // Calculate block's bounding box
-            let bb = this.boundingBox;
-            let xMin = Math.round(bb.xMid - (width / 2));
-            let yMin = Math.round(bb.yMid - (height / 2));
-            let xMax = Math.round(bb.xMid + (width / 2));
-            let yMax = Math.round(bb.yMid + (height / 2));
+            const bb = this.boundingBox;
+            const xMin = Math.round(bb.xMid - (width / 2));
+            const yMin = Math.round(bb.yMid - (height / 2));
+            const xMax = Math.round(bb.xMid + (width / 2));
+            const yMax = Math.round(bb.yMid + (height / 2));
 
             // Update anchors
-            let xo = (bb.xMid - xMin) / 2;
-            let yo = (bb.yMid - yMin) / 2;
-            let anchors = [
+            const xo = (bb.xMid - xMin) / 2;
+            const yo = (bb.yMid - yMin) / 2;
+            const anchors = [
                 bb.xMid - xo, yMin,
                 bb.xMid, yMin,
                 bb.xMid + xo, yMin,
@@ -181,8 +187,8 @@ export class TextBlockModel extends DiagramObjectModel {
                 xMin, bb.yMid + yo,
                 xMin, bb.yMid,
                 xMin, bb.yMid - yo
-            ]
-            for(let i = 0; i < anchors.length; i += 2) {
+            ];
+            for (let i = 0; i < anchors.length; i += 2) {
                 this.children[i / 2].moveTo(anchors[i], anchors[i + 1], false);
             }
 
@@ -202,10 +208,10 @@ export class TextBlockModel extends DiagramObjectModel {
         }
 
         // Update parent
-        if(updateParent) {
+        if (updateParent) {
             this.parent?.updateLayout(reasons);
         }
-        
+
     }
 
     /**
@@ -228,12 +234,12 @@ export class TextBlockModel extends DiagramObjectModel {
 
 
 type TextBlockRenderLayout = {
-    
+
     /**
      * The layout's content hash.
      */
-    contentHash: number
-    
+    contentHash: number;
+
     /**
      * The block's x offset from the top-left corner of the bounding box.
      */
@@ -247,35 +253,35 @@ type TextBlockRenderLayout = {
     /**
      * The block's width.
      */
-    width: number,
+    width: number;
 
     /**
      * The blocks's height.
      */
-    height: number,
+    height: number;
 
     /**
      * The text to draw.
      */
-    text: TextPlacement[]
+    text: TextPlacement[];
 
-}
+};
 
-type TextPlacement = { 
-    
+type TextPlacement = {
+
     /**
      * The x-axis coordinate relative to the top-left coordinate of the block.
      */
-    x: number,
+    x: number;
 
     /**
      * The y-axis coordinate relative to the top-left coordinate of the block.
      */
-    y: number,
+    y: number;
 
     /**
      * The text.
      */
-    t: string
+    t: string;
 
-}
+};

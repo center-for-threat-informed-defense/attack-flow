@@ -1,9 +1,6 @@
-import { ValidationErrorResult } from "./ValidationErrorResult";
-import { ValidationWarningResult } from "./ValidationWarningResult";
-import {
-    DiagramObjectModel,
-    GraphObjectExport
-} from "../BlockDiagram";
+import { DiagramObjectModel } from "../BlockDiagram";
+import type { ValidationErrorResult } from "./ValidationErrorResult";
+import type { ValidationWarningResult } from "./ValidationWarningResult";
 
 export class DiagramValidator {
 
@@ -24,7 +21,7 @@ export class DiagramValidator {
     constructor() {
         this._errors = [];
         this._warnings = [];
-    } 
+    }
 
 
     /**
@@ -42,7 +39,13 @@ export class DiagramValidator {
      * @param diagram
      *  The diagram to validate.
      */
-    protected validate(diagram: DiagramObjectModel) {}
+    protected validate(_diagram: DiagramObjectModel) {
+        /**
+         * We must keep `diagram` in this method header, otherwise `run()`
+         * can't pass the object to `validate()` which will likely be
+         * overridden by one or more child classes.
+         */
+    }
 
     /**
      * Returns the validator's current set of warnings.

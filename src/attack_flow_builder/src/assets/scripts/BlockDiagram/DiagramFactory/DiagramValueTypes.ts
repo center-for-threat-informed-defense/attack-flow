@@ -1,4 +1,5 @@
-import { DiagramObjectModel } from "../DiagramModelTypes"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { DiagramObjectModel } from "../DiagramModelTypes";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -7,14 +8,14 @@ import { DiagramObjectModel } from "../DiagramModelTypes"
 
 
 export type DiagramObjectValues = {
-    id?: string,
-    x?: number,
-    y?: number,
-    attrs?: number,
-    template: string,
-    children?: DiagramObjectModel[],
-    properties: { [key: string]: any }
-}
+    id?: string;
+    x?: number;
+    y?: number;
+    attrs?: number;
+    template: string;
+    children?: DiagramObjectModel[];
+    properties: { [key: string]: any };
+};
 
 export type DiagramObjectExport = ValuesToExportType<DiagramObjectValues>;
 
@@ -25,10 +26,10 @@ export type DiagramObjectExport = ValuesToExportType<DiagramObjectValues>;
 
 
 export type DiagramAnchorValues = DiagramObjectValues & {
-    angle?: number
-}
+    angle?: number;
+};
 
-export type DiagramAnchorExport = ValuesToExportType<DiagramAnchorValues>
+export type DiagramAnchorExport = ValuesToExportType<DiagramAnchorValues>;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -41,7 +42,7 @@ export type DiagramAnchorExport = ValuesToExportType<DiagramAnchorValues>
  */
 type ValuesToExportType<T extends DiagramObjectValues> = Required<
     SubstituteType<T, DiagramObjectModel[], string[]>
->
+>;
 
 /**
  * Substitutes all types of type `A` in type `T` with type `B`.
@@ -49,7 +50,7 @@ type ValuesToExportType<T extends DiagramObjectValues> = Required<
  */
 type SubstituteType<T, A, B> =
     T extends A
-    ? B
-    : T extends {}
-    ? { [K in keyof T]: SubstituteType<T[K], A, B> }
-    : T;
+        ? B
+        : T extends object
+            ? { [K in keyof T]: SubstituteType<T[K], A, B> }
+            : T;

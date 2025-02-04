@@ -1,5 +1,9 @@
 <template>
-  <div :class="['number-field-control', { disabled }]" :tabindex="tabIndex" @focus="onFocus()">
+  <div
+    :class="['number-field-control', { disabled }]"
+    :tabindex="tabIndex"
+    @focus="onFocus()"
+  >
     <input
       v-model="value"
       type="text"
@@ -9,16 +13,29 @@
       @keydown="onKeyDown"
       @blur="onBlur"
       :disabled="disabled"
-    />
-    <div class="increment-arrows" v-if="!disabled">
-      <div class="up-arrow" @click="updateProperty(+1)">▲</div>
-      <div class="down-arrow" @click="updateProperty(-1)">▼</div>
+    >
+    <div
+      class="increment-arrows"
+      v-if="!disabled"
+    >
+      <div
+        class="up-arrow"
+        @click="updateProperty(+1)"
+      >
+        ▲
+      </div>
+      <div
+        class="down-arrow"
+        @click="updateProperty(-1)"
+      >
+        ▼
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, markRaw, PropType, ref } from "vue";
+import { defineComponent, markRaw, type PropType, ref } from "vue";
 import { clamp, NumberProperty, PropertyType } from "@/assets/scripts/BlockDiagram";
 
 export default defineComponent({
@@ -48,7 +65,7 @@ export default defineComponent({
      *  The property.
      */
     _property(): NumberProperty {
-      let trigger = this.activeProperty.trigger.value;
+      const trigger = this.activeProperty.trigger.value;
       return trigger ? this.activeProperty : this.activeProperty; 
     },
 
@@ -57,8 +74,8 @@ export default defineComponent({
      * @returns
      *  The field's tab index.
      */
-    tabIndex(): null | "0" {
-      return this.disabled ? null: "0";
+    tabIndex(): undefined | "0" {
+      return this.disabled ? undefined : "0";
     },
 
     /**
@@ -136,7 +153,7 @@ export default defineComponent({
           value += delta;
         }
         // Bound value
-        let { min, max } = this._property;
+        const { min, max } = this._property;
         value = clamp(value, min, max); 
         // Bound type
         if(this._property.type === PropertyType.Int) {

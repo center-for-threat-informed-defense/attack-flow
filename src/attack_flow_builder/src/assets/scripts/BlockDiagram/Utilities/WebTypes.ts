@@ -1,5 +1,5 @@
-export enum MouseClick { 
-    Left   = 0, 
+export enum MouseClick {
+    Left   = 0,
     Middle = 1,
     Right  = 2
 }

@@ -1,9 +1,5 @@
-import { 
-    CollectionProperty,
-    DictionaryPropertyDescriptor,
-    ListValue,
-    Property
-} from ".";
+import { CollectionProperty, Property } from ".";
+import type { DictionaryPropertyDescriptor, ListValue } from ".";
 
 export class DictionaryProperty extends CollectionProperty {
 
@@ -11,7 +7,7 @@ export class DictionaryProperty extends CollectionProperty {
      * The property's descriptor.
      */
     public override descriptor: DictionaryPropertyDescriptor;
-    
+
     /**
      * The property's primary key.
      */
@@ -40,22 +36,23 @@ export class DictionaryProperty extends CollectionProperty {
         this.primaryKey = null;
         // Configure values
         this.value = new Map();
-        for(let key in descriptor.form) {
+        for (const key in descriptor.form) {
             // Create property
             let val;
-            if(!values) {
+            if (!values) {
                 val = undefined;
-            } else if(Array.isArray(values)) {
-                val = values.find(o => o[0] === key)?.at(1);
+            } else if (Array.isArray(values)) {
+                val = values.find(o => o[0] === key);
+                val = val && val[val.length - 1];
             } else {
-                val = values[key]
+                val = values[key];
             }
-            let pId = `${ id }.${ key }`;
-            let prop = Property.create(pId, this, descriptor.form[key], val);
+            const pId = `${id}.${key}`;
+            const prop = Property.create(pId, this, descriptor.form[key], val);
             // Add property
             this.value.set(key, prop);
             // Configure primary key
-            if(!this.primaryKey && prop.descriptor.is_primary) {
+            if (!this.primaryKey && prop.descriptor.is_primary) {
                 this.primaryKey = key;
             }
         }
@@ -73,7 +70,7 @@ export class DictionaryProperty extends CollectionProperty {
      * @returns
      *  The property's id.
      */
-    public override addProperty(property: Property, id: string, index: number): string {
+    public override addProperty(): string {
         throw new Error("Properties cannot be dynamically added to dictionaries.");
     }
 
@@ -82,7 +79,7 @@ export class DictionaryProperty extends CollectionProperty {
      * @param id
      *  The property's id.
      */
-    public override removeProperty(id: string): void {
+    public override removeProperty(): void {
         throw new Error("Properties cannot be dynamically removed from dictionaries.");
     }
 
@@ -92,7 +89,7 @@ export class DictionaryProperty extends CollectionProperty {
      *  True if the primary property is defined, false otherwise.
      */
     public isDefined(): boolean {
-        if(!this.primaryKey) {
+        if (!this.primaryKey) {
             return false;
         } else {
             return this.value.get(this.primaryKey)!.isDefined();
@@ -105,10 +102,10 @@ export class DictionaryProperty extends CollectionProperty {
      *  The property as a string.
      */
     public toString(): string {
-        if(!this.primaryKey) {
-            return "Error - No Primary Key"
+        if (!this.primaryKey) {
+            return "Error - No Primary Key";
         } else {
-            return this.value.get(this.primaryKey)!.toString()
+            return this.value.get(this.primaryKey)!.toString();
         }
     }
 

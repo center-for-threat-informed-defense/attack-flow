@@ -1,13 +1,24 @@
 <template>
   <div class="dictionary-field-control">
-    <div :class="['dictionary-header-container', { collapsed }]" @click="collapsed=!collapsed">
+    <div
+      :class="['dictionary-header-container', { collapsed }]"
+      @click="collapsed=!collapsed"
+    >
       <div class="dictionary-header">
-        <CollapseArrow class="icon" :collapsed="collapsed"/>
-        <p class="text">{{ _property.toString() }}</p>
+        <CollapseArrowIcon
+          class="icon"
+          :collapsed="collapsed"
+        />
+        <p class="text">
+          {{ _property.toString() }}
+        </p>
       </div>
-      <slot></slot>
+      <slot />
     </div>
-    <div class="dictionary-contents" v-if="!collapsed">
+    <div
+      class="dictionary-contents"
+      v-if="!collapsed"
+    >
       <template v-if="hasVisibleProperties">
         <DictionaryFieldContents
           :property="property"
@@ -17,7 +28,9 @@
         />
       </template>
       <template v-else>
-        <p class="no-properties">No visible properties.</p>
+        <p class="no-properties">
+          No visible properties.
+        </p>
       </template>
     </div>
   </div>
@@ -26,9 +39,9 @@
 <script lang="ts">
 // Dependencies
 import { DictionaryProperty } from "@/assets/scripts/BlockDiagram";
-import { defineComponent, PropType } from "vue";
+import { defineComponent, type PropType } from "vue";
 // Components
-import CollapseArrow from "@/components/Icons/CollapseArrow.vue";
+import CollapseArrowIcon from "@/components/Icons/CollapseArrowIcon.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
 
 export default defineComponent({
@@ -52,7 +65,7 @@ export default defineComponent({
      *  The property.
      */
     _property(): DictionaryProperty {
-      let trigger = this.property.trigger.value;
+      const trigger = this.property.trigger.value;
       return trigger ? this.property : this.property; 
     },
 
@@ -62,7 +75,7 @@ export default defineComponent({
      *  True if the property has visible subproperties, false otherwise.
      */
     hasVisibleProperties(): boolean {
-      for(let value of this._property.value.values()) {
+      for(const value of this._property.value.values()) {
         if(value.descriptor.is_visible_sidebar ?? true)
           return true;
       }
@@ -71,7 +84,7 @@ export default defineComponent({
 
   },
   emits: ["change", "create", "delete"],
-  components: { CollapseArrow, DictionaryFieldContents }
+  components: { CollapseArrowIcon, DictionaryFieldContents }
 });
 </script>
 

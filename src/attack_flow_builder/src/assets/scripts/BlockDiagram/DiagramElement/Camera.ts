@@ -1,18 +1,18 @@
-export type CameraLocation = { 
-    
+export type CameraLocation = {
+
     /**
      * The x-axis coordinate.
      */
-    x: number,
-    
+    x: number;
+
     /**
      * The y-axis coordinate.
      */
-    y: number,
-    
+    y: number;
+
     /**
      * The scale.
      */
-    k: number
+    k: number;
 
-}
+};

@@ -27,7 +27,7 @@ function toHex(num: number): string {
 
 /**
  * Converts a string into an array of blocks. Each block contains 16, 32-bit,
- * words. Size padding and padding bits are appended per the MD5 standard.  
+ * words. Size padding and padding bits are appended per the MD5 standard.
  * @param str
  *  The string.
  * @returns
@@ -35,8 +35,8 @@ function toHex(num: number): string {
  */
 function stringToBlocks(str: string): number[] {
     let i;
-    let size = ((str.length + 8) >> 6) + 1;
-    let blocks = new Array(size * 16).fill(0);
+    const size = ((str.length + 8) >> 6) + 1;
+    const blocks = new Array(size * 16).fill(0);
     for (i = 0; i < str.length; i++) {
         blocks[i >> 2] |= str.charCodeAt(i) << ((i % 4) * 8);
     }
@@ -56,8 +56,8 @@ function stringToBlocks(str: string): number[] {
  *  The sum.
  */
 function add(x: number, y: number): number {
-    var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-    var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+    const lsw = (x & 0xFFFF) + (y & 0xFFFF);
+    const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
     return (msw << 16) | (lsw & 0xFFFF);
 }
 
@@ -82,7 +82,7 @@ function rol(num: number, cnt: number): number {
  *  First 32-bit word.
  * @param b
  *  Second 32-bit word.
- * @param x 
+ * @param x
  *  32-bit word from a message block.
  * @param s
  *  The number of bits to rotate by.
@@ -195,15 +195,15 @@ function ii(a: number, b: number, c: number, d: number, x: number, s: number, t:
  *  The MD5 digest.
  */
 export function MD5(str: string): string {
-    let x = stringToBlocks(str),
-        a = 1732584193,
+    const x = stringToBlocks(str);
+    let a = 1732584193,
         b = -271733879,
         c = -1732584194,
         d = 271733878;
 
     for (let i = 0; i < x.length; i += 16) {
 
-        let old_a = a,
+        const old_a = a,
             old_b = b,
             old_c = c,
             old_d = d;

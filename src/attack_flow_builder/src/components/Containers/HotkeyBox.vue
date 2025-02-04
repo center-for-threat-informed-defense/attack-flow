@@ -1,12 +1,17 @@
 <template>
-  <div class="hotkey-box-container" tabindex="0">
-    <slot></slot>
+  <div
+    class="hotkey-box-container"
+    tabindex="0"
+  >
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { Hotkey, HotkeyObserver } from "@/assets/scripts/HotkeyObserver";
-import { defineComponent, markRaw, PropType } from "vue";
+import { HotkeyObserver } from "@/assets/scripts/HotkeyObserver";
+import { defineComponent, markRaw, type PropType } from "vue";
+import type { Hotkey } from "@/assets/scripts/HotkeyObserver";
+import type { CommandEmitter } from "@/stores/Commands/Command";
 
 export default defineComponent({
   name: "HotkeyBox",
@@ -34,8 +39,8 @@ export default defineComponent({
   },
   props: {
     hotkeys: {
-      type: Array as PropType<Hotkey<any>[]>,
-      default: [],
+      type: Array as PropType<Hotkey<CommandEmitter>[]>,
+      default: () => [],
     },
     global: {
       type: Boolean,
@@ -45,8 +50,8 @@ export default defineComponent({
   data() {
     return {
       observer: markRaw(new HotkeyObserver(
-        (id: string, data?: any) => this.$emit("fire", id, data)
-      , 0))
+        (data: CommandEmitter) => this.$emit("fire", data)
+      ))
     };
   },
   emits: ["fire"],
