@@ -51,13 +51,13 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "New File",
                         type: MenuType.Item,
                         data: () => App.PrepareEditorWithFile.fromNew(ctx),
-                        shortcut: file.new_file
+                        shortcuts: file.new_file
                     },
                     {
                         text: "Open File...",
                         type: MenuType.Item,
                         data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
-                        shortcut: file.open_file
+                        shortcuts: file.open_file
                     }
                 ]
             };
@@ -140,19 +140,19 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Save",
                         type: MenuType.Item,
                         data: () => new App.SavePageToDevice(ctx),
-                        shortcut: file.save_file
+                        shortcuts: file.save_file
                     },
                     {
                         text: "Save as Image",
                         type: MenuType.Item,
                         data: () => new App.SavePageImageToDevice(ctx),
-                        shortcut: file.save_image
+                        shortcuts: file.save_image
                     },
                     {
                         text: "Save Selection as Image",
                         type: MenuType.Item,
                         data: () => new App.SaveSelectionImageToDevice(ctx),
-                        shortcut: file.save_select_image,
+                        shortcuts: file.save_select_image,
                         disabled: !ctx.hasSelection
                     }
                 ]
@@ -174,7 +174,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: `Publish ${Configuration.file_type_name}`,
                         type: MenuType.Item,
                         data: () => new App.PublishPageToDevice(ctx),
-                        shortcut: file.publish_file,
+                        shortcuts: file.publish_file,
                         disabled: !ctx.isValid
                     }
                 ]
@@ -236,14 +236,14 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Undo",
                         type: MenuType.Item,
                         data: () => new Page.UndoPageCommand(ctx, page.id),
-                        shortcut: edit.undo,
+                        shortcuts: edit.undo,
                         disabled: !ctx.canUndo
                     },
                     {
                         text: "Redo",
                         type: MenuType.Item,
                         data: () => new Page.RedoPageCommand(ctx, page.id),
-                        shortcut: edit.redo,
+                        shortcuts: edit.redo,
                         disabled: !ctx.canRedo
                     }
                 ]
@@ -268,21 +268,21 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Cut",
                         type: MenuType.Item,
                         data: () => new Page.CutSelectedChildren(ctx, page),
-                        shortcut: edit.cut,
+                        shortcuts: edit.cut,
                         disabled: !hasSelection
                     },
                     {
                         text: "Copy",
                         type: MenuType.Item,
                         data: () => new App.CopySelectedChildren(ctx, page),
-                        shortcut: edit.copy,
+                        shortcuts: edit.copy,
                         disabled: !hasSelection
                     },
                     {
                         text: "Paste",
                         type: MenuType.Item,
                         data: () => new Page.PasteToObject(ctx, page),
-                        shortcut: edit.paste,
+                        shortcuts: edit.paste,
                         disabled: !canPaste
                     }
                 ]
@@ -305,7 +305,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Delete",
                         type: MenuType.Item,
                         data: () => new Page.RemoveSelectedChildren(page),
-                        shortcut: edit.delete,
+                        shortcuts: edit.delete,
                         disabled: !ctx.hasSelection
                     }
                 ]
@@ -328,7 +328,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Duplicate",
                         type: MenuType.Item,
                         data: () => new Page.DuplicateSelectedChildren(ctx, page),
-                        shortcut: edit.duplicate,
+                        shortcuts: edit.duplicate,
                         disabled: !ctx.hasSelection
                     }
                 ]
@@ -351,20 +351,20 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Find…",
                         type: MenuType.Item,
                         data: () => new App.ShowFindDialog(ctx),
-                        shortcut: edit.find
+                        shortcuts: edit.find
                     },
                     {
                         text: "Find Next",
                         type: MenuType.Item,
                         data: () => new App.MoveToNextFindResult(ctx),
-                        shortcut: edit.find_next,
+                        shortcuts: edit.find_next,
                         disabled: !hasFindResults
                     },
                     {
                         text: "Find Previous",
                         type: MenuType.Item,
                         data: () => new App.MoveToPreviousFindResult(ctx),
-                        shortcut: edit.find_previous,
+                        shortcuts: edit.find_previous,
                         disabled: !hasFindResults
                     }
                 ]
@@ -388,7 +388,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Select All",
                         type: MenuType.Item,
                         data: () => new Page.SelectChildren(page),
-                        shortcut: edit.select_all
+                        shortcuts: edit.select_all
                     }
                 ]
             };
@@ -492,25 +492,25 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "To Front",
                         type: MenuType.Item,
                         data: () => new Page.RelayerSelection(page, Page.Order.Top),
-                        shortcut: layout.selection_to_front
+                        shortcuts: layout.selection_to_front
                     },
                     {
                         text: "To Back",
                         type: MenuType.Item,
                         data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
-                        shortcut: layout.selection_to_back
+                        shortcuts: layout.selection_to_back
                     },
                     {
                         text: "Bring Forward",
                         type: MenuType.Item,
                         data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
-                        shortcut: layout.bring_selection_forward
+                        shortcuts: layout.bring_selection_forward
                     },
                     {
                         text: "Send Backward",
                         type: MenuType.Item,
                         data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
-                        shortcut: layout.send_selection_backward
+                        shortcuts: layout.send_selection_backward
                     }
                 ]
             };
@@ -562,7 +562,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Grid",
                         type: MenuType.Toggle,
                         data: () => new App.ToggleGridDisplay(ctx),
-                        shortcut: view.toggle_grid,
+                        shortcuts: view.toggle_grid,
                         value: display_grid,
                         keepMenuOpenOnSelect: true
                     },
@@ -570,7 +570,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Shadows",
                         type: MenuType.Toggle,
                         data: () => new App.ToggleShadowDisplay(ctx),
-                        shortcut: view.toggle_shadows,
+                        shortcuts: view.toggle_shadows,
                         value: display_shadows,
                         keepMenuOpenOnSelect: true
                     }
@@ -623,19 +623,19 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Reset View",
                         type: MenuType.Item,
                         data: () => new Page.ResetCamera(ctx, page),
-                        shortcut: view.reset_view
+                        shortcuts: view.reset_view
                     },
                     {
                         text: "Zoom In",
                         type: MenuType.Item,
                         data: () => new Page.ZoomCamera(ctx, page, 0.25),
-                        shortcut: view.zoom_in
+                        shortcuts: view.zoom_in
                     },
                     {
                         text: "Zoom Out",
                         type: MenuType.Item,
                         data: () => new Page.ZoomCamera(ctx, page, -0.25),
-                        shortcut: view.zoom_out
+                        shortcuts: view.zoom_out
                     }
                 ]
             };
@@ -658,21 +658,21 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Zoom to Selection",
                         type: MenuType.Item,
                         data: () => new Page.MoveCameraToSelection(ctx, page),
-                        shortcut: view.jump_to_selection,
+                        shortcuts: view.jump_to_selection,
                         disabled: !hasSelection
                     },
                     {
                         text: "Jump to Parents",
                         type: MenuType.Item,
                         data: () => new Page.MoveCameraToParents(ctx, page),
-                        shortcut: view.jump_to_parents,
+                        shortcuts: view.jump_to_parents,
                         disabled: !hasSelection
                     },
                     {
                         text: "Jump to Children",
                         type: MenuType.Item,
                         data: () => new Page.MoveCameraToChildren(ctx, page),
-                        shortcut: view.jump_to_children,
+                        shortcuts: view.jump_to_children,
                         disabled: !hasSelection
                     }
                 ]
@@ -694,7 +694,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Fullscreen",
                         type: MenuType.Item,
                         data: () => new App.SwitchToFullscreen(ctx),
-                        shortcut: view.fullscreen
+                        shortcuts: view.fullscreen
                     }
                 ]
             };
@@ -716,7 +716,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Debug Mode",
                         type: MenuType.Toggle,
                         data: () => new App.ToggleDebugDisplay(ctx),
-                        shortcut: view.toggle_debug_view,
+                        shortcuts: view.toggle_debug_view,
                         value: display_debug_mode,
                         keepMenuOpenOnSelect: true
                     }

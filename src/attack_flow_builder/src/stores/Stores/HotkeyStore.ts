@@ -47,37 +47,37 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
             const ctx = useApplicationStore();
             const file = ctx.settings.hotkeys.file;
             return [
-                {
+                ...file.new_file.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => App.PrepareEditorWithFile.fromNew(ctx),
-                    shortcut: file.new_file,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...file.open_file.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
-                    shortcut: file.open_file,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...file.save_image.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.SavePageToDevice(ctx),
-                    shortcut: file.save_file,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...file.save_select_image.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.SavePageImageToDevice(ctx),
-                    shortcut: file.save_image,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...file.save_select_image.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.SaveSelectionImageToDevice(ctx),
-                    shortcut: file.save_select_image,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...file.publish_file.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.PublishPageToDevice(ctx),
-                    shortcut: file.publish_file,
+                    shortcut: key,
                     repeatable: false,
                     disabled: !ctx.publisher || !ctx.isValid
-                }
+                }))
             ];
         },
 
@@ -91,62 +91,62 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
             const page = ctx.activePage.page;
             const edit = ctx.settings.hotkeys.edit;
             return [
-                {
+                ...edit.undo.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.UndoPageCommand(ctx, page.id),
-                    shortcut: edit.undo,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...edit.redo.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.RedoPageCommand(ctx, page.id),
-                    shortcut: edit.redo,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...edit.cut.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.CutSelectedChildren(ctx, page),
-                    shortcut: edit.cut,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...edit.copy.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.CopySelectedChildren(ctx, page),
-                    shortcut: edit.copy,
+                    shortcut: key,
                     repeatable: false,
                     allowBrowserBehavior: true
-                },
-                {
+                })),
+                ...edit.paste.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.PasteToObject(ctx, page),
-                    shortcut: edit.paste,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...edit.delete.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.RemoveSelectedChildren(page),
-                    shortcut: edit.delete,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...edit.duplicate.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.DuplicateSelectedChildren(ctx, page),
-                    shortcut: edit.duplicate,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...edit.find.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.ShowFindDialog(ctx),
-                    shortcut: edit.find,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...edit.find_next.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.MoveToNextFindResult(ctx),
-                    shortcut: edit.find_next,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...edit.find_previous.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.MoveToPreviousFindResult(ctx),
-                    shortcut: edit.find_previous,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...edit.select_all.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.SelectChildren(page),
-                    shortcut: edit.select_all,
+                    shortcut: key,
                     repeatable: false
-                }
+                }))
             ];
         },
 
@@ -160,26 +160,26 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
             const page = ctx.activePage.page;
             const layout = ctx.settings.hotkeys.layout;
             return [
-                {
+                ...layout.selection_to_front.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.RelayerSelection(page, Page.Order.Top),
-                    shortcut: layout.selection_to_front,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...layout.selection_to_back.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
-                    shortcut: layout.selection_to_back,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...layout.bring_selection_forward.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
-                    shortcut: layout.bring_selection_forward,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...layout.send_selection_backward.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
-                    shortcut: layout.send_selection_backward,
+                    shortcut: key,
                     repeatable: false
-                }
+                }))
             ];
         },
 
@@ -193,56 +193,56 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
             const page = ctx.activePage.page;
             const view = ctx.settings.hotkeys.view;
             return  [
-                {
+                ...view.toggle_grid.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.ToggleGridDisplay(ctx),
-                    shortcut: view.toggle_grid,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...view.toggle_shadows.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.ToggleShadowDisplay(ctx),
-                    shortcut: view.toggle_shadows,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...view.reset_view.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.ResetCamera(ctx, page),
-                    shortcut: view.reset_view,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...view.zoom_in.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.ZoomCamera(ctx, page, 0.25),
-                    shortcut: view.zoom_in,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...view.zoom_out.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.ZoomCamera(ctx, page, -0.25),
-                    shortcut: view.zoom_out,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...view.jump_to_selection.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.MoveCameraToSelection(ctx, page),
-                    shortcut: view.jump_to_selection,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...view.jump_to_parents.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.MoveCameraToParents(ctx, page),
-                    shortcut: view.jump_to_parents,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...view.jump_to_children.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new Page.MoveCameraToChildren(ctx, page),
-                    shortcut: view.jump_to_children,
+                    shortcut: key,
                     repeatable: true
-                },
-                {
+                })),
+                ...view.fullscreen.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.SwitchToFullscreen(ctx),
-                    shortcut: view.fullscreen,
+                    shortcut: key,
                     repeatable: false
-                },
-                {
+                })),
+                ...view.toggle_debug_view.map((key: string): Hotkey<CommandEmitter>=>({
                     data: () => new App.ToggleDebugDisplay(ctx),
-                    shortcut: view.toggle_debug_view,
+                    shortcut: key,
                     repeatable: false
-                }
+                }))
             ];
         }
 

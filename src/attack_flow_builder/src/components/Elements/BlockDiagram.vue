@@ -19,7 +19,7 @@ import * as App from "@/stores/Commands/AppCommands";
 import * as Page from "@/stores/Commands/PageCommands";
 // Dependencies
 import { defineComponent, inject, markRaw } from 'vue';
-import { 
+import {
   BlockDiagram,
   Cursor,
   CursorCssName,
@@ -42,7 +42,7 @@ export default defineComponent({
   name: 'BlockDiagram',
   setup() {
     return {
-      isHotkeyActive: inject("isHotkeyActive") as 
+      isHotkeyActive: inject("isHotkeyActive") as
         (sequence: string, strict?: boolean) => boolean
     }
   },
@@ -57,7 +57,7 @@ export default defineComponent({
         y: 0,
         show: false,
       },
-      view: { 
+      view: {
         x: 0, y: 0, k: 1,
         w: 0, h: 0
       }
@@ -93,7 +93,7 @@ export default defineComponent({
     disableShadowsAt(): number {
       return this.application.settings.view.diagram.disable_shadows_at;
     },
-    multiselectHotkey(): string {
+    multiselectHotkeys(): string[] {
       return this.application.settings.hotkeys.select.many;
     },
 
@@ -226,7 +226,7 @@ export default defineComponent({
      */
     onObjectClick(e: PointerEvent, o: DiagramObjectModel, x: number, y: number) {
       // Unselect items, if needed
-      const isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
+      const isMultiselect = this.multiselectHotkeys.some(key=>this.isHotkeyActive(key));
       if(!isMultiselect && !o.isSelected()) {
         this.execute(new Page.UnselectDescendants(this.editor.page));
       }
@@ -254,7 +254,7 @@ export default defineComponent({
         this.openContextMenu(x, y);
       }
     },
-    
+
     /**
      * Object move behavior.
      * @param o
@@ -286,7 +286,7 @@ export default defineComponent({
       const { xMid, yMid } = a.boundingBox;
       const cmd = new Page.GroupCommand();
       if(o.isAttached()) {
-        cmd.add(new Page.DetachObject(o));  
+        cmd.add(new Page.DetachObject(o));
       }
       cmd.add(new Page.MoveObjectTo(o, xMid, yMid));
       cmd.add(new Page.AttachObject(a, o));
@@ -405,7 +405,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    
+
     // Subscribe to diagram events
     this.diagram.on("object-hover", this.onObjectHover);
     this.diagram.on("object-click", this.onObjectClick);
@@ -423,7 +423,7 @@ export default defineComponent({
     this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
     this.diagram.setShadowsDisableAt(this.disableShadowsAt);
     this.diagram.setPage(markRaw(this.editor.page));
-    
+
     // Inject the diagram
     this.diagram.inject(this.$el);
     this.diagram.updateView();

@@ -45,14 +45,14 @@ export interface ContextMenuSection<T> {
 
 export interface ContextMenuItem<T> extends ContextMenuBase<MenuType.Item> {
     data: T;
-    shortcut?: string;
+    shortcuts?: string[];
     keepMenuOpenOnSelect?: boolean;
 }
 
 export interface ContextMenuToggleItem<T> extends ContextMenuBase<MenuType.Toggle> {
     data: T;
     value: boolean;
-    shortcut?: string;
+    shortcuts?: string[];
     keepMenuOpenOnSelect?: boolean;
 }
 

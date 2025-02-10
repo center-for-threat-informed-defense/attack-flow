@@ -36,7 +36,7 @@ export default defineComponent({
      */
     hotkeySet(): Hotkey<CommandEmitter>[] {
       return [
-        ...this.hotkeys.nativeHotkeys, 
+        ...this.hotkeys.nativeHotkeys,
         ...this.hotkeys.fileHotkeys,
         ...this.hotkeys.editHotKeys,
         ...this.hotkeys.layoutHotkeys,

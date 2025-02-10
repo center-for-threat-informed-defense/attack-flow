@@ -16,7 +16,7 @@
         :key="item.text"
       >
         <!-- Submenu Item -->
-        <li 
+        <li
           :class="{ disabled: item.disabled }"
           @mouseenter="submenuEnter(item)"
           @mouseleave="submenuLeave(item)"
@@ -30,7 +30,7 @@
             class="submenu"
             v-if="isActive(item)"
           >
-            <ContextMenuListing 
+            <ContextMenuListing
               :root="false"
               :sections="item.sections"
               @_select="onChildItemSelect"
@@ -38,7 +38,7 @@
           </div>
         </li>
         <!-- Regular Item -->
-        <li 
+        <li
           :class="{ disabled: item.disabled }"
           :exit-focus-box="!item.keepMenuOpenOnSelect"
           @click="onItemClick(item as ContextMenuItem<CommandEmitter>)"
@@ -59,9 +59,9 @@
             </span>
             <span
               class="shortcut"
-              v-if="item.shortcut"
+              v-if="item.shortcuts"
             >
-              {{ formatShortcut(item.shortcut) }}
+              {{ displayShortcuts(item.shortcuts) }}
             </span>
           </a>
         </li>
@@ -79,8 +79,8 @@
 import { Browser, OperatingSystem } from '@/assets/scripts/Browser';
 import { defineComponent, type PropType } from 'vue';
 import { MenuType } from "@/assets/scripts/ContextMenuTypes";
-import type { 
-  ContextMenu, ContextMenuItem, 
+import type {
+  ContextMenu, ContextMenuItem,
   ContextMenuSection
 } from "@/assets/scripts/ContextMenuTypes";
 import type { CommandEmitter } from '@/stores/Commands/Command';
@@ -152,7 +152,7 @@ export default defineComponent({
   },
   emits: ["select", "_select"],
   methods: {
-    
+
     /**
      * Tests is a submenu is active.
      * @param menu
@@ -221,7 +221,19 @@ export default defineComponent({
     },
 
     /**
-     * Formats a keyboard shortcut.
+     * Formats a list of keyboard shortcuts for display.
+     * @param shortcuts
+     *  The array of keyboard shortcuts to concatenate.
+     * @returns
+     *  The concatenated listing of all shortcuts as a string.
+     */
+    displayShortcuts(shortcuts?: any): string | undefined {
+      if(!shortcuts) { return shortcuts; }
+      else { return shortcuts.map(s=>this.formatShortcut(s)).join(", "); }
+    },
+
+    /**
+     * Formats a single keyboard shortcut.
      * @param shortcut
      *  The keyboard shortcut to format.
      * @returns
@@ -318,7 +330,7 @@ li.disabled a {
   cursor: unset;
 }
 
-.text, 
+.text,
 .shortcut,
 .more-arrow {
   display: flex;
