@@ -92,6 +92,10 @@ export default defineComponent({
 
 /** === Main Field === */
 
+.dictionary-field-control {
+  max-width: 100%;
+}
+
 .dictionary-header-container {
   display: flex;
 }

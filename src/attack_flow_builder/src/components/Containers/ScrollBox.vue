@@ -274,9 +274,14 @@ export default defineComponent({
   mounted() {
     // Configure mutation observer
     const mutateOptions = { childList: true, characterData: true, subtree: true };
-    this.onMutateObserver = new MutationObserver(() => 
-      this.recalculateScrollState(this.resetScrollOnChange)
-    );
+    this.onMutateObserver = new MutationObserver(() => {
+      // Re-observe all children to update dynamically
+      if (this.content) {
+        Array.from(this.content.children).forEach(child => {
+          this.onResizeObserver?.observe(child);
+        })
+      }
+    })
     // Configure resize observer
     this.onResizeObserver = new ResizeObserver(() =>
       this.recalculateScrollState(false)
