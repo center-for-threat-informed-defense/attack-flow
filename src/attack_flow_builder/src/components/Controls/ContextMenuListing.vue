@@ -229,7 +229,7 @@ export default defineComponent({
      */
     displayShortcuts(shortcuts?: any): string | undefined {
       if(!shortcuts) { return shortcuts; }
-      else { return shortcuts.map(s=>this.formatShortcut(s)).join(", "); }
+      else { return shortcuts.map(s=>this.formatShortcut(s)).join(" / "); }
     },
 
     /**
