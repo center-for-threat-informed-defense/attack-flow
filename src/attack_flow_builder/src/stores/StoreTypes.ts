@@ -45,17 +45,18 @@ export const BaseAppSettings: AppSettings = {
             save_library: []
         },
         edit: {
-            undo: [],
-            redo: [],
-            cut: [],
-            copy: [],
-            paste: [],
-            delete: [],
-            duplicate: [],
-            find: [],
-            find_next: [],
-            find_previous: [],
-            select_all: []
+            undo: "",
+            redo: "",
+            cut: "",
+            copy: "",
+            paste: "",
+            delete: "",
+            duplicate: "",
+            find: "",
+            find_next: "",
+            find_previous: "",
+            select_all: "",
+            unselect_all: ""
         },
         layout: {
             selection_to_front: [],
@@ -147,17 +148,18 @@ export type FileHotkeys = {
  * Edit hotkeys
  */
 export type EditHotkeys = {
-    undo: string[];
-    redo: string[];
-    cut: string[];
-    copy: string[];
-    paste: string[];
-    delete: string[];
-    duplicate: string[];
-    find: string[];
-    find_next: string[];
-    find_previous: string[];
-    select_all: string[];
+    undo: string;
+    redo: string;
+    cut: string;
+    copy: string;
+    paste: string;
+    delete: string;
+    duplicate: string;
+    find: string;
+    find_next: string;
+    find_previous: string;
+    select_all: string;
+    unselect_all: string;
 };
 
 /**

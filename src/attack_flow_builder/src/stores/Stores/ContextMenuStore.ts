@@ -215,7 +215,8 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     this.duplicateMenu,
                     this.findMenu,
                     this.createMenu,
-                    this.selectAllMenu
+                    this.selectAllMenu,
+                    this.unselectAllMenu
                 ]
             };
         },
@@ -391,6 +392,28 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         shortcuts: edit.select_all
                     }
                 ]
+            };
+        },
+
+        /**
+         * Returns the 'unselect all' menu section.
+         * @returns
+         *  The 'unselect all' menu section.
+         */
+        unselectAllMenu(): ContextMenuSection<CommandEmitter> { 
+            let ctx = useApplicationStore();
+            let page = ctx.activePage.page;
+            let edit = ctx.settings.hotkeys.edit;
+            return {
+                id: "unselect_options",
+                items: [
+                    {
+                        text: "Unselect All",
+                        type: MenuType.Item,
+                        data: () => new Page.UnselectDescendants(page),
+                        shortcut: edit.unselect_all,
+                    }
+                ],
             };
         },
 

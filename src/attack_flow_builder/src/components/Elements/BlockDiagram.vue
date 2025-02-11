@@ -137,6 +137,7 @@ export default defineComponent({
           this.contextMenus.undoRedoMenu,
           this.contextMenus.createAtMenu,
           this.contextMenus.selectAllMenu,
+          this.contextMenus.unselectAllMenu,
           this.contextMenus.zoomMenu,
           this.contextMenus.diagramViewMenu
         ];
@@ -226,7 +227,11 @@ export default defineComponent({
      */
     onObjectClick(e: PointerEvent, o: DiagramObjectModel, x: number, y: number) {
       // Unselect items, if needed
-      const isMultiselect = this.multiselectHotkeys.some(key=>this.isHotkeyActive(key));
+      const isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
+      if (isMultiselect && o.isSelected()) {
+        this.execute(new Page.UnselectObject(o));
+        return;
+      }
       if(!isMultiselect && !o.isSelected()) {
         this.execute(new Page.UnselectDescendants(this.editor.page));
       }

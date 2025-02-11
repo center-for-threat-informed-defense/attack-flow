@@ -146,7 +146,12 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                     data: () => new Page.SelectChildren(page),
                     shortcut: key,
                     repeatable: false
-                }))
+                },
+                {
+                    data: () => new Page.UnselectDescendants(page),
+                    shortcut: edit.unselect_all,
+                    repeatable: false
+                }
             ];
         },
 
