@@ -16,4 +16,5 @@ export default defineConfig({
       '~': fileURLToPath(new URL('./', import.meta.url))
     },
   },
+  base: process.env?.AFB_BASE_URL ?? "/"
 })

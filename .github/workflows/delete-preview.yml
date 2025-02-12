@@ -1,0 +1,24 @@
+name: Delete Preview Build
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+  pull-requests: write
+
+jobs:
+  azure_blob:
+    runs-on: ubuntu-latest
+    env:
+      AZURE_STORAGE_ACCOUNT: ctidflow
+      AZURE_STORAGE_SAS_TOKEN: ${{ secrets.AZURE_SAS_TOKEN }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    steps:
+      - name: Install Azure CLI
+        run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - name: Delete old blobs
+        run: az storage blob delete-batch -s '$web' --pattern "$BRANCH_NAME/*"

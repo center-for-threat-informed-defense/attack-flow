@@ -17,7 +17,7 @@ jobs:
   test_python:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
       with:
         python-version: '3.12'
@@ -37,26 +37,11 @@ jobs:
         token: ${{ secrets.CODECOV_SECRET }}
         files: coverage.xml
         verbose: true
-  
+
   test_attack_flow_builder:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - name: Install dependencies
-      working-directory: ./src/attack_flow_builder/
-      run: npm ci
-    - name: Run unit tests
-      working-directory: ./src/attack_flow_builder/
-      run: npm run test:unit
-
-  attack_flow_builder:
-    needs: ["test_attack_flow_builder"]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
         node-version: '20'
@@ -66,6 +51,24 @@ jobs:
     - name: Lint
       working-directory: ./src/attack_flow_builder/
       run: npm run lint
+    - name: Run unit tests
+      working-directory: ./src/attack_flow_builder/
+      run: npm run test:unit
+
+  attack_flow_builder:
+    needs: ["test_attack_flow_builder"]
+    runs-on: ubuntu-latest
+    env:
+      AFB_BASE_URL: "${{ startsWith(github.ref, 'refs/tags/v') && '/attack-flow/ui/' || format('{0}/ui/', github.head_ref || github.ref_name) }}"
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Install dependencies
+      working-directory: ./src/attack_flow_builder/
+      run: npm ci
+    - run: echo "BRANCH_NAME=$BRANCH_NAME, AFB_BASE_URL=$AFB_BASE_URL"
     - name: Build
       working-directory: ./src/attack_flow_builder/
       run: npm run build
@@ -114,7 +117,7 @@ jobs:
               })
             }
 
-  docs:
+  render_site:
     needs: ["test_python", "attack_flow_builder"]
     runs-on: ubuntu-latest
     steps:
@@ -147,7 +150,8 @@ jobs:
         path: docs/extra/ui
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
-    # Temporarily disable validation and corpus copying
+    # These steps were broken in the AF-219 refactor. There's a new ticket AF-222 to
+    # track fixing the cli.ts script and re-enabling these steps.
     # - name: Validate Corpus
     #   run: poetry run make validate
     # - name: Copy corpus into docs
@@ -161,19 +165,27 @@ jobs:
       with:
         name: attack-flow-docs-html
         path: docs/_build/dirhtml/
-    
+    - name: Install TeX Live
+      run: sudo apt install -y latexmk texlive texlive-latex-extra
+    - name: Build PDF docs
+      run: poetry run sphinx-build -M latexpdf docs docs/_build
+    - name: Upload PDF docs
+      uses: actions/upload-artifact@v4
+      with:
+        name: attack_flow_docs_pdf
+        path: docs/_build/latex/attackflow.pdf
 
-  github_pages:
+  deploy_prod:
     # This job only runs when creating a tag.
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: docs
+    needs: render_site
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
     - name: Setup Pages
-      uses: actions/configure-pages@v2
+      uses: actions/configure-pages@v5
     - name: Download HTML docs
       uses: actions/download-artifact@v4
       with:
@@ -214,3 +226,55 @@ jobs:
           push: true
           tags: ${{ steps.af_meta.outputs.tags }}
           labels: ${{ steps.af_meta.outputs.labels }}
+
+  deploy_preview:
+    if: "!startsWith(github.ref, 'refs/tags/v')"
+    needs: render_site
+    runs-on: ubuntu-latest
+    env:
+      AZURE_STORAGE_ACCOUNT: ctidflow
+      AZURE_STORAGE_SAS_TOKEN: ${{ secrets.AZURE_SAS_TOKEN }}
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+      STATICRYPT_PASS: ${{ secrets.STATICRYPT_PASS }}
+      NODE_OPTIONS: --max-old-space-size=8192
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g staticrypt
+      - name: Download HTML
+        uses: actions/download-artifact@v4
+        with:
+          name: attack_flow_docs_html
+          path: docs
+      - run: >
+          staticrypt --remember 30 --salt 64c02ee360e9a7eb90b1c28e89be65ac \
+            --password $STATICRYPT_PASS --short \
+            --template-title "CTID Attack Flow Preview (branch: $BRANCH_NAME)" \
+            --template-instructions "The contents of this site are marked TLP:AMBER. Do not share with unauthorized individuals." \
+            --template-color-primary "#6241c5" \
+            --template-color-secondary "#b2b2b2" \
+            --template-button "Log In" \
+            -r docs/
+      - name: Ensure StatiCrypt ran # StatiCrypt will fail without warning; verify it created a directory
+        run: test -d encrypted
+      - name: Copy encrypted HTML files
+        run: rsync -Ir -v --include='*.html' --exclude='*.*' encrypted/docs .
+      - name: Set the branch name
+        run: mv docs "$BRANCH_NAME"
+      - name: Install Azure CLI
+        run: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      - name: Delete old blobs
+        run: az storage blob delete-batch -s '$web' --pattern "$BRANCH_NAME/*"
+      - name: Upload to blob storage
+        run: az storage blob upload-batch -s . --pattern "$BRANCH_NAME/*" -d '$web'
+      - uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        with:
+            script: |
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `This PR has been published to https://${process.env['AZURE_STORAGE_ACCOUNT']}.z13.web.core.windows.net/${process.env['BRANCH_NAME']}/`,
+              })

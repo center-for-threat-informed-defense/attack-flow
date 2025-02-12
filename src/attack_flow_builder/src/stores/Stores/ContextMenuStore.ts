@@ -400,10 +400,10 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
          * @returns
          *  The 'unselect all' menu section.
          */
-        unselectAllMenu(): ContextMenuSection<CommandEmitter> { 
-            let ctx = useApplicationStore();
-            let page = ctx.activePage.page;
-            let edit = ctx.settings.hotkeys.edit;
+        unselectAllMenu(): ContextMenuSection<CommandEmitter> {
+            const ctx = useApplicationStore();
+            const page = ctx.activePage.page;
+            const edit = ctx.settings.hotkeys.edit;
             return {
                 id: "unselect_options",
                 items: [
@@ -411,9 +411,9 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Unselect All",
                         type: MenuType.Item,
                         data: () => new Page.UnselectDescendants(page),
-                        shortcut: edit.unselect_all,
+                        shortcut: edit.unselect_all
                     }
-                ],
+                ]
             };
         },
 
