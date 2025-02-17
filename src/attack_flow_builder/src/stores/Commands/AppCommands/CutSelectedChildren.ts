@@ -1,9 +1,9 @@
-import { GroupCommand } from "./GroupCommand";
 import { DiagramObjectModel } from "@/assets/scripts/BlockDiagram";
-import { RemoveSelectedChildren } from "./RemoveSelectedChildren";
+import { RemoveSelectedChildren } from "../PageCommands/RemoveSelectedChildren";
 import type { ApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { CopySelectedChildren } from ".";
 
-export class CutSelectedChildren extends GroupCommand {
+export class CutSelectedChildren extends CopySelectedChildren {
 
     /**
      * The application context.
@@ -15,6 +15,11 @@ export class CutSelectedChildren extends GroupCommand {
      */
     public readonly objects: DiagramObjectModel[];
 
+    /**
+     * The command to perform removal upon cut.
+     */
+    public readonly removeCommand: RemoveSelectedChildren;
+
 
     /**
      * Cuts an object's selected children to the application's clipboard.
@@ -24,14 +29,14 @@ export class CutSelectedChildren extends GroupCommand {
      *  The object.
      */
     constructor(context: ApplicationStore, object: DiagramObjectModel) {
-        super();
+        super(context, object);
         this.context = context;
         // Get selected children
         const objects = object.children.filter(c => c.isSelected());
         // Clone selection
         this.objects = object.factory.cloneObjects(...objects);
-        // Remove selected children
-        this.add(new RemoveSelectedChildren(object));
+        // Build remove command for when cut is executed
+        this.removeCommand = new RemoveSelectedChildren(object);
     }
 
 
@@ -40,11 +45,17 @@ export class CutSelectedChildren extends GroupCommand {
      * @returns
      *  True if the command should be recorded, false otherwise.
      */
-    public override execute(): boolean {
+    public override async execute(): Promise<any> {
         // Set the clipboard
         this.context.clipboard = this.objects;
+
+        // Perform copy command from supertype
+        const copyCommandResult = super.execute();
+
         // Remove the selected children
-        return super.execute();
+        this.context.activePage.execute(this.removeCommand);
+
+        return copyCommandResult;
     }
 
 }

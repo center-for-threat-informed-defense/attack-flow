@@ -256,32 +256,7 @@ export class PageEditor {
 
         // Initialize page model
         const pageExp = index.get(page.id)!;
-        const pageObj = (function deserialize(
-            exp: DiagramObjectExport,
-            expIndex: Map<string, DiagramObjectExport>,
-            objIndex: Map<string, DiagramObjectModel>,
-            factory: DiagramFactory
-        ): DiagramObjectModel {
-
-            // Create object
-            if (!objIndex.has(exp.id)) {
-                const children: DiagramObjectModel[] = [];
-                for (const id of exp.children) {
-                    children.push(deserialize(
-                        index.get(id)!,
-                        expIndex,
-                        objIndex,
-                        factory
-                    ));
-                }
-                const obj = factory.createObject({ ...exp, children });
-                objIndex.set(obj.id, obj);
-            }
-
-            // Return object
-            return objIndex.get(exp.id)!;
-
-        })(pageExp, index, new Map(), factory) as PageModel;
+        const pageObj = this.deserialize(pageExp, index, new Map(), factory) as PageModel;
 
         // Recalculate layout
         pageObj.recalculateLayout();
@@ -289,6 +264,48 @@ export class PageEditor {
         // Return editor
         return markRaw(new PageEditor(pageObj, page.location));
 
+    }
+
+    /**
+     * Creates a DiagramObjectModel from a DiagramObjectExport structure (and, recursively, all its children/descendants).
+     * @param exp
+     *  The root-level DiagramObjectExport structure, holding all children DiagramObjectExports.
+     * @param expIndex
+     *  A Map of all input DiagramObjectExports, including root and descendants, indexed by ID string.
+     * @param objIndex
+     *  A Map of all output DiagramObjectModels recursively created so far, indexed by ID string.
+     * @param factory
+     *  The DiagramFactory for producing new DiagramObjectModels from DiagramObjectExports.
+     * @returns
+     *  The root-level DiagramObjectModel, recusively populated with all DiagramObjectModel children.
+     */
+    public static deserialize(
+        exp: DiagramObjectExport,
+        expIndex: Map<string, DiagramObjectExport>,
+        objIndex: Map<string, DiagramObjectModel>,
+        factory: DiagramFactory
+    ): DiagramObjectModel {
+
+        // If the export with this ID hasn't been made into a Model yet, create it
+        if (!objIndex.has(exp.id)) {
+            // Recursively produce all children Models
+            //   by turning the list of children IDs into a list of children Models
+            const children: DiagramObjectModel[] = [];
+            for (const id of exp.children) {
+                children.push(this.deserialize(
+                    expIndex.get(id)!,
+                    expIndex,
+                    objIndex,
+                    factory
+                ));
+            }
+            // Make the Model, using newly-made list of Model children
+            const obj = factory.createObject({ ...exp, children });
+            objIndex.set(obj.id, obj);
+        }
+
+        // Return object
+        return objIndex.get(exp.id)!;
     }
 
     /**

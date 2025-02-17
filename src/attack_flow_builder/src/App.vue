@@ -113,10 +113,10 @@ export default defineComponent({
      * @param command
      *  The command to execute.
      */
-    execute(command: Command) {
-      this.application.execute(command);
+    execute: async function execute(command: Command) {
+      await this.application.execute(command);
     },
-    
+
     /**
      * Resize handle drag start behavior.
      * @param event
@@ -183,7 +183,7 @@ export default defineComponent({
       settings = await (await fetch("./settings_macos.json")).json();
     } else {
       settings = await (await fetch("./settings_win.json")).json();
-    }        
+    }
     // Load settings
     this.execute(new App.LoadSettings(ctx, settings));
     // Load empty file
@@ -212,7 +212,6 @@ export default defineComponent({
       this.setRightFrameSize(this.frameSize[Handle.Right]);
     });
     this.onResizeObserver.observe(this.body!);
-    
   },
   unmounted() {
     this.onResizeObserver?.disconnect();
@@ -288,7 +287,7 @@ ul {
   grid-template-rows: minmax(0, 1fr) 29px;
 }
 
-#block-diagram { 
+#block-diagram {
   width: 100%;
   height: 100%;
   border-top: solid 1px #333333;

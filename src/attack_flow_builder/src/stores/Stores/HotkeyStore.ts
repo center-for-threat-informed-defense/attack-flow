@@ -100,10 +100,10 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                     data: () => new Page.RedoPageCommand(ctx, page.id),
                     shortcut: key,
                     repeatable: true
-                })),
-                ...edit.cut.map((key: string): Hotkey<CommandEmitter>=>({
-                    data: () => new Page.CutSelectedChildren(ctx, page),
-                    shortcut: key,
+                },
+                {
+                    data: () => new App.CutSelectedChildren(ctx, page),
+                    shortcut: edit.cut,
                     repeatable: false
                 })),
                 ...edit.copy.map((key: string): Hotkey<CommandEmitter>=>({
@@ -111,10 +111,10 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                     shortcut: key,
                     repeatable: false,
                     allowBrowserBehavior: true
-                })),
-                ...edit.paste.map((key: string): Hotkey<CommandEmitter>=>({
-                    data: () => new Page.PasteToObject(ctx, page),
-                    shortcut: key,
+                },
+                {
+                    data: () => Page.PasteToObject.fromClipboard(ctx, page),
+                    shortcut: edit.paste,
                     repeatable: true
                 })),
                 ...edit.delete.map((key: string): Hotkey<CommandEmitter>=>({

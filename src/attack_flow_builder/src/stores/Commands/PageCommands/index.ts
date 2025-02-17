@@ -2,7 +2,6 @@ export * from "./AddLineObject";
 export * from "./AddObject";
 export * from "./AttachObject";
 export * from "./CreateSubproperty";
-export * from "./CutSelectedChildren";
 export * from "./DeleteSubproperty";
 export * from "./DetachObject";
 export * from "./DuplicateSelectedChildren";

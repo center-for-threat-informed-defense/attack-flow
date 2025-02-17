@@ -1,5 +1,6 @@
 export * from "./ClearPageRecoveryBank";
 export * from "./CopySelectedChildren";
+export * from "./CutSelectedChildren";
 export * from "./DeletePageFromRecoveryBank";
 export * from "./GroupCommand";
 export * from "./HideFindDialog";

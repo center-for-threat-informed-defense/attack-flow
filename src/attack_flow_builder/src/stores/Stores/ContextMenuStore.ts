@@ -260,7 +260,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             const ctx = useApplicationStore();
             const page = ctx.activePage.page;
             const edit = ctx.settings.hotkeys.edit;
-            const canPaste = ctx.clipboard.length;
+            const canPaste = true; // TODO: make context menus async to read system clipboard
             const hasSelection = ctx.hasSelection;
             return {
                 id: "clipboard_options",
@@ -268,8 +268,8 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     {
                         text: "Cut",
                         type: MenuType.Item,
-                        data: () => new Page.CutSelectedChildren(ctx, page),
-                        shortcuts: edit.cut,
+                        data: () => new App.CutSelectedChildren(ctx, page),
+                        shortcut: edit.cut,
                         disabled: !hasSelection
                     },
                     {
@@ -282,8 +282,8 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     {
                         text: "Paste",
                         type: MenuType.Item,
-                        data: () => new Page.PasteToObject(ctx, page),
-                        shortcuts: edit.paste,
+                        data: () => Page.PasteToObject.fromClipboard(ctx, page),
+                        shortcut: edit.paste,
                         disabled: !canPaste
                     }
                 ]
