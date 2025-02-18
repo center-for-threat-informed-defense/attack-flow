@@ -92,7 +92,13 @@ export class PasteToObject extends GroupCommand {
      *  A Promise that resolves with a VersionedDiagramObjectExport found on the clipboard, or undefined if none.
      */
     public static async readAFBFromClipboard() : Promise<VersionedDiagramObjectExport> {
-        const cb = await navigator.clipboard.read();
+        let cb;
+        try {
+            cb = await navigator.clipboard.read();
+        } catch {
+            alert("Clipboard access has been disabled. To copy and paste, click the settings button on the left side of the address bar.");
+            return { version:"", objects:[] };
+        }
         // There may be many clipboard items; check each clipboard item until we find a usable AFB item
         for (const cbItem of cb) {
         // Get the HTML of this item if it has both an image and HTML (the Copy command adds both)

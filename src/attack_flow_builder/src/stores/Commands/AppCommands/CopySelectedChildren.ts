@@ -63,7 +63,7 @@ export class CopySelectedChildren extends AppCommand {
     /**
      * Executes the command.
      */
-    public async execute(): Promise<any> {
+    public async execute(): Promise<void> {
         const canvas = this._canvas;
 
         // get canvas as PNG blob
@@ -109,7 +109,11 @@ export class CopySelectedChildren extends AppCommand {
             "image/png": pngBlob,
             "text/html": new Blob([clipboardHTML], { type:"text/html" })
         })];
-        return navigator.clipboard.write(data);
+        try {
+            await navigator.clipboard.write(data);
+        } catch {
+            alert("Clipboard access has been disabled. To copy and paste, click the settings button on the left side of the address bar.");
+        }
     }
 
 }

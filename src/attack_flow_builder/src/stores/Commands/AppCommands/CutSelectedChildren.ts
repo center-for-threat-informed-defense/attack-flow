@@ -45,7 +45,7 @@ export class CutSelectedChildren extends CopySelectedChildren {
      * @returns
      *  True if the command should be recorded, false otherwise.
      */
-    public override async execute(): Promise<any> {
+    public override async execute(): Promise<void> {
         // Set the clipboard
         this.context.clipboard = this.objects;
 
