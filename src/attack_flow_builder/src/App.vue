@@ -9,7 +9,7 @@
     <div
       id="app-body"
       ref="body"
-      :style="gridLayout"
+      :style="application.isShowingSplash ? splashLayout : gridLayout"
     >
       <div class="frame center">
         <BlockDiagram id="block-diagram" />
@@ -18,14 +18,20 @@
           v-if="application.isShowingSplash"
         />
       </div>
-      <div class="frame right">
+      <div
+        class="frame right"
+        v-if="!application.isShowingSplash"
+      >
         <div
           class="resize-handle"
           @pointerdown="startResize($event, Handle.Right)"
         />
         <EditorSidebar id="app-sidebar" />
       </div>
-      <div class="frame bottom">
+      <div
+        class="frame bottom"
+        v-if="!application.isShowingSplash"
+      >
         <AppFooterBar id="app-footer-bar" />
       </div>
     </div>
@@ -82,7 +88,7 @@ export default defineComponent({
   computed: {
 
     /**
-     * Returns the current grid layout.
+     * Returns the grid layout, for use after the splash screen.
      * @returns
      *  The current grid layout.
      */
@@ -90,6 +96,18 @@ export default defineComponent({
       const r = this.frameSize[Handle.Right];
       return {
         gridTemplateColumns: `minmax(0, 1fr) ${ r }px`
+      }
+    },
+
+    /**
+     * Returns the layout for the splash screen.
+     * @returns
+     *  The current grid layout for splash screen mode.
+     */
+     splashLayout(): { gridTemplateColumns: string, gridTemplateRows: string } {
+      return {
+        gridTemplateColumns: "100%",
+        gridTemplateRows: "100%"
       }
     },
 
@@ -212,6 +230,7 @@ export default defineComponent({
       this.setRightFrameSize(this.frameSize[Handle.Right]);
     });
     this.onResizeObserver.observe(this.body!);
+
   },
   unmounted() {
     this.onResizeObserver?.disconnect();
