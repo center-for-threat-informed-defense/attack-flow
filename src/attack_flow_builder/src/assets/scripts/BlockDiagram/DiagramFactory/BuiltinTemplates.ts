@@ -78,5 +78,44 @@ export const BuiltinTemplates: SerializedTemplate[] = [
             target: `${BUILTIN_PREFIX}line_target`
         },
         style: DarkTheme.Line()
+    },
+    {
+        id: `${BUILTIN_PREFIX}line_right_angle_horizontal`,
+        namespace: "right_angle_horizontal",
+        type: TemplateType.LineRightAngleHorizontal,
+        role: SemanticRole.Edge,
+        hitbox_width: 20,
+        line_handle_template: `${BUILTIN_PREFIX}line_handle`,
+        line_ending_template: {
+            source: `${BUILTIN_PREFIX}line_source`,
+            target: `${BUILTIN_PREFIX}line_target`
+        },
+        style: DarkTheme.Line()
+    },
+    {
+        id: `${BUILTIN_PREFIX}line_right_angle_vertical`,
+        namespace: "right_angle_vertical",
+        type: TemplateType.LineRightAngleVertical,
+        role: SemanticRole.Edge,
+        hitbox_width: 20,
+        line_handle_template: `${BUILTIN_PREFIX}line_handle`,
+        line_ending_template: {
+            source: `${BUILTIN_PREFIX}line_source`,
+            target: `${BUILTIN_PREFIX}line_target`
+        },
+        style: DarkTheme.Line()
+    },
+    {
+        id: `${BUILTIN_PREFIX}line_straight`,
+        namespace: "straight",
+        type: TemplateType.LineStraight,
+        role: SemanticRole.Edge,
+        hitbox_width: 20,
+        line_handle_template: `${BUILTIN_PREFIX}line_handle`,
+        line_ending_template: {
+            source: `${BUILTIN_PREFIX}line_source`,
+            target: `${BUILTIN_PREFIX}line_target`
+        },
+        style: DarkTheme.Line()
     }
 ];

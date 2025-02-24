@@ -27,7 +27,10 @@ export enum TemplateType {
     LineHorizontalElbow  = 5,
     LineVerticalElbow    = 6,
     Page                 = 7,
-    TextBlock            = 8
+    TextBlock            = 8,
+    LineRightAngleHorizontal = 9,
+    LineRightAngleVertical = 10,
+    LineStraight = 11
 }
 
 export enum SemanticRole {
@@ -46,6 +49,9 @@ export type Template
     | LineHandlePointTemplate
     | LineHorizontalElbowTemplate
     | LineVerticalElbowTemplate
+    | LineRightAngleHorizontalTemplate
+    | LineRightAngleVerticalTemplate
+    | LineStraightTemplate
     | PageTemplate
     | TextBlockTemplate;
 
@@ -318,6 +324,22 @@ export type SerializedTextBlockStyle =
 
 export type LineHorizontalElbowTemplate = LineTemplate & {
     type: TemplateType.LineHorizontalElbow;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+};
+
+
+export type LineRightAngleHorizontalTemplate = LineTemplate & {
+    type: TemplateType.LineRightAngleHorizontal;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+};
+
+export type LineRightAngleVerticalTemplate = LineTemplate & {
+    type: TemplateType.LineRightAngleVertical;
+    role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
+};
+
+export type LineStraightTemplate = LineTemplate & {
+    type: TemplateType.LineStraight;
     role: SemanticRole.None | SemanticRole.Node | SemanticRole.Edge;
 };
 

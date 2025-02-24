@@ -31,6 +31,9 @@ import type {
     SubstituteType,
     Template
 } from ".";
+import { LineRightAngleHorizontalModel } from "../DiagramModelTypes/LineRightAngleHorizontalModel";
+import { LineRightAngleVerticalModel } from "../DiagramModelTypes/LineRightAngleVerticalModel";
+import { LineStraightModel } from "../DiagramModelTypes/LineStraightModel";
 
 export class DiagramFactory {
 
@@ -243,6 +246,12 @@ export class DiagramFactory {
                 return new LineVerticalElbowModel(this, temp, vals);
             case TemplateType.LineHorizontalElbow:
                 return new LineHorizontalElbowModel(this, temp, vals);
+            case TemplateType.LineRightAngleHorizontal:
+                return new LineRightAngleHorizontalModel(this, temp, vals);
+            case TemplateType.LineRightAngleVertical:
+                return new LineRightAngleVerticalModel(this, temp, vals);
+            case TemplateType.LineStraight:
+                return new LineStraightModel(this, temp, vals);
             case TemplateType.TextBlock:
                 return new TextBlockModel(this, temp, vals);
             default:

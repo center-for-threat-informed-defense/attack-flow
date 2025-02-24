@@ -509,12 +509,114 @@ export class BlockDiagram extends EventEmitter<DiagramEvents> {
                 this.onHoverSubject(event.x, event.y, s.obj.el.getCursor());
                 attrs = s.obj.fakePositionSetByUser(PositionSetByUser.True);
                 s.obj.moveBy(this._mover.dx, this._mover.dy, attrs);
+                const isCreatingLine = s.type === DragActionType.CreateLine;
+                const srcAnchor = isCreatingLine
+                    ? s.anchor
+                    : (s.obj.parent?.el as DiagramLineModel)?.srcEnding?.anchor;
+
+                if (!this._mover.anchor || this._mover.anchor === srcAnchor || !srcAnchor) {
+                    break;
+                }
+
+                const currentLineName = isCreatingLine
+                    ? s.line.el.template.namespace
+                    : s.obj.parent?.el.template.namespace;
+
+                switch (currentLineName) {
+                    case "horizontal_elbow":
+                        if (this._mover.anchor.angle === 1) {
+                            this.replaceLine(s, "@__builtin__line_right_angle_horizontal", srcAnchor, event);
+                        }
+                        break;
+                    case "vertical_elbow":
+                        if (this._mover.anchor.angle === 0) {
+                            this.replaceLine(s, "@__builtin__line_right_angle_vertical", srcAnchor, event);
+                        }
+                        break;
+                    case "right_angle_horizontal":
+                        if (this._mover.anchor.angle === 0) {
+                            this.replaceLine(s, "@__builtin__line_horizontal_elbow", srcAnchor, event);
+                        }
+                        break;
+                    case "right_angle_vertical":
+                        if (this._mover.anchor.angle === 1) {
+                            this.replaceLine(s, "@__builtin__line_vertical_elbow", srcAnchor, event);
+                        }
+                        break;
+                    default:
+                        break;
+                }
                 break;
         }
         // Render
         this.render();
     }
 
+    /**
+     * Replaces a line with a new line template and updates the diagram.
+     * @param s - The drag action, which can be either a CreateLineDragAction or MoveAnchorableDragAction.
+     * @param lineTemplate - The template string for the new line.
+     * @param srcAnchor - The source anchor model for the line.
+     * @param event - The event associated with the line replacement.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private replaceLine(s: CreateLineDragAction | MoveAnchorableDragAction, lineTemplate: string, srcAnchor: DiagramAnchorModel, event: any) {
+        const line = srcAnchor.makeLine(lineTemplate);
+
+        // Configure line
+        const x = srcAnchor.boundingBox.xMid;
+        const y = srcAnchor.boundingBox.yMid;
+        line.srcEnding.moveTo(x, y);
+        line.trgEnding.moveTo(s.obj.x, s.obj.y);
+
+        // Create line view
+        const view = line.createView(this._rasterCache).updateView() as DiagramLineView;
+
+        if (s.type === DragActionType.CreateLine) {
+        // We are creating a line
+            s.parent.children = s.parent.children.filter((c) => c !== s.line);
+            s.line = view;
+            s.obj = s.line.trgEnding;
+            s.parent.children.push(s.line);
+        } else {
+        // We are moving the anchor of an existing line
+            srcAnchor.addChild(line.children[0]);
+            if (line.children[0] instanceof DiagramAnchorableModel) {
+                line.children[0].anchor = srcAnchor;
+            }
+
+            const lineView = s.obj.parent;
+            const lineModel = s.obj.el.parent;
+            line.parent = lineModel?.parent;
+            view.parent = lineView?.parent;
+
+            if (lineView?.parent) {
+                lineView.parent.children = lineView.parent.children.filter((c) => c !== lineView);
+                lineView.parent.children.push(view);
+            }
+            if (lineModel?.parent) {
+                lineModel.parent.addChild(line);
+            }
+
+            s.obj = view.trgEnding;
+            s.obj.el = line.trgEnding;
+
+            if (lineModel?.children && lineModel.children[0] instanceof DiagramAnchorableModel) {
+                srcAnchor.removeChild(lineModel.children[0]);
+            }
+            const lastChild = lineModel?.children[lineModel.children.length - 1];
+            if (lastChild instanceof DiagramAnchorableModel && lastChild?.anchor) {
+                lastChild.anchor.removeChild(lastChild);
+            }
+            if (lineModel?.parent) {
+                lineModel.parent.removeChild(lineModel, true, true);
+            }
+
+            const cx = this._transform.invertX(event.x);
+            const cy = this._transform.invertY(event.y);
+            this._mover.reset(s.obj.el.getAlignment(), cx, cy, s.obj.x, s.obj.y, this._page.el.anchorCache);
+        }
+    }
     /**
      * Object drag end behavior.
      * @param event

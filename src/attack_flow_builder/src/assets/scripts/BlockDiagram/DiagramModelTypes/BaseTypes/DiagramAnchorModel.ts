@@ -265,15 +265,18 @@ export abstract class DiagramAnchorModel extends DiagramObjectModel {
 
 
     /**
-     * Creates a new line according to the anchor's current angle.
+     * Creates a new line according to the anchor's current angle or the
+     * optional angle.
+     * @param optionalLineTemplate
+     *  The optional line template
      * @returns
      *  The newly created line.
      * @throws { DiagramObjectModelError }
      *  If the configured template type is not a line.
      */
-    public makeLine(): DiagramLineModel {
+    public makeLine(optionalLineTemplate?: string): DiagramLineModel {
         // Create line
-        const tem = this.lineTemplates[this.angle];
+        const tem = optionalLineTemplate ?? this.lineTemplates[this.angle];
         const obj = this.factory.createObject(tem);
         // Return object
         if (obj instanceof DiagramLineModel) {
