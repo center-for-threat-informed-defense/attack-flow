@@ -1,5 +1,7 @@
 <template>
   <div class="dictionary-field-control">
+    <!-- quick fix for Vue 3 render-update bug; accessing _property.trigger forces re-render -->
+    <div style="display:none;">{{ _property.trigger }}</div>
     <div
       :class="['dictionary-header-container', { collapsed }]"
       @click="collapsed=!collapsed"
@@ -66,7 +68,7 @@ export default defineComponent({
      */
     _property(): DictionaryProperty {
       const trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property; 
+      return trigger ? this.property : this.property;
     },
 
     /**

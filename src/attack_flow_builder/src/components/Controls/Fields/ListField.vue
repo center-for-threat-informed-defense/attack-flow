@@ -1,5 +1,7 @@
 <template>
   <div class="list-field-control">
+    <!-- quick fix for Vue 3 render-update bug; accessing .trigger forces update -->
+    <div style="display:none;">{{ _property.trigger }}</div>
     <div
       class="field-item"
       v-for="[key, value] in _property.value"
@@ -83,13 +85,13 @@ export default defineComponent({
      */
     _property(): ListProperty {
       const trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property; 
+      return trigger ? this.property : this.property;
     },
 
     /**
      * Tests if the property is disabled.
      * @returns
-     *  True if the property is disabled, false otherwise. 
+     *  True if the property is disabled, false otherwise.
      */
     disabled(): boolean {
       return !(this._property.descriptor.is_editable ?? true);
@@ -97,7 +99,7 @@ export default defineComponent({
 
   },
   methods: {
-   
+
     /**
      * Returns a field's component type.
      * @param type
