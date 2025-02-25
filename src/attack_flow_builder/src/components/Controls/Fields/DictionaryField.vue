@@ -1,7 +1,9 @@
 <template>
   <div class="dictionary-field-control">
     <!-- quick fix for Vue 3 render-update bug; accessing _property.trigger forces re-render -->
-    <div style="display:none;">{{ _property.trigger }}</div>
+    <div style="display:none;">
+      {{ _property.trigger }}
+    </div>
     <div
       :class="['dictionary-header-container', { collapsed }]"
       @click="collapsed=!collapsed"

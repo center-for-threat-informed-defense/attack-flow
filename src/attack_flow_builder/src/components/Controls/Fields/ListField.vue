@@ -1,7 +1,9 @@
 <template>
   <div class="list-field-control">
     <!-- quick fix for Vue 3 render-update bug; accessing .trigger forces update -->
-    <div style="display:none;">{{ _property.trigger }}</div>
+    <div style="display:none;">
+      {{ _property.trigger }}
+    </div>
     <div
       class="field-item"
       v-for="[key, value] in _property.value"
