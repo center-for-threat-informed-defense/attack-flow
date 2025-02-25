@@ -35,58 +35,58 @@ export const BaseAppSettings: AppSettings = {
     },
     hotkeys: {
         file: {
-            new_file: [""],
-            open_file: [""],
-            save_file: [""],
-            save_image: [""],
-            save_select_image: [""],
-            publish_file: [""],
-            open_library: [""],
-            save_library: [""]
+            new_file: [],
+            open_file: [],
+            save_file: [],
+            save_image: [],
+            save_select_image: [],
+            publish_file: [],
+            open_library: [],
+            save_library: []
         },
         edit: {
-            undo: [""],
-            redo: [""],
-            cut: [""],
-            copy: [""],
-            paste: [""],
-            delete: [""],
-            duplicate: [""],
-            find: [""],
-            find_next: [""],
-            find_previous: [""],
-            select_all: [""]
+            undo: [],
+            redo: [],
+            cut: [],
+            copy: [],
+            paste: [],
+            delete: [],
+            duplicate: [],
+            find: [],
+            find_next: [],
+            find_previous: [],
+            select_all: []
         },
         layout: {
-            selection_to_front: [""],
-            selection_to_back: [""],
-            bring_selection_forward: [""],
-            send_selection_backward: [""],
-            align_left: [""],
-            align_center: [""],
-            align_right: [""],
-            align_top: [""],
-            align_middle: [""],
-            align_bottom: [""],
-            group: [""],
-            ungroup: [""],
-            open_group: [""],
-            close_group: [""]
+            selection_to_front: [],
+            selection_to_back: [],
+            bring_selection_forward: [],
+            send_selection_backward: [],
+            align_left: [],
+            align_center: [],
+            align_right: [],
+            align_top: [],
+            align_middle: [],
+            align_bottom: [],
+            group: [],
+            ungroup: [],
+            open_group: [],
+            close_group: []
         },
         view: {
-            toggle_grid: [""],
-            toggle_shadows: [""],
-            reset_view: [""],
-            zoom_in: [""],
-            zoom_out: [""],
-            fullscreen: [""],
-            jump_to_selection: [""],
-            jump_to_parents: [""],
-            jump_to_children: [""],
-            toggle_debug_view: [""]
+            toggle_grid: [],
+            toggle_shadows: [],
+            reset_view: [],
+            zoom_in: [],
+            zoom_out: [],
+            fullscreen: [],
+            jump_to_selection: [],
+            jump_to_parents: [],
+            jump_to_children: [],
+            toggle_debug_view: []
         },
         select: {
-            many: [""]
+            many: []
         }
     }
 };

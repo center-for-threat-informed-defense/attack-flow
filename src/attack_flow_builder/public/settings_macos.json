@@ -24,11 +24,11 @@
             "new_file": ["Control+N"],
             "open_file": ["Meta+O"],
             "save_file": ["Meta+S"],
-            "save_image": [""],
-            "save_select_image": [""],
-            "publish_file": [""],
-            "open_library": [""],
-            "save_library": [""]
+            "save_image": [],
+            "save_select_image": [],
+            "publish_file": [],
+            "open_library": [],
+            "save_library": []
         },
         "edit": {
             "undo": ["Meta+Z"],
@@ -46,30 +46,30 @@
         "layout": {
             "selection_to_front": ["Shift+Meta+F"],
             "selection_to_back": ["Shift+Meta+B"],
-            "bring_selection_forward": [""],
-            "send_selection_backward": [""],
-            "align_left": [""],
-            "align_center": [""],
-            "align_right": [""],
-            "align_top": [""],
-            "align_middle": [""],
-            "align_bottom": [""],
+            "bring_selection_forward": [],
+            "send_selection_backward": [],
+            "align_left": [],
+            "align_center": [],
+            "align_right": [],
+            "align_top": [],
+            "align_middle": [],
+            "align_bottom": [],
             "group": ["Meta+G"],
             "ungroup": ["Meta+Shift+U"],
-            "open_group": [""],
-            "close_group": [""]
+            "open_group": [],
+            "close_group": []
         },
         "view": {
             "toggle_grid": ["Control+Shift+G"],
-            "toggle_shadows": [""],
+            "toggle_shadows": [],
             "reset_view": ["Escape"],
-            "zoom_in": [""],
-            "zoom_out": [""],
-            "fullscreen": [""],
+            "zoom_in": [],
+            "zoom_out": [],
+            "fullscreen": [],
             "jump_to_selection": ["Shift+Z"],
             "jump_to_parents": ["Shift+P"],
             "jump_to_children": ["Shift+C"],
-            "toggle_debug_view": [""]
+            "toggle_debug_view": []
         },
         "select": {
             "many": ["Meta"]
