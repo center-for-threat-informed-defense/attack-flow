@@ -52,7 +52,7 @@ class MermaidGraph:
                 shape_end = "))"
             elif self.classes[node_class][0] == "trap":
                 shape_start = "[/"
-                shape_end = "\]"
+                shape_end = "\\]"
             else:
                 shape_start = "["
                 shape_end = "]"
