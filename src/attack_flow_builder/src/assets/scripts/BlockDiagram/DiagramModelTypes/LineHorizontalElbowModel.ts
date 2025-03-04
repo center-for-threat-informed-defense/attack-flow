@@ -148,6 +148,9 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
         if (!obj) {
             return;
         }
+        // Get the relative position of the handle before we move the ending point(s)
+        const [initialE1X, initialH1X, initialE2X] = this.children.map(c => c.boundingBox.xMid);
+        const relativeHandlePos = (initialH1X - initialE1X) / (initialE2X - initialE1X);
         // Move ending
         if (obj instanceof LineEndingPointModel) {
             obj.moveBy(dx, dy, updateParent, true);
@@ -166,6 +169,9 @@ export class LineHorizontalElbowModel extends DiagramLineModel {
             h1.moveBy(hdx, 0, updateParent, true);
         } else if (obj === h1) {
             h1.moveBy(dx, 0, updateParent, true);
+        } else {
+            const relativeHandleDelta = (e1x + relativeHandlePos * (e2x - e1x)) - h1x
+            h1.moveBy(relativeHandleDelta, 0, undefined, true);
         }
         h1.moveBy(0, hdy, updateParent, true);
     }
