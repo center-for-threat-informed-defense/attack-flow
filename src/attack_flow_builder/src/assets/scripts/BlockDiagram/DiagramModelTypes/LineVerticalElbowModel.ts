@@ -170,7 +170,7 @@ export class LineVerticalElbowModel extends DiagramLineModel {
         } else if (obj === h1) {
             h1.moveBy(0, dy, updateParent, true);
         } else {
-            const relativeHandleDelta = (e1y + relativeHandlePos * (e2y - e1y)) - h2y
+            const relativeHandleDelta = (e1y + relativeHandlePos * (e2y - e1y)) - h2y;
             h1.moveBy(0, relativeHandleDelta, undefined, true);
         }
         h1.moveBy(hdx, 0, updateParent, true);

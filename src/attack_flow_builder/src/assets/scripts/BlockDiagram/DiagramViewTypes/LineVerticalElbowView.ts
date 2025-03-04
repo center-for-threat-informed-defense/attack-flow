@@ -70,7 +70,7 @@ export class LineVerticalElbowView extends DiagramLineView {
         } else if (obj === h1) {
             h1.moveBy(0, dy, undefined, true);
         } else {
-            const relativeHandleDelta = (e1.y + relativeHandlePos * (e2.y - e1.y)) - h1.y
+            const relativeHandleDelta = (e1.y + relativeHandlePos * (e2.y - e1.y)) - h1.y;
             h1.moveBy(0, relativeHandleDelta, undefined, true);
         }
         h1.moveBy(hdx, 0, undefined, true);
