@@ -142,7 +142,7 @@ const config: AppConfiguration = {
             {
                 id: "action",
                 namespace: "attack_flow.action",
-                type: TemplateType.DictionaryBlock,
+                type: TemplateType.TextBlock,
                 role: SemanticRole.Node,
                 properties: {
                     name                         : { type: PropertyType.String, is_primary: true, is_required: true },
@@ -178,7 +178,7 @@ const config: AppConfiguration = {
                     execution_end                : { type: PropertyType.Date }
                 },
                 anchor_template: "@__builtin__anchor",
-                style: DarkTheme.DictionaryBlock({ head: { ...Colors.Blue } })
+                style: DarkTheme.TextBlock({ ...Colors.Blue })
             },
             {
                 id: "asset",
