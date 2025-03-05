@@ -199,7 +199,7 @@ List of Examples
         <p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2fMITRE%20NERVE.afb"></i>Attack Flow Builder</a></p>
         <p><em>Download:</em> <a href="../corpus/MITRE%20NERVE.json">JSON</a> | <a href="../corpus/MITRE%20NERVE.dot">GraphViz</a> (<a href="../corpus/MITRE%20NERVE.dot.png">PNG</a>) | <a href="../corpus/MITRE%20NERVE.mmd">Mermaid</a> (<a href="../corpus/MITRE%20NERVE.mmd.png">PNG</a>)
     - Center for Threat-Informed Defense
-    - A nation-state actor intrusion starting in Jan 2024. © 2024 MITRE Engenuity. Approved for public release. Document number CT0121.
+    - A nation-state actor intrusion starting in Jan 2024. © 2024 MITRE. Approved for public release. Document number CT0121.
 
   * - **Maastricht University Ransomware**
 

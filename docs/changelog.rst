@@ -7,7 +7,7 @@ Attack Flow 2
 2.0.0 -- October 27th, 2022
     This major update to Attack Flow is based on community feedback from Attack Flow 1
     and extensive collaboration with `our research partners
-    <https://ctid.mitre-engenuity.org/our-work/attack-flow/>`__. The major improvements
+    <https://ctid.mitre.org/our-work/attack-flow/>`__. The major improvements
     include:
 
     * The new specification is based on STIX 2.1 and addresses known limitations and

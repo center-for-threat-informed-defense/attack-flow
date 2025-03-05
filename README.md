@@ -12,10 +12,10 @@ make the same updates there.
 
 Attack Flow is a language for describing how cyber adversaries combine and sequence various offensive
 techniques to achieve their goals. The project helps defenders and leaders understand how adversaries operate
-and improve their own defensive posture. This project is created and maintained by the [MITRE Engenuity Center
-for Threat-Informed Defense](https://ctid.mitre-engenuity.org/) in futherance of our mission to advance the
+and improve their own defensive posture. This project is created and maintained by the [MITRE Center
+for Threat-Informed Defense](https://ctid.mitre.org/) in futherance of our mission to advance the
 start of the art and and the state of the practice in threat-informed defense globally. The project is funded
-by our [research participants](https://ctid.mitre-engenuity.org/our-work/attack-flow/#RESEARCH-PARTICIPANTS).
+by our [research participants](https://ctid.mitre.org/our-work/attack-flow/#RESEARCH-PARTICIPANTS).
 
 **Table Of Contents:**
 
@@ -53,7 +53,7 @@ advance threat-informed defense:
 
 ## Questions and Feedback
 
-Please submit issues for any technical questions/concerns or contact ctid@mitre-engenuity.org directly for
+Please submit issues for any technical questions/concerns or contact ctid@mitrey.org directly for
 more general inquiries.
 
 Also see the guidance for contributors if are you interested in contributing or simply reporting issues.
@@ -64,11 +64,11 @@ We welcome your feedback and contributions to help advance Attack Flow. Please s
 contributors if are you interested in [contributing or simply reporting issues.](/CONTRIBUTING.md)
 
 Please submit [issues](https://github.com/center-for-threat-informed-defense/attack-flow/issues) for any
-technical questions/concerns or contact ctid@mitre-engenuity.org directly for more general inquiries.
+technical questions/concerns or contact ctid@mitre.org directly for more general inquiries.
 
 ## Notice
 
-Copyright 2021 MITRE Engenuity. Approved for public release. Document number CT0040
+Copyright 2021 MITRE. Approved for public release. Document number CT0040
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
 with the License. You may obtain a copy of the License at

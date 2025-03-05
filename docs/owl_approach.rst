@@ -267,7 +267,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
                 "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
                 "created": "2022-08-02T19:34:35.143Z",
                 "modified": "2022-08-02T19:34:35.143Z",
-                "name": "MITRE Engenuity Center for Threat-Informed Defense",
+                "name": "MITRE Center for Threat-Informed Defense",
                 "identity_class": "organization"
             },
             {
@@ -763,7 +763,7 @@ Below, you can find the full conversion of the Tesla flow into JSON-LD, as well 
         stix:created_by_ref "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c" ;
         stix:identity_class "organization" ;
         stix:modified "2022-08-02T19:34:35.143Z"^^xsd:dateTime ;
-        stix:name "MITRE Engenuity Center for Threat-Informed Defense" ;
+        stix:name "MITRE Center for Threat-Informed Defense" ;
         stix:spec_version "2.1" ;
         stix:type "identity" ;
         .

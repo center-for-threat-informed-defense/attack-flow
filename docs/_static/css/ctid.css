@@ -9,7 +9,7 @@ body {
     color: var(--text-color);
     font-family: Arial, Helvetica, sans-serif;
 
-    /* MITRE Engenuity Core Colors */
+    /* MITRE Core Colors */
     --me-core-yellow: #FFF601;
     --me-core-green: #7DEA49;
     --me-core-purple-light: #726DE2;
@@ -21,7 +21,7 @@ body {
     --me-core-gray: #B2B2B2;
     --me-hyperlink: #005B94;
 
-    /* MITRE Engenuity Extended Colors */
+    /* MITRE Extended Colors */
     --me-ext-navy: #212C5E;
     --me-ext-navy-dark: #0F1538;
     --me-ext-blue: #0096D1;

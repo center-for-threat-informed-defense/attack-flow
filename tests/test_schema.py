@@ -76,7 +76,7 @@ EXTENSION_CREATOR = {
     "created_by_ref": "identity--d673f8cb-c168-42da-8ed4-0cb26725f86c",
     "created": "2022-08-02T19:34:35.143Z",
     "modified": "2022-08-02T19:34:35.143Z",
-    "name": "MITRE Engenuity Center for Threat-Informed Defense",
+    "name": "MITRE Center for Threat-Informed Defense",
     "identity_class": "organization",
 }
 

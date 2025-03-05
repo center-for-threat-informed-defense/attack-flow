@@ -204,7 +204,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}
-          labels: org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/attack-flow/
+          labels: org.opencontainers.image.url=https://ctid.mitre.org/our-work/attack-flow/
       - name: Build Attack Flow Docker image
         uses: docker/build-push-action@v2
         with:

@@ -51,7 +51,7 @@ const AttackFlowGitHubExternalReference =
     };
 
 const AttackFlowExtensionCreatorName
-    = "MITRE Engenuity Center for Threat-Informed Defense";
+    = "MITRE Center for Threat-Informed Defense";
 
 const AttackFlowSdos
     = new Set<string>([
