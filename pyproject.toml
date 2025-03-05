@@ -20,14 +20,14 @@ af = "attack_flow.cli:main"
 [tool.poetry.dependencies]
 python = "^3.12"
 jsonschema = "4.17.3"
-Sphinx = ">=5.0.0,<6.0.0"
 sphinx-autobuild = "^2021.3.14"
 stix2 = "^3.0.1"
-sphinx_design = "^0.2.0"
+sphinx_design = "^0.6.1"
 networkx = "^2.8.6"
 graphviz = "^0.20.1"
 defusedxml = "^0.7.1"
 bumpver = "^2022.1119"
+python-slugify = "^8.0.4"
 
 [tool.poetry.dev-dependencies]
 bandit = "1.7.0"
@@ -39,6 +39,10 @@ safety = "^2.3.5"
 sphinx-rtd-theme = "^1.0.0"
 black = "^22.3.0"
 bumpver = "^2022.1119"
+
+[tool.poetry.group.dev.dependencies]
+sphinx-wagtail-theme = "^6.5.0"
+sphinx = "6.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

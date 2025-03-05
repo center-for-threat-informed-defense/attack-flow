@@ -1,0 +1,10 @@
+{%- if show_source and has_source and sourcename %}
+<a
+  class="btn btn-sm btn-light text-decoration-none"
+  href="{{ pathto('_sources/' + sourcename, true)|e }}"
+  rel="nofollow"
+>
+  <span class="btn-icon"><span class="fas fa-code"></span></span>
+  <span class="btn-text">View source</span>
+</a>
+{%- endif %}
