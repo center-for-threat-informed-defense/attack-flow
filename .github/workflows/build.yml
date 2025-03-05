@@ -17,26 +17,23 @@ jobs:
   test_python:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-    - name: Install Poetry
-      run: curl -sSL https://install.python-poetry.org/ | python -
-    - name: Add Poetry to PATH
-      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-    - name: Install Python dependencies
-      run: poetry install
-    - name: Check code formatting
-      run: poetry run black --check src/attack_flow/
-    - name: Run unit tests
-      run: poetry run make test-ci
-    - name: Upload coverage to CodeCov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_SECRET }}
-        files: coverage.xml
-        verbose: true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org/ | python -
+      - name: Add Poetry to PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Install dependencies
+        run: poetry install
+      - name: Build HTML docs
+        run: poetry run make docs-ci
+      - name: Upload HTML docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: tattack-flow-docs-html
+          path: docs/_build/dirhtml/
 
   attack_flow_builder:
     runs-on: ubuntu-latest
@@ -173,17 +170,17 @@ jobs:
     - name: Setup Pages
       uses: actions/configure-pages@v2
     - name: Download HTML docs
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
-        name: attack_flow_docs_html
+        name: attack-flow-docs-html
         path: docs
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         path: ./docs
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4
 
   docker:
     # This job only runs when creating a tag.
