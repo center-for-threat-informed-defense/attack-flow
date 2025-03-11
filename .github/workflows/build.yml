@@ -123,7 +123,7 @@ jobs:
     - name: Create client directory
       run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: attack_flow_builder
         path: docs/extra/ui
