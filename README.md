@@ -15,7 +15,7 @@ techniques to achieve their goals. The project helps defenders and leaders under
 and improve their own defensive posture. This project is created and maintained by the [MITRE Center
 for Threat-Informed Defense](https://ctid.mitre.org/) in futherance of our mission to advance the
 start of the art and and the state of the practice in threat-informed defense globally. The project is funded
-by our [research participants](https://ctid.mitre.org/our-work/attack-flow/#RESEARCH-PARTICIPANTS).
+by our [research participants](https://ctid.mitre.org/projects/attack-flow#participants-section).
 
 **Table Of Contents:**
 

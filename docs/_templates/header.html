@@ -4,7 +4,11 @@
     <div class="navbar navbar-expand-lg navbar-dark font-weight-bold">
       {%- if theme_project_name %}
       <a class="logo" href="{{pathto(master_doc)}}">
-        <h1>{{theme_project_name}}</h1>
+        <h1>{{theme_project_name}}
+          <span class="version">
+            v2.2.7
+          </span>
+        </h1>
       </a>
       {% endif %} {%- if theme_logo and theme_logo != 'None' %}
       <a href="https://ctid.mitre.org/" target="_blank" {% if theme_logo_alt %}title="{{ theme_logo_alt|e }}" {% endif

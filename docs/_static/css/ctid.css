@@ -290,6 +290,11 @@ body.theme-dark .admonition.note p {
   color: var(--mitre-silver);
 }
 
+.navbar .version {
+  font-size: 16px;
+  color: #87DEFF;
+}
+
 .navbar .logo-img {
   margin-right: 0;
 }
