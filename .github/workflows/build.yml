@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install Poetry
         run: curl -sSL https://install.python-poetry.org/ | python -
       - name: Add Poetry to PATH
@@ -144,7 +144,7 @@ jobs:
     - name: Build HTML docs
       run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
     - name: Upload HTML docs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: attack_flow_docs_html
         path: docs/_build/dirhtml/
@@ -153,7 +153,7 @@ jobs:
     - name: Build PDF docs
       run: poetry run sphinx-build -M latexpdf docs docs/_build
     - name: Upload PDF docs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: attack_flow_docs_pdf
         path: docs/_build/latex/attackflow.pdf
