@@ -53,7 +53,7 @@ advance threat-informed defense:
 
 ## Questions and Feedback
 
-Please submit issues for any technical questions/concerns or contact ctid@mitrey.org directly for
+Please submit issues for any technical questions/concerns or contact ctid@mitre.org directly for
 more general inquiries.
 
 Also see the guidance for contributors if are you interested in contributing or simply reporting issues.
