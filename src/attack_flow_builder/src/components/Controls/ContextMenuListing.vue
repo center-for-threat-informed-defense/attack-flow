@@ -59,10 +59,7 @@ import {
   MenuType, OperatingSystem
 } from '@/assets/scripts/Browser';
 import type { CommandEmitter } from '@/assets/scripts/Application';
-import type { 
-  ContextMenu, ContextMenuItem,
-  ContextMenuSection, ContextMenuToggleItem
-} from "@/assets/scripts/Browser";
+import type { ContextMenu, ContextMenuItem, ContextMenuSection } from "@/assets/scripts/Browser";
 
 export default defineComponent({
   name: 'ContextMenuListing',
@@ -105,7 +102,10 @@ export default defineComponent({
     }
 
   },
-  emits: ["select", "_select"],
+  emits: {
+    select: (item: CommandEmitter) => item,
+    _select: (item: ContextMenuItem<CommandEmitter>) => item,
+  },
   methods: {
 
     /**
@@ -149,7 +149,7 @@ export default defineComponent({
      * @param item
      *  The selected menu item.
      */
-    onItemClick(item: ContextMenuItem<CommandEmitter> | ContextMenuToggleItem<CommandEmitter>) {
+    onItemClick(item: ContextMenuItem<CommandEmitter>) {
       if(!item.disabled) {
         if(this.root) {
           this.$emit("select", item.data);

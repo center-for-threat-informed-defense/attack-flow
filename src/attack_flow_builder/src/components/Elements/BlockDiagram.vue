@@ -19,12 +19,12 @@
 import { defineComponent, inject, markRaw } from 'vue';
 import { useApplicationStore } from "@/stores/ApplicationStore";
 import { useContextMenuStore } from "@/stores/ContextMenuStore";
-import type { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
 import type { Command, CommandEmitter } from "@/stores/Commands/Command";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
 import { Cursor, type DiagramObjectView } from "@OpenChart/DiagramView";
 import type { DiagramViewEditor } from '@/assets/scripts/OpenChart/DiagramEditor';
+import type { ContextMenuSection } from '@/assets/scripts/Browser';
 
 export default defineComponent({
   name: 'BlockDiagram',
@@ -349,8 +349,10 @@ export default defineComponent({
   },
   watch: {
     // On page change
-    editor() {
-      console.log(this.editor)
+    editor(next: DiagramViewEditor, prev: DiagramViewEditor) {
+      prev.interface.unmount();
+      next.interface.mount(this.$el);
+
       // // Set page
       // this.diagram.setPage(markRaw(this.editor.page));
       // // Update view
@@ -365,7 +367,8 @@ export default defineComponent({
     },
     // On camera update
     camera() {
-      this.diagram.setCameraLocation(this.camera);
+      // this.editor.interface.setCameraLocation(this.camera);
+      // this.diagram.setCameraLocation(this.camera);
     },
     // On page update
     pageUpdate() {

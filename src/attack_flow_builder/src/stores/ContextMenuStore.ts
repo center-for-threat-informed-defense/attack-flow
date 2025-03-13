@@ -47,14 +47,14 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 items: [
                     {
                         text: "New File",
-                        type: MenuType.Item,
+                        type: MenuType.Action,
                         // data: () => App.PrepareEditorWithFile.fromNew(ctx),
                         data: () => AppCommands.loadNewFile(app),
                         shortcut: file.new_file
                     },
                     {
                         text: "Open File...",
-                        type: MenuType.Item,
+                        type: MenuType.Action,
                         // data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
                         data: () => AppCommands.loadFileFromFileSystem(app),
                         shortcut: file.open_file
@@ -82,14 +82,14 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 // Add file
                 items.push({
                     text: `${ name } (${ date.toLocaleString() })`,
-                    type: MenuType.Item,
+                    type: MenuType.Action,
                     data: () => AppCommands.loadExistingFile(app, contents, name)
                 })
             }
             if(items.length === 0) {
                 items.push({
                     text: "No Recovered Files",
-                    type: MenuType.Item,
+                    type: MenuType.Action,
                     data: () => AppCommands.doNothing(),
                     disabled: true
                 });
@@ -108,7 +108,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         id: "bank_controls",
                         items: [{
                             text: "Delete Recovered Files",
-                            type: MenuType.Item,
+                            type: MenuType.Action,
                             data: () => AppCommands.clearFileRecoveryBank(app)
                         }]
                     }
@@ -137,20 +137,20 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 items: [
                     {
                         text: "Save",
-                        type: MenuType.Item,
+                        type: MenuType.Action,
                         data: () => AppCommands.saveActiveFileToDevice(app),
                         shortcut: file.save_file,
                         disabled: editor.id === PhantomEditor.id
                     },
                     // {
                     //     text: "Save as Image",
-                    //     type: MenuType.Item,
+                    //     type: MenuType.Action,
                     //     data: () => new App.SavePageImageToDevice(ctx),
                     //     shortcut: file.save_image
                     // },
                     // {
                     //     text: "Save Selection as Image",
-                    //     type: MenuType.Item,
+                    //     type: MenuType.Action,
                     //     data: () => new App.SaveSelectionImageToDevice(ctx),
                     //     shortcut: file.save_select_image,
                     //     disabled: !ctx.hasSelection
@@ -172,7 +172,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: `Publish ${Configuration.file_type_name}`,
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new App.PublishPageToDevice(ctx),
         //                 shortcut: file.publish_file,
         //                 disabled: !ctx.isValid
@@ -235,14 +235,14 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Undo",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.UndoPageCommand(ctx, page.id),
         //                 shortcut: edit.undo,
         //                 disabled: !ctx.canUndo
         //             },
         //             {
         //                 text: "Redo",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.RedoPageCommand(ctx, page.id),
         //                 shortcut: edit.redo,
         //                 disabled: !ctx.canRedo
@@ -267,21 +267,21 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Cut",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.CutSelectedChildren(ctx, page),
         //                 shortcut: edit.cut,
         //                 disabled: !hasSelection
         //             },
         //             {
         //                 text: "Copy",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new App.CopySelectedChildren(ctx, page),
         //                 shortcut: edit.copy,
         //                 disabled: !hasSelection
         //             },
         //             {
         //                 text: "Paste",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.PasteToObject(ctx, page),
         //                 shortcut: edit.paste,
         //                 disabled: !canPaste
@@ -304,7 +304,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Delete",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.RemoveSelectedChildren(page),
         //                 shortcut: edit.delete,
         //                 disabled: !ctx.hasSelection
@@ -327,7 +327,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Duplicate",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.DuplicateSelectedChildren(ctx, page),
         //                 shortcut: edit.duplicate,
         //                 disabled: !ctx.hasSelection
@@ -350,20 +350,20 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Find…",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new App.ShowFindDialog(ctx),
         //                 shortcut: edit.find
         //             },
         //             {
         //                 text: "Find Next",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new App.MoveToNextFindResult(ctx),
         //                 shortcut: edit.find_next,
         //                 disabled: !hasFindResults
         //             },
         //             {
         //                 text: "Find Previous",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new App.MoveToPreviousFindResult(ctx),
         //                 shortcut: edit.find_previous,
         //                 disabled: !hasFindResults
@@ -387,7 +387,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Select All",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.SelectChildren(page),
         //                 shortcut: edit.select_all
         //             }
@@ -409,7 +409,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Unselect All",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.UnselectDescendants(page),
         //                 shortcut: edit.unselect_all
         //             }
@@ -513,25 +513,25 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "To Front",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.RelayerSelection(page, Page.Order.Top),
         //                 shortcut: layout.selection_to_front
         //             },
         //             {
         //                 text: "To Back",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
         //                 shortcut: layout.selection_to_back
         //             },
         //             {
         //                 text: "Bring Forward",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
         //                 shortcut: layout.bring_selection_forward
         //             },
         //             {
         //                 text: "Send Backward",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
         //                 shortcut: layout.send_selection_backward
         //             }
@@ -644,19 +644,19 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Reset View",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.ResetCamera(ctx, page),
         //                 shortcut: view.reset_view
         //             },
         //             {
         //                 text: "Zoom In",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.ZoomCamera(ctx, page, 0.25),
         //                 shortcut: view.zoom_in
         //             },
         //             {
         //                 text: "Zoom Out",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.ZoomCamera(ctx, page, -0.25),
         //                 shortcut: view.zoom_out
         //             }
@@ -679,21 +679,21 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //         items: [
         //             {
         //                 text: "Zoom to Selection",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.MoveCameraToSelection(ctx, page),
         //                 shortcut: view.jump_to_selection,
         //                 disabled: !hasSelection
         //             },
         //             {
         //                 text: "Jump to Parents",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.MoveCameraToParents(ctx, page),
         //                 shortcut: view.jump_to_parents,
         //                 disabled: !hasSelection
         //             },
         //             {
         //                 text: "Jump to Children",
-        //                 type: MenuType.Item,
+        //                 type: MenuType.Action,
         //                 data: () => new Page.MoveCameraToChildren(ctx, page),
         //                 shortcut: view.jump_to_children,
         //                 disabled: !hasSelection
@@ -715,7 +715,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 items: [
                     {
                         text: "Fullscreen",
-                        type: MenuType.Item,
+                        type: MenuType.Action,
                         data: () => AppCommands.switchToFullscreen(),
                         shortcut: view.fullscreen,
                     }
@@ -764,7 +764,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             // Links
             const items: ContextMenu<CommandEmitter>[] = links.map(link => ({
                 text: link.text,
-                type: MenuType.Item,
+                type: MenuType.Action,
                 data: () => AppCommands.openHyperlink(link.url)
             }));
             // Menu
@@ -778,7 +778,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         items: [
                             {
                                 text: `${name} v${version}`,
-                                type: MenuType.Item,
+                                type: MenuType.Action,
                                 data: () => AppCommands.doNothing(),
                                 disabled: true
                             }
@@ -823,7 +823,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
 //         } else {
 //             sm.sections[1].items.push({
 //                 text: titleCase(k),
-//                 type: MenuType.Item,
+//                 type: MenuType.Action,
 //                 data: () => spawn(v as string)
 //             });
 //         }

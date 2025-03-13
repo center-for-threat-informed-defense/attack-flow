@@ -14,8 +14,8 @@
 import { defineComponent } from "vue";
 import { useHotkeyStore } from "@/stores/HotkeyStore";
 import { useApplicationStore } from "@/stores/ApplicationStore";
-import type { Hotkey } from "@/assets/scripts/HotkeyObserver";
-import type { CommandEmitter } from "@/stores/Commands/Command";
+import type { Hotkey } from "@/assets/scripts/Browser";
+import type { CommandEmitter } from "@/assets/scripts/Application";
 // Components
 import HotkeyBox from "@/components/Containers/HotkeyBox.vue";
 
@@ -36,11 +36,11 @@ export default defineComponent({
      */
     hotkeySet(): Hotkey<CommandEmitter>[] {
       return [
-        // ...this.hotkeys.nativeHotkeys, 
-        // ...this.hotkeys.fileHotkeys,
-        // ...this.hotkeys.editHotKeys,
-        // ...this.hotkeys.layoutHotkeys,
-        // ...this.hotkeys.viewHotkeys
+        ...this.hotkeys.nativeHotkeys, 
+        ...this.hotkeys.fileHotkeys,
+        ...this.hotkeys.editHotKeys,
+        ...this.hotkeys.layoutHotkeys,
+        ...this.hotkeys.viewHotkeys
       ]
     }
 

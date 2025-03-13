@@ -1,7 +1,8 @@
+import * as AppCommands from "@/assets/scripts/Application/Commands";
 import { defineStore } from "pinia";
 import { useApplicationStore } from "./ApplicationStore";
-import type { Hotkey } from "@/assets/scripts/HotkeyObserver";
-import type { CommandEmitter } from "../Commands/Command";
+import type { Hotkey } from "@/assets/scripts/Browser";
+import type { CommandEmitter } from "@/assets/scripts/Application/Commands";
 
 export const useHotkeyStore = defineStore("hotkeyStore", {
     getters: {
@@ -42,40 +43,42 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          *  The file hotkeys.
          */
         fileHotkeys(): Hotkey<CommandEmitter>[] {
-            const ctx = useApplicationStore();
-            const file = ctx.settings.hotkeys.file;
+            const app = useApplicationStore();
+            const file = app.settings.hotkeys.file;
             return [
-            //     {
-            //         data: () => App.PrepareEditorWithFile.fromNew(ctx),
-            //         shortcut: file.new_file,
-            //         repeatable: false
-            //     },
-            //     {
-            //         data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
-            //         shortcut: file.open_file,
-            //         repeatable: false
-            //     },
-            //     {
-            //         data: () => new App.SavePageToDevice(ctx),
-            //         shortcut: file.save_file,
-            //         repeatable: false
-            //     },
-            //     {
-            //         data: () => new App.SavePageImageToDevice(ctx),
-            //         shortcut: file.save_image,
-            //         repeatable: false
-            //     },
-            //     {
-            //         data: () => new App.SaveSelectionImageToDevice(ctx),
-            //         shortcut: file.save_select_image,
-            //         repeatable: false
-            //     },
-            //     {
-            //         data: () => new App.PublishPageToDevice(ctx),
-            //         shortcut: file.publish_file,
-            //         repeatable: false,
-            //         disabled: !ctx.publisher || !ctx.isValid
-            //     }
+                {
+                    // data: () => App.PrepareEditorWithFile.fromNew(ctx),
+                    data: () => AppCommands.loadNewFile(app),
+                    shortcut: file.new_file,
+                    repeatable: false
+                },
+                {
+                    // data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
+                    data: () => AppCommands.loadFileFromFileSystem(app),
+                    shortcut: file.open_file,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.saveActiveFileToDevice(app),
+                    shortcut: file.save_file,
+                    repeatable: false
+                },
+                // {
+                //     data: () => new App.SavePageImageToDevice(ctx),
+                //     shortcut: file.save_image,
+                //     repeatable: false
+                // },
+                // {
+                //     data: () => new App.SaveSelectionImageToDevice(ctx),
+                //     shortcut: file.save_select_image,
+                //     repeatable: false
+                // },
+                // {
+                //     data: () => new App.PublishPageToDevice(ctx),
+                //     shortcut: file.publish_file,
+                //     repeatable: false,
+                //     disabled: !ctx.publisher || !ctx.isValid
+                // }
             ];
         },
 
@@ -85,9 +88,9 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          *  The edit hotkeys.
          */
         editHotKeys(): Hotkey<CommandEmitter>[] {
-            const ctx = useApplicationStore();
-            const page = ctx.activePage.page;
-            const edit = ctx.settings.hotkeys.edit;
+            const app = useApplicationStore();
+            // const page = ctx.activePage.page;
+            const edit = app.settings.hotkeys.edit;
             return [
                 // {
                 //     data: () => new Page.UndoPageCommand(ctx, page.id),
@@ -159,9 +162,9 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          *  The layout hotkeys.
          */
         layoutHotkeys(): Hotkey<CommandEmitter>[] {
-            const ctx = useApplicationStore();
-            const page = ctx.activePage.page;
-            const layout = ctx.settings.hotkeys.layout;
+            const app = useApplicationStore();
+            // const page = ctx.activePage.page;
+            const layout = app.settings.hotkeys.layout;
             return [
                 // {
                 //     data: () => new Page.RelayerSelection(page, Page.Order.Top),
@@ -192,9 +195,8 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          *  The view hotkeys.
          */
         viewHotkeys(): Hotkey<CommandEmitter>[] {
-            const ctx = useApplicationStore();
-            const page = ctx.activePage.page;
-            const view = ctx.settings.hotkeys.view;
+            const app = useApplicationStore();
+            const view = app.settings.hotkeys.view;
             return  [
                 // {
                 //     data: () => new App.ToggleGridDisplay(ctx),
@@ -236,11 +238,11 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                 //     shortcut: view.jump_to_children,
                 //     repeatable: true
                 // },
-                // {
-                //     data: () => new App.SwitchToFullscreen(ctx),
-                //     shortcut: view.fullscreen,
-                //     repeatable: false
-                // },
+                {
+                    data: () => AppCommands.switchToFullscreen(),
+                    shortcut: view.fullscreen,
+                    repeatable: false
+                },
                 // {
                 //     data: () => new App.ToggleDebugDisplay(ctx),
                 //     shortcut: view.toggle_debug_view,
@@ -251,3 +253,4 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
 
     }
 });
+

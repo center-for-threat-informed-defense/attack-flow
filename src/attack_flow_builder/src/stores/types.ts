@@ -1,4 +1,4 @@
-import type { Hotkey } from "@/assets/scripts/HotkeyObserver";
+import type { Hotkey } from "@/assets/scripts/Browser";
 import type { CommandEmitter } from "@/assets/scripts/Application/Commands";
 import type { DiagramViewEditor } from "@OpenChart/DiagramEditor/DiagramViewEditor";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";

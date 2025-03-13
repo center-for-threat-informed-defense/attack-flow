@@ -1,6 +1,6 @@
 {
   "name": "attack-flow-builder",
-  "version": "2.3.3",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
   "scripts": {

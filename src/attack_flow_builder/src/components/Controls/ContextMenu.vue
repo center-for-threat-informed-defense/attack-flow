@@ -47,7 +47,10 @@ export default defineComponent({
     }
 
   },
-  emits: ["select", "focusout"],
+  emits: {
+    select: (item: CommandEmitter) => item,
+    focusout: () => true,
+  },
   mounted() {
     // Configure focus box
     this.focusBox.mount(
