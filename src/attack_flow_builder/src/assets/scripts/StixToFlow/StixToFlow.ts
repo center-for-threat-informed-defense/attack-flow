@@ -14,12 +14,17 @@ export class StixToFlow {
         for(let i = 0; i < 100; i++) {
             const block = factory.createNewDiagramObject("", Block);
             canvas.addObject(block);
-            objectMap.set("id", block)l;
+            objectMap.set("id", block);
+
         }
         // Traverse from root
         // Build lines
         // Linking bottom of src node to top of target node
         const line = factory.createNewDiagramObject("line", Line);
+
+
+        const block = factory.createNewDiagramObject("", Block);
+        line.source.link(block.anchors.get("0")!);       
 
         // Link diagram objects
 
