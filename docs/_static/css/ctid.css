@@ -144,17 +144,14 @@ blockquote.epigraph {
   background-color: var(--mitre-light-silver);
   margin: 2em 0;
   padding: 1em;
-  border-top: 3px solid #c9c9c9;
-  border-bottom: 3px solid #c9c9c9;
 }
 
-blockquote.epigraph p {
-  font-size: 16pt;
+body.theme-dark blockquote.epigraph {
+  background-color: var(--mitre-navy);
 }
 
 blockquote.epigraph p.attribution {
   margin: 0;
-  font-size: 12pt;
   font-style: italic;
 }
 
