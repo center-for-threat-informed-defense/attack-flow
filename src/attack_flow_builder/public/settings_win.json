@@ -13,7 +13,8 @@
             "display_shadows": true,
             "display_debug_mode": false,
             "render_high_quality": true,
-            "disable_shadows_at": 0.7
+            "disable_shadows_at": 0.7,
+            "theme": "dark_theme"
         },
         "splash_menu": {
             "display_menu": true
