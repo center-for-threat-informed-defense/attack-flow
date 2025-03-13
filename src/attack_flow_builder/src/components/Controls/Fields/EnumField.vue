@@ -47,8 +47,8 @@
 <script lang="ts">
 
 // Dependencies
-import { EnumProperty } from "@/assets/scripts/BlockDiagram";
 import { defineComponent, type PropType, ref } from "vue";
+import type { EnumProperty } from "@OpenChart/DiagramModel";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";

@@ -39,14 +39,12 @@
 </template>
 
 <script lang="ts">
-import * as App from '@/stores/Commands/AppCommands';
 // Dependencies
-import { clamp } from "./assets/scripts/BlockDiagram";
-import { PointerTracker } from "./assets/scripts/PointerTracker";
-import { useApplicationStore } from './stores/Stores/ApplicationStore';
-import { Browser, OperatingSystem } from "./assets/scripts/Browser";
+import * as AppCommand from "./assets/scripts/Application/Commands";
+import { useApplicationStore } from './stores/ApplicationStore';
 import { defineComponent, markRaw, ref } from 'vue';
-import type { Command } from './stores/Commands/Command';
+import { Browser, clamp, OperatingSystem, PointerTracker } from "./assets/scripts/Browser";
+import type { Command } from "./assets/scripts/Application"
 // Components
 import FindDialog from "@/components/Elements/FindDialog.vue";
 import SplashMenu from "@/components/Elements/SplashMenu.vue";
@@ -78,10 +76,7 @@ export default defineComponent({
       minFrameSize: {
         [Handle.Right]: 310
       },
-      drag: {
-        handle: Handle.None,
-        track: markRaw(new PointerTracker())
-      },
+      track: markRaw(new PointerTracker()),
       onResizeObserver: null as ResizeObserver | null
     }
   },
@@ -144,40 +139,17 @@ export default defineComponent({
      */
     startResize(event: PointerEvent, handle: number) {
       const origin = this.frameSize[handle];
-      this.drag.handle = handle;
-      this.drag.track.capture(event, (e, track) => {
+      this.track.capture(event, (e, track) => {
         e.preventDefault();
-        this.onResize(origin, track);
+        switch (handle) {
+          default:
+          case Handle.None:
+            break;
+          case Handle.Right:
+            this.setRightFrameSize(origin - track.deltaX);
+            break;
+        }
       });
-      document.addEventListener("pointerup", this.stopResize, { once: true });
-    },
-
-    /**
-     * Resize handle drag behavior.
-     * @param origin
-     *  The frame's origin.
-     * @param track
-     *  The mouse tracker.
-     */
-    onResize(origin: number, track: PointerTracker) {
-      switch (this.drag.handle) {
-        default:
-        case Handle.None:
-          break;
-        case Handle.Right:
-          this.setRightFrameSize(origin - track.deltaX);
-          break;
-      }
-    },
-
-    /**
-     * Resize handle drag stop behavior.
-     * @param event
-     *  The pointer event.
-     */
-    stopResize(event: PointerEvent) {
-      this.drag.handle = Handle.None;
-      this.drag.track.release(event);
     },
 
     /**
@@ -203,16 +175,17 @@ export default defineComponent({
       settings = await (await fetch("./settings_win.json")).json();
     }
     // Load settings
-    this.execute(new App.LoadSettings(ctx, settings));
+    this.execute(AppCommand.loadSettings(ctx, settings));
     // Load empty file
-    this.execute(await App.LoadFile.fromNew(ctx));
+    this.execute(await AppCommand.loadNewFile(ctx));
     // Load file from query parameters, if possible
     const params = new URLSearchParams(window.location.search);
     const src = params.get("src");
     if(src) {
       try {
         // TODO: Incorporate loading dialog
-        this.execute(await App.PrepareEditorWithFile.fromUrl(ctx, src));
+        // this.execute(await App.PrepareEditorWithFile.fromUrl(ctx, src));
+        this.execute(await AppCommand.loadFileFromUrl(ctx, src));
       } catch(ex) {
         console.error(`Failed to load file from url: '${ src }'`);
         console.error(ex);

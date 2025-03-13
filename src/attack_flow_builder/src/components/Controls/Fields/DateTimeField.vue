@@ -106,7 +106,7 @@
 </template>
 
 <script lang="ts">
-import { DateProperty } from "@/assets/scripts/BlockDiagram";
+import type { DateProperty } from "@OpenChart/DiagramModel";
 import { defineComponent, markRaw, type PropType, ref } from "vue";
 
 type Segments =  

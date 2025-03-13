@@ -1,0 +1,25 @@
+.scroll-box {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0px;  
+    display: flex;
+    overflow: hidden;
+}
+
+.scroll-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+.scroll-bar {
+    width: 17px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+.scroll-handle {
+    border: solid 1px #404040;
+    border-radius: 3px;
+    box-sizing: border-box;
+    background: #333333;
+}

@@ -352,7 +352,7 @@ export default defineComponent({
     this.reset();
   },
   unmounted() {
-    this.onResizeObserver!.disconnect();
+    this.onResizeObserver?.disconnect();
   },
   render() {
     const children = [];

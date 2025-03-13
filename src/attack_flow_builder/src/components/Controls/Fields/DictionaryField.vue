@@ -42,11 +42,11 @@
 
 <script lang="ts">
 // Dependencies
-import { DictionaryProperty } from "@/assets/scripts/BlockDiagram";
 import { defineComponent, type PropType } from "vue";
 // Components
 import CollapseArrowIcon from "@/components/Icons/CollapseArrowIcon.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
+import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 
 export default defineComponent({
   name: "DictionaryField",

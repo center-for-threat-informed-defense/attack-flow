@@ -22,8 +22,9 @@
 
 <script lang="ts">
 // Dependencies
+import { PropertyType } from "@OpenChart/DiagramModel";
+import type { DictionaryProperty, Property } from "@OpenChart/DiagramModel";
 import { defineAsyncComponent, defineComponent, type PropType } from "vue";
-import { DictionaryProperty, Property, PropertyType, titleCase } from "@/assets/scripts/BlockDiagram";
 // Components
 import TextField from "./TextField.vue";
 import ListField from "./ListField.vue";
@@ -82,7 +83,6 @@ export default defineComponent({
       }
     },
 
-    titleCase
 
   },
   emits: ["change", "create", "delete"],

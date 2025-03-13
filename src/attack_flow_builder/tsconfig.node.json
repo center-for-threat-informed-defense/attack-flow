@@ -12,7 +12,8 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "paths": {
       "@/*": ["./src/*"],
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "@OpenChart/*": ["./src/assets/scripts/OpenChart/*"]
     },
     "module": "ESNext",
     "moduleResolution": "Bundler",

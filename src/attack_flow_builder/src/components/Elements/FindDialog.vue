@@ -50,12 +50,12 @@
 <script lang="ts">
 // Dependencies
 import { defineComponent } from "vue";
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
-import * as App from "@/stores/Commands/AppCommands";
-import * as Page from "@/stores/Commands/PageCommands";
-import Debouncer from "@/assets/scripts/BlockDiagram/Utilities/Debouncer";
-import type { Command } from "@/stores/Commands/Command";
-import type { DiagramObjectModel } from "@/assets/scripts/BlockDiagram";
+import { useApplicationStore } from "@/stores/ApplicationStore";
+// import * as App from "@/stores/Commands/AppCommands";
+// import * as Page from "@/stores/Commands/PageCommands";
+// import Debouncer from "@/assets/scripts/BlockDiagram/Utilities/Debouncer";
+// import type { Command } from "@/stores/Commands/Command";
+// import type { DiagramObjectModel } from "@/assets/scripts/BlockDiagram";
 // Components
 import CloseIcon from "@/components/Icons/CloseIcon.vue";
 import UpArrowIcon from "@/components/Icons/UpArrowIcon.vue";
@@ -68,10 +68,10 @@ export default defineComponent({
       application: useApplicationStore(),
       query: "",
       lastQuery: "",
-      debouncer: new Debouncer(0.4),
+      // debouncer: new Debouncer(0.4),
       totalResults: 0,
       currentResultIndex: 0,
-      currentDiagramObject: null as DiagramObjectModel | null,
+      // currentDiagramObject: null as DiagramObjectModel | null,
     }
   },
   computed: {

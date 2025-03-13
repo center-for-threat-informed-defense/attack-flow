@@ -33,8 +33,9 @@
 <script lang="ts">
 
 // Dependencies
-import { MD5, StringProperty } from "@/assets/scripts/BlockDiagram";
+import { MD5 } from "@OpenChart/Utilities";
 import { defineComponent, markRaw, type PropType, ref } from "vue";
+import type { StringProperty } from "@OpenChart/DiagramModel";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";

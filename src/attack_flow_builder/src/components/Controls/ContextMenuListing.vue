@@ -1,20 +1,9 @@
 <template>
-  <div
-    class="context-menu-listing-control"
-    :style="offset"
-    @contextmenu.prevent=""
-  >
+  <div class="context-menu-listing-control" :style="offset" @contextmenu.prevent="">
     <!-- Menu Sections -->
-    <div
-      class="section"
-      v-for="(section, i) of sections"
-      :key="section.id"
-    >
+    <div class="section" v-for="(section, i) of sections" :key="section.id">
       <!-- Menu Section -->
-      <template
-        v-for="item of section.items"
-        :key="item.text"
-      >
+      <template v-for="item of section.items" :key="item.text">
         <!-- Submenu Item -->
         <li
           :class="{ disabled: item.disabled }"
@@ -24,13 +13,10 @@
         >
           <a class="item">
             <span class="text">{{ item.text }}</span>
-            <span class="more-arrow" />
+            <span class="more-arrow"></span>
           </a>
-          <div
-            class="submenu"
-            v-if="isActive(item)"
-          >
-            <ContextMenuListing
+          <div class="submenu" v-if="isActive(item)">
+            <ContextMenuListing 
               :root="false"
               :sections="item.sections"
               @_select="onChildItemSelect"
@@ -41,73 +27,42 @@
         <li
           :class="{ disabled: item.disabled }"
           :exit-focus-box="!item.keepMenuOpenOnSelect"
-          @click="onItemClick(item as ContextMenuItem<CommandEmitter>)"
-          v-else
+          @click="onItemClick(item)"
+          v-if="item.type !== MenuType.Submenu"
         >
-          <a
+          <a 
             class="item"
             target="_blank"
           >
-            <span
-              class="check"
-              v-show="'value' in item && item.value"
-            >
+            <span class="check" v-show="'value' in item ? item.value : false">
               ✓
             </span>
             <span class="text">
               {{ item.text }}
             </span>
-            <span
-              class="shortcut"
-              v-if="item.shortcuts"
-            >
-              {{ displayShortcuts(item.shortcuts) }}
+            <span class="shortcut" v-if="item.shortcut">
+              {{ formatShortcut(item.shortcut) }}
             </span>
           </a>
         </li>
       </template>
       <!-- Section Divider -->
-      <a
-        class="section-divider"
-        v-if="i < sections.length - 1"
-      />
+      <a class="section-divider" v-if="i < sections.length - 1"></a>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Browser, OperatingSystem } from '@/assets/scripts/Browser';
 import { defineComponent, type PropType } from 'vue';
-import { MenuType } from "@/assets/scripts/ContextMenuTypes";
-import type {
+import { 
+  Browser, KeyToTextMacOS, KeyToTextWin,
+  MenuType, OperatingSystem
+} from '@/assets/scripts/Browser';
+import type { CommandEmitter } from '@/assets/scripts/Application';
+import type { 
   ContextMenu, ContextMenuItem,
-  ContextMenuSection
-} from "@/assets/scripts/ContextMenuTypes";
-import type { CommandEmitter } from '@/stores/Commands/Command';
-
-const KeyToTextWin: { [key: string]: string } = {
-  Control    : "Ctrl",
-  Escape     : "Esc",
-  ArrowLeft  : "←",
-  ArrowUp    : "↑",
-  ArrowRight : "→",
-  ArrowDown  : "↓",
-  Delete     : "Del",
-  Meta       : "Win"
-}
-
-const KeyToTextMacOS: { [key: string]: string } = {
-  Control    : "⌃",
-  Escape     : "Esc",
-  ArrowLeft  : "←",
-  ArrowUp    : "↑",
-  ArrowRight : "→",
-  ArrowDown  : "↓",
-  Delete     : "Del",
-  Meta       : "⌘",
-  Shift      : "⇧",
-  Alt        : "⌥"
-}
+  ContextMenuSection, ContextMenuToggleItem
+} from "@/assets/scripts/Browser";
 
 export default defineComponent({
   name: 'ContextMenuListing',
@@ -179,7 +134,7 @@ export default defineComponent({
     /**
      * Submenu mouse leave behavior.
      * @param menu
-     *  The unhovered submenu.
+     *  The un-hovered submenu.
      */
     submenuLeave(menu: ContextMenu<CommandEmitter>) {
       if(!menu.disabled) {
@@ -194,7 +149,7 @@ export default defineComponent({
      * @param item
      *  The selected menu item.
      */
-    onItemClick(item: ContextMenuItem<CommandEmitter>) {
+    onItemClick(item: ContextMenuItem<CommandEmitter> | ContextMenuToggleItem<CommandEmitter>) {
       if(!item.disabled) {
         if(this.root) {
           this.$emit("select", item.data);
@@ -261,9 +216,9 @@ export default defineComponent({
   mounted() {
     if(!this.forceInsideWindow) return;
     // Offset submenu if outside of viewport
-    const viewWidth  = window.innerWidth;
-    const viewHeight = window.innerHeight;
-    const { top, left, bottom, right } = this.$el.getBoundingClientRect();
+    let viewWidth  = window.innerWidth;
+    let viewHeight = window.innerHeight;
+    let { top, left, bottom, right } = this.$el.getBoundingClientRect();
     this.xOffset = right > viewWidth ? -Math.min(left, right - viewWidth) : 0;
     this.yOffset = bottom > viewHeight ? -Math.min(top, bottom - viewHeight) : 0;
   }

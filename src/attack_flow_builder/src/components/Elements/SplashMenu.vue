@@ -120,12 +120,10 @@
 </template>
 
 <script lang="ts">
-import * as App from "@/stores/Commands/AppCommands";
-import Configuration from "@/assets/configuration/builder.config"
 // Dependencies
 import { version } from "@/../package.json";
 import { defineComponent } from 'vue';
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useApplicationStore } from "@/stores/ApplicationStore";
 import type { Command } from "@/stores/Commands/Command";
 // Components
 import LinkIcon from "@/components/Icons/LinkIcon.vue";
@@ -138,17 +136,17 @@ export default defineComponent({
   name: 'SplashMenu',
   data() {
     let organization;
-    if (Configuration.splash.organization) {
-      organization = Configuration.splash.organization;
-    }
+    // if (Configuration.splash.organization) {
+      // organization = Configuration.splash.organization;
+    // }
     return {
       application: useApplicationStore(),
-      applicationName: Configuration.application_name,
+      // applicationName: Configuration.application_name,
       applicationVersion: version,
       organization,
-      newFile: Configuration.splash.new_file,
-      openFile: Configuration.splash.open_file,
-      helpLinks: Configuration.splash.help_links
+      // newFile: Configuration.splash.new_file,
+      // openFile: Configuration.splash.open_file,
+      // helpLinks: Configuration.splash.help_links
     }
   },
   computed: {
@@ -187,7 +185,7 @@ export default defineComponent({
      */
     async onNewFile() {
       const ctx = this.application;
-      this.execute(await App.PrepareEditorWithFile.fromNew(ctx));
+      // this.execute(await App.PrepareEditorWithFile.fromNew(ctx));
     },
 
     /**
@@ -195,7 +193,7 @@ export default defineComponent({
      */
     async onOpenFile() {
       const ctx = this.application;
-      this.execute(await App.PrepareEditorWithFile.fromFileSystem(ctx));
+      // this.execute(await App.PrepareEditorWithFile.fromFileSystem(ctx));
     },
 
     /**
@@ -205,7 +203,7 @@ export default defineComponent({
      */
     async onRecoverFile(file: string) {
       const ctx = this.application;
-      this.execute(await App.PrepareEditorWithFile.fromFile(ctx, file));
+      // this.execute(await App.PrepareEditorWithFile.fromFile(ctx, file));
     },
 
     /**
@@ -215,7 +213,7 @@ export default defineComponent({
      */
     onDeleteFile(id: string) {
       const ctx = this.application;
-      this.execute(new App.DeletePageFromRecoveryBank(ctx, id));
+      // this.execute(new App.DeletePageFromRecoveryBank(ctx, id));
     },
 
     /**
@@ -225,7 +223,7 @@ export default defineComponent({
      */
     onOpenHelp(url: string) {
       const ctx = this.application;
-      this.execute(new App.OpenHyperlink(ctx, url));
+      // this.execute(new App.OpenHyperlink(ctx, url));
     }
 
   },

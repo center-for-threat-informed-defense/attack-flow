@@ -30,24 +30,14 @@
 </template>
 
 <script lang="ts">
-import * as Page from "@/stores/Commands/PageCommands";
 // Dependencies
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useApplicationStore } from "@/stores/ApplicationStore";
 import { defineComponent, type PropType } from "vue";
-import { 
-  DateProperty,
-  DictionaryProperty,
-  EnumProperty,
-  ListProperty,
-  NumberProperty,
-  Property,
-  PropertyType,
-  StringProperty
-} from "@/assets/scripts/BlockDiagram";
 import type { Command } from "@/stores/Commands/Command";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
+import { DateProperty, EnumProperty, Property, StringProperty, type DictionaryProperty } from "@OpenChart/DiagramModel";
 
 export default defineComponent({
   name: "PropertyEditor",
@@ -100,41 +90,41 @@ export default defineComponent({
      *  The field's new value.
      */
     onChange(property: Property, value: string | number | null) {
-      switch(property.type) {
-        case PropertyType.Int:
-        case PropertyType.Float:
-          if(
-            property instanceof NumberProperty &&
-            (value === null || value.constructor === Number)
-          ) {
-            this.execute(new Page.SetNumberProperty(property, value));
-          }
-          break;
-        case PropertyType.String:
-          if(
-            property instanceof StringProperty &&
-            (value === null || value.constructor === String)
-          ) {
-            this.execute(new Page.SetStringProperty(property, value));
-          }
-          break;
-        case PropertyType.Date:
-          if(
-            property instanceof DateProperty &&
-            (value === null || value.constructor === Date)
-          ) {
-            this.execute(new Page.SetDateProperty(property, value));
-          }
-          break;
-        case PropertyType.Enum:
-          if(
-            property instanceof EnumProperty &&
-            (value && value.constructor === String)
-          ) {
-            this.execute(new Page.SetEnumProperty(property, value));
-          }
-          break;
-      }
+      // switch(property.type) {
+      //   case PropertyType.Int:
+      //   case PropertyType.Float:
+      //     if(
+      //       property instanceof NumberProperty &&
+      //       (value === null || value.constructor === Number)
+      //     ) {
+      //       this.execute(new Page.SetNumberProperty(property, value));
+      //     }
+      //     break;
+      //   case PropertyType.String:
+      //     if(
+      //       property instanceof StringProperty &&
+      //       (value === null || value.constructor === String)
+      //     ) {
+      //       this.execute(new Page.SetStringProperty(property, value));
+      //     }
+      //     break;
+      //   case PropertyType.Date:
+      //     if(
+      //       property instanceof DateProperty &&
+      //       (value === null || value.constructor === Date)
+      //     ) {
+      //       this.execute(new Page.SetDateProperty(property, value));
+      //     }
+      //     break;
+      //   case PropertyType.Enum:
+      //     if(
+      //       property instanceof EnumProperty &&
+      //       (value && value.constructor === String)
+      //     ) {
+      //       this.execute(new Page.SetEnumProperty(property, value));
+      //     }
+      //     break;
+      // }
     },
 
     /**
@@ -143,13 +133,13 @@ export default defineComponent({
      *  The field's property.
      */
     onCreate(property: Property) {
-      switch(property.type) {
-        case PropertyType.List:
-          if(property instanceof ListProperty) {
-            this.execute(new Page.CreateSubproperty(property));
-          }
-          break;
-      }
+      // switch(property.type) {
+      //   case PropertyType.List:
+      //     if(property instanceof ListProperty) {
+      //       this.execute(new Page.CreateSubproperty(property));
+      //     }
+      //     break;
+      // }
     },
 
     /**
@@ -160,13 +150,13 @@ export default defineComponent({
      *  The subproperty's id.
      */
     onDelete(property: Property, id: string) {
-      switch(property.type) {
-        case PropertyType.List:
-          if(property instanceof ListProperty) {
-            this.execute(new Page.DeleteSubproperty(property, id));
-          }
-          break;
-      }
+      // switch(property.type) {
+      //   case PropertyType.List:
+      //     if(property instanceof ListProperty) {
+      //       this.execute(new Page.DeleteSubproperty(property, id));
+      //     }
+      //     break;
+      // }
     }
 
   },

@@ -12,8 +12,8 @@
 <script lang="ts">
 // Dependencies
 import { defineComponent } from "vue";
-import { useHotkeyStore } from "@/stores/Stores/HotkeyStore";
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useHotkeyStore } from "@/stores/HotkeyStore";
+import { useApplicationStore } from "@/stores/ApplicationStore";
 import type { Hotkey } from "@/assets/scripts/HotkeyObserver";
 import type { CommandEmitter } from "@/stores/Commands/Command";
 // Components
@@ -36,11 +36,11 @@ export default defineComponent({
      */
     hotkeySet(): Hotkey<CommandEmitter>[] {
       return [
-        ...this.hotkeys.nativeHotkeys,
-        ...this.hotkeys.fileHotkeys,
-        ...this.hotkeys.editHotKeys,
-        ...this.hotkeys.layoutHotkeys,
-        ...this.hotkeys.viewHotkeys
+        // ...this.hotkeys.nativeHotkeys, 
+        // ...this.hotkeys.fileHotkeys,
+        // ...this.hotkeys.editHotKeys,
+        // ...this.hotkeys.layoutHotkeys,
+        // ...this.hotkeys.viewHotkeys
       ]
     }
 

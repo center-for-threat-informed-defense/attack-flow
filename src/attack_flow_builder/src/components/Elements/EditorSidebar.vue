@@ -28,13 +28,13 @@
 <script lang="ts">
 // Dependencies
 import { defineComponent } from "vue";
-import { DictionaryProperty } from "@/assets/scripts/BlockDiagram";
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useApplicationStore } from "@/stores/ApplicationStore";
 // Components
 import AccordionBox from "@/components/Containers/AccordionBox.vue";
 import AccordionPane from "@/components/Containers/AccordionPane.vue";
 import PropertyEditor from "@/components/Elements/PropertyEditor.vue";
 import ValidatorProblems from "@/components/Elements/ValidatorProblems.vue";
+import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 
 export default defineComponent({
   name: "EditorSidebar",

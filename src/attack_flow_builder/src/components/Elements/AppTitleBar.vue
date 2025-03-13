@@ -17,23 +17,22 @@
 </template>
 
 <script lang="ts">
-import Configuration from "@/assets/configuration/builder.config";
 // Dependencies
 import { defineComponent } from "vue";
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
-import { useContextMenuStore } from "@/stores/Stores/ContextMenuStore";
-import type { CommandEmitter } from "@/stores/Commands/Command";
-import type { ContextMenuSubmenu } from "@/assets/scripts/ContextMenuTypes";
+import { useApplicationStore } from "@/stores/ApplicationStore";
+import { useContextMenuStore } from "@/stores/ContextMenuStore";
+import type { CommandEmitter } from "@/assets/scripts/Application";
+import type { ContextMenuSubmenu } from "@/assets/scripts/Browser";
 // Components
 import TitleBar from "@/components/Controls/TitleBar.vue";
-
 export default defineComponent({
   name: "AppTitleBar",
   data() {
     return {
       application: useApplicationStore(),
       contextMenus: useContextMenuStore(),
-      icon: Configuration.application_icon
+      // icon: Configuration.application_icon
+      icon:""
     };
   },
   computed: {
@@ -46,8 +45,8 @@ export default defineComponent({
     menus(): ContextMenuSubmenu<CommandEmitter>[] {
       return [
         this.contextMenus.fileMenu, 
-        this.contextMenus.editMenu,
-        this.contextMenus.layoutMenu,
+        // this.contextMenus.editMenu,
+        // this.contextMenus.layoutMenu,
         this.contextMenus.viewMenu,
         this.contextMenus.helpMenu
       ]

@@ -1,11 +1,14 @@
 import { Font } from "./Utilities";
 import { describe, it, expect } from "vitest";
-import { DarkStyle, ThemeLoader } from "./DiagramThemeLoader";
-import { sampleExport, sampleSchema } from "./DiagramModelAuthority";
-import { DiagramViewAuthority, DiagramViewFactory, FaceType } from "./DiagramViewAuthority";
-import { Alignment, AnchorView, BlockView, Focus, GroupView, Hover, LineView } from "./DiagramView";
-import type { DiagramViewExport } from "./DiagramViewAuthority";
-import type { DiagramThemeConfiguration } from "./DiagramThemeLoader";
+import { DarkStyle, ThemeLoader } from "./ThemeLoader";
+import { sampleExport, sampleSchema } from "./DiagramModel/DiagramModel.spec";
+import {
+    Alignment, AnchorView, BlockView, CanvasView,
+    DiagramObjectViewFactory, DiagramViewFile, FaceType,
+    Focus, Hover, LineView
+} from "./DiagramView";
+import type { DiagramViewExport } from "./DiagramView";
+import type { DiagramThemeConfiguration } from "./ThemeLoader";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,11 +19,12 @@ import type { DiagramThemeConfiguration } from "./DiagramThemeLoader";
 const sampleTheme: DiagramThemeConfiguration = {
     id: "dark_theme",
     name: "Dark Theme",
-    canvas: DarkStyle.Canvas(),
-    faces: {
-        generic_page: {
-            type: FaceType.Group,
-            attributes: Alignment.Grid
+    designs: {
+        generic_canvas: {
+            type: FaceType.LineGridCanvas,
+            attributes: Alignment.Grid,
+            grid: [10, 10],
+            style: DarkStyle.Canvas()
         },
         generic_block: {
             type: FaceType.DictionaryBlock,
@@ -58,11 +62,13 @@ const sampleTheme: DiagramThemeConfiguration = {
 
 export const sampleViewExport: DiagramViewExport = {
     ...sampleExport,
+    theme: "dark_theme",
     layout: {
         "9aee95bb-6c28-48ad-9ad1-1042ff3e0aaf": [7.5, 7.5],
         "6722ba7c-df56-4588-97e1-212c78f50b3e": [10, 10],
         "1dd3ff00-4931-4005-9e7b-b6511e9cd246": [5, 5]
-    }
+    },
+    camera: { x: 0, y: 0, k: 1 }
 };
 
 
@@ -72,20 +78,24 @@ export const sampleViewExport: DiagramViewExport = {
 
 
 /**
- * Creates a new {@link DiagramViewAuthority}.
+ * Creates a new {@link DiagramViewFactory}.
  * @returns
- *  The {@link DiagramViewAuthority}.
+ *  The {@link DiagramViewFactory}.
  */
-async function createTestingAuthority(): Promise<DiagramViewAuthority> {
-    // Load theme
+async function createTestingFactory(): Promise<DiagramObjectViewFactory> {
     const theme = await ThemeLoader.load(sampleTheme);
-    // Create factory
-    const factory = new DiagramViewFactory(sampleSchema, theme);
-    // Configure authority
-    const authority = new DiagramViewAuthority();
-    authority.registerObjectFactory(factory);
-    // Return
-    return authority;
+    const factory = new DiagramObjectViewFactory(sampleSchema, theme);
+    return factory;
+}
+
+/**
+ * Creates a new {@link DiagramViewFile}.
+ * @returns
+ *  The {@link DiagramViewFile}.
+ */
+async function createTestingFile(): Promise<DiagramViewFile> {
+    const factory = await createTestingFactory();
+    return new DiagramViewFile(factory, sampleViewExport);
 }
 
 /**
@@ -94,8 +104,7 @@ async function createTestingAuthority(): Promise<DiagramViewAuthority> {
  *  The {@link BlockView}.
  */
 async function createTestingBlock(): Promise<BlockView> {
-    const authority = await createTestingAuthority();
-    const factory = authority.resolveEquivalentFactory("sample_schema");
+    const factory = await createTestingFactory();
     return factory.createNewDiagramObject("generic_block", BlockView);
 }
 
@@ -105,8 +114,7 @@ async function createTestingBlock(): Promise<BlockView> {
  *  The {@link LineView}.
  */
 async function createTestingLine(): Promise<LineView> {
-    const authority = await createTestingAuthority();
-    const factory = authority.resolveEquivalentFactory("sample_schema");
+    const factory = await createTestingFactory();
     return factory.createNewDiagramObject("generic_line", LineView);
 }
 
@@ -116,8 +124,7 @@ async function createTestingLine(): Promise<LineView> {
  *  The {@link AnchorView}.
  */
 async function createTestingAnchor(): Promise<AnchorView> {
-    const authority = await createTestingAuthority();
-    const factory = authority.resolveEquivalentFactory("sample_schema");
+    const factory = await createTestingFactory();
     return factory.createNewDiagramObject("generic_anchor", AnchorView);
 }
 
@@ -131,11 +138,16 @@ describe("OpenChart", () => {
     describe("Theme Loader", () => {
         it("converts properties to camelcase", async () => {
             const theme = await ThemeLoader.load(sampleTheme);
-            expect(theme.canvas.gridColor).toBeDefined();
+            const canvas = theme.designs["generic_canvas"];
+            if (canvas.type === FaceType.LineGridCanvas) {
+                expect(canvas.style.gridColor).toBeDefined();
+            } else {
+                expect(canvas.type).toBe(FaceType.LineGridCanvas);
+            }
         });
         it("loads font descriptors", async () => {
             const theme = await ThemeLoader.load(sampleTheme);
-            const block = theme.faces["generic_block"];
+            const block = theme.designs["generic_block"];
             if (block.type === FaceType.DictionaryBlock) {
                 expect(block.style.head.oneTitle.title.font).toBeInstanceOf(Font);
             } else {
@@ -143,7 +155,7 @@ describe("OpenChart", () => {
             }
         });
     });
-    describe("Diagram Behaviors", () => {
+    describe("Diagram View Factory", () => {
         describe("Block", () => {
             it("is a block", async () => {
                 const block = await createTestingBlock();
@@ -253,38 +265,34 @@ describe("OpenChart", () => {
     });
     describe("Diagram Imports", () => {
         it("imports valid export", async () => {
-            const authority = await createTestingAuthority();
-            const objects = authority.importObjects(sampleViewExport);
-            expect(objects.length).toBe(1);
-            expect(objects[0]).toBeInstanceOf(GroupView);
+            const file = await createTestingFile();
+            expect(file.canvas).toBeInstanceOf(CanvasView);
         });
         it("import valid layout", async () => {
-            const authority = await createTestingAuthority();
-            const page = authority.importObjects(sampleViewExport)[0] as GroupView;
-            const objects = page.objects;
-            expect([page.x, page.y]).toEqual([7.5, 7.5]);
+            const file = await createTestingFile();
+            const objects = file.canvas.objects;
+            expect([file.canvas.x, file.canvas.y]).toEqual([7.5, 7.5]);
             expect([objects[0].x, objects[0].y]).toEqual([10, 10]);
             expect([objects[1].x, objects[1].y]).toEqual([5, 5]);
         });
     });
     describe("Diagram Exports", () => {
         it("exports valid import", async () => {
-            const authority = await createTestingAuthority();
-            const objects = authority.importObjects(sampleViewExport);
-            const importExport = authority.exportObjects("sample_schema", ...objects);
+            const file = await createTestingFile();
+            const importExport = file.toExport();
             expect(sampleViewExport).toEqual(importExport);
         });
     });
     describe("Themes", () => {
         it("restyles diagram correctly", async () => {
-            const authority = await createTestingAuthority();
-            const objects = authority.importObjects(sampleViewExport);
+            const file = await createTestingFile();
             // Restyle diagram
-            authority.restyleDiagram("sample_schema", objects);
+            const theme = await ThemeLoader.load(sampleTheme);
+            file.applyTheme(theme);
             // Validate view and face are mutually linked
-            objects[0].face.moveTo(-20, 124);
-            expect(objects[0].x).toEqual(-20);
-            expect(objects[0].y).toEqual(124);
+            file.canvas.face.moveTo(-20, 124);
+            expect(file.canvas.x).toEqual(-20);
+            expect(file.canvas.y).toEqual(124);
         });
     });
 });

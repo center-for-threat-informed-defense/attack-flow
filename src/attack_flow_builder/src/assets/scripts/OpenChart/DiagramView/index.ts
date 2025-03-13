@@ -1,5 +1,7 @@
-export * from "./Faces";
-export * from "./Views";
-export * from "./DiagramView";
-export * from "./DiagramViewAttributes";
-export * from "./LayoutUpdateReason";
+export * from "./DiagramLayoutEngine";
+export * from "./DiagramObjectView";
+export * from "./DiagramObjectViewFactory";
+export * from "./DiagramViewExport";
+export * from "./DiagramViewFile";
+export * from "./CameraLocation";
+

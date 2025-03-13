@@ -1,26 +1,20 @@
 <template>
-  <FocusBox 
-    :style="offset" 
-    class="context-menu-control"
-    pointer-event="click"
-    @focusout="$emit('focusout')"
-    @contextmenu.prevent=""
-  >
+  <div class="context-menu-control" :style="offset" @contextmenu.prevent="">
     <ContextMenuListing 
       :sections="sections" 
-      :force-inside-window="false" 
+      :forceInsideWindow="false" 
       @select="data => $emit('select', data)"
     />
-  </FocusBox>
+  </div>
 </template>
 
 <script lang="ts">
 // Dependencies
-import { defineComponent, type PropType } from 'vue';
-import type { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
-import type { CommandEmitter } from '@/stores/Commands/Command';
+import { RawFocusBox } from "@/assets/scripts/Browser";
+import { defineComponent, markRaw, type PropType } from 'vue';
+import type { CommandEmitter } from "@/assets/scripts/Application";
+import type { ContextMenuSection } from "@/assets/scripts/Browser";
 // Components
-import FocusBox from "@/components/Containers/FocusBox.vue";
 import ContextMenuListing from "./ContextMenuListing.vue";
 
 export default defineComponent({
@@ -35,6 +29,7 @@ export default defineComponent({
     return {
       xOffset: 0,
       yOffset: 0,
+      focusBox: markRaw(new RawFocusBox("click"))
     }
   },
   computed: {
@@ -54,17 +49,26 @@ export default defineComponent({
   },
   emits: ["select", "focusout"],
   mounted() {
+    // Configure focus box
+    this.focusBox.mount(
+      this.$el,
+      undefined,
+      () => this.$emit('focusout')
+    );
     // Offset menu if outside of viewport
-    const viewWidth  = window.innerWidth;
-    const viewHeight = window.innerHeight;
-    const { bottom, right } = this.$el.getBoundingClientRect();
+    let viewWidth  = window.innerWidth;
+    let viewHeight = window.innerHeight;
+    let { bottom, right } = this.$el.getBoundingClientRect();
     // -1 ensures cursor is over menu and not the element beneath it
     this.xOffset = right > viewWidth ? -(this.$el.clientWidth - 1) : 0;
     this.yOffset = bottom > viewHeight ? -(this.$el.clientHeight - 1) : 0;
     // Focus context menu
     this.$el.focus();
   },
-  components: { FocusBox, ContextMenuListing }
+  unmounted() {
+    this.focusBox.destroy()
+  },
+  components: { ContextMenuListing }
 });
 </script>
 

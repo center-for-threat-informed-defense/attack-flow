@@ -15,28 +15,16 @@
 </template>
 
 <script lang="ts">
-import * as App from "@/stores/Commands/AppCommands";
-import * as Page from "@/stores/Commands/PageCommands";
 // Dependencies
 import { defineComponent, inject, markRaw } from 'vue';
-import {
-  BlockDiagram,
-  Cursor,
-  CursorCssName,
-  DiagramAnchorableModel,
-  DiagramAnchorModel,
-  DiagramLineModel,
-  DiagramObjectModel,
-  MouseClick,
-  type CameraLocation
-} from "@/assets/scripts/BlockDiagram";
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
-import { useContextMenuStore } from "@/stores/Stores/ContextMenuStore";
-import type { PageEditor } from "@/stores/PageEditor";
+import { useApplicationStore } from "@/stores/ApplicationStore";
+import { useContextMenuStore } from "@/stores/ContextMenuStore";
 import type { ContextMenuSection } from "@/assets/scripts/ContextMenuTypes";
 import type { Command, CommandEmitter } from "@/stores/Commands/Command";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
+import { Cursor, type DiagramObjectView } from "@OpenChart/DiagramView";
+import type { DiagramViewEditor } from '@/assets/scripts/OpenChart/DiagramEditor';
 
 export default defineComponent({
   name: 'BlockDiagram',
@@ -51,7 +39,6 @@ export default defineComponent({
       application: useApplicationStore(),
       contextMenus: useContextMenuStore(),
       cursor: Cursor.Default,
-      diagram: markRaw(new BlockDiagram()),
       menu: {
         x: 0,
         y: 0,
@@ -69,33 +56,33 @@ export default defineComponent({
      * Application Store data
      */
 
-    editor(): PageEditor {
-      return this.application.activePage;
+    editor(): DiagramViewEditor {
+      return this.application.activeEditor;
     },
-    camera(): CameraLocation {
-      return this.application.activePage.location.value;
-    },
-    pageUpdate(): number {
-      return this.application.activePage.trigger.value;
-    },
-    displayGrid(): boolean {
-      return this.application.settings.view.diagram.display_grid;
-    },
-    displayShadows(): boolean {
-      return this.application.settings.view.diagram.display_shadows;
-    },
-    displayDebugMode(): boolean {
-      return this.application.settings.view.diagram.display_debug_mode;
-    },
-    renderHighQuality(): boolean {
-      return this.application.settings.view.diagram.render_high_quality;
-    },
-    disableShadowsAt(): number {
-      return this.application.settings.view.diagram.disable_shadows_at;
-    },
-    multiselectHotkeys(): string[] {
-      return this.application.settings.hotkeys.select.many;
-    },
+    // camera(): CameraLocation {
+    //   // return this.application.activePage.location.value;
+    // },
+    // pageUpdate(): number {
+    //   // return this.application.activePage.trigger.value;
+    // },
+    // displayGrid(): boolean {
+    //   // return this.application.settings.view.diagram.display_grid;
+    // },
+    // displayShadows(): boolean {
+    //   // return this.application.settings.view.diagram.display_shadows;
+    // },
+    // displayDebugMode(): boolean {
+    //   // return this.application.settings.view.diagram.display_debug_mode;
+    // },
+    // renderHighQuality(): boolean {
+    //   // return this.application.settings.view.diagram.render_high_quality;
+    // },
+    // disableShadowsAt(): number {
+    //   // return this.application.settings.view.diagram.disable_shadows_at;
+    // },
+    // multiselectHotkey(): string {
+    //   // return this.application.settings.hotkeys.select.many;
+    // },
 
     /**
      * Returns the current cursor style.
@@ -103,7 +90,8 @@ export default defineComponent({
      *  The current cursor style.
      */
     cursorStyle(): { cursor: string } {
-      return { cursor: CursorCssName[this.cursor] }
+      // return { cursor: CursorCssName[this.cursor] }
+      return { cursor: "default" };
     },
 
     /**
@@ -206,12 +194,12 @@ export default defineComponent({
      * @param c
      *  The cursor to use.
      */
-    onObjectHover(o: DiagramObjectModel | undefined, c: number) {
+    onObjectHover(o: DiagramObjectView | undefined, c: number) {
       this.cursor = c;
-      this.execute(new Page.UnhoverDescendants(this.editor.page));
-      if(o) {
-        this.execute(new Page.HoverObject(o));
-      }
+      // this.execute(new Page.UnhoverDescendants(this.editor.page));
+      // if(o) {
+      //   this.execute(new Page.HoverObject(o));
+      // }
     },
 
     /**
@@ -225,116 +213,116 @@ export default defineComponent({
      * @param y
      *  The clicked y-coordinate, relative to the container.
      */
-    onObjectClick(e: PointerEvent, o: DiagramObjectModel, x: number, y: number) {
-      // Unselect items, if needed
-      const isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
-      if (isMultiselect && o.isSelected()) {
-        this.execute(new Page.UnselectObject(o));
-        return;
-      }
-      if(!isMultiselect && !o.isSelected()) {
-        this.execute(new Page.UnselectDescendants(this.editor.page));
-      }
-      // Select item
-      this.execute(new Page.SelectObject(o));
-      // Open context menu, if needed
-      if (e.button === MouseClick.Right) {
-        this.openContextMenu(x, y);
-      }
+    onObjectClick(e: PointerEvent, o: DiagramObjectView, x: number, y: number) {
+      // // Unselect items, if needed
+      // const isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
+      // if (isMultiselect && o.isSelected()) {
+      //   this.execute(new Page.UnselectObject(o));
+      //   return;
+      // }
+      // if(!isMultiselect && !o.isSelected()) {
+      //   this.execute(new Page.UnselectDescendants(this.editor.page));
+      // }
+      // // Select item
+      // this.execute(new Page.SelectObject(o));
+      // // Open context menu, if needed
+      // if (e.button === MouseClick.Right) {
+      //   this.openContextMenu(x, y);
+      // }
     },
 
-    /**
-     * Canvas click behavior.
-     * @param e
-     *  The click event.
-     * @param x
-     *  The clicked x-coordinate, relative to the container.
-     * @param y
-     *  The clicked y-coordinate, relative to the container.
-     */
-    onCanvasClick(e: PointerEvent, x: number, y: number) {
-      this.execute(new Page.UnselectDescendants(this.editor.page));
-      this.execute(new App.SetEditorPointerLocation(this.application, x, y));
-      if (e.button === MouseClick.Right) {
-        this.openContextMenu(x, y);
-      }
-    },
+    // /**
+    //  * Canvas click behavior.
+    //  * @param e
+    //  *  The click event.
+    //  * @param x
+    //  *  The clicked x-coordinate, relative to the container.
+    //  * @param y
+    //  *  The clicked y-coordinate, relative to the container.
+    //  */
+    // onCanvasClick(e: PointerEvent, x: number, y: number) {
+    //   this.execute(new Page.UnselectDescendants(this.editor.page));
+    //   this.execute(new App.SetEditorPointerLocation(this.application, x, y));
+    //   if (e.button === MouseClick.Right) {
+    //     this.openContextMenu(x, y);
+    //   }
+    // },
+    
+    // /**
+    //  * Object move behavior.
+    //  * @param o
+    //  *  The moved objects.
+    //  * @param dx
+    //  *  The change in x.
+    //  * @param dy
+    //  *  The change in y.
+    //  */
+    // onObjectMove(o: DiagramObjectModel[], dx: number, dy:number) {
+    //   const cmd = new Page.GroupCommand();
+    //   for(const obj of o) {
+    //     if(!obj.hasUserSetPosition()) {
+    //         cmd.add(new Page.UserSetObjectPosition(obj));
+    //     }
+    //     cmd.add(new Page.MoveObjectBy(obj, dx, dy));
+    //   }
+    //   this.execute(cmd);
+    // },
 
-    /**
-     * Object move behavior.
-     * @param o
-     *  The moved objects.
-     * @param dx
-     *  The change in x.
-     * @param dy
-     *  The change in y.
-     */
-    onObjectMove(o: DiagramObjectModel[], dx: number, dy:number) {
-      const cmd = new Page.GroupCommand();
-      for(const obj of o) {
-        if(!obj.hasUserSetPosition()) {
-            cmd.add(new Page.UserSetObjectPosition(obj));
-        }
-        cmd.add(new Page.MoveObjectBy(obj, dx, dy));
-      }
-      this.execute(cmd);
-    },
+    // /**
+    //  * Object attach behavior.
+    //  * @param o
+    //  *  The object.
+    //  * @param a
+    //  *  The object's anchor.
+    //  */
+    // onObjectAttach(o: DiagramAnchorableModel, a: DiagramAnchorModel) {
+    //   const { xMid, yMid } = a.boundingBox;
+    //   const cmd = new Page.GroupCommand();
+    //   if(o.isAttached()) {
+    //     cmd.add(new Page.DetachObject(o));  
+    //   }
+    //   cmd.add(new Page.MoveObjectTo(o, xMid, yMid));
+    //   cmd.add(new Page.AttachObject(a, o));
+    //   this.execute(cmd);
+    // },
 
-    /**
-     * Object attach behavior.
-     * @param o
-     *  The object.
-     * @param a
-     *  The object's anchor.
-     */
-    onObjectAttach(o: DiagramAnchorableModel, a: DiagramAnchorModel) {
-      const { xMid, yMid } = a.boundingBox;
-      const cmd = new Page.GroupCommand();
-      if(o.isAttached()) {
-        cmd.add(new Page.DetachObject(o));
-      }
-      cmd.add(new Page.MoveObjectTo(o, xMid, yMid));
-      cmd.add(new Page.AttachObject(a, o));
-      this.execute(cmd);
-    },
+    // /**
+    //  * Object detach behavior.
+    //  * @param o
+    //  *  The object to detach.
+    //  * @param dx
+    //  *  The change in x.
+    //  * @param dy
+    //  *  The change in y.
+    //  */
+    // onObjectDetach(o: DiagramAnchorableModel, dx: number, dy: number) {
+    //   const cmd = new Page.GroupCommand();
+    //   cmd.add(new Page.DetachObject(o));
+    //   cmd.add(new Page.MoveObjectBy(o, dx, dy));
+    //   this.execute(cmd);
+    // },
 
-    /**
-     * Object detach behavior.
-     * @param o
-     *  The object to detach.
-     * @param dx
-     *  The change in x.
-     * @param dy
-     *  The change in y.
-     */
-    onObjectDetach(o: DiagramAnchorableModel, dx: number, dy: number) {
-      const cmd = new Page.GroupCommand();
-      cmd.add(new Page.DetachObject(o));
-      cmd.add(new Page.MoveObjectBy(o, dx, dy));
-      this.execute(cmd);
-    },
-
-    /**
-     * Line create behavior.
-     * @param o
-     *  The line object.
-     * @param p
-     *  The parent object.
-     * @param s
-     *  The line source's anchor.
-     * @param t
-     *  The line target's anchor. `undefined` if there wasn't one.
-     */
-    onLineCreate(
-      o: DiagramLineModel,
-      p: DiagramObjectModel,
-      s: DiagramAnchorModel,
-      t?: DiagramAnchorModel
-    ) {
-      this.execute(new Page.AddLineObject(o, p, s, t));
-      this.execute(new Page.UnselectDescendants(this.editor.page));
-      this.execute(new Page.SelectObject(o));
-    },
+    // /**
+    //  * Line create behavior.
+    //  * @param o
+    //  *  The line object.
+    //  * @param p
+    //  *  The parent object.
+    //  * @param s
+    //  *  The line source's anchor.
+    //  * @param t
+    //  *  The line target's anchor. `undefined` if there wasn't one.
+    //  */
+    // onLineCreate(
+    //   o: DiagramLineModel,
+    //   p: DiagramObjectModel,
+    //   s: DiagramAnchorModel,
+    //   t?: DiagramAnchorModel
+    // ) {
+    //   this.execute(new Page.AddLineObject(o, p, s, t));
+    //   this.execute(new Page.UnselectDescendants(this.editor.page));
+    //   this.execute(new Page.SelectObject(o));
+    // },
 
     /**
      * View transform behavior.
@@ -350,29 +338,30 @@ export default defineComponent({
      *  The view's height.
      */
     onViewTransform(x: number, y: number, k: number, w: number, h: number) {
-      this.view = { x, y, k, w, h };
-      this.execute(
-        new App.SetEditorViewParams(
-          this.application, { ...this.view }
-        )
-      );
+      // this.view = { x, y, k, w, h };
+      // this.execute(
+      //   new App.SetEditorViewParams(
+      //     this.application, { ...this.view }
+      //   )
+      // );
     }
 
   },
   watch: {
     // On page change
     editor() {
-      // Set page
-      this.diagram.setPage(markRaw(this.editor.page));
-      // Update view
-      this.diagram.updateView();
-      this.diagram.setCameraLocation(this.camera, 0);
-      // Configure view parameters
-      this.execute(
-        new App.SetEditorViewParams(
-          this.application, { ...this.view }
-        )
-      );
+      console.log(this.editor)
+      // // Set page
+      // this.diagram.setPage(markRaw(this.editor.page));
+      // // Update view
+      // this.diagram.updateView();
+      // this.diagram.setCameraLocation(this.camera, 0);
+      // // Configure view parameters
+      // this.execute(
+      //   new App.SetEditorViewParams(
+      //     this.application, { ...this.view }
+      //   )
+      // );
     },
     // On camera update
     camera() {
@@ -380,63 +369,64 @@ export default defineComponent({
     },
     // On page update
     pageUpdate() {
-      this.diagram.updateView();
-      this.diagram.render();
+      // this.diagram.updateView();
+      // this.diagram.render();
     },
     // On display grid change
     displayGrid() {
-      this.diagram.setGridDisplay(this.displayGrid);
-      this.diagram.render();
+      // this.diagram.setGridDisplay(this.displayGrid);
+      // this.diagram.render();
     },
     // On display shadows change
     displayShadows() {
-      this.diagram.setShadowsDisplay(this.displayShadows);
-      this.diagram.render();
+      // this.diagram.setShadowsDisplay(this.displayShadows);
+      // this.diagram.render();
     },
     // On display debug change
     displayDebugMode() {
-      this.diagram.setDebugDisplay(this.displayDebugMode);
-      this.diagram.render();
+      // this.diagram.setDebugDisplay(this.displayDebugMode);
+      // this.diagram.render();
     },
     // On render quality change
     renderHighQuality() {
-      this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
-      this.diagram.render();
+      // this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
+      // this.diagram.render();
     },
     // On 'disable shadows at' change
     disableShadowsAt() {
-      this.diagram.setShadowsDisableAt(this.disableShadowsAt);
-      this.diagram.render();
+      // this.diagram.setShadowsDisableAt(this.disableShadowsAt);
+      // this.diagram.render();
     }
   },
   mounted() {
-
+    this.editor.interface.mount(this.$el);
+    this.editor.interface.render();
     // Subscribe to diagram events
-    this.diagram.on("object-hover", this.onObjectHover);
-    this.diagram.on("object-click", this.onObjectClick);
-    this.diagram.on("canvas-click", this.onCanvasClick);
-    this.diagram.on("object-move", this.onObjectMove);
-    this.diagram.on("object-attach", this.onObjectAttach);
-    this.diagram.on("object-detach", this.onObjectDetach);
-    this.diagram.on("view-transform", this.onViewTransform);
-    this.diagram.on("line-create", this.onLineCreate);
+    // this.diagram.on("object-hover", this.onObjectHover);
+    // this.diagram.on("object-click", this.onObjectClick);
+    // this.diagram.on("canvas-click", this.onCanvasClick);
+    // this.diagram.on("object-move", this.onObjectMove);
+    // this.diagram.on("object-attach", this.onObjectAttach);
+    // this.diagram.on("object-detach", this.onObjectDetach);
+    // this.diagram.on("view-transform", this.onViewTransform);
+    // this.diagram.on("line-create", this.onLineCreate);
 
     // Configure the current page
-    this.diagram.setGridDisplay(this.displayGrid);
-    this.diagram.setShadowsDisplay(this.displayShadows);
-    this.diagram.setDebugDisplay(this.displayDebugMode);
-    this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
-    this.diagram.setShadowsDisableAt(this.disableShadowsAt);
-    this.diagram.setPage(markRaw(this.editor.page));
-
+    // this.diagram.setGridDisplay(this.displayGrid);
+    // this.diagram.setShadowsDisplay(this.displayShadows);
+    // this.diagram.setDebugDisplay(this.displayDebugMode);
+    // this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
+    // this.diagram.setShadowsDisableAt(this.disableShadowsAt);
+    // this.diagram.setPage(markRaw(this.editor.page));
+    
     // Inject the diagram
-    this.diagram.inject(this.$el);
-    this.diagram.updateView();
-    this.diagram.setCameraLocation(this.camera, 0);
+    // this.diagram.inject(this.$el);
+    // this.diagram.updateView();
+    // this.diagram.setCameraLocation(this.camera, 0);
 
   },
   unmounted() {
-    this.diagram.destroy();
+    this.editor.interface.unmount();
   },
   components: { ContextMenu }
 });

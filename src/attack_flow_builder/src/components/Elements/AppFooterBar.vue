@@ -23,16 +23,16 @@
 </template>
 
 <script lang="ts">
-import Configuration from "@/assets/configuration/builder.config";
 import { defineComponent } from "vue";
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useApplicationStore } from "@/stores/ApplicationStore";
 
 export default defineComponent({
   name: "AppFooterBar",
   data(){
     return {
       application: useApplicationStore(),
-      fileName: Configuration.file_type_name
+      // fileName: Configuration.file_type_name,
+      fileName: "idk"
     }
   },
 });

@@ -1,11 +1,7 @@
 <template>
-  <FocusBox
-    class="title-bar-control"
-    pointer-event="click"
-    @focusout="menuClose"
-  >
+  <div class="title-bar-control">
     <li class="icon">
-      <slot name="icon" />
+      <slot name="icon"></slot>
     </li>
     <li 
       v-for="menu of menus"
@@ -22,16 +18,16 @@
         v-if="isActive(menu)"
       />
     </li>
-  </FocusBox> 
+  </div> 
 </template>
 
 <script lang="ts">
 // Dependencies
-import { defineComponent, type PropType } from 'vue';
-import type { CommandEmitter } from '@/stores/Commands/Command';
-import type { ContextMenuSubmenu } from "@/assets/scripts/ContextMenuTypes";
+import { RawFocusBox } from '@/assets/scripts/Browser';
+import { defineComponent, markRaw, type PropType } from 'vue';
+import type { CommandEmitter } from '@/assets/scripts/Application';
+import type { ContextMenuSubmenu } from "@/assets/scripts/Browser";
 // Components
-import FocusBox from "@/components/Containers/FocusBox.vue";
 import ContextMenuListing from "./ContextMenuListing.vue";
 
 export default defineComponent({
@@ -44,7 +40,8 @@ export default defineComponent({
   },
   data() {
     return {
-      activeMenu: null as string | null
+      activeMenu: null as string | null,
+      focusBox: markRaw(new RawFocusBox("click"))
     }
   },
   emits: ["select"],
@@ -93,12 +90,22 @@ export default defineComponent({
      * @param data
      *  The menu item's data.
      */
-    menuSelect(data: CommandEmitter) {
+    menuSelect(data: any) {
       this.$emit("select", data);
     }
 
   },
-  components: { FocusBox, ContextMenuListing }
+  mounted() {
+    this.focusBox.mount(
+      this.$el,
+      undefined,
+      this.menuClose
+    )
+  },
+  unmounted() {
+    this.focusBox.destroy();
+  },
+  components: { ContextMenuListing }
 });
 </script>
 
@@ -128,6 +135,10 @@ li:not(.icon) {
 }
 li:not(.icon):hover,
 li:not(.icon).focused {
+  color: #d1d1d1;
+  background: #383838;
+}
+li.active {
   color: #d1d1d1;
   background: #383838;
 }

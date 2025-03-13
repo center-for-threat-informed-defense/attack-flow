@@ -59,7 +59,8 @@
 
 <script lang="ts">
 // Dependencies
-import { ListProperty, PropertyType } from "@/assets/scripts/BlockDiagram";
+import { PropertyType } from "@OpenChart/DiagramModel";
+import type { ListProperty } from "@OpenChart/DiagramModel";
 import { defineAsyncComponent, defineComponent, type PropType } from "vue";
 // Components
 import PlusIcon from "@/components/Icons/PlusIcon.vue";

@@ -36,10 +36,9 @@
 </template>
 
 <script lang="ts">
-import * as Page from "@/stores/Commands/PageCommands";
 // Dependencies
 import { defineComponent } from "vue";
-import { useApplicationStore } from "@/stores/Stores/ApplicationStore";
+import { useApplicationStore } from "@/stores/ApplicationStore";
 import type { Command } from "@/stores/Commands/Command";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
@@ -92,11 +91,11 @@ export default defineComponent({
       const editor = this.application.activePage;
       const obj = editor.page.lookup(id);
       if(obj === editor.page) {
-        this.execute(new Page.UnselectDescendants(editor.page));
+        // this.execute(new Page.UnselectDescendants(editor.page));
       } else if(obj) {
-        this.execute(new Page.UnselectDescendants(editor.page));
-        this.execute(new Page.SelectObject(obj));
-        this.execute(new Page.MoveCameraToSelection(this.application, editor.page))
+        // this.execute(new Page.UnselectDescendants(editor.page));
+        // this.execute(new Page.SelectObject(obj));
+        // this.execute(new Page.MoveCameraToSelection(this.application, editor.page))
       }
     },
 

@@ -35,8 +35,9 @@
 </template>
 
 <script lang="ts">
+import { clamp } from "@OpenChart/Utilities";
 import { defineComponent, markRaw, type PropType, ref } from "vue";
-import { clamp, NumberProperty, PropertyType } from "@/assets/scripts/BlockDiagram";
+import { IntProperty } from "@OpenChart/DiagramModel";
 
 export default defineComponent({
   name: "NumberField",
@@ -47,7 +48,7 @@ export default defineComponent({
   },
   props: {
     property: {
-      type: Object as PropType<NumberProperty>,
+      type: Object as PropType<IntProperty>,
       required: true
     }
   },
@@ -64,7 +65,7 @@ export default defineComponent({
      * @returns
      *  The property.
      */
-    _property(): NumberProperty {
+    _property(): IntProperty {
       const trigger = this.activeProperty.trigger.value;
       return trigger ? this.activeProperty : this.activeProperty; 
     },
@@ -156,7 +157,7 @@ export default defineComponent({
         const { min, max } = this._property;
         value = clamp(value, min, max); 
         // Bound type
-        if(this._property.type === PropertyType.Int) {
+        if(this._property instanceof IntProperty) {
           value = Math.round(value);
         }
       }

@@ -26,7 +26,8 @@
 </template>
 
 <script lang="ts">
-import { clamp } from '@/assets/scripts/BlockDiagram';
+// import { clamp } from '@/assets/scripts/BlockDiagram';
+import { clamp } from '@/assets/scripts/OpenChart/Utilities';
 import { PointerTracker } from '@/assets/scripts/PointerTracker';
 import { defineComponent, markRaw, ref } from 'vue';
 
