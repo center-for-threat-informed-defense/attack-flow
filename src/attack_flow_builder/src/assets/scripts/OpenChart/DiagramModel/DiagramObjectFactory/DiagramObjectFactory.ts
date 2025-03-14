@@ -334,15 +334,23 @@ export class DiagramObjectFactory {
     ): Property {
         switch (descriptor.type) {
             case PropertyType.Dictionary:
-                if (!Array.isArray(value)) {
-                    throw new Error(`Invalid JSON entries: '${value}'.`);
+                if(value === undefined || Array.isArray(value)) {
+                    return this.createDictionaryProperty(id, descriptor, value);
                 }
-                return this.createDictionaryProperty(id, descriptor, value);
+                if(value && typeof value === "object") {
+                    value = Object.entries(value);
+                    return this.createDictionaryProperty(id, descriptor, value);
+                }
+                throw new Error(`Invalid JSON entries: '${value}'.`);
             case PropertyType.List:
-                if (!Array.isArray(value)) {
-                    throw new Error(`Invalid JSON entries: '${value}'.`);
+                if(value === undefined || Array.isArray(value)) {
+                    return this.createListProperty(id, descriptor, value);
                 }
-                return this.createListProperty(id, descriptor, value);
+                if(value && typeof value === "object") {
+                    value = Object.entries(value);
+                    return this.createListProperty(id, descriptor, value);
+                }
+                throw new Error(`Invalid JSON entries: '${value}'.`);
             case PropertyType.String:
             case PropertyType.Int:
             case PropertyType.Float:

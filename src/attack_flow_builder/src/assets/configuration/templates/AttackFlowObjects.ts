@@ -1,0 +1,153 @@
+
+import { AnchorConfiguration } from "./AnchorFormat"
+import { AnchorPosition, Branch } from "@OpenChart/DiagramView";
+import { DiagramObjectType, PropertyType, SemanticRole } from "@OpenChart/DiagramModel"
+import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
+
+export const AttackFlowObjects: DiagramObjectTemplate[] = [
+    {
+        name: "action",
+        namespace: ["attack_flow", "action"],
+        type: DiagramObjectType.Block,
+        role: SemanticRole.Node,
+        properties: {
+            name: {
+                type: PropertyType.String,
+                is_representative: true
+            },
+            tactic_id: {
+                type: PropertyType.String
+            },
+            tactic_ref: {
+                type: PropertyType.String
+            },
+            technique_id: {
+                type: PropertyType.String
+            },
+            technique_ref: {
+                type: PropertyType.String
+            },
+            description: {
+                type: PropertyType.String
+            },
+            confidence: {
+                type: PropertyType.Enum,
+                options: {
+                    type: PropertyType.List,
+                    form: {
+                        type: PropertyType.Dictionary,
+                        form: {
+                            text: { 
+                                type: PropertyType.String,
+                                is_representative: true
+                            },
+                            value: {
+                                type: PropertyType.Int
+                            }
+                        }
+                    },
+                    default: [
+                        ["speculative",   { text: "Speculative", value: 0 }],
+                        ["very-doubtful", { text: "Very Doubtful", value: 10 }],
+                        ["doubtful",      { text: "Doubtful", value: 30 }],
+                        ["even-odds",     { text: "Even Odds", value: 50 }],
+                        ["probable",      { text: "Probable", value: 70 }],
+                        ["very-probable", { text: "Very Probable", value: 90 }],
+                        ["certain",       { text: "Certain", value: 100 }]
+                    ]
+                },
+                default: null
+            },
+            execution_start: {
+                type: PropertyType.Date
+            },
+            execution_end: {
+                type: PropertyType.Date
+            }
+        },
+        anchors: AnchorConfiguration,
+    },
+    {
+        name: "asset",
+        namespace: ["attack_flow", "asset"],
+        type: DiagramObjectType.Block,
+        role: SemanticRole.Node,
+        properties: {
+            name: {
+                type: PropertyType.String,
+                is_representative: true
+            },
+            description: {
+                type: PropertyType.String
+            }
+        },
+        anchors: AnchorConfiguration,
+    },
+    {
+        name: "condition",
+        namespace: ["attack_flow", "condition"],
+        type: DiagramObjectType.Block,
+        role: SemanticRole.Node,
+        properties: {
+            description: { 
+                type: PropertyType.String,
+                is_representative: true,
+            },
+            pattern: { 
+                type: PropertyType.String
+            },
+            pattern_type: {
+                type: PropertyType.String
+            },
+            pattern_version: {
+                type: PropertyType.String
+            },
+            date: {
+                type: PropertyType.Date
+            }
+        },
+        anchors: {
+            [AnchorPosition.D0]   : "generic_anchor",
+            [AnchorPosition.D30]  : "generic_anchor",
+            [AnchorPosition.D60]  : "generic_anchor",
+            [AnchorPosition.D90]  : "generic_anchor",
+            [AnchorPosition.D120] : "generic_anchor",
+            [AnchorPosition.D150] : "generic_anchor",
+            [AnchorPosition.D180] : "generic_anchor",
+            [AnchorPosition.D210] : "generic_anchor",
+            [AnchorPosition.D330] : "generic_anchor",
+            [Branch("True")]      : "generic_anchor",
+            [Branch("False")]     : "generic_anchor",
+        }
+    },
+    {
+        name: "or",
+        namespace: ["attack_flow", "OR_operator"],
+        type: DiagramObjectType.Block,
+        role: SemanticRole.Node,
+        properties: {
+            operator: {
+                type: PropertyType.String,
+                default: "OR",
+                is_representative: true,
+                is_editable: false
+            }
+        },
+        anchors: AnchorConfiguration
+    },
+    {
+        name: "and",
+        type: DiagramObjectType.Block,
+        namespace: ["attack_flow", "AND_operator"],
+        role: SemanticRole.Node,
+        properties: {
+            operator: {
+                type: PropertyType.String,
+                default: "AND",
+                is_representative: true,
+                is_editable: false
+            }
+        },
+        anchors: AnchorConfiguration,
+    },
+]
