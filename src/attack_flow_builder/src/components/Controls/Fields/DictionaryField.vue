@@ -26,9 +26,7 @@
       <template v-if="hasVisibleProperties">
         <DictionaryFieldContents
           :property="property"
-          @change="(...args) => $emit('change', ...args)"
-          @create="(...args) => $emit('create', ...args)"
-          @delete="(...args) => $emit('delete', ...args)"
+          @execute="cmd => $emit('execute', cmd)"
         />
       </template>
       <template v-else>
@@ -43,10 +41,11 @@
 <script lang="ts">
 // Dependencies
 import { defineComponent, type PropType } from "vue";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
+import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 // Components
 import CollapseArrowIcon from "@/components/Icons/CollapseArrowIcon.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
-import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 
 export default defineComponent({
   name: "DictionaryField",
@@ -87,7 +86,9 @@ export default defineComponent({
     }
 
   },
-  emits: ["change", "create", "delete"],
+  emits: {
+    execute: (cmd: EditorCommand) => cmd
+  },
   components: { CollapseArrowIcon, DictionaryFieldContents }
 });
 </script>

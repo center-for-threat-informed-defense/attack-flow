@@ -89,19 +89,19 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          */
         editHotKeys(): Hotkey<CommandEmitter>[] {
             const app = useApplicationStore();
-            // const page = ctx.activePage.page;
+            const editor = app.activeEditor;
             const edit = app.settings.hotkeys.edit;
             return [
-                // {
-                //     data: () => new Page.UndoPageCommand(ctx, page.id),
-                //     shortcut: edit.undo,
-                //     repeatable: true
-                // },
-                // {
-                //     data: () => new Page.RedoPageCommand(ctx, page.id),
-                //     shortcut: edit.redo,
-                //     repeatable: true
-                // },
+                {
+                    data: () => AppCommands.undoEditorCommand(editor),
+                    shortcut: edit.undo,
+                    repeatable: true
+                },
+                {
+                    data: () => AppCommands.redoEditorCommand(editor),
+                    shortcut: edit.redo,
+                    repeatable: true
+                },
                 // {
                 //     data: () => new Page.CutSelectedChildren(ctx, page),
                 //     shortcut: edit.cut,

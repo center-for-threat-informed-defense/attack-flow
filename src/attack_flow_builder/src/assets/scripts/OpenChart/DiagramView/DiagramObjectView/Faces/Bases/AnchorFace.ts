@@ -56,11 +56,11 @@ export abstract class AnchorFace extends DiagramFace {
      */
     public setPosition(dx: number, dy: number): void {
         // Move self
+        this.boundingBox.x += dx;
+        this.boundingBox.y += dy;
         this.boundingBox.xMin += dx;
-        this.boundingBox.xMid += dx;
         this.boundingBox.xMax += dx;
         this.boundingBox.yMin += dy;
-        this.boundingBox.yMid += dy;
         this.boundingBox.yMax += dy;
         // Move children
         for (const latch of this.view.latches.values()) {

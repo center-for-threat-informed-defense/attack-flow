@@ -1,5 +1,6 @@
 import { Font } from "./Font";
 import type { FontDescriptor } from "./FontDescriptor";
+import type { TextMeasurements } from "./TextMeasurements";
 
 export class BrowserFont extends Font {
 
@@ -56,13 +57,14 @@ export class BrowserFont extends Font {
      * @returns
      *  The width and height of the text (in pixels).
      */
-    public measure(text: string): { width: number, ascent: number, descent: number } {
+    public measure(text: string): TextMeasurements {
         if (document.fonts.check(this.css)) {
             const m = this._ctx.measureText(text);
             return {
                 width: m.width,
                 ascent: m.actualBoundingBoxAscent,
-                descent: m.actualBoundingBoxDescent
+                descent: m.actualBoundingBoxDescent,
+                baseline: m.alphabeticBaseline
             };
         } else {
             throw new Error(`The font '${

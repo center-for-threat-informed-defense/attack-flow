@@ -43,8 +43,8 @@ export class AnchorPoint extends AnchorFace {
         const object = super.getObjectAt(x, y);
         // Try anchor
         const r = this.radius;
-        const dx = x - this.boundingBox.xMid;
-        const dy = y - this.boundingBox.yMid;
+        const dx = x - this.boundingBox.x;
+        const dy = y - this.boundingBox.y;
         if (object && object.priority > Priority.Normal) {
             return object;
         } else if (dx * dx + dy * dy < r * r) {
@@ -61,10 +61,10 @@ export class AnchorPoint extends AnchorFace {
      */
     public calculateLayout(): boolean {
         const bb = this.boundingBox;
-        bb.xMin = bb.xMid - this.radius;
-        bb.yMin = bb.yMid - this.radius;
-        bb.xMax = bb.xMid + this.radius;
-        bb.yMax = bb.yMid + this.radius;
+        bb.xMin = bb.x - this.radius;
+        bb.yMin = bb.y - this.radius;
+        bb.xMax = bb.x + this.radius;
+        bb.yMax = bb.y + this.radius;
         return true;
     }
 
@@ -90,24 +90,33 @@ export class AnchorPoint extends AnchorFace {
      */
     public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
     public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
+        // Only visible when hovered
+        if (!this.view.hovered) {
+            return;
+        }
+
         // Init
-        const { xMid, yMid } = this.boundingBox;
+        const { x, y } = this.boundingBox;
         const { radius, fillColor, strokeColor, strokeWidth } = this.style;
 
         // Configure canvas
         ctx.fillStyle = fillColor;
-        ctx.lineWidth = strokeWidth;
-        ctx.strokeStyle = strokeColor;
 
         // Stroke width offset
         const wo = strokeWidth % 2 ? 0.5 : 0;
 
         // Draw point
         ctx.beginPath();
-        ctx.arc(xMid, yMid, radius + wo, 0, 2 * Math.PI);
+        ctx.arc(x, y, radius + wo, 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fill();
-        ctx.stroke();
+
+        // Add stroke
+        if(strokeWidth) {
+            ctx.lineWidth = strokeWidth;
+            ctx.strokeStyle = strokeColor;
+            ctx.stroke();
+        }
     }
 
 }

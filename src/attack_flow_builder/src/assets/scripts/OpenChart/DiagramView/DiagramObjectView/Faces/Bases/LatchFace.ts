@@ -35,11 +35,11 @@ export abstract class LatchFace extends DiagramFace {
      *  The change in y.
      */
     public setPosition(dx: number, dy: number): void {
+        this.boundingBox.x += dx;
+        this.boundingBox.y += dy;
         this.boundingBox.xMin += dx;
-        this.boundingBox.xMid += dx;
         this.boundingBox.xMax += dx;
         this.boundingBox.yMin += dy;
-        this.boundingBox.yMid += dy;
         this.boundingBox.yMax += dy;
     }
 

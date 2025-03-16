@@ -5,7 +5,7 @@ import {
 } from "@OpenChart/DiagramModel";
 import {
     AnchorPoint, AnchorView, BlockView, BranchBlock,
-    CanvasView, DictionaryBlock, GroupFace, GroupView,
+    CanvasView, DictionaryBlock, DotGridCanvas, GroupFace, GroupView,
     HandlePoint, HandleView, HorizontalElbowLine, LatchPoint,
     LatchView, LineGridCanvas, LineView, TextBlock
 } from "../DiagramObjectView";
@@ -245,6 +245,8 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
         instance: string,
         values?: JsonEntries
     ): DiagramObjectView {
+        const grid = this.theme.grid;
+        const subgrid = this.theme.subgrid;
         // Create properties
         const props = this.createRootProperty(template.properties ?? {}, values);
         // Resolve design
@@ -263,7 +265,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 face = new BranchBlock(design.style);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.DictionaryBlock:
-                face = new DictionaryBlock(design.style);
+                face = new DictionaryBlock(design.style, grid, subgrid);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.TextBlock:
                 face = new TextBlock(design.style);
@@ -284,8 +286,11 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 face = new GroupFace();
                 return new GroupView(template.name, instance, attrs, props, face);
             case FaceType.LineGridCanvas:
-                face = new LineGridCanvas(design.style);
-                return new CanvasView(template.name, instance, attrs, props, design.grid, face);
+                face = new LineGridCanvas(design.style, grid);
+                return new CanvasView(template.name, instance, attrs, props, grid, face);
+            case FaceType.DotGridCanvas:
+                face = new DotGridCanvas(design.style, grid);
+                return new CanvasView(template.name, instance, attrs, props, grid, face);
         }
     }
 
@@ -345,6 +350,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     return;
                 }
             case FaceType.LineGridCanvas:
+            case FaceType.DotGridCanvas:
                 if (type === DiagramObjectType.Canvas) {
                     return;
                 }
@@ -366,6 +372,8 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
     public restyleDiagramObject(
         objects: DiagramObjectView[]
     ): void {
+        const grid = this.theme.grid;
+        const subgrid = this.theme.subgrid;
         // Restyle objects
         for (const object of traversePostfix(objects)) {
             // Resolve design
@@ -385,7 +393,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.DictionaryBlock:
-                    face = new DictionaryBlock(design.style);
+                    face = new DictionaryBlock(design.style, grid, subgrid);
                     object.replaceFace(face);
                     break;
                 case FaceType.TextBlock:
@@ -410,6 +418,14 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     break;
                 case FaceType.Group:
                     face = new GroupFace();
+                    object.replaceFace(face);
+                    break;
+                case FaceType.LineGridCanvas:
+                    face = new LineGridCanvas(design.style, grid);
+                    object.replaceFace(face);
+                    break;
+                case FaceType.DotGridCanvas:
+                    face = new DotGridCanvas(design.style, grid);
                     object.replaceFace(face);
                     break;
             }

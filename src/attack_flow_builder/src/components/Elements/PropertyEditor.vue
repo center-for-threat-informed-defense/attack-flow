@@ -9,9 +9,7 @@
           <DictionaryFieldContents
             class="contents"
             :property="property"
-            @change="onChange"
-            @create="onCreate"
-            @delete="onDelete"
+            @execute="execute"
           />
         </ScrollBox>
       </template>
@@ -33,11 +31,11 @@
 // Dependencies
 import { useApplicationStore } from "@/stores/ApplicationStore";
 import { defineComponent, type PropType } from "vue";
-import type { Command } from "@/stores/Commands/Command";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
 import { DateProperty, EnumProperty, Property, StringProperty, type DictionaryProperty } from "@OpenChart/DiagramModel";
+import type { Command } from "@/assets/scripts/Application";
 
 export default defineComponent({
   name: "PropertyEditor",
@@ -64,8 +62,10 @@ export default defineComponent({
         return false;
       }
       for(const value of this.property.value.values()) {
-        if(value.descriptor.is_visible_sidebar ?? true)
+        // if(value.descriptor.is_visible_sidebar ?? true) {
+        if(true) {
           return true;
+        }
       }
       return false;
     }

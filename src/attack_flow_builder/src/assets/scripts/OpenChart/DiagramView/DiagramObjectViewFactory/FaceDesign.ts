@@ -110,14 +110,9 @@ export type GroupDesign = BaseFaceDesign<FaceType.Group>;
  * Canvas Design
  */
 export type CanvasDesign = BaseFaceDesign<
-    FaceType.LineGridCanvas
+    FaceType.LineGridCanvas | FaceType.DotGridCanvas
 > & {
-
-    /**
-     * The canvas's grid size.
-     */
-    grid: [number, number];
-
+    
     /**
      * The canvas's style.
      */

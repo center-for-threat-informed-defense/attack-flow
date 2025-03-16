@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import {
-    clamp, doVectorsIntersect, floatEq, generateBitMask,
-    getLineHitbox, isInsideRegion, isInsideShape, round
+    ceilNearestMultiple, clamp, doVectorsIntersect,
+    floatEq, floorNearestMultiple, generateBitMask, getLineHitbox, 
+    isInsideRegion, isInsideShape, roundNearestMultiple
 } from "./Math";
 
 describe("Math", () => {
@@ -16,24 +17,77 @@ describe("Math", () => {
             expect(clamp(10, -20, 20)).toBe(10);
         });
     });
-    describe("round()", () => {
+    describe("roundNearestMultiple()", () => {
         it("rounds down to the nearest multiple of 5", () => {
-            expect(round(12, 5)).toBe(10);
+            expect(roundNearestMultiple(12, 5)).toBe(10);
         });
         it("rounds down to the nearest multiple of 7", () => {
-            expect(round(10, 7)).toBe(7);
+            expect(roundNearestMultiple(10, 7)).toBe(7);
         });
         it("rounds up to the nearest multiple of 5", () => {
-            expect(round(13, 5)).toBe(15);
+            expect(roundNearestMultiple(13, 5)).toBe(15);
         });
         it("rounds up to the nearest multiple of 7", () => {
-            expect(round(12, 7)).toBe(14);
+            expect(roundNearestMultiple(12, 7)).toBe(14);
         });
         it("retains the nearest multiple of 5", () => {
-            expect(round(15, 5)).toBe(15);
+            expect(roundNearestMultiple(15, 5)).toBe(15);
         });
         it("retains the nearest multiple of 7", () => {
-            expect(round(14, 7)).toBe(14);
+            expect(roundNearestMultiple(14, 7)).toBe(14);
+        });
+    });
+    describe("ceilNearestMultiple()", () => {
+        it("rounds 2 up to the nearest multiple of 10", () => {
+            expect(ceilNearestMultiple(2, 10)).toBe(10);
+        });
+        it("rounds 18 up to the nearest multiple of 10", () => {
+            expect(ceilNearestMultiple(18, 10)).toBe(20);
+        });
+        it("rounds 0.5 up to the nearest multiple of 10", () => {
+            expect(ceilNearestMultiple(0.5, 10)).toBe(10);
+        });
+        it("rounds 8 up to the nearest multiple of 7", () => {
+            expect(ceilNearestMultiple(8, 7)).toBe(14);
+        });
+        it("rounds 5 up to the nearest multiple of 7", () => {
+            expect(ceilNearestMultiple(5, 7)).toBe(7);
+        });
+        it("rounds 7.1 up to the nearest multiple of 7", () => {
+            expect(ceilNearestMultiple(7.1, 7)).toBe(14);
+        });
+        it("retains the nearest multiple of 10", () => {
+            expect(ceilNearestMultiple(30, 10)).toBe(30);
+        });
+        it("retains the nearest multiple of 7", () => {
+            expect(ceilNearestMultiple(14, 7)).toBe(14);
+        });
+    });
+
+    describe("floorNearestMultiple()", () => {
+        it("rounds 2 down to the nearest multiple of 10", () => {
+            expect(floorNearestMultiple(2, 10)).toBe(0);
+        });
+        it("rounds 18 down to the nearest multiple of 10", () => {
+            expect(floorNearestMultiple(18, 10)).toBe(10);
+        });
+        it("rounds 0.5 down to the nearest multiple of 10", () => {
+            expect(floorNearestMultiple(0.5, 10)).toBe(0);
+        });
+        it("rounds 8 down to the nearest multiple of 7", () => {
+            expect(floorNearestMultiple(8, 7)).toBe(7);
+        });
+        it("rounds 5 down to the nearest multiple of 7", () => {
+            expect(floorNearestMultiple(5, 7)).toBe(0);
+        });
+        it("rounds 7.1 down to the nearest multiple of 7", () => {
+            expect(floorNearestMultiple(7.1, 7)).toBe(7);
+        });
+        it("retains the nearest multiple of 10", () => {
+            expect(floorNearestMultiple(30, 10)).toBe(30);
+        });
+        it("retains the nearest multiple of 7", () => {
+            expect(floorNearestMultiple(14, 7)).toBe(14);
         });
     });
     describe("floatEq()", () => {

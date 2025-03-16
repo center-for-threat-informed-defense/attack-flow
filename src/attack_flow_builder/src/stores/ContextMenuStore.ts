@@ -199,57 +199,57 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         ///////////////////////////////////////////////////////////////////////
 
 
-        // /**
-        //  * Returns the edit menu.
-        //  * @returns
-        //  *  The edit menu.
-        //  */
-        // editMenu(): ContextMenuSubmenu<CommandEmitter> {
-        //     return {
-        //         text: "Edit",
-        //         type: MenuType.Submenu,
-        //         sections: [
-        //             this.undoRedoMenu,
-        //             this.clipboardMenu,
-        //             this.deleteMenu,
-        //             this.duplicateMenu,
-        //             this.findMenu,
-        //             this.createMenu,
-        //             this.selectAllMenu,
-        //             this.unselectAllMenu
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the edit menu.
+         * @returns
+         *  The edit menu.
+         */
+        editMenu(): ContextMenuSubmenu<CommandEmitter> {
+            return {
+                text: "Edit",
+                type: MenuType.Submenu,
+                sections: [
+                    this.undoRedoMenu,
+                    // this.clipboardMenu,
+                    // this.deleteMenu,
+                    // this.duplicateMenu,
+                    // this.findMenu,
+                    // this.createMenu,
+                    // this.selectAllMenu,
+                    // this.unselectAllMenu
+                ]
+            };
+        },
 
-        // /**
-        //  * Returns the undo/redo menu section.
-        //  * @returns
-        //  *  The undo/redo menu section.
-        //  */
-        // undoRedoMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const edit = ctx.settings.hotkeys.edit;
-        //     return {
-        //         id: "undo_redo_options",
-        //         items: [
-        //             {
-        //                 text: "Undo",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.UndoPageCommand(ctx, page.id),
-        //                 shortcut: edit.undo,
-        //                 disabled: !ctx.canUndo
-        //             },
-        //             {
-        //                 text: "Redo",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.RedoPageCommand(ctx, page.id),
-        //                 shortcut: edit.redo,
-        //                 disabled: !ctx.canRedo
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the undo/redo menu section.
+         * @returns
+         *  The undo/redo menu section.
+         */
+        undoRedoMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const edit = app.settings.hotkeys.edit;
+            const editor = app.activeEditor;
+            return {
+                id: "undo_redo_options",
+                items: [
+                    {
+                        text: "Undo",
+                        type: MenuType.Action,
+                        data: () => AppCommands.undoEditorCommand(editor),
+                        shortcut: edit.undo,
+                        disabled: !app.canUndo
+                    },
+                    {
+                        text: "Redo",
+                        type: MenuType.Action,
+                        data: () => AppCommands.redoEditorCommand(editor),
+                        shortcut: edit.redo,
+                        disabled: !app.canRedo
+                    }
+                ]
+            };
+        },
 
         // /**
         //  * Returns the clipboard menu section.

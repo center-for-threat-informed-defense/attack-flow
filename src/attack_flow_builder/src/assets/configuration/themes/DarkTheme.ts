@@ -13,7 +13,12 @@ const BaseObjects = {
     },
     "generic_anchor": {
         type: FaceType.AnchorPoint,
-        style: DarkStyle.Point()
+        style: {
+            radius: 10,
+            fill_color: "rgba(255, 255, 255, 0.25)",
+            stroke_color: "rgba(255, 255, 255, 0.25)",
+            stroke_width: 0
+        }
     },
     "generic_latch": {
         type: FaceType.LatchPoint,
@@ -32,8 +37,7 @@ const BaseObjects = {
  */
 const AttackObjects = {
     "flow": {
-        type: FaceType.LineGridCanvas,
-        grid: [10, 10],
+        type: FaceType.DotGridCanvas,
         style: DarkStyle.Canvas()
     },
     "action": {
@@ -81,6 +85,8 @@ for(const object of [...StixObjects, ...StixObservables]) {
 export const DarkTheme: DiagramThemeConfiguration = {
     id: "dark_theme", 
     name: "Dark Theme",
+    grid: [10, 10],
+    subgrid: 1/2,
     designs: Object.fromEntries([
         ...Object.entries(BaseObjects),
         ...Object.entries(AttackObjects),

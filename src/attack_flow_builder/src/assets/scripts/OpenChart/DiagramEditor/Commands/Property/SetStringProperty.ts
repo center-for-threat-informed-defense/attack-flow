@@ -1,51 +1,59 @@
-export class SetStringProperty extends SetProperty {
+import { EditorCommand } from "../EditorCommand";
+import { EditorDirective } from "../EditorDirective";
+import type { StringProperty } from "@OpenChart/DiagramModel";
+import type { DirectiveIssuer } from "../DirectiveIssuer";
+
+export class SetStringProperty extends EditorCommand {
 
     /**
-     * The property to modify.
+     * The property.
      */
-    public override readonly property: StringProperty;
+    public readonly property: StringProperty;
 
     /**
-     * The property's new value.
+     * The property's next value.
      */
     public readonly nextValue: string | null;
 
     /**
-     * The property's current value.
+     * The property's previous value.
      */
-    private _lastValue: string | null;
+    private readonly prevValue: string | null;
 
 
     /**
-     * Sets a string property's value.
+     * Sets the value of a {@link StringProperty}.
      * @param property
-     *  The string property.
+     *  The {@link StringProperty}.
      * @param value
-     *  The property's new value.
+     *  The {@link StringProperty}'s new value.
      */
     constructor(property: StringProperty, value: string | null) {
-        super(property);
+        super();
         this.property = property;
-        this._lastValue = property.toRawValue();
         this.nextValue = value;
+        this.prevValue = property.toJson();
     }
 
 
     /**
-     * Executes the page command.
-     * @returns
-     *  True if the command should be recorded, false otherwise.
+     * Executes the editor command.
+     * @param issueDirective
+     *  A function that can issue one or more editor directives.
      */
-    public execute(): boolean {
+    public async execute(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
         this.property.setValue(this.nextValue);
-        return true;
+        issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
 
     /**
-     * Undoes the page command.
+     * Undoes the editor command.
+     * @param issueDirective
+     *  A function that can issue one or more editor directives.
      */
-    public undo() {
-        this.property.setValue(this._lastValue);
+    public async undo(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+        this.property.setValue(this.prevValue);
+        issueDirective(EditorDirective.Autosave);
     }
 
 }

@@ -1,6 +1,28 @@
 export class BoundingBox {
 
     /**
+     * The bounding region's x coordinate.
+     * @remarks
+     *  In most cases, this is the bounding region's central coordinate.
+     *  However, **this is not guaranteed**. Different faces may choose to
+     *  position this coordinate differently.
+     * 
+     *  If the central coordinate is needed, use `xMid` instead.
+     */
+    public x: number;
+
+    /**
+     * The bounding region's y coordinate.
+     * @remarks
+     *  In most cases, this is the bounding region's central coordinate.
+     *  However, **this is not guaranteed**. Different faces may choose to
+     *  position this coordinate differently.
+     * 
+     *  If the central coordinate is needed, use `yMid` instead.
+     */
+    public y: number;
+
+    /**
      * The bounding region's minimum x coordinate.
      */
     public xMin: number;
@@ -9,16 +31,6 @@ export class BoundingBox {
      * The bounding region's minimum y coordinate.
      */
     public yMin: number;
-
-    /**
-     * The bounding region's center x coordinate.
-     */
-    public xMid: number;
-
-    /**
-     * The bounding region's center y coordinate.
-     */
-    public yMid: number;
 
     /**
      * The bounding region's maximum x coordinate.
@@ -30,14 +42,30 @@ export class BoundingBox {
      */
     public yMax: number;
 
+
+    /**
+     * The bounding region's central x coordinate.
+     */
+    public get xMid(): number {
+        return (this.xMin + this.xMax) / 2
+    }
+
+    /**
+     * The bounding region's central y coordinate.
+     */
+    public get yMid(): number {
+        return (this.yMin + this.yMax) / 2
+    }
+
+
     /**
      * Creates a new {@link BoundingBox}.
      */
     constructor() {
+        this.x = 0;
+        this.y = 0;
         this.xMin = 0;
         this.yMin = 0;
-        this.xMid = 0;
-        this.yMid = 0;
         this.xMax = 0;
         this.yMax = 0;
     }

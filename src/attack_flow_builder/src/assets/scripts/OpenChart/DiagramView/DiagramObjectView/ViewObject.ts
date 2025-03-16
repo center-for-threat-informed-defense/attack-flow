@@ -199,7 +199,18 @@ export interface ViewObject {
         dsx?: number, dsy?: number
     ): void;
 
-
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    renderDebugTo(
+        ctx: CanvasRenderingContext2D, region: ViewportRegion
+    ): boolean;
 
     /**
      * Replaces the view's face.
@@ -207,4 +218,5 @@ export interface ViewObject {
      *  The view's new face.
      */
     replaceFace(face: DiagramFace | null): void;
+    
 }

@@ -1,5 +1,6 @@
 import { Font } from "./Font";
 import type { FontDescriptor } from "./FontDescriptor";
+import type { TextMeasurements } from "./TextMeasurements";
 
 export class NodeFont extends Font {
 
@@ -32,9 +33,9 @@ export class NodeFont extends Font {
      * @returns
      *  The width and height of the text (in pixels).
      */
-    public measure(): { width: number, ascent: number, descent: number } {
+    public measure(): TextMeasurements {
         // Not implemented
-        return { width: 0, ascent: 0, descent: 0 };
+        return { width: 0, ascent: 0, descent: 0, baseline: 0 };
     }
 
     /**

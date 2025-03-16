@@ -15,16 +15,17 @@
 </template>
 
 <script lang="ts">
+import * as EditorCommands from "@OpenChart/DiagramEditor/Commands";
 // Dependencies
 import { defineComponent, inject, markRaw } from 'vue';
 import { useApplicationStore } from "@/stores/ApplicationStore";
 import { useContextMenuStore } from "@/stores/ContextMenuStore";
-import type { Command, CommandEmitter } from "@/stores/Commands/Command";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
 import { Cursor, type DiagramObjectView } from "@OpenChart/DiagramView";
-import type { DiagramViewEditor } from '@/assets/scripts/OpenChart/DiagramEditor';
+import { EditorCommand, type DiagramViewEditor } from '@/assets/scripts/OpenChart/DiagramEditor';
 import type { ContextMenuSection } from '@/assets/scripts/Browser';
+import type { Command, CommandEmitter } from '@/assets/scripts/Application';
 
 export default defineComponent({
   name: 'BlockDiagram',
@@ -194,12 +195,12 @@ export default defineComponent({
      * @param c
      *  The cursor to use.
      */
-    onObjectHover(o: DiagramObjectView | undefined, c: number) {
-      this.cursor = c;
-      // this.execute(new Page.UnhoverDescendants(this.editor.page));
-      // if(o) {
-      //   this.execute(new Page.HoverObject(o));
-      // }
+    onObjectHover(o: DiagramObjectView | undefined, cursor: number) {
+      this.cursor = cursor;
+      this.execute(EditorCommands.clearHover(this.editor.file.canvas));
+      if(o) {
+        this.execute(EditorCommands.hoverObject(o, true));
+      }
     },
 
     /**
@@ -248,25 +249,14 @@ export default defineComponent({
     //   }
     // },
     
-    // /**
-    //  * Object move behavior.
-    //  * @param o
-    //  *  The moved objects.
-    //  * @param dx
-    //  *  The change in x.
-    //  * @param dy
-    //  *  The change in y.
-    //  */
-    // onObjectMove(o: DiagramObjectModel[], dx: number, dy:number) {
-    //   const cmd = new Page.GroupCommand();
-    //   for(const obj of o) {
-    //     if(!obj.hasUserSetPosition()) {
-    //         cmd.add(new Page.UserSetObjectPosition(obj));
-    //     }
-    //     cmd.add(new Page.MoveObjectBy(obj, dx, dy));
-    //   }
-    //   this.execute(cmd);
-    // },
+    /**
+     * Object interaction behavior.
+     * @param command
+     *  The interaction command.
+     */
+    onObjectInteraction(command: EditorCommand) {
+      this.execute(command);
+    },
 
     // /**
     //  * Object attach behavior.
@@ -344,6 +334,17 @@ export default defineComponent({
       //     this.application, { ...this.view }
       //   )
       // );
+    },
+
+    configureEditor() {
+      const ui = this.editor.interface;
+      ui.mount(this.$el);
+      ui.render();
+      // Subscribe to diagram events
+      ui.on("object-hover", this.onObjectHover);
+      // this.diagram.on("object-click", this.onObjectClick);
+      // this.diagram.on("canvas-click", this.onCanvasClick);
+      ui.on("object-interaction", this.onObjectInteraction);
     }
 
   },
@@ -351,7 +352,7 @@ export default defineComponent({
     // On page change
     editor(next: DiagramViewEditor, prev: DiagramViewEditor) {
       prev.interface.unmount();
-      next.interface.mount(this.$el);
+      this.configureEditor();
 
       // // Set page
       // this.diagram.setPage(markRaw(this.editor.page));
@@ -402,13 +403,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    this.editor.interface.mount(this.$el);
-    this.editor.interface.render();
-    // Subscribe to diagram events
-    // this.diagram.on("object-hover", this.onObjectHover);
-    // this.diagram.on("object-click", this.onObjectClick);
-    // this.diagram.on("canvas-click", this.onCanvasClick);
-    // this.diagram.on("object-move", this.onObjectMove);
+    this.configureEditor();
     // this.diagram.on("object-attach", this.onObjectAttach);
     // this.diagram.on("object-detach", this.onObjectDetach);
     // this.diagram.on("view-transform", this.onViewTransform);

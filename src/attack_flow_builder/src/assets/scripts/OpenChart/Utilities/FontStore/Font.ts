@@ -1,4 +1,5 @@
 import type { FontDescriptor } from "./FontDescriptor";
+import type { TextMeasurements } from "./TextMeasurements";
 
 export abstract class Font {
 
@@ -59,7 +60,7 @@ export abstract class Font {
      * @returns
      *  The width and height of the text (in pixels).
      */
-    public abstract measure(text: string): { width: number, ascent: number, descent: number };
+    public abstract measure(text: string): TextMeasurements;
 
     /**
      * Returns the width of a character.

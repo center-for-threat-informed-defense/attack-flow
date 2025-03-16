@@ -150,7 +150,7 @@ export class DiagramModelEditor<
             // Update directives
             args.directives = args.directives | dirs;
             // Update items to reindex
-            if (dirs & EditorDirective.Reindex && obj) {
+            if (dirs & EditorDirective.ReindexContent && obj) {
                 args.reindexObjects.push(obj);
             }
         };
@@ -168,7 +168,7 @@ export class DiagramModelEditor<
             this.requestSave();
         }
         // Update reindex file
-        if (args.directives & EditorDirective.Reindex) {
+        if (args.directives & EditorDirective.ReindexContent) {
             this.reindexFile(args.reindexObjects);
         }
     }

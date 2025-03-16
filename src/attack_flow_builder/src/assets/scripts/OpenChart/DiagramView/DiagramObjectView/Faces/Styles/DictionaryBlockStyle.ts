@@ -3,9 +3,9 @@ import type { Font } from "@OpenChart/Utilities";
 export type DictionaryBlockStyle = {
 
     /**
-     * The block's maximum permitted with.
+     * The block's maximum permitted with (in units).
      */
-    maxWidth: number;
+    maxUnitWidth: number;
 
     /**
      * The block's header.
@@ -42,6 +42,16 @@ export type DictionaryBlockStyle = {
                  */
                 color: string;
 
+                /**
+                 * The text's
+                 */
+                units: number;
+
+                /**
+                 * Whether the title align's to the top of the unit.
+                 */
+                alignTop: boolean;
+
             };
         };
 
@@ -66,9 +76,14 @@ export type DictionaryBlockStyle = {
                 color: string;
 
                 /**
-                 * The amount of space between the title and subtitle.
+                 * The title's height (in grid units).
                  */
-                padding: number;
+                units: number;
+
+                /**
+                 * Whether the title align's to the top of the unit.
+                 */
+                alignTop: boolean;
 
             };
 
@@ -78,27 +93,27 @@ export type DictionaryBlockStyle = {
             subtitle:  {
 
                 /**
-                 * The title's font.
+                 * The subtitle's font.
                  */
                 font: Font;
 
                 /**
-                 * The title's color.
+                 * The subtitle's color.
                  */
                 color: string;
 
                 /**
-                 * The title's line height.
+                 * The subtitle's height (in grid units).
                  */
-                lineHeight: number;
+                units: number;
 
             };
         };
 
         /**
-         * The head's vertical padding.
+         * The head's vertical padding (in units).
          */
-        verticalPadding: number;
+        verticalPaddingUnits: number;
 
     };
 
@@ -133,9 +148,14 @@ export type DictionaryBlockStyle = {
             color: string;
 
             /**
-             * The text's line height.
+             * The text's height (in grid units).
              */
-            lineHeight: number;
+            units: number;
+
+            /**
+             * Whether the text align's to the top of the unit.
+             */
+            alignTop: boolean;
 
         };
 
@@ -155,21 +175,21 @@ export type DictionaryBlockStyle = {
             color: string;
 
             /**
-             * The text's line height.
+             * The text's height (in grid units).
              */
-            lineHeight: number;
-
-            /**
-             * The amount of space between the text and the field name.
-             */
-            padding: number;
+            units: number;
 
         };
 
         /**
-         * The amount of space between each field.
+         * The vertical padding between fields (in units).
          */
-        verticalPadding: number;
+        fieldVerticalPaddingUnits: number;
+
+        /**
+         * The vertical padding around the body (in units).
+         */
+        bodyVerticalPaddingUnits: number;
 
     };
 
@@ -218,8 +238,8 @@ export type DictionaryBlockStyle = {
     };
 
     /**
-     * The block's horizontal padding.
+     * The block's horizontal padding (in units).
      */
-    horizontalPadding: number;
+    horizontalPaddingUnits: number;
 
 };

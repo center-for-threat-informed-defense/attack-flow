@@ -1,4 +1,5 @@
 import { DiagramFace } from "../DiagramFace";
+import type { ViewportRegion } from "../../ViewportRegion";
 import type { DiagramObjectView, LineView } from "../../Views";
 
 export abstract class LineFace extends DiagramFace {
@@ -61,11 +62,11 @@ export abstract class LineFace extends DiagramFace {
      */
     public setPosition(dx: number, dy: number): void {
         // Move self
+        this.boundingBox.x += dx;
+        this.boundingBox.y += dy;
         this.boundingBox.xMin += dx;
-        this.boundingBox.xMid += dx;
         this.boundingBox.xMax += dx;
         this.boundingBox.yMin += dy;
-        this.boundingBox.yMid += dy;
         this.boundingBox.yMax += dy;
         // Move children
         this.view.source.face.moveBy(dx, dy);
@@ -103,8 +104,33 @@ export abstract class LineFace extends DiagramFace {
             this.view.source,
             this.view.target
         ];
+        // Calculate bounding box
         this.calculateBoundingBoxFromViews(views);
+        // Update relative location
+        this.boundingBox.x = this.boundingBox.xMid;
+        this.boundingBox.y = this.boundingBox.yMid;
         return true;
+    }
+    
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
+        const isRendered = super.renderDebugTo(ctx, region);
+        if (isRendered) {
+            this.view.source.renderDebugTo(ctx, region);
+            this.view.target.renderDebugTo(ctx, region);
+            for(const object of this.view.handles) {
+                object.renderDebugTo(ctx, region);
+            }
+        }
+        return isRendered;
     }
 
 }

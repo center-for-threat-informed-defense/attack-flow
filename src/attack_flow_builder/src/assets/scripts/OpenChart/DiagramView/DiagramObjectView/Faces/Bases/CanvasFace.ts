@@ -1,8 +1,8 @@
-import { GroupFace } from "./GroupFace";
+import { DiagramFace } from "../DiagramFace";
 import type { ViewportRegion } from "../../ViewportRegion";
-import type { CanvasView } from "../../Views";
+import type { DiagramObjectView, CanvasView } from "../../Views";
 
-export abstract class CanvasFace extends GroupFace {
+export abstract class CanvasFace extends DiagramFace {
 
     /**
      * The face's view.
@@ -11,7 +11,7 @@ export abstract class CanvasFace extends GroupFace {
 
 
     /**
-     * Creates a new {@link CanvasFace}.
+     * Creates a new {@link GroupFace}.
      */
     constructor() {
         super();
@@ -19,9 +19,134 @@ export abstract class CanvasFace extends GroupFace {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  1. Layout / Rendering  ////////////////////////////////////////////////
+    //  1. Selection  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+
+    /**
+     * Returns the topmost view at the given coordinate.
+     * @param x
+     *  The x coordinate.
+     * @param y
+     *  The y coordinate.
+     * @returns
+     *  The topmost view, undefined if there isn't one.
+     */
+    public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
+        return this.findObjectsAt([...this.view.objects.values()], x, y);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Movement  //////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Sets the face's position relative to its current position.
+     * @remarks
+     *  Generally, all movement should be accomplished via `moveTo()` or
+     *  `moveBy()`. `setPosition()` directly manipulates the face's position
+     *  (ignoring any registered {@link MovementCoordinator}s). It should only
+     *  be invoked by the face itself or another MovementCoordinator.
+     * @param dx
+     *  The change in x.
+     * @param dy
+     *  The change in y.
+     */
+    public setPosition(dx: number, dy: number): void {
+        // Move self
+        this.boundingBox.x += dx;
+        this.boundingBox.y += dy;
+        this.boundingBox.xMin += dx;
+        this.boundingBox.xMax += dx;
+        this.boundingBox.yMin += dy;
+        this.boundingBox.yMax += dy;
+        // Move children
+        for (const object of this.view.objects.values()) {
+            object.face.moveBy(dx, dy);
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  3. Layout / Rendering  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Calculates the face's layout.
+     * @returns
+     *  True if the layout changed, false otherwise.
+     */
+    public calculateLayout(): boolean {
+        // Calculate bounding box
+        this.calculateBoundingBoxFromViews(this.view.objects);
+        // Update relative location
+        this.boundingBox.x = this.boundingBox.xMid;
+        this.boundingBox.y = this.boundingBox.yMid;
+        return true;
+    }
+
+    /**
+     * Renders the face to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     */
+    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
+
+    /**
+     * Renders the face to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @param dsx
+     *  The drop shadow's x-offset.
+     * @param dsy
+     *  The drop shadow's y-offset.
+     */
+    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
+    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
+        if (!this.isVisible(region)) {
+            return;
+        }
+        for (const obj of this.view.objects.values()) {
+            obj.renderTo(ctx, region, dsx, dsy);
+        }
+    }
+
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
+        if (!this.isVisible(region)) {
+            return false;
+        }
+        // Configure context
+        ctx.save();
+        ctx.lineWidth = 1;
+        ctx.fillStyle = "#00ff00";
+        ctx.strokeStyle = "#ffffff";
+        ctx.setLineDash([2, 2]);
+        // Render debug information
+        super.renderDebugTo(ctx, region);
+        for(const object of this.view.objects) {
+            object.renderDebugTo(ctx, region);
+        }
+        // Restore context
+        ctx.restore();
+        // Return
+        return true;
+    }
 
     /**
      * Renders the canvas's surface to a context.

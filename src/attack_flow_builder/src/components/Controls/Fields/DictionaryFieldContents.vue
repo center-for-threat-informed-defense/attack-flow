@@ -10,11 +10,9 @@
       </p>
       <component
         class="field-value"
-        :is="getField(value.type)"
+        :is="getField(value)"
         :property="value"
-        @change="(...args: any) => $emit('change', ...args)"
-        @create="(...args: any) => $emit('create', ...args)"
-        @delete="(...args: any) => $emit('delete', ...args)"
+        @execute="(cmd: EditorCommand) => $emit('execute', cmd)"
       />
     </div>
   </div>
@@ -22,15 +20,19 @@
 
 <script lang="ts">
 // Dependencies
-import { PropertyType } from "@OpenChart/DiagramModel";
-import type { DictionaryProperty, Property } from "@OpenChart/DiagramModel";
+import { titleCase } from "@/assets/scripts/Browser";
 import { defineAsyncComponent, defineComponent, type PropType } from "vue";
+import { DictionaryProperty, type Property } from "@OpenChart/DiagramModel";
+import { DateProperty, EnumProperty, FloatProperty, IntProperty, ListProperty, StringProperty } from "@OpenChart/DiagramModel";
+import type { Command } from "@/assets/scripts/Application";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import TextField from "./TextField.vue";
 import ListField from "./ListField.vue";
 import EnumField from "./EnumField.vue";
 import NumberField from "./NumberField.vue";
 import DateTimeField from "./DateTimeField.vue";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
 
@@ -51,10 +53,14 @@ export default defineComponent({
      */
     fields(): [string, Property][] {
       return [...this.property.value.entries()].filter(
-        o => o[1].descriptor.is_visible_sidebar ?? true
+        // o => o[1].descriptor.is_visible_sidebar ?? true
+        o => true
       );
     }
 
+  },
+  emits: {
+    execute: (cmd: EditorCommand) => cmd
   },
   methods: {
    
@@ -65,27 +71,27 @@ export default defineComponent({
      * @returns
      *  The field's component type.
      */
-    getField(type: PropertyType): string | undefined {
-      switch(type) {
-        case PropertyType.String:
+    getField(type: Property): string | undefined {      
+      switch(type.constructor.name) {
+        case StringProperty.name:
           return "TextField";
-        case PropertyType.Int:
-        case PropertyType.Float:
-          return "NumberField";
-        case PropertyType.Date:
-          return "DateTimeField";
-        case PropertyType.Enum:
-          return "EnumField";
-        case PropertyType.List:
-          return "ListField";
-        case PropertyType.Dictionary:
-          return "DictionaryField";
+        // case IntProperty.name:
+        // case FloatProperty.name:
+        //   return "NumberField";
+        // case DateProperty.name:
+        //   return "DateTimeField";
+        // case EnumProperty.name:
+        //   return "EnumField";
+        // case ListProperty.name:
+        //   return "ListField";
+        // case DictionaryProperty.name:
+        //   return "DictionaryField";
       }
     },
 
+    titleCase
 
   },
-  emits: ["change", "create", "delete"],
   components: {
     TextField,
     ListField,

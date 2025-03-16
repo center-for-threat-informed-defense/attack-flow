@@ -6,6 +6,7 @@ import { EditorCommand } from "@OpenChart/DiagramEditor";
 import { BaseAppSettings } from "@/assets/scripts/Application";
 import { ThemeRegistry, ThemeSourceFile } from "@OpenChart/ThemeRegistry";
 import type { AppCommand } from "@/assets/scripts/Application";
+import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -47,28 +48,23 @@ export const useApplicationStore = defineStore("applicationStore", {
         ///////////////////////////////////////////////////////////////////////
 
 
-        // /**
-        //  * Tests if the active page has a selection.
-        //  * @returns
-        //  *  The number of items selected.
-        //  */
-        // hasSelection(): number {
-        //     return this.getSelection.length;
-        // },
+        /**
+         * Tests if the active editor has a selection.
+         * @returns
+         *  The number of items selected.
+         */
+        hasSelection(): number {
+            return this.getSelection.length;
+        },
 
-        // /**
-        //  * Returns the active page's selection.
-        //  * @param state
-        //  *  The Vuex state.
-        //  * @returns
-        //  *  The selected objects.
-        //  */
-        // getSelection(state): DiagramObjectModel[] {
-        //     const p = state.activePage;
-        //     // Use trigger to trip the reactivity system
-        //     const t = p.trigger.value ? p : p;
-        //     return [...t.page.getSubtree(o => o.isSelected())];
-        // },
+        /**
+         * Returns the active editor's selection.
+         * @returns
+         *  The selected objects.
+         */
+        getSelection(): DiagramObjectView[] {
+            return [...this.activeEditor.selection.values()];
+        },
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -77,27 +73,21 @@ export const useApplicationStore = defineStore("applicationStore", {
 
 
         /**
-         * Tests if the last command on the active page can be undone.
+         * Tests if the last command on the active editor can be undone.
          * @returns
          *  True if the last command can be undone, false otherwise.
          */
-        canUndo(state): boolean {
-            const p = state.activeEditor;
-            // Use trigger to trip the reactivity system
-            // return (p.trigger.value ? p : p).canUndo();
-            return false;
+        canUndo(): boolean {
+            return this.activeEditor.canUndo();
         },
 
         /**
-         * Tests if the last undone command on the active page can be redone.
+         * Tests if the last undone command on the active editor can be redone.
          * @returns
          *  True if the last undone command can be redone, false otherwise.
          */
-        canRedo(state): boolean {
-            const p = state.activeEditor;
-            // Use trigger to trip the reactivity system
-            // return (p.trigger.value ? p : p).canRedo();
-            return false;
+        canRedo(): boolean {
+            return this.activeEditor.canRedo();
         },
 
 

@@ -1,4 +1,5 @@
 import { DiagramFace } from "../DiagramFace";
+import type { ViewportRegion } from "../../ViewportRegion";
 import type { BlockView, DiagramObjectView } from "../../Views";
 
 export abstract class BlockFace extends DiagramFace {
@@ -7,6 +8,16 @@ export abstract class BlockFace extends DiagramFace {
      * The face's content hash.
      */
     public contentHash: number | undefined;
+
+    /**
+     * The face's x-offset from the top-left corner of the bounding box.
+     */
+    public xOffset: number;
+
+    /**
+     * The face's y-offset from the top-left corner of the bounding box.
+     */
+    public yOffset: number;
 
     /**
      * The face's width.
@@ -29,6 +40,8 @@ export abstract class BlockFace extends DiagramFace {
      */
     constructor() {
         super();
+        this.xOffset = 0;
+        this.yOffset = 0;
         this.width = 0;
         this.height = 0;
     }
@@ -86,11 +99,11 @@ export abstract class BlockFace extends DiagramFace {
      */
     public setPosition(dx: number, dy: number): void {
         // Move self
+        this.boundingBox.x += dx;
+        this.boundingBox.y += dy;
         this.boundingBox.xMin += dx;
-        this.boundingBox.xMid += dx;
         this.boundingBox.xMax += dx;
         this.boundingBox.yMin += dy;
-        this.boundingBox.yMid += dy;
         this.boundingBox.yMax += dy;
         // Move children
         for (const anchor of this.view.anchors.values()) {
@@ -112,6 +125,25 @@ export abstract class BlockFace extends DiagramFace {
     public calculateLayout(): boolean {
         this.calculateBoundingBoxFromViews(this.view.anchors.values());
         return true;
+    }
+    
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
+        const isRendered = super.renderDebugTo(ctx, region);
+        if (isRendered) {
+            for(const anchor of this.view.anchors.values()) {
+                anchor.renderDebugTo(ctx, region);
+            }
+        }
+        return isRendered;
     }
 
 }

@@ -1,4 +1,4 @@
-import { CollectionProperty } from "..";
+import { CollectionProperty, Property } from "..";
 
 export class DictionaryProperty extends CollectionProperty {
 

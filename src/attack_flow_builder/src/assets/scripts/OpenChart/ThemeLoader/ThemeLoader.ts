@@ -25,6 +25,8 @@ export class ThemeLoader {
         return {
             id: theme.id,
             name: theme.name,
+            grid: theme.grid,
+            subgrid: theme.subgrid,
             designs: Object.fromEntries([...designs.entries()])
         };
     }
@@ -53,6 +55,8 @@ export class ThemeLoader {
         return {
             id: theme.id,
             name: theme.name,
+            grid: theme.grid,
+            subgrid: theme.subgrid,
             designs: Object.fromEntries([...designs.entries()])
         };
     }

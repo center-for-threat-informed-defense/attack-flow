@@ -56,11 +56,11 @@ export class GroupFace extends DiagramFace {
      */
     public setPosition(dx: number, dy: number): void {
         // Move self
+        this.boundingBox.x += dx;
+        this.boundingBox.y += dy;
         this.boundingBox.xMin += dx;
-        this.boundingBox.xMid += dx;
         this.boundingBox.xMax += dx;
         this.boundingBox.yMin += dy;
-        this.boundingBox.yMid += dy;
         this.boundingBox.yMax += dy;
         // Move children
         for (const object of this.view.objects.values()) {
@@ -80,7 +80,11 @@ export class GroupFace extends DiagramFace {
      *  True if the layout changed, false otherwise.
      */
     public calculateLayout(): boolean {
+        // Calculate bounding box
         this.calculateBoundingBoxFromViews(this.view.objects);
+        // Update relative location
+        this.boundingBox.x = this.boundingBox.xMid;
+        this.boundingBox.y = this.boundingBox.yMid;
         return true;
     }
 
@@ -112,6 +116,25 @@ export class GroupFace extends DiagramFace {
         for (const obj of this.view.objects.values()) {
             obj.renderTo(ctx, region, dsx, dsy);
         }
+    }
+
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
+        const isRendered = super.renderDebugTo(ctx, region);
+        if (isRendered) {
+            for(const object of this.view.objects) {
+                object.renderDebugTo(ctx, region);
+            }
+        }
+        return isRendered;
     }
 
 }

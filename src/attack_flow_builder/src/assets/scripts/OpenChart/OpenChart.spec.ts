@@ -19,11 +19,12 @@ import type { DiagramThemeConfiguration } from "./ThemeLoader";
 const sampleTheme: DiagramThemeConfiguration = {
     id: "dark_theme",
     name: "Dark Theme",
+    grid: [10, 10],
+    subgrid: 1/2,
     designs: {
         generic_canvas: {
             type: FaceType.LineGridCanvas,
             attributes: Alignment.Grid,
-            grid: [10, 10],
             style: DarkStyle.Canvas()
         },
         generic_block: {
@@ -209,9 +210,9 @@ describe("OpenChart", () => {
                 const line = await createTestingLine();
                 line.target.moveTo(3, 3);
                 expect(line.face.boundingBox).toEqual({
-                    xMin: 0,   yMin: 0,
-                    xMid: 1.5, yMid: 1.5,
-                    xMax: 3,   yMax: 3
+                    xMin: 0, yMin: 0,
+                    x: 1.5,  y: 1.5,
+                    xMax: 3, yMax: 3
                 });
             });
             it("is selectable", async () => {

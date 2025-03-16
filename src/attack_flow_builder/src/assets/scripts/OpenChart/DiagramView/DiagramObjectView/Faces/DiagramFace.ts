@@ -98,8 +98,8 @@ export abstract class DiagramFace {
      */
     public moveTo(x: number, y: number): boolean {
         return this.moveBy(
-            x - this.boundingBox.xMid,
-            y - this.boundingBox.yMid
+            x - this.boundingBox.x,
+            y - this.boundingBox.y
         );
     }
 
@@ -168,9 +168,6 @@ export abstract class DiagramFace {
             bb.xMax = Math.max(bb.xMax, objBox.xMax);
             bb.yMax = Math.max(bb.yMax, objBox.yMax);
         }
-        // Update center
-        bb.xMid = (bb.xMin + bb.xMax) / 2;
-        bb.yMid = (bb.yMin + bb.yMax) / 2;
     }
 
     /**
@@ -200,6 +197,31 @@ export abstract class DiagramFace {
         dsx?: number, dsy?: number
     ): void;
 
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
+        if (!this.isVisible(region)) {
+            return false;
+        }
+        // Draw bounding box
+        const bb = this.boundingBox;
+        ctx.beginPath();
+        ctx.moveTo(bb.xMin + 0.5, bb.yMin + 0.5);
+        ctx.lineTo(bb.xMax - 0.5, bb.yMin + 0.5);
+        ctx.lineTo(bb.xMax - 0.5, bb.yMax - 0.5);
+        ctx.lineTo(bb.xMin + 0.5, bb.yMax - 0.5);
+        ctx.lineTo(bb.xMin + 0.5, bb.yMin + 0.5);
+        ctx.lineTo(bb.xMax - 0.5, bb.yMax - 0.5);
+        ctx.stroke();
+        return true;
+    }
 
     /**
      * Tests if the face overlaps the given viewport.

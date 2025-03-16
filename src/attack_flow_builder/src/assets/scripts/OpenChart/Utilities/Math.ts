@@ -34,8 +34,34 @@ export function clamp(n: number, min: number, max: number): number {
  * @returns
  *  The number rounded to the nearest multiple.
  */
-export function round(n: number, multiple: number): number {
+export function roundNearestMultiple(n: number, multiple: number): number {
     return Math.sign(n) * Math.round(Math.abs(n) / multiple) * multiple;
+}
+
+/**
+ * Rounds a number up to the nearest multiple.
+ * @param n
+ *  The number to round.
+ * @param multiple
+ *  The multiple.
+ * @returns
+ *  The number rounded up to the nearest multiple.
+ */
+export function ceilNearestMultiple(n: number, multiple: number): number {
+    return Math.floor((Math.ceil(n) + (multiple - 1)) / multiple) * multiple;
+}
+
+/**
+ * Rounds a number down to the nearest multiple.
+ * @param n
+ *  The number to round.
+ * @param multiple
+ *  The multiple.
+ * @returns
+ *  The number rounded down to the nearest multiple.
+ */
+export function floorNearestMultiple(n: number, multiple: number): number {
+    return Math.floor(n) - (Math.floor(n) % multiple);
 }
 
 /**

@@ -1,13 +1,16 @@
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export interface DiagramInterfaceEvents {
-    "object-hover"  : (
+export interface DiagramInterfaceEvents<T> {
+    "object-hover": (
         obj: DiagramObjectView | undefined, cursor: number
     ) => void;
-    "object-click"  : (
+    "object-click": (
         event: PointerEvent, obj: DiagramObjectView, x: number, y: number
     ) => void;
-    "canvas-click"  : (
+    "object-interaction": (
+        event: T
+    ) => void;
+    "canvas-click": (
         event: PointerEvent, x: number, y: number
     ) => void;
     "view-transform": (

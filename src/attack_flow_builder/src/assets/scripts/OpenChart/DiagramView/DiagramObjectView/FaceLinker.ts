@@ -20,7 +20,7 @@ import type { DiagramObjectView } from "./Views";
  * @param view
  *  The {@link DiagramObjectView}.
  */
-export function linkFaceToView<T extends DiagramObjectView>(face: DiagramFace<T>, view: T) {
+export function linkFaceToView(face: DiagramFace, view: DiagramObjectView) {
     type FaceInternal = { view: ViewInternal | null };
     type ViewInternal = { _face: FaceInternal | null };
     // Cast face and view

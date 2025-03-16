@@ -38,13 +38,13 @@ export abstract class EditorCommand {
     /**
      * Undoes the editor command.
      */
-    abstract undo(): Promise<void>;
+    public abstract undo(): Promise<void>;
 
     /**
      * Undoes the editor command.
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    abstract undo(issueDirective?: DirectiveIssuer): Promise<void>;
+    public abstract undo(issueDirective?: DirectiveIssuer): Promise<void>;
 
 }

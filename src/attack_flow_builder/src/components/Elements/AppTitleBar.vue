@@ -25,6 +25,7 @@ import type { CommandEmitter } from "@/assets/scripts/Application";
 import type { ContextMenuSubmenu } from "@/assets/scripts/Browser";
 // Components
 import TitleBar from "@/components/Controls/TitleBar.vue";
+
 export default defineComponent({
   name: "AppTitleBar",
   data() {
@@ -45,7 +46,7 @@ export default defineComponent({
     menus(): ContextMenuSubmenu<CommandEmitter>[] {
       return [
         this.contextMenus.fileMenu, 
-        // this.contextMenus.editMenu,
+        this.contextMenus.editMenu,
         // this.contextMenus.layoutMenu,
         this.contextMenus.viewMenu,
         this.contextMenus.helpMenu

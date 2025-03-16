@@ -196,14 +196,14 @@ export class LineView extends Line implements ViewObject {
      * The view's x position.
      */
     get x(): number {
-        return this.face.boundingBox.xMid;
+        return this.face.boundingBox.x;
     }
 
     /**
      * The view's y position.
      */
     get y(): number {
-        return this.face.boundingBox.yMid;
+        return this.face.boundingBox.y;
     }
 
 
@@ -228,8 +228,14 @@ export class LineView extends Line implements ViewObject {
         face: LineFace
     ) {
         super(id, instance, attributes, properties);
+        // Set face
         this._face = face;
         this.replaceFace(face);
+        // Recalculate layout on property updates
+        this.properties.subscribe(
+            this.instance,
+            () => this.updateLayout(LayoutUpdateReason.PropUpdate)
+        )
     }
 
 
@@ -360,6 +366,19 @@ export class LineView extends Line implements ViewObject {
     public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
     public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
         this.face.renderTo(ctx, region, dsx, dsy);
+    }
+
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
+        return this.face.renderDebugTo(ctx, region);
     }
 
 

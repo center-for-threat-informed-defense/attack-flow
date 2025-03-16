@@ -10,37 +10,35 @@ export class LineGridCanvas extends CanvasFace {
     private readonly style: CanvasStyle;
 
     /**
+     * The canvas's grid.
+     */
+    private readonly grid: [number, number];
+
+    /**
      * The canvas's pattern.
      */
-    private gridPattern: CanvasPattern | null;
+    private gridPattern: CanvasPattern | string;
 
 
     /**
      * Creates a new {@link LineGridCanvas}.
      * @param style
      *  The canvas's style.
+     * @param grid
+     *  The canvas's grid.
      */
-    constructor(style: CanvasStyle) {
+    constructor(style: CanvasStyle, grid: [number, number]) {
         super();
         this.style = style;
-        this.gridPattern = null;
+        this.grid = grid;
+        this.gridPattern = this.createGridPattern(
+            this.grid[0],
+            this.grid[1],
+            this.style.backgroundColor,
+            this.style.gridColor
+        );
     }
 
-
-    /**
-     * Calculates the face's layout.
-     * @returns
-     *  True if the layout changed, false otherwise.
-     */
-    public calculateLayout(): boolean {
-        // this.gridPattern = this.createGridPattern(
-        //     this.view?.gridX ?? 0,
-        //     this.view?.gridY ?? 0,
-        //     this.style.backgroundColor,
-        //     this.style.gridColor
-        // );
-        return false;
-    }
 
     /**
      * Renders the face to a context.
@@ -97,7 +95,15 @@ export class LineGridCanvas extends CanvasFace {
      * @returns
      *  The grid canvas pattern centered on the origin.
      */
-    private createGridPattern(gridX: number, gridY: number, fillColor: string, strokeColor: string): CanvasPattern {
+    private createGridPattern(
+        gridX: number,
+        gridY: number,
+        fillColor: string,
+        strokeColor: string
+    ): CanvasPattern | string {
+        if(typeof document === "undefined") {
+            return fillColor;
+        }
         const can = document.createElement("canvas");
         const ctx = can.getContext("2d", { alpha: false })!;
         can.width = gridX;

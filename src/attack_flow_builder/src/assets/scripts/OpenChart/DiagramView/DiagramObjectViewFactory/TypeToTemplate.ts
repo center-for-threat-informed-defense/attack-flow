@@ -20,4 +20,5 @@ export type TypeToTemplate = {
     [FaceType.TextBlock]: BlockTemplate;
     [FaceType.VerticalElbowLine]: LineTemplate;
     [FaceType.LineGridCanvas]: CanvasTemplate;
+    [FaceType.DotGridCanvas]: CanvasTemplate;
 };

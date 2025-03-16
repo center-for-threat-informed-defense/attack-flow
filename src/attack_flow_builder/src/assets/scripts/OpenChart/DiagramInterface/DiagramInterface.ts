@@ -1,14 +1,16 @@
 import * as d3 from "d3";
 import { Screen } from "./Screen";
+import { MouseClick } from "./MouseClick";
 import { EventEmitter } from "@OpenChart/Utilities";
 import { DisplaySettings } from "./DisplaySettings";
 import { Cursor, ViewportRegion } from "@OpenChart/DiagramView";
 import { resizeAndTransformContext, resizeContext, transformContext } from "./Context";
+import type { DragHandler } from "./DragHandler";
 import type { DiagramInterfaceEvents } from "./DiagramInterfaceEvents";
 import type { CanvasSelection, CanvasZoomBehavior } from "./D3Types";
 import type { CameraLocation, CanvasView, DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
+export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>> {
 
     /**
      * The viewport's padding.
@@ -23,33 +25,33 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
 
     /**
-     * The diagram's display settings.
+     * The interface's display settings.
      */
     public readonly settings: DisplaySettings;
 
 
     /**
-     * The diagram's root object.
+     * The interface's root object.
      */
     private readonly root: CanvasView;
 
     /**
-     * The diagram's canvas.
+     * The interface's canvas.
      */
     private readonly canvas: CanvasSelection;
 
     /**
-     * The diagram's context.
+     * The interface's context.
      */
     private readonly context: CanvasRenderingContext2D;
 
     /**
-     * The diagram container's height.
+     * The interface's height.
      */
     private elHeight: number;
 
     /**
-     * The diagram container's width.
+     * The interface's width.
      */
     private elWidth: number;
 
@@ -57,10 +59,6 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      * The object currently being hovered over.
      */
     private hoveredObject: DiagramObjectView | undefined | null;
-
-
-
-
 
     /**
      * The context's current transform.
@@ -77,7 +75,12 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     private zoom: CanvasZoomBehavior;
 
+    /**
+     * The interface's drag handlers.
+     */
+    private dragHandlers: Map<Function, DragHandler<T>>;
 
+    private activeDragHandler: DragHandler<T> | null;
 
 
     /**
@@ -119,6 +122,8 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         // `null` ensures cursor is updated immediately
         this.hoveredObject = null;
 
+        this.dragHandlers = new Map();
+        this.activeDragHandler = null;
 
         this._rafId = 0;
         this._resizeObserver = null;
@@ -207,7 +212,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
     private executeRenderPipeline() {
         const s = this.settings;
         // Render page surface
-        // this._page.renderPageSurfaceTo(this.context, this._viewport, d.showGrid);
+        this.root.renderSurfaceTo(this.context, this.viewport);
         // Render page contents
         if (s.showShadows && s.disableShadowsAt <= this.transform.k) {
             // With drop shadow
@@ -217,9 +222,9 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
             this.root.renderTo(this.context, this.viewport, 0, 0);
         }
         // Render debug display
-        if (s.showDebug) {
-            // this._page.renderDebugTo(this.context, this.viewport);
-        }
+        // if (s.showDebug) {
+            this.root.renderDebugTo(this.context, this.viewport);
+        // }
     }
 
 
@@ -227,6 +232,20 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
     //  3. Canvas Interactions  ///////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+
+    /**
+     * Registers a {@link DragHandler} with the interface.
+     * @param handler
+     *  The drag handler.
+     */
+    public registerDragHandler(...handlers: DragHandler<T>[]) {
+        for(const handler of handlers) {
+            // Forward interactions
+            handler.on("interaction", o => this.emit("object-interaction", o));
+            // Register drag handler
+            this.dragHandlers.set(handler.constructor, handler);
+        }
+    }
 
     /**
      * Canvas hover behavior.
@@ -260,77 +279,36 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      *  The drag action to perform or `undefined` if no object was clicked.
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private onSelectSubject(event: any): undefined {
-        // const evt = event.sourceEvent;
-        // const x = this._transform.invertX(event.x);
-        // const y = this._transform.invertY(event.y);
-        // const obj = this._page.el.getObjectAt(x, y);
-        // const rc = evt.button === MouseClick.Right;
-        // let mv: DiagramObjectView[];
+    private onSelectSubject(event: any): DiagramObjectView | undefined {
+        const evt = event.sourceEvent;
+        const x = this.transform.invertX(event.x);
+        const y = this.transform.invertY(event.y);
+        const obj = this.root.getObjectAt(x, y);
+        const rc = evt.button === MouseClick.Right;
 
-        // // If no object:
-        // if (!obj) {
-        //     this.emit("canvas-click", evt, event.x, event.y);
-        //     return undefined;
-        // }
+        // If no object, select canvas
+        if (!obj) {
+            this.emit("canvas-click", evt, event.x, event.y);
+            return undefined;
+        }
 
-        // // If object is an anchor:
-        // if (obj instanceof DiagramAnchorModel) {
-        //     // Select canvas
-        //     this.emit("canvas-click", evt, event.x, event.y);
-        //     if (rc) {
-        //         return undefined;
-        //     }
-        //     // Create line
-        //     const line = obj.makeLine();
-        //     // Configure line
-        //     const x = obj.boundingBox.xMid;
-        //     const y = obj.boundingBox.yMid;
-        //     line.srcEnding.moveTo(x, y);
-        //     line.trgEnding.moveTo(x, y);
-        //     // Create line view
-        //     const view = line
-        //         .createView(this._rasterCache)
-        //         .updateView() as DiagramLineView;
-        //     // Initiate line move
-        //     return {
-        //         type: DragActionType.CreateLine,
-        //         line: view,
-        //         parent: this._page,
-        //         anchor: obj,
-        //         obj: view.trgEnding
-        //     };
-        // }
+        // If object, choose handler
+        this.activeDragHandler = null;
+        for(this.activeDragHandler of this.dragHandlers.values()) {
+            if(this.activeDragHandler.canHandleInteraction(obj)) {
+                break;
+            }
+        }
 
-        // // If object is child of line:
-        // if (obj.parent instanceof DiagramLineModel) {
-        //     // Select line
-        //     this.emit("object-click", evt, obj.parent, event.x, event.y);
-        //     if (rc) {
-        //         return undefined;
-        //     }
-        //     // Move the child
-        //     mv = [this._page.lookup(obj.id)!];
-        // }
+        // If no handler, select canvas
+        if(!this.activeDragHandler) {
+            this.emit("canvas-click", evt, event.x, event.y);
+            return undefined;
+        }
 
-        // // If any other object type:
-        // else {
-        //     // Select object
-        //     this.emit("object-click", evt, obj, event.x, event.y);
-        //     if (rc) {
-        //         return undefined;
-        //     }
-        //     // Move the current selection
-        //     mv = this._page.selects;
-        // }
+        // If handler, select object
+        return obj;
 
-        // // Initiate object move
-        // if (mv[0] instanceof DiagramAnchorableView && mv.length === 1) {
-        //     return { type: DragActionType.MoveAnchorable, obj: mv[0] };
-        // } else {
-        //     return { type: DragActionType.Move, objs: mv };
-        // }
-        return undefined;
     }
 
     /**
@@ -340,45 +318,11 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onObjectDragStarted(event: any) {
-        /**
-         * Developers Note:
-         * Wait until all mouse related callbacks have fired before locking the
-         * layout. This gives applications using this library a chance to
-         * update the layout in other handlers before the drag event officially
-         * starts. Ideally, an application shouldn't update the layout during a
-         * drag operation. I'll refactor this in the future to improve the
-         * coordination constructs between library and application.
-         */
-        // setTimeout(() => {
-        //     this._layoutLocked = true;
-        //     const s = event.subject as DragAction;
-        //     const cx = this._transform.invertX(event.x);
-        //     const cy = this._transform.invertY(event.y);
-        //     let ox = 0;
-        //     let oy = 0;
-        //     let al = Alignment.Free;
-        //     let an = undefined;
-        //     switch (s.type) {
-        //         case DragActionType.Move:
-        //             for (const obj of s.objs) {
-        //                 ox += obj.x;
-        //                 oy += obj.y;
-        //                 al = Math.max(al, obj.el.getAlignment());
-        //             }
-        //             ox /= s.objs.length;
-        //             oy /= s.objs.length;
-        //             break;
-        //         case DragActionType.CreateLine:
-        //             s.parent.children.push(s.line);
-        //         case DragActionType.MoveAnchorable:
-        //             ox = s.obj.x;
-        //             oy = s.obj.y;
-        //             al = s.obj.el.getAlignment();
-        //             an = this._page.el.anchorCache;
-        //             break;
-        //     }
-        //     this._mover.reset(al, cx, cy, ox, oy, an);
-        // }, 0);
+        const cx = this.transform.invertX(event.x);
+        const cy = this.transform.invertY(event.y);
+        const ox = event.subject.x;
+        const oy = event.subject.y;
+        this.activeDragHandler?.dragStart(event.subject, ox, oy);
     }
 
     /**
@@ -388,31 +332,10 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onObjectDragged(event: any) {
-        // const s = event.subject as DragAction;
-        // // Calculate delta
-        // this._mover.updateDelta(
-        //     event.dx / this._transform.k,
-        //     event.dy / this._transform.k
-        // );
-        // // Move elements
-        // let attrs;
-        // switch (s.type) {
-        //     case DragActionType.Move:
-        //         for (const obj of s.objs) {
-        //             attrs = obj.fakePositionSetByUser(PositionSetByUser.True);
-        //             obj.moveBy(this._mover.dx, this._mover.dy, attrs);
-        //         }
-        //         break;
-        //     case DragActionType.CreateLine:
-        //         s.obj.el.moveBy(this._mover.dx, this._mover.dy);
-        //     case DragActionType.MoveAnchorable:
-        //         this.onHoverSubject(event.x, event.y, s.obj.el.getCursor());
-        //         attrs = s.obj.fakePositionSetByUser(PositionSetByUser.True);
-        //         s.obj.moveBy(this._mover.dx, this._mover.dy, attrs);
-        //         break;
-        // }
-        // // Render
-        // this.render();
+        this.activeDragHandler?.drag(
+            event.dx / this.transform.k,
+            event.dy / this.transform.k
+        );
     }
 
     /**
@@ -422,6 +345,8 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onObjectDragEnded(event: any) {
+        this.activeDragHandler?.dragEnd();
+
         // this._layoutLocked = false;
         // const s = event.subject as DragAction;
         // const tdx = this._mover.odx;

@@ -305,7 +305,12 @@ export class DiagramObjectFactory {
         const property = new RootProperty();
         // Create sub-properties
         for (const [id, desc] of Object.entries(descriptor)) {
+            // Add property
             property.addProperty(this.createProperty(id, desc, map.get(id)), id);
+            // Set representative key
+            if(desc.is_representative) {
+                property.representativeKey = id;
+            }
         }
         return property;
     }
@@ -384,7 +389,12 @@ export class DiagramObjectFactory {
         const property = new DictionaryProperty(id);
         // Create sub-properties
         for (const [id, desc] of Object.entries(descriptor.form)) {
+            // Add property
             property.addProperty(this.createProperty(id, desc, map.get(id)), id);
+            // Set representative key
+            if(desc.is_representative) {
+                property.representativeKey = id;
+            }
         }
         return property;
     }

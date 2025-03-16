@@ -44,7 +44,9 @@ export default defineComponent({
       focusBox: markRaw(new RawFocusBox("click"))
     }
   },
-  emits: ["select"],
+  emits: {
+    select: (item: CommandEmitter) => item
+  },
   methods: {
 
     /**

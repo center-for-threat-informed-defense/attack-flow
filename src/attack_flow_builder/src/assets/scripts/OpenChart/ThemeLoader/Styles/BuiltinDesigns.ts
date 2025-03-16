@@ -6,29 +6,32 @@ import { StyleGenerator } from "./StyleGenerator";
 export const DarkStyle = new StyleGenerator({
 
     blockBranch: {
-        max_width: 320,
+        max_unit_width: 30,
         head: {
             fill_color: "#000",
             stroke_color: "#000",
             one_title: {
                 title: {
-                    font: { family: "Inter", size: "10.5pt", weight: 800 },
-                    color: "#d8d8d8"
+                    font: { family: "Inter", size: "10.5pt", weight: 700 },
+                    color: "#d8d8d8",
+                    units: 1,
+                    align_top: false
                 }
             },
             two_title: {
                 title: {
                     font: { family: "Inter", size: "8pt", weight: 600 },
                     color: "#d8d8d8",
-                    padding: 8
+                    units: 1,
+                    align_top: true
                 },
                 subtitle:  {
                     font: { family: "Inter", size: "13pt", weight: 800 },
                     color: "#d8d8d8",
-                    line_height: 23
+                    units: 2
                 }
             },
-            vertical_padding: 14
+            vertical_padding_units: 2
         },
         body: {
             fill_color: "#1f1f1f",
@@ -36,15 +39,16 @@ export const DarkStyle = new StyleGenerator({
             field_name_text: {
                 font: { family: "Inter", size: "8pt", weight: 600 },
                 color: "#b3b3b3",
-                line_height: 12
+                units: 1,
+                align_top: false
             },
             field_value_text: {
                 font: { family: "Inter", size: "10.5pt" },
                 color: "#bfbfbf",
-                line_height: 20,
-                padding: 22
+                units: 2,
             },
-            vertical_padding: 18
+            body_vertical_padding_units: 1.5,
+            field_vertical_padding_units: 2,
         },
         branch: {
             font: { family: "Inter", size: "10.5pt" },
@@ -62,33 +66,36 @@ export const DarkStyle = new StyleGenerator({
             size: 3
         },
         border_radius: 5,
-        horizontal_padding: 20
+        horizontal_padding_units: 2
     },
 
     blockDictionary: {
-        max_width: 320,
+        max_unit_width: 30,
         head: {
             fill_color: "#000",
             stroke_color: "#000",
             one_title: {
                 title: {
-                    font: { family: "Inter", size: "10.5pt", weight: 800 },
-                    color: "#d8d8d8"
+                    font: { family: "Inter", size: "10.5pt", weight: 700 },
+                    color: "#d8d8d8",
+                    units: 1,
+                    align_top: false
                 }
             },
             two_title: {
                 title: {
                     font: { family: "Inter", size: "8pt", weight: 600 },
                     color: "#d8d8d8",
-                    padding: 8
+                    units: 1,
+                    align_top: true
                 },
                 subtitle:  {
                     font: { family: "Inter", size: "13pt", weight: 800 },
                     color: "#d8d8d8",
-                    line_height: 23
+                    units: 2
                 }
             },
-            vertical_padding: 14
+            vertical_padding_units: 2
         },
         body: {
             fill_color: "#1f1f1f",
@@ -96,15 +103,16 @@ export const DarkStyle = new StyleGenerator({
             field_name_text: {
                 font: { family: "Inter", size: "8pt", weight: 600 },
                 color: "#b3b3b3",
-                line_height: 12
+                units: 1,
+                align_top: false
             },
             field_value_text: {
                 font: { family: "Inter", size: "10.5pt" },
                 color: "#bfbfbf",
-                line_height: 20,
-                padding: 22
+                units: 2
             },
-            vertical_padding: 18
+            body_vertical_padding_units: 1.5,
+            field_vertical_padding_units: 2
         },
         select_outline: {
             color: "#e6d845",
@@ -116,7 +124,7 @@ export const DarkStyle = new StyleGenerator({
             size: 3
         },
         border_radius: 5,
-        horizontal_padding: 20
+        horizontal_padding_units: 2
     },
 
     blockText: {

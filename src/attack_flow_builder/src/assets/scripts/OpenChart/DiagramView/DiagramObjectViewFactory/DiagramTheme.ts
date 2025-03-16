@@ -13,6 +13,16 @@ export type DiagramTheme = {
     name: string;
 
     /**
+     * The theme's grid.
+     */
+    grid: [number, number];
+
+    /**
+     * The theme's subgrid scale.
+     */
+    subgrid: number;
+
+    /**
      * The theme's designs.
      */
     designs: {

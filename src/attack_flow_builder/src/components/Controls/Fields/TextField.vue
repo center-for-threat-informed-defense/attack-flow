@@ -1,7 +1,6 @@
 <template>
   <FocusBox
-    :class="['text-field-control', { disabled }]"
-    :tab-index="tabIndex"
+    :class="['text-field-control']"
     pointer-event="click"
     @focusin="onFocusIn"
     @focusout="onFocusOut"
@@ -24,7 +23,6 @@
         @input="onInput"
         @keyup.stop=""
         @keydown.stop="onKeyDown"
-        :disabled="disabled"
       />
     </div>
   </FocusBox>
@@ -33,8 +31,10 @@
 <script lang="ts">
 
 // Dependencies
+import * as EditorCommands from "@OpenChart/DiagramEditor"
 import { MD5 } from "@OpenChart/Utilities";
-import { defineComponent, markRaw, type PropType, ref } from "vue";
+import { defineComponent, type PropType, ref } from "vue";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
 import type { StringProperty } from "@OpenChart/DiagramModel";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
@@ -59,39 +59,10 @@ export default defineComponent({
     return {
       value: "",
       select: null as string | null,
-      activeProperty: markRaw(this.property),
       onResizeObserver: null as ResizeObserver | null
     }
   },
   computed: {
-    
-    /**
-     * A reactive version of the property.
-     * @returns
-     *  The property.
-     */
-    _property(): StringProperty {
-      const trigger = this.activeProperty.trigger.value;
-      return trigger ? this.activeProperty : this.activeProperty; 
-    },
-
-    /**
-     * Returns the field's tab index.
-     * @returns
-     *  The field's tab index.
-     */
-    tabIndex(): undefined | "0" {
-      return this.disabled ? undefined: "0";
-    },
-
-    /**
-     * Tests if the property is disabled.
-     * @returns
-     *  True if the property is disabled, false otherwise. 
-     */
-    disabled(): boolean {
-      return !(this._property.descriptor.is_editable ?? true);
-    },
 
     /**
      * Returns the field's suggestions.
@@ -101,8 +72,8 @@ export default defineComponent({
     suggestions(): { value: string, text: string }[] {
       const suggestions = [];
       const v = this.value.toLocaleLowerCase();
-      for(let i = 0; i < this._property.suggestions.length; i++) {
-        const text = this._property.suggestions[i];
+      for(let i = 0; i < this.property.suggestions.length; i++) {
+        const text = this.property.suggestions[i];
         if(text.toLocaleLowerCase().includes(v)) {
           suggestions.push({ value: MD5(text), text });
         }
@@ -111,7 +82,9 @@ export default defineComponent({
     }
 
   },
-  emits: ["change"],
+  emits: {
+    execute: (cmd: EditorCommand) => cmd
+  },
   methods: {
     
     /**
@@ -244,9 +217,10 @@ export default defineComponent({
      */
     updateProperty(value: string) {
       const v = value || null;
-      if(this._property.toRawValue() !== v) {
+      if(this.property.toJson() !== v) {
         // Update property
-        this.$emit("change", this._property, v);
+        const cmd = EditorCommands.setStringProperty(this.property, v);
+        this.$emit("execute", cmd);
       } else {
         // Refresh value
         this.refreshValue();
@@ -258,7 +232,7 @@ export default defineComponent({
      */
     refreshValue() {
       // Update value
-      this.value = this.property.toRawValue() ?? "";
+      this.value = this.property.toJson() ?? "";
       // Update height
       this.$nextTick(() => {
         this.refreshHeight();
@@ -281,12 +255,11 @@ export default defineComponent({
   },
   watch: {
     "property"() {
-        // Switch property
-        this.activeProperty = markRaw(this.property);
-        // Refresh value
-        this.refreshValue();
+      // Refresh value
+      this.refreshValue();
     },
-    "_property.trigger.value"() {
+    "property.value"() {
+      // Refresh value
       this.refreshValue();
     }
   },
@@ -301,7 +274,7 @@ export default defineComponent({
   },
   unmounted() {
     // Disconnect resize observer
-    this.onResizeObserver!.disconnect();
+    this.onResizeObserver?.disconnect();
   },
   components: { FocusBox, OptionsList }
 });

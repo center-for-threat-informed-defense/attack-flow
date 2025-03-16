@@ -29,12 +29,12 @@
 // Dependencies
 import { defineComponent } from "vue";
 import { useApplicationStore } from "@/stores/ApplicationStore";
+import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 // Components
 import AccordionBox from "@/components/Containers/AccordionBox.vue";
 import AccordionPane from "@/components/Containers/AccordionPane.vue";
 import PropertyEditor from "@/components/Elements/PropertyEditor.vue";
 import ValidatorProblems from "@/components/Elements/ValidatorProblems.vue";
-import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 
 export default defineComponent({
   name: "EditorSidebar",
@@ -53,9 +53,9 @@ export default defineComponent({
     selected(): DictionaryProperty | undefined {
       const hasSelection = this.application.hasSelection;
       if(hasSelection === 0) {
-        return this.application.activePage.page.props;
+        return this.application.activeEditor.file.canvas.properties;
       } else if(hasSelection === 1) {
-        return this.application.getSelection[0].props;
+        return this.application.getSelection[0].properties;
       }
       return undefined;
     }
