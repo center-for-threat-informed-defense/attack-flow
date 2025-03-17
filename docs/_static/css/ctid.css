@@ -10,7 +10,8 @@ body {
   --mitre-dark-gray: #7e8284;
   --mitre-silver: #d4d4d3;
   --mitre-light-silver: #f1f3f4;
-
+  --me-ext-code: #880132;
+  --me-orange-dark: #c94f1f;
   --text-color-inverse: #ffffff;
 
   color: var(--mitre-black);
@@ -101,10 +102,9 @@ body.theme-dark .admonition p:last-child {
 }
 
 .admonition.caution .admonition-title,
-.admonition.warning .admonition-title {
-  background-color: var(--me-ext-gray-green-dark);
-  /* background-color: var(--me-ext-orange-dark); */
-  color: var(--mitre-black);
+.admonition.warning .admonition-title  {
+  background-color: var(--me-orange-dark);
+  color: var(--text-color-inverse);
 }
 
 .admonition.danger .admonition-title,
@@ -378,8 +378,8 @@ footer p {
   font-size: 16px;
 }
 
-.highlight-bash .highlight pre {
-  background-color: var(--mitre-black);
+.highlight-bash .highlight pre, pre {
+  background-color: var(--mitre-dark-navy);
   border-radius: var(--border-radius);
 }
 
