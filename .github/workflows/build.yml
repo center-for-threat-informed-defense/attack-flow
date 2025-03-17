@@ -32,7 +32,7 @@ jobs:
       - name: Upload HTML docs
         uses: actions/upload-artifact@v4
         with:
-          name: tattack-flow-docs-html
+          name: attack-flow-docs-html
           path: docs/_build/dirhtml/
 
   attack_flow_builder:
