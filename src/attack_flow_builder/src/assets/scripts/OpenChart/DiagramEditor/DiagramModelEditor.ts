@@ -122,7 +122,10 @@ export class DiagramModelEditor<
         // Construct arguments
         const { args, issuer } = this.newDirectiveArguments();
         // Execute command
-        await cmd.execute(issuer);
+        const result = cmd.execute(issuer);
+        if(result instanceof Promise) {
+            await result;
+        }
         if (args.directives & EditorDirective.Record) {
             this._redoStack = [];
             this._undoStack.push(cmd);

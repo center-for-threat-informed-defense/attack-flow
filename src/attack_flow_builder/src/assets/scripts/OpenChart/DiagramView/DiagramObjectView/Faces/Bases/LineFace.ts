@@ -1,20 +1,31 @@
 import { DiagramFace } from "../DiagramFace";
+import { isInsideRegion } from "@/assets/scripts/OpenChart/Utilities";
+import { LayoutUpdateReason } from "../../LayoutUpdateReason";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { MovementChoreographer } from "../MovementChoreographer";
 import type { DiagramObjectView, LineView } from "../../Views";
 
-export abstract class LineFace extends DiagramFace {
+export abstract class LineFace extends DiagramFace implements MovementChoreographer {
 
     /**
      * The face's view.
      */
     declare protected view: LineView;
 
+    /**
+     * The line's hitboxes.
+     */
+    protected readonly hitboxes: number[][];
+
 
     /**
      * Creates a new {@link LineFace}.
+     * @param hitboxes
+     *  The line's hitboxes.
      */
-    constructor() {
+    constructor(hitboxes: number[][]) {
         super();
+        this.hitboxes = hitboxes;
     }
 
 
@@ -33,6 +44,51 @@ export abstract class LineFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
+        if (this.isAnchored()) {
+            // Try points
+            const obj = this.getChildAt(x, y);
+            if (obj) {
+                return obj;
+            }
+            // Try segments
+            for (let i = 0; i < this.hitboxes.length; i++) {
+                if (!isInsideRegion(x, y, this.hitboxes[i])) {
+                    continue;
+                }
+                if (i === 1) {
+                    return this.view.handles[i];
+                } else {
+                    return this.view;
+                }
+            }
+        } else {
+            if (this.view.focused) {
+                // Try points
+                const obj = this.getChildAt(x, y);
+                if (obj) {
+                    return obj;
+                }
+            }
+            // Try segments
+            for (const hitbox of this.hitboxes) {
+                if (isInsideRegion(x, y, hitbox)) {
+                    return this.view;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Returns the topmost child at the given coordinate.
+     * @param x
+     *  The x coordinate.
+     * @param y
+     *  The y coordinate.
+     * @returns
+     *  The topmost child, undefined if there isn't one.
+     */
+    protected getChildAt(x: number, y: number): DiagramObjectView | undefined {
         // Try latches and handles
         const views: DiagramObjectView[] = [
             this.view.source,
@@ -47,6 +103,22 @@ export abstract class LineFace extends DiagramFace {
     //  2. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+    
+    /**
+     * Moves `view` relative to its current position.
+     * @param view
+     *  The view to move.
+     * @param dx
+     *  The change in x.
+     * @param dy
+     *  The change in y.
+     */
+    public moveViewBy(view: DiagramObjectView, dx: number, dy: number): void {
+        // Move latch
+        view.face.setPosition(dx, dy);
+        // Recalculate layout
+        this.view.updateLayout(LayoutUpdateReason.Movement);
+    }
 
     /**
      * Sets the face's position relative to its current position.

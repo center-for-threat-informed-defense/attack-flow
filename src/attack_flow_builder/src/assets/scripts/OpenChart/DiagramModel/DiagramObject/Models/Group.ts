@@ -64,10 +64,12 @@ export class Group extends DiagramObject {
      *  (Default: End of the array).
      */
     public addObject(child: DiagramObject, index: number = this._objects.length) {
+        // TODO: FIX!!!!
         // Remove existing child
-        this.removeObject(child);
+        // this.removeObject(child);
         // (Re)insert child back into children.
-        this._objects.splice(index, 0, child);
+        // this._objects.splice(index, 0, child);
+        this._objects.push(child);
         // Set child's parent
         this.makeChild(child);
     }

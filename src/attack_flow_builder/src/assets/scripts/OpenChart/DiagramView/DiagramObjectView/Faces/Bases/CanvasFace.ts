@@ -1,5 +1,6 @@
 import { DiagramFace } from "../DiagramFace";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView, CanvasView } from "../../Views";
 
 export abstract class CanvasFace extends DiagramFace {
@@ -94,27 +95,18 @@ export abstract class CanvasFace extends DiagramFace {
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
-
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
+    public renderTo(
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion, settings: RenderSettings
+    ): void {
         if (!this.isVisible(region)) {
             return;
         }
         for (const obj of this.view.objects.values()) {
-            obj.renderTo(ctx, region, dsx, dsy);
+            obj.renderTo(ctx, region, settings);
         }
     }
 
@@ -134,6 +126,7 @@ export abstract class CanvasFace extends DiagramFace {
         // Configure context
         ctx.save();
         ctx.lineWidth = 1;
+        ctx.lineDashOffset = 0;
         ctx.fillStyle = "#00ff00";
         ctx.strokeStyle = "#ffffff";
         ctx.setLineDash([2, 2]);

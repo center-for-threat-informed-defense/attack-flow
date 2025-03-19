@@ -1,5 +1,6 @@
 import type { DiagramFace } from "./Faces";
 import type { ViewportRegion } from "./ViewportRegion";
+import type { RenderSettings } from "./RenderSettings";
 import type { DiagramObjectView } from "./Views";
 
 export interface ViewObject {
@@ -35,16 +36,6 @@ export interface ViewObject {
      * The face's alignment.
      */
     set alignment(value: number);
-
-    /**
-     * The face's cursor.
-     */
-    get cursor(): number;
-
-    /**
-     * The face's cursor.
-     */
-    set cursor(value: number);
 
     /**
      * Whether the face is focused or not.
@@ -178,25 +169,12 @@ export interface ViewObject {
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
     renderTo(
-        ctx: CanvasRenderingContext2D, region: ViewportRegion
-    ): void;
-
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    renderTo(
-        ctx: CanvasRenderingContext2D, region: ViewportRegion,
-        dsx?: number, dsy?: number
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion, settings: RenderSettings
     ): void;
 
     /**

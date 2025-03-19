@@ -1,14 +1,11 @@
-import type { DiagramObjectView } from "@OpenChart/DiagramView";
+import type { Cursor } from "./Mouse";
 
 export interface DiagramInterfaceEvents<T> {
-    "object-hover": (
-        obj: DiagramObjectView | undefined, cursor: number
+    "cursor-change": (
+        cursor: Cursor
     ) => void;
-    "object-click": (
-        event: PointerEvent, obj: DiagramObjectView, x: number, y: number
-    ) => void;
-    "object-interaction": (
-        event: T
+    "plugin-command": (
+        command: T
     ) => void;
     "canvas-click": (
         event: PointerEvent, x: number, y: number

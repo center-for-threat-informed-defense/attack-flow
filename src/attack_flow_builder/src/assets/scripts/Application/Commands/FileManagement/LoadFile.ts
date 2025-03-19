@@ -44,6 +44,7 @@ export class LoadFile extends AppCommand {
         this.editor.on("autosave", editor => {
             context.execute(new SaveDiagramFileToRecoveryBank(context, editor))
         });
+        console.log(this.editor)
     }
 
 

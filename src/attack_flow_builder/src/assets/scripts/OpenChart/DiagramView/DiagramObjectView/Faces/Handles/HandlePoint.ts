@@ -37,8 +37,8 @@ export class HandlePoint extends HandleFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        const dx = x - this.boundingBox.xMin;
-        const dy = y - this.boundingBox.yMid;
+        const dx = x - (this.boundingBox.x + HandleFace.markerOffset);
+        const dy = y - (this.boundingBox.y + HandleFace.markerOffset);
         const r = this.radius;
         return dx * dx + dy * dy < r * r ? this.view : undefined;
     }
@@ -50,10 +50,11 @@ export class HandlePoint extends HandleFace {
      */
     public calculateLayout(): boolean {
         const bb = this.boundingBox;
-        bb.xMin = bb.x - this.radius;
-        bb.yMin = bb.y - this.radius;
-        bb.xMax = bb.x + this.radius;
-        bb.yMax = bb.y + this.radius;
+        const offset = HandleFace.markerOffset;
+        bb.xMin = bb.x - this.radius + offset;
+        bb.yMin = bb.y - this.radius + offset;
+        bb.xMax = bb.x + this.radius + offset;
+        bb.yMax = bb.y + this.radius + offset;
         return true;
     }
 
@@ -64,7 +65,8 @@ export class HandlePoint extends HandleFace {
      */
     public renderTo(ctx: CanvasRenderingContext2D): void {
         // Init
-        const { x, y } = this.boundingBox;
+        const x = this.boundingBox.x + HandleFace.markerOffset;
+        const y = this.boundingBox.y + HandleFace.markerOffset;
         const { radius, fillColor, strokeColor, strokeWidth } = this.style;
 
         // Configure canvas

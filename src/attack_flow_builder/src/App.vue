@@ -1,6 +1,6 @@
 <template>
   <AppHotkeyBox id="main">
-    <AppTitleBar id="app-title-bar" />
+    <AppTitleBar id="app-title-bar"/>
     <FindDialog
       ref="findDialog"
       id="find-dialog"
@@ -66,6 +66,7 @@ export default defineComponent({
   },
   data() {
     return {
+      te: false,
       application: useApplicationStore(),
       Handle,
       bodyWidth: -1,

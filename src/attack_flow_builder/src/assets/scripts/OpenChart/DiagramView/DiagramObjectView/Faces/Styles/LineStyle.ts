@@ -14,6 +14,11 @@ export type LineStyle = {
     hitboxWidth: number;
 
     /**
+     * The line's border radius.
+     */
+    borderRadius: number;
+
+    /**
      * The line's cap size.
      */
     capSize: number;

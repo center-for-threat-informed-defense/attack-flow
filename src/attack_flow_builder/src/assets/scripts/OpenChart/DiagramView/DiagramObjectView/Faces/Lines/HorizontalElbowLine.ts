@@ -1,13 +1,17 @@
-import { Cursor } from "../../ViewAttributes";
 import { LineFace } from "../Bases";
 import { LayoutUpdateReason } from "../../LayoutUpdateReason";
-import { getLineHitbox, isInsideRegion } from "@OpenChart/Utilities";
+import { 
+    drawArrowHead,
+    drawHorizontalElbow,
+    getLineHitbox,
+    roundNearestMultiple
+} from "@OpenChart/Utilities";
 import type { LineStyle } from "../Styles";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView } from "../../Views";
-import type { MovementChoreographer } from "../MovementChoreographer";
 
-export class HorizontalElbowLine extends LineFace implements MovementChoreographer {
+export class HorizontalElbowLine extends LineFace {
 
     /**
      * The line's style.
@@ -15,71 +19,32 @@ export class HorizontalElbowLine extends LineFace implements MovementChoreograph
     private readonly style: LineStyle;
 
     /**
-     * The line's hitboxes.
+     * The line's grid.
      */
-    private readonly hitboxes: number[][];
+    private readonly grid: [number, number];
+
+    /**
+     * The line's coordinates.
+     */
+    private coordinates: [
+        number, number,
+        number, number,
+        number, number
+    ];
 
 
     /**
      * Creates a new {@link HorizontalElbowLine}.
      * @param style
      *  The line's style.
+     * @param grid
+     *  The line's grid.
      */
-    constructor(style: LineStyle) {
-        super();
+    constructor(style: LineStyle, grid: [number, number]) {
+        super(new Array(3));
         this.style = style;
-        this.hitboxes = new Array(3);
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  1. Selection  /////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Returns the topmost view at the given coordinate.
-     * @param x
-     *  The x coordinate.
-     * @param y
-     *  The y coordinate.
-     * @returns
-     *  The topmost view, undefined if there isn't one.
-     */
-    public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        if (this.isAnchored()) {
-            // Try points
-            const obj = super.getObjectAt(x, y);
-            if (obj) {
-                return obj;
-            }
-            // Try segments
-            for (let i = 0; i < this.hitboxes.length; i++) {
-                if (!isInsideRegion(x, y, this.hitboxes[i])) {
-                    continue;
-                }
-                if (i === 1) {
-                    return this.view.handles[i];
-                } else {
-                    return this.view;
-                }
-            }
-        } else {
-            if (this.view.focused) {
-                // Try points
-                const obj = super.getObjectAt(x, y);
-                if (obj) {
-                    return obj;
-                }
-            }
-            // Try segments
-            for (const hitbox of this.hitboxes) {
-                if (isInsideRegion(x, y, hitbox)) {
-                    return this.view;
-                }
-            }
-        }
-        return undefined;
+        this.grid = grid;
+        this.coordinates = [0, 0, 0, 0, 0, 0];
     }
 
 
@@ -112,14 +77,14 @@ export class HorizontalElbowLine extends LineFace implements MovementChoreograph
             trgY = trg.y,
             hdlX = hdl.x,
             hdlY = hdl.y,
-            hdx = ((srcX + trgX) / 2) - hdlX,
-            hdy = ((srcY + trgY) / 2) - hdlY;
+            hx = roundNearestMultiple((srcX + trgX) / 2, this.grid[0]),
+            hy = Math.round((srcY + trgY) / 2);
         if (!hdl.userSetPosition) {
-            hdl.face.setPosition(hdx, 0);
+            hdl.face.setPosition(hx - hdlX, 0);
         } else if (view.instance === hdl.instance) {
             hdl.face.setPosition(dx, 0);
         }
-        hdl.face.setPosition(0, hdy);
+        hdl.face.setPosition(0, hy - hdlY);
         // Recalculate layout
         this.view.updateLayout(LayoutUpdateReason.Movement);
     }
@@ -136,20 +101,30 @@ export class HorizontalElbowLine extends LineFace implements MovementChoreograph
      *  True if the layout changed, false otherwise.
      */
     public calculateLayout(): boolean {
-        const e1 = this.view.source;
-        const h1 = this.view.handles[0];
-        const e2 = this.view.target;
-        if (!e1 || !h1 || !e2) {
+        const src = this.view.source;
+        const hdl = this.view.handles[0];
+        const trg = this.view.target;
+        if (!src || !hdl || !trg) {
             // Bail if object incomplete
             return false;
         }
         // Update hitboxes
         const w = this.style.hitboxWidth;
-        this.hitboxes[0] = getLineHitbox(e1.x, e1.y, h1.x, e1.y, w);
-        this.hitboxes[1] = getLineHitbox(h1.x, e1.y, h1.x, e2.y, w);
-        this.hitboxes[2] = getLineHitbox(h1.x, e2.y, e2.x, e2.y, w);
-        // Update cursor
-        h1.cursor = Cursor.Col_Resize;
+        this.hitboxes[0] = getLineHitbox(src.x, src.y, hdl.x, src.y, w);
+        this.hitboxes[1] = getLineHitbox(hdl.x, src.y, hdl.x, trg.y, w);
+        this.hitboxes[2] = getLineHitbox(hdl.x, trg.y, trg.x, trg.y, w);
+        // Update coordinates
+        this.coordinates[1] = src.y + LineFace.markerOffset;
+        this.coordinates[2] = hdl.x + LineFace.markerOffset;
+        this.coordinates[3] = hdl.y;
+        this.coordinates[5] = trg.y + LineFace.markerOffset;
+        if(src.x < trg.x) {
+            this.coordinates[0] = src.x + (LineFace.markerOffset << 1);
+            this.coordinates[4] = trg.x;
+        } else {
+            this.coordinates[0] = src.x;
+            this.coordinates[4] = trg.x + (LineFace.markerOffset << 1);
+        }
         // Update bounding box
         super.calculateLayout();
         return true;
@@ -161,79 +136,96 @@ export class HorizontalElbowLine extends LineFace implements MovementChoreograph
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
-
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
+    public renderTo(
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion, settings: RenderSettings
+    ): void {
         if (!this.isVisible(region)) {
             return;
         }
 
-        // // Init
-        // const {
-        //     children: c
-        // } = this;
-        // const {
-        //     cap_size: cs,
-        //     width,
-        //     color,
-        //     select_color
-        // } = this.el.style;
+        // Init
+        const c = this.coordinates;
+        const {
+            width,
+            color,
+            selectColor,
+            borderRadius,
+            capSize
+        } = this.style;
 
-        // // Configure line
-        // ctx.lineWidth = width;
-        // let lineColor;
-        // switch (this.el.attrs & SelectMask) {
-        //     case Select.True:
-        //         lineColor = select_color;
-        //         break;
-        //     case Select.False:
-        //     default:
-        //         lineColor = color;
-        //         break;
-        // }
-        // ctx.fillStyle = lineColor;
-        // ctx.strokeStyle = lineColor;
+        // Configure context
+        ctx.lineWidth = width;
+        if(this.view.focused) {
+            if(settings.animationsEnabled) {
+                ctx.setLineDash([5, 2]);
+            }
+            ctx.fillStyle = selectColor;
+            ctx.strokeStyle = selectColor;
+        } else {
+            ctx.fillStyle = color;
+            ctx.strokeStyle = color;
+        }
 
-        // // Line width offset
-        // const wo = width % 2 ? 0.5 : 0;
-        // // End offset
-        // const eo = Math.sign(c[2].x - c[1].x) * (cs >> 1);
+        // End offset
+        const eo = Math.sign(c[4] - c[2]) * (capSize >> 1);
+        // Draw line
+        drawHorizontalElbow(
+            ctx,
+            c[0], c[1],
+            c[2], c[3],
+            c[4] - eo, c[5],
+            borderRadius
+        );
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // Draw arrow head
+        drawArrowHead(
+            ctx,
+            c[2], c[5],
+            c[4], c[5],
+            capSize
+        );
+        ctx.fill();
 
-        // // Draw line
-        // ctx.beginPath();
-        // ctx.moveTo(c[0].x,      c[0].y + wo);
-        // ctx.lineTo(c[1].x + wo, c[0].y + wo);
-        // ctx.lineTo(c[1].x + wo, c[2].y + wo);
-        // ctx.lineTo(c[2].x - eo, c[2].y + wo);
-        // ctx.stroke();
+        // Draw handles and ends
+        if (this.view.focused) {
+            const view = this.view;
+            view.handles[0].renderTo(ctx, region, settings);
+            view.source.renderTo(ctx, region, settings);
+            view.target.renderTo(ctx, region, settings);
+        }
 
-        // // Draw arrow head
-        // drawArrowHead(
-        //     ctx,
-        //     c[1].x, c[2].y + wo,
-        //     c[2].x, c[2].y + wo,
-        //     cs
-        // );
-        // ctx.fill();
+    }
 
-        // // Draw handles and ends
-        // if (this.el.isSelected(attrs)) {
-        //     super.renderTo(ctx, region, dsx, dsy);
-        // }
-
+    /**
+     * Renders the face's debug information to a context.
+     * @param ctx
+     *  The context to render to.
+     * @param region
+     *  The context's viewport.
+     * @returns
+     *  True if the view is visible, false otherwise.
+     */
+    public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
+        const isRendered = super.renderDebugTo(ctx, region);
+        if(isRendered) {
+            const radius = 2;
+            const p = Math.PI * 2;
+            // Draw hitbox points
+            ctx.beginPath();
+            for (const hitbox of this.hitboxes) {
+                for (let i = 0; i < hitbox.length; i += 2) {
+                    ctx.moveTo(hitbox[i] + radius, hitbox[i + 1]);
+                    ctx.arc(hitbox[i], hitbox[i + 1], radius, 0, p);
+                }
+            }
+            ctx.fill();
+        }
+        return isRendered;
     }
 
 }

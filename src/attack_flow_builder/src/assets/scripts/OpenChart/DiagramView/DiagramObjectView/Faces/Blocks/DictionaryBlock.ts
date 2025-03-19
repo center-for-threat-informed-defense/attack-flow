@@ -7,6 +7,7 @@ import {
     generateTitleSectionLayout
 } from "./Layout";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { RenderSettings } from "../../RenderSettings";
 import type { DictionaryBlockStyle } from "../Styles";
 
 export class DictionaryBlock extends BlockFace {
@@ -22,9 +23,9 @@ export class DictionaryBlock extends BlockFace {
     private readonly grid: [number, number];
 
     /**
-     * The block's subgrid scale.
+     * The block's scale.
      */
-    private readonly subgrid: number;
+    private readonly scale: number;
 
     /**
      * The block's text render instructions.
@@ -53,14 +54,14 @@ export class DictionaryBlock extends BlockFace {
      *  The block's style.
      * @param grid
      *  The block's grid.
-     * @param subgrid
-     *  The block's subgrid scale.
+     * @param scale
+     *  The block's scale.
      */
-    constructor(style: DictionaryBlockStyle, grid: [number, number], subgrid: number) {
+    constructor(style: DictionaryBlockStyle, grid: [number, number], scale: number) {
         super();
         this.style = style;
-        this.grid = grid;
-        this.subgrid = subgrid;
+        this.grid = [grid[0] * scale, grid[1] * scale];
+        this.scale = scale;
         this.text = new DrawTextInstructionSet();
         this.fillColor = this.style.body.fillColor;
         this.strokeColor = this.style.body.strokeColor;
@@ -73,7 +74,8 @@ export class DictionaryBlock extends BlockFace {
      * @returns
      *  True if the layout changed, false otherwise.
      */
-    public calculateLayout(): boolean {        
+    public calculateLayout(): boolean {
+        const markerOffset = BlockFace.markerOffset; 
         const head = this.style.head;
         const body = this.style.body;
         const props = this.view.properties;
@@ -103,7 +105,10 @@ export class DictionaryBlock extends BlockFace {
         const fields: [string, string][] = [];
         for(const [id, property] of props.value) {
             if(property.isDefined() && id !== props.representativeKey) {
-                fields.push([id.toLocaleUpperCase(), property.toString()]);
+                fields.push([
+                    id.toLocaleUpperCase().replace(/_/g, " "),
+                    property.toString()
+                ]);
             }
         }
 
@@ -129,8 +134,8 @@ export class DictionaryBlock extends BlockFace {
         }
 
         // Calculate title and subtitle positions
-        let x = xPadding + 1;
-        let y = yHeadPadding + 1;
+        let x = xPadding + markerOffset;
+        let y = yHeadPadding + markerOffset;
         if(subtitleText) {
             const subtitle = head.twoTitle.subtitle;
             // Update content width
@@ -213,22 +218,22 @@ export class DictionaryBlock extends BlockFace {
         this.width = ceilNearestMultiple(this.width, this.grid[0]);
 
         // Calculate block width and height
-        this.width = 2 * xPadding + this.width + 2;
-        this.height = y + 1;
+        this.width += 2 * (markerOffset + xPadding);
+        this.height = y + markerOffset;
 
         // Calculate block's bounding box
         const bb = this.boundingBox;
         const xMin = bb.x - (this.width / 2);
         const yMin = bb.y - (this.height / 2);
-        bb.xMin = ceilNearestMultiple(xMin, this.grid[0] * this.subgrid);
-        bb.yMin = ceilNearestMultiple(yMin, this.grid[1] * this.subgrid);
+        bb.xMin = ceilNearestMultiple(xMin, this.grid[0] / this.scale);
+        bb.yMin = ceilNearestMultiple(yMin, this.grid[1] / this.scale);
         bb.xMax = bb.xMin + this.width;
         bb.yMax = bb.yMin + this.height;
         const renderX = bb.xMin;
         const renderY = bb.yMin;
 
         // Update anchor positions
-        const anchors = calculateAnchorPositions(bb, this.grid, this.subgrid);
+        const anchors = calculateAnchorPositions(bb, this.grid, markerOffset);
         for(const position in anchors) {
             const coords = anchors[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
@@ -252,22 +257,13 @@ export class DictionaryBlock extends BlockFace {
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
-
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx: number = 10, dsy: number = 10): void {
+    public renderTo(
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion, settings: RenderSettings
+    ): void {
         if (!this.isVisible(region)) {
             return;
         }
@@ -275,19 +271,22 @@ export class DictionaryBlock extends BlockFace {
         // Init
         const x = this.boundingBox.xMin + this.xOffset;
         const y = this.boundingBox.yMin + this.yOffset;    
+        const strokeWidth = BlockFace.markerOffset;
         const { head, borderRadius } = this.style;
 
         // Draw body
-        ctx.lineWidth = 1.1;
-        drawRect(ctx, x, y, this.width, this.height, borderRadius);
-        if (dsx | dsy) {
-            ctx.shadowOffsetX = dsx + (0.5 * region.scale);
-            ctx.shadowOffsetY = dsy + (0.5 * region.scale);
+        ctx.lineWidth = strokeWidth + 0.1;
+        drawRect(ctx, x, y, this.width, this.height, borderRadius, strokeWidth);
+        if (settings.shadowsEnabled) {
+            ctx.shadowBlur = 8;
+            // ctx.shadowOffsetX = dsx + (0.5 * region.scale);
+            // ctx.shadowOffsetY = dsy + (0.5 * region.scale);
             ctx.fillStyle = this.fillColor;
             ctx.strokeStyle = this.strokeColor;
             ctx.fill();
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
+            ctx.shadowBlur = 0;
+            // ctx.shadowOffsetX = 0;
+            // ctx.shadowOffsetY = 0;
             ctx.stroke();
         } else {
             ctx.fillStyle = this.fillColor;
@@ -298,7 +297,7 @@ export class DictionaryBlock extends BlockFace {
 
         // Draw head
         if (this.headHeight) {
-            drawChip(ctx, x, y, this.width, this.headHeight, borderRadius);
+            drawChip(ctx, x, y, this.width, this.headHeight, borderRadius, strokeWidth);
             ctx.fillStyle = head.fillColor;
             ctx.strokeStyle = head.strokeColor;
             ctx.fill();
@@ -323,30 +322,37 @@ export class DictionaryBlock extends BlockFace {
             const outline = this.style.selectOutline;
             const padding = outline.padding + 1;
             // Draw focus border
+            if(settings.animationsEnabled) {
+                ctx.setLineDash([5, 2]);
+            }
             drawRect(
                 ctx,
                 x - padding,
                 y - padding, 
                 this.width + padding * 2,
                 this.height + padding * 2,
-                outline.borderRadius, 1
+                outline.borderRadius, strokeWidth
             );
             ctx.strokeStyle = outline.color;
             ctx.stroke();
+            ctx.setLineDash([]);
         } else if (this.view.hovered) {
             const { color, size } = this.style.anchorMarkers;
             // Draw anchors
             for(const anchor of this.view.anchors.values()) {
-                anchor.renderTo(ctx, region);
+                anchor.renderTo(ctx, region, settings);
             }
             // Draw anchor markers
             ctx.strokeStyle = color;
             ctx.beginPath();
+            let x, y;
             for (const o of this.view.anchors.values()) {
-                ctx.moveTo(o.x - size, o.y - size);
-                ctx.lineTo(o.x + size, o.y + size);
-                ctx.moveTo(o.x + size, o.y - size);
-                ctx.lineTo(o.x - size, o.y + size);
+                x = o.x + BlockFace.markerOffset;
+                y = o.y + BlockFace.markerOffset;
+                ctx.moveTo(x - size, y - size);
+                ctx.lineTo(x + size, y + size);
+                ctx.moveTo(x + size, y - size);
+                ctx.lineTo(x - size, y + size);
             }
             ctx.stroke();
         }

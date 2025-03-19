@@ -3,7 +3,10 @@ import { EditorDirective } from "./Commands";
 import { DiagramViewFile } from "@OpenChart/DiagramView";
 import { DiagramInterface } from "@OpenChart/DiagramInterface";
 import { DiagramModelEditor } from "./DiagramModelEditor";
-import { SelectAndMoveHandler } from "./DragHandlers";
+import { 
+    CanvasSelectPlugin, CreateLineControllerPlugin,
+    LineControllerPlugin, MoveObjectPlugin
+} from "./InterfacePlugins";
 import type { ViewEditorEvents } from "./ViewEditorEvents";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 import type { DirectiveArguments, EditorCommand } from "./Commands";
@@ -44,9 +47,12 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
         this.selection = new Map();
         // Create interface
         this.interface = new DiagramInterface(file.canvas);
-        // Register drag handlers
-        this.interface.registerDragHandler(
-            new SelectAndMoveHandler()
+        // Register default plugins
+        this.interface.installPlugin(
+            new CreateLineControllerPlugin(this.interface),
+            new LineControllerPlugin(this.interface),
+            new MoveObjectPlugin(this.interface),
+            new CanvasSelectPlugin(this.interface)
         )
         // Reindex selection
         this.reindexSelection();

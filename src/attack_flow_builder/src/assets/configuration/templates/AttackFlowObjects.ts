@@ -19,13 +19,15 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             },
             tactic_ref: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                is_editable: false
             },
             technique_id: {
                 type: PropertyType.String
             },
             technique_ref: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                is_editable: false
             },
             description: {
                 type: PropertyType.String

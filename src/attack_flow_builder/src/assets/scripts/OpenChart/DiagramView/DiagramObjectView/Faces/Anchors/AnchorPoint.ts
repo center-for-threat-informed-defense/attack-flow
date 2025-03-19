@@ -2,6 +2,7 @@ import { Priority } from "../../ViewAttributes";
 import { AnchorFace } from "../Bases";
 import type { PointStyle } from "../Styles";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView } from "../../Views";
 
 export class AnchorPoint extends AnchorFace {
@@ -43,8 +44,8 @@ export class AnchorPoint extends AnchorFace {
         const object = super.getObjectAt(x, y);
         // Try anchor
         const r = this.radius;
-        const dx = x - this.boundingBox.x;
-        const dy = y - this.boundingBox.y;
+        const dx = x - (this.boundingBox.x + AnchorFace.markerOffset);
+        const dy = y - (this.boundingBox.y + AnchorFace.markerOffset);
         if (object && object.priority > Priority.Normal) {
             return object;
         } else if (dx * dx + dy * dy < r * r) {
@@ -61,10 +62,11 @@ export class AnchorPoint extends AnchorFace {
      */
     public calculateLayout(): boolean {
         const bb = this.boundingBox;
-        bb.xMin = bb.x - this.radius;
-        bb.yMin = bb.y - this.radius;
-        bb.xMax = bb.x + this.radius;
-        bb.yMax = bb.y + this.radius;
+        const offset = AnchorFace.markerOffset;
+        bb.xMin = bb.x - this.radius + offset;
+        bb.yMin = bb.y - this.radius + offset;
+        bb.xMax = bb.x + this.radius + offset;
+        bb.yMax = bb.y + this.radius + offset;
         return true;
     }
 
@@ -72,31 +74,16 @@ export class AnchorPoint extends AnchorFace {
      * Renders the face to a context.
      * @param ctx
      *  The context to render to.
-     * @param region
-     *  The context's viewport.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
-
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
+    public renderTo(ctx: CanvasRenderingContext2D): void {
         // Only visible when hovered
         if (!this.view.hovered) {
             return;
         }
 
         // Init
-        const { x, y } = this.boundingBox;
+        const x = this.boundingBox.x + AnchorFace.markerOffset;
+        const y = this.boundingBox.y + AnchorFace.markerOffset;
         const { radius, fillColor, strokeColor, strokeWidth } = this.style;
 
         // Configure canvas

@@ -34,7 +34,7 @@ export class HoverObject extends EditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async execute(): Promise<void> {
+    public execute(): void {
         let obj: DiagramObjectView | null = this.object;
         const h1 = this.state ? Hover.Direct : Hover.Off;
         const h2 = this.state ? Hover.Indirect : Hover.Off;
@@ -49,6 +49,6 @@ export class HoverObject extends EditorCommand {
     /**
      * Undoes the editor command.
      */
-    public async undo(): Promise<void> {}
+    public undo(): void {}
 
 }

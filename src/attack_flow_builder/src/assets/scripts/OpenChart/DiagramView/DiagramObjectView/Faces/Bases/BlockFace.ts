@@ -62,17 +62,17 @@ export abstract class BlockFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        // Try anchors
-        const object = this.findObjectsAt([...this.view.anchors.values()], x, y);
-        if (object) {
-            return object;
-        }
-        // Try object
         const bb = this.boundingBox;
         if (
             bb.xMin <= x && x <= bb.xMax &&
             bb.yMin <= y && y <= bb.yMax
         ) {
+            // Try anchors
+            const object = this.findObjectsAt([...this.view.anchors.values()], x, y);
+            if (object) {
+                return object;
+            }
+            // Try object
             return this.view;
         } else {
             return undefined;

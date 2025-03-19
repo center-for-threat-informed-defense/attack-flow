@@ -1,4 +1,5 @@
+export * from "./Mouse";
 export * from "./DiagramInterface";
+export * from "./DiagramInterfacePlugin";
 export * from "./DisplaySettings";
-export * from "./MouseClick";
-export * from "./DragHandler";
+export * from "./Animation";

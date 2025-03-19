@@ -9,6 +9,12 @@ import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 const BaseObjects = {
     "generic_line": {
         type: FaceType.HorizontalElbowLine,
+        attributes: Alignment.Grid,
+        style: DarkStyle.Line()
+    },
+    "generic_line_vert": {
+        type: FaceType.VerticalElbowLine,
+        attributes: Alignment.Grid,
         style: DarkStyle.Line()
     },
     "generic_anchor": {
@@ -23,7 +29,12 @@ const BaseObjects = {
     "generic_latch": {
         type: FaceType.LatchPoint,
         attributes: Alignment.Grid,
-        style: DarkStyle.Point()
+        style: {
+            radius: 8,
+            fill_color: "rgba(230, 216, 69, 0.3)",
+            stroke_color: "#141414",
+            stroke_width: 0
+        }
     },
     "generic_handle": {
         type: FaceType.HandlePoint,
@@ -85,8 +96,8 @@ for(const object of [...StixObjects, ...StixObservables]) {
 export const DarkTheme: DiagramThemeConfiguration = {
     id: "dark_theme", 
     name: "Dark Theme",
-    grid: [10, 10],
-    subgrid: 1/2,
+    grid: [5, 5],
+    scale: 2,
     designs: Object.fromEntries([
         ...Object.entries(BaseObjects),
         ...Object.entries(AttackObjects),

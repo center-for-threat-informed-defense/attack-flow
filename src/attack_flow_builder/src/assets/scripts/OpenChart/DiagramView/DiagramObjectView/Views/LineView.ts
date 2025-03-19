@@ -7,6 +7,7 @@ import type { LatchView } from "./LatchView";
 import type { HandleView } from "./HandleView";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
+import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "./DiagramObjectView";
 
 export class LineView extends Line implements ViewObject {
@@ -67,7 +68,7 @@ export class LineView extends Line implements ViewObject {
      * The line's source latch.
      */
     public set source(latch: LatchView | null) {
-        super.source = latch;
+        this.setSource(latch);
     }
 
     /**
@@ -81,7 +82,7 @@ export class LineView extends Line implements ViewObject {
      * The line's target latch.
      */
     public set target(latch: LatchView | null) {
-        super.target = latch;
+        this.setTarget(latch);
     }
 
     /**
@@ -109,21 +110,6 @@ export class LineView extends Line implements ViewObject {
      */
     public set alignment(value: number) {
         this.setAttribute(Masks.AlignmentMask, value);
-    }
-
-
-    /**
-     * The view's cursor.
-     */
-    public get cursor(): number {
-        return this.getAttribute(Masks.CursorMask);
-    }
-
-    /**
-     * The view's cursor.
-     */
-    public set cursor(value: number) {
-        this.setAttribute(Masks.CursorMask, value);
     }
 
 
@@ -344,28 +330,16 @@ export class LineView extends Line implements ViewObject {
     }
 
     /**
-     * Renders the view to a context.
+     * Renders the face to a context.
      * @param ctx
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
-
-    /**
-     * Renders the view to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
-        this.face.renderTo(ctx, region, dsx, dsy);
+    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, settings: RenderSettings): void {
+        this.face.renderTo(ctx, region, settings);
     }
 
     /**
@@ -396,6 +370,12 @@ export class LineView extends Line implements ViewObject {
      *  (Default: `false`)
      */
     public setSource(latch: LatchView | null, updateLayout: boolean = false) {
+        // Assign choreographer
+        if(latch) {
+            latch.face.choreographer = this.face;
+        } else if(this._sourceLatch) {
+            this._sourceLatch.face.choreographer = null;   
+        }
         // Set latch
         super.source = latch;
         // Update layout
@@ -416,6 +396,12 @@ export class LineView extends Line implements ViewObject {
      *  (Default: `false`)
      */
     public setTarget(latch: LatchView | null, updateLayout: boolean = false) {
+        // Assign choreographer
+        if(latch) {
+            latch.face.choreographer = this.face;
+        } else if(this._targetLatch) {
+            this._targetLatch.face.choreographer = null;   
+        }
         // Set latch
         super.target = latch;
         // Update layout
@@ -436,6 +422,8 @@ export class LineView extends Line implements ViewObject {
      *  (Default: `false`)
      */
     public addHandle(handle: HandleView, updateLayout: boolean = false) {
+        // Assign choreographer
+        handle.face.choreographer = this.face;
         // Add handle
         super.addHandle(handle);
         // Update layout

@@ -5,6 +5,7 @@ import { Canvas, RootProperty } from "@OpenChart/DiagramModel";
 import type { CanvasFace } from "../Faces";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
+import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "./DiagramObjectView";
 
 export class CanvasView extends Canvas implements ViewObject {
@@ -69,21 +70,6 @@ export class CanvasView extends Canvas implements ViewObject {
      */
     public set alignment(value: number) {
         this.setAttribute(Masks.AlignmentMask, value);
-    }
-
-
-    /**
-     * The view's cursor.
-     */
-    public get cursor(): number {
-        return this.getAttribute(Masks.CursorMask);
-    }
-
-    /**
-     * The view's cursor.
-     */
-    public set cursor(value: number) {
-        this.setAttribute(Masks.CursorMask, value);
     }
 
 
@@ -173,14 +159,9 @@ export class CanvasView extends Canvas implements ViewObject {
 
 
     /**
-     * The view's x-coordinate grid size.
+     * The view's grid size.
      */
-    public readonly gridX: number;
-
-    /**
-     * The view's y-coordinate grid size.
-     */
-    public readonly gridY: number;
+    public readonly grid: [number, number];
 
 
     /**
@@ -194,7 +175,7 @@ export class CanvasView extends Canvas implements ViewObject {
      * @param properties
      *  The view's root property.
      * @param grid
-     *  The view's grid.
+     *  The view's grid size.
      * @param face
      *  The view's face.
      */
@@ -207,8 +188,7 @@ export class CanvasView extends Canvas implements ViewObject {
         face: CanvasFace
     ) {
         super(id, instance, attributes, properties);
-        this.gridX = grid[0];
-        this.gridY = grid[1];
+        this.grid = grid;
         // Set face
         this._face = face;
         this.replaceFace(face);
@@ -323,28 +303,16 @@ export class CanvasView extends Canvas implements ViewObject {
     }
 
     /**
-     * Renders the view to a context.
+     * Renders the face to a context.
      * @param ctx
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
-
-    /**
-     * Renders the view to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
-        this.face.renderTo(ctx, region, dsx, dsy);
+    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, settings: RenderSettings): void {
+        this.face.renderTo(ctx, region, settings);
     }
 
     /**

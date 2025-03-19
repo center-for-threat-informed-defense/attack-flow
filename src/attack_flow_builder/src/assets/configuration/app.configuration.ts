@@ -72,6 +72,15 @@ const configuration: AppConfiguration = {
                 handle_template: "generic_handle"
             },
             {
+                name: "generic_line_vert",
+                type: DiagramObjectType.Line,
+                latch_template: {
+                    source: "generic_latch",
+                    target: "generic_latch"
+                },
+                handle_template: "generic_handle"
+            },
+            {
                 name: "generic_anchor",
                 type: DiagramObjectType.Anchor
             },

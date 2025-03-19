@@ -6,6 +6,7 @@ import type { LatchFace } from "../Faces";
 import type { AnchorView } from "./AnchorView";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
+import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "./DiagramObjectView";
 
 export class LatchView extends Latch implements ViewObject {
@@ -70,21 +71,6 @@ export class LatchView extends Latch implements ViewObject {
      */
     public set alignment(value: number) {
         this.setAttribute(Masks.AlignmentMask, value);
-    }
-
-
-    /**
-     * The view's cursor.
-     */
-    public get cursor(): number {
-        return this.getAttribute(Masks.CursorMask);
-    }
-
-    /**
-     * The view's cursor.
-     */
-    public set cursor(value: number) {
-        this.setAttribute(Masks.CursorMask, value);
     }
 
 
@@ -300,28 +286,16 @@ export class LatchView extends Latch implements ViewObject {
     }
 
     /**
-     * Renders the view to a context.
+     * Renders the face to a context.
      * @param ctx
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
-
-    /**
-     * Renders the view to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
-        this.face.renderTo(ctx, region, dsx, dsy);
+    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, settings: RenderSettings): void {
+        this.face.renderTo(ctx, region, settings);
     }
 
     /**

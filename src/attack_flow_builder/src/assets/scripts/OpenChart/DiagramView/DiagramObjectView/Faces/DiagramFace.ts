@@ -3,8 +3,14 @@ import { BoundingBox } from "./BoundingBox";
 import type { ViewportRegion } from "../ViewportRegion";
 import type { DiagramObjectView } from "../Views";
 import type { MovementChoreographer } from "./MovementChoreographer";
+import type { RenderSettings } from "../RenderSettings";
 
 export abstract class DiagramFace {
+
+    /**
+     * The offset needed to align faces with the grid's markers.
+     */
+    protected static markerOffset: number = 1;
 
     /**
      * The face's view.
@@ -176,26 +182,15 @@ export abstract class DiagramFace {
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
     public abstract renderTo(
-        ctx: CanvasRenderingContext2D, region: ViewportRegion
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion,
+        settings: RenderSettings
     ): void;
 
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public abstract renderTo(
-        ctx: CanvasRenderingContext2D, region: ViewportRegion,
-        dsx?: number, dsy?: number
-    ): void;
 
     /**
      * Renders the face's debug information to a context.

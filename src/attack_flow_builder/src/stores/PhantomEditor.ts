@@ -9,8 +9,8 @@ import { Alignment, DiagramObjectViewFactory, DiagramViewFile, FaceType } from "
 const PhantomTheme = ThemeLoader.unsafeLoad({
     id: "__phantom_theme",
     name: "Phantom Theme",
-    grid: [10,10],
-    subgrid: 1/2,
+    grid: [5,5],
+    scale: 2,
     designs: {
         __phantom_canvas: {
             type: FaceType.LineGridCanvas,

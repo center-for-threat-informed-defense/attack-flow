@@ -26,7 +26,7 @@ export class ThemeLoader {
             id: theme.id,
             name: theme.name,
             grid: theme.grid,
-            subgrid: theme.subgrid,
+            scale: theme.scale,
             designs: Object.fromEntries([...designs.entries()])
         };
     }
@@ -56,7 +56,7 @@ export class ThemeLoader {
             id: theme.id,
             name: theme.name,
             grid: theme.grid,
-            subgrid: theme.subgrid,
+            scale: theme.scale,
             designs: Object.fromEntries([...designs.entries()])
         };
     }

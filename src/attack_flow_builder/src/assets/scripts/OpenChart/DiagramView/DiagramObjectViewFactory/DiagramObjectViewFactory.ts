@@ -7,7 +7,8 @@ import {
     AnchorPoint, AnchorView, BlockView, BranchBlock,
     CanvasView, DictionaryBlock, DotGridCanvas, GroupFace, GroupView,
     HandlePoint, HandleView, HorizontalElbowLine, LatchPoint,
-    LatchView, LineGridCanvas, LineView, TextBlock
+    LatchView, LineGridCanvas, LineView, TextBlock,
+    VerticalElbowLine
 } from "../DiagramObjectView";
 import type { FaceDesign } from "./FaceDesign";
 import type { TypeToTemplate } from "./TypeToTemplate";
@@ -204,20 +205,13 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 object = this.createBaseDiagramObject(template, LineView);
                 // Create latches
                 const latch = template.latch_template;
-                const src = this.createNewDiagramObject(latch.source, LatchView);
-                const trg = this.createNewDiagramObject(latch.target, LatchView);
-                object.source = src;
-                object.target = trg;
+                object.source = this.createNewDiagramObject(latch.source, LatchView);
+                object.target = this.createNewDiagramObject(latch.target, LatchView);
                 // Create handles, if necessary
                 if (object.face instanceof HorizontalElbowLine) {
                     // Attach handle
                     const handle = template.handle_template;
-                    const hdl = this.createNewDiagramObject(handle, HandleView);
-                    object.addHandle(hdl);
-                    // Delegate control of each face's movements to the object face
-                    src.face.choreographer = object.face;
-                    trg.face.choreographer = object.face;
-                    hdl.face.choreographer = object.face;
+                    object.addHandle(this.createNewDiagramObject(handle, HandleView));
                 }
                 break;
 
@@ -246,7 +240,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
         values?: JsonEntries
     ): DiagramObjectView {
         const grid = this.theme.grid;
-        const subgrid = this.theme.subgrid;
+        const scale = this.theme.scale;
         // Create properties
         const props = this.createRootProperty(template.properties ?? {}, values);
         // Resolve design
@@ -265,7 +259,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 face = new BranchBlock(design.style);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.DictionaryBlock:
-                face = new DictionaryBlock(design.style, grid, subgrid);
+                face = new DictionaryBlock(design.style, grid, scale);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.TextBlock:
                 face = new TextBlock(design.style);
@@ -277,19 +271,19 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 face = new LatchPoint(design.style);
                 return new LatchView(template.name, instance, attrs, props, face);
             case FaceType.HorizontalElbowLine:
-                face = new HorizontalElbowLine(design.style);
+                face = new HorizontalElbowLine(design.style, grid);
                 return new LineView(template.name, instance, attrs, props, face);
             case FaceType.VerticalElbowLine:
-                face = new HorizontalElbowLine(design.style);
+                face = new VerticalElbowLine(design.style, grid);
                 return new LineView(template.name, instance, attrs, props, face);
             case FaceType.Group:
                 face = new GroupFace();
                 return new GroupView(template.name, instance, attrs, props, face);
             case FaceType.LineGridCanvas:
-                face = new LineGridCanvas(design.style, grid);
+                face = new LineGridCanvas(design.style, grid, scale);
                 return new CanvasView(template.name, instance, attrs, props, grid, face);
             case FaceType.DotGridCanvas:
-                face = new DotGridCanvas(design.style, grid);
+                face = new DotGridCanvas(design.style, grid, scale);
                 return new CanvasView(template.name, instance, attrs, props, grid, face);
         }
     }
@@ -373,7 +367,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
         objects: DiagramObjectView[]
     ): void {
         const grid = this.theme.grid;
-        const subgrid = this.theme.subgrid;
+        const scale = this.theme.scale;
         // Restyle objects
         for (const object of traversePostfix(objects)) {
             // Resolve design
@@ -393,7 +387,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.DictionaryBlock:
-                    face = new DictionaryBlock(design.style, grid, subgrid);
+                    face = new DictionaryBlock(design.style, grid, scale);
                     object.replaceFace(face);
                     break;
                 case FaceType.TextBlock:
@@ -409,11 +403,11 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.HorizontalElbowLine:
-                    face = new HorizontalElbowLine(design.style);
+                    face = new HorizontalElbowLine(design.style, grid);
                     object.replaceFace(face);
                     break;
                 case FaceType.VerticalElbowLine:
-                    face = new HorizontalElbowLine(design.style);
+                    face = new VerticalElbowLine(design.style, grid);
                     object.replaceFace(face);
                     break;
                 case FaceType.Group:
@@ -421,11 +415,11 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.LineGridCanvas:
-                    face = new LineGridCanvas(design.style, grid);
+                    face = new LineGridCanvas(design.style, grid, scale);
                     object.replaceFace(face);
                     break;
                 case FaceType.DotGridCanvas:
-                    face = new DotGridCanvas(design.style, grid);
+                    face = new DotGridCanvas(design.style, grid, scale);
                     object.replaceFace(face);
                     break;
             }

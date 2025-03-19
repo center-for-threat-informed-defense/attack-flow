@@ -56,7 +56,7 @@ export function generateTextSectionLayout(
     let _y;
     if(titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        _y = y + Math.min(titleCellHeight, ascent)
+        _y = y + Math.min(titleCellHeight, Math.round(ascent))
     } else {
         _y = y + titleCellHeight; 
     }
@@ -128,7 +128,7 @@ export function generateTitleSectionLayout(
     let _y;
     if(titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        _y = y + Math.min(titleCellHeight, ascent)
+        _y = y + Math.min(titleCellHeight, Math.round(ascent))
     } else {
         _y = y + titleCellHeight; 
     }

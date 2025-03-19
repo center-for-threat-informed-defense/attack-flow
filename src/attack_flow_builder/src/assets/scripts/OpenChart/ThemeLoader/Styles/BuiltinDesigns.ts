@@ -20,7 +20,7 @@ export const DarkStyle = new StyleGenerator({
             },
             two_title: {
                 title: {
-                    font: { family: "Inter", size: "8pt", weight: 600 },
+                    font: { family: "Inter", size: "8.7pt", weight: 500 },
                     color: "#d8d8d8",
                     units: 1,
                     align_top: true
@@ -37,18 +37,18 @@ export const DarkStyle = new StyleGenerator({
             fill_color: "#1f1f1f",
             stroke_color: "#383838",
             field_name_text: {
-                font: { family: "Inter", size: "8pt", weight: 600 },
-                color: "#b3b3b3",
+                font: { family: "Inter", size: "8.3pt", weight: 500 },
+                color: "#a0a0a0",
                 units: 1,
                 align_top: false
             },
             field_value_text: {
                 font: { family: "Inter", size: "10.5pt" },
-                color: "#bfbfbf",
-                units: 2,
+                color: "#cacaca",
+                units: 2
             },
             body_vertical_padding_units: 1.5,
-            field_vertical_padding_units: 2,
+            field_vertical_padding_units: 2
         },
         branch: {
             font: { family: "Inter", size: "10.5pt" },
@@ -84,7 +84,7 @@ export const DarkStyle = new StyleGenerator({
             },
             two_title: {
                 title: {
-                    font: { family: "Inter", size: "8pt", weight: 600 },
+                    font: { family: "Inter", size: "8.7pt", weight: 500 },
                     color: "#d8d8d8",
                     units: 1,
                     align_top: true
@@ -101,14 +101,15 @@ export const DarkStyle = new StyleGenerator({
             fill_color: "#1f1f1f",
             stroke_color: "#383838",
             field_name_text: {
-                font: { family: "Inter", size: "8pt", weight: 600 },
-                color: "#b3b3b3",
+                // font: { family: "Inter", size: "8.3pt", weight: 500 },
+                font: { family: "Inter", size: "8.1pt", weight: 600 },
+                color: "#a0a0a0",
                 units: 1,
                 align_top: false
             },
             field_value_text: {
                 font: { family: "Inter", size: "10.5pt" },
-                color: "#bfbfbf",
+                color: "#cacaca",
                 units: 2
             },
             body_vertical_padding_units: 1.5,
@@ -154,15 +155,16 @@ export const DarkStyle = new StyleGenerator({
         radius: 6,
         fill_color: "#fedb22",
         stroke_color: "#141414",
-        stroke_width: 1.5
+        stroke_width: 3
     },
 
     line: {
-        width: 5,
+        width: 2,
         hitbox_width: 20,
-        cap_size: 16,
-        color: "#646464",
-        select_color: "#646464"
+        border_radius: 12,
+        cap_size: 12,
+        color: "#465bf8",
+        select_color: "#e6d845"
     },
 
     canvas: {

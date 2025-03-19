@@ -18,9 +18,9 @@ export type DiagramTheme = {
     grid: [number, number];
 
     /**
-     * The theme's subgrid scale.
+     * The theme's interface scale.
      */
-    subgrid: number;
+    scale: number;
 
     /**
      * The theme's designs.

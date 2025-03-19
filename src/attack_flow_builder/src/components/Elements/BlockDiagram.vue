@@ -11,6 +11,7 @@
       @select="onItemSelect"
       @focusout="closeContextMenu"
     />
+    <div class="inset-shadow"></div>
   </div>
 </template>
 
@@ -22,8 +23,9 @@ import { useApplicationStore } from "@/stores/ApplicationStore";
 import { useContextMenuStore } from "@/stores/ContextMenuStore";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
-import { Cursor, type DiagramObjectView } from "@OpenChart/DiagramView";
+import { Cursor } from "@OpenChart/DiagramInterface";
 import { EditorCommand, type DiagramViewEditor } from '@/assets/scripts/OpenChart/DiagramEditor';
+import type { DiagramObjectView } from "@OpenChart/DiagramView";
 import type { ContextMenuSection } from '@/assets/scripts/Browser';
 import type { Command, CommandEmitter } from '@/assets/scripts/Application';
 
@@ -86,16 +88,6 @@ export default defineComponent({
     // },
 
     /**
-     * Returns the current cursor style.
-     * @returns
-     *  The current cursor style.
-     */
-    cursorStyle(): { cursor: string } {
-      // return { cursor: CursorCssName[this.cursor] }
-      return { cursor: "default" };
-    },
-
-    /**
      * Returns the context menu's style.
      * @returns
      *  The context menu's style.
@@ -105,6 +97,15 @@ export default defineComponent({
         top: `${this.menu.y}px`,
         left: `${this.menu.x}px`,
       };
+    },
+
+    /**
+     * Returns the current cursor style.
+     * @returns
+     *  The current cursor style.
+     */
+    cursorStyle(): { cursor: string } {
+      return { cursor: this.cursor };
     },
 
     /**
@@ -195,12 +196,8 @@ export default defineComponent({
      * @param c
      *  The cursor to use.
      */
-    onObjectHover(o: DiagramObjectView | undefined, cursor: number) {
+    onCursorChange(cursor: Cursor) {
       this.cursor = cursor;
-      this.execute(EditorCommands.clearHover(this.editor.file.canvas));
-      if(o) {
-        this.execute(EditorCommands.hoverObject(o, true));
-      }
     },
 
     /**
@@ -341,10 +338,10 @@ export default defineComponent({
       ui.mount(this.$el);
       ui.render();
       // Subscribe to diagram events
-      ui.on("object-hover", this.onObjectHover);
+      ui.on("cursor-change", this.onCursorChange);
       // this.diagram.on("object-click", this.onObjectClick);
       // this.diagram.on("canvas-click", this.onCanvasClick);
-      ui.on("object-interaction", this.onObjectInteraction);
+      ui.on("plugin-command", this.onObjectInteraction);
     }
 
   },
@@ -441,6 +438,14 @@ export default defineComponent({
 .block-diagram-menu {
   position: absolute;
   cursor: default;
+}
+
+.inset-shadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0px 0px 9px 0px rgb(0 0 0 / 35%);
+  pointer-events: none;
 }
 
 </style>

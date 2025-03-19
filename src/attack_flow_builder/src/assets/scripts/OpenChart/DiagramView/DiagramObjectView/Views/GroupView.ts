@@ -5,6 +5,7 @@ import { Group, RootProperty } from "@OpenChart/DiagramModel";
 import type { GroupFace } from "../Faces";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
+import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "./DiagramObjectView";
 
 export class GroupView extends Group implements ViewObject {
@@ -69,21 +70,6 @@ export class GroupView extends Group implements ViewObject {
      */
     public set alignment(value: number) {
         this.setAttribute(Masks.AlignmentMask, value);
-    }
-
-
-    /**
-     * The view's cursor.
-     */
-    public get cursor(): number {
-        return this.getAttribute(Masks.CursorMask);
-    }
-
-    /**
-     * The view's cursor.
-     */
-    public set cursor(value: number) {
-        this.setAttribute(Masks.CursorMask, value);
     }
 
 

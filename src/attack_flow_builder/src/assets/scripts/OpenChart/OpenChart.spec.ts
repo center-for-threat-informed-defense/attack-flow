@@ -19,8 +19,8 @@ import type { DiagramThemeConfiguration } from "./ThemeLoader";
 const sampleTheme: DiagramThemeConfiguration = {
     id: "dark_theme",
     name: "Dark Theme",
-    grid: [10, 10],
-    subgrid: 1/2,
+    grid: [5, 5],
+    scale: 2,
     designs: {
         generic_canvas: {
             type: FaceType.LineGridCanvas,

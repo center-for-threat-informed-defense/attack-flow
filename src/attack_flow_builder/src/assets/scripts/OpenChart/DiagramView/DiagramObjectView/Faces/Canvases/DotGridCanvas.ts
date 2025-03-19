@@ -1,6 +1,7 @@
 import { CanvasFace } from "../Bases/CanvasFace";
 import type { CanvasStyle } from "../Styles";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { RenderSettings } from "../../RenderSettings";
 
 export class DotGridCanvas extends CanvasFace {
 
@@ -8,11 +9,6 @@ export class DotGridCanvas extends CanvasFace {
      * The canvas's style.
      */
     private readonly style: CanvasStyle;
-
-    /**
-     * The canvas's grid.
-     */
-    private readonly grid: [number, number];
 
     /**
      * The canvas's pattern.
@@ -26,14 +22,15 @@ export class DotGridCanvas extends CanvasFace {
      *  The canvas's style.
      * @param grid
      *  The canvas's grid.
+     * @param scale
+     *  The canvas's scale.
      */
-    constructor(style: CanvasStyle, grid: [number, number]) {
+    constructor(style: CanvasStyle, grid: [number, number], scale: number) {
         super();
         this.style = style;
-        this.grid = grid;
         this.gridPattern = this.createGridPattern(
-            this.grid[0],
-            this.grid[1],
+            grid[0] * scale,
+            grid[1] * scale,
             this.style.backgroundColor,
             this.style.gridColor
         );;
@@ -46,23 +43,17 @@ export class DotGridCanvas extends CanvasFace {
      *  The context to render to.
      * @param region
      *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     *  (Default: The page's styled x-offset)
-     * @param dsy
-     *  The drop shadow's y-offset.
-     *  (Default: The page's styled y-offset)
+     * @param settings
+     *  The current render settings.
      */
     public renderTo(
-        ctx: CanvasRenderingContext2D, vr: ViewportRegion,
-        dsx: number = this.style.dropShadow.offset[0],
-        dsy: number = this.style.dropShadow.offset[1],
-        _attrs?: number
-    ) {
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion, settings: RenderSettings
+    ): void {
         // Configure drop shadow
         ctx.shadowColor = this.style.dropShadow.color;
         // Draw contents
-        super.renderTo(ctx, vr, dsx * vr.scale, dsy * vr.scale);
+        super.renderTo(ctx, region, settings);
     }
 
     /**
@@ -106,12 +97,13 @@ export class DotGridCanvas extends CanvasFace {
         }
         const can = document.createElement("canvas");
         const ctx = can.getContext("2d", { alpha: false })!;
+        const marker = CanvasFace.markerOffset * 2;
         can.width = gridX;
         can.height = gridY;
         ctx.fillStyle = fillColor;
         ctx.fillRect(0, 0, gridX, gridY);
         ctx.fillStyle = strokeColor;
-        ctx.fillRect(0, 0, 2, 2);
+        ctx.fillRect(0, 0, marker, marker);
         const ptr = ctx.createPattern(can, "repeat")!;
         return ptr;
     }
