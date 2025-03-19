@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: '20'
     - name: Install dependencies
@@ -75,7 +75,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: attack_flow_builder
+        name: attack-flow-builder
         path: src/attack_flow_builder/dist/
 
   comment_flow_links:
@@ -146,7 +146,7 @@ jobs:
     - name: Download Attack Flow Builder
       uses: actions/download-artifact@v4
       with:
-        name: attack_flow_builder
+        name: attack-flow-builder
         path: docs/extra/ui
     - name: Make Attack Flow schema
       run: poetry run make docs-schema
@@ -165,15 +165,7 @@ jobs:
       with:
         name: attack-flow-docs-html
         path: docs/_build/dirhtml/
-    - name: Install TeX Live
-      run: sudo apt install -y latexmk texlive texlive-latex-extra
-    - name: Build PDF docs
-      run: poetry run sphinx-build -M latexpdf docs docs/_build
-    - name: Upload PDF docs
-      uses: actions/upload-artifact@v4
-      with:
-        name: attack_flow_docs_pdf
-        path: docs/_build/latex/attackflow.pdf
+    
 
   deploy_prod:
     # This job only runs when creating a tag.
@@ -228,7 +220,7 @@ jobs:
           labels: ${{ steps.af_meta.outputs.labels }}
 
   deploy_preview:
-    if: "!startsWith(github.ref, 'refs/tags/v')"
+    if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
     needs: render_site
     runs-on: ubuntu-latest
     env:
@@ -245,7 +237,7 @@ jobs:
       - name: Download HTML
         uses: actions/download-artifact@v4
         with:
-          name: attack_flow_docs_html
+          name: attack-flow-docs-html
           path: docs
       - run: >
           staticrypt --remember 30 --salt 64c02ee360e9a7eb90b1c28e89be65ac \
