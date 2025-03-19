@@ -17,32 +17,32 @@ jobs:
   test_python:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-    - name: Install Poetry
-      run: curl -sSL https://install.python-poetry.org/ | python -
-    - name: Add Poetry to PATH
-      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-    - name: Install Python dependencies
-      run: poetry install
-    - name: Check code formatting
-      run: poetry run black --check src/attack_flow/
-    - name: Run unit tests
-      run: poetry run make test-ci
-    - name: Upload coverage to CodeCov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_SECRET }}
-        files: coverage.xml
-        verbose: true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org/ | python -
+      - name: Add Poetry to PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Install Python dependencies
+        run: poetry install
+      - name: Check code formatting
+        run: poetry run black --check src/attack_flow/
+      - name: Run unit tests
+        run: poetry run make test-ci
+      - name: Upload coverage to CodeCov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_SECRET }}
+          files: coverage.xml
+          verbose: true
 
   attack_flow_builder:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: '19'
     - name: Install dependencies
@@ -55,7 +55,7 @@ jobs:
         NODE_OPTIONS: "--openssl-legacy-provider"
       run: npm run build
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: attack_flow_builder
         path: src/attack_flow_builder/dist/
@@ -63,7 +63,7 @@ jobs:
   comment_flow_links:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/github-script@v6
       if: github.event_name == 'pull_request'
       env:
@@ -103,11 +103,11 @@ jobs:
     needs: ["test_python", "attack_flow_builder"]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
       with:
         python-version: '3.12'
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: '19'
     - name: Update APT
@@ -126,7 +126,7 @@ jobs:
     - name: Create client directory
       run: mkdir docs/extra/ui
     - name: Download Attack Flow Builder
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: attack_flow_builder
         path: docs/extra/ui
@@ -145,21 +145,13 @@ jobs:
     - name: Copy matrix-viz code into docs
       run: poetry run make docs-matrix
     - name: Build HTML docs
-      run: poetry run sphinx-build -M dirhtml docs docs/_build -W --keep-going
+      run: poetry run make docs
     - name: Upload HTML docs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: attack_flow_docs_html
         path: docs/_build/dirhtml/
-    - name: Install TeX Live
-      run: sudo apt install -y latexmk texlive texlive-latex-extra
-    - name: Build PDF docs
-      run: poetry run sphinx-build -M latexpdf docs docs/_build
-    - name: Upload PDF docs
-      uses: actions/upload-artifact@v3
-      with:
-        name: attack_flow_docs_pdf
-        path: docs/_build/latex/attackflow.pdf
+    
 
   github_pages:
     # This job only runs when creating a tag.
@@ -173,17 +165,17 @@ jobs:
     - name: Setup Pages
       uses: actions/configure-pages@v2
     - name: Download HTML docs
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
-        name: attack_flow_docs_html
+        name: attack-flow-docs-html
         path: docs
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
+      uses: actions/upload-pages-artifact@v3
       with:
         path: ./docs
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v1
+      uses: actions/deploy-pages@v4
 
   docker:
     # This job only runs when creating a tag.
@@ -192,7 +184,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Log in to the Container registry
         uses: docker/login-action@v1
         with:
@@ -204,7 +196,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}
-          labels: org.opencontainers.image.url=https://ctid.mitre-engenuity.org/our-work/attack-flow/
+          labels: org.opencontainers.image.url=https://ctid.mitre.org/our-work/attack-flow/
       - name: Build Attack Flow Docker image
         uses: docker/build-push-action@v2
         with:

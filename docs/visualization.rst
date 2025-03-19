@@ -57,6 +57,30 @@ resulting visualization.
         padding: 1em;
         display: none;
     }
+
+    label {
+        margin: 0 0 .3125em;
+        color: #333;
+        font-size: 90%;
+    }
+
+    select {
+        border: 1px solid #ccc;
+        background-color: #fff;
+        padding: .5em .625em;
+        display: inline-block;
+        font-size: 80%;
+        box-shadow: inset 0 1px 3px #ddd;
+        -webkit-transition: border .3s linear;
+        -moz-transition: border .3s linear;
+        transition: border .3s linear;
+    }
+
+    .btn-primary:disabled {
+        color: #fff;
+        background-color: var(--mitre-dark-gray);
+        border-color: var(--mitre-dark-gray);
+    }
     </style>
 
     <div id="preview">

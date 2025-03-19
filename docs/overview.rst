@@ -112,7 +112,7 @@ Here are a few ways for you to learn more and get started with Attack Flow:
    start creating flows in just minutes.
 3. :newsgroup:`Tell us what you think.` Find us `on LinkedIn
    <https://www.linkedin.com/showcase/center-for-threat-informed-defense/>`__ or email
-   us `ctid@mitre-engenuity.org <mailto:ctid@mitre-engenuity.org>`__ and let us know how
+   us `ctid@mitre.org <mailto:ctid@mitre.org>`__ and let us know how
    you're using Attack Flow and what ideas you have to improve it.
 4. :newsgroup:`Spread the word!` Our goals is to get members of the community excited
    about Attack Flow and adopt it in their own work. Attack Flow is open source and

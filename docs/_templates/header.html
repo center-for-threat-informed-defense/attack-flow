@@ -1,0 +1,30 @@
+<header class="container-fluid bg-primary sticky-top">
+  <a class="btn btn-sm btn-light skip-to-content-link" href="#main">{{ _('Skip to content') }}</a>
+  <div class="container-fluid container">
+    <div class="navbar navbar-expand-lg navbar-dark font-weight-bold">
+      {%- if theme_project_name %}
+      <a class="logo" href="{{pathto(master_doc)}}">
+        <h1>{{theme_project_name}}
+          <span class="version">
+            v2.2.7
+          </span>
+        </h1>
+      </a>
+      {% endif %} {%- if theme_logo and theme_logo != 'None' %}
+      <a href="https://ctid.mitre.org/" target="_blank" {% if theme_logo_alt %}title="{{ theme_logo_alt|e }}" {% endif
+        %} class="navbar-brand d-none d-lg-block">
+        <img src="{{ pathto('_static/' + theme_logo, 1) }}" {%- if theme_logo_width %} width="{{ theme_logo_width|e }}"
+          {% endif %} {%- if theme_logo_height %} height="{{ theme_logo_height|e }}" {% endif %} {%- if theme_logo_alt
+          %} alt="{{ theme_logo_alt|e }}" {% endif %} {%- if theme_logo_title %} title="{{ theme_logo_title|e }}" {%
+          endif %} class="logo-img" />
+      </a>
+      {% endif %}
+
+      <button class="navbar-toggler btn btn-primary d-lg-none" type="button" data-toggle="collapse"
+        data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseExample">
+        <span class="navbar-toggler-icon"></span>
+        <span class="sr-only">{{ _('menu') }}</span>
+      </button>
+    </div>
+  </div>
+</header>

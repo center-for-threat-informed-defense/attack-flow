@@ -112,8 +112,6 @@ with the overall structure of ATT&CK.
 Consider the following steps when mapping reports to ATT&CK techniques:
 
 * Familiarize yourself with the `ATT&CK Enterprise Matrix <https://attack.mitre.org/matrices/enterprise/>`_.
-* Take MITRE Engenuity's `MAD CTI Training
-  <https://mitre-engenuity.org/cybersecurity/mad/>`_ for deeper training.
 * Read CISA's `best practices for mapping to ATT&CK
   <https://www.cisa.gov/uscert/sites/default/files/publications/Best%20Practices%20for%20MITRE%20ATTCK%20Mapping.pdf>`__.
 * Read through your selected report(s) and try to order the behaviors into chronological

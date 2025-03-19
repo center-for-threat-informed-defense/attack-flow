@@ -90,11 +90,11 @@ export default defineComponent({
 /** === App Logo === */
 
 .logo {
-  margin: 0px 6px 0px 12px;
+  margin: 5px 6px 0px 12px;
 }
 
 .logo img {
-  height: 10px;
+  height: 16px;
 }
 
 </style>

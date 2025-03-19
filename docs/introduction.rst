@@ -17,7 +17,7 @@ during a specific breach, then that is an action.
 
    The examples here depict ATT&CK techniques, but Attack Flow does not require the use
    of ATT&CK. You may use custom collections of techniques, e.g. created in `Workbench
-   <https://ctid.mitre-engenuity.org/our-work/attack-workbench/>`__, other knowledge
+   <https://ctid.mitre.org/projects/attck-workbench/>`__ other knowledge
    bases `such as VERIS <http://veriscommunity.net/>`__, or even create ad hoc actions
    to describe techniques that are not part of any pre-existing taxonomy.
 
