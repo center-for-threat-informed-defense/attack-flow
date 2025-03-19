@@ -23,7 +23,6 @@ globally. The project is funded by our `research participants
     best_practices
     developers
     owl_approach
-    changelog
 
 Notice
 ------
