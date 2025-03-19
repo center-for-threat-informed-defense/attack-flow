@@ -102,7 +102,7 @@ body.theme-dark .admonition p:last-child {
 }
 
 .admonition.caution .admonition-title,
-.admonition.warning .admonition-title  {
+.admonition.warning .admonition-title {
   background-color: var(--me-orange-dark);
   color: var(--text-color-inverse);
 }
@@ -378,7 +378,8 @@ footer p {
   font-size: 16px;
 }
 
-.highlight-bash .highlight pre, pre {
+.highlight-bash .highlight pre,
+pre {
   background-color: var(--mitre-dark-navy);
   border-radius: var(--border-radius);
 }
