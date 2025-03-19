@@ -36,7 +36,6 @@ pytest-cov = "2.11.1"
 pytest-flake8 = "1.0.7"
 pytest-mock = "3.5.1"
 safety = "^2.3.5"
-sphinx-rtd-theme = "^1.0.0"
 black = "^22.3.0"
 bumpver = "^2022.1119"
 

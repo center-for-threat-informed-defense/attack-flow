@@ -148,15 +148,7 @@ jobs:
       with:
         name: attack_flow_docs_html
         path: docs/_build/dirhtml/
-    - name: Install TeX Live
-      run: sudo apt install -y latexmk texlive texlive-latex-extra
-    - name: Build PDF docs
-      run: poetry run sphinx-build -M latexpdf docs docs/_build
-    - name: Upload PDF docs
-      uses: actions/upload-artifact@v4
-      with:
-        name: attack_flow_docs_pdf
-        path: docs/_build/latex/attackflow.pdf
+    
 
   github_pages:
     # This job only runs when creating a tag.
