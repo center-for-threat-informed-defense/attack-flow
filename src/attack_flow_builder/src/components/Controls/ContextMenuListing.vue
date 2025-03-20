@@ -227,9 +227,9 @@ export default defineComponent({
      * @returns
      *  The concatenated listing of all shortcuts as a string.
      */
-    displayShortcuts(shortcuts?: any): string | undefined {
+    displayShortcuts(shortcuts?: Array<string>): string | undefined {
       if(!shortcuts) { return shortcuts; }
-      else { return shortcuts.map(s=>this.formatShortcut(s)).join(" / "); }
+      else { return shortcuts.map((s: string)=>this.formatShortcut(s)).join(" / "); }
     },
 
     /**
