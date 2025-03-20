@@ -149,7 +149,7 @@ jobs:
     - name: Upload HTML docs
       uses: actions/upload-artifact@v4
       with:
-        name: attack_flow_docs_html
+        name: attack-flow-docs-html
         path: docs/_build/dirhtml/
     
 
