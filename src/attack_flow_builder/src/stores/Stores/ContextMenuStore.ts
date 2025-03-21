@@ -269,7 +269,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Cut",
                         type: MenuType.Item,
                         data: () => new App.CutSelectedChildren(ctx, page),
-                        shortcut: edit.cut,
+                        shortcuts: edit.cut,
                         disabled: !hasSelection
                     },
                     {
@@ -283,7 +283,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Paste",
                         type: MenuType.Item,
                         data: () => Page.PasteToObject.fromClipboard(ctx, page),
-                        shortcut: edit.paste,
+                        shortcuts: edit.paste,
                         disabled: !canPaste
                     }
                 ]
@@ -411,7 +411,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Unselect All",
                         type: MenuType.Item,
                         data: () => new Page.UnselectDescendants(page),
-                        shortcut: edit.unselect_all
+                        shortcuts: edit.unselect_all
                     }
                 ]
             };
