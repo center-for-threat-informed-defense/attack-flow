@@ -1,4 +1,5 @@
 import * as AppCommands from "@/assets/scripts/Application/Commands";
+import * as EditorCommands from "@OpenChart/DiagramEditor/Commands";
 import { defineStore } from "pinia";
 import { useApplicationStore } from "./ApplicationStore";
 import type { Hotkey } from "@/assets/scripts/Browser";
@@ -118,11 +119,11 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                 //     shortcut: edit.paste,
                 //     repeatable: true
                 // },
-                // {
-                //     data: () => new Page.RemoveSelectedChildren(page),
-                //     shortcut: edit.delete,
-                //     repeatable: false
-                // },
+                {
+                    data: () => EditorCommands.removeSelectedChildren(editor.file.canvas),
+                    shortcut: edit.delete,
+                    repeatable: false
+                },
                 // {
                 //     data: () => new Page.DuplicateSelectedChildren(ctx, page),
                 //     shortcut: edit.duplicate,

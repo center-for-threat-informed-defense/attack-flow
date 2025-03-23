@@ -1,18 +1,16 @@
 import * as EditorCommands from "../Commands";
-import { Alignment } from "@OpenChart/DiagramView";
-import { HoverPlugin } from "./HoverPlugin";
+import { SelectPlugin } from "./SelectPlugin";
 import { EditorCommand } from "../Commands";
-import { SelectionAnimation } from "./Animations";
 import { Cursor, DiagramInterface } from "@OpenChart/DiagramInterface";
-import { Block, findImplicitSelection, Handle, Line, traverse } from "@OpenChart/DiagramModel";
+import { Alignment, HandleView, LineView } from "@OpenChart/DiagramView";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class MoveObjectPlugin extends HoverPlugin {
+export class LineHandleMoverPlugin extends SelectPlugin {
 
     /**
      * The current selection.
      */
-    private selection: DiagramObjectView[];
+    private selection: HandleView;
 
     /**
      * The selection's alignment.
@@ -21,13 +19,13 @@ export class MoveObjectPlugin extends HoverPlugin {
 
 
     /**
-     * Creates a new {@link MoveObjectPlugin}.
+     * Creates a new {@link SelectAndMovePlugin}.
      * @param ui
      *  The plugin's interface.
      */
     constructor(ui: DiagramInterface<EditorCommand>) {
         super(ui);
-        this.selection = [];
+        this.selection = null as unknown as HandleView;
         this.alignment = Alignment.Free;
     }
 
@@ -47,9 +45,7 @@ export class MoveObjectPlugin extends HoverPlugin {
      *  True if the plugin can handle the event, false otherwise.
      */
     public canHandleHover(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
-        return obj instanceof Block
-            || obj instanceof Line
-            || obj instanceof Handle;
+        return this.canHandleSelection(obj, event);
     }
 
     /**
@@ -60,10 +56,8 @@ export class MoveObjectPlugin extends HoverPlugin {
      *  The active cursor type.
      */
     public handleHoverStart(obj: DiagramObjectView | undefined): Cursor {
-        // Handle hover
         super.handleHoverStart(obj);
-        // Return cursor
-        return Cursor.Move;
+        return Cursor.Pointer;
     }
 
 
@@ -71,7 +65,7 @@ export class MoveObjectPlugin extends HoverPlugin {
     //  2. Selection Interactions  ////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
     
-    
+
     /**
      * Tests if the plugin can handle a selection.
      * @param obj
@@ -82,8 +76,10 @@ export class MoveObjectPlugin extends HoverPlugin {
      *  True if the plugin can handle the event, false otherwise.
      */
     public canHandleSelection(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
-        return obj instanceof Block
-            || obj instanceof Line;
+        if(obj instanceof HandleView) {
+            return obj.parent instanceof LineView;
+        } 
+        return false;
     }
 
     /**
@@ -99,18 +95,18 @@ export class MoveObjectPlugin extends HoverPlugin {
      *  `handleSelectEnd()` will not be invoked).
      */
     protected handleSelectStart(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
-        const root = this.interface.root;
-        // Update selection
-        this.updateSelection(obj, event);
-        // Get initial selection
-        this.selection = [...traverse(root, o => o.focused)];
-        // Get implicit selection
-        this.selection = findImplicitSelection(this.selection) as DiagramObjectView[];
-        // Determine alignment
-        this.alignment = this.selection.some(
-            o => o.alignment === Alignment.Grid
-        ) ? Alignment.Grid : Alignment.Free;
+        if(!obj?.parent) {
+            return true;
+        }
         // Start stream command
+        // Prepare selection
+        this.selection = obj as HandleView;
+        this.alignment = obj.alignment;
+        this.execute(EditorCommands.userSetObjectPosition(obj));
+        // Select line
+        if(!obj.parent.focused) {
+            this.select(obj.parent, event);
+        }
         // Assume control of movement
         return false;
     }
@@ -123,15 +119,16 @@ export class MoveObjectPlugin extends HoverPlugin {
      *  The selection's delta.
      */
     protected handleSelectDrag(event: MouseEvent): [number, number] {
+        const { moveObjectsBy } = EditorCommands;
         // Get distance
-        let delta;
+        let delta = this.getDistance();
         if(this.alignment === Alignment.Grid) {
             delta = this.getDistanceOnGrid(this.interface.root.grid);
-        } else {
+        }  else {
             delta = this.getDistance();
         }
-        // Move
-        this.execute(EditorCommands.moveObjectsBy(this.selection, delta[0], delta[1]));
+        // Move object
+        this.execute(moveObjectsBy(this.selection, delta[0], delta[1]));
         // Return delta
         return delta;
     }
@@ -143,25 +140,6 @@ export class MoveObjectPlugin extends HoverPlugin {
      */
     protected handleSelectEnd(event: MouseEvent): void {
         // End stream command
-    }
-
-    /**
-     * Updates the current selection.
-     * @param obj
-     *  The object being selected.
-     * @param event
-     *  The mouse event.
-     */
-    private updateSelection(obj: DiagramObjectView | undefined, event: MouseEvent) {
-        // Update selection 
-        if(!event.ctrlKey) {
-            this.execute(EditorCommands.unselectGroupObjects(this.interface.root));
-            this.execute(EditorCommands.stopAnimation(this.interface, SelectionAnimation));
-        }
-        if(obj) {
-            this.execute(EditorCommands.selectObject(obj));
-            this.execute(EditorCommands.runAnimation(this.interface, SelectionAnimation));
-        }
     }
 
 }

@@ -249,6 +249,20 @@ export abstract class DiagramInterfacePlugin<T> extends EventEmitter<{ "execute"
         ]
     }
 
+    /**
+     * Returns how far the selection has moved onto an object.
+     * @param obj
+     *  The object.
+     * @returns
+     *  The selection's [x, y] delta.
+     */
+    protected getDistanceOntoObject(obj: DiagramObjectView, obj1: DiagramObjectView): [number, number] {
+        return [
+            obj.x - obj1.x,
+            obj.y - obj1.y
+        ]
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  4. Execute Commands  //////////////////////////////////////////////////

@@ -1,4 +1,6 @@
 import { DiagramFace } from "../DiagramFace";
+import { Tangibility } from "../../ViewAttributes";
+import { findUnlinkedObjectAt } from "../../ViewLocators";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView, CanvasView } from "../../Views";
@@ -34,7 +36,24 @@ export abstract class CanvasFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        return this.findObjectsAt([...this.view.objects.values()], x, y);
+        // Check tangibility 
+        if(this.view.tangibility === Tangibility.None) {
+            return undefined;
+        }
+        return this.getChildAt(x, y);
+    }
+    
+    /**
+     * Returns the topmost child at the given coordinate.
+     * @param x
+     *  The x coordinate.
+     * @param y
+     *  The y coordinate.
+     * @returns
+     *  The topmost child, undefined if there isn't one.
+     */
+    protected getChildAt(x: number, y: number): DiagramObjectView | undefined {
+        return findUnlinkedObjectAt([...this.view.objects.values()], x, y);
     }
 
 

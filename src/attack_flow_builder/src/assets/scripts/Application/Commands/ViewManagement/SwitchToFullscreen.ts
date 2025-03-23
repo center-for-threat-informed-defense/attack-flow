@@ -1,4 +1,4 @@
-import { Browser } from "@/assets/scripts/Browser";
+import { Device } from "@/assets/scripts/Browser";
 import { AppCommand } from "../AppCommand";
 
 export class SwitchToFullscreen extends AppCommand {
@@ -16,7 +16,7 @@ export class SwitchToFullscreen extends AppCommand {
      * Executes the command.
      */
     public async execute(): Promise<void> {
-        Browser.fullscreen();
+        Device.fullscreen();
     }
 
 }

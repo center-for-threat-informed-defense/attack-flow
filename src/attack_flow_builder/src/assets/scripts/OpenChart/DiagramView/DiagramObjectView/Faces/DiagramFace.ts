@@ -1,16 +1,27 @@
-import { Priority } from "../ViewAttributes";
+import * as Masks from "../ViewAttributes";
 import { BoundingBox } from "./BoundingBox";
 import type { ViewportRegion } from "../ViewportRegion";
+import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "../Views";
 import type { MovementChoreographer } from "./MovementChoreographer";
-import type { RenderSettings } from "../RenderSettings";
 
 export abstract class DiagramFace {
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Static State  //////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
 
     /**
      * The offset needed to align faces with the grid's markers.
      */
     protected static markerOffset: number = 1;
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Base State  ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
 
     /**
      * The face's view.
@@ -27,6 +38,87 @@ export abstract class DiagramFace {
      */
     public choreographer: MovementChoreographer | null;
 
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  3. Attributes  ////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * The view's alignment.
+     */
+    public get alignment(): number {
+        return this.view.getAttribute(Masks.AlignmentMask);
+    }
+    
+    /**
+     * The view's alignment.
+     */
+    public set alignment(value: number) {
+        this.view.setAttribute(Masks.AlignmentMask, value);
+    }
+
+
+    /**
+     * Whether the view is focused or not.
+     */
+    public get focused(): boolean {
+        return this.view.isAttributeSet(Masks.FocusMask);
+    }
+   
+    /**
+     * Whether the view is focused or not.
+     */
+    public set focused(value: number) {
+        this.view.setAttribute(Masks.FocusMask, value);
+    }
+
+
+    /**
+     * Whether the view is hovered or not.
+     */
+    public get hovered(): number {
+        return this.view.getAttribute(Masks.HoverMask);
+    }
+
+    /**
+     * Whether the view is hovered or not.
+     */
+    public set hovered(value: number) {
+        this.view.setAttribute(Masks.HoverMask, value);
+    }
+
+
+    /**
+     * The view's tangibility.
+     */
+    public get tangibility(): number  {
+        return this.view.getAttribute(Masks.TangibilityMask);
+    }
+
+    /**
+     * The view's tangibility.
+     */
+    public set tangibility(value: number) {
+        this.view.setAttribute(Masks.TangibilityMask, value);
+    }
+    
+
+
+    /**
+     * Whether view's position has been set by the user.
+     */
+    public get userSetPosition(): boolean  {
+        return this.view.isAttributeSet(Masks.PositionSetByUserMask);
+    }
+
+    /**
+     * Whether view's position has been set by the user.
+     */
+    public set userSetPosition(value: number) {
+        this.view.setAttribute(Masks.PositionSetByUserMask, value);
+    }
+    
 
     /**
      * Creates a new {@link DiagramFace}.
@@ -45,7 +137,7 @@ export abstract class DiagramFace {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  1. Selection  /////////////////////////////////////////////////////////
+    //  4. Selection  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -60,36 +152,9 @@ export abstract class DiagramFace {
      */
     public abstract getObjectAt(x: number, y: number): DiagramObjectView | undefined;
 
-    /**
-     * Returns the topmost view at the given coordinate, within a set of views.
-     * @param views
-     *  The views to search.
-     * @param x
-     *  The x coordinate.
-     * @param y
-     *  The y coordinate.
-     * @returns
-     *  The topmost view, undefined if there isn't one.
-     */
-    protected findObjectsAt(views: DiagramObjectView[], x: number, y: number): DiagramObjectView | undefined {
-        let object = undefined;
-        let select = undefined;
-        for (let i = views.length - 1; 0 <= i; i--) {
-            const view = views[i];
-            select = view.getObjectAt(x, y);
-            if (select && (!object || select.priority > object.priority)) {
-                object = select;
-                if (object.priority === Priority.High) {
-                    break;
-                }
-            }
-        }
-        return object;
-    }
-
 
     ///////////////////////////////////////////////////////////////////////////
-    //  2. Movement  //////////////////////////////////////////////////////////
+    //  5. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -143,7 +208,7 @@ export abstract class DiagramFace {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  3. Layout / Rendering  ////////////////////////////////////////////////
+    //  6. Layout / Rendering  ////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 

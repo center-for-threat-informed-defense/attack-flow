@@ -95,6 +95,11 @@ export type PointDesign = BaseFaceDesign<
 > & {
 
     /**
+     * The point's orientation.
+     */
+    orientation?: number;
+
+    /**
      * The point's style.
      */
     style: PointStyle;

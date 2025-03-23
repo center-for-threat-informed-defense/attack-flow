@@ -1,4 +1,5 @@
 import { DiagramFace } from "../DiagramFace";
+import { findObjectAt } from "../../ViewLocators";
 import type { AnchorView, DiagramObjectView } from "../../Views";
 
 export abstract class AnchorFace extends DiagramFace {
@@ -23,17 +24,16 @@ export abstract class AnchorFace extends DiagramFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost child at the given coordinate.
      * @param x
      *  The x coordinate.
      * @param y
      *  The y coordinate.
      * @returns
-     *  The topmost view, undefined if there isn't one.
+     *  The topmost child, undefined if there isn't one.
      */
-    public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        // Try latches
-        return this.findObjectsAt([...this.view.latches.values()], x, y);
+    protected getChildAt(x: number, y: number): DiagramObjectView | undefined {
+        return findObjectAt([...this.view.latches.values()], x, y);
     }
 
 

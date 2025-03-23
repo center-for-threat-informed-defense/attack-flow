@@ -1,3 +1,4 @@
+import { round } from "@OpenChart/Utilities";
 import type { Font } from "@OpenChart/Utilities";
 import type { DrawTextInstruction } from "./DrawTextInstruction";
 import type { DrawTextInstructionSet } from "./DrawTextInstructionSet";
@@ -56,7 +57,7 @@ export function generateTextSectionLayout(
     let _y;
     if(titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        _y = y + Math.min(titleCellHeight, Math.round(ascent))
+        _y = y + Math.min(titleCellHeight, round(ascent))
     } else {
         _y = y + titleCellHeight; 
     }
@@ -128,7 +129,7 @@ export function generateTitleSectionLayout(
     let _y;
     if(titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        _y = y + Math.min(titleCellHeight, Math.round(ascent))
+        _y = y + Math.min(titleCellHeight, round(ascent))
     } else {
         _y = y + titleCellHeight; 
     }

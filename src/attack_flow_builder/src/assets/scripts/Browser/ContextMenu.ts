@@ -71,7 +71,7 @@ export type ContextMenuSubmenu<D> = ContextMenuBase<MenuType.Submenu> & {
 export type ContextMenuSection<D> = {
     
     /**
-     * THe section's id.
+     * The section's id.
      */
     id: string;
 

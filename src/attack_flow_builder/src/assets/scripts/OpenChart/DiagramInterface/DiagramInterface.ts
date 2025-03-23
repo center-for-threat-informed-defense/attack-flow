@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as d3 from "d3";
-import { Cursor } from "./Mouse";
+import { Cursor, MouseClick } from "./Mouse";
 import { Screen } from "./Screen";
-import { EventEmitter } from "@OpenChart/Utilities";
 import { DisplaySettings } from "./DisplaySettings";
 import { ViewportRegion } from "@OpenChart/DiagramView";
+import { EventEmitter, round } from "@OpenChart/Utilities";
 import { resizeAndTransformContext, resizeContext, transformContext } from "./Context";
 import type { Animation } from "./Animation";
 import type { DiagramInterfacePlugin } from "./DiagramInterfacePlugin";
@@ -403,7 +403,7 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
      *  The drag action to perform or `undefined` if no object was clicked.
      */
     private onSelectSubject(event: any): Object | undefined {
-        const evt = event.sourceEvent;
+        const evt = event.sourceEvent as MouseEvent;
         const x = this.transform.invertX(event.x);
         const y = this.transform.invertY(event.y);
         const obj = this.root.getObjectAt(x, y);
@@ -423,7 +423,14 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
         // Emit canvas click event
         this.emit("canvas-click", evt, event.x, event.y);
         // Return
-        return yieldedControl ? undefined : {};
+        if(evt.button === MouseClick.Right) {
+            if(this.activePlugin && !yieldedControl) {
+                this.activePlugin.selectEnd(evt);
+            }
+            return undefined;
+        } else {
+            return yieldedControl ? undefined : {};
+        }
     }
 
     /**
@@ -537,10 +544,10 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
     private updateViewportBounds() {
         const t = this.transform;
         const padding = DiagramInterface.VIEWPORT_PADDING;
-        this.viewport.xMin = Math.round(t.invertX(-padding));
-        this.viewport.xMax = Math.round(t.invertX(this.elWidth + padding));
-        this.viewport.yMin = Math.round(t.invertY(-padding));
-        this.viewport.yMax = Math.round(t.invertY(this.elHeight + padding));
+        this.viewport.xMin = round(t.invertX(-padding));
+        this.viewport.xMax = round(t.invertX(this.elWidth + padding));
+        this.viewport.yMin = round(t.invertY(-padding));
+        this.viewport.yMax = round(t.invertY(this.elHeight + padding));
         this.viewport.scale = t.k;
     }
 
@@ -560,8 +567,8 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
      */
     public setCameraLocation(location: CameraLocation, animate: number = 1000) {
         const k = location.k;
-        const x = Math.round((this.elWidth / 2) - (location.x * k));
-        const y = Math.round((this.elHeight / 2) - (location.y * k));
+        const x = round((this.elWidth / 2) - (location.x * k));
+        const y = round((this.elHeight / 2) - (location.y * k));
         // Move camera
         this.canvas.transition()
             .duration(animate)

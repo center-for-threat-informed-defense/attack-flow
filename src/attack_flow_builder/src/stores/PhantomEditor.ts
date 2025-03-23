@@ -13,7 +13,7 @@ const PhantomTheme = ThemeLoader.unsafeLoad({
     scale: 2,
     designs: {
         __phantom_canvas: {
-            type: FaceType.LineGridCanvas,
+            type: FaceType.DotGridCanvas,
             attributes: Alignment.Grid,
             style: DarkStyle.Canvas()
         }

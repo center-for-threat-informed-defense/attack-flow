@@ -1,4 +1,3 @@
-import * as Masks from "../ViewAttributes";
 import { linkFaceToView } from "../FaceLinker";
 import { LayoutUpdateReason } from "../LayoutUpdateReason";
 import { Canvas, RootProperty } from "@OpenChart/DiagramModel";
@@ -62,14 +61,14 @@ export class CanvasView extends Canvas implements ViewObject {
      * The view's alignment.
      */
     public get alignment(): number {
-        return this.getAttribute(Masks.AlignmentMask);
+        return this._face.alignment;
     }
 
     /**
      * The view's alignment.
      */
     public set alignment(value: number) {
-        this.setAttribute(Masks.AlignmentMask, value);
+        this._face.alignment = value;
     }
 
 
@@ -77,14 +76,14 @@ export class CanvasView extends Canvas implements ViewObject {
      * Whether the view is focused or not.
      */
     public get focused(): boolean {
-        return this.isAttributeSet(Masks.FocusMask);
+        return this._face.focused;
     }
 
     /**
      * Whether the view is focused or not.
      */
     public set focused(value: number) {
-        this.setAttribute(Masks.FocusMask, value);
+        this._face.focused = value;
     }
 
 
@@ -92,29 +91,29 @@ export class CanvasView extends Canvas implements ViewObject {
      * Whether the view is hovered or not.
      */
     public get hovered(): number {
-        return this.getAttribute(Masks.HoverMask);
+        return this._face.hovered;
     }
 
     /**
      * Whether the view is hovered or not.
      */
     public set hovered(value: number) {
-        this.setAttribute(Masks.HoverMask, value);
+        this._face.hovered = value;
     }
 
 
     /**
-     * The view's selection priority.
+     * The view's tangibility.
      */
-    public get priority(): number  {
-        return this.getAttribute(Masks.PriorityMask);
+    public get tangibility(): number  {
+        return this._face.tangibility;
     }
 
     /**
-     * The view's selection priority.
+     * The view's tangibility.
      */
-    public set priority(value: number) {
-        this.setAttribute(Masks.PriorityMask, value);
+    public set tangibility(value: number) {
+        this._face.tangibility = value;
     }
 
 
@@ -122,14 +121,14 @@ export class CanvasView extends Canvas implements ViewObject {
      * Whether view's position has been set by the user.
      */
     public get userSetPosition(): boolean  {
-        return this.isAttributeSet(Masks.PositionSetByUserMask);
+        return this._face.userSetPosition;
     }
 
     /**
      * Whether view's position has been set by the user.
      */
     public set userSetPosition(value: number) {
-        this.setAttribute(Masks.PositionSetByUserMask, value);
+        this._face.userSetPosition = value;
     }
 
 

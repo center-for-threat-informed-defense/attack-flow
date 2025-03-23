@@ -1,5 +1,7 @@
 import { DiagramFace } from "../DiagramFace";
-import { isInsideRegion } from "@/assets/scripts/OpenChart/Utilities";
+import { Tangibility } from "../../ViewAttributes";
+import { findUnlinkedObjectAt } from "../../ViewLocators";
+import { isInsideRegion } from "@OpenChart/Utilities";
 import { LayoutUpdateReason } from "../../LayoutUpdateReason";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { MovementChoreographer } from "../MovementChoreographer";
@@ -16,6 +18,31 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
      * The line's hitboxes.
      */
     protected readonly hitboxes: number[][];
+
+
+    /**
+     * Whether the view is focused or not.
+     */
+    public get focused(): boolean {
+        return super.focused;
+    }
+    
+    /**
+     * Whether the view is focused or not.
+     */
+    public set focused(value: number) {
+        super.focused = value;
+        // Determine child tangibility
+        const tangibility = super.focused 
+            ? Tangibility.Priority
+            : Tangibility.Normal;
+        // Update tangibility
+        this.view.source.tangibility = tangibility;
+        this.view.target.tangibility = tangibility;
+        for(const handle of this.view.handles) {
+            handle.tangibility = tangibility;
+        }
+    }
 
 
     /**
@@ -44,7 +71,9 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        if (this.isAnchored()) {
+        if(this.view.tangibility === Tangibility.None) {
+            return undefined;
+        } else if (this.isAnchored()) {
             // Try points
             const obj = this.getChildAt(x, y);
             if (obj) {
@@ -56,7 +85,7 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
                     continue;
                 }
                 if (i === 1) {
-                    return this.view.handles[i];
+                    return this.view.handles[0];
                 } else {
                     return this.view;
                 }
@@ -89,13 +118,10 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
      *  The topmost child, undefined if there isn't one.
      */
     protected getChildAt(x: number, y: number): DiagramObjectView | undefined {
-        // Try latches and handles
         const views: DiagramObjectView[] = [
-            this.view.source,
-            ...this.view.handles,
-            this.view.target
+            this.view.source, ...this.view.handles, this.view.target
         ];
-        return this.findObjectsAt(views, x, y);
+        return findUnlinkedObjectAt(views, x, y);
     }
 
 
@@ -141,8 +167,12 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
         this.boundingBox.yMin += dy;
         this.boundingBox.yMax += dy;
         // Move children
-        this.view.source.face.moveBy(dx, dy);
-        this.view.target.face.moveBy(dx, dy);
+        if(!this.view.source.isLinked()){
+            this.view.source.face.moveBy(dx, dy);
+        }
+        if(!this.view.target.isLinked()) {
+            this.view.target.face.moveBy(dx, dy);
+        }
         for (const handle of this.view.handles.values()) {
             handle.face.moveBy(dx, dy);
         }

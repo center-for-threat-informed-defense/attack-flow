@@ -55,7 +55,7 @@
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
 import { 
-  Browser, KeyToTextMacOS, KeyToTextWin,
+  Device, KeyToTextMacOS, KeyToTextWin,
   MenuType, OperatingSystem
 } from '@/assets/scripts/Browser';
 import type { CommandEmitter } from '@/assets/scripts/Application';
@@ -198,7 +198,7 @@ export default defineComponent({
       if(!shortcut) {
         return shortcut;
       } else {
-        if(Browser.getOperatingSystemClass() === OperatingSystem.MacOS) {
+        if(Device.getOperatingSystemClass() === OperatingSystem.MacOS) {
           return shortcut
             .split("+")
             .map(c => c in KeyToTextMacOS ? KeyToTextMacOS[c] : c)

@@ -1,6 +1,6 @@
-import { Browser } from "@/assets/scripts/Browser";
+import { Device } from "@/assets/scripts/Browser";
 import { AppCommand } from "../AppCommand";
-import type { ApplicationStore } from "@/stores/Stores/ApplicationStore";
+import type { ApplicationStore } from "@/stores/ApplicationStore";
 
 export class SwitchToFullscreen extends AppCommand {
 
@@ -17,7 +17,7 @@ export class SwitchToFullscreen extends AppCommand {
      * Executes the command.
      */
     public execute(): void {
-        Browser.fullscreen();
+        Device.fullscreen();
     }
 
 }

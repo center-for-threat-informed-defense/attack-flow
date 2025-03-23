@@ -1,3 +1,4 @@
+import { round } from "@OpenChart/Utilities";
 import { Animation } from "@OpenChart/DiagramInterface";
 
 export class SelectAnimation extends Animation {
@@ -38,7 +39,7 @@ export class SelectAnimation extends Animation {
      *  The frame number.
      */
     public renderFrame(context: CanvasRenderingContext2D, frame: number): void {
-        context.lineDashOffset = - Math.round(frame / 2) % 7;
+        context.lineDashOffset = - round(frame / 2) % 7;
     }
 
 }

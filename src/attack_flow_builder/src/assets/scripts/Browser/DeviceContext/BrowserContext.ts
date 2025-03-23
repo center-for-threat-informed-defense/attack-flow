@@ -1,7 +1,8 @@
 import { OperatingSystem } from "./OperatingSystems";
 import type { TextFile } from "./TextFile";
+import type { DeviceContext } from "./DeviceContext";
 
-export class BrowserContext {
+export class BrowserContext implements DeviceContext {
 
     /**
      * The internal download link used to initiate downloads.
@@ -12,7 +13,7 @@ export class BrowserContext {
      * Creates a new {@link BrowserContext}.
      */
     constructor() {
-        this._aLink = document.createElement("a");
+        this._aLink = document?.createElement("a");
     }
 
 

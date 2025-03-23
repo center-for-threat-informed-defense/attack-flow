@@ -1,9 +1,11 @@
 import { LineFace } from "../Bases";
 import { LayoutUpdateReason } from "../../LayoutUpdateReason";
 import { 
-    drawArrowHead,
     drawHorizontalElbow,
+    drawPolygon,
+    getArrowHead,
     getLineHitbox,
+    round,
     roundNearestMultiple
 } from "@OpenChart/Utilities";
 import type { LineStyle } from "../Styles";
@@ -32,6 +34,15 @@ export class HorizontalElbowLine extends LineFace {
         number, number
     ];
 
+    /**
+     * The line's arrow head shape.
+     */
+    private arrowHead: [
+        number, number,
+        number, number,
+        number, number
+    ]
+
 
     /**
      * Creates a new {@link HorizontalElbowLine}.
@@ -45,6 +56,7 @@ export class HorizontalElbowLine extends LineFace {
         this.style = style;
         this.grid = grid;
         this.coordinates = [0, 0, 0, 0, 0, 0];
+        this.arrowHead = getArrowHead(0,0,0,0, style.capSize);
     }
 
 
@@ -78,7 +90,7 @@ export class HorizontalElbowLine extends LineFace {
             hdlX = hdl.x,
             hdlY = hdl.y,
             hx = roundNearestMultiple((srcX + trgX) / 2, this.grid[0]),
-            hy = Math.round((srcY + trgY) / 2);
+            hy = round((srcY + trgY) / 2);
         if (!hdl.userSetPosition) {
             hdl.face.setPosition(hx - hdlX, 0);
         } else if (view.instance === hdl.instance) {
@@ -114,17 +126,24 @@ export class HorizontalElbowLine extends LineFace {
         this.hitboxes[1] = getLineHitbox(hdl.x, src.y, hdl.x, trg.y, w);
         this.hitboxes[2] = getLineHitbox(hdl.x, trg.y, trg.x, trg.y, w);
         // Update coordinates
-        this.coordinates[1] = src.y + LineFace.markerOffset;
-        this.coordinates[2] = hdl.x + LineFace.markerOffset;
-        this.coordinates[3] = hdl.y;
-        this.coordinates[5] = trg.y + LineFace.markerOffset;
+        const coords = this.coordinates;
+        coords[1] = src.y + LineFace.markerOffset;
+        coords[2] = hdl.x + LineFace.markerOffset;
+        coords[3] = hdl.y;
+        coords[5] = trg.y + LineFace.markerOffset;
         if(src.x < trg.x) {
-            this.coordinates[0] = src.x + (LineFace.markerOffset << 1);
-            this.coordinates[4] = trg.x;
+            coords[0] = src.x + (LineFace.markerOffset << 1);
+            coords[4] = trg.x;
         } else {
-            this.coordinates[0] = src.x;
-            this.coordinates[4] = trg.x + (LineFace.markerOffset << 1);
+            coords[0] = src.x;
+            coords[4] = trg.x + (LineFace.markerOffset << 1);
         }
+        // Update arrow head
+        this.arrowHead = getArrowHead(
+            coords[2], coords[5],
+            coords[4], coords[5],
+            this.style.capSize
+        );
         // Update bounding box
         super.calculateLayout();
         return true;
@@ -183,11 +202,10 @@ export class HorizontalElbowLine extends LineFace {
         ctx.stroke();
         ctx.setLineDash([]);
         // Draw arrow head
-        drawArrowHead(
+        drawPolygon(
             ctx,
-            c[2], c[5],
             c[4], c[5],
-            capSize
+            this.arrowHead,
         );
         ctx.fill();
 

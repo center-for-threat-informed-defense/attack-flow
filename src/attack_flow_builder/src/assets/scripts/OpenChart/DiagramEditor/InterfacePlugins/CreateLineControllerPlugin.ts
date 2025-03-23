@@ -1,52 +1,19 @@
 import * as EditorCommands from "../Commands";
-import { Anchor } from "@OpenChart/DiagramModel";
-import { HoverPlugin } from "./HoverPlugin";
+import { AnchorView } from "@OpenChart/DiagramView";
 import { EditorCommand } from "../Commands";
 import { DiagramInterface } from "@OpenChart/DiagramInterface";
-import { Alignment, HandleView } from "@OpenChart/DiagramView";
-import { LatchView, type DiagramObjectView } from "@OpenChart/DiagramView";
+import { LineLatchMoverPlugin } from "./LineLatchMoverPlugin";
+import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class CreateLineControllerPlugin extends HoverPlugin {
-
-    /**
-     * The current selection.
-     */
-    private selection: LatchView | HandleView;
+export class CreateLineControllerPlugin extends LineLatchMoverPlugin {
 
     /**
-     * The selection's alignment.
-     */
-    private alignment: number;
-
-
-    /**
-     * Creates a new {@link SelectAndMovePlugin}.
+     * Creates a new {@link CreateLineControllerPlugin}.
      * @param ui
      *  The plugin's interface.
      */
     constructor(ui: DiagramInterface<EditorCommand>) {
         super(ui);
-        this.selection = null as unknown as LatchView;
-        this.alignment = Alignment.Free;
-    }
-
-    
-    ///////////////////////////////////////////////////////////////////////////
-    //  1. Hover Interactions  ////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Tests if the plugin can handle a hover event.
-     * @param obj
-     *  The object being hovered.
-     * @param event
-     *  The mouse event.
-     * @returns
-     *  True if the plugin can handle the event, false otherwise.
-     */
-    public canHandleHover(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
-        return obj instanceof Anchor;
     }
 
 
@@ -65,7 +32,7 @@ export class CreateLineControllerPlugin extends HoverPlugin {
      *  True if the plugin can handle the event, false otherwise.
      */
     public canHandleSelection(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
-        return obj instanceof Anchor;
+        return obj instanceof AnchorView;
     }
 
     /**
@@ -82,47 +49,12 @@ export class CreateLineControllerPlugin extends HoverPlugin {
      */
     protected handleSelectStart(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
         // Start stream command
-        // Prepare selection
-        // if(obj instanceof LatchView) {
-        //     this.selection = obj;
-        //     this.alignment = obj.alignment;
-        // } else if(obj instanceof HandleView) {
-        //     this.selection = obj;
-        //     this.alignment = obj.alignment;
-        //     this.execute(EditorCommands.userSetObjectPosition(obj));
-        // }
+        // Create line
+        
+        // Handle latch
+        // super.handleSelectStart();
         // Assume control of movement
         return false;
-    }
-
-    /**
-     * Selection drag logic.
-     * @param event
-     *  The mouse event.
-     * @param delta
-     *  The selection's delta.
-     */
-    protected handleSelectDrag(event: MouseEvent): [number, number] {
-        // Get distance
-        let delta;
-        // if(this.alignment === Alignment.Grid) {
-        //     delta = this.getDistanceOnGrid(this.interface.root.grid);
-        // } else {
-            delta = this.getDistance();
-        // }
-        // // Move
-        // this.execute(EditorCommands.moveObjectsBy(this.selection, delta[0], delta[1]));
-        // Return delta
-        return delta;
-    }
-    
-    /**
-     * Selection end logic.
-     * @param event
-     *  The mouse event.
-     */
-    protected handleSelectEnd(event: MouseEvent): void {
-        // End stream command
     }
 
 }

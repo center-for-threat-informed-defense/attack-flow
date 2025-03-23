@@ -5,7 +5,7 @@ import { DiagramInterface } from "@OpenChart/DiagramInterface";
 import { SelectionAnimation } from "./Animations";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class CanvasSelectPlugin extends HoverPlugin {
+export class CanvasMoverPlugin extends HoverPlugin {
 
     /**
      * Creates a new {@link MoveObjectPlugin}.

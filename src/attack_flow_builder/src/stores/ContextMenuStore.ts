@@ -1,12 +1,16 @@
 import Configuration from "@/assets/configuration/app.configuration";
 import * as AppCommands from "@/assets/scripts/Application/Commands";
+import * as EditorCommands from "@OpenChart/DiagramEditor/Commands";
 import { version } from "@/../package.json";
-import { MenuType } from "@/assets/scripts/Browser";
+import { MenuType, titleCase } from "@/assets/scripts/Browser";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { useApplicationStore } from "./ApplicationStore";
+import type { SpawnObject } from "@OpenChart/DiagramEditor/Commands/View/index.commands";
 import type { CommandEmitter } from "@/assets/scripts/Application";
+import type { DiagramObjectTemplate, DiagramSchemaConfiguration } from "@/assets/scripts/OpenChart/DiagramModel";
 import type { ContextMenu, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
+import { EditorCommand } from "@/assets/scripts/OpenChart/DiagramEditor";
 
 export const useContextMenuStore = defineStore("contextMenuStore", {
     getters: {
@@ -214,7 +218,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     // this.deleteMenu,
                     // this.duplicateMenu,
                     // this.findMenu,
-                    // this.createMenu,
+                    this.createMenu,
                     // this.selectAllMenu,
                     // this.unselectAllMenu
                 ]
@@ -417,65 +421,59 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //     };
         // },
 
-        // /**
-        //  * Returns the create menu section.
-        //  * @returns
-        //  *  The create menu section.
-        //  */
-        // createMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
+        /**
+         * Returns the create menu section.
+         * @returns
+         *  The create menu section.
+         */
+        createMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const file = app.activeEditor.file;
+            const templates = file.factory.templates;
+            // Build menu
+            const menu = generateCreateMenu(
+                templates, (id) => EditorCommands.spawnObject(file, id)
+            );
+            // Return menu
+            return {
+                id: "create_options",
+                items: [
+                    {
+                        text: "Create",
+                        type: MenuType.Submenu,
+                        sections: menu.sections
+                    }
+                ]
+            };
 
-        //     // Build menu
-        //     const root = page.factory.getNamespace().get("@")! as Namespace;
-        //     const menu = generateCreateMenu(
-        //         "@", root, (id) => new Page.SpawnObject(ctx, page, id)
-        //     );
+        },
 
-        //     // Return menu
-        //     return {
-        //         id: "create_options",
-        //         items: [
-        //             {
-        //                 text: "Create",
-        //                 type: MenuType.Submenu,
-        //                 sections: menu.sections
-        //             }
-        //         ]
-        //     };
+        /**
+         * Returns the create at menu section.
+         * @returns
+         *  The create at menu section.
+         */
+        createAtMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const file = app.activeEditor.file;
+            const templates = file.factory.templates;
+            // Build menu
+            const menu = generateCreateMenu(
+                templates, (id) => EditorCommands.spawnObject(file, id)
+            );
+            // Return menu
+            return {
+                id: "create_options",
+                items: [
+                    {
+                        text: "Create",
+                        type: MenuType.Submenu,
+                        sections: menu.sections
+                    }
+                ]
+            };
 
-        // },
-
-        // /**
-        //  * Returns the create at menu section.
-        //  * @returns
-        //  *  The create at menu section.
-        //  */
-        // createAtMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const x = ctx.activePage.pointer.value.x;
-        //     const y = ctx.activePage.pointer.value.y;
-
-        //     // Build menu
-        //     const root = page.factory.getNamespace().get("@")! as Namespace;
-        //     const menu = generateCreateMenu(
-        //         "@", root, (id) => new Page.SpawnObject(ctx, page, id, x, y)
-        //     );
-
-        //     // Return menu
-        //     return {
-        //         id: "create_options",
-        //         items: [
-        //             {
-        //                 text: "Create",
-        //                 type: MenuType.Submenu,
-        //                 sections: menu.sections
-        //             }
-        //         ]
-        //     };
-
-        // },
+        },
 
 
         // ///////////////////////////////////////////////////////////////////////
@@ -802,32 +800,61 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
  * @returns
  *  The formatted submenu.
  */
-// function generateCreateMenu(
-//     key: string,
-//     value: Namespace,
-//     spawn: (id: string) => Page.SpawnObject
-// ): ContextMenuSubmenu<CommandEmitter> {
-//     const sm: ContextMenuSubmenu<CommandEmitter> = {
-//         text: titleCase(key),
-//         type: MenuType.Submenu,
-//         sections: [
-//             { id: "submenus", items: [] },
-//             { id: "options", items: [] }
-//         ]
-//     };
-//     for (const [k, v] of value) {
-//         if (typeof v !== "string") {
-//             sm.sections[0].items.push(
-//                 generateCreateMenu(k, v, spawn)
-//             );
-//         } else {
-//             sm.sections[1].items.push({
-//                 text: titleCase(k),
-//                 type: MenuType.Action,
-//                 data: () => spawn(v as string)
-//             });
-//         }
-//     }
-//     sm.sections = sm.sections.filter(s => 0 < s.items.length);
-//     return sm;
-// }
+function generateCreateMenu(
+    templates: ReadonlyMap<string, DiagramObjectTemplate>,
+    spawn: (id: string) => SpawnObject
+): ContextMenuSubmenu<CommandEmitter> {
+    const main: ContextMenuSubmenu<CommandEmitter> = {
+        text: "Create",
+        type: MenuType.Submenu,
+        sections: []
+    };
+    // Add sections
+    for(const template of templates.values()) {
+        console.log(template);
+        const namespace = template.namespace ?? [template.name];
+        // Construct sections
+        let i = 0;
+        let current = main;
+        for(i = 0; i < namespace.length - 1; i++) {
+            let section = current.sections[0];
+            // Create section
+            if(section?.id !== "namespace") {
+                section = {
+                    id: "namespace",
+                    items: []
+                }
+                current.sections.unshift(section);
+            };
+            let nextSection = section.items.find(
+                o => o.text === titleCase(namespace[i])
+            );
+            // Create submenu
+            if(!nextSection) {    
+                nextSection = {
+                    text: titleCase(namespace[i]),
+                    type: MenuType.Submenu,
+                    sections: []
+                } 
+                // Create submenu
+                section.items.push(nextSection);
+            }
+            current = nextSection as ContextMenuSubmenu<CommandEmitter>;
+        }
+        // Construct menu item
+        let objectSection = current.sections[1];
+        if(objectSection?.id !== "objects") {
+            objectSection = {
+                id: "objects",
+                items: []
+            } 
+            current.sections.push(objectSection)
+        }
+        objectSection.items.push({
+            text: titleCase(namespace[i]),
+            type: MenuType.Action,
+            data: () => spawn(namespace[i])
+        });
+    }
+    return main;
+}

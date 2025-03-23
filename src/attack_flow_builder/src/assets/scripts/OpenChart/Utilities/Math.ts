@@ -1,3 +1,6 @@
+import { getJavaScriptEngine, JavaScriptEngine } from "./Runtime";
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //  1. General  ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -35,7 +38,7 @@ export function clamp(n: number, min: number, max: number): number {
  *  The number rounded to the nearest multiple.
  */
 export function roundNearestMultiple(n: number, multiple: number): number {
-    return Math.sign(n) * Math.round(Math.abs(n) / multiple) * multiple;
+    return Math.sign(n) * round(Math.abs(n) / multiple) * multiple;
 }
 
 /**
@@ -301,3 +304,33 @@ export function doVectorsIntersect(
     }
     return true;
 }
+
+/**
+ * Rounds a float to the nearest whole number.
+ * @remarks
+ *  The implementation is:
+ *   - Substantially faster than `Math.round` in SpiderMonkey.
+ *   - The same speed as `Math.round` in V8.
+ *   - Slightly slower than `Math.round` in Safari.
+ * @param x
+ *  The number to round.
+ * @returns
+ *  The rounded number.
+ */
+export function fastRound(x: number): number {
+    return (x + (x> 0 ? 0.5 : -0.5)) << 0;
+}
+
+/**
+ * The fastest implementation of round.
+ */
+export const round = (function() { 
+    switch(getJavaScriptEngine()) {
+        case JavaScriptEngine.SpiderMonkey:
+            return fastRound;
+        case JavaScriptEngine.V8:
+        case JavaScriptEngine.JavaScriptCore:
+        default:
+            return Math.round;
+    }
+})();

@@ -103,7 +103,7 @@ function assertSameImmediateParent(objects: DiagramObject[]) {
     }
     // Validate same origin
     for (const object of objects) {
-        if (parentId !== object.parent?.instance) {
+        if (parentId === object.parent?.instance) {
             continue;
         }
         throw new Error("All objects must belong to the same parent.");

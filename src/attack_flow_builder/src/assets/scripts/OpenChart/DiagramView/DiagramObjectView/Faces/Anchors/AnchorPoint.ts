@@ -1,8 +1,6 @@
-import { Priority } from "../../ViewAttributes";
 import { AnchorFace } from "../Bases";
+import { Tangibility } from "../../ViewAttributes";
 import type { PointStyle } from "../Styles";
-import type { ViewportRegion } from "../../ViewportRegion";
-import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView } from "../../Views";
 
 export class AnchorPoint extends AnchorFace {
@@ -40,19 +38,22 @@ export class AnchorPoint extends AnchorFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
+        // Check tangibility 
+        if(this.view.tangibility === Tangibility.None) {
+            return undefined;
+        }
         // Try latches
-        const object = super.getObjectAt(x, y);
+        const object = super.getChildAt(x, y);
         // Try anchor
         const r = this.radius;
         const dx = x - (this.boundingBox.x + AnchorFace.markerOffset);
         const dy = y - (this.boundingBox.y + AnchorFace.markerOffset);
-        if (object && object.priority > Priority.Normal) {
+        if (object && (object.tangibility === Tangibility.Priority)) {
             return object;
         } else if (dx * dx + dy * dy < r * r) {
             return this.view;
-        } else {
-            return undefined;
         }
+        return undefined;
     }
 
     /**

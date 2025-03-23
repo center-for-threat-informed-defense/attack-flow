@@ -43,7 +43,7 @@
 import * as AppCommand from "./assets/scripts/Application/Commands";
 import { useApplicationStore } from './stores/ApplicationStore';
 import { defineComponent, markRaw, ref } from 'vue';
-import { Browser, clamp, OperatingSystem, PointerTracker } from "./assets/scripts/Browser";
+import { Device, clamp, OperatingSystem, PointerTracker } from "./assets/scripts/Browser";
 import type { Command } from "./assets/scripts/Application"
 // Components
 import FindDialog from "@/components/Elements/FindDialog.vue";
@@ -168,7 +168,7 @@ export default defineComponent({
   async created() {
     const ctx = this.application;
     // Import settings
-    const os = Browser.getOperatingSystemClass();
+    const os = Device.getOperatingSystemClass();
     let settings;
     if(os === OperatingSystem.MacOS) {
       settings = await (await fetch("./settings_macos.json")).json();

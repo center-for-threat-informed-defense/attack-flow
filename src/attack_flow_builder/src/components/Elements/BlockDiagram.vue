@@ -23,7 +23,7 @@ import { useApplicationStore } from "@/stores/ApplicationStore";
 import { useContextMenuStore } from "@/stores/ContextMenuStore";
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
-import { Cursor } from "@OpenChart/DiagramInterface";
+import { Cursor, MouseClick } from "@OpenChart/DiagramInterface";
 import { EditorCommand, type DiagramViewEditor } from '@/assets/scripts/OpenChart/DiagramEditor';
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 import type { ContextMenuSection } from '@/assets/scripts/Browser';
@@ -56,39 +56,14 @@ export default defineComponent({
   computed: {
 
     /**
-     * Application Store data
+     * The active editor.
      */
-
     editor(): DiagramViewEditor {
       return this.application.activeEditor;
     },
-    // camera(): CameraLocation {
-    //   // return this.application.activePage.location.value;
-    // },
-    // pageUpdate(): number {
-    //   // return this.application.activePage.trigger.value;
-    // },
-    // displayGrid(): boolean {
-    //   // return this.application.settings.view.diagram.display_grid;
-    // },
-    // displayShadows(): boolean {
-    //   // return this.application.settings.view.diagram.display_shadows;
-    // },
-    // displayDebugMode(): boolean {
-    //   // return this.application.settings.view.diagram.display_debug_mode;
-    // },
-    // renderHighQuality(): boolean {
-    //   // return this.application.settings.view.diagram.render_high_quality;
-    // },
-    // disableShadowsAt(): number {
-    //   // return this.application.settings.view.diagram.disable_shadows_at;
-    // },
-    // multiselectHotkey(): string {
-    //   // return this.application.settings.hotkeys.select.many;
-    // },
 
     /**
-     * Returns the context menu's style.
+     * The context menu's style.
      * @returns
      *  The context menu's style.
      */
@@ -100,7 +75,7 @@ export default defineComponent({
     },
 
     /**
-     * Returns the current cursor style.
+     * The current cursor style.
      * @returns
      *  The current cursor style.
      */
@@ -116,20 +91,20 @@ export default defineComponent({
     menuOptions(): ContextMenuSection<CommandEmitter>[] {
       if(this.application.hasSelection) {
         return [
-          this.contextMenus.deleteMenu,
-          this.contextMenus.clipboardMenu,
-          this.contextMenus.duplicateMenu,
-          this.contextMenus.layeringMenu,
-          this.contextMenus.jumpMenu
+          // this.contextMenus.deleteMenu,
+          // this.contextMenus.clipboardMenu,
+          // this.contextMenus.duplicateMenu,
+          // this.contextMenus.layeringMenu,
+          // this.contextMenus.jumpMenu
         ];
       } else {
         return [
           this.contextMenus.undoRedoMenu,
           this.contextMenus.createAtMenu,
-          this.contextMenus.selectAllMenu,
-          this.contextMenus.unselectAllMenu,
-          this.contextMenus.zoomMenu,
-          this.contextMenus.diagramViewMenu
+          // this.contextMenus.selectAllMenu,
+          // this.contextMenus.unselectAllMenu,
+          // this.contextMenus.zoomMenu,
+          // this.contextMenus.diagramViewMenu
         ];
       }
     }
@@ -200,51 +175,21 @@ export default defineComponent({
       this.cursor = cursor;
     },
 
+
     /**
-     * Object click behavior.
+     * Canvas click behavior.
      * @param e
      *  The click event.
-     * @param o
-     *  The clicked object.
      * @param x
      *  The clicked x-coordinate, relative to the container.
      * @param y
      *  The clicked y-coordinate, relative to the container.
      */
-    onObjectClick(e: PointerEvent, o: DiagramObjectView, x: number, y: number) {
-      // // Unselect items, if needed
-      // const isMultiselect = this.isHotkeyActive(this.multiselectHotkey);
-      // if (isMultiselect && o.isSelected()) {
-      //   this.execute(new Page.UnselectObject(o));
-      //   return;
-      // }
-      // if(!isMultiselect && !o.isSelected()) {
-      //   this.execute(new Page.UnselectDescendants(this.editor.page));
-      // }
-      // // Select item
-      // this.execute(new Page.SelectObject(o));
-      // // Open context menu, if needed
-      // if (e.button === MouseClick.Right) {
-      //   this.openContextMenu(x, y);
-      // }
+    onCanvasClick(e: PointerEvent, x: number, y: number) {
+      if (e.button === MouseClick.Right) {
+        this.openContextMenu(x, y);
+      }
     },
-
-    // /**
-    //  * Canvas click behavior.
-    //  * @param e
-    //  *  The click event.
-    //  * @param x
-    //  *  The clicked x-coordinate, relative to the container.
-    //  * @param y
-    //  *  The clicked y-coordinate, relative to the container.
-    //  */
-    // onCanvasClick(e: PointerEvent, x: number, y: number) {
-    //   this.execute(new Page.UnselectDescendants(this.editor.page));
-    //   this.execute(new App.SetEditorPointerLocation(this.application, x, y));
-    //   if (e.button === MouseClick.Right) {
-    //     this.openContextMenu(x, y);
-    //   }
-    // },
     
     /**
      * Object interaction behavior.
@@ -254,62 +199,6 @@ export default defineComponent({
     onObjectInteraction(command: EditorCommand) {
       this.execute(command);
     },
-
-    // /**
-    //  * Object attach behavior.
-    //  * @param o
-    //  *  The object.
-    //  * @param a
-    //  *  The object's anchor.
-    //  */
-    // onObjectAttach(o: DiagramAnchorableModel, a: DiagramAnchorModel) {
-    //   const { xMid, yMid } = a.boundingBox;
-    //   const cmd = new Page.GroupCommand();
-    //   if(o.isAttached()) {
-    //     cmd.add(new Page.DetachObject(o));  
-    //   }
-    //   cmd.add(new Page.MoveObjectTo(o, xMid, yMid));
-    //   cmd.add(new Page.AttachObject(a, o));
-    //   this.execute(cmd);
-    // },
-
-    // /**
-    //  * Object detach behavior.
-    //  * @param o
-    //  *  The object to detach.
-    //  * @param dx
-    //  *  The change in x.
-    //  * @param dy
-    //  *  The change in y.
-    //  */
-    // onObjectDetach(o: DiagramAnchorableModel, dx: number, dy: number) {
-    //   const cmd = new Page.GroupCommand();
-    //   cmd.add(new Page.DetachObject(o));
-    //   cmd.add(new Page.MoveObjectBy(o, dx, dy));
-    //   this.execute(cmd);
-    // },
-
-    // /**
-    //  * Line create behavior.
-    //  * @param o
-    //  *  The line object.
-    //  * @param p
-    //  *  The parent object.
-    //  * @param s
-    //  *  The line source's anchor.
-    //  * @param t
-    //  *  The line target's anchor. `undefined` if there wasn't one.
-    //  */
-    // onLineCreate(
-    //   o: DiagramLineModel,
-    //   p: DiagramObjectModel,
-    //   s: DiagramAnchorModel,
-    //   t?: DiagramAnchorModel
-    // ) {
-    //   this.execute(new Page.AddLineObject(o, p, s, t));
-    //   this.execute(new Page.UnselectDescendants(this.editor.page));
-    //   this.execute(new Page.SelectObject(o));
-    // },
 
     /**
      * View transform behavior.
@@ -340,7 +229,7 @@ export default defineComponent({
       // Subscribe to diagram events
       ui.on("cursor-change", this.onCursorChange);
       // this.diagram.on("object-click", this.onObjectClick);
-      // this.diagram.on("canvas-click", this.onCanvasClick);
+      ui.on("canvas-click", this.onCanvasClick);
       ui.on("plugin-command", this.onObjectInteraction);
     }
 

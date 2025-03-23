@@ -58,14 +58,14 @@ export interface ViewObject {
     set hovered(value: number);
 
     /**
-     * The face's selection priority.
+     * The face's tangibility.
      */
-    get priority(): number;
+    get tangibility(): number;
 
     /**
-     * The face's selection priority.
+     * The face's tangibility.
      */
-    set priority(value: number);
+    set tangibility(value: number);
 
     /**
      * Whether face's position has been set by the user.

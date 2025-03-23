@@ -4,8 +4,11 @@ import { DiagramViewFile } from "@OpenChart/DiagramView";
 import { DiagramInterface } from "@OpenChart/DiagramInterface";
 import { DiagramModelEditor } from "./DiagramModelEditor";
 import { 
-    CanvasSelectPlugin, CreateLineControllerPlugin,
-    LineControllerPlugin, MoveObjectPlugin
+    BlockAndLineMoverPlugin,
+    CanvasMoverPlugin,
+    CreateLineControllerPlugin,
+    LineHandleMoverPlugin,
+    LineLatchMoverPlugin,
 } from "./InterfacePlugins";
 import type { ViewEditorEvents } from "./ViewEditorEvents";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
@@ -50,9 +53,10 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
         // Register default plugins
         this.interface.installPlugin(
             new CreateLineControllerPlugin(this.interface),
-            new LineControllerPlugin(this.interface),
-            new MoveObjectPlugin(this.interface),
-            new CanvasSelectPlugin(this.interface)
+            new LineLatchMoverPlugin(this.interface),
+            new LineHandleMoverPlugin(this.interface),
+            new BlockAndLineMoverPlugin(this.interface),
+            new CanvasMoverPlugin(this.interface)
         )
         // Reindex selection
         this.reindexSelection();

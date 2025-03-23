@@ -1,5 +1,5 @@
 import Configuration from "@/assets/configuration/app.configuration";
-import { Browser } from "@/assets/scripts/Browser";
+import { Device } from "@/assets/scripts/Browser";
 import { DiagramObjectViewFactory, DiagramViewFile } from "@OpenChart/DiagramView";
 import { ClearFileRecoveryBank, LoadFile, SaveDiagramFileToDevice } from "./index.commands";
 import { DoNothing } from "../index.commands";
@@ -96,7 +96,7 @@ export async function loadExistingFile(
 export async function loadFileFromFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
-    const file = await Browser.openTextFileDialog(Configuration.file_type_extension);
+    const file = await Device.openTextFileDialog(Configuration.file_type_extension);
     if(file) {
         return loadExistingFile(context, file.contents as string, file.filename);
     } else {

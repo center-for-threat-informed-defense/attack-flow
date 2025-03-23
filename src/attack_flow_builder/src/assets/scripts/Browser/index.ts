@@ -1,4 +1,4 @@
-export * from "./BrowserContext";
+export * from "./DeviceContext";
 export * from "./RawFocusBox";
 export * from "./RawScrollBox";
 export * from "./HotkeyObserver";

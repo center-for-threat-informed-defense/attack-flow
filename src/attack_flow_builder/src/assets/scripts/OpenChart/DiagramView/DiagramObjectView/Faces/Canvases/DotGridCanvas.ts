@@ -35,7 +35,7 @@ export class DotGridCanvas extends CanvasFace {
             this.style.gridColor
         );;
     }
-
+    
 
     /**
      * Renders the face to a context.

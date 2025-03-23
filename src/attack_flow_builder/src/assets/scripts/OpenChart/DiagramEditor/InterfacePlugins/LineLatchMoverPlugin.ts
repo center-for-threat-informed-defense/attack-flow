@@ -1,17 +1,21 @@
 import * as EditorCommands from "../Commands";
-import { HoverPlugin } from "./HoverPlugin";
+import { SelectPlugin } from "./SelectPlugin";
 import { EditorCommand } from "../Commands";
-import { Handle, Latch } from "@OpenChart/DiagramModel";
-import { Alignment, HandleView } from "@OpenChart/DiagramView";
 import { Cursor, DiagramInterface } from "@OpenChart/DiagramInterface";
-import { LatchView, type DiagramObjectView } from "@OpenChart/DiagramView";
+import { Alignment, AnchorView, LatchView, LineView, Tangibility } from "@OpenChart/DiagramView";
+import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class LineControllerPlugin extends HoverPlugin {
+export class LineLatchMoverPlugin extends SelectPlugin {
 
     /**
      * The current selection.
      */
-    private selection: LatchView | HandleView;
+    private selection: LatchView;
+
+    /**
+     * The anchor under the current selection.
+     */
+    private anchorUnderSelection: AnchorView | null;
 
     /**
      * The selection's alignment.
@@ -28,6 +32,7 @@ export class LineControllerPlugin extends HoverPlugin {
         super(ui);
         this.selection = null as unknown as LatchView;
         this.alignment = Alignment.Free;
+        this.anchorUnderSelection = null;
     }
 
     
@@ -46,7 +51,7 @@ export class LineControllerPlugin extends HoverPlugin {
      *  True if the plugin can handle the event, false otherwise.
      */
     public canHandleHover(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
-        return obj instanceof Latch || obj instanceof Handle;
+        return this.canHandleSelection(obj, event);
     }
 
     /**
@@ -77,7 +82,10 @@ export class LineControllerPlugin extends HoverPlugin {
      *  True if the plugin can handle the event, false otherwise.
      */
     public canHandleSelection(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
-        return obj instanceof Latch || obj instanceof Handle;
+        if(obj instanceof LatchView) {
+            return obj.parent instanceof LineView;
+        } 
+        return false;
     }
 
     /**
@@ -93,16 +101,25 @@ export class LineControllerPlugin extends HoverPlugin {
      *  `handleSelectEnd()` will not be invoked).
      */
     protected handleSelectStart(obj: DiagramObjectView | undefined, event: MouseEvent): boolean {
+        if(!obj?.parent) {
+            return true;
+        }
         // Start stream command
         // Prepare selection
-        if(obj instanceof LatchView) {
-            this.selection = obj;
-            this.alignment = obj.alignment;
-        } else if(obj instanceof HandleView) {
-            this.selection = obj;
-            this.alignment = obj.alignment;
-            this.execute(EditorCommands.userSetObjectPosition(obj));
+        this.selection = obj as LatchView;
+        this.alignment = obj.alignment;
+        // Unlink latch
+        const { detachLatchFromAnchor, setTangibility } = EditorCommands;
+        if(this.selection.isLinked()) {
+            this.anchorUnderSelection = this.selection.anchor;
+            this.execute(detachLatchFromAnchor(this.selection));
         }
+        // Select line
+        if(!obj.parent.focused) {
+            this.select(obj.parent, event);
+        }
+        // Make line intangible
+        this.execute(setTangibility(obj.parent!, Tangibility.None));
         // Assume control of movement
         return false;
     }
@@ -115,15 +132,28 @@ export class LineControllerPlugin extends HoverPlugin {
      *  The selection's delta.
      */
     protected handleSelectDrag(event: MouseEvent): [number, number] {
-        // Get distance
-        let delta;
+        const { moveObjectsBy } = EditorCommands;
+        // Get hovered item
+        let delta = this.getDistance();
+        const hover = this.interface.root.getObjectAt(
+            this.selection.x + delta[0],
+            this.selection.y + delta[1]
+        )
+        // Update hover
+        this.hoverStart(hover, event);
+        // Update distance, if necessary 
         if(this.alignment === Alignment.Grid) {
             delta = this.getDistanceOnGrid(this.interface.root.grid);
-        } else {
-            delta = this.getDistance();
         }
-        // Move
-        this.execute(EditorCommands.moveObjectsBy(this.selection, delta[0], delta[1]));
+        // Look for anchor
+        if(hover instanceof AnchorView) {
+            delta = this.getDistanceOntoObject(hover, this.selection);
+            this.anchorUnderSelection = hover;
+        } else {
+            this.anchorUnderSelection = null;
+        }
+        // Move object
+        this.execute(moveObjectsBy(this.selection, delta[0], delta[1]));
         // Return delta
         return delta;
     }
@@ -134,6 +164,16 @@ export class LineControllerPlugin extends HoverPlugin {
      *  The mouse event.
      */
     protected handleSelectEnd(event: MouseEvent): void {
+        const { attachLatchToAnchor } = EditorCommands;
+        // Reset line tangibility
+        const line = this.selection.parent;
+        if(line) {
+            this.execute(EditorCommands.setTangibility(line, Tangibility.Normal));
+        }
+        // Link latch
+        if(this.anchorUnderSelection) {
+            this.execute(attachLatchToAnchor(this.selection, this.anchorUnderSelection));
+        }
         // End stream command
     }
 

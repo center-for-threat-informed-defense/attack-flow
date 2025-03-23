@@ -1,4 +1,6 @@
 import { DiagramFace } from "../DiagramFace";
+import { Tangibility } from "../../ViewAttributes";
+import { findUnlinkedObjectAt } from "../../ViewLocators";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { BlockView, DiagramObjectView } from "../../Views";
 
@@ -65,10 +67,13 @@ export abstract class BlockFace extends DiagramFace {
         const bb = this.boundingBox;
         if (
             bb.xMin <= x && x <= bb.xMax &&
-            bb.yMin <= y && y <= bb.yMax
+            bb.yMin <= y && y <= bb.yMax &&
+            this.view.tangibility !== Tangibility.None
         ) {
             // Try anchors
-            const object = this.findObjectsAt([...this.view.anchors.values()], x, y);
+            const object = findUnlinkedObjectAt(
+                [...this.view.anchors.values()], x, y
+            );
             if (object) {
                 return object;
             }

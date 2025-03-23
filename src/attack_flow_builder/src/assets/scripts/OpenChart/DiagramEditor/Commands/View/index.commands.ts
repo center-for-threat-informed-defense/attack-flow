@@ -5,3 +5,6 @@ export * from "./RunAnimation";
 export * from "./StopAnimation";
 export * from "./MoveObjectsBy";
 export * from "./UserSetObjectPosition";
+export * from "./SetTangibility";
+export * from "./SpawnObject";
+export * from "./RemoveSelectedChildren";

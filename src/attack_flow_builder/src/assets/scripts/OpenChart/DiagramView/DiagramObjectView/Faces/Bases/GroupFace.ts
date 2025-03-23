@@ -1,8 +1,10 @@
 import { DiagramFace } from "../DiagramFace";
+import { findUnlinkedObjectAt } from "../../ViewLocators";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView, GroupView } from "../../Views";
 
-export class GroupFace extends DiagramFace {
+export abstract class GroupFace extends DiagramFace {
 
     /**
      * The face's view.
@@ -24,16 +26,16 @@ export class GroupFace extends DiagramFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost child at the given coordinate.
      * @param x
      *  The x coordinate.
      * @param y
      *  The y coordinate.
      * @returns
-     *  The topmost view, undefined if there isn't one.
+     *  The topmost child, undefined if there isn't one.
      */
-    public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        return this.findObjectsAt([...this.view.objects.values()], x, y);
+    protected getChildAt(x: number, y: number): DiagramObjectView | undefined {
+        return findUnlinkedObjectAt([...this.view.objects.values()], x, y);
     }
 
 
@@ -88,14 +90,7 @@ export class GroupFace extends DiagramFace {
         return true;
     }
 
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
+
 
     /**
      * Renders the face to a context.
@@ -103,18 +98,18 @@ export class GroupFace extends DiagramFace {
      *  The context to render to.
      * @param region
      *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
+    public renderTo(
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion, settings: RenderSettings
+    ): void {
         if (!this.isVisible(region)) {
             return;
         }
         for (const obj of this.view.objects.values()) {
-            obj.renderTo(ctx, region, dsx, dsy);
+            obj.renderTo(ctx, region, settings);
         }
     }
 

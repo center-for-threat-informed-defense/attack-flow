@@ -14,6 +14,11 @@ export class DiagramViewFile extends DiagramModelFile {
     public readonly camera: CameraLocation;
 
     /**
+     * The file's pointer location.
+     */
+    public readonly pointer: [number, number];
+
+    /**
      * The file's canvas.
      */
     declare readonly canvas: CanvasView;
@@ -50,6 +55,8 @@ export class DiagramViewFile extends DiagramModelFile {
         }
         // Set camera
         this.camera = diagram?.camera ?? { x: 0, y: 0, k: 1 };
+        // Set pointer
+        this.pointer = [0,0];
     }
 
 

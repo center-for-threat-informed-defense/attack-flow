@@ -2,14 +2,17 @@ import {
     ClearHover,
     HoverObject,
     MoveObjectsBy,
+    RemoveSelectedChildren,
     RunAnimation,
     SelectObjects,
+    SetTangibility,
+    SpawnObject,
     StopAnimation,
     UserSetObjectPosition
 } from "./index.commands";
 import type { EditorCommand } from "../EditorCommand";
 import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
-import type { CanvasView, DiagramObjectView, GroupView } from "@OpenChart/DiagramView";
+import type { CanvasView, DiagramObjectView, DiagramViewFile, GroupView } from "@OpenChart/DiagramView";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -85,6 +88,21 @@ export function unselectGroupObjects(
     return new SelectObjects([...group.objects.values()], false); 
 }
 
+/**
+ * Sets a object's tangibility.
+ * @param object
+ *  The object to configure.
+ * @param tangibility
+ *  The object's tangibility.
+ * @returns
+ *  A command that represents the action.
+ */
+export function setTangibility(
+    object: DiagramObjectView, tangibility: number
+): SetTangibility {
+    return new SetTangibility(object, tangibility);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  2. Movement ///////////////////////////////////////////////////////////////
@@ -121,6 +139,46 @@ export function userSetObjectPosition(
     return new UserSetObjectPosition(object);
 }
  
+
+///////////////////////////////////////////////////////////////////////////////
+//  3. Create / Delete Object  ////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Spawns a diagram object, in a file, at the specified coordinates.
+ * @param file
+ *  The diagram view file.
+ * @param id
+ *  The object's id.
+ * @param x
+ *  The object's x-coordinate.
+ *  (Default: The last pointer location)
+ * @param y
+ *  The object's y-coordinate.
+ *  (Default: The last pointer location)
+ * @returns
+ *  A command that represents the action.
+ */
+export function spawnObject(
+    file: DiagramViewFile, id: string, x?: number, y?: number
+): SpawnObject {
+    return new SpawnObject(file, id, x, y);
+}
+
+/**
+ * Removes all selected objects from a group.
+ * @param group
+ *  The group.
+ * @returns
+ *  A command that represents the action.
+ */
+export function removeSelectedChildren(
+    group: CanvasView | GroupView
+): RemoveSelectedChildren {
+    return new RemoveSelectedChildren(group);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  ?. Animation  /////////////////////////////////////////////////////////////

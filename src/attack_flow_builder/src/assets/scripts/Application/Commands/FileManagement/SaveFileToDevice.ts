@@ -1,4 +1,4 @@
-import { Browser } from "@/assets/scripts/Browser";
+import { Device } from "@/assets/scripts/Browser";
 import { AppCommand } from "../AppCommand";
 
 export class SaveFileToDevice extends AppCommand {
@@ -40,7 +40,7 @@ export class SaveFileToDevice extends AppCommand {
      * Executes the command.
      */
     public async execute(): Promise<void> {
-        Browser.downloadTextFile(
+        Device.downloadTextFile(
             this.name,
             this.contents,
             this.extension
