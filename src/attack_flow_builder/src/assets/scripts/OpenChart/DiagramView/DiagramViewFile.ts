@@ -5,6 +5,7 @@ import type { CameraLocation } from "./CameraLocation";
 import type { DiagramViewExport } from "./DiagramViewExport";
 import type { DiagramLayoutEngine } from "./DiagramLayoutEngine";
 import type { DiagramTheme, DiagramObjectViewFactory } from "./DiagramObjectViewFactory";
+import type { StixBundle } from "../../StixToFlow/StixToFlow";
 
 export class DiagramViewFile extends DiagramModelFile {
 
@@ -38,10 +39,10 @@ export class DiagramViewFile extends DiagramModelFile {
      * @param diagram
      *  The file to import.
      */
-    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport);
-    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport) {
+    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport, stix?: StixBundle);
+    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport, stix?: StixBundle) {
         // Create / Import
-        super(factory, diagram);
+        super(factory, diagram, stix);
         // Calculate layout
         this.canvas.calculateLayout();
         // Run layout engine

@@ -2,6 +2,7 @@ import { Canvas } from "./DiagramObject";
 import { DiagramObjectSerializer } from "./DiagramObjectSerializer";
 import type { DiagramModelExport } from "./DiagramModelExport";
 import type { DiagramObjectFactory } from "./DiagramObjectFactory";
+import { StixToFlow, type StixBundle } from "../../StixToFlow/StixToFlow";
 
 export class DiagramModelFile {
 
@@ -30,8 +31,8 @@ export class DiagramModelFile {
      * @param diagram
      *  The file to import.
      */
-    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport);
-    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport) {
+    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport, stix?: StixBundle);
+    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport, stix?: StixBundle) {
         this.factory = factory;
         if (diagram) {
             // Import existing file
@@ -41,6 +42,9 @@ export class DiagramModelFile {
             } else {
                 throw new Error("File export includes multiple root objects.");
             }
+        } else if (stix) {
+            // Import STIX
+            this.canvas = StixToFlow.toFlow(stix, factory);
         } else {
             // Create new file
             this.canvas = factory.createNewDiagramObject(factory.canvas);

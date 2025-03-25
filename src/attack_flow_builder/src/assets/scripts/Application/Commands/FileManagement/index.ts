@@ -6,6 +6,7 @@ import { DoNothing } from "../index.commands";
 import type { AppCommand } from "../index.commands";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
+import type { StixBundle } from "@/assets/scripts/StixToFlow/StixToFlow";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,6 +34,34 @@ export async function loadNewFile(
     const file = new DiagramViewFile(factory);
     // Return command
     return new LoadFile(context, file);
+}
+
+/**
+ * Loads a STIX file into the application.
+ * @param context
+ *  The application's context.
+ * @param file
+ *  The STIX file.
+ * @param name
+ *  The file's name.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function loadSTIXFile(
+    context: ApplicationStore, file: string, name?: string
+): Promise<LoadFile> {
+    const stixBundle = JSON.parse(file) as StixBundle;
+    // Resolve theme
+    const themeId = context.settings.view.diagram.theme;
+    const theme = await context.themeRegistry.getTheme(themeId);
+    // Resolve schema
+    const schema = Configuration.schema;
+    // Construct factory
+    const factory = new DiagramObjectViewFactory(schema, theme);
+    // Construct file
+    const viewFile = new DiagramViewFile(factory, undefined, stixBundle);
+    // Return command
+    return new LoadFile(context, viewFile, name);
 }
 
 /**
@@ -96,8 +125,11 @@ export async function loadExistingFile(
 export async function loadFileFromFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
-    const file = await Device.openTextFileDialog(Configuration.file_type_extension);
+    const file = await Device.openTextFileDialog(Configuration.file_type_extension, "json");
     if(file) {
+        if (file.filename.endsWith(".json")) {
+            return loadSTIXFile(context, file.contents as string, file.filename);
+        }
         return loadExistingFile(context, file.contents as string, file.filename);
     } else {
         return new DoNothing();
