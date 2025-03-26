@@ -52,7 +52,7 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
         this.interface = new DiagramInterface(file.canvas);
         // Register default plugins
         this.interface.installPlugin(
-            new CreateLineControllerPlugin(this.interface),
+            new CreateLineControllerPlugin(this.interface, this.file.factory),
             new LineLatchMoverPlugin(this.interface),
             new LineHandleMoverPlugin(this.interface),
             new BlockAndLineMoverPlugin(this.interface),

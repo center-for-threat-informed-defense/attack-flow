@@ -70,7 +70,7 @@ export class Anchor extends DiagramObject {
     public unlink(latch: Latch) {
         // Select latch
         const index = this._latches.findIndex(
-            l => l.instance && latch.instance
+            l => l.instance === latch.instance
         );
         // Unlink anchor
         if (-1 < index) {
