@@ -1,23 +1,14 @@
 import { DiagramFace } from "../DiagramFace";
 import { Tangibility } from "../../ViewAttributes";
-import { findUnlinkedObjectAt } from "../../ViewLocators";
-import { isInsideRegion } from "@OpenChart/Utilities";
-import { LayoutUpdateReason } from "../../LayoutUpdateReason";
 import type { ViewportRegion } from "../../ViewportRegion";
-import type { MovementChoreographer } from "../MovementChoreographer";
 import type { DiagramObjectView, LineView } from "../../Views";
 
-export abstract class LineFace extends DiagramFace implements MovementChoreographer {
+export abstract class LineFace extends DiagramFace {
 
     /**
      * The face's view.
      */
     declare protected view: LineView;
-
-    /**
-     * The line's hitboxes.
-     */
-    protected readonly hitboxes: number[][];
 
 
     /**
@@ -47,81 +38,9 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
 
     /**
      * Creates a new {@link LineFace}.
-     * @param hitboxes
-     *  The line's hitboxes.
      */
-    constructor(hitboxes: number[][]) {
+    constructor() {
         super();
-        this.hitboxes = hitboxes;
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  1. Selection  /////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Returns the topmost view at the given coordinate.
-     * @param x
-     *  The x coordinate.
-     * @param y
-     *  The y coordinate.
-     * @returns
-     *  The topmost view, undefined if there isn't one.
-     */
-    public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        if(this.view.tangibility === Tangibility.None) {
-            return undefined;
-        } else if (this.isAnchored()) {
-            // Try points
-            const obj = this.getChildAt(x, y);
-            if (obj) {
-                return obj;
-            }
-            // Try segments
-            for (let i = 0; i < this.hitboxes.length; i++) {
-                if (!isInsideRegion(x, y, this.hitboxes[i])) {
-                    continue;
-                }
-                if (i === 1) {
-                    return this.view.handles[0];
-                } else {
-                    return this.view;
-                }
-            }
-        } else {
-            if (this.view.focused) {
-                // Try points
-                const obj = this.getChildAt(x, y);
-                if (obj) {
-                    return obj;
-                }
-            }
-            // Try segments
-            for (const hitbox of this.hitboxes) {
-                if (isInsideRegion(x, y, hitbox)) {
-                    return this.view;
-                }
-            }
-        }
-        return undefined;
-    }
-
-    /**
-     * Returns the topmost child at the given coordinate.
-     * @param x
-     *  The x coordinate.
-     * @param y
-     *  The y coordinate.
-     * @returns
-     *  The topmost child, undefined if there isn't one.
-     */
-    protected getChildAt(x: number, y: number): DiagramObjectView | undefined {
-        const views: DiagramObjectView[] = [
-            this.view.source, ...this.view.handles, this.view.target
-        ];
-        return findUnlinkedObjectAt(views, x, y);
     }
 
 
@@ -129,36 +48,15 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
     //  2. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
-    /**
-     * Moves `view` relative to its current position.
-     * @param view
-     *  The view to move.
-     * @param dx
-     *  The change in x.
-     * @param dy
-     *  The change in y.
-     */
-    public moveViewBy(view: DiagramObjectView, dx: number, dy: number): void {
-        // Move latch
-        view.face.setPosition(dx, dy);
-        // Recalculate layout
-        this.view.updateLayout(LayoutUpdateReason.Movement);
-    }
 
     /**
      * Sets the face's position relative to its current position.
-     * @remarks
-     *  Generally, all movement should be accomplished via `moveTo()` or
-     *  `moveBy()`. `setPosition()` directly manipulates the face's position
-     *  (ignoring any registered {@link MovementCoordinator}s). It should only
-     *  be invoked by the face itself or another MovementCoordinator.
      * @param dx
      *  The change in x.
      * @param dy
      *  The change in y.
      */
-    public setPosition(dx: number, dy: number): void {
+    public moveBy(dx: number, dy: number): void {
         // Move self
         this.boundingBox.x += dx;
         this.boundingBox.y += dy;
@@ -176,6 +74,8 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
         for (const handle of this.view.handles.values()) {
             handle.face.moveBy(dx, dy);
         }
+        // Recalculate layout
+        this.view.calculateLayout();
     }
 
     /**
@@ -234,5 +134,18 @@ export abstract class LineFace extends DiagramFace implements MovementChoreograp
         }
         return isRendered;
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public abstract clone(): LineFace;
 
 }

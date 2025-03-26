@@ -26,7 +26,7 @@ export class LineGridCanvas extends CanvasFace {
      *  The canvas's scale.
      */
     constructor(style: CanvasStyle, grid: [number, number], scale: number) {
-        super();
+        super(grid, scale);
         this.style = style;
         this.gridPattern = this.createGridPattern(
             grid[0] * scale,
@@ -35,6 +35,11 @@ export class LineGridCanvas extends CanvasFace {
             this.style.gridColor
         );
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Layout / Rendering  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -110,6 +115,21 @@ export class LineGridCanvas extends CanvasFace {
         const ptr = ctx.createPattern(can, "repeat")!;
         ptr.setTransform(new DOMMatrix().translate(0, 1));
         return ptr;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public clone(): LineGridCanvas {
+        return new LineGridCanvas(this.style, this.grid, this.scale);
     }
 
 }

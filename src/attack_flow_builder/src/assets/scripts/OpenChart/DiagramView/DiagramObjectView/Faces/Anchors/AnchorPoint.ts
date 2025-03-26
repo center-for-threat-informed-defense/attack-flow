@@ -1,6 +1,7 @@
 import { AnchorFace } from "../Bases";
 import { Tangibility } from "../../ViewAttributes";
 import type { PointStyle } from "../Styles";
+import type { Orientation } from "../Orientation";
 import type { DiagramObjectView } from "../../Views";
 
 export class AnchorPoint extends AnchorFace {
@@ -20,12 +21,19 @@ export class AnchorPoint extends AnchorFace {
      * Creates a new {@link AnchorPoint}.
      * @param style
      *  The anchor's style.
+     * @param orientation
+     *  The anchor's orientation.
      */
-    constructor(style: PointStyle) {
-        super();
+    constructor(style: PointStyle, orientation: Orientation) {
+        super(orientation);
         this.style = style;
         this.radius = style.radius;
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Selection  /////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -55,6 +63,12 @@ export class AnchorPoint extends AnchorFace {
         }
         return undefined;
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Layout / Rendering  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Calculates the face's layout.
@@ -105,6 +119,21 @@ export class AnchorPoint extends AnchorFace {
             ctx.strokeStyle = strokeColor;
             ctx.stroke();
         }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  3. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public clone(): AnchorPoint {
+        return new AnchorPoint(this.style, this.orientation);
     }
 
 }

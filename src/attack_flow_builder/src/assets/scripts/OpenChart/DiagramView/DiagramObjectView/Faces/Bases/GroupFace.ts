@@ -1,10 +1,11 @@
 import { DiagramFace } from "../DiagramFace";
+import { Tangibility } from "../../ViewAttributes";
 import { findUnlinkedObjectAt } from "../../ViewLocators";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView, GroupView } from "../../Views";
 
-export abstract class GroupFace extends DiagramFace {
+export class GroupFace extends DiagramFace {
 
     /**
      * The face's view.
@@ -24,6 +25,23 @@ export abstract class GroupFace extends DiagramFace {
     //  1. Selection  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+
+    /**
+     * Returns the topmost view at the given coordinate.
+     * @param x
+     *  The x coordinate.
+     * @param y
+     *  The y coordinate.
+     * @returns
+     *  The topmost view, undefined if there isn't one.
+     */
+    public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
+        // Check tangibility 
+        if(this.view.tangibility === Tangibility.None) {
+            return undefined;
+        }
+        return this.getChildAt(x, y);
+    }
 
     /**
      * Returns the topmost child at the given coordinate.
@@ -46,28 +64,18 @@ export abstract class GroupFace extends DiagramFace {
 
     /**
      * Sets the face's position relative to its current position.
-     * @remarks
-     *  Generally, all movement should be accomplished via `moveTo()` or
-     *  `moveBy()`. `setPosition()` directly manipulates the face's position
-     *  (ignoring any registered {@link MovementCoordinator}s). It should only
-     *  be invoked by the face itself or another MovementCoordinator.
      * @param dx
      *  The change in x.
      * @param dy
      *  The change in y.
      */
-    public setPosition(dx: number, dy: number): void {
-        // Move self
-        this.boundingBox.x += dx;
-        this.boundingBox.y += dy;
-        this.boundingBox.xMin += dx;
-        this.boundingBox.xMax += dx;
-        this.boundingBox.yMin += dy;
-        this.boundingBox.yMax += dy;
+    public moveBy(dx: number, dy: number): void {
         // Move children
         for (const object of this.view.objects.values()) {
             object.face.moveBy(dx, dy);
         }
+        // Recalculate layout
+        this.calculateLayout();
     }
 
 
@@ -130,6 +138,21 @@ export abstract class GroupFace extends DiagramFace {
             }
         }
         return isRendered;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public clone(): GroupFace {
+        return new GroupFace();
     }
 
 }

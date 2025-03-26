@@ -13,12 +13,11 @@ export type TypeToTemplate = {
     [FaceType.AnchorPoint]: AnchorTemplate;
     [FaceType.BranchBlock]: BlockTemplate;
     [FaceType.DictionaryBlock]: BlockTemplate;
+    [FaceType.DynamicLine]: LineTemplate;
     [FaceType.HandlePoint]: HandleTemplate;
-    [FaceType.HorizontalElbowLine]: LineTemplate;
     [FaceType.LatchPoint]: LatchTemplate;
     [FaceType.Group]: GroupTemplate;
     [FaceType.TextBlock]: BlockTemplate;
-    [FaceType.VerticalElbowLine]: LineTemplate;
     [FaceType.LineGridCanvas]: CanvasTemplate;
     [FaceType.DotGridCanvas]: CanvasTemplate;
 };

@@ -80,4 +80,13 @@ export class DateProperty extends Property {
         }
     }
 
+    /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public clone(): DateProperty {
+        return new DateProperty(this.id, this._value);
+    }
+
 }

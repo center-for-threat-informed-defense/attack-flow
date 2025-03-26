@@ -19,6 +19,19 @@ export class RootProperty extends DictionaryProperty {
 
 
     /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public clone(): RootProperty {
+        const property = new RootProperty();
+        for(const [key, prop] of this.value) {
+            property.addProperty(prop.clone(), key);
+        }
+        return property;
+    }
+
+    /**
      * Subscribes an event listener to property updates.
      * @param id
      *  The event listener's id.

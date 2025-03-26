@@ -69,6 +69,11 @@ export class DictionaryBlock extends BlockFace {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Layout / Rendering  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
     /**
      * Calculates the face's layout.
      * @returns
@@ -127,10 +132,12 @@ export class DictionaryBlock extends BlockFace {
         const fieldValue = body.fieldValueText;
         
         // Calculate max content width
-        const maxWidth = this.grid[0] * this.style.maxUnitWidth;
-        let mw = Math.max(maxWidth, title.font.measureWidth(titleText));
+        let maxWidth = this.grid[0] * this.style.maxUnitWidth;
+        maxWidth = Math.max(maxWidth, title.font.measureWidth(titleText));
         for (const [key] of fields) {
-            mw = Math.max(mw, fieldName.font.measureWidth(key));
+            let width = fieldName.font.measureWidth(key);
+            this.width = Math.max(this.width, width);
+            maxWidth = Math.max(maxWidth, width);
         }
 
         // Calculate title and subtitle positions
@@ -139,7 +146,7 @@ export class DictionaryBlock extends BlockFace {
         if(subtitleText) {
             const subtitle = head.twoTitle.subtitle;
             // Update content width
-            const lines = subtitle.font.wordWrap(subtitleText, mw);
+            const lines = subtitle.font.wordWrap(subtitleText, maxWidth);
             for (let i = 0, width; i < lines.length; i++) {
                 width = subtitle.font.measureWidth(lines[i]);
                 this.width = Math.max(this.width, width);
@@ -185,7 +192,7 @@ export class DictionaryBlock extends BlockFace {
             for (let [key, value] of fields) {
                 y += yFieldPadding;
                 // Update content width
-                const lines = fieldValue.font.wordWrap(value, mw);
+                const lines = fieldValue.font.wordWrap(value, maxWidth);
                 for (let i = 0, width; i < lines.length; i++) {
                     width = fieldValue.font.measureWidth(lines[i]);
                     this.width = Math.max(this.width, width);
@@ -357,6 +364,21 @@ export class DictionaryBlock extends BlockFace {
             ctx.stroke();
         }
 
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public clone(): DictionaryBlock {
+        return new DictionaryBlock(this.style, this.grid, this.scale);
     }
 
 }

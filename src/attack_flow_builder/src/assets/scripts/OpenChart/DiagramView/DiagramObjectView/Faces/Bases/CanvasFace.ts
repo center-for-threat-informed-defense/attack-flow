@@ -12,12 +12,28 @@ export abstract class CanvasFace extends DiagramFace {
      */
     declare protected view: CanvasView;
 
+    /**
+     * The face's grid.
+     */
+    public readonly grid: [number, number];
+
+    /**
+     * The face's scale.
+     */
+    public readonly scale: number;
+
 
     /**
      * Creates a new {@link GroupFace}.
+     * @param grid
+     *  The face's grid.
+     * @param scale
+     *  The face's scale.
      */
-    constructor() {
+    constructor(grid: [number, number], scale: number) {
         super();
+        this.grid = grid;
+        this.scale = scale;
     }
 
 
@@ -64,28 +80,18 @@ export abstract class CanvasFace extends DiagramFace {
 
     /**
      * Sets the face's position relative to its current position.
-     * @remarks
-     *  Generally, all movement should be accomplished via `moveTo()` or
-     *  `moveBy()`. `setPosition()` directly manipulates the face's position
-     *  (ignoring any registered {@link MovementCoordinator}s). It should only
-     *  be invoked by the face itself or another MovementCoordinator.
      * @param dx
      *  The change in x.
      * @param dy
      *  The change in y.
      */
-    public setPosition(dx: number, dy: number): void {
-        // Move self
-        this.boundingBox.x += dx;
-        this.boundingBox.y += dy;
-        this.boundingBox.xMin += dx;
-        this.boundingBox.xMax += dx;
-        this.boundingBox.yMin += dy;
-        this.boundingBox.yMax += dy;
+    public moveBy(dx: number, dy: number): void {
         // Move children
         for (const object of this.view.objects.values()) {
             object.face.moveBy(dx, dy);
         }
+        // Recalculate layout
+        this.calculateLayout();
     }
 
 
@@ -168,5 +174,18 @@ export abstract class CanvasFace extends DiagramFace {
      *  The context's viewport.
      */
     public abstract renderSurfaceTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public abstract clone(): CanvasFace;
 
 }

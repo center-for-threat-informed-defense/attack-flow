@@ -163,6 +163,7 @@ export const DarkStyle = new StyleGenerator({
         hitbox_width: 20,
         border_radius: 12,
         cap_size: 12,
+        cap_space: 0,
         color: "#465bf8",
         select_color: "#e6d845"
     },

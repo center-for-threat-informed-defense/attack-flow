@@ -4,6 +4,7 @@ import type {
     CanvasStyle,
     DictionaryBlockStyle,
     LineStyle,
+    Orientation,
     PointStyle,
     TextBlockStyle
 } from "../DiagramObjectView";
@@ -76,9 +77,7 @@ export type TextBlockDesign = BaseFaceDesign<FaceType.TextBlock> & {
 /**
  * Line Design
  */
-export type LineDesign = BaseFaceDesign<
-    FaceType.HorizontalElbowLine | FaceType.VerticalElbowLine
-> & {
+export type LineDesign = BaseFaceDesign<FaceType.DynamicLine> & {
 
     /**
      * The line's style.
@@ -97,7 +96,7 @@ export type PointDesign = BaseFaceDesign<
     /**
      * The point's orientation.
      */
-    orientation?: number;
+    orientation?: Orientation;
 
     /**
      * The point's style.

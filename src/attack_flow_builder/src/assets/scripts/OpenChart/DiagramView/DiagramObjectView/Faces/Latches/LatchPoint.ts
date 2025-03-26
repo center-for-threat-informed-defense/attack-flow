@@ -27,6 +27,11 @@ export class LatchPoint extends LatchFace {
         this.radius = style.radius;
     }
 
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Layout / Rendering  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Returns the topmost view at the given coordinate.
@@ -93,6 +98,21 @@ export class LatchPoint extends LatchFace {
             ctx.strokeStyle = strokeColor;
             ctx.stroke();
         }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public clone(): LatchPoint {
+        return new LatchPoint(this.style);
     }
 
 }

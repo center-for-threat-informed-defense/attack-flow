@@ -109,4 +109,13 @@ export class EnumProperty extends Property {
         }
     }
 
+    /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public clone(): EnumProperty {
+        return new EnumProperty(this.id, this.options, this._value);
+    }
+
 }

@@ -1,8 +1,14 @@
 import { clamp, round } from "../Math";
 import type { BorderRadius } from "./BorderRadius";
 
+
+///////////////////////////////////////////////////////////////////////////////
+//  1. Arrow Heads  ///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
 /**
- * Returns an arrow head's shape.
+ * Returns an arrow head's shape relative to [0,0].
  * @param sx
  *  The arrow's source x-axis coordinate.
  * @param sy
@@ -14,9 +20,9 @@ import type { BorderRadius } from "./BorderRadius";
  * @param h
  *  The arrow's height.
  * @returns
- *  The arrow's shape relative to [0,0].
+ *  The arrow's vertices relative to [0,0].
  */
-export function getArrowHead(
+export function getRelativeArrowHead(
     sx: number, sy: number,
     tx: number, ty: number,
     h: number = 12
@@ -34,6 +40,42 @@ export function getArrowHead(
         -round(h * Math.cos(angle + Math.PI / 6)),
         -round(h * Math.sin(angle + Math.PI / 6)),
         0,0
+    ]
+}
+
+/**
+ * Returns an arrow head's shape.
+ * @param sx
+ *  The arrow's source x-axis coordinate.
+ * @param sy
+ *  The arrow's source y-axis coordinate.
+ * @param tx
+ *  The arrow's target x-axis coordinate.
+ * @param ty
+ *  The arrow's target y-axis coordinate.
+ * @param h
+ *  The arrow's height.
+ * @returns
+ *  The arrow's vertices.
+ */
+export function getAbsoluteArrowHead(
+    sx: number, sy: number,
+    tx: number, ty: number,
+    h: number = 12
+): [
+    number, number,
+    number, number,
+    number, number
+] {
+    const dx = tx - sx;
+    const dy = ty - sy;
+    const angle = Math.atan2(dy, dx);
+    return [
+        tx - round(h * Math.cos(angle - Math.PI / 6)),
+        ty - round(h * Math.sin(angle - Math.PI / 6)),
+        tx - round(h * Math.cos(angle + Math.PI / 6)),
+        ty - round(h * Math.sin(angle + Math.PI / 6)),
+        tx, ty
     ]
 }
 
@@ -72,6 +114,12 @@ export function drawArrowHead(
     ctx.lineTo(tx, ty);
     ctx.closePath();
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  2. Rectangles  ////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * Draws a rectangular path to the context.
@@ -236,6 +284,133 @@ export function drawChip(
     ctx.lineTo(x + w, y + h + 0.5);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+//  3. Paths  /////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Returns a multi-elbow line.
+ * @param vertices
+ *  The line's vertices.
+ * @param r
+ *  The line's border radius.
+ * @returns
+ *  The line's computed vertices.
+ */
+export function getAbsoluteMultiElbowPath(
+    vertices: number[],
+    r: number
+): number[] {
+    let i = 0;
+    let v = new Array(4 + (vertices.length - 4) * 3); 
+    // Prepare iteration
+    let sx = 0, sy = 1, mx = 2,
+        my = 3, tx = 4, ty = 5,
+        dx, dy, rx, ry, rad, mask;
+    const length = vertices.length - 2;
+    // Calculate line
+    v[i++] = vertices[0];
+    v[i++] = vertices[1];
+    for(; mx < length; sx+=2, sy+=2, mx+=2, my+=2, tx+=2, ty+=2) {
+        // Calculate radius
+        dx = (vertices[tx] - vertices[sx]) >> 1;
+        dy = (vertices[ty] - vertices[sy]) >> 1;
+        rad = Math.min(Math.abs(dx), Math.abs(dy), r);
+        // Calculate segment
+        // @ts-ignore
+        mask = (vertices[mx] - vertices[sx] !== 0) * -1;
+        rx = rad & mask;
+        ry = rad & ~mask;
+        dx = Math.sign(dx);
+        dy = Math.sign(dy);
+        v[i++] = vertices[mx] - dx * rx;
+        v[i++] = vertices[my] - dy * ry;
+        v[i++] = vertices[mx];
+        v[i++] = vertices[my];
+        v[i++] = vertices[mx] + dx * ry,
+        v[i++] = vertices[my] + dy * rx
+    }
+    v[i++] = vertices[mx];
+    v[i++] = vertices[my];
+    return v;
+}
+
+/**
+ * Draws an arbitrary multi-elbow line to a context.
+ * @param ctx
+ *  The context to draw to.
+ * @param vertices
+ *  The line's vertices.
+ */
+export function drawAbsoluteMultiElbowPath(
+    ctx: CanvasRenderingContext2D,
+    vertices: number[]
+) {
+    let i = 2;
+    ctx.beginPath();
+    ctx.moveTo(vertices[0], vertices[1]);
+    const length = vertices.length - 2;
+    for(;i < length;) {
+        ctx.lineTo(
+            vertices[i++], vertices[i++]
+        );
+        ctx.quadraticCurveTo(
+            vertices[i++], vertices[i++],
+            vertices[i++], vertices[i++]
+        );
+    }
+    ctx.lineTo(vertices[i++], vertices[i++]);
+}
+
+/**
+ * Draws a multi-elbow path to the context.
+ * @param ctx
+ *  The context to draw to.
+ * @param vertices
+ *  The line's vertices.
+ * @param r
+ *  The line's border radius.
+ */
+export function drawMultiElbowPath(
+    ctx: CanvasRenderingContext2D,
+    vertices: number[],
+    r: number
+) {
+    let sx = 0, sy = 1, mx = 2,
+        my = 3, tx = 4, ty = 5,
+        dx, dy, rx, ry, rad, mask;
+    const length = vertices.length - 2;
+    // Draw line
+    ctx.beginPath();
+    ctx.moveTo(vertices[0], vertices[1]);
+    for(; mx < length; sx+=2, sy+=2, mx+=2, my+=2, tx+=2, ty+=2) {
+        // Calculate radius
+        dx = (vertices[tx] - vertices[sx]) >> 1;
+        dy = (vertices[ty] - vertices[sy]) >> 1;
+        rad = Math.min(Math.abs(dx), Math.abs(dy), r);
+        // Calculate segment
+        // @ts-ignore
+        mask = (vertices[mx] - vertices[sx] !== 0) * -1;
+        rx = rad & mask;
+        ry = rad & ~mask;
+        dx = Math.sign(dx);
+        dy = Math.sign(dy);
+        // Draw segment
+        ctx.lineTo(
+            vertices[mx] - dx * rx,
+            vertices[my] - dy * ry
+        );
+        ctx.quadraticCurveTo(
+            vertices[mx], vertices[my],
+            vertices[mx] + dx * ry,
+            vertices[my] + dy * rx
+        );
+    }
+    ctx.lineTo(vertices[mx], vertices[my]);
+}
+
 /**
  * Draws a horizontal elbow path to a context.
  * @param ctx
@@ -283,7 +458,7 @@ export function drawHorizontalElbow(
 }
 
 /**
- * Draws a horizontal elbow path to a context.
+ * Draws a vertical elbow path to a context.
  * @param ctx
  *  The context to draw to.
  * @param sx
@@ -378,6 +553,12 @@ export function drawHorizontalElbowFast(
     ctx.lineTo(tx, ty);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+//  4. Polygons  //////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
 /**
  * Draws an arbitrary polygon to a context.
  * @param ctx
@@ -386,18 +567,63 @@ export function drawHorizontalElbowFast(
  *  The polygon's x-coordinate.
  * @param y
  *  The polygon's y-coordinate.
- * @param coordinates
- *  The polygon's coordinates relative to [0,0].
+ * @param vertices
+ *  The polygon's vertices relative to [0,0].
  */
-export function drawPolygon(
+export function drawRelativePolygon(
     ctx: CanvasRenderingContext2D,
     x: number, y: number,
-    coordinates: number[]
+    vertices: number[]
 ) {
     ctx.beginPath();
-    ctx.moveTo(coordinates[0] + x, coordinates[1] + y);
-    for(let i = 2; i < coordinates.length; i+=2) {
-        ctx.lineTo(coordinates[i] + x, coordinates[i + 1] + y);
+    ctx.moveTo(vertices[0] + x, vertices[1] + y);
+    for(let i = 2; i < vertices.length; i+=2) {
+        ctx.lineTo(vertices[i] + x, vertices[i + 1] + y);
     }
     ctx.closePath();
+}
+
+/**
+ * Draws an arbitrary polygon to a context.
+ * @param ctx
+ *  The context to draw to.
+ * @param vertices
+ *  The polygon's vertices.
+ */
+export function drawAbsolutePolygon(
+    ctx: CanvasRenderingContext2D,
+    vertices: number[]
+) {
+    ctx.beginPath();
+    ctx.moveTo(vertices[0], vertices[1]);
+    for(let i = 2; i < vertices.length; i+=2) {
+        ctx.lineTo(vertices[i], vertices[i + 1]);
+    }
+    ctx.closePath();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  5. Debug Regions  /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Draws a bounding region to a context.
+ * @param ctx
+ *  The context to draw to.
+ * @param region
+ *  The bounding region.
+ */
+export function drawBoundingRegion(
+    ctx: CanvasRenderingContext2D,
+    region: { xMin: number, yMin: number, xMax: number, yMax: number }
+) {
+    ctx.beginPath();
+    ctx.moveTo(region.xMin + 0.5, region.yMin + 0.5);
+    ctx.lineTo(region.xMax - 0.5, region.yMin + 0.5);
+    ctx.lineTo(region.xMax - 0.5, region.yMax - 0.5);
+    ctx.lineTo(region.xMin + 0.5, region.yMax - 0.5);
+    ctx.lineTo(region.xMin + 0.5, region.yMin + 0.5);
+    ctx.lineTo(region.xMax - 0.5, region.yMax - 0.5);
 }

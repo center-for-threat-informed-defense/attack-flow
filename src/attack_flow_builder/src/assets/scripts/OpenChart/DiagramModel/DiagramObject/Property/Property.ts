@@ -114,4 +114,11 @@ export abstract class Property {
      */
     public abstract toHashValue(): number;
 
+    /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public abstract clone(): Property;
+
 }

@@ -24,6 +24,11 @@ export type LineStyle = {
     capSize: number;
 
     /**
+     * The line's cap space.
+     */
+    capSpace: number;
+
+    /**
      * The line's color.
      */
     color: string;

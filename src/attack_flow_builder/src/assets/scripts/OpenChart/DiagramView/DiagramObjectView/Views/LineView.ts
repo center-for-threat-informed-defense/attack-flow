@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
 import { LayoutUpdateReason } from "../LayoutUpdateReason";
 import { Line, RootProperty } from "@OpenChart/DiagramModel";
@@ -160,7 +161,7 @@ export class LineView extends Line implements ViewObject {
     /**
      * Whether view's position has been set by the user.
      */
-    public get userSetPosition(): boolean  {
+    public get userSetPosition(): number  {
         return this._face.userSetPosition;
     }
 
@@ -259,31 +260,31 @@ export class LineView extends Line implements ViewObject {
 
 
     /**
-     * Moves the view to a specific coordinate.
+     * Moves the view to a specific coordinate and updates its layout.
      * @param x
      *  The x coordinate.
      * @param y
      *  The y coordinate.
      */
     public moveTo(x: number, y: number): void {
-        if (this.face.moveTo(x, y)) {
-            // Recalculate parent layout
-            this.parent?.updateLayout(LayoutUpdateReason.Movement);
-        }
+        // Move face
+        this.face.moveTo(x, y);
+        // Recalculate parent layout
+        this.parent?.updateLayout(LayoutUpdateReason.Movement);
     }
 
     /**
-     * Moves the view relative to its current position.
+     * Moves the view relative to its current position and updates its layout.
      * @param dx
      *  The change in x.
      * @param dy
      *  The change in y.
      */
     public moveBy(dx: number, dy: number): void {
-        if (this.face.moveBy(dx, dy)) {
-            // Recalculate parent layout
-            this.parent?.updateLayout(LayoutUpdateReason.Movement);
-        }
+        // Move face
+        this.face.moveBy(dx, dy);
+        // Recalculate parent layout
+        this.parent?.updateLayout(LayoutUpdateReason.Movement);
     }
 
 
@@ -369,12 +370,6 @@ export class LineView extends Line implements ViewObject {
      *  (Default: `false`)
      */
     public setSource(latch: LatchView | null, updateLayout: boolean = false) {
-        // Assign choreographer
-        if(latch) {
-            latch.face.choreographer = this.face;
-        } else if(this._sourceLatch) {
-            this._sourceLatch.face.choreographer = null;   
-        }
         // Set latch
         super.source = latch;
         // Update layout
@@ -395,12 +390,6 @@ export class LineView extends Line implements ViewObject {
      *  (Default: `false`)
      */
     public setTarget(latch: LatchView | null, updateLayout: boolean = false) {
-        // Assign choreographer
-        if(latch) {
-            latch.face.choreographer = this.face;
-        } else if(this._targetLatch) {
-            this._targetLatch.face.choreographer = null;   
-        }
         // Set latch
         super.target = latch;
         // Update layout
@@ -421,8 +410,6 @@ export class LineView extends Line implements ViewObject {
      *  (Default: `false`)
      */
     public addHandle(handle: HandleView, updateLayout: boolean = false) {
-        // Assign choreographer
-        handle.face.choreographer = this.face;
         // Add handle
         super.addHandle(handle);
         // Update layout
@@ -448,4 +435,42 @@ export class LineView extends Line implements ViewObject {
         }
     }
 
+    /**
+     * Removes the handle at `i` and all handles after it.
+     * @param i
+     *  The starting handle.
+     * @param updateLayout
+     *  Whether to recalculate the view's layout.
+     *  (Default: `false`) 
+     */
+    public dropHandles(i: number, updateLayout: boolean = false) {
+        // Drop handles
+        super.dropHandles(i);
+        // Update layout
+        if (updateLayout) {
+            this.updateLayout(LayoutUpdateReason.ChildDeleted);
+        }
+    }
+    
+            
+    ///////////////////////////////////////////////////////////////////////////
+    //  8. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the view.
+     * @returns
+     *  A clone of the view.
+     */
+    public clone(): LineView {
+        return new LineView(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone(),
+            this.face.clone()
+        )
+    }
+    
 }

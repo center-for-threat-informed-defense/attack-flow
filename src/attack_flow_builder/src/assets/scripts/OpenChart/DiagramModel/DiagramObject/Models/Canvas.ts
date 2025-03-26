@@ -1,4 +1,5 @@
 import { Group } from "./Group";
+import { Crypto } from "@OpenChart/Utilities";
 import type { RootProperty } from "../Property";
 
 export class Canvas extends Group {
@@ -21,6 +22,26 @@ export class Canvas extends Group {
         properties: RootProperty
     ) {
         super(id, instance, attributes, properties);
+    }
+
+            
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the object.
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(): Canvas {
+        return new Canvas(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone()
+        )
     }
 
 }

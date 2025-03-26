@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
 import type { Anchor } from "./Anchor";
 import type { RootProperty } from "../Property";
@@ -77,6 +78,26 @@ export class Block extends DiagramObject {
             // Remove anchor
             this._anchors.delete(position);
         }
+    }
+        
+        
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the object.
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(): Block {
+        return new Block(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone()
+        )
     }
 
 }

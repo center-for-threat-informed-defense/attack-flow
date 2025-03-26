@@ -1,7 +1,9 @@
 import { DarkTheme } from "./themes/DarkTheme";
+import { BlogTheme } from "./themes/BlogTheme";
 import { DiagramObjectType } from "@OpenChart/DiagramModel";
 import { AttackFlow, AttackFlowObjects, StixObjects, StixObservables } from "./templates";
 import type { AppConfiguration } from "../scripts/Application";
+
 
 const configuration: AppConfiguration = {
 
@@ -81,7 +83,11 @@ const configuration: AppConfiguration = {
                 handle_template: "generic_handle"
             },
             {
-                name: "generic_anchor",
+                name: "vertical_anchor",
+                type: DiagramObjectType.Anchor
+            },
+            {
+                name: "horizontal_anchor",
                 type: DiagramObjectType.Anchor
             },
             {
@@ -99,6 +105,7 @@ const configuration: AppConfiguration = {
      * The application's themes.
      */
     themes: [
+        BlogTheme,
         DarkTheme
     ],
 

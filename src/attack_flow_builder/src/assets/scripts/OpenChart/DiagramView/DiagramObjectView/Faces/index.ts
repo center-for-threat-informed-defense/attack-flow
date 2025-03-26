@@ -8,4 +8,4 @@ export * from "./Lines";
 export * from "./Styles";
 export * from "./DiagramFace";
 export * from "./BoundingBox";
-export * from "./MovementChoreographer";
+export * from "./Orientation";

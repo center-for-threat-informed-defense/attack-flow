@@ -21,6 +21,11 @@ export class TextBlock extends BlockFace {
     }
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Layout / Rendering  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
     /**
      * Calculates the face's layout.
      * @returns
@@ -252,6 +257,21 @@ export class TextBlock extends BlockFace {
     public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
     public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
         throw new Error("Method not implemented.");
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public clone(): TextBlock {
+        return new TextBlock(this.style);
     }
 
 }

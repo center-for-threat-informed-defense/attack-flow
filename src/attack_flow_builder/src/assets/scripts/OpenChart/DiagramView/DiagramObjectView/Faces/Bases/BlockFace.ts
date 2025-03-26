@@ -92,17 +92,12 @@ export abstract class BlockFace extends DiagramFace {
 
     /**
      * Sets the face's position relative to its current position.
-     * @remarks
-     *  Generally, all movement should be accomplished via `moveTo()` or
-     *  `moveBy()`. `setPosition()` directly manipulates the face's position
-     *  (ignoring any registered {@link MovementCoordinator}s). It should only
-     *  be invoked by the face itself or another MovementCoordinator.
      * @param dx
      *  The change in x.
      * @param dy
      *  The change in y.
      */
-    public setPosition(dx: number, dy: number): void {
+    public moveBy(dx: number, dy: number): void {
         // Move self
         this.boundingBox.x += dx;
         this.boundingBox.y += dy;
@@ -114,6 +109,8 @@ export abstract class BlockFace extends DiagramFace {
         for (const anchor of this.view.anchors.values()) {
             anchor.face.moveBy(dx, dy);
         }
+        // Recalculate layout
+        this.calculateLayout();
     }
 
 
@@ -150,5 +147,18 @@ export abstract class BlockFace extends DiagramFace {
         }
         return isRendered;
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public abstract clone(): BlockFace; 
 
 }

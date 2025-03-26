@@ -53,4 +53,17 @@ export class DictionaryProperty extends CollectionProperty {
         }
     }
 
+    /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public clone(): DictionaryProperty {
+        const property = new DictionaryProperty(this.id);
+        for(const [key, prop] of this.value) {
+            property.addProperty(prop.clone(), key);
+        }
+        return property;
+    }
+
 }

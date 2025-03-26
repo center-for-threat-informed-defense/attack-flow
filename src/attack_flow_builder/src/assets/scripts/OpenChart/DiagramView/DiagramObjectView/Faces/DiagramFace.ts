@@ -1,9 +1,9 @@
 import * as Masks from "../ViewAttributes";
 import { BoundingBox } from "./BoundingBox";
+import { drawBoundingRegion } from "@OpenChart/Utilities";
 import type { ViewportRegion } from "../ViewportRegion";
 import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "../Views";
-import type { MovementChoreographer } from "./MovementChoreographer";
 
 export abstract class DiagramFace {
 
@@ -15,7 +15,7 @@ export abstract class DiagramFace {
     /**
      * The offset needed to align faces with the grid's markers.
      */
-    protected static markerOffset: number = 1;
+    public static readonly markerOffset: number = 1;
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -32,11 +32,6 @@ export abstract class DiagramFace {
      * The face's bounding box.
      */
     public boundingBox: BoundingBox;
-
-    /**
-     * The face's movement choreographer.
-     */
-    public choreographer: MovementChoreographer | null;
 
     
     ///////////////////////////////////////////////////////////////////////////
@@ -108,8 +103,8 @@ export abstract class DiagramFace {
     /**
      * Whether view's position has been set by the user.
      */
-    public get userSetPosition(): boolean  {
-        return this.view.isAttributeSet(Masks.PositionSetByUserMask);
+    public get userSetPosition(): number  {
+        return this.view.getAttribute(Masks.PositionSetByUserMask);
     }
 
     /**
@@ -132,7 +127,6 @@ export abstract class DiagramFace {
          */
         this.view = null as unknown as DiagramObjectView;
         this.boundingBox = new BoundingBox();
-        this.choreographer = null;
     }
 
 
@@ -164,11 +158,9 @@ export abstract class DiagramFace {
      *  The x coordinate.
      * @param y
      *  The y coordinate.
-     * @returns
-     *  Whether the face was moved directly (true) or by a delegate (false).
      */
-    public moveTo(x: number, y: number): boolean {
-        return this.moveBy(
+    public moveTo(x: number, y: number): void {
+        this.moveBy(
             x - this.boundingBox.x,
             y - this.boundingBox.y
         );
@@ -180,31 +172,8 @@ export abstract class DiagramFace {
      *  The change in x.
      * @param dy
      *  The change in y.
-     * @returns
-     *  Whether the face was moved directly (true) or by a delegate (false).
      */
-    public moveBy(dx: number, dy: number): boolean {
-        if (this.choreographer) {
-            this.choreographer.moveViewBy(this.view, dx, dy);
-            return false;
-        }
-        this.setPosition(dx, dy);
-        return true;
-    }
-
-    /**
-     * Sets the face's position relative to its current position.
-     * @remarks
-     *  Generally, all movement should be accomplished via `moveTo()` or
-     *  `moveBy()`. `setPosition()` directly manipulates the face's position
-     *  (ignoring any registered {@link MovementChoreographer}s). It should only
-     *  be invoked by the face itself or another MovementCoordinator.
-     * @param dx
-     *  The change in x.
-     * @param dy
-     *  The change in y.
-     */
-    public abstract setPosition(dx: number, dy: number): void;
+    public abstract moveBy(dx: number, dy: number): void;
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -271,14 +240,7 @@ export abstract class DiagramFace {
             return false;
         }
         // Draw bounding box
-        const bb = this.boundingBox;
-        ctx.beginPath();
-        ctx.moveTo(bb.xMin + 0.5, bb.yMin + 0.5);
-        ctx.lineTo(bb.xMax - 0.5, bb.yMin + 0.5);
-        ctx.lineTo(bb.xMax - 0.5, bb.yMax - 0.5);
-        ctx.lineTo(bb.xMin + 0.5, bb.yMax - 0.5);
-        ctx.lineTo(bb.xMin + 0.5, bb.yMin + 0.5);
-        ctx.lineTo(bb.xMax - 0.5, bb.yMax - 0.5);
+        drawBoundingRegion(ctx, this.boundingBox);
         ctx.stroke();
         return true;
     }
@@ -295,5 +257,18 @@ export abstract class DiagramFace {
         return (viewport.xMin <= xMax && viewport.xMax >= xMin) &&
             (viewport.yMin <= yMax && viewport.yMax >= yMin);
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  7. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public abstract clone(): DiagramFace; 
 
 }

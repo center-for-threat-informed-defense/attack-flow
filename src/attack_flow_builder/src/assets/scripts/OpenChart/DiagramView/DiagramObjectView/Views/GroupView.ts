@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
 import { LayoutUpdateReason } from "../LayoutUpdateReason";
 import { Group, RootProperty } from "@OpenChart/DiagramModel";
@@ -120,7 +121,7 @@ export class GroupView extends Group implements ViewObject {
     /**
      * Whether view's position has been set by the user.
      */
-    public get userSetPosition(): boolean  {
+    public get userSetPosition(): number  {
         return this._face.userSetPosition;
     }
 
@@ -219,31 +220,31 @@ export class GroupView extends Group implements ViewObject {
 
 
     /**
-     * Moves the view to a specific coordinate.
+     * Moves the view to a specific coordinate and updates its layout.
      * @param x
      *  The x coordinate.
      * @param y
      *  The y coordinate.
      */
     public moveTo(x: number, y: number): void {
-        if (this.face.moveTo(x, y)) {
-            // Recalculate parent layout
-            this.parent?.updateLayout(LayoutUpdateReason.Movement);
-        }
+        // Move face
+        this.face.moveTo(x, y);
+        // Recalculate parent layout
+        this.parent?.updateLayout(LayoutUpdateReason.Movement);
     }
 
     /**
-     * Moves the view relative to its current position.
+     * Moves the view relative to its current position and updates its layout.
      * @param dx
      *  The change in x.
      * @param dy
      *  The change in y.
      */
     public moveBy(dx: number, dy: number): void {
-        if (this.face.moveBy(dx, dy)) {
-            // Recalculate parent layout
-            this.parent?.updateLayout(LayoutUpdateReason.Movement);
-        }
+        // Move face
+        this.face.moveBy(dx, dy);
+        // Recalculate parent layout
+        this.parent?.updateLayout(LayoutUpdateReason.Movement);
     }
 
 
@@ -311,10 +312,31 @@ export class GroupView extends Group implements ViewObject {
     public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
         return this.face.renderDebugTo(ctx, region);
     }
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  7. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the view.
+     * @returns
+     *  A clone of the view.
+     */
+    public clone(): GroupView {
+        return new GroupView(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone(),
+            this.face.clone()
+        )
+    }
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  7. Add / Remove Objects  //////////////////////////////////////////////
+    //  8. Add / Remove Objects  //////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 

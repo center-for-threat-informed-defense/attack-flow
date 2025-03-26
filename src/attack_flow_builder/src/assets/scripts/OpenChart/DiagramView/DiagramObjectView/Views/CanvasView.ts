@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
 import { LayoutUpdateReason } from "../LayoutUpdateReason";
 import { Canvas, RootProperty } from "@OpenChart/DiagramModel";
@@ -120,7 +121,7 @@ export class CanvasView extends Canvas implements ViewObject {
     /**
      * Whether view's position has been set by the user.
      */
-    public get userSetPosition(): boolean  {
+    public get userSetPosition(): number  {
         return this._face.userSetPosition;
     }
 
@@ -160,7 +161,9 @@ export class CanvasView extends Canvas implements ViewObject {
     /**
      * The view's grid size.
      */
-    public readonly grid: [number, number];
+    public get grid(): [number, number] {
+        return this.face.grid;
+    }
 
 
     /**
@@ -173,8 +176,6 @@ export class CanvasView extends Canvas implements ViewObject {
      *  The view's attributes.
      * @param properties
      *  The view's root property.
-     * @param grid
-     *  The view's grid size.
      * @param face
      *  The view's face.
      */
@@ -183,11 +184,9 @@ export class CanvasView extends Canvas implements ViewObject {
         instance: string,
         attributes: number,
         properties: RootProperty,
-        grid: [number, number],
         face: CanvasFace
     ) {
         super(id, instance, attributes, properties);
-        this.grid = grid;
         // Set face
         this._face = face;
         this.replaceFace(face);
@@ -234,31 +233,31 @@ export class CanvasView extends Canvas implements ViewObject {
 
 
     /**
-     * Moves the view to a specific coordinate.
+     * Moves the view to a specific coordinate and updates its layout.
      * @param x
      *  The x coordinate.
      * @param y
      *  The y coordinate.
      */
     public moveTo(x: number, y: number): void {
-        if (this.face.moveTo(x, y)) {
-            // Recalculate parent layout
-            this.parent?.updateLayout(LayoutUpdateReason.Movement);
-        }
+        // Move face
+        this.face.moveTo(x, y);
+        // Recalculate parent layout
+        this.parent?.updateLayout(LayoutUpdateReason.Movement);
     }
 
     /**
-     * Moves the view relative to its current position.
+     * Moves the view relative to its current position and updates its layout.
      * @param dx
      *  The change in x.
      * @param dy
      *  The change in y.
      */
     public moveBy(dx: number, dy: number): void {
-        if (this.face.moveBy(dx, dy)) {
-            // Recalculate parent layout
-            this.parent?.updateLayout(LayoutUpdateReason.Movement);
-        }
+        // Move face
+        this.face.moveBy(dx, dy);
+        // Recalculate parent layout
+        this.parent?.updateLayout(LayoutUpdateReason.Movement);
     }
 
 
@@ -340,7 +339,28 @@ export class CanvasView extends Canvas implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  8. Add / Remove Objects  //////////////////////////////////////////////
+    //  8. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the view.
+     * @returns
+     *  A clone of the view.
+     */
+    public clone(): CanvasView {
+        return new CanvasView(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone(),
+            this.face.clone()
+        )
+    }
+    
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  9. Add / Remove Objects  //////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 

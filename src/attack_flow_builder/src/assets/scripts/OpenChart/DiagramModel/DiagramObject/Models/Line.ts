@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
 import type { Latch } from "./Latch";
 import type { Handle } from "./Handle";
@@ -153,4 +154,35 @@ export class Line extends DiagramObject {
         }
     }
 
+    /**
+     * Removes the handle at `i` and all handles after it.
+     * @param i
+     *  The starting handle.
+     */
+    public dropHandles(i: number) {
+        for(; i < this._handles.length; i++) {
+            this.deleteHandle(this._handles[i]);
+        }
+    }
+ 
+         
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the object.
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(): Line {
+        return new Line(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone()
+        )
+    }
+    
 }

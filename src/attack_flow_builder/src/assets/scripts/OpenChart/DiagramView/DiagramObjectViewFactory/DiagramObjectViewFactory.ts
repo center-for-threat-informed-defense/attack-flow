@@ -5,10 +5,9 @@ import {
 } from "@OpenChart/DiagramModel";
 import {
     AnchorPoint, AnchorView, BlockView, BranchBlock,
-    CanvasView, DictionaryBlock, DotGridCanvas, GroupFace, GroupView,
-    HandlePoint, HandleView, HorizontalElbowLine, LatchPoint,
-    LatchView, LineGridCanvas, LineView, TextBlock,
-    VerticalElbowLine
+    CanvasView, DictionaryBlock, DotGridCanvas, DynamicLine,
+    GroupFace, GroupView, HandlePoint, HandleView, LatchPoint,
+    LatchView, LineGridCanvas, LineView, Orientation, TextBlock,
 } from "../DiagramObjectView";
 import type { FaceDesign } from "./FaceDesign";
 import type { TypeToTemplate } from "./TypeToTemplate";
@@ -197,8 +196,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 }
                 return object;
 
-            case FaceType.HorizontalElbowLine:
-            case FaceType.VerticalElbowLine:
+            case FaceType.DynamicLine:
                 // Assert template
                 this.assertTemplateMatchesFace(template, design.type);
                 // Create object
@@ -207,12 +205,9 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 const latch = template.latch_template;
                 object.source = this.createNewDiagramObject(latch.source, LatchView);
                 object.target = this.createNewDiagramObject(latch.target, LatchView);
-                // Create handles, if necessary
-                if (object.face instanceof HorizontalElbowLine) {
-                    // Attach handle
-                    const handle = template.handle_template;
-                    object.addHandle(this.createNewDiagramObject(handle, HandleView));
-                }
+                // Attach reference handle
+                const handle = template.handle_template;
+                object.addHandle(this.createNewDiagramObject(handle, HandleView));
                 break;
 
             default:
@@ -253,7 +248,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
         let face;
         switch (design.type) {
             case FaceType.AnchorPoint:
-                face = new AnchorPoint(design.style);
+                face = new AnchorPoint(design.style, design.orientation ?? Orientation.D0);
                 return new AnchorView(template.name, instance, attrs, props, face);
             case FaceType.BranchBlock:
                 face = new BranchBlock(design.style);
@@ -270,21 +265,18 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
             case FaceType.LatchPoint:
                 face = new LatchPoint(design.style);
                 return new LatchView(template.name, instance, attrs, props, face);
-            case FaceType.HorizontalElbowLine:
-                face = new HorizontalElbowLine(design.style, grid);
-                return new LineView(template.name, instance, attrs, props, face);
-            case FaceType.VerticalElbowLine:
-                face = new VerticalElbowLine(design.style, grid);
+            case FaceType.DynamicLine:
+                face = new DynamicLine(design.style, grid);
                 return new LineView(template.name, instance, attrs, props, face);
             case FaceType.Group:
                 face = new GroupFace();
                 return new GroupView(template.name, instance, attrs, props, face);
             case FaceType.LineGridCanvas:
                 face = new LineGridCanvas(design.style, grid, scale);
-                return new CanvasView(template.name, instance, attrs, props, grid, face);
+                return new CanvasView(template.name, instance, attrs, props, face);
             case FaceType.DotGridCanvas:
                 face = new DotGridCanvas(design.style, grid, scale);
-                return new CanvasView(template.name, instance, attrs, props, grid, face);
+                return new CanvasView(template.name, instance, attrs, props, face);
         }
     }
 
@@ -330,8 +322,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 if (type === DiagramObjectType.Handle) {
                     return;
                 }
-            case FaceType.HorizontalElbowLine:
-            case FaceType.VerticalElbowLine:
+            case FaceType.DynamicLine:
                 if (type === DiagramObjectType.Line) {
                     return;
                 }
@@ -379,7 +370,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
             let face;
             switch (design.type) {
                 case FaceType.AnchorPoint:
-                    face = new AnchorPoint(design.style);
+                    face = new AnchorPoint(design.style, design.orientation ?? Orientation.D0);
                     object.replaceFace(face);
                     break;
                 case FaceType.BranchBlock:
@@ -402,12 +393,8 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     face = new LatchPoint(design.style);
                     object.replaceFace(face);
                     break;
-                case FaceType.HorizontalElbowLine:
-                    face = new HorizontalElbowLine(design.style, grid);
-                    object.replaceFace(face);
-                    break;
-                case FaceType.VerticalElbowLine:
-                    face = new VerticalElbowLine(design.style, grid);
+                case FaceType.DynamicLine:
+                    face = new DynamicLine(design.style, grid);
                     object.replaceFace(face);
                     break;
                 case FaceType.Group:

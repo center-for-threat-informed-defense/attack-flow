@@ -96,4 +96,13 @@ export class FloatProperty extends Property {
         return this.computeHash(`${this._value ?? ""}`);
     }
 
+    /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public clone(): FloatProperty {
+        return new FloatProperty(this.id, this.min, this.max, this._value);
+    }
+
 }

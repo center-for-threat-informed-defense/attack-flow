@@ -26,7 +26,7 @@ export class DotGridCanvas extends CanvasFace {
      *  The canvas's scale.
      */
     constructor(style: CanvasStyle, grid: [number, number], scale: number) {
-        super();
+        super(grid, scale);
         this.style = style;
         this.gridPattern = this.createGridPattern(
             grid[0] * scale,
@@ -35,6 +35,11 @@ export class DotGridCanvas extends CanvasFace {
             this.style.gridColor
         );;
     }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Layout / Rendering  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     
 
     /**
@@ -106,6 +111,21 @@ export class DotGridCanvas extends CanvasFace {
         ctx.fillRect(0, 0, marker, marker);
         const ptr = ctx.createPattern(can, "repeat")!;
         return ptr;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a clone of the face.
+     * @returns
+     *  A clone of the face.
+     */
+    public clone(): DotGridCanvas {
+        return new DotGridCanvas(this.style, this.grid, this.scale);
     }
 
 }

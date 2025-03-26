@@ -82,4 +82,13 @@ export class StringProperty extends Property {
         }
     }
 
+    /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public clone(): StringProperty {
+        return new StringProperty(this.id, this.suggestions, this._value);
+    }
+
 }

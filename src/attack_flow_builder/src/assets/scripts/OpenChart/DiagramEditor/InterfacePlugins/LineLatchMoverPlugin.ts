@@ -13,11 +13,6 @@ export class LineLatchMoverPlugin extends SelectPlugin {
     private selection: LatchView;
 
     /**
-     * The anchor under the current selection.
-     */
-    private anchorUnderSelection: AnchorView | null;
-
-    /**
      * The selection's alignment.
      */
     private alignment: number;
@@ -32,7 +27,6 @@ export class LineLatchMoverPlugin extends SelectPlugin {
         super(ui);
         this.selection = null as unknown as LatchView;
         this.alignment = Alignment.Free;
-        this.anchorUnderSelection = null;
     }
 
     
@@ -104,21 +98,17 @@ export class LineLatchMoverPlugin extends SelectPlugin {
         if(!obj?.parent) {
             return true;
         }
-        // Start stream command
+        // TODO: Start stream command
         // Prepare selection
         this.selection = obj as LatchView;
         this.alignment = obj.alignment;
-        // Unlink latch
-        const { detachLatchFromAnchor, setTangibility } = EditorCommands;
-        if(this.selection.isLinked()) {
-            this.anchorUnderSelection = this.selection.anchor;
-            this.execute(detachLatchFromAnchor(this.selection));
-        }
         // Select line
         if(!obj.parent.focused) {
             this.select(obj.parent, event);
         }
-        // Make line intangible
+        // Make line and latch intangible
+        const { setTangibility } = EditorCommands;
+        this.execute(setTangibility(obj, Tangibility.None));
         this.execute(setTangibility(obj.parent!, Tangibility.None));
         // Assume control of movement
         return false;
@@ -132,7 +122,7 @@ export class LineLatchMoverPlugin extends SelectPlugin {
      *  The selection's delta.
      */
     protected handleSelectDrag(event: MouseEvent): [number, number] {
-        const { moveObjectsBy } = EditorCommands;
+        const { attachLatchToAnchor, detachLatchFromAnchor, moveObjectsBy } = EditorCommands;
         // Get hovered item
         let delta = this.getDistance();
         const hover = this.interface.root.getObjectAt(
@@ -145,12 +135,14 @@ export class LineLatchMoverPlugin extends SelectPlugin {
         if(this.alignment === Alignment.Grid) {
             delta = this.getDistanceOnGrid(this.interface.root.grid);
         }
-        // Look for anchor
+        // Attach latch
         if(hover instanceof AnchorView) {
             delta = this.getDistanceOntoObject(hover, this.selection);
-            this.anchorUnderSelection = hover;
-        } else {
-            this.anchorUnderSelection = null;
+            if(!this.selection.isLinked(hover)) {
+                this.execute(attachLatchToAnchor(this.selection, hover));
+            }
+        } else if(this.selection.isLinked()) {
+            this.execute(detachLatchFromAnchor(this.selection));
         }
         // Move object
         this.execute(moveObjectsBy(this.selection, delta[0], delta[1]));
@@ -164,17 +156,16 @@ export class LineLatchMoverPlugin extends SelectPlugin {
      *  The mouse event.
      */
     protected handleSelectEnd(event: MouseEvent): void {
-        const { attachLatchToAnchor } = EditorCommands;
+        const { setTangibility } = EditorCommands;
+        // Reset latch tangibility
+        // TODO: Consider separating tangibility from selection priority
+        this.execute(setTangibility(this.selection, Tangibility.Priority));
         // Reset line tangibility
         const line = this.selection.parent;
         if(line) {
-            this.execute(EditorCommands.setTangibility(line, Tangibility.Normal));
+            this.execute(setTangibility(line, Tangibility.Normal));
         }
-        // Link latch
-        if(this.anchorUnderSelection) {
-            this.execute(attachLatchToAnchor(this.selection, this.anchorUnderSelection));
-        }
-        // End stream command
+        // TODO: End stream command
     }
 
 }

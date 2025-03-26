@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
 import type { RootProperty } from "../Property";
 
@@ -21,6 +22,26 @@ export class Handle extends DiagramObject {
         properties: RootProperty
     ) {
         super(id, instance, attributes, properties);
+    }
+        
+                    
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the object.
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(): Handle {
+        return new Handle(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone()
+        )
     }
 
 }

@@ -57,6 +57,20 @@ export class BoundingBox {
         return (this.yMin + this.yMax) / 2
     }
 
+    /**
+     * The bounding region's width.
+     */
+    public get width(): number {
+        return this.xMax - this.xMin;
+    }
+
+    /**
+     * The bounding region's height.
+     */
+    public get height(): number {
+        return this.yMax - this.yMin;
+    }
+
 
     /**
      * Creates a new {@link BoundingBox}.

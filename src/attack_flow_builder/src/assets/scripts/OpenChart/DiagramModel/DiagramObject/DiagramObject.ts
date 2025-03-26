@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { RootProperty } from "./Property";
 
 export class DiagramObject {
@@ -128,6 +129,26 @@ export class DiagramObject {
             throw new Error(`'${i1}' already parented to '${i2}'.`);
         }
         child._parent = parent;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  3. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the object.
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(): DiagramObject {
+        return new DiagramObject(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone()
+        )
     }
 
 }

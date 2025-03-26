@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
 import type { RootProperty } from "../Property";
 
@@ -91,6 +92,26 @@ export class Group extends DiagramObject {
         this.makeChild(child, null);
         // Return index
         return index;
+    }
+    
+                
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the object.
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(): Group {
+        return new Group(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone()
+        )
     }
 
 }

@@ -97,4 +97,13 @@ export class IntProperty extends Property {
         return this.computeHash(`${this._value ?? ""}`);
     }
 
+    /**
+     * Returns a clone of the property.
+     * @returns
+     *  A clone of the property.
+     */
+    public clone(): IntProperty {
+        return new IntProperty(this.id, this.min, this.max, this._value);
+    }
+
 }

@@ -70,7 +70,7 @@ export interface ViewObject {
     /**
      * Whether face's position has been set by the user.
      */
-    get userSetPosition(): boolean;
+    get userSetPosition(): number;
 
     /**
      * Whether face's position has been set by the user.

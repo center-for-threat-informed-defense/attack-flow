@@ -1,3 +1,4 @@
+import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
 import type { Anchor } from "./Anchor";
 import type { RootProperty } from "../Property";
@@ -38,6 +39,11 @@ export class Latch extends DiagramObject {
         super(id, instance, attributes, properties);
         this._anchor = null;
     }
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Attach / Detach Anchors  ///////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
 
 
     /**
@@ -93,6 +99,26 @@ export class Latch extends DiagramObject {
         } else {
             return this._anchor?.instance === anchor.instance;
         }
+    }
+            
+                        
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Cloning  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns a childless clone of the object.
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(): Latch {
+        return new Latch(
+            this.id,
+            Crypto.randomUUID(),
+            this.attributes,
+            this.properties.clone()
+        )
     }
 
 }
