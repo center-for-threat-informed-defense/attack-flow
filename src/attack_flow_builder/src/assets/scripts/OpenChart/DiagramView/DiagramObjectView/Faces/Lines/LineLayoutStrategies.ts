@@ -42,18 +42,14 @@ export function runHorizontalTwoElbowLayout(
     }
     hdl.face.moveBy(0, my - hdl.y);
     const hx = hdl.x;
-
-    // Update points
-    if(face.points.length !== 3) {
-        face.points = [src, hdl, trg];
-    }
     
     // Apply cap space
     const [bx, ex] = oneAxisCapSpace(sx, tx, face.style.capSpace);
 
-    // Calculate vertices
-    let vertices;
+    // Define vertices and arrow
+    let vertices, arrow = true;
     if(sy === ty) {
+        arrow = sx !== tx;
         vertices = [bx, sy, ex, ty];
     } else if(sx === hx) {
         vertices = [bx, sy, hx, ty, ex, ty];
@@ -63,8 +59,15 @@ export function runHorizontalTwoElbowLayout(
         vertices = [bx, sy, hx, sy, hx, ty, ex, ty];
     }
 
+    // Update points
+    if(vertices.length === 4 && face.points.length !== 2) {
+        face.points = [src, trg];
+    } else if (4 < vertices.length && face.points.length !== 3) {
+        face.points = [src, hdl, trg];
+    }
+
     // Run layout
-    runMultiElbowLayout(face, vertices);
+    runMultiElbowLayout(face, vertices, arrow);
 
 }
 
@@ -109,9 +112,10 @@ export function runVerticalTwoElbowLayout(
     // Apply cap space
     const [by, ey] = oneAxisCapSpace(sy, ty, face.style.capSpace);
 
-    // Calculate vertices
-    let vertices;
+    // Define vertices and arrow
+    let vertices, arrow = true;
     if(sx === tx) {
+        arrow = sy !== ty;
         vertices = [sx, by, tx, ey];
     } else if(sy === hy) {
         vertices = [sx, by, tx, hy, tx, ey];
@@ -121,8 +125,15 @@ export function runVerticalTwoElbowLayout(
         vertices = [sx, by, sx, hy, tx, hy, tx, ey];
     }
 
+    // Update points
+    if(vertices.length === 4 && face.points.length !== 2) {
+        face.points = [src, trg];
+    } else if (4 < vertices.length && face.points.length !== 3) {
+        face.points = [src, hdl, trg];
+    }
+
     // Run layout
-    runMultiElbowLayout(face, vertices);
+    runMultiElbowLayout(face, vertices, arrow);
 }
 
 /**
@@ -158,26 +169,27 @@ export function runHorizontalElbowLayout(
     }
 
     // Calculate vertices
-    let vertices;
+    let vertices, arrow = true;
     if(sx === tx) {
+        arrow = sy !== ty;
         // Apply cap space
         const [by, ey] = oneAxisCapSpace(sy, ty, face.style.capSpace);
-        // Calculate vertices
+        // Define vertices
         vertices = [sx, by, tx, ey];
     } else if (sy === ty) {
         // Apply cap space
         const [bx, ex] = oneAxisCapSpace(sx, tx, face.style.capSpace);
-        // Calculate vertices
+        // Define vertices
         vertices = [bx, sy, ex, ty];
     } else {
         // Apply cap space
         const [bx, ey] = twoAxisCapSpace(sx, tx, sy, ty, face.style.capSpace);
-        // Calculate vertices
+        // Define vertices
         vertices = [bx, sy, tx, sy, tx, ey]
     }
 
     // Run layout
-    runMultiElbowLayout(face, vertices);
+    runMultiElbowLayout(face, vertices, arrow);
 
 }
 
@@ -213,8 +225,10 @@ export function runVerticalElbowLayout(
         face.points = [src, trg];
     }
 
-    let vertices;
+    // Calculate vertices
+    let vertices, arrow = true;
     if(sx === tx) {
+        arrow = sy !== ty;
         // Apply cap space
         const [by, ey] = oneAxisCapSpace(sy, ty, face.style.capSpace);
         // Calculate vertices
@@ -232,21 +246,35 @@ export function runVerticalElbowLayout(
     }
 
     // Run layout
-    runMultiElbowLayout(face, vertices);
+    runMultiElbowLayout(face, vertices, arrow);
     
 }
 
 /**
  * Applies a multi-elbow layout to a line.
  * @remarks
- *  For best results, ensure that no two consecutive vertices are identical.
- *  Duplicate vertices are acceptable as long as they are not sequential.
+ *  This function takes a set of raw vertices, derived from a collection of
+ *  handles and latches, and adjusts their positions to ensure they are
+ *  properly centered within these elements when the line is rendered. After
+ *  aligning the vertices, the function uses `getAbsoluteMultiElbowPath()` to
+ *  generate the final set of vertices which curve the line's corners. These
+ *  final vertices are then applied to the provided `face`.
  * @param face
  *  The line's face.
  * @param vertices
- *  The line's vertices. 
+ *  The line's raw vertices.
+ * 
+ *  For best results, deduplicate consecutive vertices.
+ *   - `[0,0, 0,1, 0,0]` is acceptable.
+ *   - `[0,0, 0,1, 0,1, 1,1]` should be simplified to `[0,0, 0,1, 1,1]`.
+ * @param includeArrow
+ *  Whether the line should include an arrow head or not.
  */
-function runMultiElbowLayout(face: GenericLineInternalState, vertices: number[]) {
+function runMultiElbowLayout(
+    face: GenericLineInternalState,
+    vertices: number[],
+    includeArrow: boolean
+) {
     const v = vertices;
     const offset = LineFace.markerOffset;
 
@@ -300,18 +328,26 @@ function runMultiElbowLayout(face: GenericLineInternalState, vertices: number[])
         t[ny] = v[ny] + offset;
     }
 
-    // Calculate arrow head
-    face.arrow = getAbsoluteArrowHead(
-        t[lx], t[ly],
-        t[nx], t[ny],
-        face.style.capSize
-    );
+    // Apply arrow head
+    if(includeArrow) {
+        
+        // Calculate arrow head
+        face.arrow = getAbsoluteArrowHead(
+            t[lx], t[ly],
+            t[nx], t[ny],
+            face.style.capSize
+        );
 
-    // Calculate cap size offset
-    if(v[lx] === v[nx]) {
-        t[ny] -= Math.sign(t[ny] - t[ly]) * (face.style.capSize >> 1);
+        // Calculate cap size offset
+        if(v[lx] === v[nx]) {
+            t[ny] -= Math.sign(t[ny] - t[ly]) * (face.style.capSize >> 1);
+        } else {
+            t[nx] -= Math.sign(t[nx] - t[lx]) * (face.style.capSize >> 1);
+        }
+
     } else {
-        t[nx] -= Math.sign(t[nx] - t[lx]) * (face.style.capSize >> 1);
+        // Remove arrow head
+        face.arrow = [];
     }
 
     // Set vertices

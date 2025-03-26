@@ -67,11 +67,7 @@ export class DynamicLine extends LineFace {
     /**
      * The line's arrow head shape.
      */
-    private arrow: [
-        number, number,
-        number, number,
-        number, number
-    ];
+    private arrow: number[];
 
     /**
      * The line's hitboxes.

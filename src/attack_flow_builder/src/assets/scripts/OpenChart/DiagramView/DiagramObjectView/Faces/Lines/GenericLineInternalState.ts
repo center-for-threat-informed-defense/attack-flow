@@ -26,11 +26,7 @@ export interface GenericLineInternalState {
     /**
      * The line's arrow head shape.
      */
-    arrow: [
-        number, number,
-        number, number,
-        number, number
-    ];
+    arrow: number[];
 
     /**
      * The line's hitboxes.
