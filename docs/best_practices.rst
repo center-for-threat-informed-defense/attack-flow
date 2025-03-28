@@ -4,8 +4,8 @@ Best Practices & Real-World Applications
 This chapter addresses considerations for creating flows that are outside the scope of
 the technical specification. While it is possible to construct a valid flow without strictly following these guidelines, we recommend adopting these best practices to develop high-quality flows that effectively serve your intended purpose.
 
-We will cover 3 common applications of in which Attack Flow:
-Cyber Threat Intelligence, Defensive Posture, and Red Team engagements.
+We will cover 3 common applicatios of how organizations use Attack Flow:
+Cyber Threat Intelligence, Defensive Posture, and Red Team engagements
 
 
 Cyber Threat Intelligence
@@ -13,12 +13,14 @@ Cyber Threat Intelligence
 
 How is industry using Attack Flow for their CTI workflows?
 
-* CTI analysts can use Attack Flow to create highly detailed, behavior-based threat intelligence. Flows can be 
+* CTI analysts can use Attack Flow to create highly detailed, behavior-based threat intelligence reports. Flows can be 
 incorporated into a CTI report to provide enhanced visuals of an attack or they can be derived from CTI reporting.
 
-* <TODO: insert examples from members>
+* Malware analysts may reverse engineer a sample found when threat hunting and then use flow to capture the TTPs they uncover during analysis to make it easier to create a CTI blog post.
 
+* Some analysts utilize public libraries like Txt2Stix to generate bundles from threat reports to then import into an Attack Flow
 
+* 
 
 Mapping CTI Reports to ATT&CK Techniques
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -420,9 +422,65 @@ Adversary Emulation & Red Teaming
 
 How is industry using Attack Flow as part of their red-teaming engagements?
 
-* Red teamers use Attack Flow at the end of an operation in their final report to show what they performed
+* Red teams will build out a flow as part of the planning phase before a live operation. 
+* Red teamers use Attack Flow at the end of an operation in their final report to show what they performed and compare with Blue Team
+* The red team may use Attack Flow in a more abstract manner, but still needing to capture details down to the permissions level for techniques.
+
+When planning a red team engagement, Threat Intelligence and IR teams will have the opportunity to weigh in on which
+adversaries are needing to be tested based off what they see as a threat to their organization.
+
+For this example, let's use an example by using one of the publicy available Adversary Emulation Plan from the adversary emulation library.
+We will reference the `"Turla - Snake Emulation Plan" <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/yaml/turla_snake.yaml>`_  and pretend that we're going into an engagement where we want to emulation this.
+
+The following techniques are in the plan:
+
+    "mitre_techniques": {
+                "T1189": 1,
+                "T1204.002": 1,
+                "T1082": 1,
+                "T1105": 11,
+                "T1014": 1,
+                "T1057": 2,
+                "T1087.002": 2,
+                "T1049": 1,
+                "T1569.002": 1,
+                "T1070.004": 3,
+                "T1059.001": 1,
+                "T1069.001": 3,
+                "T1018": 1,
+                "T1003.001": 1,
+                "T1550.002": 1,
+                "T1136.002": 2,
+                "T1570": 5,
+                "T1505.002": 1,
+                "T1059.003": 1,
+                "T1016": 1,
+                "T1041": 1
+            },
+
+      
+The .yml file provides us a lot useful information. For starters, it's going to give us the adversary name, description, and then scenarios to test out.
+We can either map these different scenarios into separate flows or we can put them into a single one. 
+
+We already have an Adversary Emulation plan mapped to an Attack Flow that you can find here <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_
+
+The emulation plan, created by the ATT&CK ® Evaluations team, used during Day 2 of the ATT&CK evaluations Round 5. 
+This scenario focuses on Snake, a rootkit used to compromise computers and exfiltrate data. If you have your own plans, you can convert them to stix and then import into Attack Flow for quicker use.
+
+If we take a look at the beginning of this flow, we can highlight the threat actor that we want to emulate for the red team exercise. 
+Once we have that, we can start adding the TTPs from the plan in. Since this flow has alrady been provided in the Adversary Emulation Library, we can create this more quickly.
 
 
+Conditions are helpful for capturing where the red team needs to be successful in order to proceed with the engagement. 
+
+
+The red team can then start their engagement and track which paths were successful and what commands were actually ran.
+At any point in the flow, they can add in notes. If they attempted to gain privilege, but could not - then they could document this as such.
+When the red team has completed their operation, the blue team can proceed with detection. Ideally they have their own flow they are building out and then at 
+the end of the engagement each team can compare notes from their flows.
+
+It can be helpful to add Note objects, STIX objects containing Indicators, Host IPs/names, Processes with PowerShell commands used (and PIDs) as well as any User Accounts that were created and/or pivoted to during the operation.
+The red teamer should track their activity either via automatic logging (e.g., Cobalt Strike logging, etc.) and then either 
 
 
 General Advice
@@ -441,6 +499,7 @@ General Advice
    * **SOC Analysts** – Provide actionable insights such as **log sources**, event IDs, and real-world examples of detection to aid faster investigation and triage.  
 
    Structuring your flow according to your audience improves communication, speeds up response times, and ensures the right level of detail is conveyed.
+
 
 
 Project Name
