@@ -5,17 +5,13 @@ interface StixObject {
   id: string;
   source_ref?: string;
   target_ref?: string;
+  [key: string]: any;
 }
 
 export interface StixBundle {
   type: string;
   objects: StixObject[];
   id: string;
-}
-
-interface GraphNode {
-  id: string;
-  type: string;
 }
 
 interface GraphEdge {
@@ -37,6 +33,14 @@ export class StixToFlow {
         stixObject.type.replace("-", "_"),
         Block
       );
+      const nonStixProperties = ["id", "type", "created", "modified", "spec_version"];
+      for (const key of block.properties.value.keys()) {
+        if (key in stixObject) {
+          if (block.properties.value.get(key)!._value !== undefined) {
+            block.properties.value.get(key)!._value = stixObject[key];
+          }
+        }
+      }
       canvas.addObject(block);
       objectMap.set(stixObject.id, block);
     });
