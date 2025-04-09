@@ -1,4 +1,5 @@
-import { Block, Canvas, Line, type DiagramObjectFactory } from "../OpenChart/DiagramModel";
+import { Canvas, Block, Line,  } from "../OpenChart/DiagramModel/DiagramObject";
+import { type DiagramObjectFactory } from "../OpenChart/DiagramModel/DiagramObjectFactory";
 
 interface StixObject {
     type: string;

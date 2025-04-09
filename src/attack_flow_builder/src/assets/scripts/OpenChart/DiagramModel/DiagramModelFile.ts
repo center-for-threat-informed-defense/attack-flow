@@ -30,6 +30,8 @@ export class DiagramModelFile {
      *  The file's object factory.
      * @param diagram
      *  The file to import.
+     * @param stix
+     * The STIX bundle to import.
      */
     constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport, stix?: StixBundle);
     constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport, stix?: StixBundle) {

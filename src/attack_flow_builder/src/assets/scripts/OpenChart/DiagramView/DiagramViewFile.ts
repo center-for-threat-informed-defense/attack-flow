@@ -38,6 +38,8 @@ export class DiagramViewFile extends DiagramModelFile {
      *  The file's object factory.
      * @param diagram
      *  The file to import.
+     * @param stix
+     * The STIX bundle to import.
      */
     constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport, stix?: StixBundle);
     constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport, stix?: StixBundle) {
