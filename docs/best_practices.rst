@@ -15,18 +15,16 @@ How is industry using Attack Flow for their CTI workflows?
 
 * CTI analysts can use Attack Flow to create highly detailed, behavior-based threat intelligence reports. Flows can be 
 incorporated into a CTI report to provide enhanced visuals of an attack or they can be derived from CTI reporting.
-
 * Malware analysts may reverse engineer a sample found when threat hunting and then use flow to capture the TTPs they uncover during analysis to make it easier to create a CTI blog post.
-
 * Some analysts utilize public libraries like Txt2Stix to generate bundles from threat reports to then import into an Attack Flow
 
-* 
+.. Attention::
+  * Attack Flow now supports the automatic import of STIX bundles to provide an intial flow diagram from threat intelligence
 
 Mapping CTI Reports to ATT&CK Techniques
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Open-Source Report Selection
-
+*Open-Source Report Selection*
 If you choose to use an open-source report to create an attack flow, it is important to
 assess the strengths and weaknesses of the report in order to establish a confidence
 level in its data and assessments. Factors affecting source quality include the manner
@@ -209,6 +207,10 @@ How is industry using Attack Flow to improve their overall defensive posture?
 * Defenders can build large flow diagrams to represent and support an ongoing incident, extracting key information from system-level data and logs.
 * Modeling for defensive posture via visualization of convergence / choke points
 * Highlight critical assets that have been or may have been compromised.
+* Blue teamers can take an Attack Flow executed by the Red team, and then begin to fill in components of the flow where they were able to successfully detect a behavior.
+* As part of mitigation development, the blue team can work with the CTI team to identify adversaries of concern, and even receive Attack Flows from internal CTI and then add in where they have detection rules and/or controls in place to detect these behaviors. 
+As they identify these areas, they can  begin to also identify gaps in their controls and detections
+* Attack Flows can be part of a larger effort to build layered defenses, by having convergence points for visibility and correlation (e.g., SIEM, XDR, SOAR, etc.) and unconvering chokepoints to prevent subsequent malicious actions that rely on the success of a previous adversary behavior.
 
 Mapping System Data to Attack Flow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -343,7 +345,8 @@ Once you identify some sequenced behaviors in your logs, you can list out the te
 Event Logs to Flow Diagram
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-TODO: <if we create the feature to import STIX bundles, add info here on that>
+.. Attention::
+  * Attack Flow now supports the automatic import of STIX bundles to provide an intial flow diagram
 
 These events occurring within a short timeframe could indicate **data staging, exfiltration, and cleanup efforts** so we can highlight the timestamps
 as part of the attack flow. 
@@ -416,21 +419,112 @@ three techniques and the other leads to one. This can give us insight into prior
 also indicate that we need to investigate detections around the one with less behaviors detected as something could have been missed.
 
 
-
 Adversary Emulation & Red Teaming
 ---------------------------------
 
-How is industry using Attack Flow as part of their red-teaming engagements?
+Attack Flow is a powerful tool for red teams to plan, document, and communicate simulated adversary behavior during engagements.
+
+Use Cases in Red Team Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Attack Flow can be applied throughout the lifecycle of a red team operation:
+
+**Pre-engagement**: Plan out attack paths using known TTPs of a real adversary (tip!: )
+**During the operation**: Track which techniques were executed, which failed, and the outcome of each action.
+**Post-engagement**: Generate a report comparing Red vs. Blue team results, showing missed detections, compromised assets, and executed commands relating to specific adversary behaviors.
 
 * Red teams will build out a flow as part of the planning phase before a live operation. 
-* Red teamers use Attack Flow at the end of an operation in their final report to show what they performed and compare with Blue Team
+* Red teamers use Attack Flow at the end of an operation in their final report to show what they performed and compare with Blue Team. They summarize total TTPs used, indicators, and assets that were compromised.
 * The red team may use Attack Flow in a more abstract manner, but still needing to capture details down to the permissions level for techniques.
 
-When planning a red team engagement, Threat Intelligence and IR teams will have the opportunity to weigh in on which
+Planning with Attack Flow
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+* When planning a red team engagement, Threat Intelligence and IR teams will have the opportunity to weigh in on which
 adversaries are needing to be tested based off what they see as a threat to their organization.
 
-For this example, let's use an example by using one of the publicy available Adversary Emulation Plan from the adversary emulation library.
-We will reference the `"Turla - Snake Emulation Plan" <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/yaml/turla_snake.yaml>`_  and pretend that we're going into an engagement where we want to emulation this.
+*Pre-Engagement Collaboration*
+Prior to the operation, red teams often collaborate with:
+
+- **CTI teams** to identify adversaries that align with current threats to the organization. CTI analysts may suggest:
+  - Determine active or trending APT groups, novel adversarial techniques
+  - Industry-specific targeting patterns
+  - Recent malware campaigns observed in the wild and/or the internal environment
+
+Attack Flows can help visualize these threat scenarios and select representative behaviors to emulate.
+
+- **Blue Teams or Detection Engineers** to focus the scope of testing. Red teams may:
+  - Discuss control coverage assumptions or known gaps
+  - Coordinate on which detection rules or analytics to evaluate
+  - Align testing around high-value assets or specific services
+
+This collaborative planning ensures that the red team’s simulation is not only realistic but also strategically valuable for improving detection and defense.
+
+
+During and After Execution
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Red teams can use flows abstractly (focusing on TTPs) or at high fidelity (capturing commands, conditions, and outcomes).
+* Record commands, hostnames, IPs, PIDs, and usernames
+* Annotate successes and failures to capture realistic scenarios
+* Use STIX Note and Indicator objects to enrich the flow, examples below:
+- ``Asset names or host identifiers`` (e.g., DC01, FIN-SQL-02)
+- ``Asset roles`` (e.g., file server, HR workstation, domain controller)
+- ``Access method or privilege level`` (e.g., user, admin, SYSTEM)
+- ``Associated indicators`` (e.g., executed commands, processes, hashes, network connections)
+* Document pivot points and compromised items (e.g., credentials, accounts, servers, etc.)
+* Consider developing a conversion pipeline from automated red team tools—such as Caldera or Cobalt Strike—to generate STIX bundles that can be imported into Attack Flow
+
+*Asset Interaction and Tracking*
+Assets—such as systems, services, credentials, and data—are central to any red team operation. Attack Flow can help track and visualize:
+- **Initial Access Targets**: Systems that serve as entry points (e.g., vulnerable web servers, email clients).
+- **Pivot Assets**: Hosts used for lateral movement or privilege escalation.
+- **Compromised Resources**: Credentials, file shares, databases, domain controllers.
+- **Critical Assets**: Data exfiltration targets or mission-critical systems.
+
+*Reporting*
+After an engagement, red teams can export their Attack Flows to share with internal stakeholders, Blue Teams, or detection engineers. 
+These diagrams:
+* Provide a clear, visual timeline of what was executed
+* Help defenders validate what was and wasn’t detected
+* Enable threat hunters to replay or simulate observed behaviors
+* Serve as long-term records of adversary simulations for compliance or training
+
+Post-Engagement Collaboration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Attack Flow enables both red and blue teams to:
+* Compare execution (Red) vs. detection (Blue) side-by-side
+* Identify missed detections or blind spots
+* Validate coverage of specific techniques
+* Inform future detection engineering and threat modeling
+
+**Red Team ➜** Plan, execute and annotate
+**Blue Team ➜** Build detection-centric flows
+**Together ➜** Overlay and align findings to strengthen defenses
+
+**Tips for Red Team Flow Building**
+* Use "conditions" to flag required states (e.g., "domain user credentials obtained").
+* Use "notes" to add human-readable context at key nodes.
+* Link Indicators, Process objects, and CommandLines to actions for maximum clarity.
+* Consider annotating pivot points (e.g., account switch, lateral move) with user and host metadata.
+
+
+
+This provides the blue team with essential context to understand:
+- What was targeted and why
+- Which assets were at risk or compromised
+- Where defensive coverage may be lacking (and the blue team can fill in what detections they have for those items)
+
+
+Example Exercise
+~~~~~~~~~~~~~~~~
+We’ll use a real-world adversary emulation plan: the Turla – Snake YAML Plan <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/yaml/turla_snake.yaml>_.
+
+Adversary name and overview
+Test scenarios and commands
+Mappings to MITRE ATT&CK techniques
+
+
+For example, an adversary emulation plan for Turla (Snake) is publicy available via the adversary emulation library and has already been converted to a flow diagram.
+ `"Turla - Snake Emulation Plan" <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/yaml/turla_snake.yaml>`_  and pretend that we're going into an engagement where we want to emulation this.
 
 The following techniques are in the plan:
 
@@ -473,25 +567,30 @@ Once we have that, we can start adding the TTPs from the plan in. Since this flo
 
 Conditions are helpful for capturing where the red team needs to be successful in order to proceed with the engagement. 
 
+After an engagement, the red team can also document whether an attack path was successful by providing conditions and any notes that may be helpful.
+The can document any assets they were able to compromise or other vulnerabilities they found. It's also helpful to show the executed command and/or behaviors in case the blue team doesn't detect everything they ran.
+
+
+
 
 The red team can then start their engagement and track which paths were successful and what commands were actually ran.
 At any point in the flow, they can add in notes. If they attempted to gain privilege, but could not - then they could document this as such.
 When the red team has completed their operation, the blue team can proceed with detection. Ideally they have their own flow they are building out and then at 
 the end of the engagement each team can compare notes from their flows.
 
-It can be helpful to add Note objects, STIX objects containing Indicators, Host IPs/names, Processes with PowerShell commands used (and PIDs) as well as any User Accounts that were created and/or pivoted to during the operation.
-The red teamer should track their activity either via automatic logging (e.g., Cobalt Strike logging, etc.) and then either 
+
+
 
 
 General Advice
 ---------------
 
 .. Attention::
-   **Consider Your Audience When Building Attack Flows**
+   **Tailoring Flows by Audience**
 
-   Attack flows should be tailored to their audience to maximize effectiveness. Consider the following:
+   Attack flow content and metadata should be tailored to the specific audience to maximize effectiveness. Consider the following:
 
-   * **Threat Hunters** – Reference or include specific **analytics**, detection logic, or alert references that helped identify the behavior. This ensures repeatability and allows other hunters to validate or refine detection capabilities.  
+   * **Threat Hunters** – Reference or include specific **analytics**, detection logic, or alert mappings that helped identify the behavior. This ensures repeatability and allows other hunters to validate or refine detection capabilities.  
    * **Cyber Threat Intelligence (CTI) Analysts** – If the flow is used for external reporting, remove **sensitive information** and focus on the **critical impact** and adversary behavior. Consider including **TTPs and relevant threat groups** for a broader intelligence context.  
    * **Adversary Emulation Teams** – Provide details on **malicious commands and techniques** that were **not detected** by existing analytics, helping them build realistic tests to improve detection.  
    * **Incident Responders** – Include **timeline information, lateral movement paths, and compromised credentials** to support forensic analysis and remediation efforts.  
