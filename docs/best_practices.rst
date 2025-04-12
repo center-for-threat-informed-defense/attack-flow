@@ -40,8 +40,7 @@ threat, which may be used to inform decisions on defense and resource prioritiza
 
    **Key Takeaways for Selecting a Report**
 
-   * Reports should be transparent about where the data originates and provide a
-     technically competent overview of an incident.
+   * Reports should be transparent about where the data originates and provide a technically competent overview of an incident.
    * Reports should originate from a credible vendor with a track record of accurate reporting
      and first-hand analysis of the incident in question.
    * Reports should provide the most current information on the malware or breach.
@@ -56,7 +55,7 @@ do not have technical expertise and the ability to analyze the malware or attack
 themselves (for example, news sites) are not considered optimal for creating attack
 flows.
 
-Characteristics of Reports to Avoid:
+**Characteristics of Reports to Avoid:**
 
 * Second-hand sources that simply regurgitate information about attacks instead of providing their own technical analysis.
 * Sources that do not provide the context in which the information was obtained.
@@ -359,19 +358,18 @@ Now let's put these 4 techniques into an Attack Flow diagram to visualize it bet
 
    Diagram showing ATT&CK techniques in sequence from example system event logs, based on timestamps.
 
-
 Post-Flow: Identifying Gaps in Adversary Behaviors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This sequence of events demonstrates how an adversary leveraged **PowerShell command shells** to execute several of the malicious behaviors. By highlighting PowerShell as a key execution method, we can identify opportunities to **enhance detection strategies**.  
 If conducting **chokepoint analysis**, consider strengthening **detections and mitigations around PowerShell activity**, as it served as the primary attack vector. In this scenario, the flow shows us that expanding detection coverage for **PowerShell-based threats**, you can **identify, disrupt, or prevent follow-on techniques** before they escalate.
 
-.. Remember::
+.. note::
 
-   **Key Tips for Hunting for Malicious Activity and Threats**
+  **Key Tips for Hunting for Malicious Activity and Threats**
 
-   * Your first clue of malicious activity can appear at any point in an attack—tracing backward helps identify the initial compromise, while looking forward reveals the adversary's actions and attack progression.
-   * A useful tool for searching for related techniques is `"CTID's Technique Inference Engine (TIE)" <https://center-for-threat-informed-defense.github.io/technique-inference-engine/#/>`_ which can help piece together missed areas of compromise.
-   * Once you determine malicious activity, investigate to determine the scope and scale of the attack.
+    * Your first clue of malicious activity can appear at any point in an attack—tracing backward helps identify the initial compromise, while looking forward reveals the adversary's actions and attack progression.
+    * A useful tool for searching for related techniques is `"CTID's Technique Inference Engine (TIE)" <https://center-for-threat-informed-defense.github.io/technique-inference-engine/#/>`_ which can help piece together missed areas of compromise.
+    * Once you determine malicious activity, investigate to determine the scope and scale of the attack.
 
 * Enhance Your Attack Flow with Supplemental Details *
 
@@ -421,7 +419,6 @@ also indicate that we need to investigate detections around the one with less be
 
 Adversary Emulation & Red Teaming
 ---------------------------------
-
 Attack Flow is a powerful tool for red teams to plan, document, and communicate simulated adversary behavior during engagements.
 
 Use Cases in Red Team Operations
@@ -439,8 +436,7 @@ Attack Flow can be applied throughout the lifecycle of a red team operation:
 
 Planning with Attack Flow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
-* When planning a red team engagement, Threat Intelligence and IR teams will have the opportunity to weigh in on which
-adversaries are needing to be tested based off what they see as a threat to their organization.
+* When planning a red team engagement, Threat Intelligence and IR teams will have the opportunity to weigh in on which adversaries are needing to be tested based off what they see as a threat to their organization.
 
 *Pre-Engagement Collaboration*
 Prior to the operation, red teams often collaborate with:
@@ -463,18 +459,21 @@ This collaborative planning ensures that the red team’s simulation is not only
 During and After Execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 Red teams can use flows abstractly (focusing on TTPs) or at high fidelity (capturing commands, conditions, and outcomes).
+
 * Record commands, hostnames, IPs, PIDs, and usernames
 * Annotate successes and failures to capture realistic scenarios
 * Use STIX Note and Indicator objects to enrich the flow, examples below:
-- ``Asset names or host identifiers`` (e.g., DC01, FIN-SQL-02)
-- ``Asset roles`` (e.g., file server, HR workstation, domain controller)
-- ``Access method or privilege level`` (e.g., user, admin, SYSTEM)
-- ``Associated indicators`` (e.g., executed commands, processes, hashes, network connections)
+    - ``Asset names or host identifiers`` (e.g., DC01, FIN-SQL-02)
+    - ``Asset roles`` (e.g., file server, HR workstation, domain controller)
+    - ``Access method or privilege level`` (e.g., user, admin, SYSTEM)
+    - ``Associated indicators`` (e.g., executed commands, processes, hashes, network connections)
 * Document pivot points and compromised items (e.g., credentials, accounts, servers, etc.)
 * Consider developing a conversion pipeline from automated red team tools—such as Caldera or Cobalt Strike—to generate STIX bundles that can be imported into Attack Flow
 
 *Asset Interaction and Tracking*
-Assets—such as systems, services, credentials, and data—are central to any red team operation. Attack Flow can help track and visualize:
+
+Assets: such as systems, services, credentials, and data—are central to any red team operation. Attack Flow can help track and visualize:
+
 - **Initial Access Targets**: Systems that serve as entry points (e.g., vulnerable web servers, email clients).
 - **Pivot Assets**: Hosts used for lateral movement or privilege escalation.
 - **Compromised Resources**: Credentials, file shares, databases, domain controllers.
@@ -483,6 +482,7 @@ Assets—such as systems, services, credentials, and data—are central to any r
 *Reporting*
 After an engagement, red teams can export their Attack Flows to share with internal stakeholders, Blue Teams, or detection engineers. 
 These diagrams:
+
 * Provide a clear, visual timeline of what was executed
 * Help defenders validate what was and wasn’t detected
 * Enable threat hunters to replay or simulate observed behaviors
@@ -490,7 +490,9 @@ These diagrams:
 
 Post-Engagement Collaboration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Attack Flow enables both red and blue teams to:
+
 * Compare execution (Red) vs. detection (Blue) side-by-side
 * Identify missed detections or blind spots
 * Validate coverage of specific techniques
@@ -500,13 +502,15 @@ Attack Flow enables both red and blue teams to:
 **Blue Team ➜** Build detection-centric flows
 **Together ➜** Overlay and align findings to strengthen defenses
 
-**Tips for Red Team Flow Building**
-* Use "conditions" to flag required states (e.g., "domain user credentials obtained").
-* Use "notes" to add human-readable context at key nodes.
-* Link Indicators, Process objects, and CommandLines to actions for maximum clarity.
-* Consider annotating pivot points (e.g., account switch, lateral move) with user and host metadata.
 
+.. note::
 
+  **Key Tips for Red Team Flow Building**
+  
+    * Use ``conditions`` to flag required states (e.g., ``domain user credentials obtained``).
+    * Use ``notes`` to add human-readable context at key nodes.
+    * Link Indicators, Process objects, and CommandLines to actions for maximum clarity.
+    * Consider annotating pivot points (e.g., account switch, lateral move) with user and host metadata.
 
 This provides the blue team with essential context to understand:
 - What was targeted and why
@@ -516,11 +520,11 @@ This provides the blue team with essential context to understand:
 
 Example Exercise
 ~~~~~~~~~~~~~~~~
-We’ll use a real-world adversary emulation plan: the Turla – Snake YAML Plan <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/yaml/turla_snake.yaml>_.
+We’ll use a real-world adversary emulation plan: the Turla – Snake YAML Plan here: https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/yaml/turla_snake.yaml
 
-Adversary name and overview
-Test scenarios and commands
-Mappings to MITRE ATT&CK techniques
+* Adversary name and overview
+* Test scenarios and commands
+* Mappings to MITRE ATT&CK techniques
 
 
 For example, an adversary emulation plan for Turla (Snake) is publicy available via the adversary emulation library and has already been converted to a flow diagram.
@@ -571,13 +575,10 @@ After an engagement, the red team can also document whether an attack path was s
 The can document any assets they were able to compromise or other vulnerabilities they found. It's also helpful to show the executed command and/or behaviors in case the blue team doesn't detect everything they ran.
 
 
-
-
 The red team can then start their engagement and track which paths were successful and what commands were actually ran.
 At any point in the flow, they can add in notes. If they attempted to gain privilege, but could not - then they could document this as such.
 When the red team has completed their operation, the blue team can proceed with detection. Ideally they have their own flow they are building out and then at 
 the end of the engagement each team can compare notes from their flows.
-
 
 
 
