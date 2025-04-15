@@ -278,8 +278,8 @@ remote location for the final payload, which Cisco was unable to obtain.
 Because Cisco was unable to obtain the final payload, we cannot determine the objective
 of the attack. However, we can assess possible impact based on information in the report
 on Muddy Water's observed behavior in past campaigns. We will reflect this uncertainty
-in our flow in the Action descriptions and confidence property and by using an OR
-operator.
+in our flow in the Action descriptions and confidence property and by using an ``OR
+operator``.
 
 .. image:: _static/Impact.png
    :alt: Screenshot from Cisco report of the MuddyWater Threat Actor section. The section says "Campaigns carried out by the threat actor aim to achieve either of three outcomes." Each outcome is underlined: Espionage, Intellectual Property Theft, and Ransomware attacks. The three techniques labeled correspond to those outcomes and are TA0009 Collection, TA0010 Exfiltration, and T1486 Data Encrypted for Impact.
@@ -711,7 +711,9 @@ At a high level, we can observe the total count of each technique in the plan:
    * - T1041
      - 1
 
-      
+
+Then, begin constructing the flow by mapping in the identified techniques. Gradually add conditions to represent asset compromise requirements or pivot points necessary to advance the operation. Where available, include commands from the emulation plan as ``process`` and ``command-line`` STIX objects to provide detailed execution context.
+
 **Creating the Flow from a Plan**
 
   1. **Start with adversary context**: Highlight the threat actor being emulated at the top of the flow. This gives context and helps align the test with known threat behavior.
