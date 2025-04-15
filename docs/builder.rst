@@ -22,6 +22,9 @@ Getting Started
 button below to open the builder in a new tab, or select one of the :doc:`example_flows`
 for viewing it in Attack Flow Builder.
 
+.. attention::
+  As of June 2025, you can now import STIX bundles automatically to Attack Flow Builder to streamline the process of creating flow diagrams.
+
 .. caution::
 
    The online Attack Flow Builder stores documents in memory and on disk on your local
