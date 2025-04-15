@@ -28,7 +28,7 @@ export class EnumProperty extends Property {
         this.options = options;
         this._value = null;
         // Set value
-        if (value === null) {
+        if ((value ?? null) === null) {
             this.setValue(null);
         } else if (typeof value === "string") {
             this.setValue(value);

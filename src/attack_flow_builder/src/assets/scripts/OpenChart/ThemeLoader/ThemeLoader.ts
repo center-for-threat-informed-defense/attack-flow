@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GlobalFontStore } from "@OpenChart/Utilities";
 import type { FontDescriptor } from "@OpenChart/Utilities";
-import type { DiagramTheme, FaceDesign } from "@OpenChart/DiagramView";
+import type { EnumerationDescriptor } from "./EnumerationDescriptor";
 import type { DiagramThemeConfiguration } from "./ThemeConfigurations";
+import type { DiagramTheme, Enumeration, FaceDesign } from "@OpenChart/DiagramView";
 
 export class ThemeLoader {
 
@@ -18,6 +19,7 @@ export class ThemeLoader {
         const designs = new Map<string, FaceDesign>();
         for (const template in theme.designs) {
             const convert = this.keysToCamelCase(theme.designs[template]);
+            this.transformEnumerationDescriptors(convert);
             await this.transformFontDescriptors(convert);
             designs.set(template, convert as unknown as FaceDesign);
         }
@@ -62,7 +64,7 @@ export class ThemeLoader {
     }
 
     /**
-     * Transforms an object's {@link FontDescriptor}s into {@link Font}s.
+     * Transforms an object's `FontDescriptors` into `Fonts`.
      * @param obj
      *  The object to convert.
      */
@@ -73,7 +75,7 @@ export class ThemeLoader {
             if(typeof value !== "object" || Array.isArray(value)) {
                 continue;
             }
-            // Convert font descriptors
+            // Convert font descriptor
             if(this.isFontDescriptor(value)) {
                 await GlobalFontStore.loadFont(value);
                 obj[key] = GlobalFontStore.getFont(value);
@@ -85,7 +87,7 @@ export class ThemeLoader {
     }
 
     /**
-     * Transforms an object's {@link FontDescriptor}s into `Fonts`.
+     * Transforms an object's `FontDescriptors` into `Fonts`.
      * @remarks
      *  This function synchronously transforms `FontDescriptors` into `Fonts`
      *  using whichever `Fonts` are currently available from the global font
@@ -101,7 +103,7 @@ export class ThemeLoader {
             if(typeof value !== "object" || Array.isArray(value)) {
                 continue;
             }
-            // Convert font descriptors
+            // Convert font descriptor
             if(this.isFontDescriptor(value)) {
                 obj[key] = GlobalFontStore.getFont(value);
                 continue;
@@ -112,7 +114,7 @@ export class ThemeLoader {
     }
 
     /**
-     * Tests if an object can be cast to a {@link FontDescriptor}.
+     * Tests if an object can be cast to a `FontDescriptor`.
      * @param obj
      *  The object.
      * @returns
@@ -126,6 +128,50 @@ export class ThemeLoader {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Transforms an object's `EnumerationDescriptors` into `Enumerations`.
+     * @param obj
+     *  The object to convert.
+     */
+    private static async transformEnumerationDescriptors(obj: Record<string, any>): Promise<void> {
+        for(const key in obj) {
+            let value = obj[key];
+            // Ignore primitives and arrays
+            if(typeof value !== "object" || Array.isArray(value)) {
+                continue;
+            }
+            // Convert enumerations descriptor
+            if(this.isEnumerationDescriptor(value)) {
+                const enumeration = {} as Enumeration;
+                if(value.include) {
+                    enumeration.include = new Set(value.include);
+                }
+                if(value.exclude) {
+                    enumeration.exclude = new Set(value.exclude);
+                }
+                obj[key] = enumeration;
+                continue;
+            }
+            // Recursively convert sub-objects
+            this.transformEnumerationDescriptors(value);
+        }
+    }
+
+    /**
+     * Tests if an object can be cast to a {@link EnumerationDescriptor}.
+     * @param obj
+     *  The object.
+     * @returns
+     *  True if the object can be cast, false otherwise.
+     */
+    private static isEnumerationDescriptor(obj: object): obj is EnumerationDescriptor {
+        const keys = new Set(Object.keys(obj));
+        const isDescriptor = 
+            keys.size === 1 && (keys.has("include") || keys.has("exclude")) ||
+            keys.size === 2 && (keys.has("include") && keys.has("exclude"));
+        return isDescriptor;
     }
 
     /**

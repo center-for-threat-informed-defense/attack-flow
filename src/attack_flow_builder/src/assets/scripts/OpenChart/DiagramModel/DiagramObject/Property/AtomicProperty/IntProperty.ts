@@ -36,7 +36,7 @@ export class IntProperty extends Property {
         this.max = max;
         this._value = null;
         // Set value
-        if (value === null) {
+        if ((value ?? null) === null) {
             this.setValue(null);
         } else if (typeof value === "number") {
             this.setValue(value);

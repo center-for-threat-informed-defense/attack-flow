@@ -42,8 +42,7 @@ export class AttachLatchToAnchor extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
-        this.latch.unlink();
-        this.latch.link(this.nextAnchor);
+        this.latch.link(this.nextAnchor, true);
         issueDirective(EditorDirective.Autosave | EditorDirective.Record);
     }
 
@@ -53,9 +52,9 @@ export class AttachLatchToAnchor extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
-        this.latch.unlink();
+        this.latch.unlink(true);
         if(this.prevAnchor) {
-            this.latch.link(this.prevAnchor);
+            this.latch.link(this.prevAnchor, true);
         }
         issueDirective(EditorDirective.Autosave | EditorDirective.Record);
     }

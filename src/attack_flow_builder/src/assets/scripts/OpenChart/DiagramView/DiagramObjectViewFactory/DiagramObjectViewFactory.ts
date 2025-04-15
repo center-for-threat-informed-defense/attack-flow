@@ -7,7 +7,7 @@ import {
     AnchorPoint, AnchorView, BlockView, BranchBlock,
     CanvasView, DictionaryBlock, DotGridCanvas, DynamicLine,
     GroupFace, GroupView, HandlePoint, HandleView, LatchPoint,
-    LatchView, LineGridCanvas, LineView, Orientation, TextBlock,
+    LatchView, LineGridCanvas, LineView, TextBlock,
 } from "../DiagramObjectView";
 import type { FaceDesign } from "./FaceDesign";
 import type { TypeToTemplate } from "./TypeToTemplate";
@@ -248,13 +248,13 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
         let face;
         switch (design.type) {
             case FaceType.AnchorPoint:
-                face = new AnchorPoint(design.style, design.orientation ?? Orientation.D0);
+                face = new AnchorPoint(design.style);
                 return new AnchorView(template.name, instance, attrs, props, face);
             case FaceType.BranchBlock:
                 face = new BranchBlock(design.style);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.DictionaryBlock:
-                face = new DictionaryBlock(design.style, grid, scale);
+                face = new DictionaryBlock(design.style, grid, scale, design.properties);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.TextBlock:
                 face = new TextBlock(design.style);
@@ -287,7 +287,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
      * @returns
      *  The template's design.
      */
-    private resolveDesign(template: string): FaceDesign {
+    public resolveDesign(template: string): FaceDesign {
         if (template in this.theme.designs) {
             return this.theme.designs[template];
         } else {
@@ -370,7 +370,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
             let face;
             switch (design.type) {
                 case FaceType.AnchorPoint:
-                    face = new AnchorPoint(design.style, design.orientation ?? Orientation.D0);
+                    face = new AnchorPoint(design.style);
                     object.replaceFace(face);
                     break;
                 case FaceType.BranchBlock:
@@ -378,7 +378,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.DictionaryBlock:
-                    face = new DictionaryBlock(design.style, grid, scale);
+                    face = new DictionaryBlock(design.style, grid, scale, design.properties);
                     object.replaceFace(face);
                     break;
                 case FaceType.TextBlock:
@@ -396,22 +396,22 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 case FaceType.DynamicLine:
                     face = new DynamicLine(design.style, grid);
                     object.replaceFace(face);
-                    break;
+                    continue;
                 case FaceType.Group:
                     face = new GroupFace();
                     object.replaceFace(face);
-                    break;
+                    continue;
                 case FaceType.LineGridCanvas:
                     face = new LineGridCanvas(design.style, grid, scale);
                     object.replaceFace(face);
-                    break;
+                    continue;
                 case FaceType.DotGridCanvas:
                     face = new DotGridCanvas(design.style, grid, scale);
                     object.replaceFace(face);
-                    break;
+                    continue;
             }
             // Apply position
-            object.face.moveTo(x, y);
+            object.moveTo(x, y);
         }
     }
 

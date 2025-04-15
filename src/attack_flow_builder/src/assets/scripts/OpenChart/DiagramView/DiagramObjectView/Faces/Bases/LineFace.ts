@@ -1,5 +1,4 @@
 import { DiagramFace } from "../DiagramFace";
-import { Tangibility } from "../../ViewAttributes";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { DiagramObjectView, LineView } from "../../Views";
 
@@ -9,32 +8,7 @@ export abstract class LineFace extends DiagramFace {
      * The face's view.
      */
     declare protected view: LineView;
-
-
-    /**
-     * Whether the view is focused or not.
-     */
-    public get focused(): boolean {
-        return super.focused;
-    }
     
-    /**
-     * Whether the view is focused or not.
-     */
-    public set focused(value: number) {
-        super.focused = value;
-        // Determine child tangibility
-        const tangibility = super.focused 
-            ? Tangibility.Priority
-            : Tangibility.Normal;
-        // Update tangibility
-        this.view.source.tangibility = tangibility;
-        this.view.target.tangibility = tangibility;
-        for(const handle of this.view.handles) {
-            handle.tangibility = tangibility;
-        }
-    }
-
 
     /**
      * Creates a new {@link LineFace}.

@@ -8,15 +8,14 @@ export const BaseAppSettings: AppSettings = {
         }
     },
     edit: {
-        clone_offset: [0, 0]
+        clone_offset: [0, 0],
+        anchor_line_template: ""
     },
     view: {
         diagram: {
-            display_grid: true,
+            display_animations: true,
             display_shadows: true,
-            display_debug_mode: false,
-            render_high_quality: true,
-            disable_shadows_at: 0,
+            display_debug_info: false,
             theme: ""
         },
         splash_menu: {
@@ -65,7 +64,7 @@ export const BaseAppSettings: AppSettings = {
             close_group: ""
         },
         view: {
-            toggle_grid: "",
+            toggle_animations: "",
             toggle_shadows: "",
             reset_view: "",
             zoom_in: "",
@@ -74,7 +73,7 @@ export const BaseAppSettings: AppSettings = {
             jump_to_selection: "",
             jump_to_parents: "",
             jump_to_children: "",
-            toggle_debug_view: ""
+            toggle_debug_info: ""
         },
         select: {
             many: ""
@@ -93,6 +92,7 @@ export type AppSettings = {
     };
     edit: {
         clone_offset: [number, number];
+        anchor_line_template: string;
     };
     view: {
         diagram: DiagramDisplaySettings;
@@ -113,11 +113,9 @@ export type AppSettings = {
  * Diagram display settings
  */
 export type DiagramDisplaySettings = {
-    display_grid: boolean;
     display_shadows: boolean;
-    display_debug_mode: boolean;
-    render_high_quality: boolean;
-    disable_shadows_at: number;
+    display_debug_info: boolean;
+    display_animations: boolean;
     theme: string;
 };
 
@@ -177,7 +175,7 @@ export type LayoutHotkeys = {
  * View hotkeys
  */
 export type ViewHotkeys = {
-    toggle_grid: string;
+    toggle_animations: string,
     toggle_shadows: string;
     reset_view: string;
     zoom_in: string;
@@ -186,7 +184,7 @@ export type ViewHotkeys = {
     jump_to_parents: string;
     jump_to_children: string;
     fullscreen: string;
-    toggle_debug_view: string;
+    toggle_debug_info: string;
 };
 
 /**

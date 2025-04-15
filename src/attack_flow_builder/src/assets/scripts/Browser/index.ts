@@ -1,6 +1,7 @@
 export * from "./DeviceContext";
 export * from "./RawFocusBox";
 export * from "./RawScrollBox";
+export * from "./RawScrollCarouselBox";
 export * from "./HotkeyObserver";
 export * from "./ContextMenu";
 export * from "./PointerTracker";

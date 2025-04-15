@@ -37,7 +37,7 @@ export class DetachLatchFromAnchor extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
-        this.latch.unlink();
+        this.latch.unlink(true);
         issueDirective(EditorDirective.Autosave | EditorDirective.Record);
     }
 
@@ -47,7 +47,7 @@ export class DetachLatchFromAnchor extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
-        this.latch.link(this.anchor);
+        this.latch.link(this.anchor, true);
         issueDirective(EditorDirective.Autosave | EditorDirective.Record);
     }
     

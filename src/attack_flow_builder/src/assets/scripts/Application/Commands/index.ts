@@ -4,6 +4,7 @@ export * from "./Command";
 export * from "./AppCommand";
 export * from "./FileManagement";
 export * from "./DiagramModelEditor";
+export * from "./DiagramViewEditor";
 export * from "./ApplicationSettings";
 export * from "./ViewManagement";
 

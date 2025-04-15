@@ -20,7 +20,7 @@ export class DateProperty extends Property {
         super(id);
         this._value = null;
         // Set value
-        if (value === null) {
+        if ((value ?? null) === null) {
             this.setValue(null);
         } else if (value instanceof Date || typeof value === "string") {
             this.setValue(new Date(value));

@@ -3,8 +3,8 @@ import type {
     BranchBlockStyle,
     CanvasStyle,
     DictionaryBlockStyle,
+    Enumeration,
     LineStyle,
-    Orientation,
     PointStyle,
     TextBlockStyle
 } from "../DiagramObjectView";
@@ -44,6 +44,11 @@ export type BaseFaceDesign<T extends FaceType> = {
 export type BranchBlockDesign = BaseFaceDesign<FaceType.BranchBlock> & {
 
     /**
+     * The properties display.
+     */
+    properties?: Enumeration;
+
+    /**
      * The block's style.
      */
     style: BranchBlockStyle;
@@ -56,6 +61,11 @@ export type BranchBlockDesign = BaseFaceDesign<FaceType.BranchBlock> & {
 export type DictionaryBlockDesign = BaseFaceDesign<FaceType.DictionaryBlock> & {
 
     /**
+     * The properties display.
+     */
+    properties?: Enumeration;
+
+    /**
      * The block's style.
      */
     style: DictionaryBlockStyle;
@@ -66,6 +76,11 @@ export type DictionaryBlockDesign = BaseFaceDesign<FaceType.DictionaryBlock> & {
  * Text Block Design
  */
 export type TextBlockDesign = BaseFaceDesign<FaceType.TextBlock> & {
+
+    /**
+     * The properties display.
+     */
+    properties?: Enumeration;
 
     /**
      * The block's style.
@@ -92,11 +107,6 @@ export type LineDesign = BaseFaceDesign<FaceType.DynamicLine> & {
 export type PointDesign = BaseFaceDesign<
     FaceType.AnchorPoint | FaceType.HandlePoint | FaceType.LatchPoint
 > & {
-
-    /**
-     * The point's orientation.
-     */
-    orientation?: Orientation;
 
     /**
      * The point's style.

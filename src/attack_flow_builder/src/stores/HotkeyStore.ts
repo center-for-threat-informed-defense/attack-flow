@@ -90,8 +90,8 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          */
         editHotKeys(): Hotkey<CommandEmitter>[] {
             const app = useApplicationStore();
-            const editor = app.activeEditor;
             const edit = app.settings.hotkeys.edit;
+            const editor = app.activeEditor;
             return [
                 {
                     data: () => AppCommands.undoEditorCommand(editor),
@@ -120,7 +120,7 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                 //     repeatable: true
                 // },
                 {
-                    data: () => EditorCommands.removeSelectedChildren(editor.file.canvas),
+                    data: () => EditorCommands.removeSelectedChildren(editor),
                     shortcut: edit.delete,
                     repeatable: false
                 },
@@ -144,49 +144,16 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                 //     shortcut: edit.find_previous,
                 //     repeatable: true
                 // },
-                // {
-                //     data: () => new Page.SelectChildren(page),
-                //     shortcut: edit.select_all,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new Page.UnselectDescendants(page),
-                //     shortcut: edit.unselect_all,
-                //     repeatable: false
-                // }
-            ];
-        },
-
-        /**
-         * Returns the layout hotkeys.
-         * @returns
-         *  The layout hotkeys.
-         */
-        layoutHotkeys(): Hotkey<CommandEmitter>[] {
-            const app = useApplicationStore();
-            // const page = ctx.activePage.page;
-            const layout = app.settings.hotkeys.layout;
-            return [
-                // {
-                //     data: () => new Page.RelayerSelection(page, Page.Order.Top),
-                //     shortcut: layout.selection_to_front,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
-                //     shortcut: layout.selection_to_back,
-                //     repeatable: true
-                // },
-                // {
-                //     data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
-                //     shortcut: layout.bring_selection_forward,
-                //     repeatable: true
-                // },
-                // {
-                //     data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
-                //     shortcut: layout.send_selection_backward,
-                //     repeatable: false
-                // }
+                {
+                    data: () => EditorCommands.selectAllObjects(editor),
+                    shortcut: edit.select_all,
+                    repeatable: false
+                },
+                {
+                    data: () => EditorCommands.unselectAllObjects(editor),
+                    shortcut: edit.unselect_all,
+                    repeatable: false
+                }
             ];
         },
 
@@ -197,33 +164,39 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          */
         viewHotkeys(): Hotkey<CommandEmitter>[] {
             const app = useApplicationStore();
+            const editor = app.activeEditor;
             const view = app.settings.hotkeys.view;
+            const {
+                display_animations,
+                display_shadows,
+                display_debug_info
+            } = app.settings.view.diagram;
             return  [
-                // {
-                //     data: () => new App.ToggleGridDisplay(ctx),
-                //     shortcut: view.toggle_grid,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new App.ToggleShadowDisplay(ctx),
-                //     shortcut: view.toggle_shadows,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new Page.ResetCamera(ctx, page),
-                //     shortcut: view.reset_view,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new Page.ZoomCamera(ctx, page, 0.25),
-                //     shortcut: view.zoom_in,
-                //     repeatable: true
-                // },
-                // {
-                //     data: () => new Page.ZoomCamera(ctx, page, -0.25),
-                //     shortcut: view.zoom_out,
-                //     repeatable: true
-                // },
+                {
+                    data: () => AppCommands.enableAnimations(app, !display_animations),
+                    shortcut: view.toggle_animations,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.enableShadows(app, !display_shadows),
+                    shortcut: view.toggle_shadows,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.resetCamera(editor),
+                    shortcut: view.reset_view,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.zoomCamera(editor, 0.25),
+                    shortcut: view.zoom_in,
+                    repeatable: true
+                },
+                {
+                    data: () => AppCommands.zoomCamera(editor, -0.25),
+                    shortcut: view.zoom_out,
+                    repeatable: true
+                },
                 // {
                 //     data: () => new Page.MoveCameraToSelection(ctx, page),
                 //     shortcut: view.jump_to_selection,
@@ -244,11 +217,11 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                     shortcut: view.fullscreen,
                     repeatable: false
                 },
-                // {
-                //     data: () => new App.ToggleDebugDisplay(ctx),
-                //     shortcut: view.toggle_debug_view,
-                //     repeatable: false
-                // }
+                {
+                    data: () => AppCommands.enableDebugInfo(app, display_debug_info),
+                    shortcut: view.toggle_debug_info,
+                    repeatable: false
+                }
             ];
         }
 

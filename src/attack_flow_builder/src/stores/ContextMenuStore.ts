@@ -2,15 +2,14 @@ import Configuration from "@/assets/configuration/app.configuration";
 import * as AppCommands from "@/assets/scripts/Application/Commands";
 import * as EditorCommands from "@OpenChart/DiagramEditor/Commands";
 import { version } from "@/../package.json";
-import { MenuType, titleCase } from "@/assets/scripts/Browser";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { useApplicationStore } from "./ApplicationStore";
-import type { SpawnObject } from "@OpenChart/DiagramEditor/Commands/View/index.commands";
+import { MenuType, titleCase } from "@/assets/scripts/Browser";
+import type { SpawnObject } from "@OpenChart/DiagramEditor/Commands/ViewFile/index.commands";
 import type { CommandEmitter } from "@/assets/scripts/Application";
-import type { DiagramObjectTemplate, DiagramSchemaConfiguration } from "@/assets/scripts/OpenChart/DiagramModel";
-import type { ContextMenu, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
-import { EditorCommand } from "@/assets/scripts/OpenChart/DiagramEditor";
+import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
+import type { ContextMenu, ContextMenuItem, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
 
 export const useContextMenuStore = defineStore("contextMenuStore", {
     getters: {
@@ -26,7 +25,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
          *  The file menu.
          */
         fileMenu(): ContextMenuSubmenu<CommandEmitter> {
-            const ctx = useApplicationStore();
+            const app = useApplicationStore();
             // Sections
             const sections: ContextMenuSection<CommandEmitter>[] = [
                 this.openFileMenu,
@@ -215,12 +214,12 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 sections: [
                     this.undoRedoMenu,
                     // this.clipboardMenu,
-                    // this.deleteMenu,
+                    this.deleteMenu,
                     // this.duplicateMenu,
                     // this.findMenu,
                     this.createMenu,
-                    // this.selectAllMenu,
-                    // this.unselectAllMenu
+                    this.selectAllMenu,
+                    this.unselectAllMenu
                 ]
             };
         },
@@ -294,28 +293,28 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //     };
         // },
 
-        // /**
-        //  * Returns the delete menu section.
-        //  * @returns
-        //  *  The delete menu section.
-        //  */
-        // deleteMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const edit = ctx.settings.hotkeys.edit;
-        //     return {
-        //         id: "delete_options",
-        //         items: [
-        //             {
-        //                 text: "Delete",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.RemoveSelectedChildren(page),
-        //                 shortcut: edit.delete,
-        //                 disabled: !ctx.hasSelection
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the delete menu section.
+         * @returns
+         *  The delete menu section.
+         */
+        deleteMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const edit = app.settings.hotkeys.edit;
+            const editor = app.activeEditor;
+            return {
+                id: "delete_options",
+                items: [
+                    {
+                        text: "Delete",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.removeSelectedChildren(editor),
+                        shortcut: edit.delete,
+                        disabled: !app.hasSelection
+                    }
+                ]
+            };
+        },
 
         // /**
         //  * Returns the duplicate menu section.
@@ -377,49 +376,49 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         // },
 
 
-        // /**
-        //  * Returns the 'select all' menu section.
-        //  * @returns
-        //  *  The 'select all' menu section.
-        //  */
-        // selectAllMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const edit = ctx.settings.hotkeys.edit;
-        //     return {
-        //         id: "select_options",
-        //         items: [
-        //             {
-        //                 text: "Select All",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.SelectChildren(page),
-        //                 shortcut: edit.select_all
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the 'select all' menu section.
+         * @returns
+         *  The 'select all' menu section.
+         */
+        selectAllMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const edit = app.settings.hotkeys.edit;
+            const editor = app.activeEditor;
+            return {
+                id: "select_options",
+                items: [
+                    {
+                        text: "Select All",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.selectAllObjects(editor),
+                        shortcut: edit.select_all
+                    }
+                ]
+            };
+        },
 
-        // /**
-        //  * Returns the 'unselect all' menu section.
-        //  * @returns
-        //  *  The 'unselect all' menu section.
-        //  */
-        // unselectAllMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const edit = ctx.settings.hotkeys.edit;
-        //     return {
-        //         id: "unselect_options",
-        //         items: [
-        //             {
-        //                 text: "Unselect All",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.UnselectDescendants(page),
-        //                 shortcut: edit.unselect_all
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the 'unselect all' menu section.
+         * @returns
+         *  The 'unselect all' menu section.
+         */
+        unselectAllMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const edit = app.settings.hotkeys.edit;
+            const editor = app.activeEditor;
+            return {
+                id: "unselect_options",
+                items: [
+                    {
+                        text: "Unselect All",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.unselectAllObjects(editor),
+                        shortcut: edit.unselect_all
+                    }
+                ]
+            };
+        },
 
         /**
          * Returns the create menu section.
@@ -428,21 +427,14 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
          */
         createMenu(): ContextMenuSection<CommandEmitter> {
             const app = useApplicationStore();
-            const file = app.activeEditor.file;
-            const templates = file.factory.templates;
-            // Build menu
-            const menu = generateCreateMenu(
-                templates, (id) => EditorCommands.spawnObject(file, id)
-            );
+            const editor = app.activeEditor;
+            const templates = editor.file.factory.templates;
+            const { spawnObjectAtInterfaceCenter: spawn } = EditorCommands;
             // Return menu
             return {
                 id: "create_options",
                 items: [
-                    {
-                        text: "Create",
-                        type: MenuType.Submenu,
-                        sections: menu.sections
-                    }
+                    prepareCreateMenu(templates, id => spawn(editor, id))
                 ]
             };
 
@@ -455,91 +447,22 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
          */
         createAtMenu(): ContextMenuSection<CommandEmitter> {
             const app = useApplicationStore();
-            const file = app.activeEditor.file;
-            const templates = file.factory.templates;
-            // Build menu
-            const menu = generateCreateMenu(
-                templates, (id) => EditorCommands.spawnObject(file, id)
-            );
+            const editor = app.activeEditor;
+            const templates = editor.file.factory.templates;
+            const { spawnObjectAtPointer: spawn } = EditorCommands;
             // Return menu
             return {
                 id: "create_options",
                 items: [
-                    {
-                        text: "Create",
-                        type: MenuType.Submenu,
-                        sections: menu.sections
-                    }
+                    prepareCreateMenu(templates, id => spawn(editor, id))
                 ]
             };
 
         },
 
 
-        // ///////////////////////////////////////////////////////////////////////
-        // //  3. Layout Menus  //////////////////////////////////////////////////
-        // ///////////////////////////////////////////////////////////////////////
-
-
-        // /**
-        //  * Returns the time menu.
-        //  * @returns
-        //  *  The time menu.
-        //  */
-        // layoutMenu(): ContextMenuSubmenu<CommandEmitter> {
-        //     return {
-        //         text: "Layout",
-        //         type: MenuType.Submenu,
-        //         sections: [
-        //             this.layeringMenu
-        //         ]
-        //     };
-        // },
-
-
-        // /**
-        //  * Returns the layering menu section.
-        //  * @returns
-        //  *  The layering menu section.
-        //  */
-        // layeringMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const layout = ctx.settings.hotkeys.layout;
-        //     return {
-        //         id: "layering_options",
-        //         items: [
-        //             {
-        //                 text: "To Front",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.RelayerSelection(page, Page.Order.Top),
-        //                 shortcut: layout.selection_to_front
-        //             },
-        //             {
-        //                 text: "To Back",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.RelayerSelection(page, Page.Order.Bottom),
-        //                 shortcut: layout.selection_to_back
-        //             },
-        //             {
-        //                 text: "Bring Forward",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.RelayerSelection(page, Page.Order.OneAbove),
-        //                 shortcut: layout.bring_selection_forward
-        //             },
-        //             {
-        //                 text: "Send Backward",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.RelayerSelection(page, Page.Order.OneBelow),
-        //                 shortcut: layout.send_selection_backward
-        //             }
-        //         ]
-        //     };
-        // },
-
-
         ///////////////////////////////////////////////////////////////////////
-        //  4. View Menus  ////////////////////////////////////////////////////
+        //  3. View Menus  ////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -553,114 +476,86 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 text: "View",
                 type: MenuType.Submenu,
                 sections: [
-                    // this.diagramViewMenu,
+                    this.diagramViewMenu,
                     // this.diagramRenderMenu,
-                    // this.zoomMenu,
+                    this.zoomMenu,
                     // this.jumpMenu,
+                    this.themeMenu,
                     this.fullscreenMenu,
-                    // this.developerViewMenu
+                    this.developerViewMenu
                 ]
             };
         },
 
 
-        // /**
-        //  * Returns the diagram view menu section.
-        //  * @returns
-        //  *  The diagram view menu section.
-        //  */
-        // diagramViewMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const view = ctx.settings.hotkeys.view;
-        //     const {
-        //         display_grid,
-        //         display_shadows
-        //     } = ctx.settings.view.diagram;
-        //     return {
-        //         id: "diagram_view_options",
-        //         items: [
-        //             {
-        //                 text: "Grid",
-        //                 type: MenuType.Toggle,
-        //                 data: () => new App.ToggleGridDisplay(ctx),
-        //                 shortcut: view.toggle_grid,
-        //                 value: display_grid,
-        //                 keepMenuOpenOnSelect: true
-        //             },
-        //             {
-        //                 text: "Shadows",
-        //                 type: MenuType.Toggle,
-        //                 data: () => new App.ToggleShadowDisplay(ctx),
-        //                 shortcut: view.toggle_shadows,
-        //                 value: display_shadows,
-        //                 keepMenuOpenOnSelect: true
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the diagram view menu section.
+         * @returns
+         *  The diagram view menu section.
+         */
+        diagramViewMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const view = app.settings.hotkeys.view;
+            const {
+                display_animations,
+                display_shadows
+            } = app.settings.view.diagram;
+            return {
+                id: "diagram_view_options",
+                items: [
+                    {
+                        text: "Animations",
+                        type: MenuType.Toggle,
+                        data: () => AppCommands.enableAnimations(app, !display_animations),
+                        shortcut: view.toggle_animations,
+                        value: display_animations,
+                        keepMenuOpenOnSelect: true
+                    },
+                    {
+                        text: "Shadows",
+                        type: MenuType.Toggle,
+                        data: () => AppCommands.enableShadows(app, !display_shadows),
+                        shortcut: view.toggle_shadows,
+                        value: display_shadows,
+                        keepMenuOpenOnSelect: true
+                    }
+                ]
+            };
+        },
 
-        // /**
-        //  * Returns the diagram render menu section.
-        //  * @returns
-        //  *  The diagram render menu section.
-        //  */
-        // diagramRenderMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const render_high_quality = ctx.settings.view.diagram.render_high_quality;
-        //     return {
-        //         id: "diagram_render_quality",
-        //         items: [
-        //             {
-        //                 text: "Rendering – High Quality",
-        //                 type: MenuType.Toggle,
-        //                 data: () => new App.SetRenderQuality(ctx, true),
-        //                 value: render_high_quality,
-        //                 keepMenuOpenOnSelect: true
-        //             },
-        //             {
-        //                 text: "Rendering – Fast",
-        //                 type: MenuType.Toggle,
-        //                 data: () => new App.SetRenderQuality(ctx, false),
-        //                 value: !render_high_quality,
-        //                 keepMenuOpenOnSelect: true
-        //             }
-        //         ]
-        //     };
-        // },
-
-        // /**
-        //  * Returns the zoom menu section.
-        //  * @returns
-        //  *  The zoom menu section.
-        //  */
-        // zoomMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const view = ctx.settings.hotkeys.view;
-        //     return {
-        //         id: "zoom_options",
-        //         items: [
-        //             {
-        //                 text: "Reset View",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.ResetCamera(ctx, page),
-        //                 shortcut: view.reset_view
-        //             },
-        //             {
-        //                 text: "Zoom In",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.ZoomCamera(ctx, page, 0.25),
-        //                 shortcut: view.zoom_in
-        //             },
-        //             {
-        //                 text: "Zoom Out",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.ZoomCamera(ctx, page, -0.25),
-        //                 shortcut: view.zoom_out
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the zoom menu section.
+         * @returns
+         *  The zoom menu section.
+         */
+        zoomMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const editor = app.activeEditor;
+            const view = app.settings.hotkeys.view;
+            return {
+                id: "zoom_options",
+                items: [
+                    {
+                        text: "Reset Zoom",
+                        type: MenuType.Action,
+                        data: () => AppCommands.resetCamera(editor),
+                        shortcut: view.reset_view
+                    },
+                    {
+                        text: "Zoom In",
+                        type: MenuType.Action,
+                        data: () => AppCommands.zoomCamera(editor, 0.25),
+                        shortcut: view.zoom_in
+                    },
+                    {
+                        text: "Zoom Out",
+                        type: MenuType.Action,
+                        data: () => AppCommands.zoomCamera(editor, -0.25),
+                        shortcut: view.zoom_out
+                    }
+                ]
+            };
+        },
 
         // /**
         //  * Returns the jump menu section.
@@ -700,6 +595,42 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //     };
         // },
 
+
+        /**
+         * Returns the theme menu section.
+         * @returns
+         *  The theme menu section.
+         */
+        themeMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            // List themes
+            const items: ContextMenu<CommandEmitter>[] = [];
+            for(const theme of app.themeRegistry.listThemes()) {
+                items.push({
+                    text: theme.name,
+                    type: MenuType.Action,
+                    data: () => AppCommands.setTheme(app, theme.id)
+                });
+            }
+            // Return menu
+            return {
+                id: "theme_options",
+                items: [
+                    {
+                        text: "Modes",
+                        type: MenuType.Submenu,
+                        sections: [
+                            {
+                                id: "modes",
+                                items
+                            }
+                        ]
+                    }
+                ]
+            };
+
+        },
+
         /**
          * Returns the fullscreen menu section.
          * @returns
@@ -721,33 +652,33 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             };
         },
 
-        // /**
-        //  * Returns the developer view menu section.
-        //  * @returns
-        //  *  The developer view menu section.
-        //  */
-        // developerViewMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const view = ctx.settings.hotkeys.view;
-        //     const { display_debug_mode } = ctx.settings.view.diagram;
-        //     return {
-        //         id: "developer_view_options",
-        //         items: [
-        //             {
-        //                 text: "Debug Mode",
-        //                 type: MenuType.Toggle,
-        //                 data: () => new App.ToggleDebugDisplay(ctx),
-        //                 shortcut: view.toggle_debug_view,
-        //                 value: display_debug_mode,
-        //                 keepMenuOpenOnSelect: true
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the developer view menu section.
+         * @returns
+         *  The developer view menu section.
+         */
+        developerViewMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const view = app.settings.hotkeys.view;
+            const { display_debug_info } = app.settings.view.diagram;
+            return {
+                id: "developer_view_options",
+                items: [
+                    {
+                        text: "Debug Mode",
+                        type: MenuType.Toggle,
+                        data: () => AppCommands.enableDebugInfo(app, !display_debug_info),
+                        shortcut: view.toggle_debug_info,
+                        value: display_debug_info,
+                        keepMenuOpenOnSelect: true
+                    }
+                ]
+            };
+        },
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  5. Help Menu  /////////////////////////////////////////////////////
+        //  4. Help Menu  /////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -800,61 +731,81 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
  * @returns
  *  The formatted submenu.
  */
-function generateCreateMenu(
+function prepareCreateMenu(
     templates: ReadonlyMap<string, DiagramObjectTemplate>,
     spawn: (id: string) => SpawnObject
 ): ContextMenuSubmenu<CommandEmitter> {
-    const main: ContextMenuSubmenu<CommandEmitter> = {
-        text: "Create",
-        type: MenuType.Submenu,
-        sections: []
+    type MenuMap<T> = { 
+        menu: T;
+        submenus: Map<string, MenuMap<ContextMenuSubmenu<CommandEmitter>>>;
+        subitems: Map<string, MenuMap<ContextMenuItem<CommandEmitter>>>;
     };
-    // Add sections
+    // Define main menu
+    const main: MenuMap<ContextMenuSubmenu<CommandEmitter>> = {
+        menu: {
+            text: "Create",
+            type: MenuType.Submenu,
+            sections: []
+        },
+        submenus: new Map(),
+        subitems: new Map()
+    };
+    // Enumerate templates
     for(const template of templates.values()) {
-        console.log(template);
-        const namespace = template.namespace ?? [template.name];
-        // Construct sections
-        let i = 0;
-        let current = main;
-        for(i = 0; i < namespace.length - 1; i++) {
-            let section = current.sections[0];
-            // Create section
-            if(section?.id !== "namespace") {
-                section = {
+        const ns = template.namespace;
+        if(!ns) {
+            continue;
+        }
+        // Construct submenus
+        let i = 0, current = main, id, section;
+        for(id = ns[i]; i < ns.length - 1; id = ns[++i]) {
+            const space = ns[i];
+            const { menu, submenus } = current;
+            if(submenus.size === 0) {
+                menu.sections.unshift({
                     id: "namespace",
                     items: []
-                }
-                current.sections.unshift(section);
-            };
-            let nextSection = section.items.find(
-                o => o.text === titleCase(namespace[i])
-            );
-            // Create submenu
-            if(!nextSection) {    
-                nextSection = {
-                    text: titleCase(namespace[i]),
+                }) 
+            }
+            if(!submenus.has(space)) {
+                const submenu: ContextMenu<CommandEmitter> = {
+                    text: titleCase(space),
                     type: MenuType.Submenu,
                     sections: []
-                } 
-                // Create submenu
-                section.items.push(nextSection);
+                };
+                section = menu.sections[0]
+                section.items.push(submenu);
+                submenus.set(space, {
+                    menu: submenu,
+                    submenus: new Map(),
+                    subitems: new Map()
+                });
             }
-            current = nextSection as ContextMenuSubmenu<CommandEmitter>;
+            current = submenus.get(space)!;
         }
-        // Construct menu item
-        let objectSection = current.sections[1];
-        if(objectSection?.id !== "objects") {
-            objectSection = {
-                id: "objects",
+        // Construct create menu
+        const { menu, subitems } = current;
+        if(subitems.size === 0) {
+            menu.sections.push({
+                id: "templates",
                 items: []
-            } 
-            current.sections.push(objectSection)
+            })
         }
-        objectSection.items.push({
-            text: titleCase(namespace[i]),
+        if(subitems.has(id)) {
+            throw new Error(`Menu defines '${ns.join(".")}' twice.`);
+        }
+        const item: ContextMenu<CommandEmitter> = {
+            text: titleCase(id),
             type: MenuType.Action,
-            data: () => spawn(namespace[i])
+            data: () => spawn(id)
+        };
+        section = (menu.sections[1] ?? menu.sections[0]);
+        section.items.push(item);
+        subitems.set(id, {
+            menu: item,
+            submenus: new Map(),
+            subitems: new Map()
         });
     }
-    return main;
+    return main.menu;
 }

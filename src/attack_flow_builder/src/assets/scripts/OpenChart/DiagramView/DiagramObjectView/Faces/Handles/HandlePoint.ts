@@ -1,5 +1,4 @@
 import { HandleFace } from "../Bases";
-import { Tangibility } from "../../ViewAttributes";
 import type { PointStyle } from "../Styles";
 import type { DiagramObjectView } from "../../Views";
 
@@ -34,7 +33,7 @@ export class HandlePoint extends HandleFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -43,11 +42,6 @@ export class HandlePoint extends HandleFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        // Check tangibility 
-        if(this.view.tangibility === Tangibility.None) {
-            return undefined;
-        }
-        // Check Point
         const dx = x - (this.boundingBox.x + HandleFace.markerOffset);
         const dy = y - (this.boundingBox.y + HandleFace.markerOffset);
         const r = this.radius;

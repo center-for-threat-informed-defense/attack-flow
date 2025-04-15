@@ -7,12 +7,12 @@ export class LoadSettings extends AppCommand {
     /**
      * The application's settings.
      */
-    private _settings: AppSettings;
+    public readonly settings: AppSettings;
 
     /**
      * The application context.
      */
-    private _context: ApplicationStore;
+    public readonly context: ApplicationStore;
 
 
     /**
@@ -24,8 +24,8 @@ export class LoadSettings extends AppCommand {
      */
     constructor(context: ApplicationStore, settings: AppSettings) {
         super();
-        this._context = context;
-        this._settings = settings;
+        this.context = context;
+        this.settings = settings;
     }
 
 
@@ -33,7 +33,7 @@ export class LoadSettings extends AppCommand {
      * Executes the command.
      */
     public async execute(): Promise<void> {
-        this._context.settings = this._settings;
+        this.context.settings = this.settings;
     }
 
 }

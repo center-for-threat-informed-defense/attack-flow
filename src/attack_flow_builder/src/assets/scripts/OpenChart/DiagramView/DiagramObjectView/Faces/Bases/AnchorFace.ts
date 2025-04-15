@@ -1,6 +1,5 @@
 import { DiagramFace } from "../DiagramFace";
 import { findObjectAt } from "../../ViewLocators";
-import type { Orientation } from "../Orientation";
 import type { AnchorView, DiagramObjectView } from "../../Views";
 
 export abstract class AnchorFace extends DiagramFace {
@@ -10,20 +9,12 @@ export abstract class AnchorFace extends DiagramFace {
      */
     declare protected view: AnchorView;
 
-    /**
-     * The face's orientation.
-     */
-    public readonly orientation: number;
-
 
     /**
      * Creates a new {@link AnchorFace}.
-     * @param orientation
-     *  The face's orientation.
      */
-    constructor(orientation: Orientation) {
+    constructor() {
         super();
-        this.orientation = orientation;
     }
 
 
@@ -33,7 +24,7 @@ export abstract class AnchorFace extends DiagramFace {
 
 
     /**
-     * Returns the topmost child at the given coordinate.
+     * Returns the topmost child at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y

@@ -138,7 +138,9 @@ export async function loadFileFromFileSystem(
 export async function loadFileFromUrl(
     context: ApplicationStore, url: string
 ): Promise<LoadFile> {
-    return loadExistingFile(context, await (await fetch(url)).text());
+    const path = new URL(url).pathname.split(/\//g);
+    const filename = path[path.length - 1].match(/.*(?=\.[^\.]*$)/) ?? ["untitled_file"];
+    return loadExistingFile(context, await (await fetch(url)).text(), filename[0]);
 }
 
 /**

@@ -55,6 +55,21 @@ export abstract class DiagramFace {
 
 
     /**
+     * The view's orientation.
+     */
+    public get orientation(): number {
+        return this.view.getAttribute(Masks.OrientationMask);
+    }
+    
+    /**
+     * The view's orientation.
+     */
+    public set orientation(value: number) {
+        this.view.setAttribute(Masks.OrientationMask, value);
+    }
+
+
+    /**
      * Whether the view is focused or not.
      */
     public get focused(): boolean {
@@ -136,7 +151,7 @@ export abstract class DiagramFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -270,5 +285,22 @@ export abstract class DiagramFace {
      *  A clone of the face.
      */
     public abstract clone(): DiagramFace; 
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  8. Shape  /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Tests if a bounding region overlaps the face.
+     * @param region
+     *  The bounding region.
+     * @returns
+     *  True if the bounding region overlaps the face, false otherwise.
+     */
+    public overlaps(region: BoundingBox): boolean {
+        return this.boundingBox.overlaps(region);
+    }
 
 }

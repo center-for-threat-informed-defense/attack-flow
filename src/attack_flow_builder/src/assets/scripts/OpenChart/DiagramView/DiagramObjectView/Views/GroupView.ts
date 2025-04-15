@@ -1,12 +1,13 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
-import { LayoutUpdateReason } from "../LayoutUpdateReason";
+import { ViewUpdateReason } from "../ViewUpdateReason";
 import { Group, RootProperty } from "@OpenChart/DiagramModel";
-import type { GroupFace } from "../Faces";
+import type { LineView } from "./LineView";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
 import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "./DiagramObjectView";
+import type { BoundingBox, GroupFace } from "../Faces";
 
 export class GroupView extends Group implements ViewObject {
 
@@ -34,9 +35,14 @@ export class GroupView extends Group implements ViewObject {
     declare protected _parent: DiagramObjectView | null;
 
     /**
-     * The group's (internal) objects.
+     * The group's (internal) blocks.
      */
-    declare protected _objects: DiagramObjectView[];
+    declare protected _blocks: DiagramObjectView[];
+
+    /**
+     * The group's (internal) lines.
+     */
+    declare protected _lines: LineView[];
 
     /**
      * The object's parent.
@@ -46,10 +52,24 @@ export class GroupView extends Group implements ViewObject {
     }
 
     /**
+     * The group's blocks.
+     */
+    public get blocks(): ReadonlyArray<DiagramObjectView> {
+        return this._blocks;
+    }
+
+    /**
+     * The group's lines.
+     */
+    public get lines(): ReadonlyArray<LineView> {
+        return this._lines;
+    }
+
+    /**
      * The group's objects.
      */
-    public get objects(): ReadonlyArray<DiagramObjectView> {
-        return this._objects;
+    public get objects(): Generator<DiagramObjectView> {
+        return super.objects as Generator<DiagramObjectView>;
     }
 
 
@@ -70,6 +90,21 @@ export class GroupView extends Group implements ViewObject {
      */
     public set alignment(value: number) {
         this._face.alignment = value;
+    }
+
+
+    /**
+     * The view's orientation.
+     */
+    public get orientation(): number {
+        return this._face.orientation;
+    }
+    
+    /**
+     * The view's orientation.
+     */
+    public set orientation(value: number) {
+        this._face.orientation = value;
     }
 
 
@@ -180,7 +215,7 @@ export class GroupView extends Group implements ViewObject {
         // Recalculate layout on property updates
         this.properties.subscribe(
             this.instance,
-            () => this.updateLayout(LayoutUpdateReason.PropUpdate)
+            () => this.handleUpdate(ViewUpdateReason.PropUpdate)
         )
     }
 
@@ -201,7 +236,7 @@ export class GroupView extends Group implements ViewObject {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -230,7 +265,7 @@ export class GroupView extends Group implements ViewObject {
         // Move face
         this.face.moveTo(x, y);
         // Recalculate parent layout
-        this.parent?.updateLayout(LayoutUpdateReason.Movement);
+        this.parent?.handleUpdate(ViewUpdateReason.Movement);
     }
 
     /**
@@ -244,7 +279,7 @@ export class GroupView extends Group implements ViewObject {
         // Move face
         this.face.moveBy(dx, dy);
         // Recalculate parent layout
-        this.parent?.updateLayout(LayoutUpdateReason.Movement);
+        this.parent?.handleUpdate(ViewUpdateReason.Movement);
     }
 
 
@@ -262,10 +297,10 @@ export class GroupView extends Group implements ViewObject {
      *  can be invoked on the diagram's root view to calculate its full layout.
      *
      *  From then on, when isolated changes are made to a singular view,
-     *  {@link DiagramView.updateLayout()} can be invoked on that view to update
-     *  the diagram's layout. Although, generally speaking, this function is
-     *  internally called when necessary and rarely needs to be invoked outside
-     *  the context of this library.
+     *  `updateLayout()` can be invoked on that view to update the diagram's
+     *  layout. Although, generally speaking, this function is internally
+     *  called when necessary and rarely needs to be invoked outside the
+     *  context of this library.
      */
     public calculateLayout(): void {
         for (const objects of this.objects) {
@@ -275,15 +310,15 @@ export class GroupView extends Group implements ViewObject {
     }
 
     /**
-     * Recalculates this view's layout and updates all parent layouts.
+     * Updates the object's layout and all parent layouts.
      * @param reasons
-     *  The reasons the layout was updated.
+     *  The reasons the diagram changed.
      */
-    public updateLayout(reasons: number): void {
+    public handleUpdate(reasons: number) {
         // Update face
         if (this.face.calculateLayout()) {
             // Update parent
-            this.parent?.updateLayout(reasons);
+            this.parent?.handleUpdate(reasons);
         }
     }
 
@@ -325,60 +360,38 @@ export class GroupView extends Group implements ViewObject {
      *  A clone of the view.
      */
     public clone(): GroupView {
-        return new GroupView(
+        // Create group
+        const group = new GroupView(
             this.id,
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()
         )
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  8. Add / Remove Objects  //////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Adds a child {@link DiagramObjectView}.
-     * @param child
-     *  The {@link DiagramObjectView} to add.
-     * @param index
-     *  The index to insert the child at.
-     *  (Default: End of the array).
-     * @param updateLayout
-     *  Whether to recalculate the view's layout.
-     *  (Default: `false`)
-     */
-    public addObject(child: DiagramObjectView, index?: number, updateLayout: boolean = false) {
-        // Add object
-        super.addObject(child, index);
-        // Update layout
-        if (updateLayout) {
-            this.updateLayout(LayoutUpdateReason.ChildAdded);
+        // Add objects
+        for(const object of this.objects) {
+            // TODO: Relink lines with anchors
+            group.addObject(object.clone());
         }
+        // Return object
+        return group;
     }
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  8. Shape  /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
 
     /**
-     * Removes a child {@link DiagramObjectView}.
-     * @param child
-     *  The {@link DiagramObjectView} to remove.
-     * @param updateLayout
-     *  Whether to recalculate the view's layout.
-     *  (Default: `false`)
+     * Tests if a bounding region overlaps the view.
+     * @param region
+     *  The bounding region.
      * @returns
-     *  The child's former index.
+     *  True if the bounding region overlaps the view, false otherwise.
      */
-    public removeObject(child: DiagramObjectView, updateLayout: boolean = false): number {
-        // Delete object
-        const index = super.removeObject(child);
-        // Update layout
-        if (updateLayout) {
-            this.updateLayout(LayoutUpdateReason.ChildDeleted);
-        }
-        // Return index
-        return index;
+    public overlaps(region: BoundingBox): boolean {
+        return this.face.overlaps(region);
     }
-
+    
 }

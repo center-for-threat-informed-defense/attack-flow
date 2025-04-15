@@ -6,7 +6,7 @@ export class UndoEditorCommand extends AppCommand {
     /**
      * The editor to apply the undo operation to.
      */
-    private _editor: DiagramModelEditor;
+    public readonly editor: DiagramModelEditor;
 
 
     /**
@@ -16,7 +16,7 @@ export class UndoEditorCommand extends AppCommand {
      */
     constructor(editor: DiagramModelEditor) {
         super();
-        this._editor = editor;
+        this.editor = editor;
     }
 
 
@@ -24,7 +24,7 @@ export class UndoEditorCommand extends AppCommand {
      * Executes the command.
      */
     public async execute(): Promise<void> {
-        await this._editor.undo();
+        await this.editor.undo();
     }
 
 }

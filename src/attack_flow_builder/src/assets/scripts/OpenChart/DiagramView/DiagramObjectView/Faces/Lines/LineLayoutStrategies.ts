@@ -1,5 +1,5 @@
 import { LineFace } from "../Bases";
-import { PositionSetByUser } from "../../ViewAttributes";
+import { Orientation, PositionSetByUser } from "../../ViewAttributes";
 import { 
     getAbsoluteArrowHead,
     getAbsoluteMultiElbowPath,
@@ -36,6 +36,7 @@ export function runHorizontalTwoElbowLayout(
     view.dropHandles(1);
 
     // Adjust handle
+    hdl.orientation = Orientation.D0;
     hdl.userSetPosition &= PositionSetByUser.xAxis;
     if (!hdl.userSetPosition) {
         hdl.face.moveBy(mx - hdl.x, 0);
@@ -58,6 +59,10 @@ export function runHorizontalTwoElbowLayout(
     } else {
         vertices = [bx, sy, hx, sy, hx, ty, ex, ty];
     }
+
+    // Update latches
+    src.orientation = Orientation.D0;
+    trg.orientation = Orientation.D0;
 
     // Update points
     if(vertices.length === 4 && face.points.length !== 2) {
@@ -97,6 +102,7 @@ export function runVerticalTwoElbowLayout(
     view.dropHandles(1);
 
     // Adjust handle
+    hdl.orientation = Orientation.D90;
     hdl.userSetPosition &= PositionSetByUser.yAxis;
     if (!hdl.userSetPosition) {
         hdl.face.moveBy(0, my - hdl.y);
@@ -124,6 +130,10 @@ export function runVerticalTwoElbowLayout(
     } else {
         vertices = [sx, by, sx, hy, tx, hy, tx, ey];
     }
+
+    // Update latches
+    src.orientation = Orientation.D90;
+    trg.orientation = Orientation.D90;
 
     // Update points
     if(vertices.length === 4 && face.points.length !== 2) {
@@ -160,6 +170,7 @@ export function runHorizontalElbowLayout(
     view.dropHandles(1);
     
     // Adjust handle
+    hdl.orientation = Orientation.Unknown;
     hdl.userSetPosition = PositionSetByUser.False;
     hdl.face.moveTo(tx, ty);
 
@@ -187,6 +198,10 @@ export function runHorizontalElbowLayout(
         // Define vertices
         vertices = [bx, sy, tx, sy, tx, ey]
     }
+
+    // Update latches
+    src.orientation = Orientation.D0;
+    trg.orientation = Orientation.D90;
 
     // Run layout
     runMultiElbowLayout(face, vertices, arrow);
@@ -217,6 +232,7 @@ export function runVerticalElbowLayout(
     view.dropHandles(1);
 
     // Adjust handle
+    hdl.orientation = Orientation.Unknown;
     hdl.userSetPosition = PositionSetByUser.False;
     hdl.face.moveTo(tx, ty);
 
@@ -244,6 +260,10 @@ export function runVerticalElbowLayout(
         // Calculate vertices
         vertices = [sx, by, sx, ty, ex, ty]
     }
+
+    // Update latches
+    src.orientation = Orientation.D90;
+    trg.orientation = Orientation.D0;
 
     // Run layout
     runMultiElbowLayout(face, vertices, arrow);

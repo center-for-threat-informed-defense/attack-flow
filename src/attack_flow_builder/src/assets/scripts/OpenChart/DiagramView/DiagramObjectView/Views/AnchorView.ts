@@ -1,13 +1,13 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
-import { LayoutUpdateReason } from "../LayoutUpdateReason";
+import { ViewUpdateReason } from "../ViewUpdateReason";
 import { Anchor, RootProperty } from "@OpenChart/DiagramModel";
 import type { LatchView } from "./LatchView";
-import type { AnchorFace } from "../Faces";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
 import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "./DiagramObjectView";
+import type { AnchorFace, BoundingBox } from "../Faces";
 
 export class AnchorView extends Anchor implements ViewObject {
 
@@ -71,6 +71,21 @@ export class AnchorView extends Anchor implements ViewObject {
      */
     public set alignment(value: number) {
         this._face.alignment = value;
+    }
+
+
+    /**
+     * The view's orientation.
+     */
+    public get orientation(): number {
+        return this._face.orientation;
+    }
+    
+    /**
+     * The view's orientation.
+     */
+    public set orientation(value: number) {
+        this._face.orientation = value;
     }
 
 
@@ -152,20 +167,7 @@ export class AnchorView extends Anchor implements ViewObject {
     public get y(): number {
         return this.face.boundingBox.y;
     }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  5. Orientation   //////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * The view's orientation.
-     */
-    public get orientation(): number {
-        return this.face.orientation;
-    }
-
+    
 
     /**
      * Creates a new {@link AnchorView}.
@@ -185,7 +187,6 @@ export class AnchorView extends Anchor implements ViewObject {
         instance: string,
         attributes: number,
         properties: RootProperty,
-
         face: AnchorFace
     ) {
         super(id, instance, attributes, properties);
@@ -195,7 +196,7 @@ export class AnchorView extends Anchor implements ViewObject {
         // Recalculate layout on property updates
         this.properties.subscribe(
             this.instance,
-            () => this.updateLayout(LayoutUpdateReason.PropUpdate)
+            () => this.handleUpdate(ViewUpdateReason.PropUpdate)
         )
     }
 
@@ -211,12 +212,12 @@ export class AnchorView extends Anchor implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  6. Selection  /////////////////////////////////////////////////////////
+    //  4. Selection  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -230,7 +231,7 @@ export class AnchorView extends Anchor implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  7. Movement  //////////////////////////////////////////////////////////
+    //  5. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -245,7 +246,7 @@ export class AnchorView extends Anchor implements ViewObject {
         // Move face
         this.face.moveTo(x, y);
         // Recalculate parent layout
-        this.parent?.updateLayout(LayoutUpdateReason.Movement);
+        this.parent?.handleUpdate(ViewUpdateReason.Movement);
     }
 
     /**
@@ -259,12 +260,12 @@ export class AnchorView extends Anchor implements ViewObject {
         // Move face
         this.face.moveBy(dx, dy);
         // Recalculate parent layout
-        this.parent?.updateLayout(LayoutUpdateReason.Movement);
+        this.parent?.handleUpdate(ViewUpdateReason.Movement);
     }
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  8. Layout & View  /////////////////////////////////////////////////////
+    //  6. Layout & View  /////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -277,25 +278,25 @@ export class AnchorView extends Anchor implements ViewObject {
      *  can be invoked on the diagram's root view to calculate its full layout.
      *
      *  From then on, when isolated changes are made to a singular view,
-     *  {@link DiagramView.updateLayout()} can be invoked on that view to update
-     *  the diagram's layout. Although, generally speaking, this function is
-     *  internally called when necessary and rarely needs to be invoked outside
-     *  the context of this library.
+     *  `updateLayout()` can be invoked on that view to update the diagram's
+     *  layout. Although, generally speaking, this function is internally
+     *  called when necessary and rarely needs to be invoked outside the
+     *  context of this library.
      */
     public calculateLayout(): void {
         this.face.calculateLayout();
     }
 
     /**
-     * Recalculates this view's layout and updates all parent layouts.
+     * Updates the object's layout and all parent layouts.
      * @param reasons
-     *  The reasons the layout was updated.
+     *  The reasons the diagram changed.
      */
-    public updateLayout(reasons: number): void {
+    public handleUpdate(reasons: number) {
         // Update face
         if (this.face.calculateLayout()) {
             // Update parent
-            this.parent?.updateLayout(reasons);
+            this.parent?.handleUpdate(reasons);
         }
     }
 
@@ -327,7 +328,7 @@ export class AnchorView extends Anchor implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  9. Cloning  ///////////////////////////////////////////////////////////
+    //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -344,6 +345,23 @@ export class AnchorView extends Anchor implements ViewObject {
             this.properties.clone(),
             this.face.clone()
         )
+    }
+
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  8. Shape  /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Tests if a bounding region overlaps the view.
+     * @param region
+     *  The bounding region.
+     * @returns
+     *  True if the bounding region overlaps the view, false otherwise.
+     */
+    public overlaps(region: BoundingBox): boolean {
+        return this.face.overlaps(region);
     }
 
 }

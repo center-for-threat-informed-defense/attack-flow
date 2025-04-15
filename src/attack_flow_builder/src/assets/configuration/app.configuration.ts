@@ -1,9 +1,13 @@
 import { DarkTheme } from "./themes/DarkTheme";
 import { BlogTheme } from "./themes/BlogTheme";
-import { DiagramObjectType } from "@OpenChart/DiagramModel";
-import { AttackFlow, AttackFlowObjects, StixObjects, StixObservables } from "./templates";
+import { 
+    AttackFlow,
+    AttackFlowObjects,
+    BaseObjects,
+    StixObjects,
+    StixObservables
+} from "./templates";
 import type { AppConfiguration } from "../scripts/Application";
-
 
 const configuration: AppConfiguration = {
 
@@ -64,40 +68,7 @@ const configuration: AppConfiguration = {
             ...AttackFlowObjects,
             ...StixObjects,
             ...StixObservables,
-            {
-                name: "generic_line",
-                type: DiagramObjectType.Line,
-                latch_template: {
-                    source: "generic_latch",
-                    target: "generic_latch"
-                },
-                handle_template: "generic_handle"
-            },
-            {
-                name: "generic_line_vert",
-                type: DiagramObjectType.Line,
-                latch_template: {
-                    source: "generic_latch",
-                    target: "generic_latch"
-                },
-                handle_template: "generic_handle"
-            },
-            {
-                name: "vertical_anchor",
-                type: DiagramObjectType.Anchor
-            },
-            {
-                name: "horizontal_anchor",
-                type: DiagramObjectType.Anchor
-            },
-            {
-                name: "generic_latch",
-                type: DiagramObjectType.Latch
-            },
-            {
-                name: "generic_handle",
-                type: DiagramObjectType.Handle
-            }
+            ...BaseObjects
         ]
     },
 

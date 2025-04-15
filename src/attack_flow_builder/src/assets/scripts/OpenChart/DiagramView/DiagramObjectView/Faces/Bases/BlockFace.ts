@@ -1,5 +1,4 @@
 import { DiagramFace } from "../DiagramFace";
-import { Tangibility } from "../../ViewAttributes";
 import { findUnlinkedObjectAt } from "../../ViewLocators";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { BlockView, DiagramObjectView } from "../../Views";
@@ -55,7 +54,7 @@ export abstract class BlockFace extends DiagramFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -64,12 +63,7 @@ export abstract class BlockFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        const bb = this.boundingBox;
-        if (
-            bb.xMin <= x && x <= bb.xMax &&
-            bb.yMin <= y && y <= bb.yMax &&
-            this.view.tangibility !== Tangibility.None
-        ) {
+        if (this.boundingBox.contains(x,y)) {
             // Try anchors
             const object = findUnlinkedObjectAt(
                 [...this.view.anchors.values()], x, y
@@ -77,13 +71,13 @@ export abstract class BlockFace extends DiagramFace {
             if (object) {
                 return object;
             }
-            // Try object
+            // Return block
             return this.view;
         } else {
             return undefined;
         }
     }
-
+    
 
     ///////////////////////////////////////////////////////////////////////////
     //  2. Movement  //////////////////////////////////////////////////////////

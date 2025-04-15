@@ -5,15 +5,14 @@
         }
     },
     "edit": {
-        "clone_offset": [20, 20]
+        "clone_offset": [20, 20],
+        "anchor_line_template": "dynamic_line"
     },
     "view": {
         "diagram": {
-            "display_grid": true,
+            "display_animations": true,
             "display_shadows": true,
-            "display_debug_mode": false,
-            "render_high_quality": true,
-            "disable_shadows_at": 0.7,
+            "display_debug_info": false,
             "theme": "dark_theme"
         },
         "splash_menu": {
@@ -62,7 +61,7 @@
             "close_group": []
         },
         "view": {
-            "toggle_grid": "Control+Shift+G",
+            "toggle_animations": "",
             "toggle_shadows": "",
             "reset_view": "Control+1",
             "zoom_in": "",
@@ -71,7 +70,7 @@
             "jump_to_selection": "Shift+Z",
             "jump_to_parents": "Shift+P",
             "jump_to_children": "Shift+C",
-            "toggle_debug_view": ""
+            "toggle_debug_info": ""
         },
         "select": {
             "many": ["Control"]

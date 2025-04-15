@@ -1,5 +1,4 @@
 import { LatchFace } from "../Bases";
-import { Tangibility } from "../../ViewAttributes";
 import type { PointStyle } from "../Styles";
 import type { DiagramObjectView } from "../../Views";
 
@@ -34,7 +33,7 @@ export class LatchPoint extends LatchFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -43,11 +42,6 @@ export class LatchPoint extends LatchFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        // Check tangibility 
-        if(this.view.tangibility === Tangibility.None) {
-            return undefined;
-        }
-        // Check point
         const dx = x - (this.boundingBox.x + LatchFace.markerOffset);
         const dy = y - (this.boundingBox.y + LatchFace.markerOffset);
         const r = this.radius;

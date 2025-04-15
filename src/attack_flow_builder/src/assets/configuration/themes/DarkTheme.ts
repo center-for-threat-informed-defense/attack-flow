@@ -7,14 +7,14 @@ import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
  * Base Objects
  */
 const BaseObjects = {
-    "generic_line": {
+    "dynamic_line": {
         type: FaceType.DynamicLine,
         attributes: Alignment.Grid,
         style: DarkStyle.Line()
     },
     "vertical_anchor": {
         type: FaceType.AnchorPoint,
-        orientation: Orientation.D90,
+        attributes: Orientation.D90,
         style: {
             radius: 10,
             fill_color: "rgba(255, 255, 255, 0.25)",
@@ -24,7 +24,7 @@ const BaseObjects = {
     },
     "horizontal_anchor": {
         type: FaceType.AnchorPoint,
-        orientation: Orientation.D0,
+        attributes: Orientation.D0,
         style: {
             radius: 10,
             fill_color: "rgba(255, 255, 255, 0.25)",

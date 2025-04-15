@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as d3 from "d3";
-import { Cursor, MouseClick } from "./Mouse";
 import { Screen } from "./Screen";
+import { MouseClick } from "./Mouse";
 import { DisplaySettings } from "./DisplaySettings";
 import { ViewportRegion } from "@OpenChart/DiagramView";
 import { EventEmitter, round } from "@OpenChart/Utilities";
@@ -9,10 +9,10 @@ import { resizeAndTransformContext, resizeContext, transformContext } from "./Co
 import type { Animation } from "./Animation";
 import type { DiagramInterfacePlugin } from "./DiagramInterfacePlugin";
 import type { DiagramInterfaceEvents } from "./DiagramInterfaceEvents";
+import type { CameraLocation, CanvasView } from "@OpenChart/DiagramView";
 import type { CanvasSelection, CanvasZoomBehavior } from "./D3Types";
-import type { CameraLocation, CanvasView, DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>> {
+export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
     /**
      * The viewport's padding.
@@ -29,6 +29,21 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
      * The interface's root object.
      */
     public readonly root: CanvasView;
+
+
+    /**
+     * The interface's width.
+     */
+    public get width(): number {
+        return this.elWidth;
+    }
+
+    /**
+     * The interface's height.
+     */
+    public get height(): number {
+        return this.elHeight;
+    }
 
     
     ///////////////////////////////////////////////////////////////////////////
@@ -85,19 +100,12 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
     /**
      * The interface's plugins.
      */
-    private readonly plugins: Map<Function, DiagramInterfacePlugin<T>>;
+    private readonly plugins: Map<Function, DiagramInterfacePlugin>;
 
     /**
      * The interface's active plugin.
      */
-    private activePlugin: DiagramInterfacePlugin<T> | null;
-
-    /**
-     * The object currently being hovered over.
-     * @remarks
-     *  `undefined` represents the view's canvas.
-     */
-    private activeHover: DiagramObjectView | undefined | null;
+    private activePlugin: DiagramInterfacePlugin | null;
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -147,7 +155,6 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
         this.resizeObserver = null;
         this.plugins = new Map();
         this.activePlugin = null;
-        this.activeHover = null;
         this.animations = new Map();
         this.rafId = 0;
         this.zoom = d3.zoom<HTMLCanvasElement, unknown>()
@@ -186,6 +193,7 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
      *  The container to mount the interface to.
      */
     public mount(container: HTMLElement): void {
+        this.unmount();
         // Set sizing
         this.elWidth = container.clientWidth;
         this.elHeight = container.clientHeight;
@@ -212,8 +220,6 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
         this.resizeObserver?.disconnect();
         // Stop watching screen
         Screen.removeEventListenersWithContext(this);
-        // Remove event listeners
-        this.removeAllListeners();
     }
 
 
@@ -353,12 +359,10 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
      * @param plugins
      *  The plugins to install.
      */
-    public installPlugin(...plugins: DiagramInterfacePlugin<T>[]) {
-        for(const handler of plugins) {
-            // Forward commands
-            handler.on("execute", cmd => this.emit("plugin-command", cmd));
+    public installPlugin(...plugins: DiagramInterfacePlugin[]) {
+        for(const plugin of plugins) {
             // Register plugin
-            this.plugins.set(handler.constructor, handler);
+            this.plugins.set(plugin.constructor, plugin);
         }
     }
 
@@ -374,25 +378,16 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
     private onHoverSubject(event: MouseEvent, x: number, y: number) {
         x = this.transform.invertX(x);
         y = this.transform.invertY(y);
-        // Select object
-        const hovered = this.root.getObjectAt(x, y);
-        if (this.activeHover === hovered) {
-            return;
-        }
-        // Update hover
-        this.activeHover = hovered;
         // Choose plugin
         let selectedPlugin;
         for(const plugin of this.plugins.values()) {
-            if(plugin.canHandleHover(hovered, event)) {
+            if(plugin.canHandleHover(x, y, event)) {
                 selectedPlugin = plugin;
                 break;
             }
         }
         // Use plugin
-        const cursor = selectedPlugin?.hoverStart(hovered, event);
-        // Emit cursor change event
-        this.emit("cursor-change", cursor ?? Cursor.Default);
+        selectedPlugin?.hoverStart(x, y, event);
     }
 
     /**
@@ -406,11 +401,10 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
         const evt = event.sourceEvent as MouseEvent;
         const x = this.transform.invertX(event.x);
         const y = this.transform.invertY(event.y);
-        const obj = this.root.getObjectAt(x, y);
         // Choose plugin
         this.activePlugin = null;
         for(const plugin of this.plugins.values()) {
-            if(plugin.canHandleSelection(obj, evt)) {
+            if(plugin.canHandleSelection(x, y, evt)) {
                 this.activePlugin = plugin;
                 break;
             }
@@ -418,10 +412,10 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
         // Use plugin
         let yieldedControl = true;
         if(this.activePlugin) {
-            yieldedControl = this.activePlugin.selectStart(obj, x, y, evt);
+            yieldedControl = this.activePlugin.selectStart(x, y, evt);
         }
         // Emit canvas click event
-        this.emit("canvas-click", evt, event.x, event.y);
+        this.emit("canvas-click", evt, event.x, event.y, x, y);
         // Return
         if(evt.button === MouseClick.Right) {
             if(this.activePlugin && !yieldedControl) {
@@ -489,9 +483,7 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
         this.emit("view-transform",
             this.transform.x,
             this.transform.y,
-            this.transform.k,
-            this.elWidth,
-            this.elHeight
+            this.transform.k
         );
     }
 
@@ -612,6 +604,23 @@ export class DiagramInterface<T> extends EventEmitter<DiagramInterfaceEvents<T>>
     public enableDebugInfo(state: boolean) {
         this.settings.debugInfoEnabled = state;
         this.render();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  10. Events  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Issues an interface event.
+     * @param event
+     *  The name of the event to raise.
+     * @param args
+     *  The arguments to pass to the listener functions.
+     */
+    public emit<K extends keyof DiagramInterfaceEvents>(event: K, ...args: any[]): void {
+        super.emit(event, ...args);
     }
 
 }

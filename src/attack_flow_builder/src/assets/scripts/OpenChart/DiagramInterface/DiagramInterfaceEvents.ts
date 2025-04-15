@@ -1,16 +1,17 @@
 import type { Cursor } from "./Mouse";
+import type { DiagramObjectView } from "../DiagramView";
 
-export interface DiagramInterfaceEvents<T> {
+export interface DiagramInterfaceEvents {
     "cursor-change": (
         cursor: Cursor
     ) => void;
-    "plugin-command": (
-        command: T
-    ) => void;
     "canvas-click": (
-        event: PointerEvent, x: number, y: number
+        event: PointerEvent, xRel: number, yRel: number, xAbs: number, yAbs: number
     ) => void;
     "view-transform": (
-        x: number, y: number, k: number, w: number, h: number
+        x: number, y: number, k: number
+    ) => void;
+    "suggestion-request": (
+        obj: DiagramObjectView
     ) => void;
 }

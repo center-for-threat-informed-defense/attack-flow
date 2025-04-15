@@ -1,7 +1,7 @@
-import type { DiagramFace } from "./Faces";
 import type { ViewportRegion } from "./ViewportRegion";
 import type { RenderSettings } from "./RenderSettings";
 import type { DiagramObjectView } from "./Views";
+import type { DiagramFace, BoundingBox } from "./Faces";
 
 export interface ViewObject {
 
@@ -28,52 +28,62 @@ export interface ViewObject {
 
 
     /**
-     * The face's alignment.
+     * The view's alignment.
      */
     get alignment(): number;
 
     /**
-     * The face's alignment.
+     * The view's alignment.
      */
     set alignment(value: number);
 
     /**
-     * Whether the face is focused or not.
+     * The view's orientation.
+     */
+    get orientation(): number;
+
+    /**
+     * The view's orientation.
+     */
+    set orientation(value: number);
+
+    /**
+     * Whether the view is focused or not.
      */
     get focused(): boolean;
 
     /**
-     * Whether the face is focused or not.
+     * Whether the view is focused or not.
      */
     set focused(value: number);
 
     /**
-     * Whether the face is hovered or not.
+     * Whether the view is hovered or not.
      */
     get hovered(): number;
 
     /**
-     * Whether the face is hovered or not.
+     * Whether the view is hovered or not.
      */
     set hovered(value: number);
 
     /**
-     * The face's tangibility.
+     * The view's tangibility.
      */
     get tangibility(): number;
 
     /**
-     * The face's tangibility.
+     * The view's tangibility.
      */
     set tangibility(value: number);
 
     /**
-     * Whether face's position has been set by the user.
+     * Whether view's position has been set by the user.
      */
     get userSetPosition(): number;
 
     /**
-     * Whether face's position has been set by the user.
+     * Whether view's position has been set by the user.
      */
     set userSetPosition(value: number);
 
@@ -100,7 +110,7 @@ export interface ViewObject {
 
 
     /**
-     * Returns the primary object at a given coordinate.
+     * Returns the topmost object at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -117,7 +127,7 @@ export interface ViewObject {
 
 
     /**
-     * Moves the face to a specific coordinate.
+     * Moves the view to a specific coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -126,7 +136,7 @@ export interface ViewObject {
     moveTo(x: number, y: number): void;
 
     /**
-     * Moves the face relative to its current position.
+     * Moves the view relative to its current position.
      * @param dx
      *  The change in x.
      * @param dy
@@ -149,22 +159,15 @@ export interface ViewObject {
      *  can be invoked on the diagram's root view to calculate its full layout.
      *
      *  From then on, when isolated changes are made to a singular view,
-     *  {@link DiagramView.updateLayout()} can be invoked on that view to update
-     *  the diagram's layout. Although, generally speaking, this function is
-     *  internally called when necessary and rarely needs to be invoked outside
-     *  the context of this library.
+     *  `handleUpdate()` can be invoked on that view to update the diagram's
+     *  layout. Although, generally speaking, this function is internally
+     *  called when necessary and rarely needs to be invoked outside the
+     *  context of this library.
      */
     calculateLayout(): void;
 
     /**
-     * Recalculates this view's layout and updates all parent layouts.
-     * @param reasons
-     *  The reasons the layout was updated.
-     */
-    updateLayout(reasons: number): void;
-
-    /**
-     * Renders the face to a context.
+     * Renders the view to a context.
      * @param ctx
      *  The context to render to.
      * @param region
@@ -178,7 +181,7 @@ export interface ViewObject {
     ): void;
 
     /**
-     * Renders the face's debug information to a context.
+     * Renders the view's debug information to a context.
      * @param ctx
      *  The context to render to.
      * @param region
@@ -196,5 +199,20 @@ export interface ViewObject {
      *  The view's new face.
      */
     replaceFace(face: DiagramFace | null): void;
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  7. Shape  /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Tests if a bounding region overlaps the view.
+     * @param region
+     *  The bounding region.
+     * @returns
+     *  True if the bounding region overlaps the view, false otherwise.
+     */
+    overlaps(region: BoundingBox): boolean;
     
 }

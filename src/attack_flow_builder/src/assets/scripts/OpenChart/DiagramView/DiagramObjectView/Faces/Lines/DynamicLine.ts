@@ -1,8 +1,8 @@
 import { LineFace } from "../Bases";
-import { Orientation } from "../Orientation";
-import { Tangibility } from "../../ViewAttributes";
+import { Orientation } from "../../ViewAttributes";
 import { findUnlinkedObjectAt } from "../../ViewLocators";
 import { 
+    doRegionsOverlap,
     drawAbsoluteMultiElbowPath,
     drawAbsolutePolygon,
     drawBoundingRegion,
@@ -16,6 +16,7 @@ import {
     runVerticalTwoElbowLayout
 } from "./LineLayoutStrategies";
 import type { LineStyle } from "../Styles";
+import type { BoundingBox } from "../BoundingBox";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
 import type { DiagramObjectView } from "../../Views";
@@ -99,7 +100,7 @@ export class DynamicLine extends LineFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -108,14 +109,12 @@ export class DynamicLine extends LineFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        if(this.view.tangibility === Tangibility.None) {
-            return undefined;
-        } else if (this.isAnchored()) {
-            // Try points
-            const obj = findUnlinkedObjectAt(this.points, x, y);
-            if (obj) {
-                return obj;
-            }
+        // Try points
+        const obj = findUnlinkedObjectAt(this.points, x, y);
+        if (obj) {
+            return obj;
+        }
+        if (this.isAnchored()) {
             // Try segments
             for (let i = 0; i < this.hitboxes.length; i++) {
                 if (!isInsideRegion(x, y, this.hitboxes[i])) {
@@ -128,13 +127,6 @@ export class DynamicLine extends LineFace {
                 }
             }
         } else {
-            if (this.view.focused) {
-                // Try points
-                const obj = findUnlinkedObjectAt(this.points, x, y);
-                if (obj) {
-                    return obj;
-                }
-            }
             // Try segments
             for (const hitbox of this.hitboxes) {
                 if (isInsideRegion(x, y, hitbox)) {
@@ -150,7 +142,7 @@ export class DynamicLine extends LineFace {
     //  2. Layout / Rendering  ////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    private static i = 0;
+
     /**
      * Calculates the face's layout.
      * @returns
@@ -169,8 +161,8 @@ export class DynamicLine extends LineFace {
         const [width, height] = this.forecastDimensions(src, hdl, trg);
 
         // Resolve latch orientations
-        let srcO: Orientation;
-        let trgO: Orientation;
+        let srcO: number;
+        let trgO: number;
         if(src.isLinked() && trg.isLinked()) {
             srcO = src.anchor!.orientation;
             trgO = trg.anchor!.orientation;
@@ -343,6 +335,35 @@ export class DynamicLine extends LineFace {
      */
     public clone(): DynamicLine {
         return new DynamicLine(this.style, this.grid);
+    }
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  4. Shape  /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Tests if a bounding region overlaps the face.
+     * @param region
+     *  The bounding region.
+     * @returns
+     *  True if the bounding region overlaps the face, false otherwise.
+     */
+    public overlaps(region: BoundingBox): boolean {
+        // If bounding boxes don't overlap...
+        if(!this.boundingBox.overlaps(region)) {
+            // ...skip additional checks
+            return false;
+        }
+        // Otherwise...
+        const vertices = region.vertices;
+        for(const hitbox of this.hitboxes) {
+            if(doRegionsOverlap(vertices, hitbox)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

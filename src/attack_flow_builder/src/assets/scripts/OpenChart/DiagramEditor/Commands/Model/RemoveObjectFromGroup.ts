@@ -55,11 +55,11 @@ export class RemoveObjectFromGroup extends EditorCommand {
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
         // Detach links
         for(const [_, link] of this.links) {
-            link.unlink();
+            link.unlink(true);
         }
         // Remove objects
         for(const [_, object] of this.objects) {
-            this.group.removeObject(object);   
+            this.group.removeObject(object, true);   
             // Issue directives
             const directives 
                 = EditorDirective.Autosave
@@ -67,8 +67,7 @@ export class RemoveObjectFromGroup extends EditorCommand {
                 | EditorDirective.ReindexContent
                 | EditorDirective.ReindexSelection;
             issueDirective(directives, object.instance);
-        }
-        
+        }   
     }
 
     /**
@@ -79,7 +78,7 @@ export class RemoveObjectFromGroup extends EditorCommand {
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
         // Add objects
         for(const [idx, object] of this.objects) {
-            this.group.addObject(object, idx);
+            this.group.addObject(object, idx, true);
             // Issue directives
             const directives 
                 = EditorDirective.Autosave
@@ -90,7 +89,7 @@ export class RemoveObjectFromGroup extends EditorCommand {
         }
         // Attach links
         for(const [anchor, link] of this.links) {
-            anchor.link(link);
+            anchor.link(link, true);
         }
     }
 

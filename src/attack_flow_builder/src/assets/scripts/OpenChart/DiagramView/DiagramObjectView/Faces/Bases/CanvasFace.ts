@@ -1,5 +1,4 @@
 import { DiagramFace } from "../DiagramFace";
-import { Tangibility } from "../../ViewAttributes";
 import { findUnlinkedObjectAt } from "../../ViewLocators";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
@@ -43,7 +42,7 @@ export abstract class CanvasFace extends DiagramFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -52,24 +51,19 @@ export abstract class CanvasFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        // Check tangibility 
-        if(this.view.tangibility === Tangibility.None) {
+        if (this.boundingBox.contains(x,y)) {
+            // Try objects
+            const object = findUnlinkedObjectAt(
+                [...this.view.objects], x, y
+            );
+            if (object) {
+                return object;
+            }
+            // Return canvas
+            return this.view;
+        } else {
             return undefined;
         }
-        return this.getChildAt(x, y);
-    }
-    
-    /**
-     * Returns the topmost child at the given coordinate.
-     * @param x
-     *  The x coordinate.
-     * @param y
-     *  The y coordinate.
-     * @returns
-     *  The topmost child, undefined if there isn't one.
-     */
-    protected getChildAt(x: number, y: number): DiagramObjectView | undefined {
-        return findUnlinkedObjectAt([...this.view.objects.values()], x, y);
     }
 
 
@@ -87,7 +81,7 @@ export abstract class CanvasFace extends DiagramFace {
      */
     public moveBy(dx: number, dy: number): void {
         // Move children
-        for (const object of this.view.objects.values()) {
+        for (const object of this.view.objects) {
             object.face.moveBy(dx, dy);
         }
         // Recalculate layout
@@ -130,7 +124,7 @@ export abstract class CanvasFace extends DiagramFace {
         if (!this.isVisible(region)) {
             return;
         }
-        for (const obj of this.view.objects.values()) {
+        for (const obj of this.view.objects) {
             obj.renderTo(ctx, region, settings);
         }
     }

@@ -1,7 +1,7 @@
 import { EditorCommand } from "../EditorCommand";
 import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
 
-export class StopAnimation extends EditorCommand { 
+export class StopContinuousAnimation extends EditorCommand { 
 
     /**
      * The interface to run the animation on.
@@ -11,7 +11,7 @@ export class StopAnimation extends EditorCommand {
     /**
      * The animation's identifier.
      */
-    public readonly animation: string;
+    public readonly animation: Animation;
 
 
     /**
@@ -19,13 +19,12 @@ export class StopAnimation extends EditorCommand {
      * @param ui
      *  The interface to run the animation on.
      * @param animation
-     *  The animation or its identifier.
+     *  The animation.
      */
-    constructor(ui: DiagramInterface<EditorCommand>, animation: Animation | string) {
+    constructor(ui: DiagramInterface<EditorCommand>, animation: Animation) {
         super();
-        const id = typeof animation === "string" ? animation : animation.id;
         this.interface = ui;
-        this.animation = id;
+        this.animation = animation;
     }
     
 
@@ -33,12 +32,14 @@ export class StopAnimation extends EditorCommand {
      * Executes the editor command.
      */
     public execute(): void {
-        this.interface.stopAnimation(this.animation);
+        this.interface.stopAnimation(this.animation.id);
     }
 
     /**
      * Undoes the editor command.
      */
-    public undo(): void {}
+    public undo(): void {
+        this.interface.runAnimation(this.animation);
+    }
 
 }

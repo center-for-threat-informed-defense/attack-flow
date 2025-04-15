@@ -3,10 +3,16 @@
     class="block-diagram-element"
     :style="cursorStyle"
   >
+    <ObjectRecommenderMenu
+      class="recommender-menu"
+      v-if="recommender.active"
+      :style="recommenderMenuStyle"
+      :recommender="recommender"
+    />
     <ContextMenu
-      class="block-diagram-menu"
+      class="context-menu"
       v-if="menu.show"
-      :style="menuStyle"
+      :style="contextMenuStyle"
       :sections="menuOptions"
       @select="onItemSelect"
       @focusout="closeContextMenu"
@@ -16,27 +22,22 @@
 </template>
 
 <script lang="ts">
-import * as EditorCommands from "@OpenChart/DiagramEditor/Commands";
+import * as AppCommands from "@/assets/scripts/Application/Commands";
 // Dependencies
-import { defineComponent, inject, markRaw } from 'vue';
+import { defineComponent } from 'vue';
+import { Cursor, MouseClick } from "@OpenChart/DiagramInterface";
 import { useApplicationStore } from "@/stores/ApplicationStore";
 import { useContextMenuStore } from "@/stores/ContextMenuStore";
-// Components
-import ContextMenu from "@/components/Controls/ContextMenu.vue";
-import { Cursor, MouseClick } from "@OpenChart/DiagramInterface";
-import { EditorCommand, type DiagramViewEditor } from '@/assets/scripts/OpenChart/DiagramEditor';
-import type { DiagramObjectView } from "@OpenChart/DiagramView";
+import type { DiagramObjectView } from '@/assets/scripts/OpenChart/DiagramView';
 import type { ContextMenuSection } from '@/assets/scripts/Browser';
 import type { Command, CommandEmitter } from '@/assets/scripts/Application';
+import type { DiagramViewEditor, ObjectRecommender } from '@OpenChart/DiagramEditor';
+// Components
+import ContextMenu from "@/components/Controls/ContextMenu.vue";
+import ObjectRecommenderMenu from "@/components/Controls/ObjectRecommenderMenu.vue";
 
 export default defineComponent({
   name: 'BlockDiagram',
-  setup() {
-    return {
-      isHotkeyActive: inject("isHotkeyActive") as
-        (sequence: string, strict?: boolean) => boolean
-    }
-  },
   data() {
     return {
       application: useApplicationStore(),
@@ -46,10 +47,6 @@ export default defineComponent({
         x: 0,
         y: 0,
         show: false,
-      },
-      view: {
-        x: 0, y: 0, k: 1,
-        w: 0, h: 0
       }
     }
   },
@@ -63,11 +60,30 @@ export default defineComponent({
     },
 
     /**
+     * The active object recommender.
+     */
+    recommender(): ObjectRecommender {
+      return this.application.activeRecommender;
+    },
+
+    /**
+     * The recommender menu's style.
+     * @returns
+     *  The recommender menu's style.
+     */
+    recommenderMenuStyle(): { top: string, left: string } {
+      return {
+        top: `${this.recommender.y - 12}px`,
+        left: `${this.recommender.x + 15}px`,
+      };
+    },
+
+    /**
      * The context menu's style.
      * @returns
      *  The context menu's style.
      */
-    menuStyle(): { top: string; left: string } {
+    contextMenuStyle(): { top: string; left: string } {
       return {
         top: `${this.menu.y}px`,
         left: `${this.menu.x}px`,
@@ -91,20 +107,19 @@ export default defineComponent({
     menuOptions(): ContextMenuSection<CommandEmitter>[] {
       if(this.application.hasSelection) {
         return [
-          // this.contextMenus.deleteMenu,
+          this.contextMenus.deleteMenu,
           // this.contextMenus.clipboardMenu,
           // this.contextMenus.duplicateMenu,
-          // this.contextMenus.layeringMenu,
           // this.contextMenus.jumpMenu
         ];
       } else {
         return [
           this.contextMenus.undoRedoMenu,
           this.contextMenus.createAtMenu,
-          // this.contextMenus.selectAllMenu,
-          // this.contextMenus.unselectAllMenu,
-          // this.contextMenus.zoomMenu,
-          // this.contextMenus.diagramViewMenu
+          this.contextMenus.selectAllMenu,
+          this.contextMenus.unselectAllMenu,
+          this.contextMenus.zoomMenu,
+          this.contextMenus.diagramViewMenu
         ];
       }
     }
@@ -163,7 +178,6 @@ export default defineComponent({
       this.menu.show = false;
     },
 
-
     /**
      * Object hover behavior.
      * @param o
@@ -175,7 +189,6 @@ export default defineComponent({
       this.cursor = cursor;
     },
 
-
     /**
      * Canvas click behavior.
      * @param e
@@ -186,133 +199,55 @@ export default defineComponent({
      *  The clicked y-coordinate, relative to the container.
      */
     onCanvasClick(e: PointerEvent, x: number, y: number) {
+      // Close recommender
+      if(this.recommender.active) {
+        this.execute(AppCommands.stopRecommender(this.application));
+      }
+      // Open context menu
       if (e.button === MouseClick.Right) {
         this.openContextMenu(x, y);
       }
     },
-    
-    /**
-     * Object interaction behavior.
-     * @param command
-     *  The interaction command.
-     */
-    onObjectInteraction(command: EditorCommand) {
-      this.execute(command);
-    },
 
     /**
-     * View transform behavior.
-     * @param x
-     *  The view's left x-coordinate.
-     * @param y
-     *  The view's top y-coordinate.
-     * @param k
-     *  The view's scale.
-     * @param w
-     *  The view's width.
-     * @param h
-     *  The view's height.
+     * Suggestions request behavior.
+     * @param object
+     *  The recommender's active target.
      */
-    onViewTransform(x: number, y: number, k: number, w: number, h: number) {
-      // this.view = { x, y, k, w, h };
-      // this.execute(
-      //   new App.SetEditorViewParams(
-      //     this.application, { ...this.view }
-      //   )
-      // );
-    },
+    onSuggestionRequest(object: DiagramObjectView) {
+      this.execute(AppCommands.startRecommender(this.application, object));
+    }, 
 
     configureEditor() {
       const ui = this.editor.interface;
+      // Mount
       ui.mount(this.$el);
-      ui.render();
       // Subscribe to diagram events
-      ui.on("cursor-change", this.onCursorChange);
-      // this.diagram.on("object-click", this.onObjectClick);
-      ui.on("canvas-click", this.onCanvasClick);
-      ui.on("plugin-command", this.onObjectInteraction);
+      ui.on("canvas-click", this.onCanvasClick, this);
+      ui.on("cursor-change", this.onCursorChange, this);
+      ui.on("suggestion-request", this.onSuggestionRequest, this);
+      // Render
+      ui.render();
+      // this.diagram.setCameraLocation(this.camera, 0);
     }
 
   },
   watch: {
-    // On page change
-    editor(next: DiagramViewEditor, prev: DiagramViewEditor) {
+    // On editor change
+    editor(_: DiagramViewEditor, prev: DiagramViewEditor) {
       prev.interface.unmount();
       this.configureEditor();
-
-      // // Set page
-      // this.diagram.setPage(markRaw(this.editor.page));
-      // // Update view
-      // this.diagram.updateView();
-      // this.diagram.setCameraLocation(this.camera, 0);
-      // // Configure view parameters
-      // this.execute(
-      //   new App.SetEditorViewParams(
-      //     this.application, { ...this.view }
-      //   )
-      // );
     },
-    // On camera update
-    camera() {
-      // this.editor.interface.setCameraLocation(this.camera);
-      // this.diagram.setCameraLocation(this.camera);
-    },
-    // On page update
-    pageUpdate() {
-      // this.diagram.updateView();
-      // this.diagram.render();
-    },
-    // On display grid change
-    displayGrid() {
-      // this.diagram.setGridDisplay(this.displayGrid);
-      // this.diagram.render();
-    },
-    // On display shadows change
-    displayShadows() {
-      // this.diagram.setShadowsDisplay(this.displayShadows);
-      // this.diagram.render();
-    },
-    // On display debug change
-    displayDebugMode() {
-      // this.diagram.setDebugDisplay(this.displayDebugMode);
-      // this.diagram.render();
-    },
-    // On render quality change
-    renderHighQuality() {
-      // this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
-      // this.diagram.render();
-    },
-    // On 'disable shadows at' change
-    disableShadowsAt() {
-      // this.diagram.setShadowsDisableAt(this.disableShadowsAt);
-      // this.diagram.render();
-    }
   },
   mounted() {
     this.configureEditor();
-    // this.diagram.on("object-attach", this.onObjectAttach);
-    // this.diagram.on("object-detach", this.onObjectDetach);
-    // this.diagram.on("view-transform", this.onViewTransform);
-    // this.diagram.on("line-create", this.onLineCreate);
-
-    // Configure the current page
-    // this.diagram.setGridDisplay(this.displayGrid);
-    // this.diagram.setShadowsDisplay(this.displayShadows);
-    // this.diagram.setDebugDisplay(this.displayDebugMode);
-    // this.diagram.setSsaaScale(this.renderHighQuality ? 2 : 1);
-    // this.diagram.setShadowsDisableAt(this.disableShadowsAt);
-    // this.diagram.setPage(markRaw(this.editor.page));
-    
-    // Inject the diagram
-    // this.diagram.inject(this.$el);
-    // this.diagram.updateView();
-    // this.diagram.setCameraLocation(this.camera, 0);
-
   },
   unmounted() {
-    this.editor.interface.unmount();
+    const ui = this.editor.interface;
+    ui.removeEventListenersWithContext(this);
+    ui.unmount();
   },
-  components: { ContextMenu }
+  components: { ContextMenu, ObjectRecommenderMenu }
 });
 </script>
 
@@ -324,9 +259,14 @@ export default defineComponent({
   position: relative;
 }
 
-.block-diagram-menu {
+.context-menu {
   position: absolute;
   cursor: default;
+}
+
+.recommender-menu {
+  position: absolute;
+  width: 300px;
 }
 
 .inset-shadow {

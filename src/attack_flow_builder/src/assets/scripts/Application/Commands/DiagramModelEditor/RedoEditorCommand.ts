@@ -6,7 +6,7 @@ export class RedoEditorCommand extends AppCommand {
     /**
      * The editor to apply the redo operation to.
      */
-    private _editor: DiagramModelEditor;
+    public readonly editor: DiagramModelEditor;
 
 
     /**
@@ -16,7 +16,7 @@ export class RedoEditorCommand extends AppCommand {
      */
     constructor(editor: DiagramModelEditor) {
         super();
-        this._editor = editor;
+        this.editor = editor;
     }
 
 
@@ -24,7 +24,7 @@ export class RedoEditorCommand extends AppCommand {
      * Executes the command.
      */
     public async execute(): Promise<void> {
-        await this._editor.redo();
+        await this.editor.redo();
     }
 
 }

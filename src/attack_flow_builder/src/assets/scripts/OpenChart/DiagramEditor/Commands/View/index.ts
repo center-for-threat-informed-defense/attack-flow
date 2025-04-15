@@ -1,22 +1,17 @@
 import { 
     ClearHover,
     HoverObject,
+    RouteLinesThroughBlock,
     MoveObjectsBy,
-    RemoveSelectedChildren,
-    RunAnimation,
-    SelectObjects,
+    MoveObjectsTo,
     SetTangibility,
-    SpawnObject,
-    StopAnimation,
     UserSetObjectPosition
 } from "./index.commands";
-import type { EditorCommand } from "../EditorCommand";
-import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
-import type { CanvasView, DiagramObjectView, DiagramViewFile, GroupView } from "@OpenChart/DiagramView";
+import type { BlockView, CanvasView, DiagramObjectView, GroupView, LineView } from "@OpenChart/DiagramView";
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  1. Selection / Hover  /////////////////////////////////////////////////////
+//  1. Hover  /////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -50,45 +45,6 @@ export function hoverObject(
 }
 
 /**
- * Selects an object.
- * @param object
- *  The object to select.
- * @returns
- *  A command that represents the action.
- */
-export function selectObject(
-    object: DiagramObjectView
-): SelectObjects {
-    return new SelectObjects(object, true); 
-}
-
-/**
- * Selects a group's children.
- * @param group
- *  The group.
- * @returns
- *  A command that represents the action.
- */
-export function selectGroupObjects(
-    group: GroupView | CanvasView
-): SelectObjects {
-    return new SelectObjects([...group.objects.values()], true); 
-}
-
-/**
- * Unselects a group's children.
- * @param group
- *  The group.
- * @returns
- *  A command that represents the action.
- */
-export function unselectGroupObjects(
-    group: GroupView | CanvasView
-): SelectObjects {
-    return new SelectObjects([...group.objects.values()], false); 
-}
-
-/**
  * Sets a object's tangibility.
  * @param object
  *  The object to configure.
@@ -101,6 +57,23 @@ export function setTangibility(
     object: DiagramObjectView, tangibility: number
 ): SetTangibility {
     return new SetTangibility(object, tangibility);
+}
+
+/**
+ * Routes a set of lines through a block.
+ * @param group
+ *  The block's group.
+ * @param block
+ *  The block.
+ * @param lines
+ *  The lines.
+ * @returns
+ *  A command that represents the action.
+ */
+export function routeLinesThroughBlock(
+    group: CanvasView | GroupView, block: BlockView, lines: LineView[]
+) {
+    return new RouteLinesThroughBlock(group, block, lines);
 }
 
 
@@ -127,6 +100,23 @@ export function moveObjectsBy(
 }
 
 /**
+ * Moves one or more objects to a specific coordinate.
+ * @param object
+ *  The object(s) to move.
+ * @param x
+ *  The x coordinate.
+ * @param y
+ *  The y coordinate.
+ * @returns
+ *  A command that represents the action.
+ */
+export function moveObjectsTo(
+    object: DiagramObjectView | DiagramObjectView[], x: number, y: number
+): MoveObjectsTo {
+    return new MoveObjectsTo(object, x, y);
+}
+
+/**
  * Declares that an object's position was set by the user.
  * @param object
  *  The object.
@@ -137,80 +127,4 @@ export function userSetObjectPosition(
     object: DiagramObjectView
 ): UserSetObjectPosition {
     return new UserSetObjectPosition(object);
-}
- 
-
-///////////////////////////////////////////////////////////////////////////////
-//  3. Create / Delete Object  ////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-/**
- * Spawns a diagram object, in a file, at the specified coordinates.
- * @param file
- *  The diagram view file.
- * @param id
- *  The object's id.
- * @param x
- *  The object's x-coordinate.
- *  (Default: The last pointer location)
- * @param y
- *  The object's y-coordinate.
- *  (Default: The last pointer location)
- * @returns
- *  A command that represents the action.
- */
-export function spawnObject(
-    file: DiagramViewFile, id: string, x?: number, y?: number
-): SpawnObject {
-    return new SpawnObject(file, id, x, y);
-}
-
-/**
- * Removes all selected objects from a group.
- * @param group
- *  The group.
- * @returns
- *  A command that represents the action.
- */
-export function removeSelectedChildren(
-    group: CanvasView | GroupView
-): RemoveSelectedChildren {
-    return new RemoveSelectedChildren(group);
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-//  ?. Animation  /////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-
-
-/**
- * Runs an animation on an interface.
- * @param ui
- *  The interface to run the animation on.
- * @param animation
- *  The animation.
- * @returns
- *  A command that represents the action.
- */
-export function runAnimation(
-    ui: DiagramInterface<EditorCommand>, animation: Animation
-): RunAnimation {
-    return new RunAnimation(ui, animation); 
-}
-
-/**
- * Runs an animation on an interface.
- * @param ui
- *  The interface to run the animation on.
- * @param animation
- *  The animation or its identifier.
- * @returns
- *  A command that represents the action.
- */
-export function stopAnimation(
-    ui: DiagramInterface<EditorCommand>, animation: Animation | string
-): StopAnimation {
-    return new StopAnimation(ui, animation); 
 }

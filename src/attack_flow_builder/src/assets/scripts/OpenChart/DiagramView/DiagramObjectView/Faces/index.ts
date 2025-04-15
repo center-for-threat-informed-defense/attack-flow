@@ -7,5 +7,5 @@ export * from "./Latches";
 export * from "./Lines";
 export * from "./Styles";
 export * from "./DiagramFace";
+export * from "./Enumeration";
 export * from "./BoundingBox";
-export * from "./Orientation";

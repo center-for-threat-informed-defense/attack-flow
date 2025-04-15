@@ -2,7 +2,7 @@ import {
     AddObjectToGroup,
     AttachLatchToAnchor,
     DetachLatchFromAnchor,
-    RemoveObjectFromGroup
+    RemoveObjectFromGroup,
 } from "./index.commands";
 import type { Latch, Anchor, DiagramObject, Group } from "@OpenChart/DiagramModel";
 
@@ -59,6 +59,7 @@ export function addObjectToGroup(
 ): AddObjectToGroup {
     return new AddObjectToGroup(object, group); 
 }
+
 
 /**
  * Removes one or more objects from their parent object.

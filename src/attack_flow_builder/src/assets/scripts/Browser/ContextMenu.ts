@@ -7,9 +7,9 @@
  * Context menu types.
  */
 export enum MenuType {
-    Action  = 0,
-    Toggle  = 1,
-    Submenu = 2
+    Action  = "action",
+    Toggle  = "toggle",
+    Submenu = "submenu"
 }
 
 /**
@@ -91,7 +91,7 @@ export type ContextMenuSection<D> = {
 /**
  * A generic context menu item.
  */
-export type ContextMenuItem<D, T extends ItemMenuTypes = ItemMenuTypes> = ContextMenuBase<T> & {
+export type GenericContextMenuItem<D, T extends ItemMenuTypes = ItemMenuTypes> = ContextMenuBase<T> & {
     
     /**
      * The item's data.
@@ -113,12 +113,12 @@ export type ContextMenuItem<D, T extends ItemMenuTypes = ItemMenuTypes> = Contex
 /**
  * An action context menu item.
  */
-export type ContextMenuActionItem<D> = ContextMenuItem<D, MenuType.Action>;
+export type ContextMenuActionItem<D> = GenericContextMenuItem<D, MenuType.Action>;
 
 /**
  * A toggle context menu item.
  */
-export type ContextMenuToggleItem<D> = ContextMenuItem<D, MenuType.Toggle> & {
+export type ContextMenuToggleItem<D> = GenericContextMenuItem<D, MenuType.Toggle> & {
     
     /**
      * The item's toggle state.
@@ -127,6 +127,13 @@ export type ContextMenuToggleItem<D> = ContextMenuItem<D, MenuType.Toggle> & {
 
 }
 
+/**
+ * A context menu item.
+ */
+export type ContextMenuItem<T> 
+    = ContextMenuActionItem<T>
+    | ContextMenuToggleItem<T>
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  5. Context Menu  //////////////////////////////////////////////////////////
@@ -134,6 +141,5 @@ export type ContextMenuToggleItem<D> = ContextMenuItem<D, MenuType.Toggle> & {
 
 
 export type ContextMenu<T>
-    = ContextMenuActionItem<T>
-    | ContextMenuToggleItem<T>
+    = ContextMenuItem<T>
     | ContextMenuSubmenu<T>;

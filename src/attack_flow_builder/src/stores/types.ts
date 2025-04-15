@@ -1,7 +1,8 @@
 import type { Hotkey } from "@/assets/scripts/Browser";
 import type { CommandEmitter } from "@/assets/scripts/Application/Commands";
-import type { DiagramViewEditor } from "@OpenChart/DiagramEditor/DiagramViewEditor";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
+import type { ObjectRecommender } from "@OpenChart/DiagramEditor";
+import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
 
 /**
  * Vue's reactivity system unwraps Pinia's type definitions. However, it only
@@ -14,6 +15,6 @@ import type { DiagramObjectView } from "@OpenChart/DiagramView";
  */
 declare module "@vue/reactivity" {
     export interface RefUnwrapBailTypes {
-        classes: DiagramViewEditor | DiagramObjectView | Hotkey<CommandEmitter>;
+        classes: DiagramViewEditor | ObjectRecommender | DiagramObjectView | Hotkey<CommandEmitter>;
     }
 }

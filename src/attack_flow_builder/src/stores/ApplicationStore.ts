@@ -2,9 +2,9 @@ import Configuration from "@/assets/configuration/app.configuration";
 import { FileStore } from "@/assets/scripts/Browser";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
-import { EditorCommand } from "@OpenChart/DiagramEditor";
 import { BaseAppSettings } from "@/assets/scripts/Application";
 import { ThemeRegistry, ThemeSourceFile } from "@OpenChart/ThemeRegistry";
+import { BasicRecommender, EditorCommand } from "@OpenChart/DiagramEditor";
 import type { AppCommand } from "@/assets/scripts/Application";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
@@ -34,11 +34,10 @@ for (const theme of Configuration.themes) {
 
 export const useApplicationStore = defineStore("applicationStore", {
     state: () => ({
-        // publisher: Publisher,
-        // processor: Processor,
         themeRegistry: themeRegistry,
         fileRecoveryBank: new FileStore("__recovery_bank_"),
         activeEditor: PhantomEditor,
+        activeRecommender: new BasicRecommender(),
         settings: BaseAppSettings
     }),
     getters: {

@@ -1,14 +1,14 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
-import { LayoutUpdateReason } from "../LayoutUpdateReason";
+import { ViewUpdateReason } from "../ViewUpdateReason";
 import { Line, RootProperty } from "@OpenChart/DiagramModel";
-import type { LineFace } from "../Faces";
 import type { LatchView } from "./LatchView";
 import type { HandleView } from "./HandleView";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
 import type { RenderSettings } from "../RenderSettings";
 import type { DiagramObjectView } from "./DiagramObjectView";
+import type { BoundingBox, LineFace } from "../Faces";
 
 export class LineView extends Line implements ViewObject {
 
@@ -72,6 +72,13 @@ export class LineView extends Line implements ViewObject {
     }
 
     /**
+     * The line's source object.
+     */
+    public get sourceObject(): DiagramObjectView | null {
+        return super.sourceObject as DiagramObjectView | null
+    }
+
+    /**
      * The line's target latch.
      */
     public get target(): LatchView {
@@ -83,6 +90,13 @@ export class LineView extends Line implements ViewObject {
      */
     public set target(latch: LatchView | null) {
         this.setTarget(latch);
+    }
+
+    /**
+     * The line's target object.
+     */
+    public get targetObject(): DiagramObjectView | null {
+        return super.targetObject as DiagramObjectView | null
     }
 
     /**
@@ -110,6 +124,21 @@ export class LineView extends Line implements ViewObject {
      */
     public set alignment(value: number) {
         this._face.alignment = value;
+    }
+
+
+    /**
+     * The view's orientation.
+     */
+    public get orientation(): number {
+        return this._face.orientation;
+    }
+    
+    /**
+     * The view's orientation.
+     */
+    public set orientation(value: number) {
+        this._face.orientation = value;
     }
 
 
@@ -220,7 +249,7 @@ export class LineView extends Line implements ViewObject {
         // Recalculate layout on property updates
         this.properties.subscribe(
             this.instance,
-            () => this.updateLayout(LayoutUpdateReason.PropUpdate)
+            () => this.handleUpdate(ViewUpdateReason.PropUpdate)
         )
     }
 
@@ -241,7 +270,7 @@ export class LineView extends Line implements ViewObject {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -270,7 +299,7 @@ export class LineView extends Line implements ViewObject {
         // Move face
         this.face.moveTo(x, y);
         // Recalculate parent layout
-        this.parent?.updateLayout(LayoutUpdateReason.Movement);
+        this.parent?.handleUpdate(ViewUpdateReason.Movement);
     }
 
     /**
@@ -284,7 +313,7 @@ export class LineView extends Line implements ViewObject {
         // Move face
         this.face.moveBy(dx, dy);
         // Recalculate parent layout
-        this.parent?.updateLayout(LayoutUpdateReason.Movement);
+        this.parent?.handleUpdate(ViewUpdateReason.Movement);
     }
 
 
@@ -302,10 +331,10 @@ export class LineView extends Line implements ViewObject {
      *  can be invoked on the diagram's root view to calculate its full layout.
      *
      *  From then on, when isolated changes are made to a singular view,
-     *  {@link DiagramView.updateLayout()} can be invoked on that view to update
-     *  the diagram's layout. Although, generally speaking, this function is
-     *  internally called when necessary and rarely needs to be invoked outside
-     *  the context of this library.
+     *  `updateLayout()` can be invoked on that view to update the diagram's
+     *  layout. Although, generally speaking, this function is internally
+     *  called when necessary and rarely needs to be invoked outside the
+     *  context of this library.
      */
     public calculateLayout(): void {
         this.source.calculateLayout();
@@ -317,15 +346,15 @@ export class LineView extends Line implements ViewObject {
     }
 
     /**
-     * Recalculates this view's layout and updates all parent layouts.
+     * Updates the object's layout and all parent layouts.
      * @param reasons
-     *  The reasons the layout was updated.
+     *  The reasons the diagram changed.
      */
-    public updateLayout(reasons: number): void {
+    public handleUpdate(reasons: number) {
         // Update face
         if (this.face.calculateLayout()) {
             // Update parent
-            this.parent?.updateLayout(reasons);
+            this.parent?.handleUpdate(reasons);
         }
     }
 
@@ -355,106 +384,9 @@ export class LineView extends Line implements ViewObject {
         return this.face.renderDebugTo(ctx, region);
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  7. Add / Remove Latches Handles  //////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Sets the line's source latch.
-     * @param latch
-     *  The line's source latch.
-     * @param updateLayout
-     *  Whether to recalculate the view's layout.
-     *  (Default: `false`)
-     */
-    public setSource(latch: LatchView | null, updateLayout: boolean = false) {
-        // Set latch
-        super.source = latch;
-        // Update layout
-        if (updateLayout) {
-            const reason = latch ?
-                LayoutUpdateReason.ChildAdded :
-                LayoutUpdateReason.ChildDeleted;
-            this.updateLayout(reason);
-        }
-    }
-
-    /**
-     * Sets the line's target latch.
-     * @param latch
-     *  The line's target latch.
-     * @param updateLayout
-     *  Whether to recalculate the view's layout.
-     *  (Default: `false`)
-     */
-    public setTarget(latch: LatchView | null, updateLayout: boolean = false) {
-        // Set latch
-        super.target = latch;
-        // Update layout
-        if (updateLayout) {
-            const reason = latch ?
-                LayoutUpdateReason.ChildAdded :
-                LayoutUpdateReason.ChildDeleted;
-            this.updateLayout(reason);
-        }
-    }
-
-    /**
-     * Adds a handle to the line.
-     * @param handle
-     *  The line's {@link HandleView}.
-     * @param updateLayout
-     *  Whether to recalculate the view's layout.
-     *  (Default: `false`)
-     */
-    public addHandle(handle: HandleView, updateLayout: boolean = false) {
-        // Add handle
-        super.addHandle(handle);
-        // Update layout
-        if (updateLayout) {
-            this.updateLayout(LayoutUpdateReason.ChildAdded);
-        }
-    }
-
-    /**
-     * Removes a handle from the line.
-     * @param branch
-     *  The branch's name.
-     * @param updateLayout
-     *  Whether to recalculate the view's layout.
-     *  (Default: `false`)
-     */
-    public deleteHandle(handle: HandleView, updateLayout: boolean = false) {
-        // Delete handle
-        super.deleteHandle(handle);
-        // Update layout
-        if (updateLayout) {
-            this.updateLayout(LayoutUpdateReason.ChildDeleted);
-        }
-    }
-
-    /**
-     * Removes the handle at `i` and all handles after it.
-     * @param i
-     *  The starting handle.
-     * @param updateLayout
-     *  Whether to recalculate the view's layout.
-     *  (Default: `false`) 
-     */
-    public dropHandles(i: number, updateLayout: boolean = false) {
-        // Drop handles
-        super.dropHandles(i);
-        // Update layout
-        if (updateLayout) {
-            this.updateLayout(LayoutUpdateReason.ChildDeleted);
-        }
-    }
-    
             
     ///////////////////////////////////////////////////////////////////////////
-    //  8. Cloning  ///////////////////////////////////////////////////////////
+    //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -464,13 +396,38 @@ export class LineView extends Line implements ViewObject {
      *  A clone of the view.
      */
     public clone(): LineView {
-        return new LineView(
+        // Create line
+        const line = new LineView(
             this.id,
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()
         )
+        // Assign latches
+        line.source = this.source.clone();
+        line.target = this.target.clone();
+        // Assign reference handle
+        line.addHandle(this.handles[0].clone());
+        // Return line
+        return line;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  8. Shape  /////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Tests if a bounding region overlaps the view.
+     * @param region
+     *  The bounding region.
+     * @returns
+     *  True if the bounding region overlaps the view, false otherwise.
+     */
+    public overlaps(region: BoundingBox): boolean {
+        return this.face.overlaps(region);
     }
     
 }

@@ -1,5 +1,6 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
+import { ModelUpdateReason } from "../../ModelUpdateReason";
 import type { Anchor } from "./Anchor";
 import type { RootProperty } from "../Property";
 
@@ -50,30 +51,47 @@ export class Latch extends DiagramObject {
      * Links the latch to an anchor.
      * @param anchor
      *  The anchor to link to.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
      */
-    public link(anchor: Anchor) {
+    public link(anchor: Anchor, update: boolean = false) {
         // Link latch, if necessary
         if (!this.isLinked(anchor)) {
-            this.unlink();
+            this.unlink(false, update);
             this._anchor = anchor;
         }
         // Link anchor, if necessary
         if (!anchor.hasLink(this)) {
-            anchor.link(this);
+            anchor.link(this, update);
+        }
+        // Update diagram
+        if(update) {
+            this.handleUpdate(ModelUpdateReason.ObjectLinked);
         }
     }
 
     /**
      * Unlinks the latch from an anchor.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
+     * @param updateAnchor
+     *  Whether to update the anchor or not.
+     *  (Default: `false`)
      */
-    public unlink() {
+    public unlink(update: boolean = false, updateAnchor: boolean = update) {
         // Select anchor
         const anchor = this._anchor;
         // Unlink latch
         this._anchor = null;
         // Unlink anchor, if necessary
         if (anchor?.hasLink(this)) {
-            anchor.unlink(this);
+            anchor.unlink(this, updateAnchor);
+        }
+        // Update diagram
+        if(anchor && update) {
+            this.handleUpdate(ModelUpdateReason.ObjectUnlinked);
         }
     }
 

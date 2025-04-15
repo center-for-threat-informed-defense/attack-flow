@@ -88,7 +88,7 @@ export class DictionaryBlockModel extends DiagramObjectModel {
 
 
     /**
-     * Returns the topmost object at the given coordinate.
+     * Returns the topmost object at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y

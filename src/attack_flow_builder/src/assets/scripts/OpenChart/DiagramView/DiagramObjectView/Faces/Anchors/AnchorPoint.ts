@@ -1,7 +1,5 @@
 import { AnchorFace } from "../Bases";
-import { Tangibility } from "../../ViewAttributes";
 import type { PointStyle } from "../Styles";
-import type { Orientation } from "../Orientation";
 import type { DiagramObjectView } from "../../Views";
 
 export class AnchorPoint extends AnchorFace {
@@ -21,11 +19,9 @@ export class AnchorPoint extends AnchorFace {
      * Creates a new {@link AnchorPoint}.
      * @param style
      *  The anchor's style.
-     * @param orientation
-     *  The anchor's orientation.
      */
-    constructor(style: PointStyle, orientation: Orientation) {
-        super(orientation);
+    constructor(style: PointStyle) {
+        super();
         this.style = style;
         this.radius = style.radius;
     }
@@ -37,7 +33,7 @@ export class AnchorPoint extends AnchorFace {
 
 
     /**
-     * Returns the topmost view at the given coordinate.
+     * Returns the topmost view at the specified coordinate.
      * @param x
      *  The x coordinate.
      * @param y
@@ -46,22 +42,10 @@ export class AnchorPoint extends AnchorFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        // Check tangibility 
-        if(this.view.tangibility === Tangibility.None) {
-            return undefined;
-        }
-        // Try latches
-        const object = super.getChildAt(x, y);
-        // Try anchor
-        const r = this.radius;
         const dx = x - (this.boundingBox.x + AnchorFace.markerOffset);
         const dy = y - (this.boundingBox.y + AnchorFace.markerOffset);
-        if (object && (object.tangibility === Tangibility.Priority)) {
-            return object;
-        } else if (dx * dx + dy * dy < r * r) {
-            return this.view;
-        }
-        return undefined;
+        const r = this.radius;
+        return dx * dx + dy * dy < r * r ? this.view : undefined;
     }
 
 
@@ -133,7 +117,7 @@ export class AnchorPoint extends AnchorFace {
      *  A clone of the face.
      */
     public clone(): AnchorPoint {
-        return new AnchorPoint(this.style, this.orientation);
+        return new AnchorPoint(this.style);
     }
 
 }

@@ -1,44 +1,56 @@
+import type { ToSnakeCaseKeys } from "./TypeHelpers";
 import type { Font, FontDescriptor } from "@OpenChart/Utilities";
-import type { SubstituteType, ToSnakeCaseKeys } from "./TypeHelpers";
+import type { EnumerationDescriptor } from "./EnumerationDescriptor";
 import type {
-    BranchBlockStyle, CanvasStyle, DiagramTheme,
-    DictionaryBlockStyle, LineStyle, PointStyle,
-    TextBlockStyle
+    BranchBlockStyle, CanvasStyle, DiagramTheme, DictionaryBlockStyle,
+    Enumeration, LineStyle, PointStyle, TextBlockStyle
 } from "@OpenChart/DiagramView";
 
-type toConfiguration<T extends object> = ToSnakeCaseKeys<SubstituteType<T, Font, FontDescriptor>>;
+/**
+ * Swaps configuration types.
+ */
+type toConfigurationTypes<T> =
+    T extends Enumeration ? EnumerationDescriptor :
+    T extends Font ? FontDescriptor :
+    T extends object ? { [K in keyof T]: toConfigurationTypes<T[K]> } :
+    T;
+
+/**
+ * Configuration type.
+ */
+type ToConfiguration<T extends object> = ToSnakeCaseKeys<toConfigurationTypes<T>>;
 
 /**
  * Branch Block Style Configuration
  */
-export type BranchBlockStyleConfiguration = toConfiguration<BranchBlockStyle>;
+export type BranchBlockStyleConfiguration = ToConfiguration<BranchBlockStyle>;
 
 /**
  * Dictionary Block Style Configuration
  */
-export type DictionaryBlockStyleConfiguration = toConfiguration<DictionaryBlockStyle>;
+export type DictionaryBlockStyleConfiguration = ToConfiguration<DictionaryBlockStyle>;
 
 /**
  * Text Block Style Configuration
  */
-export type TextBlockStyleConfiguration = toConfiguration<TextBlockStyle>;
+export type TextBlockStyleConfiguration = ToConfiguration<TextBlockStyle>;
 
 /**
  * Handle Point Style Configuration
  */
-export type PointStyleConfiguration = toConfiguration<PointStyle>;
+export type PointStyleConfiguration = ToConfiguration<PointStyle>;
 
 /**
  * Line Style Configuration
  */
-export type LineStyleConfiguration = toConfiguration<LineStyle>;
+export type LineStyleConfiguration = ToConfiguration<LineStyle>;
 
 /**
  * Canvas Style Configuration
  */
-export type CanvasStyleConfiguration = toConfiguration<CanvasStyle>;
+export type CanvasStyleConfiguration = ToConfiguration<CanvasStyle>;
 
 /**
  * Diagram Theme Configuration
  */
-export type DiagramThemeConfiguration = toConfiguration<DiagramTheme>;
+export type DiagramThemeConfiguration = ToConfiguration<DiagramTheme>;

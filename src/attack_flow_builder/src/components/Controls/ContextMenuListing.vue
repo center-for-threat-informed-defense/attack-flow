@@ -28,7 +28,7 @@
           :class="{ disabled: item.disabled }"
           :exit-focus-box="!item.keepMenuOpenOnSelect"
           @click="onItemClick(item)"
-          v-if="item.type !== MenuType.Submenu"
+          v-else
         >
           <a 
             class="item"

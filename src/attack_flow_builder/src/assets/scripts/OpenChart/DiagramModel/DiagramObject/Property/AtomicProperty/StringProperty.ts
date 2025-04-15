@@ -28,7 +28,7 @@ export class StringProperty extends Property {
         this.suggestions = suggestions;
         this._value = null;
         // Set value
-        this.setValue(value === null ? null : `${value}`);
+        this.setValue((value ?? null) === null ? null : `${value}`);
     }
 
 

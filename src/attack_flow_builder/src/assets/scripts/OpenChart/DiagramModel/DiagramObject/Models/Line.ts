@@ -1,5 +1,6 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
+import { ModelUpdateReason } from "../../ModelUpdateReason";
 import type { Latch } from "./Latch";
 import type { Handle } from "./Handle";
 import type { RootProperty } from "../Property";
@@ -37,13 +38,14 @@ export class Line extends DiagramObject {
      * The line's source latch.
      */
     public set source(latch: Latch | null) {
-        if (this._sourceLatch) {
-            this.makeChild(this._sourceLatch, null);
-        }
-        if (latch) {
-            this.makeChild(latch);
-        }
-        this._sourceLatch = latch;
+        this.setSource(latch);
+    }
+
+    /**
+     * The line's source object.
+     */
+    public get sourceObject(): DiagramObject | null {
+        return this.source.anchor?.parent ?? null;
     }
 
     /**
@@ -61,13 +63,14 @@ export class Line extends DiagramObject {
      * The line's target latch.
      */
     public set target(latch: Latch | null) {
-        if (this._targetLatch) {
-            this.makeChild(this._targetLatch, null);
-        }
-        if (latch) {
-            this.makeChild(latch);
-        }
-        this._targetLatch = latch;
+        this.setTarget(latch);
+    }
+
+    /**
+     * The line's target object.
+     */
+    public get targetObject(): DiagramObject | null {
+        return this.target.anchor?.parent ?? null;
     }
 
     /**
@@ -126,23 +129,85 @@ export class Line extends DiagramObject {
 
 
     /**
+     * Sets the line's source latch.
+     * @param latch
+     *  The line's source latch.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
+     */
+    public setSource(latch: Latch | null, update: boolean = false) {
+        // Set latch
+        if (this._sourceLatch) {
+            this.makeChild(this._sourceLatch, null);
+        }
+        if (latch) {
+            this.makeChild(latch);
+        }
+        this._sourceLatch = latch;
+        // Update layout
+        if (update) {
+            const reason = latch ?
+                ModelUpdateReason.ObjectAdded :
+                ModelUpdateReason.ObjectRemoved;
+            this.handleUpdate(reason);
+        }
+    }
+
+    /**
+     * Sets the line's target latch.
+     * @param latch
+     *  The line's target latch.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
+     */
+    public setTarget(latch: Latch | null, update: boolean = false) {
+        // Set latch
+        if (this._targetLatch) {
+            this.makeChild(this._targetLatch, null);
+        }
+        if (latch) {
+            this.makeChild(latch);
+        }
+        this._targetLatch = latch;
+        // Update layout
+        if (update) {
+            const reason = latch ?
+                ModelUpdateReason.ObjectAdded :
+                ModelUpdateReason.ObjectRemoved;
+            this.handleUpdate(reason);
+        }
+    }
+    
+    /**
      * Adds a handle to the line.
      * @param handle
      *  The line's {@link Handle}.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
      */
-    public addHandle(handle: Handle) {
+    public addHandle(handle: Handle, update: boolean = false) {
         // Set handle's parent
         this.makeChild(handle);
         // Add handle
         this._handles.push(handle);
+        // Update diagram
+        if(update) {
+            this.handleUpdate(ModelUpdateReason.ObjectAdded);
+        }
     }
 
     /**
      * Removes a handle from the line.
      * @param branch
      *  The branch's name.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
      */
-    public deleteHandle(handle: Handle) {
+    public deleteHandle(handle: Handle, update: boolean = false) {
         const index = this._handles.findIndex(
             h => h.instance === handle.instance
         );
@@ -151,6 +216,10 @@ export class Line extends DiagramObject {
             this.makeChild(handle, null);
             // Remove handle
             this._handles.splice(index, 1);
+            // Update diagram
+            if(update) {
+                this.handleUpdate(ModelUpdateReason.ObjectRemoved);
+            } 
         }
     }
 
@@ -158,10 +227,13 @@ export class Line extends DiagramObject {
      * Removes the handle at `i` and all handles after it.
      * @param i
      *  The starting handle.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
      */
-    public dropHandles(i: number) {
+    public dropHandles(i: number, update: boolean = false) {
         for(; i < this._handles.length; i++) {
-            this.deleteHandle(this._handles[i]);
+            this.deleteHandle(this._handles[i], update);
         }
     }
  

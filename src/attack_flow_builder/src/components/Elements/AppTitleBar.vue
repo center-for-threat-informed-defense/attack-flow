@@ -47,7 +47,6 @@ export default defineComponent({
       return [
         this.contextMenus.fileMenu, 
         this.contextMenus.editMenu,
-        // this.contextMenus.layoutMenu,
         this.contextMenus.viewMenu,
         this.contextMenus.helpMenu
       ]

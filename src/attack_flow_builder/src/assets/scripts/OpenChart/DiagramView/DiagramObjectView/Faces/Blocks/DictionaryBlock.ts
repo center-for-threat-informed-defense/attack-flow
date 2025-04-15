@@ -6,6 +6,7 @@ import {
     generateTextSectionLayout,
     generateTitleSectionLayout
 } from "./Layout";
+import type { Enumeration } from "../Enumeration";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
 import type { DictionaryBlockStyle } from "../Styles";
@@ -15,7 +16,12 @@ export class DictionaryBlock extends BlockFace {
     /**
      * The block's style.
      */
-    private readonly style: DictionaryBlockStyle;
+    private readonly style: DictionaryBlockStyle
+
+    /**
+     * The block's enumerated properties.
+     */
+    private readonly properties: Enumeration | undefined;
 
     /**
      * The block's grid.
@@ -56,10 +62,18 @@ export class DictionaryBlock extends BlockFace {
      *  The block's grid.
      * @param scale
      *  The block's scale.
+     * @param properties
+     *  The block's enumerated properties.
      */
-    constructor(style: DictionaryBlockStyle, grid: [number, number], scale: number) {
+    constructor(
+        style: DictionaryBlockStyle,
+        grid: [number, number],
+        scale: number,
+        properties?: Enumeration,
+    ) {
         super();
         this.style = style;
+        this.properties = properties;
         this.grid = [grid[0] * scale, grid[1] * scale];
         this.scale = scale;
         this.text = new DrawTextInstructionSet();
@@ -108,13 +122,19 @@ export class DictionaryBlock extends BlockFace {
         
         // Collect visible fields
         const fields: [string, string][] = [];
-        for(const [id, property] of props.value) {
-            if(property.isDefined() && id !== props.representativeKey) {
-                fields.push([
-                    id.toLocaleUpperCase().replace(/_/g, " "),
-                    property.toString()
-                ]);
+        const properties = this.properties?.include ?? props.value.keys();
+        for(const id of properties) {
+            if(this.properties?.exclude?.has(id) || !props.value.has(id)) {
+                continue;
             }
+            const property = props.value.get(id)!;
+            if(!property.isDefined() || id === props.representativeKey) {
+                continue;
+            }
+            fields.push([
+                id.toLocaleUpperCase().replace(/_/g, " "),
+                property.toString()
+            ]);
         }
 
         // Determine title font
@@ -133,13 +153,13 @@ export class DictionaryBlock extends BlockFace {
         
         // Calculate max content width
         let maxWidth = this.grid[0] * this.style.maxUnitWidth;
-        maxWidth = Math.max(maxWidth, title.font.measureWidth(titleText));
+        this.width = title.font.measureWidth(titleText);
+        maxWidth = Math.max(this.width, maxWidth);
         for (const [key] of fields) {
-            let width = fieldName.font.measureWidth(key);
-            this.width = Math.max(this.width, width);
-            maxWidth = Math.max(maxWidth, width);
+            this.width = Math.max(this.width, fieldName.font.measureWidth(key));
+            maxWidth = Math.max(this.width, maxWidth);
         }
-
+        
         // Calculate title and subtitle positions
         let x = xPadding + markerOffset;
         let y = yHeadPadding + markerOffset;
@@ -378,7 +398,7 @@ export class DictionaryBlock extends BlockFace {
      *  A clone of the face.
      */
     public clone(): DictionaryBlock {
-        return new DictionaryBlock(this.style, this.grid, this.scale);
+        return new DictionaryBlock(this.style, this.grid, this.scale, this.properties);
     }
 
 }

@@ -172,8 +172,10 @@ export function isInsideRegion(x: number, y: number, vertices: number[]) {
         for (let i = 0; i < len; i += 2) {
             const intersection = doVectorsIntersect(
                 v1x0, v1y0, v1x1, v1y1,
-                vertices[i], vertices[i + 1],
-                vertices[(i + 2) % len], vertices[(i + 3) % len]
+                vertices[i],
+                vertices[i + 1],
+                vertices[(i + 2) % len],
+                vertices[(i + 3) % len]
             );
             if (intersection) {
                 totalIntersections++;
@@ -238,8 +240,10 @@ export function isInsideShape(
         for (let i = 0; i < len; i += 2) {
             const intersection = doVectorsIntersect(
                 v1x0, v1y0, v1x1, v1y1,
-                txVertices[i], txVertices[i + 1],
-                txVertices[(i + 2) % len], txVertices[(i + 3) % len]
+                txVertices[i],
+                txVertices[i + 1],
+                txVertices[(i + 2) % len],
+                txVertices[(i + 3) % len]
             );
             if (intersection) {
                 totalIntersections++;
@@ -249,6 +253,84 @@ export function isInsideShape(
     }
     return false;
 
+}
+
+/**
+ * Tests if two regions overlap.
+ * @param region0
+ *  The vertices that define the region 0.
+ * @param region1
+ *  The vertices that define the region 1.
+ * @returns
+ *  True if the regions overlap, false otherwise.
+ */
+export function doRegionsOverlap(
+    region0: number[], region1: number[] 
+): boolean {
+    let len = region0.length;
+    // Test if line segments intersect
+    for(let i = 0; i < len; i += 2) {
+        const overlap = doesVectorIntersectRegion(
+            region0[i],
+            region0[i + 1],
+            region0[(i + 2) % len],
+            region0[(i + 3) % len],
+            region1
+        );
+        if(overlap) {
+            return true;
+        }
+    }
+    // Test if region0 is inside region1
+    for(let i = 0; i < len; i += 2) {
+        if(isInsideRegion(region0[i], region0[i + 1], region1)) {
+            return true;
+        }
+    }
+    // Test if region1 is inside region0
+    len = region1.length;
+    for(let i = 0; i < len; i += 2) {
+        if(isInsideRegion(region1[i], region1[i + 1], region0)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Tests if a vector intersects a region. Collinear vectors do not intersect.
+ * @param x0
+ *  The vector's x0 coordinate.
+ * @param y0
+ *  The vector's y0 coordinate.
+ * @param x1
+ *  The vector's x1 coordinate.
+ * @param y1
+ *  The vector's y1 coordinate.
+ * @param vertices
+ *  The vertices that define the region.
+ * @returns
+ *  True if the vector intersects the shape, false otherwise.
+ */
+export function doesVectorIntersectRegion(
+    x0: number, y0: number,
+    x1: number, y1: number,
+    vertices: number[]
+): boolean {
+    const len = vertices.length;
+    for (let i = 0; i < len; i += 2) {
+        const intersection = doVectorsIntersect(
+            x0, y0, x1, y1,
+            vertices[i],
+            vertices[i + 1],
+            vertices[(i + 2) % len],
+            vertices[(i + 3) % len]
+        );
+        if (intersection) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -303,6 +385,19 @@ export function doVectorsIntersect(
         return false;
     }
     return true;
+}
+
+/**
+ * Returns the linear distance between two points.
+ * @param a
+ *  The first point.
+ * @param b
+ *  The second point.
+ * @returns
+ *  The linear distance.
+ */
+export function distance(a: { x: number, y: number }, b: { x: number, y: number }): number {
+    return Math.sqrt(((b.x - a.x) ** 2) + ((b.y - a.y) ** 2));
 }
 
 /**
