@@ -20,7 +20,7 @@ globally. The project is funded by our `research participants
     builder
     visualization
     language
-    best_practices
+    usage_guides/index
     developers
     owl_approach
 
