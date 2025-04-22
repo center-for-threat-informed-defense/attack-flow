@@ -1,4 +1,4 @@
-import { DiagramModelFile } from "@OpenChart/DiagramModel";
+import { Canvas, DiagramModelFile } from "@OpenChart/DiagramModel";
 import { ManualLayoutEngine } from "./DiagramLayoutEngine";
 import type { CanvasView } from "./DiagramObjectView";
 import type { CameraLocation } from "./CameraLocation";
@@ -41,14 +41,19 @@ export class DiagramViewFile extends DiagramModelFile {
      * @param stix
      * The STIX bundle to import.
      */
-    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport, stix?: StixBundle);
-    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport, stix?: StixBundle) {
+    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport | Canvas);
+    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport | Canvas) {
         // Create / Import
-        super(factory, diagram, stix);
+        super(factory, diagram);
         // Calculate layout
         this.canvas.calculateLayout();
+        if (diagram && diagram instanceof Canvas) {
+            // Set pointer
+            this.pointer = [0, 0];
+            return;
+        }
         // Run layout engine
-        if (diagram?.layout) {
+        if (diagram && !(diagram instanceof Canvas) && diagram.layout) {
             new ManualLayoutEngine(diagram.layout).run([this.canvas]);
         }
         // Set camera

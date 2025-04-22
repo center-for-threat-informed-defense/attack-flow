@@ -29,6 +29,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             // Sections
             const sections: ContextMenuSection<CommandEmitter>[] = [
                 this.openFileMenu,
+                this.openSTIXFileMenu,
                 this.isRecoverFileMenuShown ? this.recoverFileMenu : null,
                 this.saveFileMenu,
                 // ctx.publisher ? this.publishFileMenu : null
@@ -61,6 +62,12 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         // data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
                         data: () => AppCommands.loadFileFromFileSystem(app),
                         shortcut: file.open_file
+                    },
+                    {
+                        text: "Open STIX File...",
+                        type: MenuType.Action,
+                        // data: () => App.PrepareEditorWithFile.fromSTIX(ctx),
+                        data: () => AppCommands.loadSTIXFileFromFileSystem(app),
                     }
                 ]
             };

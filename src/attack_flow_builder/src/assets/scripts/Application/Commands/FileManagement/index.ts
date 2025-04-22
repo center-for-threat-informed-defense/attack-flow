@@ -6,7 +6,7 @@ import { DoNothing } from "../index.commands";
 import type { AppCommand } from "../index.commands";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
-import type { StixBundle } from "@/assets/scripts/StixToFlow/StixToFlow";
+import { StixToFlow, type StixBundle } from "@/assets/scripts/StixToFlow/StixToFlow";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -58,8 +58,9 @@ export async function loadSTIXFile(
     const schema = Configuration.schema;
     // Construct factory
     const factory = new DiagramObjectViewFactory(schema, theme);
-    // Construct file
-    const viewFile = new DiagramViewFile(factory, undefined, stixBundle);
+    // Construct stix
+    const canvas = StixToFlow.toFlow(stixBundle, factory);
+    const viewFile = new DiagramViewFile(factory, canvas);
     // Return command
     return new LoadFile(context, viewFile, name);
 }
@@ -125,12 +126,27 @@ export async function loadExistingFile(
 export async function loadFileFromFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
-    const file = await Device.openTextFileDialog(Configuration.file_type_extension, "json");
+    const file = await Device.openTextFileDialog(Configuration.file_type_extension);
     if(file) {
-        if (file.filename.endsWith(".json")) {
-            return loadSTIXFile(context, file.contents as string, file.filename);
-        }
         return loadExistingFile(context, file.contents as string, file.filename);
+    } else {
+        return new DoNothing();
+    }
+}
+
+/**
+ * Loads a stix file, from the file system, into the application.
+ * @param context
+ *  The application's context.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function loadSTIXFileFromFileSystem(
+    context: ApplicationStore
+): Promise<AppCommand> {
+    const file = await Device.openTextFileDialog("json");
+    if(file) {
+        return loadSTIXFile(context, file.contents as string, file.filename);
     } else {
         return new DoNothing();
     }

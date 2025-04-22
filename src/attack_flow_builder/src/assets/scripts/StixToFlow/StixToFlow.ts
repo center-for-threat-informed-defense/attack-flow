@@ -1,61 +1,8 @@
-import { Canvas, Block, Line,  } from "../OpenChart/DiagramModel/DiagramObject";
+import { Canvas, Block, Line, FloatProperty, StringProperty, IntProperty, DateProperty, EnumProperty  } from "../OpenChart/DiagramModel/DiagramObject";
 import { type DiagramObjectFactory } from "../OpenChart/DiagramModel/DiagramObjectFactory";
-
-/**
- * STIX object interface representing a single STIX entity.
- */
-interface StixObject {
-    /**
-     * The type of the STIX object.
-     */
-    type: string;
-    /**
-     * The unique identifier of the STIX object.
-     */
-    id: string;
-    /**
-     * The source reference for relationship objects.
-     */
-    source_ref?: string;
-    /**
-     * The target reference for relationship objects.
-     */
-    target_ref?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any;
-}
-
-/**
- * STIX bundle interface representing a collection of STIX objects.
- */
-export interface StixBundle {
-    /**
-     * The type of the STIX bundle.
-     */
-    type: string;
-    /**
-     * The collection of STIX objects in the bundle.
-     */
-    objects: StixObject[];
-    /**
-     * The unique identifier of the STIX bundle.
-     */
-    id: string;
-}
-
-/**
- * Graph edge interface representing a connection between two nodes.
- */
-interface GraphEdge {
-    /**
-     * The source node identifier.
-     */
-    source: string;
-    /**
-     * The target node identifier.
-     */
-    target: string;
-}
+import { type StixObject } from "./StixObject";
+import { type StixBundle } from "./StixBundle";
+import { type GraphEdge } from "./GraphEdge";
 
 /**
  * Class for converting STIX objects to a flow diagram representation.
@@ -63,10 +10,14 @@ interface GraphEdge {
 export class StixToFlow {
     /**
      * Creates block objects from STIX objects.
-     * @param stixObjects - The collection of STIX objects to convert.
-     * @param factory - The diagram object factory to create blocks.
-     * @param canvas - The canvas to add the blocks to.
-     * @returns A map of STIX object IDs to their corresponding block objects.
+     * @param stixObjects
+     *  The collection of STIX objects to convert.
+     * @param factory
+     *  The diagram object factory to create blocks.
+     * @param canvas
+     *  The canvas to add the blocks to.
+     * @returns
+     * A map of STIX object IDs to their corresponding block objects.
      */
     private static createBlocks(
         stixObjects: StixObject[],
@@ -83,8 +34,17 @@ export class StixToFlow {
             );
             for (const key of block.properties.value.keys()) {
                 if (key in stixObject) {
-                    if (block.properties.value.get(key)!._value !== undefined) {
-                        block.properties.value.get(key)!._value = stixObject[key];
+                    const property = block.properties.value.get(key);
+                    if (property instanceof FloatProperty) {
+                        property.setValue(parseFloat(stixObject[key]));
+                    } else if (property instanceof StringProperty) {
+                        property.setValue(stixObject[key]);
+                    } else if (property instanceof IntProperty) {
+                        property.setValue(parseInt(stixObject[key]));
+                    } else if (property instanceof DateProperty){
+                        property.setValue(new Date(stixObject[key]));
+                    } else if (property instanceof EnumProperty) {
+                        property.setValue(stixObject[key]);
                     }
                 }
             }
@@ -96,8 +56,10 @@ export class StixToFlow {
 
     /**
      * Builds a graph structure from STIX objects.
-     * @param stixObjects - The collection of STIX objects to build the graph from.
-     * @returns An object containing the graph's edges, adjacency list, and in-degree counts.
+     * @param stixObjects
+     *  The collection of STIX objects to build the graph from.
+     * @returns
+     *  An object containing the graph's edges, adjacency list, and in-degree counts.
      */
     private static buildGraph(stixObjects: StixObject[]): {
         edges: GraphEdge[];
@@ -127,10 +89,14 @@ export class StixToFlow {
 
     /**
      * Finds the root nodes in the graph.
-     * @param stixObjects - The collection of STIX objects.
-     * @param adjacencyList - The graph's adjacency list.
-     * @param inDegree - The graph's in-degree counts.
-     * @returns An array of root node identifiers.
+     * @param stixObjects
+     *  The collection of STIX objects.
+     * @param adjacencyList
+     *  The graph's adjacency list.
+     * @param inDegree
+     *  The graph's in-degree counts.
+     * @returns 
+     *  An array of root node identifiers.
      */
     private static findRootNodes(
         stixObjects: StixObject[],
@@ -172,11 +138,16 @@ export class StixToFlow {
 
     /**
      * Creates connections between blocks based on the graph structure.
-     * @param rootNodes - The root nodes to start connecting from.
-     * @param adjacencyList - The graph's adjacency list.
-     * @param objectMap - The map of STIX object IDs to block objects.
-     * @param factory - The diagram object factory to create connections.
-     * @param canvas - The canvas to add the connections to.
+     * @param rootNodes
+     *  The root nodes to start connecting from.
+     * @param adjacencyList
+     *  The graph's adjacency list.
+     * @param objectMap
+     *  The map of STIX object IDs to block objects.
+     * @param factory
+     *  The diagram object factory to create connections.
+     * @param canvas
+     *  The canvas to add the connections to.
      */
     private static createConnections(
         rootNodes: string[],
@@ -212,9 +183,12 @@ export class StixToFlow {
 
     /**
      * Converts a STIX bundle to a flow diagram.
-     * @param stix - The STIX bundle to convert.
-     * @param factory - The diagram object factory to create diagram objects.
-     * @returns The canvas containing the flow diagram.
+     * @param stix
+     *  The STIX bundle to convert.
+     * @param factory
+     *  The diagram object factory to create diagram objects.
+     * @returns
+     * The canvas containing the flow diagram.
      */
     public static toFlow(stix: StixBundle, factory: DiagramObjectFactory): Canvas {
         const canvas = factory.createNewDiagramObject(factory.canvas, Canvas);
