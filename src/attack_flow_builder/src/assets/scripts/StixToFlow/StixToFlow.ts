@@ -169,7 +169,7 @@ export class StixToFlow {
                 const targetBlock = objectMap.get(neighbor);
                 if (!targetBlock) { return; }
 
-                const line = factory.createNewDiagramObject("generic_line", Line);
+                const line = factory.createNewDiagramObject("dynamic_line", Line);
                 line.source.link(sourceBlock.anchors.get("270")!);
                 line.target.link(targetBlock.anchors.get("90")!);
                 canvas.addObject(line);

@@ -47,17 +47,12 @@ export class DiagramViewFile extends DiagramModelFile {
         super(factory, diagram);
         // Calculate layout
         this.canvas.calculateLayout();
-        if (diagram && diagram instanceof Canvas) {
-            // Set pointer
-            this.pointer = [0, 0];
-            return;
-        }
         // Run layout engine
         if (diagram && !(diagram instanceof Canvas) && diagram.layout) {
             new ManualLayoutEngine(diagram.layout).run([this.canvas]);
         }
         // Set camera
-        this.camera = diagram?.camera ?? { x: 0, y: 0, k: 1 };
+        this.camera = diagram instanceof Canvas || !diagram?.camera ? ({ x: 0, y: 0, k: 1 }) : diagram.camera;
     }
 
 
