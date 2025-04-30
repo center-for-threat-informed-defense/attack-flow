@@ -11,7 +11,7 @@ globally. The project is funded by our `research participants
 <https://ctid.mitre.org/projects/attack-flow#participants-section>`__.
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     :caption: Contents
 
     overview
@@ -22,12 +22,11 @@ globally. The project is funded by our `research participants
     language
     usage_guides/index
     developers
-    owl_approach
 
 Notice
 ------
 
-© 2022 MITRE. Approved for public release. Document number CT0040.
+© 2025 MITRE. Approved for public release. Document number(s): CT0040.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
 file except in compliance with the License. You may obtain a copy of the License at

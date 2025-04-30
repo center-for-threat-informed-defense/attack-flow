@@ -1,19 +1,29 @@
 Cyber Threat Intelligence
 -------------------------
 
-Attack Flow helps CTI teams transform threat data into structured, sequential, visual narratives that improve analysis, reporting, and decision-making.
+Attack Flow helps CTI teams transform threat data into structured, sequential,
+visual narratives that improve analysis, reporting, and decision-making.
 
 **Key applications include:**
 
-* CTI analysts can use Attack Flow to create highly detailed, behavior-based threat intelligence reports. 
-* Flows can be embedded in published CTI reports and blogs to visualize adversary activity and enhance understanding of attack paths.
-* Malware analysts may reverse engineer samples discovered during threat hunting and use flows to document the TTPs uncovered—streamlining the creation of CTI blog posts or internal reports.
-* Analysts can extract ATT&CK techniques from CTI reports, blogs, and research papers to build structured flows from unstructured data.
-* Flows help preserve IOCs (Indicators of Compromise) and IOAs (Indicators of Attack) in their original context for better correlation and recall.
-* Visual attack flows enhance threat briefings by making complex behavior more accessible to diverse stakeholders.
+* CTI analysts can use Attack Flow to create highly detailed, behavior-based
+  threat intelligence reports. 
+* Flows can be embedded in published CTI reports and blogs to visualize
+  adversary activity and enhance understanding of attack paths.
+* Malware analysts may reverse engineer samples discovered during threat hunting
+  and use flows to document the TTPs uncovered—streamlining the creation of CTI
+  blog posts or internal reports.
+* Analysts can extract ATT&CK techniques from CTI reports, blogs, and research
+  papers to build structured flows from unstructured data.
+* Flows help preserve IOCs (Indicators of Compromise) and IOAs (Indicators of
+  Attack) in their original context for better correlation and recall.
+* Visual attack flows enhance threat briefings by making complex behavior more
+  accessible to diverse stakeholders.
 
-.. Attention::
-   Attack Flow now supports the automatic import of STIX bundles to provide an intial flow diagram from threat intelligence
+.. attention::
+
+   Attack Flow now supports the automatic import of STIX bundles to provide an
+   intial flow diagram from threat intelligence
 
 Mapping CTI Reports to ATT&CK Techniques
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,27 +45,32 @@ threat, which may be used to inform decisions on defense and resource prioritiza
 
    **Key Takeaways for Selecting a Report**
 
-   * Reports should be transparent about where the data originates and provide a technically competent overview of an incident.
-   * Reports should originate from a credible vendor with a track record of accurate reporting
-     and first-hand analysis of the incident in question.
-   * Reports should provide the most current information on the malware or breach.
-   * Reports should make it easy to identify any information gaps. Use multiple sources
-     to address gaps and corroborate the data, if possible.
-   * Reports should distinguish between facts, assumptions, and analytical assessments.
-   * When available, use attribution and targeting information from reports to enrich
-     your attack flows.
+   * Reports should be transparent about where the data originates and provide a
+     technically competent overview of an incident.
+   * Reports should originate from a credible vendor with a track record of
+     accurate reporting and first-hand analysis of the incident in question.
+   * Reports should provide the most current information on the malware or
+     breach.
+   * Reports should make it easy to identify any information gaps. Use multiple
+     sources to address gaps and corroborate the data, if possible.
+   * Reports should distinguish between facts, assumptions, and analytical
+     assessments.
+   * When available, use attribution and targeting information from reports to
+     enrich your attack flows.
 
-Conversely, sources that do not meet the above criteria should be avoided. Sources that
-do not have technical expertise and the ability to analyze the malware or attack
-themselves (for example, news sites) are not considered optimal for creating attack
-flows.
+Conversely, sources that do not meet the above criteria should be avoided.
+Sources that do not have technical expertise and the ability to analyze the
+malware or attack themselves (for example, news sites) are not considered
+optimal for creating attack flows.
 
 **Characteristics of Reports to Avoid:**
 
-* Second-hand sources that simply regurgitate information about attacks instead of providing their own technical analysis.
+* Second-hand sources that simply regurgitate information about attacks instead
+  of providing their own technical analysis.
 * Sources that do not provide the context in which the information was obtained.
 * Reports focusing mainly on a security product rather than the attack.
-* Sources that do not provide adequate technical information and/or contain vague timelines.
+* Sources that do not provide adequate technical information and/or contain
+  vague timelines.
 
 Examples of Reports to Avoid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -95,10 +110,10 @@ The DFIR Report: `"SEO Poisoning - A Gootloader Story" <https://thedfirreport.co
    The three examples in this section have all been mapped into attack flows in
    :doc:`../example_flows`.
 
-MITRE ATT&CK™ is a knowledge base observed adversary tactics, techniques, and procedures
-extracted from public threat reporting. There are hundreds of techniques in the ATT&CK
-knowledge base, and it can be challenging to map CTI reports if you are not familiar
-with the overall structure of ATT&CK.
+MITRE ATT&CK™ is a knowledge base observed adversary tactics, techniques, and
+procedures extracted from public threat reporting. There are hundreds of
+techniques in the ATT&CK knowledge base, and it can be challenging to map CTI
+reports if you are not familiar with the overall structure of ATT&CK.
 
 .. Attention::
 
@@ -107,33 +122,35 @@ with the overall structure of ATT&CK.
 
 Consider the following steps when mapping reports to ATT&CK techniques:
 
-* Familiarize yourself with the `ATT&CK Enterprise Matrix <https://attack.mitre.org/matrices/enterprise/>`_.
+* Familiarize yourself with the `ATT&CK Enterprise Matrix
+  <https://attack.mitre.org/matrices/enterprise/>`_.
 * Read CISA's `best practices for mapping to ATT&CK
   <https://www.cisa.gov/uscert/sites/default/files/publications/Best%20Practices%20for%20MITRE%20ATTCK%20Mapping.pdf>`__.
-* Read through your selected report(s) and try to order the behaviors into chronological
-  events, beginning with Reconnaissance or Initial Access tactics and ending with the
-  Impact of the attack.
-* If the order of events is unclear in your report, you may need to compare several
-  technical reports to determine a timeline.
-* Once you have your order of events, assign a technique to each event. You may need to
-  conduct further research on the behavior to determine the best-fitting technique.
+* Read through your selected report(s) and try to order the behaviors into
+  chronological events, beginning with Reconnaissance or Initial Access tactics
+  and ending with the Impact of the attack.
+* If the order of events is unclear in your report, you may need to compare
+  several technical reports to determine a timeline.
+* Once you have your order of events, assign a technique to each event. You may
+  need to conduct further research on the behavior to determine the best-fitting
+  technique.
 * Use the Center for Threat-Informed Defenses `ATT&CK Powered Suit
-  <https://chrome.google.com/webstore/detail/attck-powered-suit/gfhomppaadldngjnmbefmmiokgefjddd?hl=en&authuser=0>`_
-  browser extension to quickly research ATT&CK techniques, groups, and more.
-* Set the confidence property in your actions to reflect any potential uncertainty in
-  your sources.
+  <https://ctid.mitre.org/projects/attack-powered-suit/>`_ browser extension to
+  quickly research ATT&CK techniques, groups, and more.
+* Set the confidence property in your actions to reflect any potential
+  uncertainty in your sources.
 
 Example Technique Mapping
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This section works through an example of mapping a report to illustrate the process. The
-report used is from Cisco Talos: `"Iranian APT MuddyWater targets Turkish users via
-malicious PDFs, executables"
+This section works through an example of mapping a report to illustrate the
+process. The report used is from Cisco Talos: `"Iranian APT MuddyWater targets
+Turkish users via malicious PDFs, executables"
 <https://blog.talosintelligence.com/2022/01/iranian-apt-muddywater-targets-turkey.html>`_.
-The corresponding "Muddy Water" Attack Flow can be found in :doc:`../example_flows`. The
-"Muddy Water" Attack Flow has some additional details and depicts two variants of the
-Muddy Water beahvior. This section is based on the older variant of Muddy Water
-campaigns.
+The corresponding "Muddy Water" Attack Flow can be found in
+:doc:`../example_flows`. The "Muddy Water" Attack Flow has some additional
+details and depicts two variants of the Muddy Water beahvior. This section is
+based on the older variant of Muddy Water campaigns.
 
 **Initial Access**
 

@@ -1,30 +1,46 @@
 Defensive Posture
 -----------------
 
-Defenders use Attack Flow to visualize chains of adversary behavior and assess where their security controls are effective—and where they’re not. By modeling attack sequences, they can identify detection gaps, prioritize mitigations, and strengthen resilience across the kill chain.
+Defenders use Attack Flow to visualize chains of adversary behavior and assess
+where their security controls are effective—and where they’re not. By modeling
+attack sequences, they can identify detection gaps, prioritize mitigations, and
+strengthen resilience across the kill chain.
 
 **Key applications include:**
 
-- Providing a clear, structured representation of attack paths to identify **coverage gaps** and **defensive choke points**.
-- Building large flow diagrams to **support incident response**, extracting actionable insights from system logs and telemetry.
-- Visualizing convergence points across different attack paths to assess **layered defenses** and where to focus **mitigation efforts**.
-- Highlighting **critical assets** that have been or could be compromised, helping defenders prioritize protections.
-- Enriching red team flows post-engagement: Blue teams can **annotate flows with detection rules**, showing which actions were observed or blocked.
-- Collaborating with CTI teams to receive **adversary-specific flows**, then overlaying **existing detection rules or controls** to measure preparedness and identify blind spots.
+- Providing a clear, structured representation of attack paths to identify
+  **coverage gaps** and **defensive choke points**.
+- Building large flow diagrams to **support incident response**, extracting
+  actionable insights from system logs and telemetry.
+- Visualizing convergence points across different attack paths to assess
+  **layered defenses** and where to focus **mitigation efforts**.
+- Highlighting **critical assets** that have been or could be compromised,
+  helping defenders prioritize protections.
+- Enriching red team flows post-engagement: Blue teams can **annotate flows with
+  detection rules**, showing which actions were observed or blocked.
+- Collaborating with CTI teams to receive **adversary-specific flows**, then
+  overlaying **existing detection rules or controls** to measure preparedness
+  and identify blind spots.
 
-Attack Flow helps defenders go beyond single detections to understand how adversaries chain behaviors—and how to break those chains effectively.
+Attack Flow helps defenders go beyond single detections to understand how
+adversaries chain behaviors—and how to break those chains effectively.
 
 Mapping System Data to Attack Flow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Mapping event logs to Attack Flow is often more straightforward than mapping CTI reports, as event logs provide **detailed, sequential data** that naturally aligns with Attack Flow’s structured format. 
-Since system event logs capture actions in chronological order, they translate more directly into attack sequences. 
-While automation tools exist to try and map event logs to ATT&CK TTPs, we will walk through the process manually.
+Mapping event logs to Attack Flow is often more straightforward than mapping CTI
+reports, as event logs provide **detailed, sequential data** that naturally
+aligns with Attack Flow’s structured format. Since system event logs capture
+actions in chronological order, they translate more directly into attack
+sequences. While automation tools exist to try and map event logs to ATT&CK
+TTPs, we will walk through the process manually.
 
 Example Windows Event Logs for Attack Flow
 ******************************************
 
-Below are example **Windows Event Logs (Sysmon and Security Event Logs)** representing different attack behaviors. These logs are formatted in **true Windows Event Log (XML format)**.
+Below are example **Windows Event Logs (Sysmon and Security Event Logs)**
+representing different attack behaviors. These logs are formatted in **true
+Windows Event Log (XML format)**.
 
 *Event Log 1: File Enumeration (`Get-ChildItem`)*
 
@@ -135,8 +151,10 @@ These event logs demonstrate **Windows system events for different attack stages
 - Credential dumping via Mimikatz (`sekurlsa::logonpasswords`)
 
 
-If applicable, you can map the events you observe directly to MITRE ATT&CK techniques (but you can also label it more generally).
-Once you identify malicious or interesting activity in your logs, you can list out the techniques and what indicators were related to that event.
+If applicable, you can map the events you observe directly to MITRE ATT&CK
+techniques (but you can also label it more generally). Once you identify
+malicious or interesting activity in your logs, you can list out the techniques
+and what indicators were related to that event.
 
 - T1083 - File and Directory Discovery → `Get-ChildItem`
 - T1070.004 - File Deletion → `Remove-Item`
@@ -147,45 +165,69 @@ Once you identify malicious or interesting activity in your logs, you can list o
 Event Logs to Flow Diagram
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. Attention::
-  Attack Flow now supports the automatic import of STIX bundles to provide an intial flow diagram.
+.. attention::
 
-The close timing of these events may suggest a coordinated sequence involving data staging, exfiltration, and cleanup. Highlighting the timestamps in the Attack Flow can help illustrate this progression.
+  Attack Flow now supports the automatic import of STIX bundles to provide an
+  intial flow diagram.
 
-Let’s now map these four techniques into an Attack Flow diagram to visualize the sequence of behaviors more effectively.
+The close timing of these events may suggest a coordinated sequence involving
+data staging, exfiltration, and cleanup. Highlighting the timestamps in the
+Attack Flow can help illustrate this progression.
+
+Let’s now map these four techniques into an Attack Flow diagram to visualize the
+sequence of behaviors more effectively.
 
 .. figure:: ../_static/example-flow-short.png
    :alt: Attack Flow diagram built from the example system event logs with just ATT&CK techniques in sequential order based off timestamp.
    :figclass: center
 
-   Diagram showing ATT&CK techniques in sequence from example system event logs, based on timestamps.
+   Diagram showing ATT&CK techniques in sequence from example system event logs,
+   based on timestamps.
 
 Post-Flow: Identifying Gaps in Adversary Behaviors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This sequence shows how an adversary leveraged **PowerShell command shells** to carry out multiple malicious actions. By identifying PowerShell as a key execution method, we can **prioritize detection and mitigation strategies**.
-If you're conducting **chokepoint analysis**, consider strengthening **detections and mitigations around PowerShell activity**. Enhancing coverage here can help detect, disrupt, and/or prevent downstream techniques before they escalate.
+
+This sequence shows how an adversary leveraged **PowerShell command shells** to
+carry out multiple malicious actions. By identifying PowerShell as a key
+execution method, we can **prioritize detection and mitigation strategies**. If
+you're conducting **chokepoint analysis**, consider strengthening **detections
+and mitigations around PowerShell activity**. Enhancing coverage here can help
+detect, disrupt, and/or prevent downstream techniques before they escalate.
 
 .. note::
 
   **Key Tips for Hunting for Malicious Activity and Threats**
 
-    * Your first clue of malicious activity can appear at any point in an attack—tracing backward helps identify the initial compromise, while looking forward reveals the adversary's actions and attack progression.
-    * A useful tool for searching for related techniques is `"CTID's Technique Inference Engine (TIE)" <https://center-for-threat-informed-defense.github.io/technique-inference-engine/#/>`_ which can help piece together missed areas of compromise.
-    * Once you determine malicious activity, investigate to determine the scope and scale of the attack.
+    * Your first clue of malicious activity can appear at any point in an
+      attack—tracing backward helps identify the initial compromise, while
+      looking forward reveals the adversary's actions and attack progression.
+    * A useful tool for searching for related techniques is `"CTID's Technique
+      Inference Engine (TIE)"
+      <https://center-for-threat-informed-defense.github.io/technique-inference-engine/#/>`_
+      which can help piece together missed areas of compromise.
+    * Once you determine malicious activity, investigate to determine the scope
+      and scale of the attack.
 
 .. figure:: ../_static/tie.png
    :alt: The Technique Inference Engine (TIE) uses a machine learning model trained on cyber threat intelligence to recommend likely TTPs based on a known input TTP. TIE will help analysts quickly understand what is likely to have happened next based on a broad corpus of threat intelligence.
    :figclass: center
 
-   Diagram showing ATT&CK techniques in sequence from example system event logs, based on timestamps.
+   Diagram showing ATT&CK techniques in sequence from example system event logs,
+   based on timestamps.
 
-So what does visualizing this show us? We can see PowerShell and Windows Command Shell being used, where one leads to  three techniques and the other leads to one. This can give us insight into prioritization of detections to build in the future, but it may  also indicate that we need to investigate detections around the one with less behaviors detected as something could have been missed.
+So what does visualizing this show us? We can see PowerShell and Windows Command
+Shell being used, where one leads to  three techniques and the other leads to
+one. This can give us insight into prioritization of detections to build in the
+future, but it may  also indicate that we need to investigate detections around
+the one with less behaviors detected as something could have been missed.
 
 Supplemental Fields and STIX Object Mappings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Lastly, consider incorporating these **supplemental fields**, many of which map directly to **STIX (Structured Threat Information eXpression) objects**. 
-These details help correlate related events, track adversary behavior, and enhance detection and response throughout an investigation.
+Lastly, consider incorporating these **supplemental fields**, many of which map
+directly to **STIX (Structured Threat Information eXpression) objects**. These
+details help correlate related events, track adversary behavior, and enhance
+detection and response throughout an investigation.
 
 *These can be automatically generated if importing a STIX bundle into an Attack Flow.*
 
@@ -196,41 +238,53 @@ These details help correlate related events, track adversary behavior, and enhan
    * - **Field (STIX Object)**
      - **Description**
    * - **Process or Executable Name & Location (Process)**
-     - Identifies unusual or suspicious programs, especially those outside standard directories or with deceptive names.
+     - Identifies unusual or suspicious programs, especially those outside
+       standard directories or with deceptive names.
    * - **Parent Process (Process)**
-     - Reveals whether a process is spawned by a legitimate application or leveraged by malware for stealth.
+     - Reveals whether a process is spawned by a legitimate application or
+       leveraged by malware for stealth.
    * - **Command-Line Arguments & Parameters (Process)**
      - Exposes execution intent and potential malicious actions.
    * - **Configuration Changes (Windows Registry Key, Software)**
-     - Tracks altered system or application settings, including modified **Windows Registry keys** or configurations impacting security.
+     - Tracks altered system or application settings, including modified
+       **Windows Registry keys** or configurations impacting security.
    * - **User Accounts Involved (User Account)**
-     - Highlights **privilege escalation**, suspicious account activity, or abnormal user behaviors.
+     - Highlights **privilege escalation**, suspicious account activity, or
+       abnormal user behaviors.
    * - **Network Connections (Network Traffic, IPv4/IPv6 Address, Domain Name)**
-     - Links processes to external threats, **Command & Control (C2) servers**, suspicious IP addresses, or malicious domains.
+     - Links processes to external threats, **Command & Control (C2) servers**,
+       suspicious IP addresses, or malicious domains.
    * - **File & Executable Hashes (File, Artifact)**
-     - Helps identify **known malware samples**, detect tampered files, and correlate threats via hash values (MD5, SHA-1, SHA-256).
+     - Helps identify **known malware samples**, detect tampered files, and
+       correlate threats via hash values (MD5, SHA-1, SHA-256).
    * - **In-Memory Artifacts (Process, Attack Pattern)**
-     - Captures **loaded processes, injected code segments**, and memory-based attack techniques.
+     - Captures **loaded processes, injected code segments**, and memory-based
+       attack techniques.
    * - **Timestamps of Key Actions (Observed Data, Indicator)**
-     - Establishes attack **sequence and progression**, helping analysts reconstruct the attack timeline.
+     - Establishes attack **sequence and progression**, helping analysts
+       reconstruct the attack timeline.
 
-By integrating these **STIX-compatible attributes** into your **attack flow**, you can improve **event correlation, adversary tracking, and intelligence sharing**, ultimately enhancing your cybersecurity defense strategy.
+By integrating these **STIX-compatible attributes** into your **attack flow**,
+you can improve **event correlation, adversary tracking, and intelligence
+sharing**, ultimately enhancing your cybersecurity defense strategy.
 
 .. figure:: ../_static/example-flow-documentation.png
    :alt: Attack Flow diagram combining ATT&CK techniques with contextual data from STIX objects and observables
    :figclass: center
 
-   Attack Flow diagram combining ATT&CK techniques with contextual data from STIX objects and observables.
-
-
+   Attack Flow diagram combining ATT&CK techniques with contextual data from
+   STIX objects and observables.
 
 *Asset Interaction and Tracking*
 
-**Assets**: such as systems, services, credentials, and data—are central to any red team operation. Attack Flow can help track and visualize:
+**Assets**: such as systems, services, credentials, and data—are central to any
+red team operation. Attack Flow can help track and visualize:
 
-- **Initial Access Targets**: Systems that serve as entry points (e.g., vulnerable web servers, email clients).
+- **Initial Access Targets**: Systems that serve as entry points (e.g.,
+  vulnerable web servers, email clients).
 - **Pivot Assets**: Hosts used for lateral movement or privilege escalation.
-- **Compromised Resources**: Credentials, file shares, databases, domain controllers.
+- **Compromised Resources**: Credentials, file shares, databases, domain
+  controllers.
 - **Critical Assets**: Data exfiltration targets or mission-critical systems.
 
 An example of what an asset may look like 
@@ -239,4 +293,5 @@ An example of what an asset may look like
    :alt: Assets example
    :figclass: center
 
-   Example Flow Snippet of techniques leading to a compromised asset and a related course of action STIX object to take.
+   Example Flow Snippet of techniques leading to a compromised asset and a
+   related course of action STIX object to take.
