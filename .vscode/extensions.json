@@ -1,7 +1,8 @@
 {
     "recommendations": [
         "dbaeumer.vscode-eslint",
-        "swyddfa.esbonio",
+        "lextudio.restructuredtext",
+        "trond-snekvik.simple-rst",
         "vue.volar"
     ]
 }
