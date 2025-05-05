@@ -5,6 +5,7 @@ import type { CameraLocation } from "./CameraLocation";
 import type { DiagramViewExport } from "./DiagramViewExport";
 import type { DiagramLayoutEngine } from "./DiagramLayoutEngine";
 import type { DiagramTheme, DiagramObjectViewFactory } from "./DiagramObjectViewFactory";
+import { AutomaticLayoutEngine } from "./DiagramLayoutEngine/AutomaticLayoutEngine/AutomaticLayoutEngine";
 
 export class DiagramViewFile extends DiagramModelFile {
 
@@ -49,6 +50,10 @@ export class DiagramViewFile extends DiagramModelFile {
         // Run layout engine
         if (diagram && !(diagram instanceof Canvas) && diagram.layout) {
             new ManualLayoutEngine(diagram.layout).run([this.canvas]);
+        } else {
+            // Use AutomaticLayoutEngine if no layout is provided
+            console.log("Using AutomaticLayoutEngine");
+            new AutomaticLayoutEngine().run([this.canvas]);
         }
         // Set camera
         this.camera = diagram instanceof Canvas || !diagram?.camera ? ({ x: 0, y: 0, k: 1 }) : diagram.camera;

@@ -8,6 +8,8 @@ import type { StixBundle } from "@/assets/scripts/StixToFlow";
 import type { AppCommand } from "../index.commands";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
+import { StixToFlow } from "@/assets/scripts/StixToFlow/StixToFlow";
+import type { StixBundle } from "@/assets/scripts/StixToFlow/StixBundle";
 
 
 ///////////////////////////////////////////////////////////////////////////////

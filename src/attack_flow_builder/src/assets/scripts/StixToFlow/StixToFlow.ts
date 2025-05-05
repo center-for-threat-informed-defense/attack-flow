@@ -3,6 +3,8 @@ import { type DiagramObjectFactory } from "../OpenChart/DiagramModel/DiagramObje
 import { type StixObject } from "./StixObject";
 import { type StixBundle } from "./StixBundle";
 import { type GraphEdge } from "./GraphEdge";
+import { BlockView, LineView } from "../OpenChart/DiagramView";
+import { DateTime } from "luxon";
 
 /**
  * Class for converting STIX objects to a flow diagram representation.
@@ -42,7 +44,8 @@ export class StixToFlow {
                     } else if (property instanceof IntProperty) {
                         property.setValue(parseInt(stixObject[key]));
                     } else if (property instanceof DateProperty){
-                        property.setValue(new Date(stixObject[key]));
+                        const dateTime = DateTime.fromJSDate(new Date(stixObject[key]));
+                        property.setValue(dateTime);
                     } else if (property instanceof EnumProperty) {
                         property.setValue(stixObject[key]);
                     }
@@ -161,17 +164,19 @@ export class StixToFlow {
 
         while (queue.length > 0) {
             const current = queue.shift()!;
-            const sourceBlock = objectMap.get(current);
+            const sourceBlock = objectMap.get(current) as BlockView;
 
             if (!sourceBlock) { continue; }
 
             adjacencyList[current]?.forEach((neighbor) => {
-                const targetBlock = objectMap.get(neighbor);
+                const targetBlock = objectMap.get(neighbor) as BlockView;
                 if (!targetBlock) { return; }
 
-                const line = factory.createNewDiagramObject("dynamic_line", Line);
+                const line = factory.createNewDiagramObject("dynamic_line", LineView);
                 line.source.link(sourceBlock.anchors.get("270")!);
+                line.source.moveTo(sourceBlock.anchors.get("270")!.x, sourceBlock.anchors.get("270")!.y);
                 line.target.link(targetBlock.anchors.get("90")!);
+                line.target.moveTo(targetBlock.anchors.get("90")!.x, targetBlock.anchors.get("90")!.y);
                 canvas.addObject(line);
 
                 if (visited.has(neighbor)) { return; }
