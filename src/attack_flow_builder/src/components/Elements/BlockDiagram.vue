@@ -266,7 +266,7 @@ export default defineComponent({
 
 .recommender-menu {
   position: absolute;
-  width: 300px;
+  width: 350px;
 }
 
 .inset-shadow {

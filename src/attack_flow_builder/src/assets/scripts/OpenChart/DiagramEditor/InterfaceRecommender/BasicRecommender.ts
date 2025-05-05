@@ -41,6 +41,7 @@ export class BasicRecommender extends ObjectRecommender {
             }
             // Add recommendation
             this.recommendations.push({
+                id: template.name,
                 color: this.getColor(factory, template.name),
                 name: template.name,
                 subtitle: "An object for representing urls.",
