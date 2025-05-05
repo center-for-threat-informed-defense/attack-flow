@@ -148,7 +148,7 @@ export class DiagramObjectSerializer {
         // Yield object
         exportMap.set(group.instance, {
             ...this.toGenericObjectExport(group),
-            objects: group.objects.map(o => o.instance)
+            objects: [...group.objects].map(o => o.instance)
         });
         // Yield children
         for (const object of group.objects) {

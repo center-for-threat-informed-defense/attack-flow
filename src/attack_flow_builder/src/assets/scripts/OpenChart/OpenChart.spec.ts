@@ -5,7 +5,7 @@ import { sampleExport, sampleSchema } from "./DiagramModel/DiagramModel.spec";
 import {
     Alignment, AnchorView, BlockView, CanvasView,
     DiagramObjectViewFactory, DiagramViewFile, FaceType,
-    Focus, Hover, LineView
+    Focus, Hover, LineView, Orientation
 } from "./DiagramView";
 import type { DiagramViewExport } from "./DiagramView";
 import type { DiagramThemeConfiguration } from "./ThemeLoader";
@@ -32,14 +32,14 @@ const sampleTheme: DiagramThemeConfiguration = {
             attributes: Alignment.Grid,
             style: DarkStyle.DictionaryBlock()
         },
-        generic_line: {
-            type: FaceType.HorizontalElbowLine,
+        dynamic_line: {
+            type: FaceType.DynamicLine,
             attributes: Alignment.Grid,
             style: DarkStyle.Line()
         },
         generic_anchor: {
             type: FaceType.AnchorPoint,
-            attributes: Alignment.Free,
+            attributes: Orientation.D0,
             style: DarkStyle.Point()
         },
         generic_latch: {
@@ -116,7 +116,7 @@ async function createTestingBlock(): Promise<BlockView> {
  */
 async function createTestingLine(): Promise<LineView> {
     const factory = await createTestingFactory();
-    return factory.createNewDiagramObject("generic_line", LineView);
+    return factory.createNewDiagramObject("dynamic_line", LineView);
 }
 
 /**
@@ -271,7 +271,7 @@ describe("OpenChart", () => {
         });
         it("import valid layout", async () => {
             const file = await createTestingFile();
-            const objects = file.canvas.objects;
+            const objects = [...file.canvas.objects];
             expect([file.canvas.x, file.canvas.y]).toEqual([7.5, 7.5]);
             expect([objects[0].x, objects[0].y]).toEqual([10, 10]);
             expect([objects[1].x, objects[1].y]).toEqual([5, 5]);

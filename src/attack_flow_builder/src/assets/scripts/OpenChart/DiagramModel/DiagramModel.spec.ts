@@ -47,7 +47,7 @@ export const sampleSchema: DiagramSchemaConfiguration = {
             }
         },
         {
-            name: "generic_line",
+            name: "dynamic_line",
             type: DiagramObjectType.Line,
             latch_template: {
                 source: "generic_latch",
@@ -83,12 +83,33 @@ export const sampleExport: DiagramModelExport = {
             id: "generic_canvas",
             instance: "9aee95bb-6c28-48ad-9ad1-1042ff3e0aaf",
             objects: [
-                "6722ba7c-df56-4588-97e1-212c78f50b3e",
-                "1dd3ff00-4931-4005-9e7b-b6511e9cd246"
+                "1dd3ff00-4931-4005-9e7b-b6511e9cd246",
+                "6722ba7c-df56-4588-97e1-212c78f50b3e"
             ],
             properties: [
                 ["author", "mcarenzo"]
             ]
+        },
+        {
+            id: "dynamic_line",
+            instance: "1dd3ff00-4931-4005-9e7b-b6511e9cd246",
+            source: "0827b25c-19c9-4dc0-9f53-af7bd70e0d8d",
+            target: "1cddb68c-57d6-4660-9b28-59444725da5d",
+            handles: [
+                "64b4385e-d7f8-4d40-a011-4132755b01e2"
+            ]
+        },
+        {
+            id: "generic_latch",
+            instance: "0827b25c-19c9-4dc0-9f53-af7bd70e0d8d"
+        },
+        {
+            id: "generic_latch",
+            instance: "1cddb68c-57d6-4660-9b28-59444725da5d"
+        },
+        {
+            id: "generic_handle",
+            instance: "64b4385e-d7f8-4d40-a011-4132755b01e2"
         },
         {
             id: "generic_block",
@@ -127,27 +148,6 @@ export const sampleExport: DiagramModelExport = {
             id: "generic_anchor",
             instance: "bb04fab0-d728-438f-ad1f-0e420619e00e",
             latches: []
-        },
-        {
-            id: "generic_line",
-            instance: "1dd3ff00-4931-4005-9e7b-b6511e9cd246",
-            source: "0827b25c-19c9-4dc0-9f53-af7bd70e0d8d",
-            target: "1cddb68c-57d6-4660-9b28-59444725da5d",
-            handles: [
-                "64b4385e-d7f8-4d40-a011-4132755b01e2"
-            ]
-        },
-        {
-            id: "generic_latch",
-            instance: "0827b25c-19c9-4dc0-9f53-af7bd70e0d8d"
-        },
-        {
-            id: "generic_latch",
-            instance: "1cddb68c-57d6-4660-9b28-59444725da5d"
-        },
-        {
-            id: "generic_handle",
-            instance: "64b4385e-d7f8-4d40-a011-4132755b01e2"
         }
     ]
 };
@@ -171,7 +171,7 @@ describe("DiagramModelFile", () => {
             expect(file.canvas).toBeInstanceOf(Canvas);
         });
         it("creates valid line from schema", () => {
-            const line = factory.createNewDiagramObject("generic_line", Line);
+            const line = factory.createNewDiagramObject("dynamic_line", Line);
             expect(line).toBeInstanceOf(Line);
             expect(line.source).toBeInstanceOf(Latch);
             expect(line.target).toBeInstanceOf(Latch);
