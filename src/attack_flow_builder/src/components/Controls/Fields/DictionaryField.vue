@@ -63,22 +63,12 @@ export default defineComponent({
   computed: {
 
     /**
-     * A reactive version of the property.
-     * @returns
-     *  The property.
-     */
-    _property(): DictionaryProperty {
-      const trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property;
-    },
-
-    /**
      * Tests if the property has visible subproperties.
      * @returns
      *  True if the property has visible subproperties, false otherwise.
      */
     hasVisibleProperties(): boolean {
-      for(const value of this._property.value.values()) {
+      for(const value of this.property.value.values()) {
         if(value.descriptor.is_visible_sidebar ?? true)
           return true;
       }

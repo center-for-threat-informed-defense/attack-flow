@@ -4,9 +4,17 @@ import type { JsonType } from "..";
 export class DateProperty extends Property {
 
     /**
-     * The property's value.
+     * The internal property's value.
      */
     private _value: Date | null;
+
+
+    /**
+     * The property's value.
+     */
+    public get value(): Date | null {
+        return this._value;
+    }
 
 
     /**

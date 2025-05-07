@@ -14,9 +14,17 @@ export class FloatProperty extends Property {
     public readonly max: number;
 
     /**
-     * The property's value.
+     * The property's internal value.
      */
     private _value: number | null;
+
+
+    /**
+     * The property's value.
+     */
+    public get value(): number | null {
+        return this._value;
+    }
 
 
     /**

@@ -9,9 +9,17 @@ export class EnumProperty extends Property {
     public readonly options: ListProperty;
 
     /**
-     * The property's value.
+     * The property's internal value.
      */
     private _value: string | null;
+
+
+    /**
+     * The property's value.
+     */
+    public get value(): string | null {
+        return this._value;
+    }
 
 
     /**

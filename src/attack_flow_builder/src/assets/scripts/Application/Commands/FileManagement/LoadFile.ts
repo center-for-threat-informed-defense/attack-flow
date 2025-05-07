@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import { AppCommand } from "../AppCommand";
 import { DiagramViewEditor, PowerEditPlugin } from "@OpenChart/DiagramEditor";
 import { SaveDiagramFileToRecoveryBank } from "./SaveDiagramFileToRecoveryBank";
@@ -41,7 +42,7 @@ export class LoadFile extends AppCommand {
         this.context = context;
         const settings = context.settings;
         // Configure editor
-        this.editor = new DiagramViewEditor(file, name);
+        this.editor = ref(new DiagramViewEditor(file, name)).value;
         this.editor.on("autosave", editor => {
             context.execute(new SaveDiagramFileToRecoveryBank(context, editor))
         });
