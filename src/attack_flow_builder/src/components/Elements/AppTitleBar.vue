@@ -33,7 +33,8 @@ export default defineComponent({
     return {
       application: useApplicationStore(),
       contextMenus: useContextMenuStore(),
-      icon: Configuration.application_icon
+      // icon: Configuration.application_icon
+      icon: "/favicon.png"
     };
   },
   computed: {
