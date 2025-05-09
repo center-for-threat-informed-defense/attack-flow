@@ -27,27 +27,27 @@ const JS_VAR_REGEX = /^[a-z_$][a-z0-9_$]*$/i;
  */
 async function updateApplicationAttackIntel(path, ...urls) {
     path = resolve(__dirname, path);
-    
+
     // Validate export key
-    if(!JS_VAR_REGEX.test(EXPORT_KEY)) {
-        throw new Error(`Export key '${ EXPORT_KEY }' is not a valid variable name.`);
+    if (!JS_VAR_REGEX.test(EXPORT_KEY)) {
+        throw new Error(`Export key '${EXPORT_KEY}' is not a valid variable name.`);
     }
-    
+
     // Collect intel
     let types = await fetchAttackData(...urls);
     console.log("→ Generating Application Intel File...");
     let intel = {
-        tactics        : types.get("tactic"),
-        tactic_recs    : types.get("tactic").map(o => `${o.id} (${o.matrix.split(/\s+/)[0]} / ${o.name})`).sort(),
-        technique      : types.get("technique"),
-        technique_recs : types.get("technique").map(o => `${o.id} (${o.name})`).sort()
+        tactics: types.get("tactic"),
+        tactic_recs: types.get("tactic").map(o => `(${o.matrix.split(/\s+/)[0]}) ${o.id} ${o.name}`).sort(),
+        technique: types.get("technique"),
+        technique_recs: types.get("technique").map(o => `(${o.matrix.split(/\s+/)[0]}) ${o.id} ${o.name}`).sort()
     };
-    
+
     // Generate intel file
     let file = "";
-    file += `export const ${ EXPORT_KEY } = `;
+    file += `export const ${EXPORT_KEY} = `;
     file += JSON.stringify(intel, null, 4);
-    file += `;\n\nexport default ${ EXPORT_KEY };\n`
+    file += `;\n\nexport default ${EXPORT_KEY};\n`
     writeFileSync(path, file);
 
     // Done
