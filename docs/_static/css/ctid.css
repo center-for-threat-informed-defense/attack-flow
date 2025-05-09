@@ -246,6 +246,10 @@ body.theme-dark {
   color: white !important;
 }
 
+body.theme-dark .btn-primary {
+  color: white;
+}
+
 .admonition.note .admonition-title,
 .admonition.seealso .admonition-title,
 .admonition-title {

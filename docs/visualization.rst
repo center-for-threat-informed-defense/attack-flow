@@ -6,233 +6,174 @@ Attack Flow offers several tools for visualizing sequences of behaviors. The :do
 several :ref:`command line visualizations <cli_viz>` as well as some `experimental visualizations
 <https://observablehq.com/@mehaase/attack-flow-business>`__.
 
+.. raw:: html
+
+    <div id="gallery">
+        <a class="gallery-item" href="#att-ck-navigator">
+            <div class="image" style="background-image: url(../_static/matrix-example.svg)">
+            </div>
+            <div class="desc">
+                <h4>ATT&CK Navigator</h4>
+            </div>
+        </a>
+        <a class="gallery-item" href="#tactic-table">
+            <div class="image" style="background-image: url(../_static/tactic-table.png)">
+            </div>
+            <div class="desc" >
+                <h4>Tactic Table</h4>
+            </div>
+        </a>
+        <a class="gallery-item" href="#matrix-view">
+            <div class="image" style="background-image: url(../_static/attack-matrix.svg)">
+            </div>
+             <div class="desc">
+                <h4>Matrix View</h4>
+            </div>
+        </a>
+        <a class="gallery-item" href="#tactic-table">
+            <div class="image" style="background: url(../_static/attack-timeline.svg) center center;">
+            </div>
+            <div class="desc" >
+                <h4>Timeline View</h4>
+            </div>
+        </a>
+        <a class="gallery-item" href="#matrix-view">
+            <div class="image" style="background-image: url(../_static/attack-flow-treemap.svg)">
+            </div>
+             <div class="desc">
+                <h4>Treemap View</h4>
+            </div>
+        </a>
+    </div>
+    <style>
+    #gallery {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    }
+    #gallery .gallery-item {
+    margin: 5px;
+    border: 1px solid #dedede;
+    width: 180px;
+    }
+
+    #gallery .gallery-item:hover {
+    border: 1px solid #777;
+    }
+
+    #gallery .gallery-item .image {
+    height: 160px;
+    background-size: 200%;
+    background-position: center top;
+    }
+
+    #gallery .desc h4 {
+    margin: 15px;
+    color: var(--mitre-black);
+    }
+    #gallery .desc h4:hover {
+    color: var(--mitre-blue);
+    }
+    body.theme-dark #gallery .desc h4 {
+    color: var(--mitre-light-silver);
+    }
+    body.theme-dark #gallery .desc h4:hover {
+    color: var(--mitre-light-blue);
+    }
+
+    .image-container {
+    width: 100%;
+    height: 180px;
+    }
+    </style>
+
+
 ATT&CK Navigator
 ----------------
 
-On this page, you can visualize an Attack Flow drawn on top of an ATT&CK Navigator matrix. First, choose a
+With this visualization, you can visualize an Attack Flow drawn on top of an ATT&CK Navigator matrix. First, choose a
 Navigator base layer or supply your own. Then upload an Attack Flow. Finally, preview and download the
 resulting visualization.
 
 .. raw:: html
 
-    <style>
-    #preview {
-        border: 1px solid black;
-        background-color: white;
-        height: 30rem;
-        position: relative;
-        overflow: scroll;
-    }
+    <p>
+        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/0f89cf4ba5a52ce5">
+         Try out the Navigator Visualization <i class="fa fa-external-link"></i></a>
+    </p>
 
-    #preview button {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-    }
 
-    #preview p {
-        color: #bebebe;
-        margin-top: 14em;
-        text-align: center;
-    }
+.. figure:: _static/matrix-example.svg
+   :scale: 80%
+   :alt: An example Navigator Visualization
+   :align: center
 
-    #preview svg {
-        display: block;
-        width: 100%;
-        height: auto;
-    }
+Tactic Table
+----------------
+With this visualization, you can generate a tactic table automatically from an Attack Flow. The tactic table is inspired by the format that CISA uses in their cybersecurity advisories. (`See example here. <https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a#:~:text=for%20ransom%20negotiation-,MITRE%20ATT%26CK%20Tactics%20and%20Techniques,-See%20Table%203>`_)
 
-    @media all and (display-mode: fullscreen) {
-        #preview svg {
-            max-width: 100vw;
-            max-height: 100vh;
-        }
-    }
+.. raw:: html
 
-    #previewError {
-        color: var(--me-ext-cranberry-dark);
-        background-color: #f3bacf;
-        border: 1px solid var(--me-ext-cranberry-dark);
-        margin: 1em 0;
-        padding: 1em;
-        display: none;
-    }
+    <p>
+        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/010f86f3168a6b83">
+         Try out the Tactic Table Visualization <i class="fa fa-external-link"></i></a>
+    </p>
 
-    label {
-        margin: 0 0 .3125em;
-        color: #333;
-        font-size: 90%;
-    }
 
-    select {
-        border: 1px solid #ccc;
-        background-color: #fff;
-        padding: .5em .625em;
-        display: inline-block;
-        font-size: 80%;
-        box-shadow: inset 0 1px 3px #ddd;
-        -webkit-transition: border .3s linear;
-        -moz-transition: border .3s linear;
-        transition: border .3s linear;
-    }
+.. figure:: _static/tactic-table.png
+   :scale: 80%
+   :alt: An example Tactic Table
+   :align: center
 
-    .btn-primary:disabled {
-        color: #fff;
-        background-color: var(--mitre-dark-gray);
-        border-color: var(--mitre-dark-gray);
-    }
-    </style>
+   An example Tactic Table
 
-    <div id="preview">
-        <button class="btn btn-secondary btn-sm" onclick="toggleFullscreen()">
-            <i class="fa fa-arrows-alt"></i>
-            Full Screen
-        </button>
-        <p>
-            Preview: select a Navigator layer and an Attack Flow.
-        </p>
-    </div>
 
-    <div id="previewError">
-        <strong>Error:</strong> <span></span>
-    </div>
+Matrix View
+----------------
+With this visualization, you can automatically generate an ATT&CK Matrix comprised of nodes from an uploaded ATT&CK
 
-    <div style="display: flex; margin-top: 1em;">
-        <div style="flex-grow: 1;">
-            <label for="layerSelect">
-                Select or upload base layer:
-            </label>
-            <select id="layerSelect" onchange="selectBaseLayer(this)">
-                <option value=""></option>
-                <option value="enterprise-blank">Enterprise Techniques</option>
-                <option value="enterprise-subs-blank">Enterprise Techniques and Subtechniques</option>
-                <option value="mobile-blank">Mobile Techniques</option>
-                <option value="mobile-subs-blank">Mobile Techniques and Subtechniques</option>
-                <option value="ics-blank">ICS Techniques</option>
-                <option value="upload">Upload (.svg)</option>
-            </select>
-            <br>
-            <input id="baseLayerUpload" type="file" onchange="uploadBaseLayer(this)"
-                accept=".svg" style="margin-top: 0.5em; visibility: hidden;">
-        </div>
-        <div style="flex-grow: 1;">
-            <label for="uploadFlow">
-                Upload an Attack Flow (*.json):
-            </label>
-            <input id="uploadFlow" type="file" onchange="uploadAttackFlow(this)" accept=".json">
-        </div>
-    </div>
+.. raw:: html
 
-    <div style="margin-bottom: 3em;">
-        <button class="btn btn-primary" onclick="generatePreview()">
-            <i class="fa fa-search"></i>
-            Generate Preview
-        </button>
-        <button id="downloadSvg" class="btn btn-primary" onclick="downloadSvg()" disabled>
-            <i class="fa fa-download"></i>
-            Download
-        </button>
-    </div>
+    <p>
+        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/ce2257ba05255209">
+         Try out the Matrix View Visualization <i class="fa fa-external-link"></i></a>
+    </p>
 
-    <script src="../matrix/matrix.js"></script>
+.. figure:: _static/attack-matrix.svg
+   :scale: 80%
+   :alt: An example Matrix Visualization
+   :align: center
 
-    <script>
-    let layerSrc = null;
-    let flowSrc = null;
-    let svgSrc = null;
 
-    function selectBaseLayer(el) {
-        if (el.value === "upload") {
-            document.querySelector("#baseLayerUpload").click();
-        } else if (el.value !== "") {
-            const url = `../matrix/${el.value}.svg`;
-            fetch(url).then((response) => response.text())
-            .then((data) => {
-                layerSrc = data;
-            })
-            .catch((err) => showError(`Cannot download base layer: ${url}`));
-        }
-    }
+Timeline View
+----------------
+On this page, you can generate a timeline visualization automatically from an Attack Flow. The timeline is inspired by examples of timelines used in cyber threat reporting in the wild.
 
-    function uploadBaseLayer(fileInput) {
-        const fr = new FileReader();
-        fr.onload = () => layerSrc = fr.result;
-        fr.readAsText(fileInput.files[0]);
-    }
+.. raw:: html
 
-    function uploadAttackFlow(fileInput) {
-        const fr = new FileReader();
-        fr.onload = () => flowSrc = fr.result;
-        fr.readAsText(fileInput.files[0]);
-    }
+    <p>
+        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/263cc424a77aacd5">
+         Try out the Timeline View Visualization <i class="fa fa-external-link"></i></a>
+    </p>
 
-    function toggleFullscreen() {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        } else {
-            document.querySelector("#preview").requestFullscreen();
-        }
-    }
+.. figure:: _static/attack-timeline.svg
+   :scale: 80%
+   :alt: An example Timeline Visualization
+   :align: center
 
-    function generatePreview() {
-        if (!layerSrc) {
-            showError("Select or upload a base layer before previewing.");
-            return;
-        }
+Treemap View
+----------------
+On this page, you can visualize the distribution of techniques across multiple Attack Flows. The data is visualized in a Tree Map, where each technique present in a Flow has its own box, grouped by tactic. The size of each technique's box in the tree map is proportional to the number of times that technique appeared in the uploaded Flows. The color of each technique's box is related to the technique's score from the uploaded Navigator layer. Or, if you don't upload a Navigator layer, the colors will be determined by tactics.
 
-        if (!flowSrc) {
-            showError("Upload an Attack Flow (.json) before previewing.");
-            return;
-        }
+.. raw:: html
 
-        try {
-            for (const el of document.querySelectorAll("#preview svg")) {
-                el.remove();
-            }
-            svgSrc = render(layerSrc, flowSrc);
-            const container = document.createElement("div");
-            container.innerHTML = svgSrc;
-            const svg = container.querySelector("svg");
-            const svgWidth = svg.getAttribute("width");
-            const svgHeight = svg.getAttribute("height");
-            svg.setAttribute("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
-            container.removeChild(svg);
-            document.querySelector("#preview").appendChild(svg);
-            document.querySelector("#preview p").style.display = "none";
-            document.querySelector("#downloadSvg").disabled = false;
-            hideError();
-        } catch (e) {
-            showError(`Cannot generate preview: ${e}`);
-            throw e;
-        }
-    }
+    <p>
+        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/263cc424a77aacd5">
+         Try out the Treemap Visualization <i class="fa fa-external-link"></i></a>
+    </p>
 
-    function downloadSvg() {
-        const file = document.querySelector("#uploadFlow").files[0];
-        const fileName = file.name.replace(".json", ".svg");
-        let data = '<?xml version="1.0" standalone="no"?>\n';
-        data += svgSrc;
-        const blob = new Blob([data], {type:"image/svg+xml"});
-        const anchor = document.createElement("a");
-        anchor.download = fileName;
-        anchor.href = URL.createObjectURL(blob);
-        anchor.style.display = "none";
-        document.body.appendChild(anchor);
-        anchor.click();
-        setTimeout(function () {
-            document.body.removeChild(anchor);
-            URL.revokeObjectURL(anchor.href);
-        }, 500);
-    }
+.. figure:: _static/attack-flow-treemap.svg
+   :scale: 80%
+   :alt: An example Treemap Visualization
+   :align: center
 
-    function showError(txt) {
-        const errorDiv = document.querySelector("#previewError");
-        const errorSpan = errorDiv.querySelector("span");
-        errorSpan.innerText = txt;
-        errorDiv.style.display = "block";
-    }
-
-    function hideError() {
-        document.querySelector("#previewError").style.display = "none";
-    }
-    </script>
