@@ -317,7 +317,7 @@ def generate_example_flows(jsons, afds):
                 f'<p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2f{quoted_stem}.afb"></i>Attack Flow Builder</a></p>'
             )
         formats.append(
-            f'<p><em>Download:</em> <a href="../corpus/{quoted_stem}.json">JSON</a> | '
+            f'<p><em>Download:</em> <a href="../corpus/{quoted_stem}.json" download>JSON</a> | '
             f'<a href="../corpus/{quoted_stem}.dot">GraphViz</a> (<a href="../corpus/{quoted_stem}.dot.png">PNG</a>) | '
             f'<a href="../corpus/{quoted_stem}.mmd">Mermaid</a>'
         )
