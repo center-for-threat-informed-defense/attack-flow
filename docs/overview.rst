@@ -99,7 +99,8 @@ detailed timelines. Attack Flow can showcase the adversary tools and TTPs that a
 used, which can help aid in writing detections against common behaviors and/or adversary
 toolsets, as well as prioritizing those detections.
 
-**Malawre Analysis**
+**Malaware Analysis**
+
 Malware analysts typically use Attack Flow after they have analyzed samples to document behaviors they observed. 
 They start with static analysis to examine the file's structure and potential obfuscation.
 Next, they execute the sample in a controlled environment for dynamic analysis, observing its behavior and identifying 

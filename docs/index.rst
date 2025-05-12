@@ -8,7 +8,7 @@ project is created and maintained by the `MITRE Center for Threat-Informed
 Defense <https://ctid.mitre-.org/>`__ in futherance of our mission to advance
 the state of the art and the state of the practice in threat-informed defense
 globally. The project is funded by our `research participants
-<https://ctid.mitre.org/projects/attack-flow#participants-section>`__.
+<https://ctid.mitre.org/projects/attack-flow#participants-section>`__. The development of these usage guides has been shaped by direct input and feedback from our members—practitioners at large, international organizations with advanced cybersecurity programs. Their real-world experience and operational insights have grounded this work in practical, applicable guidance for defenders around the world.
 
 .. toctree::
     :maxdepth: 1
@@ -18,9 +18,9 @@ globally. The project is funded by our `research participants
     introduction
     example_flows
     builder
+    usage_guides/index
     visualization
     language
-    usage_guides/index
     developers
 
 Notice

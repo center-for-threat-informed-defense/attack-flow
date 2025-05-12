@@ -124,62 +124,19 @@ Next, let's look at the `"Turla - Snake Emulation Plan .YML File" <https://githu
 The emulation plan, created by the ATT&CK® Evaluations team, was used during Day 2 of the ATT&CK evaluations Round 5. 
 This scenario focuses on Snake, a rootkit used to compromise computers and exfiltrate data. *If you have your own plans, you can convert them to STIX and import into Attack Flow.*
 
-For detailed information on the scenario to run, you can find the technical setup and commands `"here" <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/Snake_Scenario/Snake_Detections_Scenario.md>`_
+For detailed information on the scenario to run, you can find the technical setup and commands `here <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/Snake_Scenario/Snake_Detections_Scenario.md>`_
 
 *Building the Attack Flow from the Plan*
 
-For example, the Turla (Snake) is publicy available via the adversary emulation library and has already been converted to a flow diagram, here: `"here" <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_ 
+For example, the Turla (Snake) is publicy available via the adversary emulation library and has already been converted to a flow diagram, here: `here <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_ 
 
 At a high level, we can observe the total count of each technique in the plan:
 
-.. list-table:: ATT&CK Techniques in Turla (Snake) Adversary Emulation Plan .Yml File
-   :header-rows: 1
-   :widths: 20 10
+.. figure:: ../_static/turla_techniques.png
+   :alt: Turla ATT&CK Techniques
+   :align: center
 
-   * - Technique ID
-     - Count
-   * - T1189
-     - 1
-   * - T1204.002
-     - 1
-   * - T1082
-     - 1
-   * - T1105
-     - 11
-   * - T1014
-     - 1
-   * - T1057
-     - 2
-   * - T1087.002
-     - 2
-   * - T1049
-     - 1
-   * - T1569.002
-     - 1
-   * - T1070.004
-     - 3
-   * - T1059.001
-     - 1
-   * - T1069.001
-     - 3
-   * - T1018
-     - 1
-   * - T1003.001
-     - 1
-   * - T1550.002
-     - 1
-   * - T1136.002
-     - 2
-   * - T1570
-     - 5
-   * - T1505.002
-     - 1
-   * - T1059.003
-     - 1
-   * - T1016
-     - 1
-   * - T1041
-     - 1
+   ATT&CK Techniques used by Turla
 
 
 Then, begin constructing the flow by mapping in the identified techniques. Gradually add conditions to represent asset compromise requirements or pivot points necessary to advance the operation. Where available, include commands from the emulation plan as ``process`` and ``command-line`` STIX objects to provide detailed execution context.
@@ -196,12 +153,13 @@ Then, begin constructing the flow by mapping in the identified techniques. Gradu
 
   5. **Add indicators where applicable**: to provide additional context, either for planning purposes or post-emulation reporting, you can include relevant STIX objects that map back to indicators (either of interest or that were successfully accessed)
 
-Red teams can choose to represent each scenario in its own flow or combine them into a single, comprehensive flow. A prebuilt Attack Flow based on this plan is already available here:
+Red teams can choose to represent each scenario in its own flow or combine them into a single, comprehensive flow. A prebuilt Attack Flow based on this plan is already available `here: <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_ 
 
 .. figure:: ../_static/turla_flow.png
    :alt: Turla Flow
    :align: center
+   :scale: 100%
 
-   Turla (Snake) Attack Flow created from the Adversary Emulation Plan library
+   Turla (Snake) Attack Flow created from the Adversary Emulation Plan library. Click to enlarge.
 
 Once the engagement is complete and the attack flow is built, the blue team can begin detection analysis, ideally creating their own flow based on observed telemetry. At the end, both teams can compare flows to identify missed detections, validate assumptions, and strengthen overall security posture.
