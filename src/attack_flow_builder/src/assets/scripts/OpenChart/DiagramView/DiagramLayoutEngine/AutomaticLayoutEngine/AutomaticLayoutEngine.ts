@@ -1,18 +1,8 @@
 import { BlockView, LineView, type DiagramObjectView } from "../../DiagramObjectView";
 import type { DiagramLayoutEngine } from "../DiagramLayoutEngine";
 import type { LatchView } from "../../DiagramObjectView/Views/LatchView";
+import type { NodeLayoutInfo } from "./NodeLayoutInfo";
 
-interface NodeLayoutInfo {
-    node: DiagramObjectView;
-    level: number;
-    column: number;
-    width: number;
-    height: number;
-    children: DiagramObjectView[];
-    parents: DiagramObjectView[];
-    rank: number;
-    componentId: number;
-}
 
 export class AutomaticLayoutEngine implements DiagramLayoutEngine {
     private static readonly HORIZONTAL_SPACING = 400;
