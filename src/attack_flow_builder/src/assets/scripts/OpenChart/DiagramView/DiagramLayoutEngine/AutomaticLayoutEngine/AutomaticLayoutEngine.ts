@@ -1,6 +1,5 @@
 import { BlockView, LineView, type DiagramObjectView } from "../../DiagramObjectView";
 import type { DiagramLayoutEngine } from "../DiagramLayoutEngine";
-import { Block, Line } from "@OpenChart/DiagramModel";
 import type { LatchView } from "../../DiagramObjectView/Views/LatchView";
 
 interface NodeLayoutInfo {
@@ -11,15 +10,14 @@ interface NodeLayoutInfo {
     height: number;
     children: DiagramObjectView[];
     parents: DiagramObjectView[];
-    rank: number; // Used for topological sorting
-    componentId: number; // Used to identify disconnected components
+    rank: number;
+    componentId: number;
 }
 
 export class AutomaticLayoutEngine implements DiagramLayoutEngine {
-    // Spacing between nodes in pixels
     private static readonly HORIZONTAL_SPACING = 400;
     private static readonly VERTICAL_SPACING = 500;
-    private static readonly COMPONENT_SPACING = 700; // Spacing between disconnected components
+    private static readonly COMPONENT_SPACING = 700;
     private static readonly MIN_NODE_WIDTH = 200;
     private static readonly MIN_NODE_HEIGHT = 100;
 
@@ -31,22 +29,18 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
     public run(objects: DiagramObjectView[]): void {
         if (!objects.length || !objects[0]) return;
 
-        // Find all nodes and lines
         const nodes = new Set<DiagramObjectView>();
         const lines = new Set<LineView>();
 
-        // Extract blocks
         for (const block of objects[0]._blocks) {
             if (block instanceof BlockView) {
                 nodes.add(block);
             }
         }
         
-        // Extract lines
         for (const line of objects[0]._lines) {
             if (line instanceof LineView) {
                 lines.add(line);
-                // Ensure latches are properly calculated
                 if (line.source) line.source.calculateLayout();
                 if (line.target) line.target.calculateLayout();
             }
@@ -54,29 +48,13 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
 
         if (nodes.size === 0) return;
 
-        console.log("Nodes:", nodes.size);
-        console.log("Lines:", lines.size);
-
-        // Build directed graph
         const { graph, incomingEdges } = this.buildGraph(nodes, lines);
-        
-        // Find root nodes (nodes with no incoming connections)
         const rootNodes = this.findRootNodes(graph, incomingEdges);
-        
-        // Identify disconnected components
         const components = this.identifyComponents(graph, nodes);
-        console.log("Found", components.length, "disconnected components");
-        
-        // Perform topological sort to assign ranks
         const rankedNodes = this.topologicalSort(graph, incomingEdges, rootNodes);
-        
-        // Calculate node dimensions and assign levels and columns
         const nodeInfo = this.calculateNodeLayout(rankedNodes, graph, incomingEdges, components);
-        
-        // Position nodes based on calculated layout
         this.positionNodes(nodeInfo, components);
         
-        // Recalculate layouts
         for (const block of nodes) {
             block.calculateLayout();
         }
@@ -101,13 +79,11 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
         const graph = new Map<DiagramObjectView, Set<DiagramObjectView>>();
         const incomingEdges = new Map<DiagramObjectView, Set<DiagramObjectView>>();
         
-        // Initialize adjacency lists
         nodes.forEach(node => {
             graph.set(node, new Set());
             incomingEdges.set(node, new Set());
         });
 
-        // Add edges from lines
         lines.forEach(line => {
             if (!line.source || !line.target) return;
             
@@ -119,11 +95,9 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
                 const targetNode = target.anchor.parent;
                 
                 if (nodes.has(sourceNode) && nodes.has(targetNode) && sourceNode !== targetNode) {
-                    // Add to outgoing edges
                     const outgoing = graph.get(sourceNode)!;
                     outgoing.add(targetNode);
                     
-                    // Add to incoming edges
                     const incoming = incomingEdges.get(targetNode)!;
                     incoming.add(sourceNode);
                 }
@@ -180,10 +154,7 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             
             while (queue.length > 0) {
                 const current = queue.shift()!;
-                
-                // Add all neighbors (both incoming and outgoing)
                 const neighbors = this.getAllNeighbors(current, graph);
-                
                 neighbors.forEach(neighbor => {
                     if (!visited.has(neighbor)) {
                         visited.add(neighbor);
@@ -210,14 +181,10 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
         graph: Map<DiagramObjectView, Set<DiagramObjectView>>
     ): Set<DiagramObjectView> {
         const neighbors = new Set<DiagramObjectView>();
-        
-        // Add outgoing neighbors
         const outgoing = graph.get(node);
         if (outgoing) {
             outgoing.forEach(neighbor => neighbors.add(neighbor));
         }
-        
-        // Add incoming neighbors
         graph.forEach((targets, source) => {
             if (targets.has(node)) {
                 neighbors.add(source);
@@ -243,24 +210,20 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
         const queue: DiagramObjectView[] = Array.from(rootNodes);
         const inDegree = new Map<DiagramObjectView, number>();
         
-        // Initialize in-degree for all nodes
         graph.forEach((_, node) => {
             const incoming = incomingEdges.get(node);
             inDegree.set(node, incoming ? incoming.size : 0);
         });
-        
-        // Process nodes with no incoming edges
+
         while (queue.length > 0) {
             const node = queue.shift()!;
             result.push(node);
             
-            // Reduce in-degree of all neighbors
             const neighbors = graph.get(node) || new Set<DiagramObjectView>();
             neighbors.forEach(neighbor => {
                 const degree = inDegree.get(neighbor)! - 1;
                 inDegree.set(neighbor, degree);
                 
-                // If in-degree becomes 0, add to queue
                 if (degree === 0) {
                     queue.push(neighbor);
                 }
@@ -295,7 +258,6 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
     ): Map<DiagramObjectView, NodeLayoutInfo> {
         const nodeInfo = new Map<DiagramObjectView, NodeLayoutInfo>();
         
-        // Create a map of nodes to their component IDs
         const componentMap = new Map<DiagramObjectView, number>();
         components.forEach((component, index) => {
             component.forEach(node => {
@@ -303,7 +265,6 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             });
         });
         
-        // First pass: assign ranks and collect parent/child relationships
         for (let i = 0; i < rankedNodes.length; i++) {
             const node = rankedNodes[i];
             const children = Array.from(graph.get(node) || []);
@@ -312,8 +273,8 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             
             nodeInfo.set(node, {
                 node,
-                level: 0, // Will be assigned in the next pass
-                column: 0, // Will be assigned later
+                level: 0,
+                column: 0,
                 width: AutomaticLayoutEngine.MIN_NODE_WIDTH,
                 height: AutomaticLayoutEngine.MIN_NODE_HEIGHT,
                 children,
@@ -323,9 +284,7 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             });
         }
         
-        // Process each component separately
         components.forEach((component, componentId) => {
-            // Find roots within this component
             const componentRoots: DiagramObjectView[] = [];
             component.forEach(node => {
                 const info = nodeInfo.get(node)!;
@@ -334,16 +293,13 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
                 }
             });
             
-            // If no roots found, use the first node as root
             if (componentRoots.length === 0 && component.size > 0) {
-                componentRoots.push(component.values().next().value);
+                componentRoots.push(component.values().next().value!);
             }
             
-            // Assign levels within this component
             this.assignLevelsForComponent(nodeInfo, componentRoots, component);
         });
         
-        // Assign columns for each component
         components.forEach(component => {
             this.assignColumnsForComponent(nodeInfo, component);
         });
@@ -362,13 +318,11 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
         roots: DiagramObjectView[],
         component: Set<DiagramObjectView>
     ): void {
-        // Set all nodes in this component to level 0 initially
         component.forEach(node => {
             const info = nodeInfo.get(node)!;
             info.level = 0;
         });
         
-        // BFS to assign levels
         const visited = new Set<DiagramObjectView>();
         const queue: DiagramObjectView[] = [...roots];
         
@@ -377,16 +331,13 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             const info = nodeInfo.get(node)!;
             visited.add(node);
             
-            // Process children that are in this component
             for (const child of info.children) {
                 if (!component.has(child)) continue;
                 
                 const childInfo = nodeInfo.get(child)!;
                 
-                // Assign level as max of current level and parent level + 1
                 childInfo.level = Math.max(childInfo.level, info.level + 1);
                 
-                // Add to queue if not visited and all parents in this component have been processed
                 if (!visited.has(child) && !queue.includes(child)) {
                     const allParentsInComponentVisited = childInfo.parents
                         .filter(p => component.has(p))
@@ -399,7 +350,6 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             }
         }
         
-        // Handle any nodes not visited (cycles within the component)
         component.forEach(node => {
             if (!visited.has(node)) {
                 const nodeQueue = [node];
@@ -434,7 +384,6 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
         nodeInfo: Map<DiagramObjectView, NodeLayoutInfo>,
         component: Set<DiagramObjectView>
     ): void {
-        // Group nodes by level within this component
         const nodesByLevel = new Map<number, DiagramObjectView[]>();
         
         component.forEach(node => {
@@ -445,30 +394,23 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             nodesByLevel.get(info.level)!.push(node);
         });
         
-        // Sort levels
         const levels = Array.from(nodesByLevel.keys()).sort((a, b) => a - b);
         
-        // Process each level
         for (const level of levels) {
             const nodesAtLevel = nodesByLevel.get(level)!;
             
-            // Sort nodes at this level
             if (level === 0) {
-                // For level 0, sort by rank (topological order)
                 nodesAtLevel.sort((a, b) => {
                     return nodeInfo.get(a)!.rank - nodeInfo.get(b)!.rank;
                 });
             } else {
-                // For other levels, sort by the average column of their parents in this component
                 nodesAtLevel.sort((a, b) => {
                     const aInfo = nodeInfo.get(a)!;
                     const bInfo = nodeInfo.get(b)!;
                     
-                    // Filter parents to only include those in this component
                     const aParentsInComponent = aInfo.parents.filter(p => component.has(p));
                     const bParentsInComponent = bInfo.parents.filter(p => component.has(p));
                     
-                    // Calculate average column of parents
                     const aAvgColumn = aParentsInComponent.length > 0 
                         ? aParentsInComponent.reduce((sum, p) => sum + nodeInfo.get(p)!.column, 0) / aParentsInComponent.length 
                         : 0;
@@ -497,7 +439,6 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
         nodeInfo: Map<DiagramObjectView, NodeLayoutInfo>,
         components: Set<DiagramObjectView>[]
     ): void {
-        // Calculate the width of each component
         const componentWidths = new Map<number, number>();
         const componentEdges = new Map<number, number>();
         
@@ -508,22 +449,17 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             component.forEach(node => {
                 const info = nodeInfo.get(node)!;
                 maxColumn = Math.max(maxColumn, info.column);
-                edgeCount += info.children.length; // Count outgoing edges
+                edgeCount += info.children.length;
             });
             
             componentWidths.set(componentId, (maxColumn + 1) * AutomaticLayoutEngine.HORIZONTAL_SPACING);
             componentEdges.set(componentId, edgeCount);
         });
         
-        // Sort components by number of edges (descending)
         const sortedComponentIds = Array.from(componentEdges.keys()).sort((a, b) => {
             return componentEdges.get(b)! - componentEdges.get(a)!;
         });
         
-        console.log("Components sorted by edge count:", 
-            sortedComponentIds.map(id => `Component ${id}: ${componentEdges.get(id)} edges`).join(", "));
-        
-        // Calculate component offsets based on sorted order
         const componentOffsets = new Map<number, number>();
         let currentOffset = 0;
         
@@ -532,7 +468,6 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             currentOffset += componentWidths.get(componentId)! + AutomaticLayoutEngine.COMPONENT_SPACING;
         });
         
-        // Position nodes with component offsets
         nodeInfo.forEach(info => {
             const componentOffset = componentOffsets.get(info.componentId) || 0;
             const x = componentOffset + (info.column * AutomaticLayoutEngine.HORIZONTAL_SPACING);

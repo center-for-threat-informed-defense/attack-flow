@@ -1,4 +1,4 @@
-import { Canvas, Block, Line, FloatProperty, StringProperty, IntProperty, DateProperty, EnumProperty  } from "../OpenChart/DiagramModel/DiagramObject";
+import { Canvas, Block, FloatProperty, StringProperty, IntProperty, DateProperty, EnumProperty, DictionaryProperty  } from "../OpenChart/DiagramModel/DiagramObject";
 import { type DiagramObjectFactory } from "../OpenChart/DiagramModel/DiagramObjectFactory";
 import { type StixObject } from "./StixObject";
 import { type StixBundle } from "./StixBundle";

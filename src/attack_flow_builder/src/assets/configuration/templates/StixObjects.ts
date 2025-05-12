@@ -593,5 +593,44 @@ export const StixObjects: DiagramObjectTemplate[] = [
             }
         },
         anchors: AnchorConfiguration,
+    },
+    {
+        name: "marking_definition",
+        namespace: ["stix_object", "marking_definition"],
+        type: DiagramObjectType.Block,
+        role: SemanticRole.Node,
+        properties: {
+            name: {
+                type: PropertyType.String,
+                is_representative: true
+            },
+            definition_type: {
+                type: PropertyType.Enum,
+                options: {
+                    type: PropertyType.List,
+                    form: {
+                        type: PropertyType.String
+                    },
+                    default: [
+                        ["TLP", "TLP"],
+                        ["TLP:CLEAR", "TLP:CLEAR"],
+                        ["statement", "Statement"],
+                    ]
+                },
+                default: null
+            },
+            definition: {
+                type: PropertyType.Dictionary,
+                form: {
+                    statement: {
+                        type: PropertyType.String
+                    },
+                    tlp: {
+                        type: PropertyType.String
+                    }
+                },
+            },
+        },
+        anchors: AnchorConfiguration,
     }
 ]
