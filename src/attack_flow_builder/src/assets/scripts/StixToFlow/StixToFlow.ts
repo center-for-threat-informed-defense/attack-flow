@@ -1,4 +1,4 @@
-import { Canvas, Block, FloatProperty, StringProperty, IntProperty, DateProperty, EnumProperty, DictionaryProperty  } from "../OpenChart/DiagramModel/DiagramObject";
+import { Canvas, Block, FloatProperty, StringProperty, IntProperty, DateProperty, EnumProperty, DictionaryProperty, Property  } from "../OpenChart/DiagramModel/DiagramObject";
 import { type DiagramObjectFactory } from "../OpenChart/DiagramModel/DiagramObjectFactory";
 import { type StixObject } from "./StixObject";
 import { type StixBundle } from "./StixBundle";
@@ -37,17 +37,8 @@ export class StixToFlow {
             for (const key of block.properties.value.keys()) {
                 if (key in stixObject) {
                     const property = block.properties.value.get(key);
-                    if (property instanceof FloatProperty) {
-                        property.setValue(parseFloat(stixObject[key]));
-                    } else if (property instanceof StringProperty) {
-                        property.setValue(stixObject[key]);
-                    } else if (property instanceof IntProperty) {
-                        property.setValue(parseInt(stixObject[key]));
-                    } else if (property instanceof DateProperty){
-                        const dateTime = DateTime.fromJSDate(new Date(stixObject[key]));
-                        property.setValue(dateTime);
-                    } else if (property instanceof EnumProperty) {
-                        property.setValue(stixObject[key]);
+                    if (property instanceof Property) {
+                        this.addProperty(property, stixObject[key]);
                     }
                 }
             }
@@ -55,6 +46,34 @@ export class StixToFlow {
             objectMap.set(stixObject.id, block);
         });
         return objectMap;
+    }
+
+    /**
+     * Adds a property to a block based on its type.
+     * @param property
+     * The property to add.
+     * @param stixValue
+     * The value from the STIX object to set for the property.
+     */
+    private static addProperty(property: Property, stixValue: any): void {
+        if (property instanceof FloatProperty) {
+          property.setValue(parseFloat(stixValue));
+        } else if (property instanceof StringProperty) {
+          property.setValue(stixValue);
+        } else if (property instanceof IntProperty) {
+          property.setValue(parseInt(stixValue));
+        } else if (property instanceof DateProperty){
+          property.setValue(new Date(stixValue));
+        } else if (property instanceof EnumProperty) {
+          property.setValue(stixValue);
+        } else if (property instanceof DictionaryProperty) {
+            for (const propKey of property.value.keys()) {
+                const propValue = property.value.get(propKey);
+                if (propValue instanceof Property && propKey in stixValue) {
+                    this.addProperty(propValue, stixValue[propKey]);
+                }
+            }
+        }
     }
 
     /**
