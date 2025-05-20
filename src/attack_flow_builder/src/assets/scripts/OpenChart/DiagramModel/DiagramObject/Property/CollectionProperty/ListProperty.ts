@@ -1,14 +1,25 @@
-import { CollectionProperty } from "..";
+import { CollectionProperty, Property } from "..";
 
 export class ListProperty extends CollectionProperty {
 
     /**
+     * The list property's template.
+     */
+    private template: Property;
+
+    
+    /**
      * Creates a new {@link ListProperty}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
+     * @param template
+     *  The property's template.
      */
-    constructor(id: string) {
-        super(id);
+    constructor(id: string, editable: boolean, template: Property) {
+        super(id, editable);
+        this.template = template;
     }
 
 
@@ -32,15 +43,26 @@ export class ListProperty extends CollectionProperty {
 
     /**
      * Returns a clone of the property.
+     * @param id
+     *  The property's id.
      * @returns
      *  A clone of the property.
      */
-    public clone(): ListProperty {
-        const property = new ListProperty(this.id);
+    public clone(id: string = this.id): ListProperty {
+        const property = new ListProperty(id, this.isEditable, this.template);
         for(const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }
         return property;
+    }
+
+    /**
+     * Returns a new list item.
+     * @returns
+     *  A new list item.
+     */
+    public createListItem(): Property {
+        return this.template.clone(this.getNextId());
     }
 
 }

@@ -1,6 +1,6 @@
 <template>
   <FocusBox
-    :class="['text-field-control']"
+    class="text-field-control"
     pointer-event="click"
     @focusin="onFocusIn"
     @focusout="onFocusOut"

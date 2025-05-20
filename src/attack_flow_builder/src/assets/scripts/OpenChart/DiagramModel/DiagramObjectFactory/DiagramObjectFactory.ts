@@ -386,7 +386,7 @@ export class DiagramObjectFactory {
     ): DictionaryProperty {
         const map = new Map(values);
         // Create property
-        const property = new DictionaryProperty(id);
+        const property = new DictionaryProperty(id, descriptor.is_editable ?? true);
         // Create sub-properties
         for (const [id, desc] of Object.entries(descriptor.form)) {
             // Add property
@@ -420,9 +420,11 @@ export class DiagramObjectFactory {
             values = descriptor.default;
         }
         // Create property
-        const property = new ListProperty(id);
-        // Create values
         const desc = descriptor.form;
+        const editable = desc.is_editable ?? true;
+        const template = this.createProperty("template", desc);
+        const property = new ListProperty(id, editable, template);
+        // Create values
         for (const [id, value] of values ?? []) {
             property.addProperty(this.createProperty(id, desc, value), id);
         }
@@ -450,24 +452,25 @@ export class DiagramObjectFactory {
             value = descriptor.default;
         }
         // Create property
+        const editable = descriptor.is_editable ?? true;
         let min, max, suggestions, options;
         switch (descriptor.type) {
             case PropertyType.Int:
                 min = descriptor.min ?? -Infinity;
                 max = descriptor.max ?? Infinity;
-                return new IntProperty(id, min, max, value);
+                return new IntProperty(id, editable, min, max, value);
             case PropertyType.Float:
                 min = descriptor.min ?? -Infinity;
                 max = descriptor.max ?? Infinity;
-                return new FloatProperty(id, min, max, value);
+                return new FloatProperty(id, editable, min, max, value);
             case PropertyType.String:
                 suggestions = descriptor.suggestions ?? [];
-                return new StringProperty(id, suggestions, value);
+                return new StringProperty(id, editable, suggestions, value);
             case PropertyType.Date:
-                return new DateProperty(id, value);
+                return new DateProperty(id, editable, value);
             case PropertyType.Enum:
                 options = this.createListProperty(`${id}.options`, descriptor.options);
-                return new EnumProperty(id, options, value);
+                return new EnumProperty(id, editable, options, value);
         }
     }
 

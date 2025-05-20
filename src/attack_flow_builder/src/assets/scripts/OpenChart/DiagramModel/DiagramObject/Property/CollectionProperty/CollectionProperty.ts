@@ -16,9 +16,11 @@ export abstract class CollectionProperty extends Property {
      * Creates a new {@link CollectionProperty}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
      */
-    constructor(id: string) {
-        super(id);
+    constructor(id: string, editable: boolean) {
+        super(id, editable);
         this.value = new Map();
     }
 

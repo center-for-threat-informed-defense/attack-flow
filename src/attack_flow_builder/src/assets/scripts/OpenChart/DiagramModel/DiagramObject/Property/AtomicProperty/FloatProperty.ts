@@ -31,6 +31,8 @@ export class FloatProperty extends Property {
      * Creates a new {@link FloatProperty}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
      * @param min
      *  The property's minimum allowed value.
      * @param max
@@ -38,8 +40,8 @@ export class FloatProperty extends Property {
      * @param value
      *  The property's value.
      */
-    constructor(id: string, min: number, max: number, value?: JsonType) {
-        super(id);
+    constructor(id: string, editable: boolean, min: number, max: number, value?: JsonType) {
+        super(id, editable);
         this.min = min;
         this.max = max;
         this._value = null;
@@ -106,11 +108,13 @@ export class FloatProperty extends Property {
 
     /**
      * Returns a clone of the property.
+     * @param id
+     *  The property's id.
      * @returns
      *  A clone of the property.
      */
-    public clone(): FloatProperty {
-        return new FloatProperty(this.id, this.min, this.max, this._value);
+    public clone(id: string = this.id): FloatProperty {
+        return new FloatProperty(id, this.isEditable, this.min, this.max, this._value);
     }
 
 }

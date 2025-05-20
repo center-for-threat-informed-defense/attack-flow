@@ -1,19 +1,19 @@
-export class CreateSubproperty extends PageCommand {
+import { EditorCommand } from "../EditorCommand";
+import { EditorDirective } from "../EditorDirective";
+import type { DirectiveIssuer } from "../DirectiveIssuer";
+import type { ListProperty, Property } from "@OpenChart/DiagramModel";
+
+export class CreateSubproperty extends EditorCommand {
 
     /**
-     * The property to modify.
+     * The property.
      */
     public readonly property: ListProperty;
 
     /**
-     * The subproperty's id.
-     */
-    private _id: string;
-
-    /**
      * The subproperty.
      */
-    private _subproperty: Property;
+    private readonly subproperty: Property;
 
 
     /**
@@ -22,32 +22,31 @@ export class CreateSubproperty extends PageCommand {
      *  The {@link ListProperty}.
      */
     constructor(property: ListProperty) {
-        const root = property.root;
-        if (!root) {
-            throw new Error("Property does not have a root.");
-        }
-        super(root.object.root.id);
+        super();
         this.property = property;
-        this._id = property.getNextId();
-        this._subproperty = Property.create(this._id, property, property.descriptor.form);
+        this.subproperty = property.createListItem();
     }
 
 
     /**
-     * Executes the page command.
-     * @returns
-     *  True if the command should be recorded, false otherwise.
+     * Executes the editor command.
+     * @param issueDirective
+     *  A function that can issue one or more editor directives.
      */
-    public execute(): boolean {
-        this.property.addProperty(this._subproperty, this._id);
-        return true;
+    public async execute(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+        this.property.addProperty(this.subproperty, this.subproperty.id);
+        issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
 
     /**
-     * Undoes the page command.
+     * Undoes the editor command.
+     * @param issueDirective
+     *  A function that can issue one or more editor directives.
      */
-    public undo() {
-        this.property.removeProperty(this._id);
+    public async undo(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+        this.property.removeProperty(this.subproperty.id);
+        issueDirective(EditorDirective.Autosave);
     }
 
 }
+

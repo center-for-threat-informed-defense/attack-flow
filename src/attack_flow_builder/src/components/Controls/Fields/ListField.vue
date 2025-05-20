@@ -1,25 +1,18 @@
 <template>
   <div class="list-field-control">
-    <!-- quick fix for Vue 3 render-update bug; accessing .trigger forces update -->
-    <div style="display:none;">
-      {{ _property.trigger }}
-    </div>
     <div
       class="field-item"
-      v-for="[key, value] in _property.value"
+      v-for="[key, value] in property.value"
       :key="key"
     >
       <!-- Dictionary Field -->
-      <template v-if="getField(value.type) === 'DictionaryField'">
+      <template v-if="getField(value) === 'DictionaryField'">
         <component
-          :is="getField(value.type)"
+          :is="getField(value)"
           :property="value"
-          @change="(...args: any) => $emit('change', ...args)"
-          @create="(...args: any) => $emit('create', ...args)"
-          @delete="(...args: any) => $emit('delete', ...args)"
+          @execute="(cmd: EditorCommand) => $emit('execute', cmd)"
         >
           <button
-            v-if="!disabled"
             class="delete-button"
             @pointerdown="onDelete(key)"
             tabindex="-1"
@@ -31,14 +24,11 @@
       <!-- Primitive Fields -->
       <template v-else>
         <component
-          :is="getField(value.type)"
+          :is="getField(value)"
           :property="value"
-          @change="(...args: any) => $emit('change', ...args)"
-          @create="(...args: any) => $emit('create', ...args)"
-          @delete="(...args: any) => $emit('delete', ...args)"
+          @execute="(cmd: EditorCommand) => $emit('execute', cmd)"
         />
         <button
-          v-if="!disabled"
           class="delete-button"
           @pointerdown="onDelete(key)"
           tabindex="-1"
@@ -47,11 +37,7 @@
         </button>
       </template>
     </div>
-    <button
-      v-if="!disabled"
-      class="create-button"
-      @pointerdown="onCreate()"
-    >
+    <button class="create-button" @pointerdown="onCreate()">
       <span><PlusIcon /></span>Add
     </button>
   </div>
@@ -59,9 +45,14 @@
 
 <script lang="ts">
 // Dependencies
-import { PropertyType } from "@OpenChart/DiagramModel";
-import type { ListProperty } from "@OpenChart/DiagramModel";
+import * as EditorCommands from "@OpenChart/DiagramEditor"
 import { defineAsyncComponent, defineComponent, type PropType } from "vue";
+import { 
+  DateProperty, DictionaryProperty, EnumProperty, 
+  FloatProperty, IntProperty, ListProperty, StringProperty
+} from "@OpenChart/DiagramModel";
+import type { Property } from "@OpenChart/DiagramModel";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import PlusIcon from "@/components/Icons/PlusIcon.vue";
 import TextField from "./TextField.vue";
@@ -79,28 +70,6 @@ export default defineComponent({
       required: true
     }
   },
-  computed: {
-
-    /**
-     * A reactive version of the property.
-     * @returns
-     *  The property.
-     */
-    _property(): ListProperty {
-      const trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property;
-    },
-
-    /**
-     * Tests if the property is disabled.
-     * @returns
-     *  True if the property is disabled, false otherwise.
-     */
-    disabled(): boolean {
-      return !(this._property.descriptor.is_editable ?? true);
-    }
-
-  },
   methods: {
 
     /**
@@ -110,42 +79,46 @@ export default defineComponent({
      * @returns
      *  The field's component type.
      */
-    getField(type: PropertyType): string | undefined {
-      switch(type) {
-        case PropertyType.Int:
-        case PropertyType.Float:
-          return "NumberField";
-        case PropertyType.String:
+    getField(type: Property): string | undefined {
+      switch(type.constructor.name) {
+        case StringProperty.name:
           return "TextField";
-        case PropertyType.Date:
+        case IntProperty.name:
+        case FloatProperty.name:
+          return "NumberField";
+        case DateProperty.name:
           return "DateTimeField";
-        case PropertyType.Enum:
+        case EnumProperty.name:
           return "EnumField";
-        case PropertyType.List:
+        case ListProperty.name:
           return "ListField";
-        case PropertyType.Dictionary:
+        case DictionaryProperty.name:
           return "DictionaryField";
       }
     },
 
     /**
-     * Create subproperty behavior.
+     * Create sub-property behavior.
      */
     onCreate() {
-      this.$emit("create", this._property);
+      const cmd = EditorCommands.createSubproperty(this.property);
+      this.$emit("execute", cmd);
     },
 
     /**
-     * Delete subproperty behavior.
+     * Delete sub-property behavior.
      * @param id
-     *  The subproperty's id.
+     *  The sub-property's id.
      */
     onDelete(id: string) {
-      this.$emit("delete", this._property, id);
+      const cmd = EditorCommands.deleteSubproperty(this.property, id);
+      this.$emit("execute", cmd);
     }
 
   },
-  emits: ["change", "create", "delete"],
+  emits: {
+    execute: (cmd: EditorCommand) => cmd
+  },
   components: {
     PlusIcon,
     TextField,
@@ -174,14 +147,6 @@ export default defineComponent({
   min-height: 30px;
   border-radius: 4px;
   background: #2e2e2e;
-}
-
-.text-field-control.disabled,
-.enum-field-control.disabled,
-.number-field-control.disabled,
-.datetime-field-control.disabled {
-  background: none;
-  border: dashed 1px #404040;
 }
 
 .dictionary-field-control {

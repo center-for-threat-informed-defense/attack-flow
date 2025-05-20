@@ -9,6 +9,11 @@ export abstract class Property {
     public readonly id: string;
 
     /**
+     * Whether the property is editable.
+     */
+    public readonly isEditable: boolean;
+
+    /**
      * The property's (internal) parent.
      */
     protected _parent: Property | null;
@@ -36,9 +41,12 @@ export abstract class Property {
      * Creates a new {@link Property}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
      */
-    constructor(id: string) {
+    constructor(id: string, editable: boolean) {
         this.id = id;
+        this.isEditable = editable;
         this._parent = null;
     }
 
@@ -116,9 +124,11 @@ export abstract class Property {
 
     /**
      * Returns a clone of the property.
+     * @param id
+     *  The property's id.
      * @returns
      *  A clone of the property.
      */
-    public abstract clone(): Property;
+    public abstract clone(id?: string): Property;
 
 }

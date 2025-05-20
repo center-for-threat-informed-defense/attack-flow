@@ -26,13 +26,15 @@ export class EnumProperty extends Property {
      * Creates a new {@link EnumProperty}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
      * @param options
      *  The property's list of options.
      * @param value
      *  The property's value.
      */
-    constructor(id: string, options: ListProperty, value?: JsonType) {
-        super(id);
+    constructor(id: string, editable: boolean, options: ListProperty, value?: JsonType) {
+        super(id, editable);
         this.options = options;
         this._value = null;
         // Set value
@@ -119,11 +121,13 @@ export class EnumProperty extends Property {
 
     /**
      * Returns a clone of the property.
+     * @param id
+     *  The property's id.
      * @returns
      *  A clone of the property.
      */
-    public clone(): EnumProperty {
-        return new EnumProperty(this.id, this.options, this._value);
+    public clone(id: string = this.id): EnumProperty {
+        return new EnumProperty(id, this.isEditable, this.options, this._value);
     }
 
 }

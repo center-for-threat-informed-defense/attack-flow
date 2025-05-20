@@ -22,9 +22,11 @@
 // Dependencies
 import { titleCase } from "@/assets/scripts/Browser";
 import { defineAsyncComponent, defineComponent, type PropType } from "vue";
-import { DictionaryProperty, type Property } from "@OpenChart/DiagramModel";
-import { DateProperty, EnumProperty, FloatProperty, IntProperty, ListProperty, StringProperty } from "@OpenChart/DiagramModel";
-import type { Command } from "@/assets/scripts/Application";
+import { 
+  DateProperty, DictionaryProperty, EnumProperty, 
+  FloatProperty, IntProperty, ListProperty, StringProperty
+} from "@OpenChart/DiagramModel";
+import type { Property } from "@OpenChart/DiagramModel";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import TextField from "./TextField.vue";
@@ -32,7 +34,6 @@ import ListField from "./ListField.vue";
 import EnumField from "./EnumField.vue";
 import NumberField from "./NumberField.vue";
 import DateTimeField from "./DateTimeField.vue";
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
 
@@ -53,8 +54,7 @@ export default defineComponent({
      */
     fields(): [string, Property][] {
       return [...this.property.value.entries()].filter(
-        // o => o[1].descriptor.is_visible_sidebar ?? true
-        o => true
+        o => o[1].isEditable ?? true
       );
     }
 
@@ -71,21 +71,21 @@ export default defineComponent({
      * @returns
      *  The field's component type.
      */
-    getField(type: Property): string | undefined {      
+    getField(type: Property): string | undefined {
       switch(type.constructor.name) {
         case StringProperty.name:
           return "TextField";
-        // case IntProperty.name:
-        // case FloatProperty.name:
-        //   return "NumberField";
-        // case DateProperty.name:
-        //   return "DateTimeField";
-        // case EnumProperty.name:
-        //   return "EnumField";
-        // case ListProperty.name:
-        //   return "ListField";
-        // case DictionaryProperty.name:
-        //   return "DictionaryField";
+        case IntProperty.name:
+        case FloatProperty.name:
+          return "NumberField";
+        case DateProperty.name:
+          return "DateTimeField";
+        case EnumProperty.name:
+          return "EnumField";
+        case ListProperty.name:
+          return "ListField";
+        case DictionaryProperty.name:
+          return "DictionaryField";
       }
     },
 

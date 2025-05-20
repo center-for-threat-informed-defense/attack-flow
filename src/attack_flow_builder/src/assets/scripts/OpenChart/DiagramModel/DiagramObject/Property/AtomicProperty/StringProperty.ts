@@ -26,13 +26,15 @@ export class StringProperty extends Property {
      * Creates a new {@link StringProperty}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
      * @param suggestions
      *  The property's list of suggestions.
      * @param value
      *  The property's value.
      */
-    constructor(id: string, suggestions: string[], value?: JsonType) {
-        super(id);
+    constructor(id: string, editable: boolean, suggestions: string[], value?: JsonType) {
+        super(id, editable);
         this.suggestions = suggestions;
         this._value = null;
         // Set value
@@ -92,11 +94,13 @@ export class StringProperty extends Property {
 
     /**
      * Returns a clone of the property.
+     * @param id
+     *  The property's id.
      * @returns
      *  A clone of the property.
      */
-    public clone(): StringProperty {
-        return new StringProperty(this.id, this.suggestions, this._value);
+    public clone(id: string = this.id): StringProperty {
+        return new StringProperty(id, this.isEditable, this.suggestions, this._value);
     }
 
 }

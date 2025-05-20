@@ -1,7 +1,7 @@
 <template>
   <div
-    :class="['datetime-field-control', { disabled }]"
-    :tabindex="tabIndex"
+    class="datetime-field-control"
+    tabindex="0"
     @focus="enterEditMode()"
   >
     <div class="grid-container">
@@ -106,7 +106,9 @@
 </template>
 
 <script lang="ts">
+import * as EditorCommands from "@OpenChart/DiagramEditor"
 import type { DateProperty } from "@OpenChart/DiagramModel";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
 import { defineComponent, markRaw, type PropType, ref } from "vue";
 
 type Segments =  
@@ -151,39 +153,10 @@ export default defineComponent({
       value_H: "",
       value_m: "",
       value_s: "",
-      showEditor: false,
-      activeProperty: markRaw(this.property)
+      showEditor: false
     }
   },
   computed: {
-
-    /**
-     * A reactive version of the property.
-     * @returns
-     *  The property.
-     */
-    _property(): DateProperty {
-      const trigger = this.activeProperty.trigger.value;
-      return trigger ? this.activeProperty : this.activeProperty;
-    },
-
-    /**
-     * Returns the field's tab index.
-     * @returns
-     *  The field's tab index.
-     */
-    tabIndex(): undefined | "0" {
-      return this.disabled ? undefined : "0";
-    },
-
-    /**
-     * Tests if the property is disabled.
-     * @returns
-     *  True if the property is disabled, false otherwise. 
-     */
-    disabled(): boolean {
-      return !(this._property.descriptor.is_editable ?? true);
-    },
 
     /**
      * The property's raw value.
@@ -191,7 +164,7 @@ export default defineComponent({
      *  the property's raw value.
      */
     value(): Date | null {
-      const value = this._property.toRawValue();
+      const value = this.property.toJson();
       return value !== null ? new Date(value) : value;
     },
 
@@ -308,9 +281,6 @@ export default defineComponent({
      * Enters edit mode.
      */
     enterEditMode() {
-      if(this.disabled) {
-        return;
-      }
       this.showEditor = true;
       this.$nextTick(() => {
         // Select field
@@ -390,8 +360,9 @@ export default defineComponent({
         value = date;
       }
       if(this.value?.getTime() !== value?.getTime()) {
-        // Update value
-        this.$emit("change", this._property, value);
+        // Update property
+        const cmd = EditorCommands.setDateProperty(this.property, value);
+        this.$emit("execute", cmd);
       } else {
         // Refresh value
         this.refreshValue();
@@ -415,17 +386,16 @@ export default defineComponent({
     }
 
   },
-  emits: ["change"],
+  emits: {
+    execute: (cmd: EditorCommand) => cmd
+  },
   watch: {
     "property"() {
-      // Update existing property before switching
-      this.updateProperty();
-      // Switch property
-      this.activeProperty = markRaw(this.property);
       // Refresh value
       this.refreshValue();
     },
-    "_property.trigger.value"() {
+    "property.value"() {
+      // Refresh value
       this.refreshValue();
     }
   },
@@ -448,10 +418,6 @@ export default defineComponent({
   color: #cccccc;
   cursor: text;
   overflow: hidden;
-}
-
-.datetime-field-control.disabled {
-  cursor: inherit;
 }
 
 .datetime-field-control:focus {

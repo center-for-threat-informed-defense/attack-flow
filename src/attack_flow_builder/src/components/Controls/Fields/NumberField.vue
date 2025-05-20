@@ -1,7 +1,7 @@
 <template>
   <div
-    :class="['number-field-control', { disabled }]"
-    :tabindex="tabIndex"
+    class="number-field-control"
+    tabindex="0"
     @focus="onFocus()"
   >
     <input
@@ -12,12 +12,8 @@
       @input="onInput"
       @keydown="onKeyDown"
       @blur="onBlur"
-      :disabled="disabled"
     >
-    <div
-      class="increment-arrows"
-      v-if="!disabled"
-    >
+    <div class="increment-arrows">
       <div
         class="up-arrow"
         @click="updateProperty(+1)"
@@ -35,9 +31,11 @@
 </template>
 
 <script lang="ts">
+import * as EditorCommands from "@OpenChart/DiagramEditor";
 import { clamp } from "@OpenChart/Utilities";
-import { defineComponent, markRaw, type PropType, ref } from "vue";
 import { IntProperty } from "@OpenChart/DiagramModel";
+import { defineComponent, type PropType, ref } from "vue";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
 
 export default defineComponent({
   name: "NumberField",
@@ -54,40 +52,8 @@ export default defineComponent({
   },
   data() {
     return {
-      value: "",
-      activeProperty: markRaw(this.property)
+      value: ""
     }
-  },
-  computed: {
-
-    /**
-     * A reactive version of the property.
-     * @returns
-     *  The property.
-     */
-    _property(): IntProperty {
-      const trigger = this.activeProperty.trigger.value;
-      return trigger ? this.activeProperty : this.activeProperty; 
-    },
-
-    /**
-     * Returns the field's tab index.
-     * @returns
-     *  The field's tab index.
-     */
-    tabIndex(): undefined | "0" {
-      return this.disabled ? undefined : "0";
-    },
-
-    /**
-     * Tests if the property is disabled.
-     * @returns
-     *  True if the property is disabled, false otherwise. 
-     */
-    disabled(): boolean {
-      return !(this._property.descriptor.is_editable ?? true);
-    }
-
   },
   methods: {
 
@@ -154,16 +120,17 @@ export default defineComponent({
           value += delta;
         }
         // Bound value
-        const { min, max } = this._property;
+        const { min, max } = this.property;
         value = clamp(value, min, max); 
         // Bound type
-        if(this._property instanceof IntProperty) {
+        if(this.property instanceof IntProperty) {
           value = Math.round(value);
         }
       }
-      if(this._property.toRawValue() !== value) {
-        // Update value
-        this.$emit("change", this._property, value);
+      if(this.property.toJson() !== value) {
+        // Update property
+        const cmd = EditorCommands.setNumberProperty(this.property, value);
+        this.$emit("execute", cmd);
       } else {
         // Refresh value
         this.refreshValue();
@@ -174,21 +141,20 @@ export default defineComponent({
      * Updates the field's text value.
      */
     refreshValue() {
-      this.value = `${ this._property.toRawValue() ?? "" }`
+      this.value = `${ this.property.toJson() ?? "" }`
     }
     
   },
-  emits: ["change"],
+  emits: {
+    execute: (cmd: EditorCommand) => cmd
+  },
   watch: {
     "property"() {
-      // Update existing property before switching
-      this.updateProperty();
-      // Switch property
-      this.activeProperty = markRaw(this.property);
       // Refresh value
       this.refreshValue();
     },
-    "_property.trigger.value"() {
+    "property.value"() {
+      // Refresh value
       this.refreshValue();
     }
   },
@@ -211,10 +177,6 @@ export default defineComponent({
   color: #cccccc;
   cursor: text;
   overflow: hidden;
-}
-
-.number-field-control.disabled {
-  cursor: inherit;
 }
 
 .number-field-control:focus {

@@ -12,9 +12,11 @@ export class DictionaryProperty extends CollectionProperty {
      * Creates a new {@link DictionaryProperty}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
      */
-    constructor(id: string) {
-        super(id);
+    constructor(id: string, editable: boolean) {
+        super(id, editable);
         this.representativeKey = null;
     }
 
@@ -55,11 +57,13 @@ export class DictionaryProperty extends CollectionProperty {
 
     /**
      * Returns a clone of the property.
+     * @param id
+     *  The property's id.
      * @returns
      *  A clone of the property.
      */
-    public clone(): DictionaryProperty {
-        const property = new DictionaryProperty(this.id);
+    public clone(id: string = this.id): DictionaryProperty {
+        const property = new DictionaryProperty(id, this.isEditable);
         for(const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }

@@ -1,9 +1,5 @@
 <template>
   <div class="dictionary-field-control">
-    <!-- quick fix for Vue 3 render-update bug; accessing _property.trigger forces re-render -->
-    <div style="display:none;">
-      {{ _property.trigger }}
-    </div>
     <div
       :class="['dictionary-header-container', { collapsed }]"
       @click="collapsed=!collapsed"
@@ -14,7 +10,7 @@
           :collapsed="collapsed"
         />
         <p class="text">
-          {{ _property.toString() }}
+          {{ property.toString() }}
         </p>
       </div>
       <slot />
@@ -69,8 +65,9 @@ export default defineComponent({
      */
     hasVisibleProperties(): boolean {
       for(const value of this.property.value.values()) {
-        if(value.descriptor.is_visible_sidebar ?? true)
+        if(value.isEditable) {
           return true;
+        }
       }
       return false;
     }

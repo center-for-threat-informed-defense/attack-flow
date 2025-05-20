@@ -21,11 +21,13 @@ export class DateProperty extends Property {
      * Creates a new {@link DateProperty}.
      * @param id
      *  The property's id.
+     * @param editable
+     *  Whether the property is editable.
      * @param value
      *  The property's value.
      */
-    constructor(id: string, value?: JsonType) {
-        super(id);
+    constructor(id: string, editable: boolean, value?: JsonType) {
+        super(id, editable);
         this._value = null;
         // Set value
         if ((value ?? null) === null) {
@@ -90,11 +92,13 @@ export class DateProperty extends Property {
 
     /**
      * Returns a clone of the property.
+     * @param id
+     *  The property's id.
      * @returns
      *  A clone of the property.
      */
-    public clone(): DateProperty {
-        return new DateProperty(this.id, this._value);
+    public clone(id: string = this.id): DateProperty {
+        return new DateProperty(id, this.isEditable, this._value);
     }
 
 }

@@ -1,7 +1,7 @@
 <template>
   <FocusBox
-    :class="['enum-field-control', { disabled }]"
-    :tab-index="tabIndex"
+    class="enum-field-control"
+    tab-index="0"
     pointer-event="click"
     @focusin="onFocusIn"
     @focusout="onFocusOut"
@@ -34,10 +34,7 @@
         v-model="searchTerm"
         v-show="showSearch"
       >
-      <div
-        class="dropdown-arrow"
-        v-if="!disabled"
-      >
+      <div class="dropdown-arrow">
         ▼
       </div>
     </div>
@@ -45,13 +42,14 @@
 </template>
 
 <script lang="ts">
-
 // Dependencies
+import * as EditorCommands from "@OpenChart/DiagramEditor";
 import { defineComponent, type PropType, ref } from "vue";
-import type { EnumProperty } from "@OpenChart/DiagramModel";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";
+import type { EnumProperty } from "@OpenChart/DiagramModel";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
 
 export default defineComponent({
   name: "EnumField",
@@ -70,7 +68,7 @@ export default defineComponent({
   },
   data() {
     return {
-      select: this.property.toRawValue(),
+      select: this.property.toJson(),
       showMenu: false,
       showSearch: false,
       searchTerm: ""
@@ -79,40 +77,12 @@ export default defineComponent({
   computed: {
 
     /**
-     * A reactive version of the property.
-     * @returns
-     *  The property.
-     */
-    _property(): EnumProperty {
-      const trigger = this.property.trigger.value;
-      return trigger ? this.property : this.property; 
-    },
-
-    /**
-     * Returns the field's tab index.
-     * @returns
-     *  The field's tab index.
-     */
-    tabIndex(): undefined | "0" {
-      return this.disabled ? undefined : "0";
-    },
-
-    /**
-     * Tests if the property is disabled.
-     * @returns
-     *  True if the property is disabled, false otherwise. 
-     */
-    disabled(): boolean {
-      return !(this._property.descriptor.is_editable ?? true);
-    },
-
-    /**
      * Tests if the null option is selected.
      * @returns
      *  True if the null option is selected, false otherwise.
      */
     isNull(): boolean {
-      return this._property.toRawValue() === null;
+      return this.property.toJson() === null;
     },
     
     /**
@@ -126,7 +96,7 @@ export default defineComponent({
         options.push({ value: null, text: "None" });
       }
       const st = this.searchTerm.toLocaleLowerCase();
-      for(const [value, prop] of this._property.options.value) {
+      for(const [value, prop] of this.property.options.value) {
         const text = prop.toString();
         if(st === "" || text.toLocaleLowerCase().includes(st)) {
           options.push({ value, text });
@@ -142,7 +112,7 @@ export default defineComponent({
      */
     selectText(): string {
       if(this.select !== null) {
-        const prop = this._property.options.value.get(this.select)!;
+        const prop = this.property.options.value.get(this.select)!;
         return prop.toString();
       } else {
         return "None";
@@ -159,7 +129,9 @@ export default defineComponent({
     }
 
   },
-  emits: ["change"],
+  emits: {
+    execute: (cmd: EditorCommand) => cmd
+  },
   methods: {
 
     /**
@@ -195,11 +167,11 @@ export default defineComponent({
     onSearchInput() {
       this.select = null;
       if(this.searchTerm === "") {
-        this.select = this._property.toRawValue();
+        this.select = this.property.toJson();
         return;
       }
       const st = this.searchTerm.toLocaleLowerCase();
-      for(const [value, prop] of this._property.options.value) {
+      for(const [value, prop] of this.property.options.value) {
         const text = prop.toString();
         if(text.toLocaleLowerCase().includes(st)) {
           this.select = value;
@@ -248,9 +220,11 @@ export default defineComponent({
      *  The property's new value.
      */
     updateProperty(value: string | null) {
-      if(this._property.toRawValue() !== value) {
+      const v = value || null;
+      if(this.property.toJson() !== v) {
         // Update property
-        this.$emit("change", this._property, value);
+        const cmd = EditorCommands.setEnumProperty(this.property, v);
+        this.$emit("execute", cmd);
       } else {
         // Refresh value
         this.refreshValue();
@@ -261,12 +235,16 @@ export default defineComponent({
      * Updates the field's text value.
      */
     refreshValue() {
-      this.select = this._property.toRawValue()
+      this.select = this.property.toJson()
     }
     
   },
   watch: {
-    "_property.trigger.value"() {
+    "property"() {
+      // Refresh value
+      this.refreshValue();
+    },
+    "property.value"() {
       // Refresh value
       this.refreshValue();
     }

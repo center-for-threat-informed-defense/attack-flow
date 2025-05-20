@@ -17,6 +17,11 @@ type BasePropertyDescriptor<K extends PropertyType> = {
     type: K;
 
     /**
+     * Whether the property appears, and is editable within, the interface.
+     */
+    is_editable? : boolean;
+
+    /**
      * Whether the property should be used to represent its parent property.
      * When `true`, the value associated with this property will be used to
      * visually distinguish or summarize the Root or Dictionary Property it
@@ -66,11 +71,6 @@ type AtomicPropertyDescriptor<K extends AtomicType> = BasePropertyDescriptor<K> 
      * The property's default value.
      */
     default?: AtomicTypeToJsonType[K];
-
-    /**
-     * Whether the property appears, and is editable within, the interface.
-     */
-    is_editable? : boolean;
 
 };
 
@@ -183,11 +183,6 @@ export type ListPropertyDescriptor = BasePropertyDescriptor<PropertyType.List> &
      */
     default?: [string, any][];
 
-    /**
-     * Whether the property appears, and is editable within, the interface.
-     */
-    is_editable? : boolean;
-
 };
 
 
@@ -228,11 +223,6 @@ type SimpleListPropertyDescriptor = BasePropertyDescriptor<PropertyType.List> & 
      */
     default?: any;
 
-    /**
-     * Whether the property appears, and is editable within, the interface.
-     */
-    is_editable? : boolean;
-
 };
 
 /**
@@ -250,11 +240,6 @@ type SimpleDictionaryListPropertyDescriptor = BasePropertyDescriptor<PropertyTyp
      * The property's default value.
      */
     default?: any;
-
-    /**
-     * Whether the property appears, and is editable within, the interface.
-     */
-    is_editable? : boolean;
 
 };
 
