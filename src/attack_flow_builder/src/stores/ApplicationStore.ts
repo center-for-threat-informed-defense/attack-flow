@@ -195,8 +195,7 @@ export const useApplicationStore = defineStore("applicationStore", {
          *  True if the splash menu is visible.
          */
         isShowingSplash(state): boolean {
-            // return state.settings.view.splash_menu.display_menu;
-            return false;
+            return state.settings.view.splash_menu.display_menu;
         }
 
     },

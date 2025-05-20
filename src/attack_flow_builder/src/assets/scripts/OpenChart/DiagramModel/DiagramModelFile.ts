@@ -2,7 +2,6 @@ import { Canvas } from "./DiagramObject";
 import { DiagramObjectSerializer } from "./DiagramObjectSerializer";
 import type { DiagramModelExport } from "./DiagramModelExport";
 import type { DiagramObjectFactory } from "./DiagramObjectFactory";
-import { StixToFlow, type StixBundle } from "../../StixToFlow/StixToFlow";
 
 export class DiagramModelFile {
 

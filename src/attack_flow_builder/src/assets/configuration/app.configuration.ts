@@ -1,5 +1,6 @@
 import { DarkTheme } from "./themes/DarkTheme";
 import { BlogTheme } from "./themes/BlogTheme";
+import { CtidIcon, CtidLogo } from "./images";
 import { 
     AttackFlow,
     AttackFlowObjects,
@@ -19,7 +20,7 @@ const configuration: AppConfiguration = {
     /**
      * The application's icon.
      */
-    application_icon: "",
+    application_icon: CtidIcon,
 
     /**
      * The application file type's name.
@@ -35,7 +36,7 @@ const configuration: AppConfiguration = {
      * The application's splash screen configuration.
      */
     splash: {
-        organization: "",
+        organization: CtidLogo,
         new_file: {
             title: "New Flow",
             description: "Create a new, blank Flow."

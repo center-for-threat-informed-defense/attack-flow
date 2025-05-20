@@ -5,7 +5,6 @@ import type { CameraLocation } from "./CameraLocation";
 import type { DiagramViewExport } from "./DiagramViewExport";
 import type { DiagramLayoutEngine } from "./DiagramLayoutEngine";
 import type { DiagramTheme, DiagramObjectViewFactory } from "./DiagramObjectViewFactory";
-import type { StixBundle } from "../../StixToFlow/StixToFlow";
 
 export class DiagramViewFile extends DiagramModelFile {
 

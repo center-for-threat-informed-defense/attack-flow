@@ -1,6 +1,5 @@
 import { AppCommand } from "..";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
-import type { DiagramModelEditor } from "@OpenChart/DiagramEditor/index.model";
 
 export class RemoveFileFromRecoveryBank extends AppCommand {
 
@@ -10,22 +9,22 @@ export class RemoveFileFromRecoveryBank extends AppCommand {
     public readonly context: ApplicationStore;
 
     /**
-     * The file's editor.
+     * The file's id.
      */
-    public readonly editor: DiagramModelEditor;
+    public readonly id: string;
 
 
     /**
      * Removes a file from the application's file recovery bank.
      * @param context
      *  The application context.
-     * @param editor
-     *  The file's editor.
+     * @param id
+     *  The file's id.
      */
-    constructor(context: ApplicationStore, editor: DiagramModelEditor) {
+    constructor(context: ApplicationStore, id: string) {
         super();
         this.context = context;
-        this.editor = editor;
+        this.id = id;
     }
 
 
@@ -33,10 +32,7 @@ export class RemoveFileFromRecoveryBank extends AppCommand {
      * Executes the command.
      */
     public async execute(): Promise<void> {
-        // Cancel any outstanding saves
-        this.editor.tryCancelAutosave();
-        // Remove file from recovery bank
-        this.context.fileRecoveryBank.deleteFile(this.editor.id);
+        this.context.fileRecoveryBank.deleteFile(this.id);
     }
 
 }

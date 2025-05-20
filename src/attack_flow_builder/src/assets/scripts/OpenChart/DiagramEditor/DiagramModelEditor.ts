@@ -1,6 +1,6 @@
 import { EventEmitter } from "@OpenChart/Utilities";
+import { DiagramModelFile } from "@OpenChart/DiagramModel";
 import { EditorDirective, GroupCommand } from "./Commands";
-import { DiagramModelFile, DiagramObjectFactory, DiagramObjectType } from "@OpenChart/DiagramModel";
 import type { ModelEditorEvents } from "./ModelEditorEvents";
 import type { DirectiveArguments, DirectiveIssuer, EditorCommand } from "./Commands";
 

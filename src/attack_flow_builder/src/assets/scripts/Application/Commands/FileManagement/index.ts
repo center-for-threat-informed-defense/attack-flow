@@ -1,12 +1,13 @@
 import Configuration from "@/assets/configuration/app.configuration";
 import { Device } from "@/assets/scripts/Browser";
-import { DiagramObjectViewFactory, DiagramViewFile } from "@OpenChart/DiagramView";
-import { ClearFileRecoveryBank, LoadFile, SaveDiagramFileToDevice } from "./index.commands";
+import { StixToFlow } from "@/assets/scripts/StixToFlow";
 import { DoNothing } from "../index.commands";
+import { DiagramObjectViewFactory, DiagramViewFile } from "@OpenChart/DiagramView";
+import { ClearFileRecoveryBank, LoadFile, PrepareEditorWithFile, RemoveFileFromRecoveryBank, SaveDiagramFileToDevice } from "./index.commands";
+import type { StixBundle } from "@/assets/scripts/StixToFlow";
 import type { AppCommand } from "../index.commands";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
-import { StixToFlow, type StixBundle } from "@/assets/scripts/StixToFlow/StixToFlow";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -34,35 +35,6 @@ export async function loadNewFile(
     const file = new DiagramViewFile(factory);
     // Return command
     return new LoadFile(context, file);
-}
-
-/**
- * Loads a STIX file into the application.
- * @param context
- *  The application's context.
- * @param file
- *  The STIX file.
- * @param name
- *  The file's name.
- * @returns
- *  A command that represents the action.
- */
-export async function loadSTIXFile(
-    context: ApplicationStore, file: string, name?: string
-): Promise<LoadFile> {
-    const stixBundle = JSON.parse(file) as StixBundle;
-    // Resolve theme
-    const themeId = context.settings.view.diagram.theme;
-    const theme = await context.themeRegistry.getTheme(themeId);
-    // Resolve schema
-    const schema = Configuration.schema;
-    // Construct factory
-    const factory = new DiagramObjectViewFactory(schema, theme);
-    // Construct stix
-    const canvas = StixToFlow.toFlow(stixBundle, factory);
-    const viewFile = new DiagramViewFile(factory, canvas);
-    // Return command
-    return new LoadFile(context, viewFile, name);
 }
 
 /**
@@ -101,22 +73,6 @@ export async function loadExistingFile(
 }
 
 /**
- * Imports a diagram file export into the active editor.
- * @param context
- *  The application's context.
- * @returns
- *  A command that represents the action.
- */
-// export async function importExistingFile(
-//     context: ApplicationStore, file: string
-// ): Promise<ImportFile> {
-//     // Deserialize file
-//     const json = context.fileSerializer.deserialize(file);
-//     // Return command
-//     return new ImportFile(context, json);
-// }
-
-/**
  * Loads a diagram file, from the file system, into the application.
  * @param context
  *  The application's context.
@@ -135,44 +91,51 @@ export async function loadFileFromFileSystem(
 }
 
 /**
+ * Loads a STIX file into the application.
+ * @param context
+ *  The application's context.
+ * @param file
+ *  The STIX file.
+ * @param name
+ *  The file's name.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function loadExistingStixFile(
+    context: ApplicationStore, file: string, name?: string
+): Promise<LoadFile> {
+    const stixBundle = JSON.parse(file) as StixBundle;
+    // Resolve theme
+    const themeId = context.settings.view.diagram.theme;
+    const theme = await context.themeRegistry.getTheme(themeId);
+    // Resolve schema
+    const schema = Configuration.schema;
+    // Construct factory
+    const factory = new DiagramObjectViewFactory(schema, theme);
+    // Construct stix
+    const canvas = StixToFlow.toFlow(stixBundle, factory);
+    const viewFile = new DiagramViewFile(factory, canvas);
+    // Return command
+    return new LoadFile(context, viewFile, name);
+}
+
+/**
  * Loads a stix file, from the file system, into the application.
  * @param context
  *  The application's context.
  * @returns
  *  A command that represents the action.
  */
-export async function loadSTIXFileFromFileSystem(
+export async function loadStixFileFromFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
     const file = await Device.openTextFileDialog("json");
     if(file) {
-        return loadSTIXFile(context, file.contents as string, file.filename);
+        return loadExistingStixFile(context, file.contents as string, file.filename);
     } else {
         return new DoNothing();
     }
 }
-
-/**
- * Imports diagram files, from the file system, into the active editor.
- * @param context
- *  The application's context.
- * @returns
- *  A command that represents the action.
- */
-// export async function importFileFromFileSystem(
-//     context: ApplicationStore
-// ): Promise<ImportFile> {
-//     const files = await Browser.openTextFileDialog([Configuration.file_type_extension], true);
-//     // Deserialize files
-//     const json = new Array<MappingFileImport>(files.length);
-//     for(let i = 0; i < json.length; i++) {
-//         json[i] = context.fileSerializer.deserialize(files[i].contents as string);
-//     }
-//     // Merge files
-//     const file = context.fileAuthority.mergeMappingFileImports(json);
-//     // Return command
-//     return new ImportFile(context, file);
-// }
 
 /**
  * Loads a diagram file, from a remote url, into the application.
@@ -191,24 +154,111 @@ export async function loadFileFromUrl(
     return loadExistingFile(context, await (await fetch(url)).text(), filename[0]);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////
+//  2. Prepare Editor with File  //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
 /**
- * Imports a diagram file, from a remote url, into the active editor.
+ * Prepares the editor with an empty file.
  * @param context
- *  The application's context.
+ *  The application context.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function prepareEditorFromNewFile(
+    context: ApplicationStore
+): Promise<PrepareEditorWithFile> {
+    return new PrepareEditorWithFile(context, await loadNewFile(context));
+}
+
+/**
+ * Prepares the editor with an existing file.
+ * @param context
+ *  The application context.
+ * @param file
+ *  The file export.
+ * @param name
+ *  The file's name.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function prepareEditorFromExistingFile(
+    context: ApplicationStore, file: string, name?: string
+): Promise<PrepareEditorWithFile> {
+    return new PrepareEditorWithFile(context, await loadExistingFile(context, file, name));
+}
+
+/**
+ * Prepares the editor with an existing file from the file system.
+ * @param context
+ *  The application context.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function prepareEditorFromFileSystem(
+    context: ApplicationStore
+): Promise<AppCommand> {
+    const cmd = await loadFileFromFileSystem(context);
+    if(cmd instanceof LoadFile) {
+       return new PrepareEditorWithFile(context, cmd); 
+    } else {
+        return cmd;
+    }   
+}
+
+/**
+ * Prepares the editor with an existing STIX file.
+ * @param context
+ *  The application context.
+ * @param file
+ *  The STIX file.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function prepareEditorFromExistingStixFile(
+    context: ApplicationStore, file: string
+): Promise<PrepareEditorWithFile> {
+    return new PrepareEditorWithFile(context, await loadExistingStixFile(context, file));
+}
+
+/**
+ * Prepares the editor with an existing STIX file from the file system.
+ * @param context
+ *  The application context.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function prepareEditorFromStixFileSystem(
+    context: ApplicationStore
+): Promise<AppCommand> {
+    const cmd = await loadStixFileFromFileSystem(context);
+    if(cmd instanceof LoadFile) {
+       return new PrepareEditorWithFile(context, cmd); 
+    } else {
+        return cmd;
+    }   
+}
+
+/**
+ * Prepares the editor with an existing file from a remote url.
+ * @param context
+ *  The application context.
  * @param url
  *  The remote url.
  * @returns
  *  A command that represents the action.
  */
-// export async function importFileFromUrl(
-//     context: ApplicationStore, url: string
-// ): Promise<ImportFile> {
-//     return importExistingFile(context, await (await fetch(url)).text());
-// }
+export async function prepareEditorFromUrl(
+    context: ApplicationStore, url: string
+): Promise<PrepareEditorWithFile> {
+    return new PrepareEditorWithFile(context, await loadFileFromUrl(context, url));
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  2. Save / Export Files  ///////////////////////////////////////////////////
+//  3. Save / Export Files  ///////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -227,9 +277,24 @@ export function saveActiveFileToDevice(
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  3. File Recovery Bank  ////////////////////////////////////////////////////
+//  4. File Recovery Bank  ////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+
+/**
+ * Removes a file from the application's file recovery bank.
+ * @param context
+ *  The application context.
+ * @param id
+ *  The file's id.
+ * @returns
+ *  A command that represents the action.
+ */
+export function removeFileFromRecoveryBank(
+    context: ApplicationStore, id: string
+): RemoveFileFromRecoveryBank {
+    return new RemoveFileFromRecoveryBank(context, id);
+}
 
 /**
  * Clears the application's file recovery bank.

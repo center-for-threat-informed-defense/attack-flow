@@ -18,21 +18,21 @@
     <div class="menu-body">
       <div
         class="section open-recovered-file"
-        v-if="pages.size"
+        v-if="files.size"
       >
         <p class="section-title">
           RECOVER FILE
         </p>
         <ScrollBox class="file-scrollbox">
-          <div :class="['file-grid', { 'has-scrollbar': 4 < pages.size }]">
+          <div :class="['file-grid', { 'has-scrollbar': 4 < files.size }]">
             <div
               class="file-entry"
-              v-for="[k, p] of pages"
+              v-for="[k, p] of files"
               :key="k"
             >
               <div
                 class="file"
-                @click="onRecoverFile(p.file)"
+                @click="onRecoverFile(p.contents, p.name)"
               >
                 <div class="file-header">
                   <FullPageIcon class="file-icon" />
@@ -120,11 +120,13 @@
 </template>
 
 <script lang="ts">
+import * as AppCommands from "@/assets/scripts/Application/Commands";
+import Configuration from "@/assets/configuration/app.configuration";
 // Dependencies
 import { version } from "@/../package.json";
 import { defineComponent } from 'vue';
 import { useApplicationStore } from "@/stores/ApplicationStore";
-import type { Command } from "@/stores/Commands/Command";
+import { AppCommand } from "@/assets/scripts/Application";
 // Components
 import LinkIcon from "@/components/Icons/LinkIcon.vue";
 import FolderIcon from "@/components/Icons/FolderIcon.vue";
@@ -135,37 +137,31 @@ import ScrollBox from "../Containers/ScrollBox.vue";
 export default defineComponent({
   name: 'SplashMenu',
   data() {
-    let organization;
-    // if (Configuration.splash.organization) {
-      // organization = Configuration.splash.organization;
-    // }
     return {
       application: useApplicationStore(),
-      // applicationName: Configuration.application_name,
+      applicationName: Configuration.application_name,
       applicationVersion: version,
-      organization,
-      // newFile: Configuration.splash.new_file,
-      // openFile: Configuration.splash.open_file,
-      // helpLinks: Configuration.splash.help_links
+      organization: Configuration.splash.organization,
+      newFile: Configuration.splash.new_file,
+      openFile: Configuration.splash.open_file,
+      helpLinks: Configuration.splash.help_links
     }
   },
   computed: {
 
     /**
-     * Returns the application's recovered pages.
+     * Returns the application's recovered files.
      * @returns
-     *  The application's recovered pages.
+     *  The application's recovered files.
      */
-    pages(): Map<string, { name: string, date: string, file: string }> {
-      const pages = new Map();
-      for(const [key, page] of this.application.recoveryBank.pages) {
-        const parse = /^((?:.|\n)*)\s{1}\((.*)\)$/m.exec(page.name);
-        const file = page.file;
-        const name = parse ? parse[1] : "Unknown";
-        const date = parse ? parse[2] : "Unknown";
-        pages.set(key, { name, date, file });
+    files(): Map<string, { name: string, date: Date, contents: string }> {
+      const files = new Map();
+      for(const [id, file] of this.application.fileRecoveryBank.files) {
+        if(id !== this.application.activeEditor.id) {
+          files.set(id, file);
+        }
       }
-      return pages;
+      return files;
     }
     
   },
@@ -176,7 +172,7 @@ export default defineComponent({
      * @param command
      *  The command to execute.
      */
-    execute(command: Command) {
+    execute(command: AppCommand) {
       this.application.execute(command);
     },
 
@@ -185,7 +181,7 @@ export default defineComponent({
      */
     async onNewFile() {
       const ctx = this.application;
-      // this.execute(await App.PrepareEditorWithFile.fromNew(ctx));
+      this.execute(await AppCommands.prepareEditorFromNewFile(ctx));
     },
 
     /**
@@ -193,17 +189,19 @@ export default defineComponent({
      */
     async onOpenFile() {
       const ctx = this.application;
-      // this.execute(await App.PrepareEditorWithFile.fromFileSystem(ctx));
+      this.execute(await AppCommands.prepareEditorFromFileSystem(ctx));
     },
 
     /**
      * Recover File behavior.
-     * @param id
+     * @param file
      *  The file to recover.
+     * @param name
+     *  The file's name.
      */
-    async onRecoverFile(file: string) {
+    async onRecoverFile(file: string, name: string) {
       const ctx = this.application;
-      // this.execute(await App.PrepareEditorWithFile.fromFile(ctx, file));
+      this.execute(await AppCommands.prepareEditorFromExistingFile(ctx, file, name));
     },
 
     /**
@@ -211,9 +209,9 @@ export default defineComponent({
      * @param id
      *  The id of the file to delete.
      */
-    onDeleteFile(id: string) {
+    async onDeleteFile(id: string) {
       const ctx = this.application;
-      // this.execute(new App.DeletePageFromRecoveryBank(ctx, id));
+      this.execute(await AppCommands.removeFileFromRecoveryBank(ctx, id));
     },
 
     /**
@@ -223,7 +221,7 @@ export default defineComponent({
      */
     onOpenHelp(url: string) {
       const ctx = this.application;
-      // this.execute(new App.OpenHyperlink(ctx, url));
+      this.execute(AppCommands.openHyperlink(url));
     }
 
   },

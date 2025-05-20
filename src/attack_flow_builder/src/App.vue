@@ -66,7 +66,6 @@ export default defineComponent({
   },
   data() {
     return {
-      te: false,
       application: useApplicationStore(),
       Handle,
       bodyWidth: -1,
@@ -185,8 +184,7 @@ export default defineComponent({
     if(src) {
       try {
         // TODO: Incorporate loading dialog
-        // this.execute(await App.PrepareEditorWithFile.fromUrl(ctx, src));
-        this.execute(await AppCommand.loadFileFromUrl(ctx, src));
+        this.execute(await AppCommand.prepareEditorFromUrl(ctx, src));
       } catch(ex) {
         console.error(`Failed to load file from url: '${ src }'`);
         console.error(ex);

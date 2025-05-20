@@ -17,6 +17,7 @@
 </template>
 
 <script lang="ts">
+import Configuration from "@/assets/configuration/app.configuration";
 // Dependencies
 import { defineComponent } from "vue";
 import { useApplicationStore } from "@/stores/ApplicationStore";
@@ -32,8 +33,7 @@ export default defineComponent({
     return {
       application: useApplicationStore(),
       contextMenus: useContextMenuStore(),
-      // icon: Configuration.application_icon
-      icon:""
+      icon: Configuration.application_icon
     };
   },
   computed: {
