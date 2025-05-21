@@ -3,15 +3,9 @@
     <div class="grid-container">
       <div class="value" v-show="!showEditor">
         <p v-if="value === null" class="null-value">
-          <span style="display:none;">
-            <!-- {{ _property.trigger }} -->
-          </span>
           None
         </p>
         <p v-else class="date-value">
-          <span style="display:none;">
-            <!-- {{ _property.trigger }} -->
-          </span>
           {{ `${value.toLocaleString({
             year: 'numeric',
             month: 'numeric',
@@ -22,9 +16,6 @@
         </p>
       </div>
       <div class="editor" v-show="showEditor">
-        <div style="display: none;">
-          <!-- {{ _property.trigger }} -->
-        </div>
         <div class="date-wrapper">
           <input type="date" maxlength="10" segment="Date" ref="Date" class="Date" @blur="onBlur" @keydown="onKeyDown"
             v-model="value_Date">
@@ -50,7 +41,7 @@
 import * as EditorCommands from "@OpenChart/DiagramEditor"
 import type { DateProperty } from "@OpenChart/DiagramModel";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
-import { defineComponent, markRaw, type PropType, ref } from "vue";
+import { defineComponent, type PropType, ref } from "vue";
 import { DateTime } from "luxon";
 
 type Segments =
@@ -58,13 +49,6 @@ type Segments =
 const Segment = [
   "Date", "Time", "Zone"
 ] as Segments[]
-
-const Months = [
-  "Jan", "Feb", "Mar",
-  "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep",
-  "Oct", "Nov", "Dec"
-]
 
 export default defineComponent({
   name: "DateTimeField",
@@ -329,6 +313,7 @@ export default defineComponent({
   color: #cccccc;
   cursor: text;
   overflow: hidden;
+  height: 60px;
 }
 
 .datetime-field-control:focus {
@@ -348,15 +333,16 @@ export default defineComponent({
   grid-area: 1 / 1;
   display: flex;
   width: 100%;
-  padding: 6px 12px;
+  padding: 3px 3px;
   border: none;
   box-sizing: border-box;
+  height: 60px;
 }
 
 input {
   color: inherit;
   font-size: 10pt;
-  font-family: "Roboto Mono";
+  font-family: inherit;
   padding: 0;
   border: none;
   background: none;
@@ -367,6 +353,14 @@ input::placeholder {
   opacity: 1;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color-scheme: dark;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 input:focus {
   outline: none;
 }
@@ -374,7 +368,6 @@ input:focus {
 .editor span {
   color: #999;
   font-size: 10pt;
-  font-family: "Roboto Mono";
   margin: 0px 3px;
 }
 
@@ -382,20 +375,13 @@ input:focus {
   margin: 0px 3px;
 }
 
-.editor span.timezone {
-  margin-left: 6px;
+.editor span.offset {
+  margin-left: auto;
+  margin-top: -30px;
 }
 
-.M,
-.D,
-.H,
-.m,
-.s {
-  width: 16px;
-}
-
-.Y {
-  width: 32px;
+.Offset {
+  width: 90%;
 }
 
 /** === Value === */
@@ -412,5 +398,14 @@ input:focus {
 .date-value {
   color: #89a0ec;
   font-weight: 500;
+}
+
+.date-wrapper,
+.time-wrapper {
+  padding: 4px 4px;
+}
+
+.date-wrapper {
+  border-right: thin #242424 solid;
 }
 </style>
