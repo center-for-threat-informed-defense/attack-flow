@@ -3,6 +3,8 @@
 //  1. Value Types  ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+import type { DateTime } from "luxon";
+
 
 type ValueDescriptorBase<K extends ValueTypes> = {
     type: K;
@@ -114,11 +116,11 @@ export type ListValue
     | ListValueDictionary;
 
 export type ListValueEntries = [
-    string, ListValueEntries | ListValueDictionary | null | string | number | Date
+    string, ListValueEntries | ListValueDictionary | null | string | number | DateTime
 ][];
 
 export type ListValueDictionary = {
-    [key: string]: ListValueEntries | ListValueDictionary | null | string | number | Date;
+    [key: string]: ListValueEntries | ListValueDictionary | null | string | number | DateTime;
 };
 
 

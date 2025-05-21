@@ -1,18 +1,20 @@
 import { Property } from "..";
 import type { JsonValue } from "..";
+import { DateTime } from "luxon";
 
 export class DateProperty extends Property {
 
     /**
      * The internal property's value.
      */
-    private _value: Date | null;
+    private _value: DateTime | null;
 
+    private _siblings: DateProperty[];
 
     /**
      * The property's value.
      */
-    public get value(): Date | null {
+    public get value(): DateTime | null {
         return this._value;
     }
 
@@ -29,13 +31,22 @@ export class DateProperty extends Property {
     constructor(id: string, editable: boolean, value?: JsonValue) {
         super(id, editable);
         this._value = null;
+
+        if (!parent) {
+            this._siblings = [];
+        } else {
+            // this._siblings = [...parent.value.values()].filter(v => v instanceof DateProperty);
+            this._siblings = [];
+        }
+
         // Set value
         if ((value ?? null) === null) {
             this.setValue(null);
-        } else if (value instanceof Date || typeof value === "string") {
-            this.setValue(new Date(value));
+        } else if (typeof value === "string") {
+            //this.setValue(DateTime.fromFormat(value, "yyyy-MM-dd'T'HH:mm:ss z", {zone:value.split(" ")[1]}));
+            this.setValue(DateTime.fromISO(value));
         } else {
-            this.setValue(new Date());
+            this.setValue(DateTime.now());
         }
     }
 
@@ -54,7 +65,7 @@ export class DateProperty extends Property {
      * @param value
      *  The new value.
      */
-    public setValue(value: Date | null) {
+    public setValue(value: DateTime | null) {
         this._value = value;
         this.updateParentProperty();
     }
@@ -65,7 +76,24 @@ export class DateProperty extends Property {
      *  The property's JSON value.
      */
     public toJson(): string | null {
-        return this._value?.toISOString() ?? null;
+        return this._value?.toISO() ?? null;
+    }
+
+    /**
+     *
+     * @returns The offset names of all sibling datetime properties
+     */
+    public getSiblingOffsets(): Array<string> {
+        // find all non-null sibling datetimes
+        return this._siblings.map(s => {
+            const raw = s.toRawValue();
+            if (raw) {
+                // get the offset name of this non-null sibling
+                return DateTime.fromISO(raw, { setZone: true }).toFormat("ZZ");
+            } else {
+                return null;
+            }
+        }).filter(s => s != null);
     }
 
     /**
@@ -74,7 +102,7 @@ export class DateProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        return `${this._value ?? "None"}`;
+        return `${this._value ? this._value.toLocaleString(DateTime.DATETIME_SHORT) + " " + this._value.toFormat("ZZ") : "None"}`;
     }
 
     /**

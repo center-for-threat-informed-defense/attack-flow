@@ -2,6 +2,7 @@ import { EditorCommand } from "../EditorCommand";
 import { EditorDirective } from "../EditorDirective";
 import type { DateProperty } from "@OpenChart/DiagramModel";
 import type { DirectiveIssuer } from "../DirectiveIssuer";
+import type { DateTime } from "luxon";
 
 export class SetDateProperty extends EditorCommand {
 
@@ -13,12 +14,12 @@ export class SetDateProperty extends EditorCommand {
     /**
      * The property's next value.
      */
-    public readonly nextValue: Date | null;
+    public readonly nextValue: DateTime | null;
 
     /**
      * The property's previous value.
      */
-    private readonly prevValue: Date | null;
+    private readonly prevValue: DateTime | null;
 
 
     /**
@@ -28,12 +29,12 @@ export class SetDateProperty extends EditorCommand {
      * @param value
      *  The {@link DateProperty}'s new value.
      */
-    constructor(property: DateProperty, value: Date | null) {
+    constructor(property: DateProperty, value: DateTime | null) {
         super();
         this.property = property;
         this.nextValue = value;
-        if(property.value) {
-            this.prevValue = new Date(property.value);
+        if (property.value) {
+            this.prevValue = property.value;
         } else {
             this.prevValue = null;
         }
@@ -61,4 +62,3 @@ export class SetDateProperty extends EditorCommand {
     }
 
 }
-

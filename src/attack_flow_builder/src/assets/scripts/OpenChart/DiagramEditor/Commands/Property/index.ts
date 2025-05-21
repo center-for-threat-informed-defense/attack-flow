@@ -1,4 +1,5 @@
-import { 
+import type { DateTime } from "luxon";
+import {
     SetStringProperty,
     SetEnumProperty,
     SetDateProperty,
@@ -6,7 +7,7 @@ import {
     DeleteSubproperty,
     SetNumberProperty
 } from "./index.commands";
-import type { 
+import type {
     DateProperty,
     EnumProperty,
     FloatProperty,
@@ -28,7 +29,7 @@ import type {
 export function setStringProperty(
     property: StringProperty, value: string | null
 ): SetStringProperty {
-    return new SetStringProperty(property, value); 
+    return new SetStringProperty(property, value);
 }
 
 /**
@@ -43,7 +44,7 @@ export function setStringProperty(
 export function setEnumProperty(
     property: EnumProperty, value: string | null
 ): SetEnumProperty {
-    return new SetEnumProperty(property, value); 
+    return new SetEnumProperty(property, value);
 }
 
 /**
@@ -56,9 +57,9 @@ export function setEnumProperty(
  *  A command that represents the action.
  */
 export function setDateProperty(
-    property: DateProperty, value: Date | null
+    property: DateProperty, value: DateTime | null
 ): SetDateProperty {
-    return new SetDateProperty(property, value); 
+    return new SetDateProperty(property, value);
 }
 
 /**
@@ -73,7 +74,7 @@ export function setDateProperty(
 export function setNumberProperty(
     property: IntProperty | FloatProperty, value: number | null
 ): SetNumberProperty {
-    return new SetNumberProperty(property, value); 
+    return new SetNumberProperty(property, value);
 }
 
 /**
@@ -86,7 +87,7 @@ export function setNumberProperty(
 export function createSubproperty(
     property: ListProperty
 ): CreateSubproperty {
-    return new CreateSubproperty(property); 
+    return new CreateSubproperty(property);
 }
 
 /**
@@ -101,5 +102,5 @@ export function createSubproperty(
 export function deleteSubproperty(
     property: ListProperty, id: string
 ): DeleteSubproperty {
-    return new DeleteSubproperty(property, id); 
+    return new DeleteSubproperty(property, id);
 }

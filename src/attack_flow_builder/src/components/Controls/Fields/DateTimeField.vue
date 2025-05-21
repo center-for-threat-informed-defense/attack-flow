@@ -1,105 +1,46 @@
 <template>
-  <div
-    class="datetime-field-control"
-    tabindex="0"
-    @focus="enterEditMode()"
-  >
+  <div class="datetime-field-control" tabindex="0" @focus="enterEditMode()">
     <div class="grid-container">
-      <div
-        class="value"
-        v-show="!showEditor"
-      >
-        <p
-          v-if="value === null"
-          class="null-value"
-        >
+      <div class="value" v-show="!showEditor">
+        <p v-if="value === null" class="null-value">
+          <span style="display:none;">
+            <!-- {{ _property.trigger }} -->
+          </span>
           None
         </p>
-        <p
-          v-else
-          class="date-value"
-        >
-          {{ prop_M }} {{ prop_D }}, {{ prop_Y }}
-          -
-          {{ prop_H }}:{{ prop_m }}:{{ prop_s }}
+        <p v-else class="date-value">
+          <span style="display:none;">
+            <!-- {{ _property.trigger }} -->
+          </span>
+          {{ `${value.toLocaleString({
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+          })} ${value.toFormat("ZZZZ")}` }}
         </p>
       </div>
-      <div
-        class="editor"
-        v-show="showEditor"
-      >
-        <input 
-          type="text"
-          maxlength="2"
-          segment="M"
-          ref="M"
-          class="M"
-          placeholder="MM"
-          @blur="onBlur"
-          @keydown="onKeyDown"
-          v-model="value_M"
-        >
-        <span>/</span>
-        <input 
-          type="text"
-          maxlength="2"
-          segment="D"
-          ref="D"
-          class="D"
-          placeholder="DD"
-          @blur="onBlur"
-          @keydown="onKeyDown"
-          v-model="value_D" 
-        >
-        <span>/</span>
-        <input
-          type="text"
-          maxlength="4"
-          segment="Y"
-          ref="Y"
-          class="Y"
-          placeholder="YYYY"
-          @blur="onBlur"
-          @keydown="onKeyDown"
-          v-model="value_Y" 
-        >
-        <span class="space" />
-        <input
-          type="text"
-          maxlength="2"
-          segment="H"
-          ref="H"
-          class="H"
-          placeholder="HH"
-          @blur="onBlur"
-          @keydown="onKeyDown"
-          v-model="value_H" 
-        >
-        <span>:</span>
-        <input
-          type="text"
-          maxlength="2"
-          segment="m"
-          ref="m"
-          class="m"
-          placeholder="mm"
-          @blur="onBlur"
-          @keydown="onKeyDown"
-          v-model="value_m"   
-        >
-        <span>:</span>
-        <input
-          type="text"
-          maxlength="2"
-          segment="s"
-          ref="s"
-          class="s"
-          placeholder="ss"
-          @blur="onBlur"
-          @keydown="onKeyDown"
-          v-model="value_s" 
-        >
-        <span class="timezone">Z</span>
+      <div class="editor" v-show="showEditor">
+        <div style="display: none;">
+          <!-- {{ _property.trigger }} -->
+        </div>
+        <div class="date-wrapper">
+          <input type="date" maxlength="10" segment="Date" ref="Date" class="Date" @blur="onBlur" @keydown="onKeyDown"
+            v-model="value_Date">
+        </div>
+        <div class="time-wrapper">
+          <input type="time" segment="Time" ref="Time" class="Time" step="0.01" value="00:00:00" @blur="onBlur"
+            @keydown="onKeyDown" v-model="value_Time">
+          <span class="space" />
+          <input type="text" segment="Offset" ref="Offset" class="Offset" list="all_offsets" @blur="onBlur"
+            @keydown="onKeyDown" v-model="value_Offset">
+          <datalist id="all_offsets">
+            <option v-for="[offsetName, offsetValue] in supportedOffsets" :value="offsetValue" :key="offsetValue">
+              {{ offsetName }}
+            </option>
+          </datalist>
+        </div>
       </div>
     </div>
   </div>
@@ -110,18 +51,16 @@ import * as EditorCommands from "@OpenChart/DiagramEditor"
 import type { DateProperty } from "@OpenChart/DiagramModel";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
 import { defineComponent, markRaw, type PropType, ref } from "vue";
+import { DateTime } from "luxon";
 
-type Segments =  
-  "M" | "D" | "Y" | 
-  "H" | "m" | "s";
-
+type Segments =
+  "Date" | "Time" | "Zone";
 const Segment = [
-  "M", "D", "Y",
-  "H", "m", "s"
+  "Date", "Time", "Zone"
 ] as Segments[]
 
 const Months = [
-  "Jan", "Feb", "Mar", 
+  "Jan", "Feb", "Mar",
   "Apr", "May", "Jun",
   "Jul", "Aug", "Sep",
   "Oct", "Nov", "Dec"
@@ -130,13 +69,10 @@ const Months = [
 export default defineComponent({
   name: "DateTimeField",
   setup() {
-    return { 
-      M: ref<HTMLInputElement | null>(null),
-      D: ref<HTMLInputElement | null>(null),
-      Y: ref<HTMLInputElement | null>(null),
-      H: ref<HTMLInputElement | null>(null),
-      m: ref<HTMLInputElement | null>(null),
-      s: ref<HTMLInputElement | null>(null),
+    return {
+      Date: ref<HTMLInputElement | null>(null),
+      Time: ref<HTMLInputElement | null>(null),
+      Zone: ref<HTMLInputElement | null>(null),
     };
   },
   props: {
@@ -147,87 +83,69 @@ export default defineComponent({
   },
   data() {
     return {
-      value_M: "",
-      value_D: "",
-      value_Y: "",
-      value_H: "",
-      value_m: "",
-      value_s: "",
+      value_Date: "",
+      value_Time: "00:00:00",
+      value_Offset: DateTime.local().toFormat("ZZ"),
       showEditor: false
     }
   },
   computed: {
-
+    /**
+        * Gets all system-known offsets that could apply to this control's datetime
+        * (or to the system's date/time, if the control isn't filled in yet).
+        * @returns
+        *   An array of [offsetName, offsetValue] string arrays
+        */
+    supportedOffsets(): Array<Array<string>> {
+      const nameToOffsetMap = Intl.supportedValuesOf('timeZone').reduce((o: Map<string, string>, n: string) => {
+        // evaluate this datetime in each known timezone
+        let d = DateTime.fromISO(this.value_Date + "T" + this.value_Time + "Z")?.setZone(n);
+        // or evaluate the user's local datetime in each timezone
+        if (!d.isValid) {
+          d = DateTime.local({ 'zone': n });
+        }
+        // put the +0x00 offset string in the Map, using the offset name as key
+        return o.set(d.toFormat("ZZZZZ '('ZZZZ')'"), d.toFormat("ZZ"));
+      }, new Map());
+      // serialize Map key-value pairs to array of arrays
+      return Array.from(nameToOffsetMap);
+    },
     /**
      * The property's raw value.
      * @returns
      *  the property's raw value.
      */
-    value(): Date | null {
+    value(): DateTime | null {
       const value = this.property.toJson();
-      return value !== null ? new Date(value) : value;
+      return value !== null ? DateTime.fromISO(value, { setZone: true }) : value;
     },
-
     /**
-     * Returns the currently configured month.
-     * @returns
-     *  The currently configured month.
-     */
-    prop_M(): string {
+         * Returns the currently configured date.
+         * @returns
+         *  The currently configured date in ISO.
+         */
+    prop_Date(): string {
       const v = this.value;
-      return v ? Months[v.getUTCMonth()] : "None";
+      return v?.toISODate() || "None";
     },
-
     /**
-     * Returns the currently configured day.
+     * Returns the currently configured time.
      * @returns
-     *  The currently configured day.
+     *  The currently configured time.
      */
-    prop_D(): string {
+    prop_Time(): string {
       const v = this.value;
-      return `${ v?.getUTCDate() ?? 'None' }`;
+      return v?.toISOTime() || "None";
     },
-    
     /**
-     * Returns the currently configured year.
+     * Returns the currently configured time.
      * @returns
-     *  The currently configured year.
+     *  The currently configured time.
      */
-    prop_Y(): string {
+    prop_Zone(): string {
       const v = this.value;
-      return `${ v?.getUTCFullYear() ?? 'None' }`;
-    },
-
-    /**
-     * Returns the currently configured hour.
-     * @returns
-     *  The currently configured hour.
-     */
-    prop_H(): string {
-      const v = this.value;
-      return v ? `${ v.getUTCHours() }`.padStart(2, '0') : "None";
-    },
-
-    /**
-     * Returns the currently configured minute.
-     * @returns
-     *  The currently configured minute.
-     */
-    prop_m(): string {
-      const v = this.value;
-      return v ? `${ v.getUTCMinutes() }`.padStart(2, '0') : "None";
-    },
-
-    /**
-     * Returns the currently configured second.
-     * @returns
-     *  The currently configured second.
-     */
-    prop_s(): string {
-      const v = this.value;
-      return v ? `${ v.getUTCSeconds() }`.padStart(2, '0') : "None";
+      return v?.zone.name || DateTime.local().zone.name;
     }
-
   },
   methods: {
 
@@ -237,7 +155,7 @@ export default defineComponent({
      *  The blur event.
      */
     onBlur(event: FocusEvent) {
-      if(!this.$el.contains(event.relatedTarget)) {
+      if (!this.$el.contains(event.relatedTarget)) {
         this.exitEditMode();
       }
     },
@@ -249,30 +167,31 @@ export default defineComponent({
      */
     onKeyDown(event: KeyboardEvent) {
       const field = event.target as HTMLInputElement;
-      if(field.selectionStart !== field.selectionEnd) {
+      if (field.selectionStart !== field.selectionEnd) {
         return;
       }
-      switch(event.key) {
+      switch (event.key) {
         case "Backspace":
-          if(field.selectionEnd === 0) {
-            this.shiftFocus(-1, false);
-          }
+          //if(field.selectionEnd === 0) {
+          //  this.shiftFocus(-1, false);
+          //}
           break;
         case "ArrowLeft":
-          if(field.selectionEnd === 0) {
-            this.shiftFocus(-1, false);
+          if (field.selectionEnd === 0) {
+            this.shiftFocus(-1);
             event.preventDefault();
           }
           break;
         case "ArrowRight":
-          if(field.selectionEnd === field.maxLength) {
-            this.shiftFocus(+1, true);
+          if (field.selectionEnd === field.maxLength) {
+            this.shiftFocus(+1);
             event.preventDefault();
           }
           break;
         default:
-          if(field.selectionEnd === field.maxLength) {
-            this.shiftFocus(+1, true);
+          // if the value is a full YYYY-MM-DD string
+          if (field.value?.match(/^[^0]\d\d\d/)) {
+            this.shiftFocus(+1);
           }
       }
     },
@@ -285,9 +204,9 @@ export default defineComponent({
       this.$nextTick(() => {
         // Select field
         let field: HTMLInputElement;
-        for(const s of Segment) {
+        for (const s of Segment) {
           field = this[s]!;
-          if(!field.value) break;
+          if (!field.value) break;
         }
         // Focus field
         field!.focus();
@@ -315,11 +234,11 @@ export default defineComponent({
      *   Position caret at the end of the segment.
      *  (Default: true)
      */
-    shiftFocus(delta: number, start: boolean = true) {
+    shiftFocus(delta: number) {
       const field = document.activeElement as HTMLInputElement;
       const attr = field.getAttribute("segment")! as Segments;
       const index = Segment.indexOf(attr) + delta;
-      if(0 <= index && index < Segment.length) {
+      if (0 <= index && index < Segment.length) {
         this.$nextTick(() => {
           // Get adjacent segment
           const adj: HTMLInputElement = this[Segment[index]]!;
@@ -336,31 +255,26 @@ export default defineComponent({
      */
     updateProperty() {
       // Parse date
-      const ISO8601 = `${ 
-        this.value_Y.padStart(4, "0")
-      }-${
-        this.value_M.padStart(2, "0")
-      }-${
-        this.value_D.padStart(2, "0")
-      }T${
-        this.value_H.padStart(2, "0")
-      }:${
-        this.value_m.padStart(2, "0")
-      }:${
-        this.value_s.padStart(2, "0")
-      }.000Z`;
-      const date = new Date(ISO8601);
+      const ISO8601 = `${this.value_Date
+        }T${this.value_Time
+        }${this.value_Offset
+        }`;
+      //this.value_Zone = DateTime.local().setZone(this.value_Zone).zone.name;
+      const date = DateTime.fromISO(ISO8601, { setZone: true }); //DateTime.fromFormat(ISO8601, "yyyy-MM-dd'T'HH:mm:ssZZ");
+      console.log("update", date);
       // Parse value
       let value;
-      if(ISO8601 === "0000-00-00T00:00:00.000Z") {
+      if (ISO8601.startsWith("0000-00-00T00:00:00.000")) {
         value = null;
-      } else if(Number.isNaN(date.getTime())) {
+      } else if (!date.isValid) {
         value = null;
       } else {
         value = date;
       }
-      if(this.value?.getTime() !== value?.getTime()) {
-        // Update property
+      if (this.value?.toISO() !== value?.toISO()) {
+        console.log("updating value", this.property, value);
+        this.property.setValue(value);
+        // Update value
         const cmd = EditorCommands.setDateProperty(this.property, value);
         this.$emit("execute", cmd);
       } else {
@@ -374,15 +288,13 @@ export default defineComponent({
      */
     refreshValue() {
       // Parse date
-      const date = this.value?.toISOString() ?? "--T::";
-      const [ Y, M, D, H, m, s ] = date.split(/[-T:\.]/);
+      const date = this.value?.toISODate();
+      const time = this.value?.toISOTime({ suppressMilliseconds: true, includeOffset: false }) || "00:00:00.000";
+      const offset = this.value?.toFormat("ZZ") || this.property.getSiblingOffsets()[0] || DateTime.local().toFormat("ZZ");
       // Update values
-      this.value_Y = Y;
-      this.value_M = M;
-      this.value_D = D;
-      this.value_H = H;
-      this.value_m = m;
-      this.value_s = s;
+      this.value_Date = String(date);
+      this.value_Time = String(time);
+      this.value_Offset = String(offset);
     }
 
   },
@@ -409,7 +321,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 /** === Main Field === */
 
 .datetime-field-control {
@@ -475,7 +386,11 @@ input:focus {
   margin-left: 6px;
 }
 
-.M, .D, .H, .m, .s {
+.M,
+.D,
+.H,
+.m,
+.s {
   width: 16px;
 }
 
@@ -498,5 +413,4 @@ input:focus {
   color: #89a0ec;
   font-weight: 500;
 }
-
 </style>
