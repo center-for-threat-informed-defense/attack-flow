@@ -1,40 +1,35 @@
 <template>
   <div
     class="find-dialog-container"
-    :class="{
-      hidden:
-        !isShowingFindDialog
-    }"
+    :class="{ hidden: !application.isShowingFindDialog }"
   >
     <input
       type="text"
       class="query"
       placeholder="Find"
-      v-model="query"
+      v-model="nextQuery"
       @keyup="runQuery"
       ref="query"
     >
     <div class="results">
-      <span v-if="totalResults === 0">No results</span>
-      <span v-if="totalResults !== 0">{{ currentResultIndex + 1 }} of {{ totalResults }}</span>
+      <span v-if="resultsLength === 0">
+        No results
+      </span>
+      <span v-if="resultsLength !== 0">
+        {{ resultsIndex }} of {{ resultsLength }}
+      </span>
     </div>
     <div
       class="control"
       @pointerdown="findPrevious()"
-      :class="{
-        disabled:
-          totalResults === 0
-      }"
+      :class="{ disabled: resultsLength === 0 }"
     >
       <UpArrowIcon />
     </div>
     <div
       class="control"
       @pointerdown="findNext()"
-      :class="{
-        disabled:
-          totalResults === 0
-      }"
+      :class="{ disabled: resultsLength === 0 }"
     >
       <DownArrowIcon />
     </div>
@@ -48,14 +43,13 @@
 </template>
 
 <script lang="ts">
+import * as AppCommands from "@/assets/scripts/Application/Commands";
 // Dependencies
+import { Debouncer } from "@/assets/scripts/Browser";
 import { defineComponent } from "vue";
 import { useApplicationStore } from "@/stores/ApplicationStore";
-// import * as App from "@/stores/Commands/AppCommands";
-// import * as Page from "@/stores/Commands/PageCommands";
-// import Debouncer from "@/assets/scripts/BlockDiagram/Utilities/Debouncer";
-// import type { Command } from "@/stores/Commands/Command";
-// import type { DiagramObjectModel } from "@/assets/scripts/BlockDiagram";
+import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
+import type { OpenChartFinder, SearchResult } from "@/assets/scripts/OpenChartFinder";
 // Components
 import CloseIcon from "@/components/Icons/CloseIcon.vue";
 import UpArrowIcon from "@/components/Icons/UpArrowIcon.vue";
@@ -65,84 +59,66 @@ export default defineComponent({
   name: "FindDialog",
   data() {
     return {
-      application: useApplicationStore(),
-      query: "",
+      nextQuery: "",
       lastQuery: "",
-      // debouncer: new Debouncer(0.4),
-      totalResults: 0,
-      currentResultIndex: 0,
-      // currentDiagramObject: null as DiagramObjectModel | null,
+      application: useApplicationStore(),
+      debouncer: new Debouncer(0.4),
     }
   },
   computed: {
-
+    
     /**
-     * Tests if the application is showing the find dialog.
+     * The application's active finder.
      * @returns
-     *  True if the applicaiton is showing the find dialog, false otherwise.
+     *  The application's active finder.
      */
-    isShowingFindDialog() {
-      return this.application.isShowingFindDialog;
+    finder(): OpenChartFinder {
+      return this.application.activeFinder;
     },
 
     /**
-     * Returns the application's current find result.
+     * The application's active editor.
      * @returns
-     *  The application's current find result.
+     *  The application's active editor.
      */
-    currentFindResult() {
-      return this.application.currentFindResult;
+    editor(): DiagramViewEditor {
+      return this.application.activeEditor;
+    },
+
+    /**
+     * The active search result.
+     * @returns
+     *  The active search result.
+     */
+    result(): SearchResult | null {
+      return this.finder.result;
+    },
+
+    /**
+     * The number of results.
+     * @returns
+     *  The number of results.
+     */
+    resultsLength() {
+      return this.result?.length ?? 0;
+    },
+
+    /**
+     * The current result index.
+     * @returns
+     *  The current result index.
+     */
+    resultsIndex() {
+      return (this.result?.index ?? 0) + 1;
     }
 
-  },
-  components: {
-    CloseIcon,
-    UpArrowIcon,
-    DownArrowIcon,
-  },
-  watch: {
-    isShowingFindDialog: {
-      handler(isShowingFindDialog) {
-        if (isShowingFindDialog) {
-          this.focus();
-        } else {
-          this.blur();
-        }
-      }
-    },
-    currentFindResult: {
-      handler(newResult) {
-        const editor = this.application.activePage;
-        if (newResult !== null) {
-          this.currentResultIndex = newResult.index;
-          this.totalResults = newResult.totalResults;
-          if (this.currentDiagramObject !== newResult.diagramObject) {
-            this.currentDiagramObject = newResult.diagramObject;
-            this.execute(new Page.UnselectDescendants(editor.page));
-            this.execute(new Page.SelectObject(this.currentDiagramObject!));
-            this.execute(new Page.MoveCameraToSelection(this.application, editor.page))
-          }
-        } else {
-          this.totalResults = 0;
-        }
-      }
-    }
   },
   methods: {
 
     /**
-     * Executes an application command.
-     * @param command
-     *  The command to execute.
+     * Focus the input field and highlight existing text.
      */
-    execute(command: Command) {
-      this.application.execute(command);
-    },
-
-    /**
-     * Focus the input field and highlight existing text
-     */
-    focus() {
+    focusField() {
       const queryInput = this.$refs.query as HTMLInputElement;
       queryInput.focus();
       queryInput.select();
@@ -151,7 +127,7 @@ export default defineComponent({
     /**
      * Blur the input field.
      */
-    blur() {
+    blurField() {
       const queryInput = this.$refs.query as HTMLInputElement;
       queryInput.blur();
     },
@@ -164,40 +140,60 @@ export default defineComponent({
         this.hideFindDialog();
       } else if (event.key === "Enter") {
         if (event.shiftKey) {
-          this.execute(new App.MoveToPreviousFindResult(this.application));
+          this.findPrevious();
         } else {
-          this.execute(new App.MoveToNextFindResult(this.application));
+          this.findNext();
         }
-      } else if (this.query !== this.lastQuery) {
+      } else if (this.nextQuery !== this.lastQuery) {
         this.debouncer.call(() => {
-          this.lastQuery = this.query;
-          const editor = this.application.activePage;
-          this.application.finder.runQuery(editor, this.query);
+          // Update last query
+          this.lastQuery = this.nextQuery;
+          // Run query
+          const cmd = AppCommands.runSearch(this.finder, this.editor, this.nextQuery);
+          this.application.execute(cmd);
         });
       }
     },
 
     /**
-     * Focus the next item in the result set.
+     * Pivots the dialog to the next search result.
      */
     findNext() {
-      this.execute(new App.MoveToNextFindResult(this.application));
+      const cmd = AppCommands.toNextSearchResult(this.finder);
+      this.application.execute(cmd);
     },
 
     /**
-     * Focus the previous item in the result set.
+     * Pivots the dialog to the previous search result.
      */
     findPrevious() {
-      this.execute(new App.MoveToPreviousFindResult(this.application));
+      const cmd = AppCommands.toPreviousSearchResult(this.finder);
+      this.application.execute(cmd);
     },
 
     /**
      * Hide the find dialog.
      */
     hideFindDialog() {
-      this.execute(new App.HideFindDialog(this.application));
+      const cmd = AppCommands.hideSearchMenu(this.application);
+      this.application.execute(cmd);
     },
-  }
+
+  },
+  watch: {
+    "application.isShowingFindDialog"() {
+      if (this.application.isShowingFindDialog) {
+        this.focusField();
+      } else {
+        this.blurField();
+      }
+    }
+  },
+  components: {
+    CloseIcon,
+    UpArrowIcon,
+    DownArrowIcon,
+  },
 });
 </script>
 

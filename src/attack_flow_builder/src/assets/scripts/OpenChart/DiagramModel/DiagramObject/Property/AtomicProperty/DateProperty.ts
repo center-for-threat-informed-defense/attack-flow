@@ -1,5 +1,5 @@
 import { Property } from "..";
-import type { JsonType } from "..";
+import type { JsonValue } from "..";
 
 export class DateProperty extends Property {
 
@@ -26,7 +26,7 @@ export class DateProperty extends Property {
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, value?: JsonType) {
+    constructor(id: string, editable: boolean, value?: JsonValue) {
         super(id, editable);
         this._value = null;
         // Set value

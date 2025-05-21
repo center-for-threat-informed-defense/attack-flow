@@ -1,4 +1,5 @@
-import { EditorCommand, type DirectiveIssuer } from ".";
+import { EditorCommand } from "./EditorCommand";
+import type { DirectiveIssuer } from ".";
 
 export class GroupCommand extends EditorCommand {
 

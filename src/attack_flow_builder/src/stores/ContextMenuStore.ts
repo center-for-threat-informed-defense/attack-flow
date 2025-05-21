@@ -219,7 +219,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     // this.clipboardMenu,
                     this.deleteMenu,
                     // this.duplicateMenu,
-                    // this.findMenu,
+                    this.findMenu,
                     this.createMenu,
                     this.selectAllMenu,
                     this.unselectAllMenu
@@ -342,41 +342,41 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         //     };
         // },
 
-        // /**
-        //  * Returns the find menu section.
-        //  * @returns
-        //  *  The undo/redo menu section.
-        //  */
-        // findMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const edit = ctx.settings.hotkeys.edit;
-        //     const hasFindResults = ctx.hasFindResults;
-        //     return {
-        //         id: "find_options",
-        //         items: [
-        //             {
-        //                 text: "Find…",
-        //                 type: MenuType.Action,
-        //                 data: () => new App.ShowFindDialog(ctx),
-        //                 shortcut: edit.find
-        //             },
-        //             {
-        //                 text: "Find Next",
-        //                 type: MenuType.Action,
-        //                 data: () => new App.MoveToNextFindResult(ctx),
-        //                 shortcut: edit.find_next,
-        //                 disabled: !hasFindResults
-        //             },
-        //             {
-        //                 text: "Find Previous",
-        //                 type: MenuType.Action,
-        //                 data: () => new App.MoveToPreviousFindResult(ctx),
-        //                 shortcut: edit.find_previous,
-        //                 disabled: !hasFindResults
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the find menu section.
+         * @returns
+         *  The undo/redo menu section.
+         */
+        findMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const edit = app.settings.hotkeys.edit;
+            const finder = app.activeFinder;
+            return {
+                id: "find_options",
+                items: [
+                    {
+                        text: "Find…",
+                        type: MenuType.Action,
+                        data: () => AppCommands.showSearchMenu(app),
+                        shortcut: edit.find
+                    },
+                    {
+                        text: "Find Next",
+                        type: MenuType.Action,
+                        data: () => AppCommands.toNextSearchResult(finder),
+                        shortcut: edit.find_next,
+                        disabled: !finder.hasResults
+                    },
+                    {
+                        text: "Find Previous",
+                        type: MenuType.Action,
+                        data: () => AppCommands.toPreviousSearchResult(finder),
+                        shortcut: edit.find_previous,
+                        disabled: !finder.hasResults
+                    }
+                ]
+            };
+        },
 
 
         /**

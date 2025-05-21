@@ -1,5 +1,6 @@
 import type { Hotkey } from "@/assets/scripts/Browser";
 import type { CommandEmitter } from "@/assets/scripts/Application/Commands";
+import type { OpenChartFinder } from "@/assets/scripts/OpenChartFinder";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 import type { ObjectRecommender } from "@OpenChart/DiagramEditor";
 import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
@@ -15,6 +16,11 @@ import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
  */
 declare module "@vue/reactivity" {
     export interface RefUnwrapBailTypes {
-        classes: DiagramViewEditor | ObjectRecommender | DiagramObjectView | Hotkey<CommandEmitter>;
+        classes
+            : DiagramViewEditor 
+            | ObjectRecommender
+            | DiagramObjectView
+            | Hotkey<CommandEmitter>
+            | OpenChartFinder<DiagramViewEditor, DiagramObjectView>;
     }
 }

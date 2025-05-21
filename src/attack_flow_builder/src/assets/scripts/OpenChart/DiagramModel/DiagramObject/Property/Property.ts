@@ -1,5 +1,5 @@
+import type { JsonValue } from "./JsonTypes";
 import type { DiagramObject } from "../DiagramObject";
-import type { JsonEntries, JsonType } from "./JsonTypes";
 
 export abstract class Property {
 
@@ -106,7 +106,7 @@ export abstract class Property {
      * @returns
      *  The property's JSON value.
      */
-    public abstract toJson(): JsonType | JsonEntries;
+    public abstract toJson(): JsonValue;
 
     /**
      * Returns the property as a string.

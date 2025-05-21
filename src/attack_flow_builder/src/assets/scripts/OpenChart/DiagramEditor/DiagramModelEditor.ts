@@ -49,6 +49,11 @@ export class DiagramModelEditor<
      */
     private _lastAutosave: Date | null;
 
+    /**
+     * The editor's index.
+     */
+    // private _searchIndex: Document<{ [x: string]: JsonValue }>;
+
 
     /**
      * The last time the editor autosaved.
@@ -89,6 +94,9 @@ export class DiagramModelEditor<
         this._autosaveInterval = autosaveInterval;
         this._autosaveTimeoutId = null;
         this._lastAutosave = null;
+        // this._searchIndex = new FlexSearch.Document({
+        //     document: { id: "$", index: [] }
+        // })
         this.reindexFile();
     }
 
@@ -146,7 +154,7 @@ export class DiagramModelEditor<
         // Create arguments
         const args: DirectiveArguments = {
             directives: EditorDirective.None,
-            reindexObjects: []
+            reindexObjects: new Set()
         };
         // Create append arguments function
         const issuer = (dirs: EditorDirective, obj?: string) => {
@@ -154,7 +162,7 @@ export class DiagramModelEditor<
             args.directives = args.directives | dirs;
             // Update items to reindex
             if (dirs & EditorDirective.ReindexContent && obj) {
-                args.reindexObjects.push(obj);
+                args.reindexObjects.add(obj);
             }
         };
         return { args, issuer };
@@ -313,9 +321,28 @@ export class DiagramModelEditor<
      * @param ids
      *  The objects to reindex specified by id.
      */
-    public reindexFile(ids: string[]): void;
-    public reindexFile(ids?: string[]) {
-
+    public reindexFile(ids: Set<string>): void;
+    public reindexFile(ids?: Set<string>) {
+        // Collect objects
+        // const objects = []
+        // if(ids) {
+        //     objects.push(...traverse(this.file.canvas, o => ids!.has(o.id)));
+        // } else {
+        //     objects.push(...traverse(this.file.canvas, o => o instanceof Block));
+        // }
+        // console.log(objects)
+        // Index objects
+        // for(const object of objects) {
+        //     // TODO: Account for delete ids
+        //     this._searchIndex.add({
+        //         $: object.instance
+        //     });
+        //     const t = { 
+        //         $: object.instance, ...object.properties.toJson()
+        //     };
+        //     this._searchIndex.update(t);
+        //     console.log(t);
+        // }
     }
 
 
@@ -332,15 +359,15 @@ export class DiagramModelEditor<
      *  All objects that match the search term.
      */
     public search(searchTerm: string): Set<string> {
-        // const results = new Set<string>();
+        const results = new Set<string>();
         // const resultDict = this._searchIndex.search(searchTerm);
+        // console.log(resultDict);
         // for (const field of resultDict) {
         //     for (const result of field.result) {
         //         results.add(result as string)
         //     }
         // }
-        // return results;
-        return new Set();
+        return results;
     }
 
 }

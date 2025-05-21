@@ -15,6 +15,9 @@
             "display_debug_info": false,
             "theme": "dark_theme"
         },
+        "search": {
+            "display": false
+        },
         "splash_menu": {
             "display_menu": true
         }

@@ -3,8 +3,9 @@ import { FileStore } from "@/assets/scripts/Browser";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { BaseAppSettings } from "@/assets/scripts/Application";
+import { OpenChartFinder } from "@/assets/scripts/OpenChartFinder";
 import { ThemeRegistry, ThemeSourceFile } from "@OpenChart/ThemeRegistry";
-import { BasicRecommender, EditorCommand } from "@OpenChart/DiagramEditor";
+import { BasicRecommender, DiagramViewEditor, EditorCommand } from "@OpenChart/DiagramEditor";
 import type { AppCommand } from "@/assets/scripts/Application";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
@@ -38,6 +39,7 @@ export const useApplicationStore = defineStore("applicationStore", {
         fileRecoveryBank: new FileStore("__recovery_bank_"),
         activeEditor: PhantomEditor,
         activeRecommender: new BasicRecommender(),
+        activeFinder: new OpenChartFinder<DiagramViewEditor, DiagramObjectView>(),
         settings: BaseAppSettings
     }),
     getters: {
@@ -143,7 +145,7 @@ export const useApplicationStore = defineStore("applicationStore", {
 
 
         ///////////////////////////////////////////////////////////////////////
-        //  5. Application Page Find  /////////////////////////////////////////
+        //  5. Application Search Menu  ///////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////
 
 
@@ -155,33 +157,9 @@ export const useApplicationStore = defineStore("applicationStore", {
          *  True if the find dialog is visible.
          */
         isShowingFindDialog(state): boolean {
-            return false;
-            // return state.finder.dialogIsVisible;
+            return state.settings.view.search.display;
         },
 
-        /**
-         * Indicates if there are any find results.
-         * @param state
-         *  The Vuex state.
-         * @returns
-         *  True if there are any find results.
-         */
-        hasFindResults(state): boolean {
-            return false;
-            // return state.finder.getCurrentResult() !== null;
-        },
-
-        /**
-         * Returns the current item in the find results.
-         * @param state
-         *  The Vuex state.
-         * @returns
-         *  The current item in the result set.
-         */
-        currentFindResult(state): any | null {
-            return null;
-            // return state.finder.getCurrentResult();
-        },
 
         ///////////////////////////////////////////////////////////////////////
         //  6. Application Splash Menu  ///////////////////////////////////////
@@ -208,9 +186,9 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @param command
          *  The application command.
          */
-        execute(command: AppCommand | EditorCommand) {
+        async execute(command: AppCommand | EditorCommand) {
             if (command instanceof EditorCommand) {
-                this.activeEditor.execute(command);
+                await this.activeEditor.execute(command);
             } else {
                 command.execute();
             }

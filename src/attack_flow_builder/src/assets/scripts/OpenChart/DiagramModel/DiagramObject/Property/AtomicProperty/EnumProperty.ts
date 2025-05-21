@@ -1,5 +1,5 @@
 import { ListProperty, Property } from "..";
-import type { JsonType } from "..";
+import type { JsonValue } from "..";
 
 export class EnumProperty extends Property {
 
@@ -33,7 +33,7 @@ export class EnumProperty extends Property {
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, options: ListProperty, value?: JsonType) {
+    constructor(id: string, editable: boolean, options: ListProperty, value?: JsonValue) {
         super(id, editable);
         this.options = options;
         this._value = null;

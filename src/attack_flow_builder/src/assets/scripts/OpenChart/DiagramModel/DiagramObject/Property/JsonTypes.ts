@@ -1,11 +1,16 @@
 /**
- * Represents valid JSON types.
+ * Represents valid JSON values.
  */
-export type JsonType =
-    null | string | number | Date | boolean;
+export type JsonValue 
+    = null 
+    | string
+    | number
+    | boolean
+    | Date
+    | { [x: string]: JsonValue };
 
 /**
  * Represents a set of JSON entries.
  */
 export type JsonEntries
-    = [string, JsonEntries | JsonType][];
+    = [string, JsonEntries | JsonValue][];

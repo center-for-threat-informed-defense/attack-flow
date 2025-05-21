@@ -19,6 +19,7 @@
   "author": "mcarenzo",
   "dependencies": {
     "d3": "^7.9.0",
+    "flexsearch": "^0.8.167",
     "pinia": "^2.3.0",
     "vue": "^3.5.13"
   },

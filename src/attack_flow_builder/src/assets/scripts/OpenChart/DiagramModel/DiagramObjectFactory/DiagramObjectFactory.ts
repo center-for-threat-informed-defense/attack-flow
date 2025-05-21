@@ -9,7 +9,7 @@ import {
     StringProperty
 } from "../DiagramObject";
 import type {
-    DiagramObject, JsonEntries, JsonType
+    DiagramObject, JsonEntries, JsonValue
 } from "../DiagramObject";
 import type {
     AtomicPropertyDescriptors, CanvasTemplate, Constructor, DiagramObjectTemplate,
@@ -335,7 +335,7 @@ export class DiagramObjectFactory {
     public createProperty(
         id: string,
         descriptor: PropertyDescriptor,
-        value?: JsonEntries | JsonType
+        value?: JsonEntries | JsonValue
     ): Property {
         switch (descriptor.type) {
             case PropertyType.Dictionary:
@@ -445,7 +445,7 @@ export class DiagramObjectFactory {
     private createAtomicProperty(
         id: string,
         descriptor: AtomicPropertyDescriptors,
-        value?: JsonType
+        value?: JsonValue
     ) {
         // Resolve value
         if (value === undefined) {

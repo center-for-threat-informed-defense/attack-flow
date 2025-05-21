@@ -18,6 +18,9 @@ export const BaseAppSettings: AppSettings = {
             display_debug_info: false,
             theme: ""
         },
+        search: {
+            display: false
+        },
         splash_menu: {
             display_menu: true
         }
@@ -96,6 +99,9 @@ export type AppSettings = {
     };
     view: {
         diagram: DiagramDisplaySettings;
+        search: {
+            display: boolean;
+        }
         splash_menu: {
             display_menu: boolean;
         };

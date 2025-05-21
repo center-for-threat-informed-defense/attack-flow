@@ -92,6 +92,7 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
             const app = useApplicationStore();
             const edit = app.settings.hotkeys.edit;
             const editor = app.activeEditor;
+            const finder = app.activeFinder;
             return [
                 {
                     data: () => AppCommands.undoEditorCommand(editor),
@@ -129,21 +130,23 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                 //     shortcut: edit.duplicate,
                 //     repeatable: false
                 // },
-                // {
-                //     data: () => new App.ShowFindDialog(ctx),
-                //     shortcut: edit.find,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new App.MoveToNextFindResult(ctx),
-                //     shortcut: edit.find_next,
-                //     repeatable: true
-                // },
-                // {
-                //     data: () => new App.MoveToPreviousFindResult(ctx),
-                //     shortcut: edit.find_previous,
-                //     repeatable: true
-                // },
+                {
+                    data: () => AppCommands.showSearchMenu(app),
+                    shortcut: edit.find,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.toNextSearchResult(finder),
+                    shortcut: edit.find_next,
+                    disabled: !finder.hasResults,
+                    repeatable: true
+                },
+                {
+                    data: () => AppCommands.toPreviousSearchResult(finder),
+                    shortcut: edit.find_previous,
+                    disabled: !finder.hasResults,
+                    repeatable: true
+                },
                 {
                     data: () => EditorCommands.selectAllObjects(editor),
                     shortcut: edit.select_all,

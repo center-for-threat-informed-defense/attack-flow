@@ -1,6 +1,6 @@
 import { Property } from "..";
 import { Crypto, MD5 } from "@OpenChart/Utilities";
-import type { JsonEntries } from "..";
+import type { JsonEntries, JsonValue } from "..";
 
 export abstract class CollectionProperty extends Property {
 
@@ -101,14 +101,33 @@ export abstract class CollectionProperty extends Property {
         }
         return id;
     }
-
+        
     /**
      * Returns the property's JSON value.
      * @returns
      *  The property's JSON value.
      */
-    public toJson(): JsonEntries {
-        return [...this.value.entries()].map(([id, v]) => [id, v.toJson()]);
+    public toJson(): { [x: string]: JsonValue } {
+        return Object.fromEntries(
+            [...this.value].map(([k,v]) => [k, v.toJson()])
+        );
+    }
+
+    /**
+     * Returns the property's ordered JSON value.
+     * @returns
+     *  The property's ordered JSON value.
+     */
+    public toOrderedJson(): JsonEntries {
+        const entries: JsonEntries = [];
+        for(const [id, value] of this.value) {
+            if(value instanceof CollectionProperty) {
+                entries.push([id, value.toOrderedJson()]);
+            } else {
+                entries.push([id, value.toJson()]);
+            }
+        }
+        return entries;
     }
 
     /**

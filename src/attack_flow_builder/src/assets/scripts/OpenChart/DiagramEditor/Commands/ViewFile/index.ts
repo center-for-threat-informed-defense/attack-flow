@@ -1,7 +1,8 @@
-
+import { traverse } from "@OpenChart/DiagramModel";
 import { GroupCommand } from "../GroupCommand";
 import { SelectionAnimation } from "./Animations";
 import { 
+    MoveCameraToObjects,
     SetCamera,
     SpawnObject
 } from "./index.commands";
@@ -12,13 +13,13 @@ import {
     StopContinuousAnimation
 } from "../View/index.commands";
 import type { EditorCommand } from "../EditorCommand";
-import type { DiagramViewEditor } from "../../DiagramViewEditor";
+import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
 import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
 import type { DiagramObjectView, DiagramViewFile } from "@OpenChart/DiagramView";
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  2. Create Objects  ////////////////////////////////////////////////////////
+//  1. Create Objects  ////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -165,6 +166,35 @@ export function setCamera(
     file: DiagramViewFile, x: number, y: number, k: number
 ): SetCamera {
     return new SetCamera(file, x, y, k);
+}
+
+/**
+ * Moves the camera to a collection of objects within an editor.
+ * @param editor 
+ *  The editor.
+ * @param objects
+ *  The objects.
+ * @returns
+ *  A command that represents the action.
+ */
+export function moveCameraToObjects(
+    editor: DiagramViewEditor, objects: DiagramObjectView[]
+): MoveCameraToObjects {
+    return new MoveCameraToObjects(editor, objects);
+}
+
+/**
+ * Moves the camera to the selected objects within an editor.
+ * @param editor
+ *  The editor.
+ * @returns
+ *  A command that represents the action.
+ */
+export function moveCameraToSelection(
+    editor: DiagramViewEditor
+): MoveCameraToObjects {
+    const objs = [...traverse(editor.file.canvas, o => o.focused)];
+    return new MoveCameraToObjects(editor, objs);
 }
 
 

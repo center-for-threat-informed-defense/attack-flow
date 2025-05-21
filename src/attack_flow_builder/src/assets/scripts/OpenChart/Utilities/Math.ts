@@ -82,6 +82,19 @@ export function floatEq(a: number, b: number, decimals: number = 5) {
     return Math.floor(a * m) === Math.floor(b * m);
 }
 
+/**
+ * Returns the unsigned modulus of a.
+ * @param a
+ *  The dividend.
+ * @param n
+ *  The divisor.
+ * @returns
+ *  The unsigned modulus of a.
+ */
+export function unsignedMod(a: number, n: number) {
+    return ((a % n) + n) % n;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  2. Bit Functions  /////////////////////////////////////////////////////////

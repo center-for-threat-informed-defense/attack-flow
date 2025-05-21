@@ -189,7 +189,7 @@ export class DiagramObjectSerializer {
     /**
      * Exports a {@link DiagramObject} to the specified export map.
      * @param object
-     *  The object to export.
+    *  The object to export.
      * @param exportMap
      *  The current export map.
      */
@@ -208,7 +208,7 @@ export class DiagramObjectSerializer {
      *  The diagram export.
      */
     private static toGenericObjectExport(obj: DiagramObject): GenericObjectExport {
-        let properties: undefined | JsonEntries = obj.properties.toJson();
+        let properties: undefined | JsonEntries = obj.properties.toOrderedJson();
         if (!properties?.length) {
             properties = undefined;
         }

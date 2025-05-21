@@ -10,6 +10,6 @@ export type DirectiveArguments = {
     /**
     * The objects to index.
     */
-    reindexObjects: string[];
+    reindexObjects: Set<string>;
 
 };

@@ -1,5 +1,5 @@
 import { Property } from "..";
-import type { JsonType } from "..";
+import type { JsonValue } from "..";
 
 export class StringProperty extends Property {
 
@@ -33,7 +33,7 @@ export class StringProperty extends Property {
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, suggestions: string[], value?: JsonType) {
+    constructor(id: string, editable: boolean, suggestions: string[], value?: JsonValue) {
         super(id, editable);
         this.suggestions = suggestions;
         this._value = null;

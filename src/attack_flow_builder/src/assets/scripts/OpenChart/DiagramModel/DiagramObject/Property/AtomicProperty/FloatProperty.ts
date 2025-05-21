@@ -1,5 +1,5 @@
 import { Property } from "..";
-import type { JsonType } from "..";
+import type { JsonValue } from "..";
 
 export class FloatProperty extends Property {
 
@@ -40,7 +40,7 @@ export class FloatProperty extends Property {
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, min: number, max: number, value?: JsonType) {
+    constructor(id: string, editable: boolean, min: number, max: number, value?: JsonValue) {
         super(id, editable);
         this.min = min;
         this.max = max;
@@ -80,9 +80,9 @@ export class FloatProperty extends Property {
     }
 
     /**
-     * Returns the property's raw value.
+     * Returns the property's JSON value.
      * @returns
-     *  The property's raw value.
+     *  The property's JSON value.
      */
     public toJson(): number | null {
         return this._value;
