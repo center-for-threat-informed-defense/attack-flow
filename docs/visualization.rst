@@ -37,7 +37,7 @@ several :ref:`command line visualizations <cli_viz>` as well as some `experiment
                 <h4>Timeline View</h4>
             </div>
         </a>
-        <a class="gallery-item" href="#matrix-view">
+        <a class="gallery-item" href="#treemap-view">
             <div class="image" style="background-image: url(../_static/attack-flow-treemap.svg)">
             </div>
              <div class="desc">
@@ -99,7 +99,12 @@ resulting visualization.
 
     <p>
         <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/0f89cf4ba5a52ce5">
-         Try out the Navigator Visualization <i class="fa fa-external-link"></i></a>
+         Try out the Navigator Visualization
+        <svg id="launch" xmlns="http://www.w3.org/2000/svg" width="18.224" height="18.224" viewBox="0 0 18.224 18.224">
+            <path id="Path_777" data-name="Path 777" d="M0,0H18.224V18.224H0Z" fill="none"/>
+            <path id="Path_778" data-name="Path 778" d="M15.149,15.149H4.519V4.519H9.834V3H4.519A1.518,1.518,0,0,0,3,4.519V15.149a1.518,1.518,0,0,0,1.519,1.519H15.149a1.523,1.523,0,0,0,1.519-1.519V9.834H15.149ZM11.353,3V4.519h2.726L6.614,11.983l1.071,1.071,7.464-7.464V8.315h1.519V3Z" transform="translate(-0.722 -0.722)" fill="#fff"/>
+        </svg>
+        </a>
     </p>
 
 
@@ -116,7 +121,12 @@ With this visualization, you can generate a tactic table automatically from an A
 
     <p>
         <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/010f86f3168a6b83">
-         Try out the Tactic Table Visualization <i class="fa fa-external-link"></i></a>
+         Try out the Tactic Table Visualization
+        <svg id="launch" xmlns="http://www.w3.org/2000/svg" width="18.224" height="18.224" viewBox="0 0 18.224 18.224">
+            <path id="Path_777" data-name="Path 777" d="M0,0H18.224V18.224H0Z" fill="none"/>
+            <path id="Path_778" data-name="Path 778" d="M15.149,15.149H4.519V4.519H9.834V3H4.519A1.518,1.518,0,0,0,3,4.519V15.149a1.518,1.518,0,0,0,1.519,1.519H15.149a1.523,1.523,0,0,0,1.519-1.519V9.834H15.149ZM11.353,3V4.519h2.726L6.614,11.983l1.071,1.071,7.464-7.464V8.315h1.519V3Z" transform="translate(-0.722 -0.722)" fill="#fff"/>
+        </svg>
+        </a>
     </p>
 
 
@@ -135,8 +145,13 @@ With this visualization, you can automatically generate an ATT&CK Matrix compris
 .. raw:: html
 
     <p>
-        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/ce2257ba05255209">
-         Try out the Matrix View Visualization <i class="fa fa-external-link"></i></a>
+        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/11f0d433ededff7b">
+         Try out the Matrix View Visualization
+            <svg id="launch" xmlns="http://www.w3.org/2000/svg" width="18.224" height="18.224" viewBox="0 0 18.224 18.224">
+                <path id="Path_777" data-name="Path 777" d="M0,0H18.224V18.224H0Z" fill="none"/>
+                <path id="Path_778" data-name="Path 778" d="M15.149,15.149H4.519V4.519H9.834V3H4.519A1.518,1.518,0,0,0,3,4.519V15.149a1.518,1.518,0,0,0,1.519,1.519H15.149a1.523,1.523,0,0,0,1.519-1.519V9.834H15.149ZM11.353,3V4.519h2.726L6.614,11.983l1.071,1.071,7.464-7.464V8.315h1.519V3Z" transform="translate(-0.722 -0.722)" fill="#fff"/>
+            </svg>
+        </a>
     </p>
 
 .. figure:: _static/attack-matrix.svg
@@ -153,7 +168,12 @@ On this page, you can generate a timeline visualization automatically from an At
 
     <p>
         <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/263cc424a77aacd5">
-         Try out the Timeline View Visualization <i class="fa fa-external-link"></i></a>
+         Try out the Timeline View Visualization
+        <svg id="launch" xmlns="http://www.w3.org/2000/svg" width="18.224" height="18.224" viewBox="0 0 18.224 18.224">
+            <path id="Path_777" data-name="Path 777" d="M0,0H18.224V18.224H0Z" fill="none"/>
+            <path id="Path_778" data-name="Path 778" d="M15.149,15.149H4.519V4.519H9.834V3H4.519A1.518,1.518,0,0,0,3,4.519V15.149a1.518,1.518,0,0,0,1.519,1.519H15.149a1.523,1.523,0,0,0,1.519-1.519V9.834H15.149ZM11.353,3V4.519h2.726L6.614,11.983l1.071,1.071,7.464-7.464V8.315h1.519V3Z" transform="translate(-0.722 -0.722)" fill="#fff"/>
+        </svg>
+        </a>
     </p>
 
 .. figure:: _static/attack-timeline.svg
@@ -168,8 +188,13 @@ On this page, you can visualize the distribution of techniques across multiple A
 .. raw:: html
 
     <p>
-        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/263cc424a77aacd5">
-         Try out the Treemap Visualization <i class="fa fa-external-link"></i></a>
+        <a class="btn btn-primary" target="_blank" href="https://observablehq.com/d/8c2d767bd699a8f7">
+         Try out the Treemap Visualization
+         <svg id="launch" xmlns="http://www.w3.org/2000/svg" width="18.224" height="18.224" viewBox="0 0 18.224 18.224">
+            <path id="Path_777" data-name="Path 777" d="M0,0H18.224V18.224H0Z" fill="none"/>
+            <path id="Path_778" data-name="Path 778" d="M15.149,15.149H4.519V4.519H9.834V3H4.519A1.518,1.518,0,0,0,3,4.519V15.149a1.518,1.518,0,0,0,1.519,1.519H15.149a1.523,1.523,0,0,0,1.519-1.519V9.834H15.149ZM11.353,3V4.519h2.726L6.614,11.983l1.071,1.071,7.464-7.464V8.315h1.519V3Z" transform="translate(-0.722 -0.722)" fill="#fff"/>
+        </svg>
+        </a>
     </p>
 
 .. figure:: _static/attack-flow-treemap.svg
