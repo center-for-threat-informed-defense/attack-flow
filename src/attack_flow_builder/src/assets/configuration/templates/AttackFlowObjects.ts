@@ -109,21 +109,21 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
             }
         },
         anchors: {
-            [AnchorPosition.D0]   : "generic_anchor",
-            [AnchorPosition.D30]  : "generic_anchor",
-            [AnchorPosition.D60]  : "generic_anchor",
-            [AnchorPosition.D90]  : "generic_anchor",
-            [AnchorPosition.D120] : "generic_anchor",
-            [AnchorPosition.D150] : "generic_anchor",
-            [AnchorPosition.D180] : "generic_anchor",
-            [AnchorPosition.D210] : "generic_anchor",
-            [AnchorPosition.D330] : "generic_anchor",
-            [Branch("True")]      : "generic_anchor",
-            [Branch("False")]     : "generic_anchor",
+            [AnchorPosition.D0]   : "horizontal_anchor",
+            [AnchorPosition.D30]  : "horizontal_anchor",
+            [AnchorPosition.D60]  : "vertical_anchor",
+            [AnchorPosition.D90]  : "vertical_anchor",
+            [AnchorPosition.D120] : "vertical_anchor",
+            [AnchorPosition.D150] : "horizontal_anchor",
+            [AnchorPosition.D180] : "horizontal_anchor",
+            [AnchorPosition.D210] : "horizontal_anchor",
+            [AnchorPosition.D330] : "horizontal_anchor",
+            [Branch("True")]      : "vertical_anchor",
+            [Branch("False")]     : "vertical_anchor",
         }
     },
     {
-        name: "or",
+        name: "OR_operator",
         namespace: ["attack_flow", "OR_operator"],
         type: DiagramObjectType.Block,
         role: SemanticRole.Node,
@@ -138,7 +138,7 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         anchors: AnchorConfiguration
     },
     {
-        name: "and",
+        name: "AND_operator",
         type: DiagramObjectType.Block,
         namespace: ["attack_flow", "AND_operator"],
         role: SemanticRole.Node,

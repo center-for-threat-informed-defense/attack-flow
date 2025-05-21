@@ -54,16 +54,16 @@ export function generateTextSectionLayout(
     );
     
     // Add title instructions
-    let _y;
+    let titleY;
     if(titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        _y = y + Math.min(titleCellHeight, round(ascent))
+        titleY = y + Math.min(titleCellHeight, round(ascent))
     } else {
-        _y = y + titleCellHeight; 
+        titleY = y + titleCellHeight; 
     }
     fontInstructions?.push({
         x: x,
-        y: _y,
+        y: titleY,
         text: title
     });
     y += titleCellHeight;
@@ -126,19 +126,80 @@ export function generateTitleSectionLayout(
     );
     
     // Add title instructions
-    let _y;
+    let titleY;
     if(titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        _y = y + Math.min(titleCellHeight, round(ascent))
+        titleY = y + Math.min(titleCellHeight, round(ascent))
     } else {
-        _y = y + titleCellHeight; 
+        titleY = y + titleCellHeight; 
     }
     fontInstructions?.push({
         x: x,
-        y: _y,
+        y: titleY,
         text: title
     });
     y += titleCellHeight;
+
+    return y;
+
+}
+
+
+
+/**
+ * Generates a text section's layout.
+ * @param x
+ *  The section's top-left x-coordinate.
+ * @param y 
+ *  The section's top-left y-coordinate.
+ * @param title
+ *  The section's title.
+ * @param titleFont
+ *  The title's font.
+ * @param titleColor
+ *  The title's font color.
+ * @param titleCellHeight
+ *  The title's cell height (in px).
+ * @param titleAlignTop
+ *  Whether the title should align to the top of its cell.
+ * @param content
+ *  The section's content.
+ * @param contentFont
+ *  The content's font.
+ * @param contentColor
+ *  The content's font color.
+ * @param contentCellHeight
+ *  The content's cell height (in px).
+ * @param text
+ *  The instruction set to write the layout instructions to.
+ * @returns
+ *  The final y-coordinate.
+ */
+export function generateContentSectionLayout(
+    x: number,
+    y: number,
+    content: string[],
+    contentFont: Font,
+    contentColor: string,
+    contentCellHeight: number,
+    text: DrawTextInstructionSet
+): number {
+    let fontInstructions: DrawTextInstruction[];
+
+    // Register content font
+    fontInstructions = text.getInstructionsWithFont(
+        contentFont, contentColor
+    )
+    
+    // Add content instructions
+    for(const line of content) {
+        y += contentCellHeight;
+        fontInstructions.push({
+            x: x,
+            y: y,
+            text: line
+        })
+    }
 
     return y;
 

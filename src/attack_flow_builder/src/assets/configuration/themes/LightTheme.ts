@@ -1,6 +1,6 @@
-// import { StixObjects, StixObservables } from "../templates";
-// import { BlogStyle, Colors, DarkStyle } from "@OpenChart/ThemeLoader";
+// import { Colors, LightStyle } from "@OpenChart/ThemeLoader";
 // import { Alignment, FaceType, Orientation } from "@OpenChart/DiagramView";
+// import { StixObjects, StixObservables } from "../templates";
 // import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 
 // /**
@@ -10,7 +10,7 @@
 //     "dynamic_line": {
 //         type: FaceType.DynamicLine,
 //         attributes: Alignment.Grid,
-//         style: BlogStyle.Line()
+//         style: LightStyle.Line()
 //     },
 //     "vertical_anchor": {
 //         type: FaceType.AnchorPoint,
@@ -37,7 +37,7 @@
 //         attributes: Alignment.Grid,
 //         style: {
 //             radius: 8,
-//             fill_color: "rgba(0, 0, 0, 0.3)",
+//             fill_color: "rgba(255, 77, 0, 0.25)",
 //             stroke_color: "#141414",
 //             stroke_width: 0
 //         }
@@ -45,7 +45,7 @@
 //     "generic_handle": {
 //         type: FaceType.HandlePoint,
 //         attributes: Alignment.Grid,
-//         style: BlogStyle.Point()
+//         style: LightStyle.Point()
 //     }
 // }
 
@@ -55,33 +55,32 @@
 // const AttackObjects = {
 //     "flow": {
 //         type: FaceType.DotGridCanvas,
-//         style: BlogStyle.Canvas()
+//         style: LightStyle.Canvas()
 //     },
 //     "action": {
 //         type: FaceType.DictionaryBlock,
 //         attributes: Alignment.Grid,
-//         properties: { include: ["description"] },
-//         style: BlogStyle.DictionaryBlock({ head: Colors.SimpleBlue })
+//         style: LightStyle.DictionaryBlock({ head: Colors.LightBlue })
 //     },
 //     "asset": {
 //         type: FaceType.DictionaryBlock,
 //         attributes: Alignment.Grid,
-//         style: BlogStyle.DictionaryBlock()
+//         style: LightStyle.DictionaryBlock({ head: Colors.Orange })
 //     },
 //     "condition": {
 //         type: FaceType.DictionaryBlock,
 //         attributes: Alignment.Grid,
-//         style: BlogStyle.DictionaryBlock()      
+//         style: LightStyle.DictionaryBlock({ head: Colors.Green })        
 //     },
 //     "or": {
 //         type: FaceType.TextBlock,
 //         attributes: Alignment.Grid,
-//         style: DarkStyle.TextBlock(Colors.Red)        
+//         style: LightStyle.TextBlock(Colors.Red)        
 //     },
 //     "and": {
 //         type: FaceType.TextBlock,
 //         attributes: Alignment.Grid,
-//         style: DarkStyle.TextBlock(Colors.Red)        
+//         style: LightStyle.TextBlock(Colors.Red)        
 //     },
 // }
 
@@ -93,17 +92,16 @@
 //     Stix.set(object.name, {
 //         type: FaceType.DictionaryBlock,
 //         attributes: Alignment.Grid,
-//         properties: { include: ["description"] },
-//         style: BlogStyle.DictionaryBlock({ head: Colors.SimpleGray })
+//         style: LightStyle.DictionaryBlock({ head: Colors.LightGray })
 //     })
 // }
 
 // /**
-//  * Blog Theme
+//  * Light Theme
 //  */
-// export const BlogTheme: DiagramThemeConfiguration = {
-//     id: "blog_theme", 
-//     name: "Blog Theme",
+// export const LightTheme: DiagramThemeConfiguration = {
+//     id: "light_theme", 
+//     name: "Light Theme",
 //     grid: [5, 5],
 //     scale: 2,
 //     designs: Object.fromEntries([

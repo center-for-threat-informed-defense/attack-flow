@@ -1,7 +1,7 @@
 import { BlockFace } from "../Bases";
 import { drawRect, drawChip, ceilNearestMultiple } from "@OpenChart/Utilities";
 import {
-    calculateAnchorPositions,
+    calculateAnchorPositionsByFloor,
     DrawTextInstructionSet,
     generateTextSectionLayout,
     generateTitleSectionLayout
@@ -22,16 +22,6 @@ export class DictionaryBlock extends BlockFace {
      * The block's enumerated properties.
      */
     private readonly properties: Enumeration | undefined;
-
-    /**
-     * The block's grid.
-     */
-    private readonly grid: [number, number];
-
-    /**
-     * The block's scale.
-     */
-    private readonly scale: number;
 
     /**
      * The block's text render instructions.
@@ -59,7 +49,7 @@ export class DictionaryBlock extends BlockFace {
      * @param style
      *  The block's style.
      * @param grid
-     *  The block's grid.
+     *  The block's base grid.
      * @param scale
      *  The block's scale.
      * @param properties
@@ -71,11 +61,9 @@ export class DictionaryBlock extends BlockFace {
         scale: number,
         properties?: Enumeration,
     ) {
-        super();
+        super(grid, scale);
         this.style = style;
         this.properties = properties;
-        this.grid = [grid[0] * scale, grid[1] * scale];
-        this.scale = scale;
         this.text = new DrawTextInstructionSet();
         this.fillColor = this.style.body.fillColor;
         this.strokeColor = this.style.body.strokeColor;
@@ -95,6 +83,7 @@ export class DictionaryBlock extends BlockFace {
      */
     public calculateLayout(): boolean {
         const markerOffset = BlockFace.markerOffset; 
+        const grid = this.blockGrid;
         const head = this.style.head;
         const body = this.style.body;
         const props = this.view.properties;
@@ -115,10 +104,10 @@ export class DictionaryBlock extends BlockFace {
         this.text.eraseAllInstructions();
 
         // Calculate padding
-        const yHeadPadding = this.grid[1] * head.verticalPaddingUnits;
-        const yBodyPadding = this.grid[1] * body.bodyVerticalPaddingUnits;
-        const yFieldPadding = this.grid[1] * body.fieldVerticalPaddingUnits;
-        const xPadding = this.grid[0] * this.style.horizontalPaddingUnits;
+        const yHeadPadding = grid[1] * head.verticalPaddingUnits;
+        const yBodyPadding = grid[1] * body.bodyVerticalPaddingUnits;
+        const yFieldPadding = grid[1] * body.fieldVerticalPaddingUnits;
+        const xPadding = grid[0] * this.style.horizontalPaddingUnits;
         
         // Collect visible fields
         const fields: [string, string][] = [];
@@ -152,7 +141,7 @@ export class DictionaryBlock extends BlockFace {
         const fieldValue = body.fieldValueText;
         
         // Calculate max content width
-        let maxWidth = this.grid[0] * this.style.maxUnitWidth;
+        let maxWidth = grid[0] * this.style.maxUnitWidth;
         this.width = title.font.measureWidth(titleText);
         maxWidth = Math.max(this.width, maxWidth);
         for (const [key] of fields) {
@@ -177,12 +166,12 @@ export class DictionaryBlock extends BlockFace {
                 titleText,
                 title.font,
                 title.color,
-                title.units * this.grid[1],
+                title.units * grid[1],
                 title.alignTop,
                 lines,
                 subtitle.font,
                 subtitle.color,
-                subtitle.units * this.grid[1],
+                subtitle.units * grid[1],
                 this.text
             );
         } else {
@@ -191,7 +180,7 @@ export class DictionaryBlock extends BlockFace {
                 titleText,
                 title.font,
                 title.color,
-                title.units * this.grid[1],
+                title.units * grid[1],
                 title.alignTop,
                 this.text
             );
@@ -223,12 +212,12 @@ export class DictionaryBlock extends BlockFace {
                     key, 
                     fieldName.font,
                     fieldName.color,
-                    fieldName.units * this.grid[1],
+                    fieldName.units * grid[1],
                     fieldName.alignTop,
                     lines,
                     fieldValue.font,
                     fieldValue.color,
-                    fieldValue.units * this.grid[1],
+                    fieldValue.units * grid[1],
                     this.text
                 );
             }
@@ -242,7 +231,7 @@ export class DictionaryBlock extends BlockFace {
         }
 
         // Round content width up to nearest multiple of the grid size
-        this.width = ceilNearestMultiple(this.width, this.grid[0]);
+        this.width = ceilNearestMultiple(this.width, grid[0]);
 
         // Calculate block width and height
         this.width += 2 * (markerOffset + xPadding);
@@ -252,15 +241,15 @@ export class DictionaryBlock extends BlockFace {
         const bb = this.boundingBox;
         const xMin = bb.x - (this.width / 2);
         const yMin = bb.y - (this.height / 2);
-        bb.xMin = ceilNearestMultiple(xMin, this.grid[0] / this.scale);
-        bb.yMin = ceilNearestMultiple(yMin, this.grid[1] / this.scale);
+        bb.xMin = ceilNearestMultiple(xMin, grid[0] / this.scale);
+        bb.yMin = ceilNearestMultiple(yMin, grid[1] / this.scale);
         bb.xMax = bb.xMin + this.width;
         bb.yMax = bb.yMin + this.height;
         const renderX = bb.xMin;
         const renderY = bb.yMin;
 
         // Update anchor positions
-        const anchors = calculateAnchorPositions(bb, this.grid, markerOffset);
+        const anchors = calculateAnchorPositionsByFloor(bb, grid, markerOffset);
         for(const position in anchors) {
             const coords = anchors[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
@@ -306,6 +295,7 @@ export class DictionaryBlock extends BlockFace {
         drawRect(ctx, x, y, this.width, this.height, borderRadius, strokeWidth);
         if (settings.shadowsEnabled) {
             ctx.shadowBlur = 8;
+            ctx.shadowColor = "rgba(0,0,0,0.25)";  // Light Theme
             // ctx.shadowOffsetX = dsx + (0.5 * region.scale);
             // ctx.shadowOffsetY = dsy + (0.5 * region.scale);
             ctx.fillStyle = this.fillColor;

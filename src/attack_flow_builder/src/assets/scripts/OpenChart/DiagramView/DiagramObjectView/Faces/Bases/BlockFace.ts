@@ -29,6 +29,16 @@ export abstract class BlockFace extends DiagramFace {
      * The face's height.
      */
     public height: number;
+    
+    /**
+     * The block's base grid.
+     */
+    protected readonly grid: [number, number];
+
+    /**
+     * The block's scale.
+     */
+    protected readonly scale: number;
 
     /**
      * The face's view.
@@ -37,14 +47,31 @@ export abstract class BlockFace extends DiagramFace {
 
 
     /**
-     * Creates a new {@link BlockFace}.
+     * The block's grid.
      */
-    constructor() {
+    protected get blockGrid(): [number, number] {
+        return [
+            this.grid[0] * this.scale,
+            this.grid[1] * this.scale
+        ];
+    }
+
+
+    /**
+     * Creates a new {@link BlockFace}.
+     * @param grid
+     *  The block's base grid.
+     * @param scale
+     *  The block's scale.
+     */
+    constructor(grid: [number, number], scale: number) {
         super();
         this.xOffset = 0;
         this.yOffset = 0;
         this.width = 0;
         this.height = 0;
+        this.grid = grid;
+        this.scale = scale;
     }
 
 

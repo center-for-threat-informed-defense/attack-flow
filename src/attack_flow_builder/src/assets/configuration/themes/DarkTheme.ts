@@ -68,16 +68,16 @@ const AttackObjects = {
         style:DarkStyle.DictionaryBlock({ head: Colors.Orange })
     },
     "condition": {
-        type: FaceType.DictionaryBlock,
+        type: FaceType.BranchBlock,
         attributes: Alignment.Grid,
-        style: DarkStyle.DictionaryBlock({ head: Colors.Green })        
+        style: DarkStyle.BranchBlock({ head: Colors.Green })        
     },
-    "or": {
+    "OR_operator": {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
         style: DarkStyle.TextBlock(Colors.Red)        
     },
-    "and": {
+    "AND_operator": {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
         style: DarkStyle.TextBlock(Colors.Red)        

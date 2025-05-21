@@ -251,13 +251,13 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 face = new AnchorPoint(design.style);
                 return new AnchorView(template.name, instance, attrs, props, face);
             case FaceType.BranchBlock:
-                face = new BranchBlock(design.style);
+                face = new BranchBlock(design.style, grid, scale);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.DictionaryBlock:
                 face = new DictionaryBlock(design.style, grid, scale, design.properties);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.TextBlock:
-                face = new TextBlock(design.style);
+                face = new TextBlock(design.style, grid, scale);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.HandlePoint:
                 face = new HandlePoint(design.style);
@@ -374,7 +374,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.BranchBlock:
-                    face = new BranchBlock(design.style);
+                    face = new BranchBlock(design.style, grid, scale);
                     object.replaceFace(face);
                     break;
                 case FaceType.DictionaryBlock:
@@ -382,7 +382,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.TextBlock:
-                    face = new TextBlock(design.style);
+                    face = new TextBlock(design.style, grid, scale);
                     object.replaceFace(face);
                     break;
                 case FaceType.HandlePoint:

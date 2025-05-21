@@ -5,5 +5,8 @@ export const Colors = {
     Red        : { fill_color: "#c94040", stroke_color: "#dd5050" },
     Gray       : { fill_color: "#2f2f2f", stroke_color: "#666666" },
     SimpleBlue : { fill_color: "#5286e7", stroke_color: "#5286e7" },
-    SimpleGray : { fill_color: "#8c8c8c", stroke_color: "#8c8c8c" }
+    SimpleGray : { fill_color: "#8c8c8c", stroke_color: "#8c8c8c" },
+
+    LightBlue : { fill_color: "#5286e7", stroke_color: "#4c6fd9" },
+    LightGray : { fill_color: "#8c8c8c", stroke_color: "#737373" }
 };

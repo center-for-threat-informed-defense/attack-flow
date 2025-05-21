@@ -1,6 +1,13 @@
 import { BlockFace } from "../Bases";
+import { ceilNearestMultiple, drawRect } from "@OpenChart/Utilities";
+import { 
+    calculateAnchorPositionsByRound,
+    DrawTextInstructionSet, 
+    generateContentSectionLayout
+} from "./Layout";
 import type { TextBlockStyle } from "../Styles";
 import type { ViewportRegion } from "../../ViewportRegion";
+import type { RenderSettings } from "../../RenderSettings";
 
 export class TextBlock extends BlockFace {
 
@@ -8,16 +15,30 @@ export class TextBlock extends BlockFace {
      * The block's style.
      */
     private readonly style: TextBlockStyle;
+    
+    /**
+     * The block's text render instructions.
+     */
+    private readonly text: DrawTextInstructionSet;
 
 
     /**
      * Creates a new {@link TextBlock}.
      * @param style
      *  The block's style.
+     * @param grid
+     *  The block's base grid.
+     * @param scale
+     *  The block's scale.
      */
-    constructor(style: TextBlockStyle) {
-        super();
+    constructor(
+        style: TextBlockStyle,
+        grid: [number, number],
+        scale: number
+    ) {
+        super(grid, scale);
         this.style = style;
+        this.text = new DrawTextInstructionSet();
     }
 
 
@@ -32,206 +53,95 @@ export class TextBlock extends BlockFace {
      *  True if the layout changed, false otherwise.
      */
     public calculateLayout(): boolean {
+        const markerOffset = BlockFace.markerOffset; 
+        const grid = this.blockGrid;
+        const style = this.style;
+        const props = this.view.properties;
+
         // Recalculate content hash
         const lastContentHash = this.contentHash;
         const nextContentHash = this.view.properties?.toHashValue();
         this.contentHash = nextContentHash;
 
         // If content hasn't changed, bail.
-        if (lastContentHash !== nextContentHash) {
+        if (lastContentHash === nextContentHash) {
             return false;
         }
 
-        // const {
-        //     max_width,
-        //     head,
-        //     body,
-        //     horizontal_padding
-        // } = this.style;
-        // const fnf = body.field_name;
-        // const fvf = body.field_value;
-        // const text: TextSet[] = [];
-        // const strokeWidth = 1;
+        // Reset state
+        this.width = 0;
+        this.height = 0;
+        this.text.eraseAllInstructions();
 
-        // // Configure title and subtitle
-        // const titleText = titleCase(this.template.id).toLocaleUpperCase();
-        // const subtitleText = this.props.isDefined() ? this.props.toString() : "";
-        // const hasSubtitle = subtitleText !== "";
-        // const hasBody = this.hasFields();
-        // type TitleFont = { font: IFont, color: string, padding?: number };
-        // const tf: TitleFont = (hasSubtitle ? head.two_title : head.one_title).title;
+        // Calculate padding
+        const xPadding = grid[0] * style.horizontalPadding;
+        const yPadding = grid[1] * style.verticalPadding;
 
-        // // Calculate max width
-        // let mw = max_width;
-        // mw = Math.max(mw, tf.font.measureWidth(titleText));
-        // for (const key of this.props.value.keys()) {
-        //     mw = Math.max(mw, body.field_name.font.measureWidth(key));
-        // }
+        // Calculate title and subtitle positions
+        let x = xPadding + markerOffset;
+        let y = yPadding + markerOffset;
+        
+        // Calculate max content width
+        const maxWidth = grid[0] * style.maxUnitWidth;
 
-        // // Calculate text
-        // let m = null;
-        // let w = 0;
-        // const x = strokeWidth + horizontal_padding;
-        // let y = strokeWidth + head.vertical_padding;
+        // Update content width
+        const content = style.text;
+        const contentText = props.isDefined() ? props.toString() : "";
+        const lines = content.font.wordWrap(contentText, maxWidth);
+        for (let i = 0, width; i < lines.length; i++) {
+            width = content.font.measureWidth(lines[i]);
+            this.width = Math.max(this.width, width);
+        }
+        // Calculate title section layout
+        y = generateContentSectionLayout(
+            x, y,
+            lines,
+            content.font,
+            content.color,
+            content.units * grid[1],
+            this.text
+        );
 
-        // // Create title text set
-        // const title: TextSet = {
-        //     font: tf.font,
-        //     color: tf.color,
-        //     text: []
-        // };
-        // text.push(title);
+        // Add head's bottom padding
+        y += yPadding;
 
-        // // Calculate title text
-        // m = tf.font.measure(titleText);
-        // w = Math.max(w, m.width);
-        // y += m.ascent;
-        // title.text.push({ x, y, t: titleText });
-        // y += m.descent + (tf.padding ?? 0);
+        // Round content width up to nearest multiple of the grid size
+        this.width = ceilNearestMultiple(this.width, grid[0]);
 
-        // // Calculate subtitle text
-        // if (hasSubtitle) {
-        //     const stf = head.two_title.subtitle;
+        // Calculate block width and height
+        this.width += 2 * (markerOffset + xPadding);
+        this.height = y + markerOffset;
 
-        //     // Create subtitle text set
-        //     const subtitle: TextSet = {
-        //         font: stf.font,
-        //         color: stf.color,
-        //         text: []
-        //     };
-        //     text.push(subtitle);
+        console.log(this.height);
 
-        //     // Calculate subtitle text
-        //     const lines = stf.font.wordWrap(subtitleText, mw);
-        //     m = stf.font.measure(lines[0]);
-        //     w = Math.max(w, m.width);
-        //     y += m.ascent;
-        //     subtitle.text.push({ x, y, t: lines[0] });
-        //     for (let i = 1; i < lines.length; i++) {
-        //         m = stf.font.measure(lines[i]);
-        //         w = Math.max(w, m.width);
-        //         y += stf.line_height;
-        //         subtitle.text.push({ x, y, t: lines[i] });
-        //     }
+        // Calculate block's bounding box
+        const bb = this.boundingBox;
+        const xMin = bb.x - (this.width / 2);
+        const yMin = bb.y - (this.height / 2);
+        bb.xMin = ceilNearestMultiple(xMin, grid[0] / this.scale);
+        bb.yMin = ceilNearestMultiple(yMin, grid[1] / this.scale);
+        bb.xMax = bb.xMin + this.width;
+        bb.yMax = bb.yMin + this.height;
+        const renderX = bb.xMin;
+        const renderY = bb.yMin;
 
-        // }
-        // y += head.vertical_padding + strokeWidth;
+        // Update anchor positions
+        const anchors = calculateAnchorPositionsByRound(bb, grid, markerOffset);
+        for(const position in anchors) {
+            const coords = anchors[position];
+            this.view.anchors.get(position)?.face.moveTo(...coords);
+        }
 
-        // // Calculate header height
-        // const headerHeight = Math.round(y);
+        // Recalculate bonding box
+        super.calculateLayout();
 
-        // // Calculate fields
-        // if (hasBody) {
+        // Calculate render offsets
+        this.xOffset = renderX - bb.xMin;
+        this.yOffset = renderY - bb.yMin;
 
-        //     // Create field name & value text sets
-        //     const fieldName: TextSet = {
-        //         font: fnf.font,
-        //         color: fnf.color,
-        //         text: []
-        //     };
-        //     const fieldValue: TextSet = {
-        //         font: fvf.font,
-        //         color: fvf.color,
-        //         text: []
-        //     };
-        //     text.push(fieldName);
-        //     text.push(fieldValue);
-
-        //     // Calculate fields
-        //     y += body.vertical_padding;
-        //     for (let [key, value] of this.props.value) {
-
-        //         // Ignore empty fields
-        //         if (!value.isDefined()) {
-        //             continue;
-        //         }
-
-        //         // Ignore hidden fields
-        //         if (!(value.descriptor.is_visible_chart ?? true)) {
-        //             continue;
-        //         }
-
-        //         // Ignore the primary key
-        //         if (key === this.props.primaryKey) {
-        //             continue;
-        //         }
-
-        //         // Calculate field name text
-        //         key = key.toLocaleUpperCase();
-        //         m = fnf.font.measure(key);
-        //         w = Math.max(w, m.width);
-        //         y += m.ascent;
-        //         fieldName.text.push({ x, y, t: key });
-        //         y += m.descent + body.field_name.padding;
-
-        //         // Calculate field value text
-        //         const lines = fvf.font.wordWrap(value.toString(), mw);
-        //         m = fvf.font.measure(lines[0]);
-        //         w = Math.max(w, m.width);
-        //         y += m.ascent;
-        //         fieldValue.text.push({ x, y, t: lines[0] });
-        //         for (let i = 1; i < lines.length; i++) {
-        //             m = fvf.font.measure(lines[i]);
-        //             w = Math.max(w, m.width);
-        //             y += fvf.line_height;
-        //             fieldValue.text.push({ x, y, t: lines[i] });
-        //         }
-        //         y += body.field_value.padding;
-
-        //     }
-        //     y -= body.field_value.padding;
-        //     y += body.vertical_padding;
-
-        // } else {
-        //     y -= strokeWidth;
-        // }
-
-        // // Calculate block's size
-        // const width = Math.round(w + ((horizontal_padding + strokeWidth) * 2));
-        // const height = Math.round(y + strokeWidth);
-
-        // // Calculate block's bounding box
-        // const bb = this.boundingBox;
-        // const xMin = Math.round(bb.xMid - (width / 2));
-        // const yMin = Math.round(bb.yMid - (height / 2));
-        // const xMax = Math.round(bb.xMid + (width / 2));
-        // const yMax = Math.round(bb.yMid + (height / 2));
-
-        // // Update anchors
-        // const xo = (bb.xMid - xMin) / 2;
-        // const yo = (bb.yMid - yMin) / 2;
-        // const anchors = [
-        //     bb.xMid - xo, yMin,
-        //     bb.xMid, yMin,
-        //     bb.xMid + xo, yMin,
-        //     xMax, bb.yMid - yo,
-        //     xMax, bb.yMid,
-        //     xMax, bb.yMid + yo,
-        //     bb.xMid + xo, yMax,
-        //     bb.xMid, yMax,
-        //     bb.xMid - xo, yMax,
-        //     xMin, bb.yMid + yo,
-        //     xMin, bb.yMid,
-        //     xMin, bb.yMid - yo
-        // ];
-        // for (let i = 0; i < anchors.length; i += 2) {
-        //     this.children[i / 2].moveTo(anchors[i], anchors[i + 1], false);
-        // }
-
-        // // Update object's bounding box
-        // super.updateLayout(reasons, false);
-
-        // // Update layout
-        // this.layout = {
-        //     contentHash,
-        //     dx: xMin - bb.xMin,
-        //     dy: yMin - bb.yMin,
-        //     width,
-        //     height,
-        //     headerHeight,
-        //     text
-        // };
+        // Update parent's bounding box
         return true;
+        
     }
 
     /**
@@ -240,23 +150,98 @@ export class TextBlock extends BlockFace {
      *  The context to render to.
      * @param region
      *  The context's viewport.
+     * @param settings
+     *  The current render settings.
      */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): void;
+    public renderTo(
+        ctx: CanvasRenderingContext2D,
+        region: ViewportRegion, settings: RenderSettings    
+    ): void {
+        if (!this.isVisible(region)) {
+            return;
+        }
 
-    /**
-     * Renders the face to a context.
-     * @param ctx
-     *  The context to render to.
-     * @param region
-     *  The context's viewport.
-     * @param dsx
-     *  The drop shadow's x-offset.
-     * @param dsy
-     *  The drop shadow's y-offset.
-     */
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void;
-    public renderTo(ctx: CanvasRenderingContext2D, region: ViewportRegion, dsx?: number, dsy?: number): void {
-        throw new Error("Method not implemented.");
+        // Init
+        const x = this.boundingBox.xMin + this.xOffset;
+        const y = this.boundingBox.yMin + this.yOffset;    
+        const strokeWidth = BlockFace.markerOffset;
+        const { borderRadius, fillColor, strokeColor } = this.style;
+
+        // Draw body
+        ctx.lineWidth = strokeWidth + 0.1;
+        drawRect(ctx, x, y, this.width, this.height, borderRadius, strokeWidth);
+        if (settings.shadowsEnabled) {
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = "rgba(0,0,0,0.25)";  // Light Theme
+            // ctx.shadowOffsetX = dsx + (0.5 * region.scale);
+            // ctx.shadowOffsetY = dsy + (0.5 * region.scale);
+            ctx.fillStyle = fillColor;
+            ctx.strokeStyle = strokeColor;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+            // ctx.shadowOffsetX = 0;
+            // ctx.shadowOffsetY = 0;
+            ctx.stroke();
+        } else {
+            ctx.fillStyle = fillColor;
+            ctx.strokeStyle = strokeColor;
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        // Draw text
+        for (const { font, color, instructions } of this.text) {
+            ctx.font = font;
+            ctx.fillStyle = color;
+            for (const instruction of instructions) {
+                ctx.fillText(
+                    instruction.text, 
+                    instruction.x + x,
+                    instruction.y + y
+                );
+            }
+        }
+
+        // Draw focus and hover markers
+        if (this.view.focused) {
+            const outline = this.style.selectOutline;
+            const padding = outline.padding + 1;
+            // Draw focus border
+            if(settings.animationsEnabled) {
+                ctx.setLineDash([5, 2]);
+            }
+            drawRect(
+                ctx,
+                x - padding,
+                y - padding, 
+                this.width + padding * 2,
+                this.height + padding * 2,
+                outline.borderRadius, strokeWidth
+            );
+            ctx.strokeStyle = outline.color;
+            ctx.stroke();
+            ctx.setLineDash([]);
+        } else if (this.view.hovered) {
+            const { color, size } = this.style.anchorMarkers;
+            // Draw anchors
+            for(const anchor of this.view.anchors.values()) {
+                anchor.renderTo(ctx, region, settings);
+            }
+            // Draw anchor markers
+            ctx.strokeStyle = color;
+            ctx.beginPath();
+            let x, y;
+            for (const o of this.view.anchors.values()) {
+                x = o.x + BlockFace.markerOffset;
+                y = o.y + BlockFace.markerOffset;
+                ctx.moveTo(x - size, y - size);
+                ctx.lineTo(x + size, y + size);
+                ctx.moveTo(x + size, y - size);
+                ctx.lineTo(x - size, y + size);
+            }
+            ctx.stroke();
+        }
+
     }
 
 
@@ -271,7 +256,7 @@ export class TextBlock extends BlockFace {
      *  A clone of the face.
      */
     public clone(): TextBlock {
-        return new TextBlock(this.style);
+        return new TextBlock(this.style, this.grid, this.scale);
     }
 
 }

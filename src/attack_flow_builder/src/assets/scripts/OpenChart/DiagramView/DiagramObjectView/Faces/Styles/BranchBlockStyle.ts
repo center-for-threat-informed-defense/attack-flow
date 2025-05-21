@@ -19,14 +19,14 @@ export type BranchBlockStyle = DictionaryBlockStyle & {
         color: string;
 
         /**
-         * The branches' vertical padding.
+         * The branches' minimum width (in units).
          */
-        verticalPadding: number;
+        minWidth: number;
 
         /**
-         * The branches' horizontal padding.
+         * The branches' height (in units).
          */
-        horizontalPadding: number;
+        height: number;
 
     };
 

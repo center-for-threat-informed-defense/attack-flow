@@ -6,9 +6,9 @@ import type { Font } from "@OpenChart/Utilities";
 export type TextBlockStyle = {
 
     /**
-     * The block's maximum permitted with.
+     * The block's maximum permitted with (in units).
      */
-    maxWidth: number;
+    maxUnitWidth: number;
 
     /**
      * The block's fill color.
@@ -36,9 +36,15 @@ export type TextBlockStyle = {
         color: string;
 
         /**
-         * The text's line height.
+         * The text's height (in grid units).
          */
-        lineHeight: number;
+        units: number;
+
+        /**
+         * Whether the title align's to the top of the unit.
+         */
+        alignTop: boolean;
+        
     };
 
     /**

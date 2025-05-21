@@ -43,7 +43,7 @@ export type DictionaryBlockStyle = {
                 color: string;
 
                 /**
-                 * The text's
+                 * The title's height (in grid units).
                  */
                 units: number;
 
