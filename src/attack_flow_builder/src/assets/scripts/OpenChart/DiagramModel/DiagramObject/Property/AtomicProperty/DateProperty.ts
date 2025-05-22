@@ -43,7 +43,6 @@ export class DateProperty extends Property {
         if ((value ?? null) === null) {
             this.setValue(null);
         } else if (typeof value === "string") {
-            //this.setValue(DateTime.fromFormat(value, "yyyy-MM-dd'T'HH:mm:ss z", {zone:value.split(" ")[1]}));
             this.setValue(DateTime.fromISO(value));
         } else {
             this.setValue(DateTime.now());

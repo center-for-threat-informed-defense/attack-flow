@@ -156,9 +156,6 @@ export default defineComponent({
       }
       switch (event.key) {
         case "Backspace":
-          //if(field.selectionEnd === 0) {
-          //  this.shiftFocus(-1, false);
-          //}
           break;
         case "ArrowLeft":
           if (field.selectionEnd === 0) {
@@ -243,9 +240,8 @@ export default defineComponent({
         }T${this.value_Time
         }${this.value_Offset
         }`;
-      //this.value_Zone = DateTime.local().setZone(this.value_Zone).zone.name;
-      const date = DateTime.fromISO(ISO8601, { setZone: true }); //DateTime.fromFormat(ISO8601, "yyyy-MM-dd'T'HH:mm:ssZZ");
-      console.log("update", date);
+
+      const date = DateTime.fromISO(ISO8601, { setZone: true });
       // Parse value
       let value;
       if (ISO8601.startsWith("0000-00-00T00:00:00.000")) {
@@ -256,7 +252,6 @@ export default defineComponent({
         value = date;
       }
       if (this.value?.toISO() !== value?.toISO()) {
-        console.log("updating value", this.property, value);
         this.property.setValue(value);
         // Update value
         const cmd = EditorCommands.setDateProperty(this.property, value);
