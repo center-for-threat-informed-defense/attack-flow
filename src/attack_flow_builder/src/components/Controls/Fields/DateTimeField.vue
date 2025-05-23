@@ -43,6 +43,7 @@ import type { DateProperty } from "@OpenChart/DiagramModel";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
 import { defineComponent, type PropType, ref } from "vue";
 import { DateTime } from "luxon";
+import { useApplicationStore } from "@/stores/ApplicationStore";
 
 type Segments =
   "Date" | "Time" | "Zone";
@@ -67,9 +68,10 @@ export default defineComponent({
   },
   data() {
     return {
+      application: useApplicationStore(),
       value_Date: "",
       value_Time: "00:00:00",
-      value_Offset: DateTime.local().toFormat("ZZ"),
+      value_Offset: "",
       showEditor: false
     }
   },
@@ -86,7 +88,7 @@ export default defineComponent({
         let d = DateTime.fromISO(this.value_Date + "T" + this.value_Time + "Z")?.setZone(n);
         // or evaluate the user's local datetime in each timezone
         if (!d.isValid) {
-          d = DateTime.local({ 'zone': n });
+          d = DateTime.local({ 'zone': this.application.stickyTimezone });
         }
         // put the +0x00 offset string in the Map, using the offset name as key
         return o.set(d.toFormat("ZZZZZ '('ZZZZ')'"), d.toFormat("ZZ"));
@@ -128,7 +130,7 @@ export default defineComponent({
      */
     prop_Zone(): string {
       const v = this.value;
-      return v?.zone.name || DateTime.local().zone.name;
+      return v?.zone.name || this.application.stickyTimezone;
     }
   },
   methods: {
@@ -256,6 +258,10 @@ export default defineComponent({
         // Update value
         const cmd = EditorCommands.setDateProperty(this.property, value);
         this.$emit("execute", cmd);
+        // update store's sticky timezone
+        if (this.value_Offset !== this.application.stickyTimezone) {
+          this.application.setStickyTimezone(this.value_Offset);
+        }
       } else {
         // Refresh value
         this.refreshValue();
@@ -269,7 +275,7 @@ export default defineComponent({
       // Parse date
       const date = this.value?.toISODate();
       const time = this.value?.toISOTime({ suppressMilliseconds: true, includeOffset: false }) || "00:00:00.000";
-      const offset = this.value?.toFormat("ZZ") || this.property.getSiblingOffsets()[0] || DateTime.local().toFormat("ZZ");
+      const offset = this.value?.toFormat("ZZ") || this.application.stickyTimezone;
       // Update values
       this.value_Date = String(date);
       this.value_Time = String(time);

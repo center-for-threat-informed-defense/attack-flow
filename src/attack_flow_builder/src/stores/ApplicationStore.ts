@@ -8,6 +8,7 @@ import { ThemeRegistry, ThemeSourceFile } from "@OpenChart/ThemeRegistry";
 import { BasicRecommender, DiagramViewEditor, EditorCommand } from "@OpenChart/DiagramEditor";
 import type { AppCommand } from "@/assets/scripts/Application";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
+import { DateTime } from "luxon";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,8 @@ export const useApplicationStore = defineStore("applicationStore", {
         activeEditor: PhantomEditor,
         activeRecommender: new BasicRecommender(),
         activeFinder: new OpenChartFinder<DiagramViewEditor, DiagramObjectView>(),
-        settings: BaseAppSettings
+        settings: BaseAppSettings,
+        recentTimezone: DateTime.local().toFormat("ZZ")
     }),
     getters: {
 
@@ -174,6 +176,17 @@ export const useApplicationStore = defineStore("applicationStore", {
          */
         isShowingSplash(state): boolean {
             return state.settings.view.splash_menu.display_menu;
+        },
+
+        /**
+         * Get recently used timezone to pre-populate DateTime fields
+         * @param state
+         * the Vuex state
+         * @returns
+         * the UTC offset last used
+         */
+        stickyTimezone(state): string {
+            return state.recentTimezone;
         }
 
     },
@@ -192,6 +205,13 @@ export const useApplicationStore = defineStore("applicationStore", {
             } else {
                 command.execute();
             }
+        },
+        /**
+         * Updates sticky timezone with most recently used timezone offset
+         * @param utc new value to save
+         */
+        setStickyTimezone(utc: string) {
+            this.recentTimezone = utc;
         }
 
     }
