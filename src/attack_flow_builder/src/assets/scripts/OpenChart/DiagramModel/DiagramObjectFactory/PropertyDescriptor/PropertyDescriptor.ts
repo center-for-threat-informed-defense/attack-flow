@@ -54,7 +54,8 @@ type AtomicType
     | PropertyType.Float
     | PropertyType.String
     | PropertyType.Date
-    | PropertyType.Enum;
+    | PropertyType.Enum
+    | PropertyType.Technique;
 
 /**
  * Resolves the JSON type of an {@link AtomicType}.
@@ -65,6 +66,7 @@ type AtomicTypeToJsonType = {
     [PropertyType.String]: string | null;
     [PropertyType.Date]: Date | null;
     [PropertyType.Enum]: string | null;
+    [PropertyType.Technique]: string | null;
 };
 
 /**
@@ -142,6 +144,31 @@ export type EnumPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Enum>
  */
 export type DatePropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Date>;
 
+/**
+ * Technique Property Descriptor.
+ */
+export type TechniquePropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Technique> & {
+    /**
+     * The property's tactic details.
+     */
+    tacticDetails: Array<{
+        id: string;
+        name: string;
+        matrix: string;
+        stixId?: string;
+        techniques?: string[];
+    }>;
+    /**
+     * The property's technique details.
+     */
+    techniqueDetails: Array<{
+        id: string;
+        name: string;
+        matrix: string;
+        stixId?: string;
+        tactics?: string[];
+    }>;
+};
 
 /**
  * All Atomic Property Descriptors.
@@ -151,7 +178,8 @@ export type AtomicPropertyDescriptors
     | IntPropertyDescriptor
     | FloatPropertyDescriptor
     | DatePropertyDescriptor
-    | EnumPropertyDescriptor;
+    | EnumPropertyDescriptor
+    | TechniquePropertyDescriptor;
 
 
 ///////////////////////////////////////////////////////////////////////////////

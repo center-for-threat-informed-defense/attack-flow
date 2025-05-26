@@ -5,7 +5,7 @@ import {
     Anchor, Block, Canvas, DateProperty, DictionaryProperty,
     EnumProperty, FloatProperty, Group, Handle, IntProperty,
     Latch, Line, ListProperty, Property, RootProperty,
-    StringProperty
+    StringProperty, TechniqueProperty
 } from "../DiagramObject";
 import type {
     DiagramObject, JsonEntries, JsonValue
@@ -13,8 +13,10 @@ import type {
 import type {
     AtomicPropertyDescriptors, CanvasTemplate, Constructor, DiagramObjectTemplate,
     DiagramSchemaConfiguration, DictionaryPropertyDescriptor,
-    ListPropertyDescriptor, PropertyDescriptor, RootPropertyDescriptor
+    ListPropertyDescriptor, PropertyDescriptor, RootPropertyDescriptor,
+    TechniquePropertyDescriptor
 } from ".";
+import { intel } from "../../../../configuration_old/builder.config.intel";
 
 export class DiagramObjectFactory {
 
@@ -364,6 +366,18 @@ export class DiagramObjectFactory {
                     throw new Error(`Invalid JSON primitive: '${value}'.`);
                 }
                 return this.createAtomicProperty(id, descriptor, value);
+            case PropertyType.Technique:
+                if (Array.isArray(value)) {
+                    throw new Error(`Invalid JSON primitive: '${value}'.`);
+                }
+                // Create technique property descriptor
+                const techniqueDescriptor: TechniquePropertyDescriptor = {
+                    type: PropertyType.Technique,
+                    is_editable: descriptor.is_editable ?? true,
+                    tacticDetails: intel.tactics,
+                    techniqueDetails: intel.technique
+                };
+                return new TechniqueProperty(id, descriptor.is_editable ?? true, techniqueDescriptor, value);
         }
     }
 
@@ -473,7 +487,16 @@ export class DiagramObjectFactory {
                 return new DateProperty(id, editable, meta, value);
             case PropertyType.Enum:
                 options = this.createListProperty(`${id}.options`, descriptor.options);
-                return new EnumProperty(id, editable, options, meta, value);
+                return new EnumProperty(id, editable, options, value);
+            case PropertyType.Technique:
+                // Create technique property descriptor
+                const techniqueDescriptor: TechniquePropertyDescriptor = {
+                    type: PropertyType.Technique,
+                    is_editable: editable,
+                    tacticDetails: intel.tactics,
+                    techniqueDetails: intel.technique
+                };
+                return new TechniqueProperty(id, editable, techniqueDescriptor, value);
         }
     }
 

@@ -8,5 +8,6 @@ export enum PropertyType {
     Date       = "date",
     Enum       = "enum",
     List       = "list",
-    Dictionary = "dict"
+    Dictionary = "dict",
+    Technique  = "technique"
 }

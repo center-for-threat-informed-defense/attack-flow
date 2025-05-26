@@ -24,7 +24,8 @@ import { titleCase } from "@/assets/scripts/Browser";
 import { defineAsyncComponent, defineComponent, type PropType } from "vue";
 import { 
   DateProperty, DictionaryProperty, EnumProperty, 
-  FloatProperty, IntProperty, ListProperty, StringProperty
+  FloatProperty, IntProperty, ListProperty, StringProperty,
+  TechniqueProperty
 } from "@OpenChart/DiagramModel";
 import type { Property } from "@OpenChart/DiagramModel";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
@@ -34,6 +35,7 @@ import ListField from "./ListField.vue";
 import EnumField from "./EnumField.vue";
 import NumberField from "./NumberField.vue";
 import DateTimeField from "./DateTimeField.vue";
+import TechniqueField from "./TechniqueField.vue";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
 
@@ -86,6 +88,8 @@ export default defineComponent({
           return "ListField";
         case DictionaryProperty.name:
           return "DictionaryField";
+        case TechniqueProperty.name:
+          return "TechniqueField";
       }
     },
 
@@ -98,7 +102,8 @@ export default defineComponent({
     EnumField,
     NumberField,
     DateTimeField,
-    DictionaryField
+    DictionaryField,
+    TechniqueField
   }
 });
 </script>

@@ -1,5 +1,4 @@
-
-import { AnchorConfiguration } from "./AnchorFormat";
+import { AnchorConfiguration } from "./AnchorFormat"
 import { AnchorPosition, Branch } from "@OpenChart/DiagramView";
 import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
@@ -19,19 +18,8 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                     }       
                 }
             },
-            tactic_id: {
-                type: PropertyType.String
-            },
-            tactic_ref: {
-                type: PropertyType.String,
-                // is_editable: false
-            },
-            technique_id: {
-                type: PropertyType.String
-            },
-            technique_ref: {
-                type: PropertyType.String,
-                // is_editable: false
+            tactic_and_technique: {
+                type: PropertyType.Technique
             },
             description: {
                 type: PropertyType.String
