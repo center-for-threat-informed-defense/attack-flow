@@ -5,7 +5,7 @@ import type { CameraLocation } from "./CameraLocation";
 import type { DiagramViewExport } from "./DiagramViewExport";
 import type { DiagramLayoutEngine } from "./DiagramLayoutEngine";
 import type { DiagramTheme, DiagramObjectViewFactory } from "./DiagramObjectViewFactory";
-import { AutomaticLayoutEngine } from "./DiagramLayoutEngine/AutomaticLayoutEngine/AutomaticLayoutEngine";
+import { AutomaticLayoutEngine } from "./DiagramLayoutEngine";
 
 export class DiagramViewFile extends DiagramModelFile {
 
@@ -40,9 +40,15 @@ export class DiagramViewFile extends DiagramModelFile {
      *  The file to import.
      * @param stix
      * The STIX bundle to import.
+     * @param layoutEngine
+     * The layout engine to use for the diagram if the diagram does not contain a layout.
      */
     constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport | Canvas);
-    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport | Canvas) {
+    constructor(
+        factory: DiagramObjectViewFactory,
+        diagram?: DiagramViewExport | Canvas,
+        layoutEngine: DiagramLayoutEngine = new AutomaticLayoutEngine()
+    ) {
         // Create / Import
         super(factory, diagram);
         // Calculate layout
@@ -51,9 +57,7 @@ export class DiagramViewFile extends DiagramModelFile {
         if (diagram && !(diagram instanceof Canvas) && diagram.layout) {
             new ManualLayoutEngine(diagram.layout).run([this.canvas]);
         } else {
-            // Use AutomaticLayoutEngine if no layout is provided
-            console.log("Using AutomaticLayoutEngine");
-            new AutomaticLayoutEngine().run([this.canvas]);
+            layoutEngine.run([this.canvas]);
         }
         // Set camera
         this.camera = diagram instanceof Canvas || !diagram?.camera ? ({ x: 0, y: 0, k: 1 }) : diagram.camera;

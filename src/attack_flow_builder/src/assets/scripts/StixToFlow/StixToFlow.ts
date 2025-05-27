@@ -1,4 +1,4 @@
-import { Canvas, Block, FloatProperty, StringProperty, IntProperty, DateProperty, EnumProperty, DictionaryProperty, Property  } from "../OpenChart/DiagramModel/DiagramObject";
+import { Canvas, Block, FloatProperty, StringProperty, IntProperty, DateProperty, EnumProperty, DictionaryProperty, Property, ListProperty } from "../OpenChart/DiagramModel/DiagramObject";
 import { type DiagramObjectFactory } from "../OpenChart/DiagramModel/DiagramObjectFactory";
 import { type StixObject } from "./StixObject";
 import { type StixBundle } from "./StixBundle";
@@ -57,16 +57,25 @@ export class StixToFlow {
      */
     private static addProperty(property: Property, stixValue: any): void {
         if (property instanceof FloatProperty) {
-          property.setValue(parseFloat(stixValue));
+            property.setValue(parseFloat(stixValue));
         } else if (property instanceof StringProperty) {
-          property.setValue(stixValue);
+            property.setValue(stixValue);
         } else if (property instanceof IntProperty) {
-          property.setValue(parseInt(stixValue));
-        } else if (property instanceof DateProperty){
-          property.setValue(new Date(stixValue));
+            property.setValue(parseInt(stixValue));
+        } else if (property instanceof DateProperty) {
+            const dateTime = DateTime.fromJSDate(new Date(stixValue));
+            property.setValue(dateTime);
         } else if (property instanceof EnumProperty) {
-          property.setValue(stixValue);
+            property.setValue(stixValue);
+        } else if (property instanceof ListProperty) {
+            if (Array.isArray(stixValue)) {
+                stixValue.forEach((value) => {
+                    const newStringProperty = new StringProperty(`${property.id}.${property.value.size}`, true, [], value);
+                    property.addProperty(newStringProperty)
+                });
+            }
         } else if (property instanceof DictionaryProperty) {
+            property.representativeKey = Object.keys(stixValue)[0] || "None";
             for (const propKey of property.value.keys()) {
                 const propValue = property.value.get(propKey);
                 if (propValue instanceof Property && propKey in stixValue) {
@@ -117,7 +126,7 @@ export class StixToFlow {
      *  The graph's adjacency list.
      * @param inDegree
      *  The graph's in-degree counts.
-     * @returns 
+     * @returns
      *  An array of root node identifiers.
      */
     private static findRootNodes(

@@ -1,10 +1,8 @@
 import Configuration from "@/assets/configuration/app.configuration";
 import { Device } from "@/assets/scripts/Browser";
-import { StixToFlow } from "@/assets/scripts/StixToFlow";
 import { DoNothing } from "../index.commands";
 import { DiagramObjectViewFactory, DiagramViewFile } from "@OpenChart/DiagramView";
 import { ClearFileRecoveryBank, LoadFile, PrepareEditorWithFile, RemoveFileFromRecoveryBank, SaveDiagramFileToDevice } from "./index.commands";
-import type { StixBundle } from "@/assets/scripts/StixToFlow";
 import type { AppCommand } from "../index.commands";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
