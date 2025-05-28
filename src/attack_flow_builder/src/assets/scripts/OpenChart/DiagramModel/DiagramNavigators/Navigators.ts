@@ -25,7 +25,7 @@ export function findExternalLinks(objects: DiagramObject[]): [Anchor, Latch][] {
     // Search for external attachments
     const external: [Anchor, Latch][] = [];
     for (const latch of latches.values()) {
-        if (latch.anchor && anchors.has(latch.anchor.instance)) {
+        if (latch.anchor && !anchors.has(latch.anchor.instance)) {
             external.push([latch.anchor, latch]);
         }
     }
