@@ -10,8 +10,7 @@ body {
   --mitre-dark-gray: #7e8284;
   --mitre-silver: #d4d4d3;
   --mitre-light-silver: #f1f3f4;
-  --me-ext-code: #880132;
-  --me-orange-dark: #c94f1f;
+
   --text-color-inverse: #ffffff;
 
   color: var(--mitre-black);
@@ -74,6 +73,20 @@ table p {
   margin-top: 0;
 }
 
+.site-toc .toc li.current>a {
+  font-weight: bold;
+}
+
+.site-toc .toc ul li ul {
+  background-color: #F1F3F4;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.site-toc .toc ul li ul a {
+  color: #4f5254;
+}
+
 /* Admonition styles */
 
 .admonition {
@@ -103,8 +116,9 @@ body.theme-dark .admonition p:last-child {
 
 .admonition.caution .admonition-title,
 .admonition.warning .admonition-title {
-  background-color: var(--me-orange-dark);
-  color: var(--text-color-inverse);
+  background-color: var(--me-ext-gray-green-dark);
+  /* background-color: var(--me-ext-orange-dark); */
+  color: var(--mitre-black);
 }
 
 .admonition.danger .admonition-title,
@@ -144,14 +158,17 @@ blockquote.epigraph {
   background-color: var(--mitre-light-silver);
   margin: 2em 0;
   padding: 1em;
+  border-top: 3px solid #c9c9c9;
+  border-bottom: 3px solid #c9c9c9;
 }
 
-body.theme-dark blockquote.epigraph {
-  background-color: var(--mitre-navy);
+blockquote.epigraph p {
+  font-size: 16pt;
 }
 
 blockquote.epigraph p.attribution {
   margin: 0;
+  font-size: 12pt;
   font-style: italic;
 }
 
@@ -244,10 +261,6 @@ body.theme-dark {
 .btn-light:active {
   background-color: var(--mitre-navy) !important;
   color: white !important;
-}
-
-body.theme-dark .btn-primary {
-  color: white;
 }
 
 .admonition.note .admonition-title,
@@ -382,9 +395,8 @@ footer p {
   font-size: 16px;
 }
 
-.highlight-bash .highlight pre,
-pre {
-  background-color: var(--mitre-dark-navy);
+.highlight-bash .highlight pre {
+  background-color: var(--mitre-black);
   border-radius: var(--border-radius);
 }
 
@@ -427,7 +439,8 @@ h6 {
   font-weight: 400;
 }
 
-section[id] {
+section[id],
+section[id]>span[id] {
   scroll-margin-top: 6rem;
 }
 

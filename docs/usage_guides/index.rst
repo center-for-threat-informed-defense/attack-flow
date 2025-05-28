@@ -11,7 +11,7 @@ threat-informed operations.
 .. toctree::
     :maxdepth: 1
 
-    general
+    best-practices
     cyber-threat-intel
     defensive-posture
     red-team
