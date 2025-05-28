@@ -217,7 +217,7 @@
           [
             [
               "name",
-              "Center for Threat-Informed Defense"
+              "MITRE Center for Threat-Informed Defense"
             ],
             [
               "identity_class",
@@ -225,7 +225,7 @@
             ],
             [
               "contact_information",
-              "ctid@mitre-engenuity.org"
+              "ctid@mitre.org"
             ]
           ]
         ],
