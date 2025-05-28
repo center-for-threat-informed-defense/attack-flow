@@ -1,6 +1,7 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
 import { ViewUpdateReason } from "../ViewUpdateReason";
+import { PositionSetByUser } from "../ViewAttributes";
 import { Latch, RootProperty } from "@OpenChart/DiagramModel";
 import type { AnchorView } from "./AnchorView";
 import type { ViewObject } from "../ViewObject";
@@ -193,6 +194,8 @@ export class LatchView extends Latch implements ViewObject {
         // Set face
         this._face = face;
         this.replaceFace(face);
+        // Configure attributes
+        this.face.userSetPosition = PositionSetByUser.True;
         // Recalculate layout on property updates
         this.properties.subscribe(
             this.instance,
@@ -212,7 +215,40 @@ export class LatchView extends Latch implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  4. Selection  /////////////////////////////////////////////////////////
+    //  4. Attach / Detach Anchors  ///////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Links the latch to an anchor.
+     * @param anchor
+     *  The anchor to link to.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
+     */
+    public link(anchor: AnchorView, update: boolean = false) {
+        super.link(anchor, update);
+        this.face.userSetPosition = PositionSetByUser.False;
+    }
+
+    /**
+     * Unlinks the latch from an anchor.
+     * @param update
+     *  Whether to update the diagram or not.
+     *  (Default: `false`)
+     * @param updateAnchor
+     *  Whether to update the anchor or not.
+     *  (Default: `false`)
+     */
+    public unlink(update: boolean = false, updateAnchor: boolean = update) {
+        super.unlink(update, updateAnchor);
+        this.face.userSetPosition = PositionSetByUser.True;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  5. Selection  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -231,7 +267,7 @@ export class LatchView extends Latch implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  5. Movement  //////////////////////////////////////////////////////////
+    //  6. Movement  //////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -265,7 +301,7 @@ export class LatchView extends Latch implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  6. Layout & View  /////////////////////////////////////////////////////
+    //  7. Layout & View  /////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -328,7 +364,7 @@ export class LatchView extends Latch implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  7. Cloning  ///////////////////////////////////////////////////////////
+    //  8. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -349,7 +385,7 @@ export class LatchView extends Latch implements ViewObject {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  8. Shape  /////////////////////////////////////////////////////////////
+    //  9. Shape  /////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 

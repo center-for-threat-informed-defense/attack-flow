@@ -1,6 +1,7 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
 import { ViewUpdateReason } from "../ViewUpdateReason";
+import { PositionSetByUser } from "../ViewAttributes";
 import { Block, RootProperty } from "@OpenChart/DiagramModel";
 import type { AnchorView } from "./AnchorView";
 import type { ViewObject } from "../ViewObject";
@@ -193,6 +194,8 @@ export class BlockView extends Block implements ViewObject {
         // Set face
         this._face = face;
         this.replaceFace(face);
+        // Configure attributes
+        this.face.userSetPosition = PositionSetByUser.True;
         // Recalculate layout on property updates
         this.properties.subscribe(
             this.instance,

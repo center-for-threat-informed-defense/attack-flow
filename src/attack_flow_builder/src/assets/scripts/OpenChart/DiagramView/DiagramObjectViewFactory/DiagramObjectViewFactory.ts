@@ -10,13 +10,13 @@ import {
     LatchView, LineGridCanvas, LineView, TextBlock
 } from "../DiagramObjectView";
 import type { FaceDesign } from "./FaceDesign";
+import type { DiagramTheme } from "./DiagramTheme";
 import type { TypeToTemplate } from "./TypeToTemplate";
 import type { DiagramObjectView } from "../DiagramObjectView";
 import type {
     Constructor, DiagramObjectTemplate,
     DiagramSchemaConfiguration, JsonEntries
 } from "@OpenChart/DiagramModel";
-import type { DiagramTheme } from "./DiagramTheme";
 
 export class DiagramObjectViewFactory extends DiagramObjectFactory {
 
@@ -396,22 +396,26 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 case FaceType.DynamicLine:
                     face = new DynamicLine(design.style, grid);
                     object.replaceFace(face);
-                    continue;
+                    break;
                 case FaceType.Group:
                     face = new GroupFace();
                     object.replaceFace(face);
-                    continue;
+                    break;
                 case FaceType.LineGridCanvas:
                     face = new LineGridCanvas(design.style, grid, scale);
                     object.replaceFace(face);
-                    continue;
+                    break;
                 case FaceType.DotGridCanvas:
                     face = new DotGridCanvas(design.style, grid, scale);
                     object.replaceFace(face);
-                    continue;
+                    break;
             }
+            // Calculate layout
+            object.calculateLayout();
             // Apply position
-            object.moveTo(x, y);
+            if(face.userSetPosition) {
+                object.moveTo(x, y);
+            }
         }
     }
 

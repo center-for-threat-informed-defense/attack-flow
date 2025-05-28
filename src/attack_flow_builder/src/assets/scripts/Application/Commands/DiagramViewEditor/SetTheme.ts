@@ -42,7 +42,7 @@ export class SetTheme extends AppCommand {
         // Set theme
         factory.theme = theme;
         // Restyle file
-        factory.restyleDiagramObject([...traverse(file.canvas)]);
+        factory.restyleDiagramObject([file.canvas]);
         // Re-render
         activeEditor.interface.render();
     }
