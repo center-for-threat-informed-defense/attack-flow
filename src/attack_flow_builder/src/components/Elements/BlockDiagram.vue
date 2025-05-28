@@ -226,9 +226,10 @@ export default defineComponent({
       ui.on("canvas-click", this.onCanvasClick, this);
       ui.on("cursor-change", this.onCursorChange, this);
       ui.on("suggestion-request", this.onSuggestionRequest, this);
+      // Set camera location
+      ui.setCameraLocation(this.editor.file.camera, 0);
       // Render
       ui.render();
-      // this.diagram.setCameraLocation(this.camera, 0);
     }
 
   },

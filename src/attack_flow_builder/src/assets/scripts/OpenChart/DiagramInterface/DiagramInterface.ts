@@ -480,9 +480,11 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      * Canvas zoom end behavior.
      */
     private onCanvasZoomEnd() {
+        const x = Math.round(this.width / 2) - this.transform.x;
+        const y = Math.round(this.height / 2) - this.transform.y;
         this.emit("view-transform",
-            this.transform.x,
-            this.transform.y,
+            Math.round(x / this.transform.k),
+            Math.round(y / this.transform.k),
             this.transform.k
         );
     }
@@ -493,15 +495,18 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      *  The block diagram's container.
      */
     private onCanvasResize(el: Element) {
-        const newWidth = el.clientWidth;
-        const newHeight = el.clientHeight;
-        // Center viewport
-        const transform = this.transform as { x: number, y: number };
-        transform.x += (newWidth - this.elWidth) / 2;
-        transform.y += (newHeight - this.elHeight) / 2;
+        const lastWidth = this.elWidth;
+        const lastHeight = this.elHeight;
         // Update dimensions
-        this.elWidth = newWidth;
-        this.elHeight = newHeight;
+        this.elWidth = el.clientWidth;
+        this.elHeight = el.clientHeight;
+        // Center viewport
+        this.transform = this.transform.translate(
+            Math.round((this.elWidth - lastWidth) / 2),
+            Math.round((this.elHeight - lastHeight) / 2)
+        )
+        // Apply transform to canvas
+        this.zoom.transform(this.canvas, this.transform);
         // Update viewport
         this.updateViewportBounds();
         // Adjust viewport
@@ -559,8 +564,8 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     public setCameraLocation(location: CameraLocation, animate: number = 1000) {
         const k = location.k;
-        const x = round((this.elWidth / 2) - (location.x * k));
-        const y = round((this.elHeight / 2) - (location.y * k));
+        const x = round((this.width / 2) - (location.x * k));
+        const y = round((this.height / 2) - (location.y * k));
         // Move camera
         this.canvas.transition()
             .duration(animate)

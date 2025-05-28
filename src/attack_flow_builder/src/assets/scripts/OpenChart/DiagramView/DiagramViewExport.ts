@@ -1,5 +1,5 @@
 import type { PositionMap } from "./DiagramLayoutEngine";
-import type { CameraLocation } from "./DiagramCanvas";
+import type { CameraLocation } from "./CameraLocation";
 import type { DiagramModelExport } from "@OpenChart/DiagramModel";
 
 export type DiagramViewExport = DiagramModelExport & {
