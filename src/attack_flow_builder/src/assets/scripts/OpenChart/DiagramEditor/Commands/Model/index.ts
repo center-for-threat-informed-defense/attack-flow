@@ -2,7 +2,7 @@ import {
     AddObjectToGroup,
     AttachLatchToAnchor,
     DetachLatchFromAnchor,
-    RemoveObjectFromGroup,
+    RemoveObjectFromGroup
 } from "./index.commands";
 import type { Latch, Anchor, DiagramObject, Group } from "@OpenChart/DiagramModel";
 
@@ -23,7 +23,7 @@ import type { Latch, Anchor, DiagramObject, Group } from "@OpenChart/DiagramMode
 export function attachLatchToAnchor(
     latch: Latch, anchor: Anchor
 ): AttachLatchToAnchor {
-    return new AttachLatchToAnchor(latch, anchor); 
+    return new AttachLatchToAnchor(latch, anchor);
 }
 
 /**
@@ -36,7 +36,7 @@ export function attachLatchToAnchor(
 export function detachLatchFromAnchor(
     latch: Latch
 ): DetachLatchFromAnchor {
-    return new DetachLatchFromAnchor(latch); 
+    return new DetachLatchFromAnchor(latch);
 }
 
 
@@ -57,7 +57,7 @@ export function detachLatchFromAnchor(
 export function addObjectToGroup(
     object: DiagramObject, group: Group
 ): AddObjectToGroup {
-    return new AddObjectToGroup(object, group); 
+    return new AddObjectToGroup(object, group);
 }
 
 
@@ -66,7 +66,7 @@ export function addObjectToGroup(
  * @remarks
  *  Do NOT perform more than one `RemoveObjectFromGroup` in a single
  *  transaction. If removals are broken into separate requests, their
- *  mutual dependencies can't be determined. This may cause `undo()` and 
+ *  mutual dependencies can't be determined. This may cause `undo()` and
  *  `redo()` to break as they can no longer reconstruct the objects and
  *  dependencies correctly.
  * @param objects

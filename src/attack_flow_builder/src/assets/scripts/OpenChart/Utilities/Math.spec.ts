@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
     ceilNearestMultiple, clamp, doVectorsIntersect,
-    floatEq, floorNearestMultiple, generateBitMask, getLineHitbox, 
+    floatEq, floorNearestMultiple, generateBitMask, getLineHitbox,
     isInsideRegion, isInsideShape, roundNearestMultiple
 } from "./Math";
 

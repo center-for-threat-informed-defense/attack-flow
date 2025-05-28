@@ -4,4 +4,4 @@ export const ModelUpdateReason = {
     ObjectRemoved  : 0b00100,
     ObjectLinked   : 0b01000,
     ObjectUnlinked : 0b10000
-}
+};

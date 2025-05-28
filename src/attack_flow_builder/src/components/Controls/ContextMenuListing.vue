@@ -1,9 +1,20 @@
 <template>
-  <div class="context-menu-listing-control" :style="offset" @contextmenu.prevent="">
+  <div
+    class="context-menu-listing-control"
+    :style="offset"
+    @contextmenu.prevent=""
+  >
     <!-- Menu Sections -->
-    <div class="section" v-for="(section, i) of sections" :key="section.id">
+    <div
+      class="section"
+      v-for="(section, i) of sections"
+      :key="section.id"
+    >
       <!-- Menu Section -->
-      <template v-for="item of section.items" :key="item.text">
+      <template
+        v-for="item of section.items"
+        :key="item.text"
+      >
         <!-- Submenu Item -->
         <li
           :class="{ disabled: item.disabled }"
@@ -13,9 +24,12 @@
         >
           <a class="item">
             <span class="text">{{ item.text }}</span>
-            <span class="more-arrow"></span>
+            <span class="more-arrow" />
           </a>
-          <div class="submenu" v-if="isActive(item)">
+          <div
+            class="submenu"
+            v-if="isActive(item)"
+          >
             <ContextMenuListing 
               :root="false"
               :sections="item.sections"
@@ -34,20 +48,29 @@
             class="item"
             target="_blank"
           >
-            <span class="check" v-show="'value' in item ? item.value : false">
+            <span
+              class="check"
+              v-show="'value' in item ? item.value : false"
+            >
               ✓
             </span>
             <span class="text">
               {{ item.text }}
             </span>
-            <span class="shortcut" v-if="item.shortcut">
+            <span
+              class="shortcut"
+              v-if="item.shortcut"
+            >
               {{ formatShortcut(item.shortcut) }}
             </span>
           </a>
         </li>
       </template>
       <!-- Section Divider -->
-      <a class="section-divider" v-if="i < sections.length - 1"></a>
+      <a
+        class="section-divider"
+        v-if="i < sections.length - 1"
+      />
     </div>
   </div>
 </template>
@@ -216,9 +239,9 @@ export default defineComponent({
   mounted() {
     if(!this.forceInsideWindow) return;
     // Offset submenu if outside of viewport
-    let viewWidth  = window.innerWidth;
-    let viewHeight = window.innerHeight;
-    let { top, left, bottom, right } = this.$el.getBoundingClientRect();
+    const viewWidth  = window.innerWidth;
+    const viewHeight = window.innerHeight;
+    const { top, left, bottom, right } = this.$el.getBoundingClientRect();
     this.xOffset = right > viewWidth ? -Math.min(left, right - viewWidth) : 0;
     this.yOffset = bottom > viewHeight ? -Math.min(top, bottom - viewHeight) : 0;
   }

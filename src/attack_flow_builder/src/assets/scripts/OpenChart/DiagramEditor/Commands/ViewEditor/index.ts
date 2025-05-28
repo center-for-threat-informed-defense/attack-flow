@@ -15,8 +15,8 @@ export function spawnObjectAtInterfaceCenter(
 ): SpawnObject {
     const ui = editor.interface;
     const camera = editor.file.camera;
-    let x = ((ui.width / 2) - camera.x) / camera.k;
-    let y = ((ui.height / 2) - camera.y) / camera.k;
+    const x = ((ui.width / 2) - camera.x) / camera.k;
+    const y = ((ui.height / 2) - camera.y) / camera.k;
     return new SpawnObject(editor.file, id, x, y);
 }
 

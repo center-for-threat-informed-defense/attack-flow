@@ -40,7 +40,7 @@ export class GenericMover extends ObjectMover {
     public captureSubject(): void {
         const editor = this.plugin.editor;
         const { userSetObjectPosition } = EditorCommands;
-        for(const object of this.objects) {
+        for (const object of this.objects) {
             editor.execute(userSetObjectPosition(object));
         }
     }
@@ -56,7 +56,7 @@ export class GenericMover extends ObjectMover {
         const { moveObjectsBy } = EditorCommands;
         // Get distance
         let delta;
-        if(this.alignment === Alignment.Grid) {
+        if (this.alignment === Alignment.Grid) {
             delta = track.getDistanceOnGrid(canvas.grid);
         } else {
             delta = track.getDistance();
@@ -71,5 +71,5 @@ export class GenericMover extends ObjectMover {
      * Releases the subject from movement.
      */
     public releaseSubject(): void {}
-    
+
 }

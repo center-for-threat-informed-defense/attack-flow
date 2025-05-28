@@ -24,7 +24,7 @@ export class Canvas extends Group {
         super(id, instance, attributes, properties);
     }
 
-            
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ export class Canvas extends Group {
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
-        )
+        );
     }
 
 }

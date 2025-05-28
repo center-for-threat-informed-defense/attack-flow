@@ -64,7 +64,7 @@ export class DictionaryProperty extends CollectionProperty {
      */
     public clone(id: string = this.id): DictionaryProperty {
         const property = new DictionaryProperty(id, this.isEditable);
-        for(const [key, prop] of this.value) {
+        for (const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }
         property.representativeKey = this.representativeKey;

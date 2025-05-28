@@ -1,4 +1,4 @@
-import { 
+import {
     ClearHover,
     HoverObject,
     RouteLinesThroughBlock,
@@ -25,7 +25,7 @@ import type { BlockView, CanvasView, DiagramObjectView, GroupView, LineView } fr
 export function clearHover(
     object: DiagramObjectView
 ): ClearHover {
-    return new ClearHover(object); 
+    return new ClearHover(object);
 }
 
 /**
@@ -41,7 +41,7 @@ export function hoverObject(
     object: DiagramObjectView,
     state: boolean
 ): HoverObject {
-    return new HoverObject(object, state); 
+    return new HoverObject(object, state);
 }
 
 /**

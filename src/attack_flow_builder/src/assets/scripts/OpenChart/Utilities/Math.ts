@@ -278,11 +278,11 @@ export function isInsideShape(
  *  True if the regions overlap, false otherwise.
  */
 export function doRegionsOverlap(
-    region0: number[], region1: number[] 
+    region0: number[], region1: number[]
 ): boolean {
     let len = region0.length;
     // Test if line segments intersect
-    for(let i = 0; i < len; i += 2) {
+    for (let i = 0; i < len; i += 2) {
         const overlap = doesVectorIntersectRegion(
             region0[i],
             region0[i + 1],
@@ -290,20 +290,20 @@ export function doRegionsOverlap(
             region0[(i + 3) % len],
             region1
         );
-        if(overlap) {
+        if (overlap) {
             return true;
         }
     }
     // Test if region0 is inside region1
-    for(let i = 0; i < len; i += 2) {
-        if(isInsideRegion(region0[i], region0[i + 1], region1)) {
+    for (let i = 0; i < len; i += 2) {
+        if (isInsideRegion(region0[i], region0[i + 1], region1)) {
             return true;
         }
     }
     // Test if region1 is inside region0
     len = region1.length;
-    for(let i = 0; i < len; i += 2) {
-        if(isInsideRegion(region1[i], region1[i + 1], region0)) {
+    for (let i = 0; i < len; i += 2) {
+        if (isInsideRegion(region1[i], region1[i + 1], region0)) {
             return true;
         }
     }
@@ -426,14 +426,14 @@ export function distance(a: { x: number, y: number }, b: { x: number, y: number 
  *  The rounded number.
  */
 export function fastRound(x: number): number {
-    return (x + (x> 0 ? 0.5 : -0.5)) << 0;
+    return (x + (x > 0 ? 0.5 : -0.5)) << 0;
 }
 
 /**
  * The fastest implementation of round.
  */
-export const round = (function() { 
-    switch(getJavaScriptEngine()) {
+export const round = (function() {
+    switch (getJavaScriptEngine()) {
         case JavaScriptEngine.SpiderMonkey:
             return fastRound;
         case JavaScriptEngine.V8:

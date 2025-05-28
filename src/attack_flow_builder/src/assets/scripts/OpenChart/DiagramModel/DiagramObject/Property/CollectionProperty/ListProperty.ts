@@ -7,7 +7,7 @@ export class ListProperty extends CollectionProperty {
      */
     private template: Property;
 
-    
+
     /**
      * Creates a new {@link ListProperty}.
      * @param id
@@ -50,7 +50,7 @@ export class ListProperty extends CollectionProperty {
      */
     public clone(id: string = this.id): ListProperty {
         const property = new ListProperty(id, this.isEditable, this.template);
-        for(const [key, prop] of this.value) {
+        for (const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }
         return property;

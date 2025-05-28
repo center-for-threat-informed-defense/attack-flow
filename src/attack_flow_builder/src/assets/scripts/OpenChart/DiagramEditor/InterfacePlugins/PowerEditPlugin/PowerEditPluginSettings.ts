@@ -1,4 +1,4 @@
-import type { DiagramObjectViewFactory } from "@OpenChart/DiagramView"
+import type { DiagramObjectViewFactory } from "@OpenChart/DiagramView";
 
 export type PowerEditPluginSettings = {
 
@@ -12,4 +12,4 @@ export type PowerEditPluginSettings = {
      */
     lineTemplate: string;
 
-}
+};

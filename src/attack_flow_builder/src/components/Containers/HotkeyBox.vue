@@ -1,6 +1,9 @@
 <template>
-  <div class="hotkey-box-container" tabindex="0">
-    <slot></slot>
+  <div
+    class="hotkey-box-container"
+    tabindex="0"
+  >
+    <slot />
   </div>
 </template>
 

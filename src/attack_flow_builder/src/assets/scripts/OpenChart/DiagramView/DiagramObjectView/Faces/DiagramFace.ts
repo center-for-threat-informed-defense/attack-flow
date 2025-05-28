@@ -33,7 +33,7 @@ export abstract class DiagramFace {
      */
     public boundingBox: BoundingBox;
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  3. Attributes  ////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@ export abstract class DiagramFace {
     public get alignment(): number {
         return this.view.getAttribute(Masks.AlignmentMask);
     }
-    
+
     /**
      * The view's alignment.
      */
@@ -60,7 +60,7 @@ export abstract class DiagramFace {
     public get orientation(): number {
         return this.view.getAttribute(Masks.OrientationMask);
     }
-    
+
     /**
      * The view's orientation.
      */
@@ -75,7 +75,7 @@ export abstract class DiagramFace {
     public get focused(): boolean {
         return this.view.isAttributeSet(Masks.FocusMask);
     }
-   
+
     /**
      * Whether the view is focused or not.
      */
@@ -112,7 +112,7 @@ export abstract class DiagramFace {
     public set tangibility(value: number) {
         this.view.setAttribute(Masks.TangibilityMask, value);
     }
-    
+
 
 
     /**
@@ -128,7 +128,7 @@ export abstract class DiagramFace {
     public set userSetPosition(value: number) {
         this.view.setAttribute(Masks.PositionSetByUserMask, value);
     }
-    
+
 
     /**
      * Creates a new {@link DiagramFace}.
@@ -284,7 +284,7 @@ export abstract class DiagramFace {
      * @returns
      *  A clone of the face.
      */
-    public abstract clone(): DiagramFace; 
+    public abstract clone(): DiagramFace;
 
 
     ///////////////////////////////////////////////////////////////////////////

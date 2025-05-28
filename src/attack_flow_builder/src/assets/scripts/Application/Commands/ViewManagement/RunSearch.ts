@@ -47,7 +47,7 @@ export class RunSearch extends AppCommand {
         // Update selection
         const editor = this.finder.editor;
         const result = this.finder.result;
-        if(result && editor instanceof DiagramViewEditor) {
+        if (result && editor instanceof DiagramViewEditor) {
             const object = result?.object as DiagramObjectView;
             editor.execute(EditorCommands.unselectAllObjects(editor));
             editor.execute(EditorCommands.selectObject(editor, object));

@@ -34,9 +34,9 @@ export class BasicRecommender extends ObjectRecommender {
         // Configure basic recommendations
         const factory = editor.file.factory;
         const templates = factory.templates;
-        for(const template of templates.values()) {
+        for (const template of templates.values()) {
             // Include block types
-            if(template.type !== DiagramObjectType.Block) {
+            if (template.type !== DiagramObjectType.Block) {
                 continue;
             }
             // Add recommendation
@@ -44,7 +44,7 @@ export class BasicRecommender extends ObjectRecommender {
                 id: template.name,
                 color: this.getColor(factory, template.name),
                 name: template.name,
-                subtitle: "An object for representing urls.",
+                subtitle: "An object for representing urls."
             });
         }
     }
@@ -59,7 +59,7 @@ export class BasicRecommender extends ObjectRecommender {
     public async getRecommendations(search: string): Promise<ObjectRecommendations> {
         return {
             items: this.recommendations
-        }
+        };
     }
 
     /**
@@ -73,7 +73,7 @@ export class BasicRecommender extends ObjectRecommender {
      */
     private getColor(factory: DiagramObjectViewFactory, template: string): string {
         const design = factory.resolveDesign(template);
-        switch(design.type) {
+        switch (design.type) {
             case FaceType.BranchBlock:
             case FaceType.DictionaryBlock:
                 return design.style.head.fillColor;

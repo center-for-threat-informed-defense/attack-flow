@@ -5,7 +5,7 @@ import { AnchorView, GroupView, Orientation } from "@OpenChart/DiagramView";
 import { AddObjectToGroup, AttachLatchToAnchor } from "../Model/index.commands";
 import type { BlockView, CanvasView, DiagramObjectView, LatchView, LineView } from "@OpenChart/DiagramView";
 
-export class RouteLinesThroughBlock extends GroupCommand { 
+export class RouteLinesThroughBlock extends GroupCommand {
 
     /**
      * Routes a set of lines through a block.
@@ -18,25 +18,25 @@ export class RouteLinesThroughBlock extends GroupCommand {
      */
     constructor(group: CanvasView | GroupView, block: BlockView, lines: LineView[]) {
         super();
-        for(const line of lines) {
-            if(line.sourceObject === block || line.targetObject === block) {
+        for (const line of lines) {
+            if (line.sourceObject === block || line.targetObject === block) {
                 continue;
             }
             const oSource = line.source.anchor;
             const oTarget = line.target.anchor;
             const [nTarget, nSource] = this.getBestAnchors(block, line);
             // Connect source
-            if(oTarget && !oSource) {
+            if (oTarget && !oSource) {
                 this.do(new AttachLatchToAnchor(line.source, nSource));
                 this.do(new MoveObjectsTo(line.source, nSource.x, nSource.y));
             }
             // Connect target
-            else if(!oTarget && oSource) {
+            else if (!oTarget && oSource) {
                 this.do(new AttachLatchToAnchor(line.target, nTarget));
                 this.do(new MoveObjectsTo(line.target, nTarget.x, nTarget.y));
             }
             // Route line
-            else if(oTarget && oSource) {
+            else if (oTarget && oSource) {
                 this.do(new AttachLatchToAnchor(line.target, nTarget));
                 this.do(new MoveObjectsTo(line.target, nTarget.x, nTarget.y));
                 const clone = line.clone();
@@ -56,7 +56,7 @@ export class RouteLinesThroughBlock extends GroupCommand {
      * @param block
      *  The block.
      * @param line
-     *  The line. 
+     *  The line.
      * @returns
      *  The best [target, source] anchors.
      */
@@ -64,17 +64,17 @@ export class RouteLinesThroughBlock extends GroupCommand {
         const b1 = block.face.boundingBox;
         let target: AnchorView | undefined = undefined;
         let source: AnchorView | undefined = undefined;
-        if(!line.source.face.boundingBox.inside(b1)) {
+        if (!line.source.face.boundingBox.inside(b1)) {
             target = this.getNearestAnchor(block, line.source);
         } else {
             target = this.getBestAnchor(block, line.source, line.target);
         }
-        if(!line.target.face.boundingBox.inside(b1)) {
+        if (!line.target.face.boundingBox.inside(b1)) {
             source = this.getNearestAnchor(block, line.target);
         } else {
             source = this.getBestAnchor(block, line.target, line.source);
         }
-        return [target, source]
+        return [target, source];
     }
 
     /**
@@ -82,7 +82,7 @@ export class RouteLinesThroughBlock extends GroupCommand {
      * @param block
      *  The block.
      * @param latch
-     *  The line's latch. 
+     *  The line's latch.
      * @param reference
      *  The line's opposing latch.
      * @returns
@@ -92,7 +92,7 @@ export class RouteLinesThroughBlock extends GroupCommand {
         const bb = block.face.boundingBox;
         // Resolve coordinates
         let x: number, y: number;
-        switch(latch.orientation) {
+        switch (latch.orientation) {
             case Orientation.D0:
                 x = latch.x <= reference.x ? bb.xMin : bb.xMax;
                 y = latch.y;
@@ -119,18 +119,18 @@ export class RouteLinesThroughBlock extends GroupCommand {
         // Select anchor
         let delta = Infinity;
         let anchor: AnchorView | null = null;
-        for(const _anchor of block.anchors.values()) {
+        for (const _anchor of block.anchors.values()) {
             const _delta = distance(_anchor, point);
-            if(_delta < delta) {
+            if (_delta < delta) {
                 delta = _delta;
                 anchor = _anchor;
             }
         }
         // Return anchor
-        if(anchor) {
+        if (anchor) {
             return anchor;
         } else {
-            throw new Error(`'${block.instance}' has no anchors.`)
+            throw new Error(`'${block.instance}' has no anchors.`);
         }
     }
 

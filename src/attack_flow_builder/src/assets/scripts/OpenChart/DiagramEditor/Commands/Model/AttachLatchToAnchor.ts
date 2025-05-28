@@ -53,7 +53,7 @@ export class AttachLatchToAnchor extends EditorCommand {
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
         this.latch.unlink(true);
-        if(this.prevAnchor) {
+        if (this.prevAnchor) {
             this.latch.link(this.prevAnchor, true);
         }
         issueDirective(EditorDirective.Autosave | EditorDirective.Record);

@@ -57,7 +57,7 @@ export async function loadExistingFile(
     const theme = await context.themeRegistry.getTheme(jsonFile.theme ?? themeId);
     // Resolve schema
     const schema = Configuration.schema;
-    if(jsonFile.schema !== schema.id) {
+    if (jsonFile.schema !== schema.id) {
         throw new Error(`Unsupported schema: '${jsonFile.schema}'`);
     }
     // Construct factory
@@ -65,7 +65,7 @@ export async function loadExistingFile(
     // Construct file
     const viewFile = new DiagramViewFile(factory, jsonFile);
     // Run layout
-    if(!jsonFile.layout) {
+    if (!jsonFile.layout) {
         // TODO: Run automated layout
     }
     // Return command
@@ -83,7 +83,7 @@ export async function loadFileFromFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
     const file = await Device.openTextFileDialog(Configuration.file_type_extension);
-    if(file) {
+    if (file) {
         return loadExistingFile(context, file.contents as string, file.filename);
     } else {
         return new DoNothing();
@@ -130,7 +130,7 @@ export async function loadStixFileFromFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
     const file = await Device.openTextFileDialog("json");
-    if(file) {
+    if (file) {
         return loadExistingStixFile(context, file.contents as string, file.filename);
     } else {
         return new DoNothing();
@@ -201,11 +201,11 @@ export async function prepareEditorFromFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
     const cmd = await loadFileFromFileSystem(context);
-    if(cmd instanceof LoadFile) {
-       return new PrepareEditorWithFile(context, cmd); 
+    if (cmd instanceof LoadFile) {
+        return new PrepareEditorWithFile(context, cmd);
     } else {
         return cmd;
-    }   
+    }
 }
 
 /**
@@ -234,11 +234,11 @@ export async function prepareEditorFromStixFileSystem(
     context: ApplicationStore
 ): Promise<AppCommand> {
     const cmd = await loadStixFileFromFileSystem(context);
-    if(cmd instanceof LoadFile) {
-       return new PrepareEditorWithFile(context, cmd); 
+    if (cmd instanceof LoadFile) {
+        return new PrepareEditorWithFile(context, cmd);
     } else {
         return cmd;
-    }   
+    }
 }
 
 /**
@@ -306,5 +306,5 @@ export function removeFileFromRecoveryBank(
 export function clearFileRecoveryBank(
     context: ApplicationStore
 ): ClearFileRecoveryBank {
-    return new ClearFileRecoveryBank(context)
+    return new ClearFileRecoveryBank(context);
 }

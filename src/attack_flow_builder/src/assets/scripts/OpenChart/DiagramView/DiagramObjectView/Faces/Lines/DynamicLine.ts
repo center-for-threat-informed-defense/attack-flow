@@ -1,7 +1,7 @@
 import { LineFace } from "../Bases";
 import { Orientation } from "../../ViewAttributes";
 import { findUnlinkedObjectAt } from "../../ViewLocators";
-import { 
+import {
     doRegionsOverlap,
     drawAbsoluteMultiElbowPath,
     drawAbsolutePolygon,
@@ -29,10 +29,10 @@ export class DynamicLine extends LineFace {
      * The line's layout strategies.
      */
     private static readonly LayoutStrategy: LayoutStrategyMap = {
-        [Orientation.D0]: { 
+        [Orientation.D0]: {
             [Orientation.D0]      : runHorizontalTwoElbowLayout,
             [Orientation.D90]     : runHorizontalElbowLayout,
-            [Orientation.Unknown] : runHorizontalElbowLayout,
+            [Orientation.Unknown] : runHorizontalElbowLayout
         },
         [Orientation.D90]: {
             [Orientation.D0]      : runVerticalElbowLayout,
@@ -43,7 +43,7 @@ export class DynamicLine extends LineFace {
             [Orientation.D0]      : runVerticalElbowLayout,
             [Orientation.D90]     : runHorizontalElbowLayout
         }
-    }
+    };
 
     /**
      * The line's style.
@@ -89,11 +89,11 @@ export class DynamicLine extends LineFace {
         this.grid = grid;
         this.points = [];
         this.vertices = [];
-        this.arrow = getAbsoluteArrowHead(0,0,0,0, style.capSize);
+        this.arrow = getAbsoluteArrowHead(0, 0, 0, 0, style.capSize);
         this.hitboxes = [];
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Selection  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -163,13 +163,13 @@ export class DynamicLine extends LineFace {
         // Resolve latch orientations
         let srcO: number;
         let trgO: number;
-        if(src.isLinked() && trg.isLinked()) {
+        if (src.isLinked() && trg.isLinked()) {
             srcO = src.anchor!.orientation;
             trgO = trg.anchor!.orientation;
-        } else if(src.isLinked() || trg.isLinked()) {
+        } else if (src.isLinked() || trg.isLinked()) {
             const o = src.anchor?.orientation ?? trg.anchor!.orientation;
             let inProportion = true;
-            switch(o) {
+            switch (o) {
                 case Orientation.D0:
                     inProportion = height <= width;
                     break;
@@ -177,14 +177,14 @@ export class DynamicLine extends LineFace {
                     inProportion = width <= height;
                     break;
             }
-            if(inProportion) {
+            if (inProportion) {
                 srcO = o;
                 trgO = o;
             } else {
                 srcO = src.anchor?.orientation ?? Orientation.Unknown;
                 trgO = trg.anchor?.orientation ?? Orientation.Unknown;
             }
-        } else if(height < width) {
+        } else if (height < width) {
             srcO = Orientation.D0;
             trgO = Orientation.D0;
         } else {
@@ -194,7 +194,7 @@ export class DynamicLine extends LineFace {
 
         // Resolve layout strategy
         const runLayout = DynamicLine.LayoutStrategy[srcO]?.[trgO];
-        if(runLayout) {
+        if (runLayout) {
             // Expose internal state
             const face = this as unknown as GenericLineInternalState;
             // Run layout
@@ -202,7 +202,7 @@ export class DynamicLine extends LineFace {
         } else {
             throw new Error(`No layout strategy: '${srcO}' -> '${trgO}'`);
         }
-        
+
         // Calculate bounding box
         this.calculateBoundingBoxFromViews(this.points);
 
@@ -235,8 +235,8 @@ export class DynamicLine extends LineFace {
 
         // Configure context
         ctx.lineWidth = width;
-        if(this.view.focused) {
-            if(settings.animationsEnabled) {
+        if (this.view.focused) {
+            if (settings.animationsEnabled) {
                 ctx.setLineDash([5, 2]);
             }
             ctx.fillStyle = selectColor;
@@ -257,7 +257,7 @@ export class DynamicLine extends LineFace {
 
         // Draw handles and ends
         if (this.view.focused) {
-            for(const point of this.points) {
+            for (const point of this.points) {
                 point.renderTo(ctx, region, settings);
             }
         }
@@ -274,14 +274,14 @@ export class DynamicLine extends LineFace {
      *  True if the view is visible, false otherwise.
      */
     public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
-        if(!this.isVisible(region)) {
+        if (!this.isVisible(region)) {
             return false;
         }
         // Draw line
         drawBoundingRegion(ctx, this.boundingBox);
         ctx.stroke();
         // Draw points
-        for(const object of this.points) {
+        for (const object of this.points) {
             object.renderDebugTo(ctx, region);
         }
         const radius = 2;
@@ -310,9 +310,9 @@ export class DynamicLine extends LineFace {
      */
     private forecastDimensions(...points: DiagramObjectView[]): [number, number] {
         let bb;
-        let xMin = Infinity, xMax = -Infinity, 
+        let xMin = Infinity, xMax = -Infinity,
             yMin = Infinity, yMax = -Infinity;
-        for(const point of points) {
+        for (const point of points) {
             bb = point.face.boundingBox;
             xMin = Math.min(xMin, bb.xMin);
             yMin = Math.min(yMin, bb.yMin);
@@ -336,8 +336,8 @@ export class DynamicLine extends LineFace {
     public clone(): DynamicLine {
         return new DynamicLine(this.style, this.grid);
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  4. Shape  /////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -352,14 +352,14 @@ export class DynamicLine extends LineFace {
      */
     public overlaps(region: BoundingBox): boolean {
         // If bounding boxes don't overlap...
-        if(!this.boundingBox.overlaps(region)) {
+        if (!this.boundingBox.overlaps(region)) {
             // ...skip additional checks
             return false;
         }
         // Otherwise...
         const vertices = region.vertices;
-        for(const hitbox of this.hitboxes) {
-            if(doRegionsOverlap(vertices, hitbox)) {
+        for (const hitbox of this.hitboxes) {
+            if (doRegionsOverlap(vertices, hitbox)) {
                 return true;
             }
         }

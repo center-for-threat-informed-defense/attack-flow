@@ -20,7 +20,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
         [LatchView.name]  : () => Cursor.Pointer,
         [AnchorView.name] : () => Cursor.Default,
         [HandleView.name] : (o) => {
-            switch(o.orientation) {
+            switch (o.orientation) {
                 case Orientation.D0:
                     return Cursor.EW_Resize;
                 case Orientation.D90:
@@ -29,8 +29,8 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
                     return Cursor.Move;
             }
         }
-    }
-   
+    };
+
     /**
      * The plugin's editor.
      */
@@ -74,16 +74,10 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
 
     /**
      * Tests if the plugin can handle a hover event.
-     * @param x
-     *  The cursor's current x-coordinate.
-     * @param y
-     *  The cursor's current y-coordinate.
-     * @param event
-     *  The mouse event.
      * @returns
      *  True if the plugin can handle the event, false otherwise.
      */
-    public canHandleHover(x: number, y: number, event: MouseEvent): boolean {
+    public canHandleHover(): boolean {
         return true;
     }
 
@@ -98,17 +92,17 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      */
     public handleHoverStart(x: number, y: number, event: MouseEvent): void {
         const s = this.smartHover(x, y, event);
-        if(this.selection === s) {
+        if (this.selection === s) {
             return undefined;
         }
         let hoverTarget = s;
-        if(s instanceof AnchorView) {
+        if (s instanceof AnchorView) {
             hoverTarget = s.latches.find(o => o.parent?.focused) ?? s;
         }
         this.hover(hoverTarget);
         this.selection = s;
     }
-    
+
     /**
      * Returns the topmost object at the specified coordinate.
      * @param x
@@ -120,20 +114,20 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      * @returns
      *  The topmost object.
      */
-    protected smartHover(x: number, y: number, event: MouseEvent): DiagramObjectView | undefined {        
+    protected smartHover(x: number, y: number, event: MouseEvent): DiagramObjectView | undefined {
         let selection: DiagramObjectView | undefined;
         const lines = this.editor.file.canvas.lines;
         const blocks = this.editor.file.canvas.blocks;
         let object: DiagramObjectView | undefined;
         // Evaluate blocks first
-        for(let i = blocks.length - 1; 0 <= i; i--) {
-            if(object = blocks[i].getObjectAt(x, y)) {
+        for (let i = blocks.length - 1; 0 <= i; i--) {
+            if (object = blocks[i].getObjectAt(x, y)) {
                 return object;
             }
         }
         // Evaluate lines second
-        for(let i = lines.length - 1; 0 <= i; i--) {
-            if(object = lines[i].getObjectAt(x, y)) {
+        for (let i = lines.length - 1; 0 <= i; i--) {
+            if (object = lines[i].getObjectAt(x, y)) {
                 return object;
             }
         }
@@ -164,7 +158,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
     ///////////////////////////////////////////////////////////////////////////
     //  2. Selection Interactions  ////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Tests if the plugin can handle a selection.
@@ -184,15 +178,15 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      *  `handleSelectEnd()` will not be invoked).
      */
     protected handleSelectStart(event: MouseEvent): boolean {
-        if(this.selection instanceof AnchorView) {
+        if (this.selection instanceof AnchorView) {
             this.mover = this.handleAnchor(this.selection, event);
-        } else if(this.selection instanceof BlockView) {
+        } else if (this.selection instanceof BlockView) {
             this.mover = this.handleBlock(this.selection, event);
-        } else if(this.selection instanceof HandleView) {
+        } else if (this.selection instanceof HandleView) {
             this.mover = this.handleHandle(this.selection, event);
-        } else if(this.selection instanceof LatchView) {
-            this.mover = this.handleLatch(this.selection, event); 
-        } else if(this.selection instanceof LineView) {
+        } else if (this.selection instanceof LatchView) {
+            this.mover = this.handleLatch(this.selection, event);
+        } else if (this.selection instanceof LineView) {
             this.mover = this.handleLine(this.selection, event);
         } else {
             this.select(undefined, event);
@@ -216,17 +210,17 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
         const editor = this.editor;
         const { factory, lineTemplate } = this.settings;
         // Select all latches
-        if(event.ctrlKey) {
+        if (event.ctrlKey) {
             const latches = [...anchor.latches];
             const { unselectAllObjects, selectObject } = EditorCommands;
             editor.execute(unselectAllObjects(this.editor));
-            for(const latch of latches) {
+            for (const latch of latches) {
                 editor.execute(selectObject(this.editor, latch.parent!));
             }
         }
         // Move selected latches
         const latches = anchor.latches.filter(o => o.parent?.focused);
-        if(latches.length) {
+        if (latches.length) {
             // Hover top latch
             this.hover(latches[latches.length - 1]);
             // Return mover
@@ -247,7 +241,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
     }
 
     /**
-     * Handles a block selection. 
+     * Handles a block selection.
      * @param block
      *  The selected block.
      * @param event
@@ -264,7 +258,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
         // Get implicit selection
         o = findImplicitSelection(o) as DiagramObjectView[];
         // Return mover
-        if(o[0] instanceof BlockView && o.length === 1) {
+        if (o[0] instanceof BlockView && o.length === 1) {
             return new BlockMover(this, o[0]);
         } else {
             return new GenericMover(this, o);
@@ -282,7 +276,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      */
     private handleHandle(handle: HandleView, event: MouseEvent): ObjectMover {
         // Select parent
-        if(handle.parent && !handle.parent.focused) {
+        if (handle.parent && !handle.parent.focused) {
             this.select(handle.parent, event);
         }
         // Return mover
@@ -301,7 +295,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
     private handleLatch(latch: LatchView, event: MouseEvent): ObjectMover {
         // Select parent
         this.hover(latch);
-        if(latch.parent && !latch.parent.focused) {
+        if (latch.parent && !latch.parent.focused) {
             this.select(latch.parent, event);
         }
         // Return mover
@@ -365,11 +359,11 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      *  The mouse event.
      */
     protected select(obj: DiagramObjectView | undefined, event: MouseEvent) {
-        // Update selection 
-        if(!obj?.focused && !event.ctrlKey) {
+        // Update selection
+        if (!obj?.focused && !event.ctrlKey) {
             this.editor.execute(EditorCommands.unselectAllObjects(this.editor));
         }
-        if(obj) {
+        if (obj) {
             this.editor.execute(EditorCommands.selectObject(this.editor, obj));
         }
     }
@@ -381,7 +375,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      */
     protected hover(obj: DiagramObjectView | undefined) {
         this.editor.execute(EditorCommands.clearHover(this.editor.file.canvas));
-        if(obj) {
+        if (obj) {
             // Hover object
             this.editor.execute(EditorCommands.hoverObject(obj, true));
             // Set cursor

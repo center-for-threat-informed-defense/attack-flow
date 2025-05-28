@@ -12,15 +12,15 @@ export function Branch(str: string) {
 }
 
 /**
- * Returns a branch's name. 
+ * Returns a branch's name.
  * @param str
  *  The branch's anchor identifier.
  * @returns
  *  The branch's name.
  */
 export function BranchName(str: string) {
-    if(str.startsWith(BranchPrefix)) {
-        return str.slice(BranchPrefix.length)
+    if (str.startsWith(BranchPrefix)) {
+        return str.slice(BranchPrefix.length);
     } else {
         return null;
     }

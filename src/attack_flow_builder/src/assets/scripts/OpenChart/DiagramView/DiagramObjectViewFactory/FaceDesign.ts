@@ -126,7 +126,7 @@ export type GroupDesign = BaseFaceDesign<FaceType.Group>;
 export type CanvasDesign = BaseFaceDesign<
     FaceType.LineGridCanvas | FaceType.DotGridCanvas
 > & {
-    
+
     /**
      * The canvas's style.
      */

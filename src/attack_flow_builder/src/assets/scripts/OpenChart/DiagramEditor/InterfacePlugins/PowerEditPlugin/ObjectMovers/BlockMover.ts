@@ -54,7 +54,7 @@ export class BlockMover extends ObjectMover {
         const { moveObjectsBy } = EditorCommands;
         // Get distance
         let delta;
-        if(this.alignment === Alignment.Grid) {
+        if (this.alignment === Alignment.Grid) {
             delta = track.getDistanceOnGrid(canvas.grid);
         } else {
             delta = track.getDistance();
@@ -74,9 +74,9 @@ export class BlockMover extends ObjectMover {
      */
     protected updateOverlap(group: CanvasView | GroupView) {
         const objects = group.objects;
-        let bb: BoundingBox = this.block.face.boundingBox;
-        for(const object of objects) {
-            if(
+        const bb: BoundingBox = this.block.face.boundingBox;
+        for (const object of objects) {
+            if (
                 object instanceof LineView &&
                 object.sourceObject !== this.block &&
                 object.targetObject !== this.block &&
@@ -84,7 +84,7 @@ export class BlockMover extends ObjectMover {
             ) {
                 this.selectLine(object, object.overlaps(bb));
             }
-            if(object instanceof GroupView) {
+            if (object instanceof GroupView) {
                 this.updateOverlap(object);
             }
         }
@@ -99,13 +99,13 @@ export class BlockMover extends ObjectMover {
      */
     public selectLine(line: LineView, value: boolean) {
         const editor = this.plugin.editor;
-        if(line.focused === value) {
+        if (line.focused === value) {
             return;
         }
         const { selectObject, unselectObject } = EditorCommands;
-        if(value) {
+        if (value) {
             this.lines.set(line.instance, line);
-            editor.execute(selectObject(editor, line))
+            editor.execute(selectObject(editor, line));
         } else {
             this.lines.delete(line.instance);
             editor.execute(unselectObject(editor, line));
@@ -119,9 +119,9 @@ export class BlockMover extends ObjectMover {
         const editor = this.plugin.editor;
         const canvas = editor.file.canvas;
         const { routeLinesThroughBlock, selectObject, unselectAllObjects } = EditorCommands;
-        editor.execute(routeLinesThroughBlock(canvas, this.block, [...this.lines.values()]))
+        editor.execute(routeLinesThroughBlock(canvas, this.block, [...this.lines.values()]));
         editor.execute(unselectAllObjects(editor));
         editor.execute(selectObject(editor, this.block));
     }
-    
+
 }

@@ -40,8 +40,8 @@ export class Latch extends DiagramObject {
         super(id, instance, attributes, properties);
         this._anchor = null;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Attach / Detach Anchors  ///////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ export class Latch extends DiagramObject {
             anchor.link(this, update);
         }
         // Update diagram
-        if(update) {
+        if (update) {
             this.handleUpdate(ModelUpdateReason.ObjectLinked);
         }
     }
@@ -90,7 +90,7 @@ export class Latch extends DiagramObject {
             anchor.unlink(this, updateAnchor);
         }
         // Update diagram
-        if(anchor && update) {
+        if (anchor && update) {
             this.handleUpdate(ModelUpdateReason.ObjectUnlinked);
         }
     }
@@ -118,8 +118,8 @@ export class Latch extends DiagramObject {
             return this._anchor?.instance === anchor.instance;
         }
     }
-            
-                        
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ export class Latch extends DiagramObject {
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
-        )
+        );
     }
 
 }

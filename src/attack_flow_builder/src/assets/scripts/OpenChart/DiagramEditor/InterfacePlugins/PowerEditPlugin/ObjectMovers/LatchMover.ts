@@ -30,7 +30,7 @@ export class LatchMover extends ObjectMover {
      * @param latches
      *  The latches to move.
      * @param newLine
-     *  Whether the latch is 
+     *  Whether the latch is
      */
     constructor(plugin: PowerEditPlugin, latches: LatchView[]) {
         super(plugin);
@@ -40,12 +40,12 @@ export class LatchMover extends ObjectMover {
             o => o.alignment === Alignment.Grid
         ) ? Alignment.Grid : Alignment.Free;
     }
-    
-    
+
+
     /**
      * Captures the subject.
      */
-    public captureSubject(): void {};
+    public captureSubject(): void {}
 
     /**
      * Moves the subject.
@@ -64,15 +64,15 @@ export class LatchMover extends ObjectMover {
         );
         // Update hover
         editor.execute(EditorCommands.clearHover(canvas));
-        if(target) {
+        if (target) {
             editor.execute(EditorCommands.hoverObject(target, true));
         }
-        // Update distance, if necessary 
-        if(this.alignment === Alignment.Grid) {
+        // Update distance, if necessary
+        if (this.alignment === Alignment.Grid) {
             delta = track.getDistanceOnGrid(canvas.grid);
         }
         // Attach latch
-        if(target instanceof AnchorView) {
+        if (target instanceof AnchorView) {
             delta = track.getDistanceOntoObject(target, this.leader);
             this.linkLatches(target);
         } else {
@@ -90,7 +90,7 @@ export class LatchMover extends ObjectMover {
      */
     public releaseSubject(): void {
         const l = this.latches;
-        if(l.length === 1 && !l[0].isLinked()) {
+        if (l.length === 1 && !l[0].isLinked()) {
             // this.plugin.requestSuggestions(l[0]);
         }
     }
@@ -103,8 +103,8 @@ export class LatchMover extends ObjectMover {
     private linkLatches(anchor: AnchorView) {
         const editor = this.plugin.editor;
         const { attachLatchToAnchor } = EditorCommands;
-        for(const latch of this.latches) {
-            if(!latch.isLinked(anchor)) {
+        for (const latch of this.latches) {
+            if (!latch.isLinked(anchor)) {
                 editor.execute(attachLatchToAnchor(latch, anchor));
             }
         }
@@ -116,8 +116,8 @@ export class LatchMover extends ObjectMover {
     private unlinkLatches() {
         const editor = this.plugin.editor;
         const { detachLatchFromAnchor } = EditorCommands;
-        for(const latch of this.latches) {
-            if(latch.isLinked()) {
+        for (const latch of this.latches) {
+            if (latch.isLinked()) {
                 editor.execute(detachLatchFromAnchor(latch));
             }
         }
@@ -140,18 +140,18 @@ export class LatchMover extends ObjectMover {
         group: CanvasView | GroupView
     ): DiagramObjectView | undefined {
         const objects = group.blocks;
-        for(let i = objects.length - 1; 0 <= i; i--) {
+        for (let i = objects.length - 1; 0 <= i; i--) {
             let object: DiagramObjectView | undefined = objects[i];
-            if(object instanceof GroupView) {
+            if (object instanceof GroupView) {
                 object = this.getBlocksAndAnchorsAt(x, y, object);
             } else {
                 object = object.getObjectAt(x, y);
             }
-            if(object) {
+            if (object) {
                 return object;
             }
         }
         return undefined;
     }
-    
+
 }

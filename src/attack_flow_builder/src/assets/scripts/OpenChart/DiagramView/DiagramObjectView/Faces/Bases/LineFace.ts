@@ -8,7 +8,7 @@ export abstract class LineFace extends DiagramFace {
      * The face's view.
      */
     declare protected view: LineView;
-    
+
 
     /**
      * Creates a new {@link LineFace}.
@@ -39,10 +39,10 @@ export abstract class LineFace extends DiagramFace {
         this.boundingBox.yMin += dy;
         this.boundingBox.yMax += dy;
         // Move children
-        if(!this.view.source.isLinked()){
+        if (!this.view.source.isLinked()) {
             this.view.source.face.moveBy(dx, dy);
         }
-        if(!this.view.target.isLinked()) {
+        if (!this.view.target.isLinked()) {
             this.view.target.face.moveBy(dx, dy);
         }
         for (const handle of this.view.handles.values()) {
@@ -87,7 +87,7 @@ export abstract class LineFace extends DiagramFace {
         this.boundingBox.y = this.boundingBox.yMid;
         return true;
     }
-    
+
     /**
      * Renders the face's debug information to a context.
      * @param ctx
@@ -102,7 +102,7 @@ export abstract class LineFace extends DiagramFace {
         if (isRendered) {
             this.view.source.renderDebugTo(ctx, region);
             this.view.target.renderDebugTo(ctx, region);
-            for(const object of this.view.handles) {
+            for (const object of this.view.handles) {
                 object.renderDebugTo(ctx, region);
             }
         }

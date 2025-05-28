@@ -8,15 +8,34 @@
       v-model="value"
       @input="updateRecommendations"
       @keydown="onKeyDown"
-    />
-    <div class="recommendations" @wheel="scroll">
-      <TransitionGroup :name="transitions" tag="ul" class="container">
-        <li :class="['recommendation', { active: item.name === activeName }]" v-for="(item, i) of window" :key="item.name" :style="getOpacity(i)">
+    >
+    <div
+      class="recommendations"
+      @wheel="scroll"
+    >
+      <TransitionGroup
+        :name="transitions"
+        tag="ul"
+        class="container"
+      >
+        <li
+          :class="['recommendation', { active: item.name === activeName }]"
+          v-for="(item, i) of window"
+          :key="item.name"
+          :style="getOpacity(i)"
+        >
           <div class="title">
-            <div class="dot" :style="{ background: item.color }"></div>
-            <div class="name">{{ item.name }}</div>
+            <div
+              class="dot"
+              :style="{ background: item.color }"
+            />
+            <div class="name">
+              {{ item.name }}
+            </div>
           </div> 
-          <div class="subtitle">{{ item.subtitle }}</div>
+          <div class="subtitle">
+            {{ item.subtitle }}
+          </div>
         </li>
       </TransitionGroup>
     </div>

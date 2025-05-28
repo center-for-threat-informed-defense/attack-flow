@@ -99,7 +99,7 @@ export class CanvasView extends Canvas implements ViewObject {
     public get orientation(): number {
         return this._face.orientation;
     }
-    
+
     /**
      * The view's orientation.
      */
@@ -229,7 +229,7 @@ export class CanvasView extends Canvas implements ViewObject {
         this.properties.subscribe(
             this.instance,
             () => this.handleUpdate(ViewUpdateReason.PropUpdate)
-        )
+        );
     }
 
 
@@ -391,9 +391,9 @@ export class CanvasView extends Canvas implements ViewObject {
             this.attributes,
             this.properties.clone(),
             this.face.clone()
-        )
+        );
         // Add objects
-        for(const object of this.objects) {
+        for (const object of this.objects) {
             // TODO: Relink lines with anchors
             canvas.addObject(object.clone());
         }

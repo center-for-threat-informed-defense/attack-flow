@@ -15,7 +15,7 @@ export enum MenuType {
 /**
  * Item menu types.
  */
-type ItemMenuTypes 
+type ItemMenuTypes
     = MenuType.Action
     | MenuType.Toggle;
 
@@ -29,7 +29,7 @@ type ItemMenuTypes
  * The base context menu upon which all others are based.
  */
 type ContextMenuBase<T extends MenuType> = {
-    
+
     /**
      * The context menu's type.
      */
@@ -45,7 +45,7 @@ type ContextMenuBase<T extends MenuType> = {
      */
     disabled?: boolean;
 
-}
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -57,19 +57,19 @@ type ContextMenuBase<T extends MenuType> = {
  * A context submenu.
  */
 export type ContextMenuSubmenu<D> = ContextMenuBase<MenuType.Submenu> & {
-    
+
     /**
      * The submenu's sections.
      */
     sections : ContextMenuSection<D>[];
 
-}
+};
 
 /**
  * A context submenu's sections.
  */
 export type ContextMenuSection<D> = {
-    
+
     /**
      * The section's id.
      */
@@ -80,7 +80,7 @@ export type ContextMenuSection<D> = {
      */
     items: ContextMenu<D>[];
 
-}
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -92,7 +92,7 @@ export type ContextMenuSection<D> = {
  * A generic context menu item.
  */
 export type GenericContextMenuItem<D, T extends ItemMenuTypes = ItemMenuTypes> = ContextMenuBase<T> & {
-    
+
     /**
      * The item's data.
      */
@@ -108,7 +108,7 @@ export type GenericContextMenuItem<D, T extends ItemMenuTypes = ItemMenuTypes> =
      */
     keepMenuOpenOnSelect?: boolean;
 
-}
+};
 
 /**
  * An action context menu item.
@@ -119,20 +119,20 @@ export type ContextMenuActionItem<D> = GenericContextMenuItem<D, MenuType.Action
  * A toggle context menu item.
  */
 export type ContextMenuToggleItem<D> = GenericContextMenuItem<D, MenuType.Toggle> & {
-    
+
     /**
      * The item's toggle state.
      */
     value: boolean;
 
-}
+};
 
 /**
  * A context menu item.
  */
-export type ContextMenuItem<T> 
+export type ContextMenuItem<T>
     = ContextMenuActionItem<T>
-    | ContextMenuToggleItem<T>
+    | ContextMenuToggleItem<T>;
 
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -23,14 +23,14 @@ export class DetachLatchFromAnchor extends EditorCommand {
      */
     constructor(latch: Latch) {
         super();
-        if(!latch.anchor) {
+        if (!latch.anchor) {
             throw new Error(`Latch '${latch.id}' not attached to an anchor.`);
         }
         this.latch = latch;
         this.anchor = latch.anchor;
     }
-    
-    
+
+
     /**
      * Executes the editor command.
      * @param issueDirective
@@ -50,5 +50,5 @@ export class DetachLatchFromAnchor extends EditorCommand {
         this.latch.link(this.anchor, true);
         issueDirective(EditorDirective.Autosave | EditorDirective.Record);
     }
-    
+
 }

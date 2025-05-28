@@ -17,7 +17,7 @@ import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
 declare module "@vue/reactivity" {
     export interface RefUnwrapBailTypes {
         classes
-            : DiagramViewEditor 
+        : DiagramViewEditor
             | ObjectRecommender
             | DiagramObjectView
             | Hotkey<CommandEmitter>

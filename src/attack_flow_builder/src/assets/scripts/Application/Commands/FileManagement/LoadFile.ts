@@ -44,14 +44,14 @@ export class LoadFile extends AppCommand {
         // Configure editor
         this.editor = ref(new DiagramViewEditor(file, name)).value;
         this.editor.on("autosave", editor => {
-            context.execute(new SaveDiagramFileToRecoveryBank(context, editor))
+            context.execute(new SaveDiagramFileToRecoveryBank(context, editor));
         });
         // Configure interface plugins
         const factory = this.editor.file.factory;
         const lineTemplate = settings.edit.anchor_line_template;
         this.editor.interface.installPlugin(
             new PowerEditPlugin(this.editor, { factory, lineTemplate })
-        )
+        );
         // Apply view settings
         const view = settings.view.diagram;
         this.editor.interface.enableShadows(view.display_shadows);

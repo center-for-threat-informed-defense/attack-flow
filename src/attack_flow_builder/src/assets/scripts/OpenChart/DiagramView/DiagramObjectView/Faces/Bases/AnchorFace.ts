@@ -74,6 +74,6 @@ export abstract class AnchorFace extends DiagramFace {
      * @returns
      *  A clone of the face.
      */
-    public abstract clone(): AnchorFace; 
+    public abstract clone(): AnchorFace;
 
 }

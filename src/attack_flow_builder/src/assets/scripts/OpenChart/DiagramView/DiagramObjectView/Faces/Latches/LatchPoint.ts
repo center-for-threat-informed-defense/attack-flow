@@ -26,7 +26,7 @@ export class LatchPoint extends LatchFace {
         this.radius = style.radius;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Layout / Rendering  ////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ export class LatchPoint extends LatchFace {
         ctx.fill();
 
         // Add stroke
-        if(strokeWidth) {
+        if (strokeWidth) {
             ctx.lineWidth = strokeWidth;
             ctx.strokeStyle = strokeColor;
             ctx.stroke();

@@ -80,7 +80,7 @@ export class LatchView extends Latch implements ViewObject {
     public get orientation(): number {
         return this._face.orientation;
     }
-    
+
     /**
      * The view's orientation.
      */
@@ -197,7 +197,7 @@ export class LatchView extends Latch implements ViewObject {
         this.properties.subscribe(
             this.instance,
             () => this.handleUpdate(ViewUpdateReason.PropUpdate)
-        )
+        );
     }
 
 
@@ -326,7 +326,7 @@ export class LatchView extends Latch implements ViewObject {
         return this.face.renderDebugTo(ctx, region);
     }
 
-        
+
     ///////////////////////////////////////////////////////////////////////////
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -344,10 +344,10 @@ export class LatchView extends Latch implements ViewObject {
             this.attributes,
             this.properties.clone(),
             this.face.clone()
-        )
+        );
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  8. Shape  /////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////

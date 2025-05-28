@@ -1,7 +1,7 @@
 import { unsignedMod } from "@OpenChart/Utilities";
-import { 
-    Block, DateProperty, DiagramObject, DictionaryProperty, 
-    EnumProperty, FloatProperty, IntProperty, ListProperty, 
+import {
+    Block, DateProperty, DiagramObject, DictionaryProperty,
+    EnumProperty, FloatProperty, IntProperty, ListProperty,
     Property, RootProperty, StringProperty, traverse
 } from "@OpenChart/DiagramModel";
 import type { SearchResult } from "./SearchResult";
@@ -54,7 +54,7 @@ export class OpenChartFinder<
      * Whether the finder has search results.
      */
     public get hasResults(): boolean {
-        return 0 < this.results.length
+        return 0 < this.results.length;
     }
 
 
@@ -150,7 +150,7 @@ export class OpenChartFinder<
      */
     private propMatchesQuery(property: Property, query: string): boolean {
         const type = property.constructor.name;
-        switch(type) {
+        switch (type) {
             case IntProperty.name:
                 // Falls through
             case FloatProperty.name:

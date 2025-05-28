@@ -27,12 +27,12 @@ export class SpawnObject extends GroupCommand {
         // Calculate object size
         object.calculateLayout();
         // Calculate coordinate
-        if(fromCorner) {
+        if (fromCorner) {
             x += object.face.boundingBox.width / 2;
             y += object.face.boundingBox.height / 2;
         }
         // Align coordinates
-        if(object.alignment === Alignment.Grid) {
+        if (object.alignment === Alignment.Grid) {
             x = roundNearestMultiple(x, file.canvas.grid[0]);
             y = roundNearestMultiple(y, file.canvas.grid[1]);
         } else {

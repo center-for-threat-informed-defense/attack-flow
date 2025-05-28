@@ -101,7 +101,7 @@ export type AppSettings = {
         diagram: DiagramDisplaySettings;
         search: {
             display: boolean;
-        }
+        };
         splash_menu: {
             display_menu: boolean;
         };
@@ -181,7 +181,7 @@ export type LayoutHotkeys = {
  * View hotkeys
  */
 export type ViewHotkeys = {
-    toggle_animations: string,
+    toggle_animations: string;
     toggle_shadows: string;
     reset_view: string;
     zoom_in: string;

@@ -199,8 +199,8 @@ export interface ViewObject {
      *  The view's new face.
      */
     replaceFace(face: DiagramFace | null): void;
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  7. Shape  /////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -214,5 +214,5 @@ export interface ViewObject {
      *  True if the bounding region overlaps the view, false otherwise.
      */
     overlaps(region: BoundingBox): boolean;
-    
+
 }

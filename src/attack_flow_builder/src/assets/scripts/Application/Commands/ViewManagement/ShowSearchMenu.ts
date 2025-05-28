@@ -8,7 +8,7 @@ export class ShowSearchMenu extends AppCommand {
      */
     public readonly context: ApplicationStore;
 
-    
+
     /**
      * Display the search menu.
      * @param context

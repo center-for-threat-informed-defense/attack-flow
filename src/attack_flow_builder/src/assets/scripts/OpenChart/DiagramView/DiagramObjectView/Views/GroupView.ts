@@ -99,7 +99,7 @@ export class GroupView extends Group implements ViewObject {
     public get orientation(): number {
         return this._face.orientation;
     }
-    
+
     /**
      * The view's orientation.
      */
@@ -216,7 +216,7 @@ export class GroupView extends Group implements ViewObject {
         this.properties.subscribe(
             this.instance,
             () => this.handleUpdate(ViewUpdateReason.PropUpdate)
-        )
+        );
     }
 
 
@@ -347,8 +347,8 @@ export class GroupView extends Group implements ViewObject {
     public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
         return this.face.renderDebugTo(ctx, region);
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -367,17 +367,17 @@ export class GroupView extends Group implements ViewObject {
             this.attributes,
             this.properties.clone(),
             this.face.clone()
-        )
+        );
         // Add objects
-        for(const object of this.objects) {
+        for (const object of this.objects) {
             // TODO: Relink lines with anchors
             group.addObject(object.clone());
         }
         // Return object
         return group;
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  8. Shape  /////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -393,5 +393,5 @@ export class GroupView extends Group implements ViewObject {
     public overlaps(region: BoundingBox): boolean {
         return this.face.overlaps(region);
     }
-    
+
 }

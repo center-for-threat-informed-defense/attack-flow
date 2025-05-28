@@ -108,11 +108,11 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  True if the page is valid, false otherwise.
          */
-        isValid(state): boolean {
-            const p = state.activeEditor;
+        isValid(): boolean {
+            // const p = state.activeEditor;
             // Use trigger to trip the reactivity system
             // return (p.trigger.value ? p : p).isValid();
-            return false;
+            return true;
         },
 
         /**
@@ -123,8 +123,8 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  The active page's validation errors.
          */
-        getValidationErrors(state): any[] {
-            const p = state.activeEditor;
+        getValidationErrors(): any[] {
+            // const p = state.activeEditor;
             // Use trigger to trip the reactivity system
             // return (p.trigger.value ? p : p).getValidationErrors();
             return [];
@@ -138,8 +138,8 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  The active page's validation warnings.
          */
-        getValidationWarnings(state): any[] {
-            const p = state.activeEditor;
+        getValidationWarnings(): any[] {
+            // const p = state.activeEditor;
             // Use trigger to trip the reactivity system
             // return (p.trigger.value ? p : p).getValidationWarnings();
             return [];

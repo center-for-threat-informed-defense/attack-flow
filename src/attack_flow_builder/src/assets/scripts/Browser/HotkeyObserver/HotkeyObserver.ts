@@ -5,7 +5,7 @@ export class HotkeyObserver<T> {
     /**
      * This map defines the evaluation order of modifier keys.
      */
-    private static MODIFIER_KEYS = new Map<string, (e: KeyboardEvent) => Boolean>([
+    private static MODIFIER_KEYS = new Map<string, (e: KeyboardEvent) => boolean>([
         ["control", e => e.ctrlKey],
         ["meta",    e => e.metaKey],
         ["alt",     e => e.altKey],
@@ -104,10 +104,10 @@ export class HotkeyObserver<T> {
     public setHotkeys(keyMap: Hotkey<T>[]) {
         this._hotkeyIdMap = new Map<string, Hotkey<T>>();
         for (const item of keyMap) {
-            if (item.shortcut === "") continue;
+            if (item.shortcut === "") { continue; }
             // Derive hotkey id
             const hotkeyId = this.keySequenceToHotKeyId(item.shortcut);
-            // Ensure hotkey id doesn't overlap with others 
+            // Ensure hotkey id doesn't overlap with others
             for (const id of this._hotkeyIdMap.keys()) {
                 if (id.startsWith(hotkeyId) || hotkeyId.startsWith(id)) {
                     throw new OverlappingHotkeysError(
@@ -155,12 +155,12 @@ export class HotkeyObserver<T> {
     private onKeyDown(e: KeyboardEvent) {
 
         // If inside input field, ignore hotkeys
-        if((e.target as any).tagName === "INPUT") {
+        if ((e.target as any).tagName === "INPUT") {
             return;
         }
 
         // Advanced current key state
-        const nextKeyState = this.keyEventToHotKeyId(e); 
+        const nextKeyState = this.keyEventToHotKeyId(e);
         const isRepeat = this._keyState === nextKeyState;
         this._keyState = nextKeyState;
 
@@ -168,11 +168,11 @@ export class HotkeyObserver<T> {
         if (this._hotkeyIdMap.has(this._keyState)) {
             const hotkey = this._hotkeyIdMap.get(this._keyState)!;
             // If disabled or if in repeat state and hotkey is not repeatable:
-            if(hotkey.disabled || (isRepeat && !hotkey.repeatable)) {
+            if (hotkey.disabled || (isRepeat && !hotkey.repeatable)) {
                 // Prevent all browser behavior
                 e.preventDefault();
                 // Bail
-                return;    
+                return;
             }
             // Disable browser default behavior if not requested
             if (!hotkey.allowBrowserBehavior) {
@@ -191,11 +191,11 @@ export class HotkeyObserver<T> {
      * Key up behavior.
      * @remarks
      *  The `keyup` event will not fire in all cases. For example:
-     * 
+     *
      *  - If a hotkey opens a separate window, there will be no `keyup` event.
      *  - If the Command key is held (on MacOS), any other `keyup` is ignored.
      *  - ...there are probably others.
-     * 
+     *
      * For these reasons, do not rely on `keyup` events for critical
      * functionality (at least until these issues can be addressed somehow).
      * @param e
@@ -208,14 +208,14 @@ export class HotkeyObserver<T> {
         // Resolve previous non-modifier
         const prevNonModifier = this._keyState.split(".").slice(-2)[0];
         // If lost key was non-modifier...
-        if(lostKey === prevNonModifier) {
+        if (lostKey === prevNonModifier) {
             // ...remove non-modifier.
             nextKeyState.push("");
         }
         // If lost key was anything else...
         else {
             // ...keep non-modifier.
-            nextKeyState.push(prevNonModifier)
+            nextKeyState.push(prevNonModifier);
         }
         nextKeyState.push("");
         // Update key state
@@ -235,29 +235,29 @@ export class HotkeyObserver<T> {
         let id = "";
         // Parse tokens
         const tokens = sequence
-            .replace(/\s+/g, '')
+            .replace(/\s+/g, "")
             .toLocaleLowerCase()
             .split("+");
         // Order modifier keys
-        for(const key of HotkeyObserver.MODIFIER_KEYS.keys()) {
+        for (const key of HotkeyObserver.MODIFIER_KEYS.keys()) {
             const index = tokens.findIndex(o => o === key);
-            if(index !== -1) {
-                id += `.${ tokens.splice(index, 1)[0] }`;
+            if (index !== -1) {
+                id += `.${tokens.splice(index, 1)[0]}`;
             }
         }
         // Resolve single non-modifier key
-        if(0 === tokens.length) {
-            id += `.`;
+        if (0 === tokens.length) {
+            id += ".";
         }
-        else if(2 <= tokens.length) {
+        else if (2 <= tokens.length) {
             throw new InvalidKeySequenceError(
-                `Hotkey contains ${ 
+                `Hotkey contains ${
                     tokens.length
                 } non-modifier keys (${
                     tokens.join(",")
-            }).`);
-        } else if(!HotkeyObserver.MODIFIER_KEYS.has(tokens[0])) {
-            id += `.${ tokens[0] }`
+                }).`);
+        } else if (!HotkeyObserver.MODIFIER_KEYS.has(tokens[0])) {
+            id += `.${tokens[0]}`;
         } else {
             throw new InvalidKeySequenceError(
                 `Hotkey duplicate modifier key '${
@@ -266,7 +266,7 @@ export class HotkeyObserver<T> {
             );
         }
         // Return id
-        return `${ id }.`;
+        return `${id}.`;
     }
 
     /**
@@ -277,22 +277,22 @@ export class HotkeyObserver<T> {
      *  The key event's hotkey id.
      */
     private keyEventToHotKeyId(event: KeyboardEvent): string {
-        let id = ""
+        let id = "";
         // Parse modifier keys
-        for(const [key, isKey] of HotkeyObserver.MODIFIER_KEYS) {
-            if(isKey(event)) {
-                id += `.${ key }`;
+        for (const [key, isKey] of HotkeyObserver.MODIFIER_KEYS) {
+            if (isKey(event)) {
+                id += `.${key}`;
             }
         }
         // Parse key pressed
         const keyPressed = event.key.toLocaleLowerCase();
-        if(!HotkeyObserver.MODIFIER_KEYS.has(keyPressed)) {
-            id += `.${ keyPressed }`;
+        if (!HotkeyObserver.MODIFIER_KEYS.has(keyPressed)) {
+            id += `.${keyPressed}`;
         } else {
-            id += `.`;
+            id += ".";
         }
         // Return id
-        return `${ id }.`;
+        return `${id}.`;
     }
 
 }

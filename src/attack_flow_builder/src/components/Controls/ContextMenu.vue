@@ -1,8 +1,12 @@
 <template>
-  <div class="context-menu-control" :style="offset" @contextmenu.prevent="">
+  <div
+    class="context-menu-control"
+    :style="offset"
+    @contextmenu.prevent=""
+  >
     <ContextMenuListing 
       :sections="sections" 
-      :forceInsideWindow="false" 
+      :force-inside-window="false" 
       @select="data => $emit('select', data)"
     />
   </div>
@@ -59,9 +63,9 @@ export default defineComponent({
       () => this.$emit('focusout')
     );
     // Offset menu if outside of viewport
-    let viewWidth  = window.innerWidth;
-    let viewHeight = window.innerHeight;
-    let { bottom, right } = this.$el.getBoundingClientRect();
+    const viewWidth  = window.innerWidth;
+    const viewHeight = window.innerHeight;
+    const { bottom, right } = this.$el.getBoundingClientRect();
     // -1 ensures cursor is over menu and not the element beneath it
     this.xOffset = right > viewWidth ? -(this.$el.clientWidth - 1) : 0;
     this.yOffset = bottom > viewHeight ? -(this.$el.clientHeight - 1) : 0;

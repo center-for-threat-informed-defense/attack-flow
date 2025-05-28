@@ -35,7 +35,7 @@ export class GroupFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        if (this.boundingBox.contains(x,y)) {
+        if (this.boundingBox.contains(x, y)) {
             // Try objects
             const object = findUnlinkedObjectAt(
                 [...this.view.objects], x, y
@@ -127,7 +127,7 @@ export class GroupFace extends DiagramFace {
     public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
         const isRendered = super.renderDebugTo(ctx, region);
         if (isRendered) {
-            for(const object of this.view.objects) {
+            for (const object of this.view.objects) {
                 object.renderDebugTo(ctx, region);
             }
         }

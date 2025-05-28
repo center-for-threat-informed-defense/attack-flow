@@ -131,7 +131,7 @@ export class DiagramModelEditor<
         const { args, issuer } = this.newDirectiveArguments();
         // Execute command
         const result = cmd.execute(issuer);
-        if(result instanceof Promise) {
+        if (result instanceof Promise) {
             await result;
         }
         if (args.directives & EditorDirective.Record) {
@@ -337,7 +337,7 @@ export class DiagramModelEditor<
         //     this._searchIndex.add({
         //         $: object.instance
         //     });
-        //     const t = { 
+        //     const t = {
         //         $: object.instance, ...object.properties.toJson()
         //     };
         //     this._searchIndex.update(t);

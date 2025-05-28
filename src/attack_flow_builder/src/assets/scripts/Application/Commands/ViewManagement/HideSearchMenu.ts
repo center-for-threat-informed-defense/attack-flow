@@ -19,7 +19,7 @@ export class HideSearchMenu extends AppCommand {
         this.context = context;
     }
 
-    
+
     /**
      * Executes the command.
      */

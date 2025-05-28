@@ -38,7 +38,7 @@ export class AddObjectToGroup extends EditorCommand {
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
         this.group.addObject(this.object, undefined, true);
         // Issue directives
-        const directives 
+        const directives
             = EditorDirective.Autosave
             | EditorDirective.Record
             | EditorDirective.ReindexContent
@@ -54,7 +54,7 @@ export class AddObjectToGroup extends EditorCommand {
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
         this.group.removeObject(this.object, true);
         // Issue directives
-        const directives 
+        const directives
             = EditorDirective.Autosave
             | EditorDirective.Record
             | EditorDirective.ReindexContent

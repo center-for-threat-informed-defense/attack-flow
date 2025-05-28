@@ -27,10 +27,10 @@ export function getRelativeArrowHead(
     tx: number, ty: number,
     h: number = 12
 ): [
-    number, number,
-    number, number,
-    number, number
-] {
+        number, number,
+        number, number,
+        number, number
+    ] {
     const dx = tx - sx;
     const dy = ty - sy;
     const angle = Math.atan2(dy, dx);
@@ -39,8 +39,8 @@ export function getRelativeArrowHead(
         -round(h * Math.sin(angle - Math.PI / 6)),
         -round(h * Math.cos(angle + Math.PI / 6)),
         -round(h * Math.sin(angle + Math.PI / 6)),
-        0,0
-    ]
+        0, 0
+    ];
 }
 
 /**
@@ -63,10 +63,10 @@ export function getAbsoluteArrowHead(
     tx: number, ty: number,
     h: number = 12
 ): [
-    number, number,
-    number, number,
-    number, number
-] {
+        number, number,
+        number, number,
+        number, number
+    ] {
     const dx = tx - sx;
     const dy = ty - sy;
     const angle = Math.atan2(dy, dx);
@@ -76,7 +76,7 @@ export function getAbsoluteArrowHead(
         tx - round(h * Math.cos(angle + Math.PI / 6)),
         ty - round(h * Math.sin(angle + Math.PI / 6)),
         tx, ty
-    ]
+    ];
 }
 
 /**
@@ -304,7 +304,7 @@ export function getAbsoluteMultiElbowPath(
     r: number
 ): number[] {
     let i = 0;
-    let v = new Array(4 + (vertices.length - 4) * 3); 
+    const v = new Array(4 + (vertices.length - 4) * 3);
     // Prepare iteration
     let sx = 0, sy = 1, mx = 2,
         my = 3, tx = 4, ty = 5,
@@ -313,7 +313,7 @@ export function getAbsoluteMultiElbowPath(
     // Calculate line
     v[i++] = vertices[0];
     v[i++] = vertices[1];
-    for(; mx < length; sx+=2, sy+=2, mx+=2, my+=2, tx+=2, ty+=2) {
+    for (; mx < length; sx += 2, sy += 2, mx += 2, my += 2, tx += 2, ty += 2) {
         // Calculate radius
         dx = (vertices[tx] - vertices[sx]) >> 1;
         dy = (vertices[ty] - vertices[sy]) >> 1;
@@ -330,7 +330,7 @@ export function getAbsoluteMultiElbowPath(
         v[i++] = vertices[mx];
         v[i++] = vertices[my];
         v[i++] = vertices[mx] + dx * ry,
-        v[i++] = vertices[my] + dy * rx
+        v[i++] = vertices[my] + dy * rx;
     }
     v[i++] = vertices[mx];
     v[i++] = vertices[my];
@@ -352,7 +352,7 @@ export function drawAbsoluteMultiElbowPath(
     ctx.beginPath();
     ctx.moveTo(vertices[0], vertices[1]);
     const length = vertices.length - 2;
-    for(;i < length;) {
+    for (;i < length;) {
         ctx.lineTo(
             vertices[i++], vertices[i++]
         );
@@ -385,7 +385,7 @@ export function drawMultiElbowPath(
     // Draw line
     ctx.beginPath();
     ctx.moveTo(vertices[0], vertices[1]);
-    for(; mx < length; sx+=2, sy+=2, mx+=2, my+=2, tx+=2, ty+=2) {
+    for (; mx < length; sx += 2, sy += 2, mx += 2, my += 2, tx += 2, ty += 2) {
         // Calculate radius
         dx = (vertices[tx] - vertices[sx]) >> 1;
         dy = (vertices[ty] - vertices[sy]) >> 1;
@@ -438,16 +438,16 @@ export function drawHorizontalElbow(
     r: number
 ) {
     ctx.beginPath();
-    if(sy === ty) {
+    if (sy === ty) {
         ctx.moveTo(sx, sy);
         ctx.lineTo(tx, ty);
         return;
     }
     // Calculate radius
-    let r0 = Math.abs(ty - hy);
-    let hs = Math.sign(ty - hy);
-    let r1 = Math.min(Math.abs(hx - sx), r0, r);
-    let r2 = Math.min(Math.abs(tx - hx), r0, r);
+    const r0 = Math.abs(ty - hy);
+    const hs = Math.sign(ty - hy);
+    const r1 = Math.min(Math.abs(hx - sx), r0, r);
+    const r2 = Math.min(Math.abs(tx - hx), r0, r);
     // Draw rectangular path
     ctx.moveTo(sx, sy);
     ctx.lineTo(hx - Math.sign(hx - sx) * r1, sy);
@@ -484,21 +484,21 @@ export function drawVerticalElbow(
     r: number
 ) {
     ctx.beginPath();
-    if(sx === tx) {
+    if (sx === tx) {
         ctx.moveTo(sx, sy);
         ctx.lineTo(tx, ty);
         return;
     }
     // Calculate radius
-    let r0 = Math.abs(tx - hx);
-    let hs = Math.sign(tx - hx);
-    let r1 = Math.min(Math.abs(hy - sy), r0, r);
-    let r2 = Math.min(Math.abs(ty - hy), r0, r);
+    const r0 = Math.abs(tx - hx);
+    const hs = Math.sign(tx - hx);
+    const r1 = Math.min(Math.abs(hy - sy), r0, r);
+    const r2 = Math.min(Math.abs(ty - hy), r0, r);
     // Draw rectangular path
     ctx.moveTo(sx, sy);
     ctx.lineTo(sx, hy - Math.sign(hy - sy) * r1);
-    ctx.quadraticCurveTo(sx, hy, sx + hs * r1, hy)
-    ctx.lineTo(tx - hs * r2, hy)
+    ctx.quadraticCurveTo(sx, hy, sx + hs * r1, hy);
+    ctx.lineTo(tx - hs * r2, hy);
     ctx.quadraticCurveTo(tx, hy, tx, hy + Math.sign(ty - hy) * r2);
     ctx.lineTo(tx, ty);
 
@@ -535,15 +535,15 @@ export function drawHorizontalElbowFast(
     r: number
 ) {
     ctx.beginPath();
-    if(sy === ty) {
+    if (sy === ty) {
         ctx.moveTo(sx, sy);
         ctx.lineTo(tx, ty);
         return;
     }
     // Calculate offsets
-    let o1 = clamp(hx - sx, -r, r);
-    let o2 = clamp(ty - hy, -r, r);
-    let o3 = clamp(tx - hx, -r, r);
+    const o1 = clamp(hx - sx, -r, r);
+    const o2 = clamp(ty - hy, -r, r);
+    const o3 = clamp(tx - hx, -r, r);
     // Draw rectangular path
     ctx.moveTo(sx, sy);
     ctx.lineTo(hx - o1, sy);
@@ -577,7 +577,7 @@ export function drawRelativePolygon(
 ) {
     ctx.beginPath();
     ctx.moveTo(vertices[0] + x, vertices[1] + y);
-    for(let i = 2; i < vertices.length; i+=2) {
+    for (let i = 2; i < vertices.length; i += 2) {
         ctx.lineTo(vertices[i] + x, vertices[i + 1] + y);
     }
     ctx.closePath();
@@ -596,7 +596,7 @@ export function drawAbsolutePolygon(
 ) {
     ctx.beginPath();
     ctx.moveTo(vertices[0], vertices[1]);
-    for(let i = 2; i < vertices.length; i+=2) {
+    for (let i = 2; i < vertices.length; i += 2) {
         ctx.lineTo(vertices[i], vertices[i + 1]);
     }
     ctx.closePath();

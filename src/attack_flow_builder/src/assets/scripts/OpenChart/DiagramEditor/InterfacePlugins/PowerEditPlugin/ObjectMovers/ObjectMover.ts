@@ -20,7 +20,7 @@ export abstract class ObjectMover {
         this.plugin = plugin;
     }
 
-    
+
     /**
      * Captures the subject.
      */

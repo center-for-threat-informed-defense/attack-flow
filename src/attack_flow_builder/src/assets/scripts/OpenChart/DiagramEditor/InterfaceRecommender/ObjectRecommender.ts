@@ -19,7 +19,7 @@ export abstract class ObjectRecommender {
      * The recommender's x-coordinate.
      */
     public get x(): number {
-        if(this.active) {
+        if (this.active) {
             const { x, k } = this.editor!.file.camera;
             return Math.round((this.object!.x * k) + x);
         } else {
@@ -31,7 +31,7 @@ export abstract class ObjectRecommender {
      * The recommender's y-coordinate.
      */
     public get y(): number {
-        if(this.active) {
+        if (this.active) {
             const { y, k } = this.editor!.file.camera;
             return Math.round((this.object!.y * k) + y);
         } else {

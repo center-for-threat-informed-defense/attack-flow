@@ -308,7 +308,7 @@ export class DiagramObjectFactory {
             // Add property
             property.addProperty(this.createProperty(id, desc, map.get(id)), id);
             // Set representative key
-            if(desc.is_representative) {
+            if (desc.is_representative) {
                 property.representativeKey = id;
             }
         }
@@ -339,19 +339,19 @@ export class DiagramObjectFactory {
     ): Property {
         switch (descriptor.type) {
             case PropertyType.Dictionary:
-                if(value === undefined || Array.isArray(value)) {
+                if (value === undefined || Array.isArray(value)) {
                     return this.createDictionaryProperty(id, descriptor, value);
                 }
-                if(value && typeof value === "object") {
+                if (value && typeof value === "object") {
                     value = Object.entries(value);
                     return this.createDictionaryProperty(id, descriptor, value);
                 }
                 throw new Error(`Invalid JSON entries: '${value}'.`);
             case PropertyType.List:
-                if(value === undefined || Array.isArray(value)) {
+                if (value === undefined || Array.isArray(value)) {
                     return this.createListProperty(id, descriptor, value);
                 }
-                if(value && typeof value === "object") {
+                if (value && typeof value === "object") {
                     value = Object.entries(value);
                     return this.createListProperty(id, descriptor, value);
                 }
@@ -392,7 +392,7 @@ export class DiagramObjectFactory {
             // Add property
             property.addProperty(this.createProperty(id, desc, map.get(id)), id);
             // Set representative key
-            if(desc.is_representative) {
+            if (desc.is_representative) {
                 property.representativeKey = id;
             }
         }

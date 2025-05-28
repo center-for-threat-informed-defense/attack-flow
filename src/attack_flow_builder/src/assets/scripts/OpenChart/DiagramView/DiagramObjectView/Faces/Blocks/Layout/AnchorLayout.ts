@@ -16,8 +16,8 @@ import type { BranchDescriptor } from "../BranchDescriptor";
  */
 export function calculateAnchorPositionsByFloor(
     bb: BoundingBox, grid: [number, number], markerOffset: number
-): { [key: string]: [number, number]} {
-    const 
+): { [key: string]: [number, number] } {
+    const
         mo = markerOffset * 2,
         objMidX = bb.xMid,
         objMidY = bb.yMid,
@@ -43,8 +43,8 @@ export function calculateAnchorPositionsByFloor(
         [AnchorPosition.D240] : [lowerX, objMaxY],
         [AnchorPosition.D270] : [centerMidX, objMaxY],
         [AnchorPosition.D300] : [upperX, objMaxY],
-        [AnchorPosition.D330] : [objMaxX, lowerY],
-    }
+        [AnchorPosition.D330] : [objMaxX, lowerY]
+    };
 }
 
 /**
@@ -61,7 +61,7 @@ export function calculateAnchorPositionsByFloor(
 export function calculateAnchorPositionsByRound(
     bb: BoundingBox, grid: [number, number], markerOffset: number
 ): { [key: string]: [number, number] } {
-    const 
+    const
         mo = markerOffset * 2,
         objMidX = bb.xMid,
         objMidY = bb.yMid,
@@ -87,8 +87,8 @@ export function calculateAnchorPositionsByRound(
         [AnchorPosition.D240] : [lowerX, objMaxY],
         [AnchorPosition.D270] : [centerMidX, objMaxY],
         [AnchorPosition.D300] : [upperX, objMaxY],
-        [AnchorPosition.D330] : [objMaxX, lowerY],
-    }
+        [AnchorPosition.D330] : [objMaxX, lowerY]
+    };
 }
 
 /**
@@ -100,7 +100,7 @@ export function calculateAnchorPositionsByRound(
  * @param markerOffset
  *  The offset needed to align faces with the grid's markers.
  * @param branches
- *  The 
+ *  The
  * @returns
  *  The anchor positions.
  */
@@ -109,9 +109,9 @@ export function calculateBranchPositionsByRound(
 ) {
     const positions = new Map<string, [number, number]>();
     const branchWidth = bb.width / branches.length;
-    const y = bb.yMax - (markerOffset * 2); 
+    const y = bb.yMax - (markerOffset * 2);
     let x = bb.xMin + branchWidth / 2;
-    for(const branch of branches) {
+    for (const branch of branches) {
         positions.set(branch.id, [roundNearestMultiple(x, grid[0]), y]);
         x += branchWidth;
     }

@@ -11,9 +11,9 @@ import type {
  */
 type toConfigurationTypes<T> =
     T extends Enumeration ? EnumerationDescriptor :
-    T extends Font ? FontDescriptor :
-    T extends object ? { [K in keyof T]: toConfigurationTypes<T[K]> } :
-    T;
+        T extends Font ? FontDescriptor :
+            T extends object ? { [K in keyof T]: toConfigurationTypes<T[K]> } :
+                T;
 
 /**
  * Configuration type.

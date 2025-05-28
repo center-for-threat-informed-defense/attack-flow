@@ -68,14 +68,14 @@ export class HandleView extends Handle implements ViewObject {
     public get orientation(): number {
         return this._face.orientation;
     }
-    
+
     /**
      * The view's orientation.
      */
     public set orientation(value: number) {
         this._face.orientation = value;
     }
-    
+
 
     /**
      * Whether the view is focused or not.
@@ -185,7 +185,7 @@ export class HandleView extends Handle implements ViewObject {
         this.properties.subscribe(
             this.instance,
             () => this.handleUpdate(ViewUpdateReason.PropUpdate)
-        )
+        );
     }
 
 
@@ -313,8 +313,8 @@ export class HandleView extends Handle implements ViewObject {
     public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
         return this.face.renderDebugTo(ctx, region);
     }
-        
-        
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -332,7 +332,7 @@ export class HandleView extends Handle implements ViewObject {
             this.attributes,
             this.properties.clone(),
             this.face.clone()
-        )
+        );
     }
 
 
@@ -351,5 +351,5 @@ export class HandleView extends Handle implements ViewObject {
     public overlaps(region: BoundingBox): boolean {
         return this.face.overlaps(region);
     }
-    
+
 }

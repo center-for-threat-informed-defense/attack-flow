@@ -71,7 +71,7 @@ export class StixToFlow {
             if (Array.isArray(stixValue)) {
                 stixValue.forEach((value) => {
                     const newStringProperty = new StringProperty(`${property.id}.${property.value.size}`, true, [], value);
-                    property.addProperty(newStringProperty)
+                    property.addProperty(newStringProperty);
                 });
             }
         } else if (property instanceof DictionaryProperty) {

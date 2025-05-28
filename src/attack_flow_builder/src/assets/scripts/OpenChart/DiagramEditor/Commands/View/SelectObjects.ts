@@ -90,12 +90,12 @@ export class SelectObjects extends EditorCommand {
      *  The select option.
      */
     private select(option?: boolean) {
-        if(option === undefined) {
+        if (option === undefined) {
             return;
         }
         const state = option ? Focus.True : Focus.False;
-        if(Array.isArray(this.object)) {
-            for(const obj of this.object) {
+        if (Array.isArray(this.object)) {
+            for (const obj of this.object) {
                 obj.focused = state;
             }
         } else  {

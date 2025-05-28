@@ -25,7 +25,7 @@ export class RootProperty extends DictionaryProperty {
      */
     public clone(): RootProperty {
         const property = new RootProperty();
-        for(const [key, prop] of this.value) {
+        for (const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }
         return property;

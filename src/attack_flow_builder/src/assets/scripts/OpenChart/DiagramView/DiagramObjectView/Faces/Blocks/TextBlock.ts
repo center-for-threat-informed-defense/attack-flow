@@ -1,8 +1,8 @@
 import { BlockFace } from "../Bases";
 import { ceilNearestMultiple, drawRect } from "@OpenChart/Utilities";
-import { 
+import {
     calculateAnchorPositionsByRound,
-    DrawTextInstructionSet, 
+    DrawTextInstructionSet,
     generateContentSectionLayout
 } from "./Layout";
 import type { TextBlockStyle } from "../Styles";
@@ -15,7 +15,7 @@ export class TextBlock extends BlockFace {
      * The block's style.
      */
     private readonly style: TextBlockStyle;
-    
+
     /**
      * The block's text render instructions.
      */
@@ -53,7 +53,7 @@ export class TextBlock extends BlockFace {
      *  True if the layout changed, false otherwise.
      */
     public calculateLayout(): boolean {
-        const markerOffset = BlockFace.markerOffset; 
+        const markerOffset = BlockFace.markerOffset;
         const grid = this.blockGrid;
         const style = this.style;
         const props = this.view.properties;
@@ -78,9 +78,9 @@ export class TextBlock extends BlockFace {
         const yPadding = grid[1] * style.verticalPadding;
 
         // Calculate title and subtitle positions
-        let x = xPadding + markerOffset;
+        const x = xPadding + markerOffset;
         let y = yPadding + markerOffset;
-        
+
         // Calculate max content width
         const maxWidth = grid[0] * style.maxUnitWidth;
 
@@ -127,7 +127,7 @@ export class TextBlock extends BlockFace {
 
         // Update anchor positions
         const anchors = calculateAnchorPositionsByRound(bb, grid, markerOffset);
-        for(const position in anchors) {
+        for (const position in anchors) {
             const coords = anchors[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
         }
@@ -141,7 +141,7 @@ export class TextBlock extends BlockFace {
 
         // Update parent's bounding box
         return true;
-        
+
     }
 
     /**
@@ -155,7 +155,7 @@ export class TextBlock extends BlockFace {
      */
     public renderTo(
         ctx: CanvasRenderingContext2D,
-        region: ViewportRegion, settings: RenderSettings    
+        region: ViewportRegion, settings: RenderSettings
     ): void {
         if (!this.isVisible(region)) {
             return;
@@ -163,7 +163,7 @@ export class TextBlock extends BlockFace {
 
         // Init
         const x = this.boundingBox.xMin + this.xOffset;
-        const y = this.boundingBox.yMin + this.yOffset;    
+        const y = this.boundingBox.yMin + this.yOffset;
         const strokeWidth = BlockFace.markerOffset;
         const { borderRadius, fillColor, strokeColor } = this.style;
 
@@ -195,7 +195,7 @@ export class TextBlock extends BlockFace {
             ctx.fillStyle = color;
             for (const instruction of instructions) {
                 ctx.fillText(
-                    instruction.text, 
+                    instruction.text,
                     instruction.x + x,
                     instruction.y + y
                 );
@@ -207,13 +207,13 @@ export class TextBlock extends BlockFace {
             const outline = this.style.selectOutline;
             const padding = outline.padding + 1;
             // Draw focus border
-            if(settings.animationsEnabled) {
+            if (settings.animationsEnabled) {
                 ctx.setLineDash([5, 2]);
             }
             drawRect(
                 ctx,
                 x - padding,
-                y - padding, 
+                y - padding,
                 this.width + padding * 2,
                 this.height + padding * 2,
                 outline.borderRadius, strokeWidth
@@ -224,7 +224,7 @@ export class TextBlock extends BlockFace {
         } else if (this.view.hovered) {
             const { color, size } = this.style.anchorMarkers;
             // Draw anchors
-            for(const anchor of this.view.anchors.values()) {
+            for (const anchor of this.view.anchors.values()) {
                 anchor.renderTo(ctx, region, settings);
             }
             // Draw anchor markers

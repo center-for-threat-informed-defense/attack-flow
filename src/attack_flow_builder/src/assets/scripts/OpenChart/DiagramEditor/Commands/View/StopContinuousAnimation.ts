@@ -1,7 +1,7 @@
 import { EditorCommand } from "../EditorCommand";
 import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
 
-export class StopContinuousAnimation extends EditorCommand { 
+export class StopContinuousAnimation extends EditorCommand {
 
     /**
      * The interface to run the animation on.
@@ -26,7 +26,7 @@ export class StopContinuousAnimation extends EditorCommand {
         this.interface = ui;
         this.animation = animation;
     }
-    
+
 
     /**
      * Executes the editor command.

@@ -80,7 +80,7 @@ export class AnchorView extends Anchor implements ViewObject {
     public get orientation(): number {
         return this._face.orientation;
     }
-    
+
     /**
      * The view's orientation.
      */
@@ -167,7 +167,7 @@ export class AnchorView extends Anchor implements ViewObject {
     public get y(): number {
         return this.face.boundingBox.y;
     }
-    
+
 
     /**
      * Creates a new {@link AnchorView}.
@@ -197,7 +197,7 @@ export class AnchorView extends Anchor implements ViewObject {
         this.properties.subscribe(
             this.instance,
             () => this.handleUpdate(ViewUpdateReason.PropUpdate)
-        )
+        );
     }
 
 
@@ -344,10 +344,10 @@ export class AnchorView extends Anchor implements ViewObject {
             this.attributes,
             this.properties.clone(),
             this.face.clone()
-        )
+        );
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  8. Shape  /////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////

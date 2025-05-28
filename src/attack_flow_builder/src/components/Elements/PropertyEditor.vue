@@ -29,13 +29,14 @@
 
 <script lang="ts">
 // Dependencies
+import { Property } from "@OpenChart/DiagramModel";
 import { useApplicationStore } from "@/stores/ApplicationStore";
 import { defineComponent, type PropType } from "vue";
+import type { Command } from "@/assets/scripts/Application";
+import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
-import { DateProperty, EnumProperty, Property, StringProperty, type DictionaryProperty } from "@OpenChart/DiagramModel";
-import type { Command } from "@/assets/scripts/Application";
 
 export default defineComponent({
   name: "PropertyEditor",
@@ -80,83 +81,6 @@ export default defineComponent({
      */
     execute(command: Command) {
       this.application.execute(command);
-    },
-    
-    /**
-     * Field change behavior.
-     * @param property
-     *  The field's property.
-     * @param value
-     *  The field's new value.
-     */
-    onChange(property: Property, value: string | number | null) {
-      // switch(property.type) {
-      //   case PropertyType.Int:
-      //   case PropertyType.Float:
-      //     if(
-      //       property instanceof NumberProperty &&
-      //       (value === null || value.constructor === Number)
-      //     ) {
-      //       this.execute(new Page.SetNumberProperty(property, value));
-      //     }
-      //     break;
-      //   case PropertyType.String:
-      //     if(
-      //       property instanceof StringProperty &&
-      //       (value === null || value.constructor === String)
-      //     ) {
-      //       this.execute(new Page.SetStringProperty(property, value));
-      //     }
-      //     break;
-      //   case PropertyType.Date:
-      //     if(
-      //       property instanceof DateProperty &&
-      //       (value === null || value.constructor === Date)
-      //     ) {
-      //       this.execute(new Page.SetDateProperty(property, value));
-      //     }
-      //     break;
-      //   case PropertyType.Enum:
-      //     if(
-      //       property instanceof EnumProperty &&
-      //       (value && value.constructor === String)
-      //     ) {
-      //       this.execute(new Page.SetEnumProperty(property, value));
-      //     }
-      //     break;
-      // }
-    },
-
-    /**
-     * Field create subproperty behavior.
-     * @param property
-     *  The field's property.
-     */
-    onCreate(property: Property) {
-      // switch(property.type) {
-      //   case PropertyType.List:
-      //     if(property instanceof ListProperty) {
-      //       this.execute(new Page.CreateSubproperty(property));
-      //     }
-      //     break;
-      // }
-    },
-
-    /**
-     * Field delete subproperty behavior.
-     * @param property
-     *  The field's property.
-     * @param id
-     *  The subproperty's id.
-     */
-    onDelete(property: Property, id: string) {
-      // switch(property.type) {
-      //   case PropertyType.List:
-      //     if(property instanceof ListProperty) {
-      //       this.execute(new Page.DeleteSubproperty(property, id));
-      //     }
-      //     break;
-      // }
     }
 
   },

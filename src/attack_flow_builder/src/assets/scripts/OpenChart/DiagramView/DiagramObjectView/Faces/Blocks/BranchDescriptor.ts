@@ -17,4 +17,4 @@ export type BranchDescriptor = {
      */
     anchor: AnchorView;
 
-}
+};

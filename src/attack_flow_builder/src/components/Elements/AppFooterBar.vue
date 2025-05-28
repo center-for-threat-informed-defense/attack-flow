@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts">
+import Configuration from "@/assets/configuration/app.configuration";
 import { defineComponent } from "vue";
 import { useApplicationStore } from "@/stores/ApplicationStore";
 
@@ -31,8 +32,7 @@ export default defineComponent({
   data(){
     return {
       application: useApplicationStore(),
-      // fileName: Configuration.file_type_name,
-      fileName: "idk"
+      fileName: Configuration.file_type_name,
     }
   },
 });

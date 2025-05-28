@@ -33,14 +33,14 @@ export class DotGridCanvas extends CanvasFace {
             grid[1] * scale,
             this.style.backgroundColor,
             this.style.gridColor
-        );;
+        );
     }
 
 
     ///////////////////////////////////////////////////////////////////////////
     //  1. Layout / Rendering  ////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Renders the face to a context.
@@ -96,8 +96,8 @@ export class DotGridCanvas extends CanvasFace {
         gridY: number,
         fillColor: string,
         strokeColor: string
-    ): CanvasPattern | string{
-        if(typeof document === "undefined") {
+    ): CanvasPattern | string {
+        if (typeof document === "undefined") {
             return fillColor;
         }
         const can = document.createElement("canvas");

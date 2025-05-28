@@ -9,5 +9,5 @@ export type EnumerationDescriptor = {
      * The items to exclude.
      */
     exclude?: string[];
-    
-}
+
+};

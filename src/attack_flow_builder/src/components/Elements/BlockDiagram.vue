@@ -17,7 +17,7 @@
       @select="onItemSelect"
       @focusout="closeContextMenu"
     />
-    <div class="inset-shadow"></div>
+    <div class="inset-shadow" />
   </div>
 </template>
 

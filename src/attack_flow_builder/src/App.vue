@@ -1,7 +1,10 @@
 <template>
   <AppHotkeyBox id="main">
-    <AppTitleBar id="app-title-bar"/>
-    <FindDialog id="find-dialog" :style="findDialogLayout"/>
+    <AppTitleBar id="app-title-bar" />
+    <FindDialog
+      id="find-dialog"
+      :style="findDialogLayout"
+    />
     <div
       id="app-body"
       ref="body"

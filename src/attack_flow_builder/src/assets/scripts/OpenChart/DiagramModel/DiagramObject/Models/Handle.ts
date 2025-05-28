@@ -23,8 +23,8 @@ export class Handle extends DiagramObject {
     ) {
         super(id, instance, attributes, properties);
     }
-        
-                    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ export class Handle extends DiagramObject {
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
-        )
+        );
     }
 
 }

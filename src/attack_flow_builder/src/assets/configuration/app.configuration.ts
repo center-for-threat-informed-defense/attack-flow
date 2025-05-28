@@ -1,8 +1,8 @@
 import { DarkTheme } from "./themes/DarkTheme";
-// import { BlogTheme } from "./themes/BlogTheme";
-// import { LightTheme } from "./themes/LightTheme";
+import { BlogTheme } from "./themes/BlogTheme";
+import { LightTheme } from "./themes/LightTheme";
 import { CtidIcon, CtidLogo } from "./images";
-import { 
+import {
     AttackFlow,
     AttackFlowObjects,
     BaseObjects,
@@ -78,9 +78,9 @@ const configuration: AppConfiguration = {
      * The application's themes.
      */
     themes: [
-        // BlogTheme,
+        BlogTheme,
         DarkTheme,
-        // LightTheme
+        LightTheme
     ],
 
     /**

@@ -36,7 +36,7 @@ export class MoveObjectsBy extends EditorCommand {
         this.dx = dx;
         this.dy = dy;
     }
-    
+
 
     /**
      * Executes the editor command.
@@ -44,7 +44,7 @@ export class MoveObjectsBy extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
-        if(Array.isArray(this.object)) {
+        if (Array.isArray(this.object)) {
             this.object.forEach(o => o.moveBy(this.dx, this.dy));
         } else {
             this.object.moveBy(this.dx, this.dy);
@@ -58,12 +58,12 @@ export class MoveObjectsBy extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
-        if(Array.isArray(this.object)) {
+        if (Array.isArray(this.object)) {
             this.object.forEach(o => o.moveBy(-this.dx, -this.dy));
         } else {
             this.object.moveBy(-this.dx, -this.dy);
         }
         issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
-    
+
 }

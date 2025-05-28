@@ -179,7 +179,7 @@ export class Line extends DiagramObject {
             this.handleUpdate(reason);
         }
     }
-    
+
     /**
      * Adds a handle to the line.
      * @param handle
@@ -194,7 +194,7 @@ export class Line extends DiagramObject {
         // Add handle
         this._handles.push(handle);
         // Update diagram
-        if(update) {
+        if (update) {
             this.handleUpdate(ModelUpdateReason.ObjectAdded);
         }
     }
@@ -217,9 +217,9 @@ export class Line extends DiagramObject {
             // Remove handle
             this._handles.splice(index, 1);
             // Update diagram
-            if(update) {
+            if (update) {
                 this.handleUpdate(ModelUpdateReason.ObjectRemoved);
-            } 
+            }
         }
     }
 
@@ -232,12 +232,12 @@ export class Line extends DiagramObject {
      *  (Default: `false`)
      */
     public dropHandles(i: number, update: boolean = false) {
-        for(; i < this._handles.length; i++) {
+        for (; i < this._handles.length; i++) {
             this.deleteHandle(this._handles[i], update);
         }
     }
- 
-         
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -254,7 +254,7 @@ export class Line extends DiagramObject {
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
-        )
+        );
     }
-    
+
 }

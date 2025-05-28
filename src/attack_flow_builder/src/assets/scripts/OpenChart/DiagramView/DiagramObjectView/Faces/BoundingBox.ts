@@ -6,7 +6,7 @@ export class BoundingBox {
      *  In most cases, this is the bounding region's central coordinate.
      *  However, **this is not guaranteed**. Different faces may choose to
      *  position this coordinate differently.
-     * 
+     *
      *  If the central coordinate is needed, use `xMid` instead.
      */
     public x: number;
@@ -17,7 +17,7 @@ export class BoundingBox {
      *  In most cases, this is the bounding region's central coordinate.
      *  However, **this is not guaranteed**. Different faces may choose to
      *  position this coordinate differently.
-     * 
+     *
      *  If the central coordinate is needed, use `yMid` instead.
      */
     public y: number;
@@ -47,14 +47,14 @@ export class BoundingBox {
      * The bounding region's central x coordinate.
      */
     public get xMid(): number {
-        return (this.xMin + this.xMax) / 2
+        return (this.xMin + this.xMax) / 2;
     }
 
     /**
      * The bounding region's central y coordinate.
      */
     public get yMid(): number {
-        return (this.yMin + this.yMax) / 2
+        return (this.yMin + this.yMax) / 2;
     }
 
     /**
@@ -80,7 +80,7 @@ export class BoundingBox {
             this.xMax, this.yMin,
             this.xMax, this.yMax,
             this.xMin, this.yMax
-        ]
+        ];
     }
 
 
@@ -128,7 +128,7 @@ export class BoundingBox {
 
     /**
      * Tests if the bounding region is inside the specified region.
-     * @param region 
+     * @param region
      */
     public inside(region: BoundingBox): boolean {
         return region.xMin <= this.xMin && this.xMax <= region.xMax

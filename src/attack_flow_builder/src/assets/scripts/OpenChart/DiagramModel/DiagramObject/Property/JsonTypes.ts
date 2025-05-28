@@ -1,8 +1,8 @@
 /**
  * Represents valid JSON values.
  */
-export type JsonValue 
-    = null 
+export type JsonValue
+    = null
     | string
     | number
     | boolean

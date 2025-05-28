@@ -1,11 +1,24 @@
 <template>
-  <div class="datetime-field-control" tabindex="0" @focus="enterEditMode()">
+  <div
+    class="datetime-field-control"
+    tabindex="0"
+    @focus="enterEditMode()"
+  >
     <div class="grid-container">
-      <div class="value" v-show="!showEditor">
-        <p v-if="value === null" class="null-value">
+      <div
+        class="value"
+        v-show="!showEditor"
+      >
+        <p
+          v-if="value === null"
+          class="null-value"
+        >
           None
         </p>
-        <p v-else class="date-value">
+        <p
+          v-else
+          class="date-value"
+        >
           {{ `${value.toLocaleString({
             year: 'numeric',
             month: 'numeric',
@@ -15,19 +28,51 @@
           })} ${value.toFormat("ZZZZ")}` }}
         </p>
       </div>
-      <div class="editor" v-show="showEditor">
+      <div
+        class="editor"
+        v-show="showEditor"
+      >
         <div class="date-wrapper">
-          <input type="date" maxlength="10" segment="Date" ref="Date" class="Date" @blur="onBlur" @keydown="onKeyDown"
-            v-model="value_Date">
+          <input
+            type="date"
+            maxlength="10"
+            segment="Date"
+            ref="Date"
+            class="Date"
+            @blur="onBlur"
+            @keydown="onKeyDown"
+            v-model="value_Date"
+          >
         </div>
         <div class="time-wrapper">
-          <input type="time" segment="Time" ref="Time" class="Time" step="0.01" value="00:00:00" @blur="onBlur"
-            @keydown="onKeyDown" v-model="value_Time">
+          <input
+            type="time"
+            segment="Time"
+            ref="Time"
+            class="Time"
+            step="0.01"
+            value="00:00:00"
+            @blur="onBlur"
+            @keydown="onKeyDown"
+            v-model="value_Time"
+          >
           <span class="space" />
-          <input type="text" segment="Offset" ref="Offset" class="Offset" list="all_offsets" @blur="onBlur"
-            @keydown="onKeyDown" v-model="value_Offset">
+          <input
+            type="text"
+            segment="Offset"
+            ref="Offset"
+            class="Offset"
+            list="all_offsets"
+            @blur="onBlur"
+            @keydown="onKeyDown"
+            v-model="value_Offset"
+          >
           <datalist id="all_offsets">
-            <option v-for="[offsetName, offsetValue] in supportedOffsets" :value="offsetValue" :key="offsetValue">
+            <option
+              v-for="[offsetName, offsetValue] in supportedOffsets"
+              :value="offsetValue"
+              :key="offsetName"
+            >
               {{ offsetName }}
             </option>
           </datalist>

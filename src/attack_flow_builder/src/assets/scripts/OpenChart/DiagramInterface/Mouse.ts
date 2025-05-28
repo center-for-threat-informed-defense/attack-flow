@@ -26,4 +26,4 @@ export enum Cursor {
     NS_Resize  = "ns-resize",
     Col_Resize = "col-resize",
     Row_Resize = "row-resize"
-};
+}

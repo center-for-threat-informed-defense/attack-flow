@@ -1,7 +1,7 @@
 <template>
   <div class="scrollbox-container">
     <div ref="content">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

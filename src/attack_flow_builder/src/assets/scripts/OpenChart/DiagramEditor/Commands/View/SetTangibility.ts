@@ -1,13 +1,13 @@
 import { EditorCommand } from "../EditorCommand";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class SetTangibility extends EditorCommand { 
+export class SetTangibility extends EditorCommand {
 
     /**
      *  The object to configure.
      */
     public readonly object: DiagramObjectView;
-   
+
     /**
      * The object's tangibility.
      */
@@ -26,7 +26,7 @@ export class SetTangibility extends EditorCommand {
         this.object = object;
         this.tangibility = tangibility;
     }
-    
+
 
     /**
      * Executes the editor command.

@@ -27,8 +27,8 @@ export class HoverObject extends EditorCommand {
         this.object = object;
         this.state = state;
     }
-    
-    
+
+
     /**
      * Executes the editor command.
      * @param issueDirective

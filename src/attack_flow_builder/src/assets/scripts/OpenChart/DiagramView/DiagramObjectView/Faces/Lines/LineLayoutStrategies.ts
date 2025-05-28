@@ -1,9 +1,9 @@
 import { LineFace } from "../Bases";
 import { Orientation, PositionSetByUser } from "../../ViewAttributes";
-import { 
+import {
     getAbsoluteArrowHead,
     getAbsoluteMultiElbowPath,
-    getLineHitbox, 
+    getLineHitbox,
     round,
     roundNearestMultiple
 } from "@OpenChart/Utilities";
@@ -21,7 +21,7 @@ export function runHorizontalTwoElbowLayout(
     view: LineView,
     face: GenericLineInternalState
 ) {
-    const 
+    const
         src = view.source,
         hdl = view.handles[0],
         trg = view.target,
@@ -43,18 +43,18 @@ export function runHorizontalTwoElbowLayout(
     }
     hdl.face.moveBy(0, my - hdl.y);
     const hx = hdl.x;
-    
+
     // Apply cap space
     const [bx, ex] = oneAxisCapSpace(sx, tx, face.style.capSpace);
 
     // Define vertices and arrow
     let vertices, arrow = true;
-    if(sy === ty) {
+    if (sy === ty) {
         arrow = sx !== tx;
         vertices = [bx, sy, ex, ty];
-    } else if(sx === hx) {
+    } else if (sx === hx) {
         vertices = [bx, sy, hx, ty, ex, ty];
-    } else if(tx === hx) {
+    } else if (tx === hx) {
         vertices = [bx, sy, hx, sy, ex, ty];
     } else {
         vertices = [bx, sy, hx, sy, hx, ty, ex, ty];
@@ -65,7 +65,7 @@ export function runHorizontalTwoElbowLayout(
     trg.orientation = Orientation.D0;
 
     // Update points
-    if(vertices.length === 4 && face.points.length !== 2) {
+    if (vertices.length === 4 && face.points.length !== 2) {
         face.points = [src, trg];
     } else if (4 < vertices.length && face.points.length !== 3) {
         face.points = [src, hdl, trg];
@@ -97,7 +97,7 @@ export function runVerticalTwoElbowLayout(
         ty = trg.y,
         mx = round((sx + tx) / 2),
         my = roundNearestMultiple((sy + ty) / 2, face.grid[1]);
-    
+
     // Retain the reference handle, drop all others
     view.dropHandles(1);
 
@@ -109,9 +109,9 @@ export function runVerticalTwoElbowLayout(
     }
     hdl.face.moveBy(mx - hdl.x, 0);
     const hy = hdl.y;
-    
+
     // Update points
-    if(face.points.length !== 3) {
+    if (face.points.length !== 3) {
         face.points = [src, hdl, trg];
     }
 
@@ -120,12 +120,12 @@ export function runVerticalTwoElbowLayout(
 
     // Define vertices and arrow
     let vertices, arrow = true;
-    if(sx === tx) {
+    if (sx === tx) {
         arrow = sy !== ty;
         vertices = [sx, by, tx, ey];
-    } else if(sy === hy) {
+    } else if (sy === hy) {
         vertices = [sx, by, tx, hy, tx, ey];
-    } else if(ty === hy) {
+    } else if (ty === hy) {
         vertices = [sx, by, sx, hy, tx, ey];
     } else {
         vertices = [sx, by, sx, hy, tx, hy, tx, ey];
@@ -136,7 +136,7 @@ export function runVerticalTwoElbowLayout(
     trg.orientation = Orientation.D90;
 
     // Update points
-    if(vertices.length === 4 && face.points.length !== 2) {
+    if (vertices.length === 4 && face.points.length !== 2) {
         face.points = [src, trg];
     } else if (4 < vertices.length && face.points.length !== 3) {
         face.points = [src, hdl, trg];
@@ -168,20 +168,20 @@ export function runHorizontalElbowLayout(
 
     // Retain the reference handle, drop all others
     view.dropHandles(1);
-    
+
     // Adjust handle
     hdl.orientation = Orientation.Unknown;
     hdl.userSetPosition = PositionSetByUser.False;
     hdl.face.moveTo(tx, ty);
 
     // Update points
-    if(face.points.length !== 2) {
+    if (face.points.length !== 2) {
         face.points = [src, trg];
     }
 
     // Calculate vertices
     let vertices, arrow = true;
-    if(sx === tx) {
+    if (sx === tx) {
         arrow = sy !== ty;
         // Apply cap space
         const [by, ey] = oneAxisCapSpace(sy, ty, face.style.capSpace);
@@ -196,7 +196,7 @@ export function runHorizontalElbowLayout(
         // Apply cap space
         const [bx, ey] = twoAxisCapSpace(sx, tx, sy, ty, face.style.capSpace);
         // Define vertices
-        vertices = [bx, sy, tx, sy, tx, ey]
+        vertices = [bx, sy, tx, sy, tx, ey];
     }
 
     // Update latches
@@ -227,7 +227,7 @@ export function runVerticalElbowLayout(
         sy = src.y,
         tx = trg.x,
         ty = trg.y;
-    
+
     // Retain the reference handle, drop all others
     view.dropHandles(1);
 
@@ -237,19 +237,19 @@ export function runVerticalElbowLayout(
     hdl.face.moveTo(tx, ty);
 
     // Update points
-    if(face.points.length !== 2) {
+    if (face.points.length !== 2) {
         face.points = [src, trg];
     }
 
     // Calculate vertices
     let vertices, arrow = true;
-    if(sx === tx) {
+    if (sx === tx) {
         arrow = sy !== ty;
         // Apply cap space
         const [by, ey] = oneAxisCapSpace(sy, ty, face.style.capSpace);
         // Calculate vertices
         vertices = [sx, by, tx, ey];
-    } else if(sy === ty){
+    } else if (sy === ty) {
         // Apply cap space
         const [bx, ex] = oneAxisCapSpace(sx, tx, face.style.capSpace);
         // Calculate vertices
@@ -258,7 +258,7 @@ export function runVerticalElbowLayout(
         // Apply cap space
         const [ex, by] = twoAxisCapSpace(tx, sx, ty, sy, face.style.capSpace);
         // Calculate vertices
-        vertices = [sx, by, sx, ty, ex, ty]
+        vertices = [sx, by, sx, ty, ex, ty];
     }
 
     // Update latches
@@ -267,7 +267,7 @@ export function runVerticalElbowLayout(
 
     // Run layout
     runMultiElbowLayout(face, vertices, arrow);
-    
+
 }
 
 /**
@@ -283,7 +283,7 @@ export function runVerticalElbowLayout(
  *  The line's face.
  * @param vertices
  *  The line's raw vertices.
- * 
+ *
  *  For best results, deduplicate consecutive vertices.
  *   - `[0,0, 0,1, 0,0]` is acceptable.
  *   - `[0,0, 0,1, 0,1, 1,1]` should be simplified to `[0,0, 0,1, 1,1]`.
@@ -302,25 +302,25 @@ function runMultiElbowLayout(
     const hitboxes = (v.length >> 1) - 1;
     face.hitboxes
         = face.hitboxes.length === hitboxes
-        ? face.hitboxes : new Array(hitboxes);
+            ? face.hitboxes : new Array(hitboxes);
     const h = face.hitboxes;
 
     // Prepare transform
     const t = new Array(v.length);
-    
+
     // Calculate start vertex
     let lx = 0, ly = 1, nx = 2, ny = 3;
-    if(v[lx] === v[nx]) {
+    if (v[lx] === v[nx]) {
         t[lx] = v[lx] + offset;
-        t[ly] = v[ly] < v[ny] ? v[ly] + (offset << 1) : v[ly];    
+        t[ly] = v[ly] < v[ny] ? v[ly] + (offset << 1) : v[ly];
     } else {
         t[lx] = v[lx] < v[nx] ? v[lx] + (offset << 1) : v[lx];
-        t[ly] = v[ly] + offset; 
+        t[ly] = v[ly] + offset;
     }
 
     // Calculate mid-vertices
     const length = v.length - 2;
-    for(; nx < length; lx += 2, ly += 2, nx += 2, ny += 2) {
+    for (; nx < length; lx += 2, ly += 2, nx += 2, ny += 2) {
         // Calculate hitbox
         h[lx >> 1] = getLineHitbox(
             v[lx], v[ly],
@@ -340,17 +340,17 @@ function runMultiElbowLayout(
     );
 
     // Calculate end vertex
-    if(v[lx] === v[nx]) {
+    if (v[lx] === v[nx]) {
         t[nx] = v[nx] + offset;
-        t[ny] = v[ly] < v[ny] ? v[ny] : v[ny] + (offset << 1); 
-    } else {    
+        t[ny] = v[ly] < v[ny] ? v[ny] : v[ny] + (offset << 1);
+    } else {
         t[nx] = v[lx] < v[nx] ? v[nx] : v[nx] + (offset << 1);
         t[ny] = v[ny] + offset;
     }
 
     // Apply arrow head
-    if(includeArrow) {
-        
+    if (includeArrow) {
+
         // Calculate arrow head
         face.arrow = getAbsoluteArrowHead(
             t[lx], t[ly],
@@ -359,7 +359,7 @@ function runMultiElbowLayout(
         );
 
         // Calculate cap size offset
-        if(v[lx] === v[nx]) {
+        if (v[lx] === v[nx]) {
             t[ny] -= Math.sign(t[ny] - t[ly]) * (face.style.capSize >> 1);
         } else {
             t[nx] -= Math.sign(t[nx] - t[lx]) * (face.style.capSize >> 1);
@@ -386,11 +386,11 @@ function runMultiElbowLayout(
  * @param c
  *  The cap space.
  * @returns
- *  The adjusted source and target coordinates. 
+ *  The adjusted source and target coordinates.
  */
 function oneAxisCapSpace(s: number, t: number, c: number) {
     const d = t - s;
-    if(c << 1 < Math.abs(d)) {
+    if (c << 1 < Math.abs(d)) {
         const cs = Math.sign(d) * c;
         return [s + cs, t - cs];
     } else {
@@ -417,10 +417,10 @@ function twoAxisCapSpace(s1: number, t1: number, s2: number, t2: number, c: numb
     const d1 = t1 - s1;
     const d2 = t2 - s2;
     let s = s1, e = t2;
-    if(c < Math.abs(d1)) {
+    if (c < Math.abs(d1)) {
         s += Math.sign(d1) * c;
     }
-    if(c < Math.abs(d2)) {
+    if (c < Math.abs(d2)) {
         e -= Math.sign(d2) * c;
     }
     return [s, e];

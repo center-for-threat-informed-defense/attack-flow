@@ -3,26 +3,26 @@ export interface Hotkey<T> {
     /**
      * The hotkey's shortcut.
      */
-    shortcut: string
+    shortcut: string;
 
     /**
      * The hotkey's data.
      */
-    data?: T
+    data?: T;
 
     /**
      * If the hotkey is repeatable.
      */
-    repeatable: boolean
+    repeatable: boolean;
 
     /**
      * If the hotkey is disabled.
      */
-    disabled?: boolean
+    disabled?: boolean;
 
     /**
      * If the browser's default behavior should be permitted.
      */
-    allowBrowserBehavior?: boolean
+    allowBrowserBehavior?: boolean;
 
 }

@@ -69,14 +69,14 @@ export class ThemeLoader {
      *  The object to convert.
      */
     private static async transformFontDescriptors(obj: Record<string, any>): Promise<void> {
-        for(const key in obj) {
-            let value = obj[key];
+        for (const key in obj) {
+            const value = obj[key];
             // Ignore primitives and arrays
-            if(typeof value !== "object" || Array.isArray(value)) {
+            if (typeof value !== "object" || Array.isArray(value)) {
                 continue;
             }
             // Convert font descriptor
-            if(this.isFontDescriptor(value)) {
+            if (this.isFontDescriptor(value)) {
                 await GlobalFontStore.loadFont(value);
                 obj[key] = GlobalFontStore.getFont(value);
                 continue;
@@ -97,14 +97,14 @@ export class ThemeLoader {
      *  The object to convert.
      */
     private static async transformFontDescriptorsDangerously(obj: Record<string, any>) {
-        for(const key in obj) {
-            let value = obj[key];
+        for (const key in obj) {
+            const value = obj[key];
             // Ignore primitives and arrays
-            if(typeof value !== "object" || Array.isArray(value)) {
+            if (typeof value !== "object" || Array.isArray(value)) {
                 continue;
             }
             // Convert font descriptor
-            if(this.isFontDescriptor(value)) {
+            if (this.isFontDescriptor(value)) {
                 obj[key] = GlobalFontStore.getFont(value);
                 continue;
             }
@@ -136,19 +136,19 @@ export class ThemeLoader {
      *  The object to convert.
      */
     private static async transformEnumerationDescriptors(obj: Record<string, any>): Promise<void> {
-        for(const key in obj) {
-            let value = obj[key];
+        for (const key in obj) {
+            const value = obj[key];
             // Ignore primitives and arrays
-            if(typeof value !== "object" || Array.isArray(value)) {
+            if (typeof value !== "object" || Array.isArray(value)) {
                 continue;
             }
             // Convert enumerations descriptor
-            if(this.isEnumerationDescriptor(value)) {
+            if (this.isEnumerationDescriptor(value)) {
                 const enumeration = {} as Enumeration;
-                if(value.include) {
+                if (value.include) {
                     enumeration.include = new Set(value.include);
                 }
-                if(value.exclude) {
+                if (value.exclude) {
                     enumeration.exclude = new Set(value.exclude);
                 }
                 obj[key] = enumeration;
@@ -168,7 +168,7 @@ export class ThemeLoader {
      */
     private static isEnumerationDescriptor(obj: object): obj is EnumerationDescriptor {
         const keys = new Set(Object.keys(obj));
-        const isDescriptor = 
+        const isDescriptor =
             keys.size === 1 && (keys.has("include") || keys.has("exclude")) ||
             keys.size === 2 && (keys.has("include") && keys.has("exclude"));
         return isDescriptor;

@@ -1,4 +1,4 @@
-import { DiagramObject } from "../OpenChart/DiagramModel"
+import { DiagramObject } from "../OpenChart/DiagramModel";
 
 export type SearchResult<T extends DiagramObject = DiagramObject> = {
 

@@ -25,12 +25,12 @@ export abstract class SelectPlugin extends HoverPlugin {
      *  The mouse event.
      */
     protected select(obj: DiagramObjectView | undefined, event: MouseEvent) {
-        // Update selection 
-        if(!obj?.focused && !event.ctrlKey) {
+        // Update selection
+        if (!obj?.focused && !event.ctrlKey) {
             this.execute(EditorCommands.unselectGroupObjects(this.interface.root));
             this.execute(EditorCommands.stopAnimation(this.interface, SelectionAnimation));
         }
-        if(obj) {
+        if (obj) {
             this.execute(EditorCommands.selectObject(obj));
             this.execute(EditorCommands.runAnimation(this.interface, SelectionAnimation));
         }

@@ -10,7 +10,7 @@ export const KeyToTextWin: { [key: string]: string } = {
     ArrowDown  : "↓",
     Delete     : "Del",
     Meta       : "Win"
-}
+};
 
 /**
  * Maps MacOS modifier keys to text.
@@ -26,5 +26,4 @@ export const KeyToTextMacOS: { [key: string]: string } = {
     Meta       : "⌘",
     Shift      : "⇧",
     Alt        : "⌥"
-}
-  
+};

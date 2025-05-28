@@ -11,18 +11,18 @@ export class DrawTextInstructionSet {
         /**
          * The font's css string.
          */
-        font: string,
+        font: string;
 
         /**
          * The font's color.
          */
-        color: string,
+        color: string;
 
         /**
          * The font's text instructions.
          */
-        instructions: DrawTextInstruction[]
-        
+        instructions: DrawTextInstruction[];
+
     }>;
 
 
@@ -45,7 +45,7 @@ export class DrawTextInstructionSet {
      */
     public getInstructionsWithFont(font: Font, color: string): DrawTextInstruction[] {
         const fontId = `${font.css}::${color}`;
-        if(!this.sets.has(fontId)) {
+        if (!this.sets.has(fontId)) {
             this.sets.set(fontId, {
                 font: font.css,
                 color: color,
@@ -66,7 +66,7 @@ export class DrawTextInstructionSet {
      * The {@link DrawTextInstructionSet}'s iterator.
      */
     public *[Symbol.iterator]() {
-        for(const field of this.sets.values()) {
+        for (const field of this.sets.values()) {
             yield field;
         }
     }

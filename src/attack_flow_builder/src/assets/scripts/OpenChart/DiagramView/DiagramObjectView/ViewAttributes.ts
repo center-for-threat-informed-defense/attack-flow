@@ -27,7 +27,7 @@ export const Orientation = {
     Unknown   : 0b00000000000000,
     D0        : 0b00000001000000,
     D90       : 0b00000010000000
-}
+};
 export const OrientationMask = generateBitMask(Orientation);
 
 /**

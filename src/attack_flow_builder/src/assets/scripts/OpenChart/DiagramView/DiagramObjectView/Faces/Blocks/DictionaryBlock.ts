@@ -16,7 +16,7 @@ export class DictionaryBlock extends BlockFace {
     /**
      * The block's style.
      */
-    private readonly style: DictionaryBlockStyle
+    private readonly style: DictionaryBlockStyle;
 
     /**
      * The block's enumerated properties.
@@ -42,7 +42,7 @@ export class DictionaryBlock extends BlockFace {
      * The block header's height.
      */
     private headHeight: number;
-    
+
 
     /**
      * Creates a new {@link DictionaryBlock}.
@@ -59,7 +59,7 @@ export class DictionaryBlock extends BlockFace {
         style: DictionaryBlockStyle,
         grid: [number, number],
         scale: number,
-        properties?: Enumeration,
+        properties?: Enumeration
     ) {
         super(grid, scale);
         this.style = style;
@@ -82,7 +82,7 @@ export class DictionaryBlock extends BlockFace {
      *  True if the layout changed, false otherwise.
      */
     public calculateLayout(): boolean {
-        const markerOffset = BlockFace.markerOffset; 
+        const markerOffset = BlockFace.markerOffset;
         const grid = this.blockGrid;
         const head = this.style.head;
         const body = this.style.body;
@@ -108,16 +108,16 @@ export class DictionaryBlock extends BlockFace {
         const yBodyPadding = grid[1] * body.bodyVerticalPaddingUnits;
         const yFieldPadding = grid[1] * body.fieldVerticalPaddingUnits;
         const xPadding = grid[0] * this.style.horizontalPaddingUnits;
-        
+
         // Collect visible fields
         const fields: [string, string][] = [];
         const properties = this.properties?.include ?? props.value.keys();
-        for(const id of properties) {
-            if(this.properties?.exclude?.has(id) || !props.value.has(id)) {
+        for (const id of properties) {
+            if (this.properties?.exclude?.has(id) || !props.value.has(id)) {
                 continue;
             }
             const property = props.value.get(id)!;
-            if(!property.isDefined() || id === props.representativeKey) {
+            if (!property.isDefined() || id === props.representativeKey) {
                 continue;
             }
             fields.push([
@@ -130,7 +130,7 @@ export class DictionaryBlock extends BlockFace {
         const titleText = this.view.id.toLocaleUpperCase();
         const subtitleText = props.isDefined() ? props.toString() : "";
         let title;
-        if(subtitleText) {
+        if (subtitleText) {
             title = head.twoTitle.title;
         } else {
             title = head.oneTitle.title;
@@ -139,7 +139,7 @@ export class DictionaryBlock extends BlockFace {
         // Get field fonts
         const fieldName = body.fieldNameText;
         const fieldValue = body.fieldValueText;
-        
+
         // Calculate max content width
         let maxWidth = grid[0] * this.style.maxUnitWidth;
         this.width = title.font.measureWidth(titleText);
@@ -148,11 +148,11 @@ export class DictionaryBlock extends BlockFace {
             this.width = Math.max(this.width, fieldName.font.measureWidth(key));
             maxWidth = Math.max(this.width, maxWidth);
         }
-        
+
         // Calculate title and subtitle positions
-        let x = xPadding + markerOffset;
+        const x = xPadding + markerOffset;
         let y = yHeadPadding + markerOffset;
-        if(subtitleText) {
+        if (subtitleText) {
             const subtitle = head.twoTitle.subtitle;
             // Update content width
             const lines = subtitle.font.wordWrap(subtitleText, maxWidth);
@@ -190,7 +190,7 @@ export class DictionaryBlock extends BlockFace {
         y += yHeadPadding;
 
         // Calculate body layout
-        if(fields.length) {
+        if (fields.length) {
             // Set head height
             this.headHeight = y;
             // Set body color
@@ -198,7 +198,7 @@ export class DictionaryBlock extends BlockFace {
             this.strokeColor = body.strokeColor;
             // Calculate body layout
             y += yBodyPadding - yFieldPadding;
-            for (let [key, value] of fields) {
+            for (const [key, value] of fields) {
                 y += yFieldPadding;
                 // Update content width
                 const lines = fieldValue.font.wordWrap(value, maxWidth);
@@ -209,7 +209,7 @@ export class DictionaryBlock extends BlockFace {
                 // Calculate field's section layout
                 y = generateTextSectionLayout(
                     x, y,
-                    key, 
+                    key,
                     fieldName.font,
                     fieldName.color,
                     fieldName.units * grid[1],
@@ -250,7 +250,7 @@ export class DictionaryBlock extends BlockFace {
 
         // Update anchor positions
         const anchors = calculateAnchorPositionsByFloor(bb, grid, markerOffset);
-        for(const position in anchors) {
+        for (const position in anchors) {
             const coords = anchors[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
         }
@@ -286,7 +286,7 @@ export class DictionaryBlock extends BlockFace {
 
         // Init
         const x = this.boundingBox.xMin + this.xOffset;
-        const y = this.boundingBox.yMin + this.yOffset;    
+        const y = this.boundingBox.yMin + this.yOffset;
         const strokeWidth = BlockFace.markerOffset;
         const { head, borderRadius } = this.style;
 
@@ -327,7 +327,7 @@ export class DictionaryBlock extends BlockFace {
             ctx.fillStyle = color;
             for (const instruction of instructions) {
                 ctx.fillText(
-                    instruction.text, 
+                    instruction.text,
                     instruction.x + x,
                     instruction.y + y
                 );
@@ -339,13 +339,13 @@ export class DictionaryBlock extends BlockFace {
             const outline = this.style.selectOutline;
             const padding = outline.padding + 1;
             // Draw focus border
-            if(settings.animationsEnabled) {
+            if (settings.animationsEnabled) {
                 ctx.setLineDash([5, 2]);
             }
             drawRect(
                 ctx,
                 x - padding,
-                y - padding, 
+                y - padding,
                 this.width + padding * 2,
                 this.height + padding * 2,
                 outline.borderRadius, strokeWidth
@@ -356,7 +356,7 @@ export class DictionaryBlock extends BlockFace {
         } else if (this.view.hovered) {
             const { color, size } = this.style.anchorMarkers;
             // Draw anchors
-            for(const anchor of this.view.anchors.values()) {
+            for (const anchor of this.view.anchors.values()) {
                 anchor.renderTo(ctx, region, settings);
             }
             // Draw anchor markers

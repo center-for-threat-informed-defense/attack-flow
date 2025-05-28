@@ -1,4 +1,4 @@
-import type { ObjectRecommendation } from "./ObjectRecommendation"
+import type { ObjectRecommendation } from "./ObjectRecommendation";
 
 export type ObjectRecommendations = {
 
@@ -7,4 +7,4 @@ export type ObjectRecommendations = {
      */
     items: ObjectRecommendation[];
 
-}
+};

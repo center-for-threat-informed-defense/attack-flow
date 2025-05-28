@@ -8,7 +8,7 @@
         placeholder="Search..."
         v-model="value"
         @keydown="onKeyDown"
-      />
+      >
     </div>
     <div class="menu-body">
       <ScrollListBox
@@ -18,16 +18,28 @@
         :item-display-count="7"
         @scroll="i => active = items[i].id"
       >
-        <template #up>^</template>
+        <template #up>
+          ^
+        </template>
         <template #item="{ item }">
-          <div class="recommendation" @click="submitSelection(item.id)">
+          <div
+            class="recommendation"
+            @click="submitSelection(item.id)"
+          >
             <div class="title">
-              <div class="dot" :style="{ background: item.color }"></div>
-              <div class="name">{{ item.name }}</div>
+              <div
+                class="dot"
+                :style="{ background: item.color }"
+              />
+              <div class="name">
+                {{ item.name }}
+              </div>
             </div>
           </div>
         </template>
-        <template #down>v</template>
+        <template #down>
+          v
+        </template>
       </ScrollListBox>
     </div>
   </div>

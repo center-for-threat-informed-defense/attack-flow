@@ -26,7 +26,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 form: { type: PropertyType.String }
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "campaign",
@@ -36,7 +36,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true,
+                is_representative: true
             },
             description: {
                 type: PropertyType.String
@@ -55,7 +55,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "course_of_action",
@@ -81,7 +81,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "grouping",
@@ -100,7 +100,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "identity",
@@ -123,14 +123,14 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             },
             sectors: {
-                type: PropertyType.List, 
+                type: PropertyType.List,
                 form: { type: PropertyType.String }
             },
             contact_information: {
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "indicator",
@@ -169,7 +169,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 form: { type: PropertyType.String }
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "infrastructure",
@@ -203,7 +203,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.Date
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "intrusion_set",
@@ -243,7 +243,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 form: { type: PropertyType.String }
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "location",
@@ -290,7 +290,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "malware",
@@ -341,7 +341,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 form: { type: PropertyType.String }
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "malware_analysis",
@@ -395,7 +395,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 default: null
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "note",
@@ -415,7 +415,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 form: { type: PropertyType.String }
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "observed_data",
@@ -434,7 +434,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 min: 0
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "opinion",
@@ -447,7 +447,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 is_representative: true
             },
             authors: {
-                type: PropertyType.List, 
+                type: PropertyType.List,
                 form: { type: PropertyType.String }
             },
             opinion: {
@@ -467,7 +467,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 }
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "report",
@@ -490,7 +490,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.Date
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "threat_actor",
@@ -545,7 +545,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 form: { type: PropertyType.String }
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "tool",
@@ -576,7 +576,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "vulnerability",
@@ -592,7 +592,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "marking_definition",
@@ -614,7 +614,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                     default: [
                         ["TLP", "TLP"],
                         ["TLP:CLEAR", "TLP:CLEAR"],
-                        ["statement", "Statement"],
+                        ["statement", "Statement"]
                     ]
                 },
                 default: null
@@ -628,9 +628,9 @@ export const StixObjects: DiagramObjectTemplate[] = [
                     tlp: {
                         type: PropertyType.String
                     }
-                },
-            },
+                }
+            }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     }
-]
+];

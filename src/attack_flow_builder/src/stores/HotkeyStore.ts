@@ -63,7 +63,7 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                     data: () => AppCommands.saveActiveFileToDevice(app),
                     shortcut: file.save_file,
                     repeatable: false
-                },
+                }
                 // {
                 //     data: () => new App.SavePageImageToDevice(ctx),
                 //     shortcut: file.save_image,

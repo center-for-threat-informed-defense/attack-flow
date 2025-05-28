@@ -30,7 +30,7 @@ export class SetCamera extends EditorCommand {
         this.file = file;
         this.camera = { x, y, k };
     }
-    
+
 
     /**
      * Executes the editor command.
@@ -45,5 +45,5 @@ export class SetCamera extends EditorCommand {
      * Undoes the editor command.
      */
     public undo(): void {}
-    
+
 }

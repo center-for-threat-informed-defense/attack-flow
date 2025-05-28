@@ -8,7 +8,7 @@ export class ShowSplashMenu extends AppCommand {
      */
     public readonly context: ApplicationStore;
 
-    
+
     /**
      * Display the splash menu.
      * @param context

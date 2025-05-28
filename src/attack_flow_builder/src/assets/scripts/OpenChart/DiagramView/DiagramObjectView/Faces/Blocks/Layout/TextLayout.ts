@@ -7,7 +7,7 @@ import type { DrawTextInstructionSet } from "./DrawTextInstructionSet";
  * Generates a text section's layout.
  * @param x
  *  The section's top-left x-coordinate.
- * @param y 
+ * @param y
  *  The section's top-left y-coordinate.
  * @param title
  *  The section's title.
@@ -47,19 +47,19 @@ export function generateTextSectionLayout(
     text: DrawTextInstructionSet
 ): number {
     let fontInstructions: DrawTextInstruction[];
-    
+
     // Register title font
     fontInstructions = text.getInstructionsWithFont(
         titleFont, titleColor
     );
-    
+
     // Add title instructions
     let titleY;
-    if(titleAlignTop) {
+    if (titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        titleY = y + Math.min(titleCellHeight, round(ascent))
+        titleY = y + Math.min(titleCellHeight, round(ascent));
     } else {
-        titleY = y + titleCellHeight; 
+        titleY = y + titleCellHeight;
     }
     fontInstructions?.push({
         x: x,
@@ -71,16 +71,16 @@ export function generateTextSectionLayout(
     // Register content font
     fontInstructions = text.getInstructionsWithFont(
         contentFont, contentColor
-    )
-    
+    );
+
     // Add content instructions
-    for(const line of content) {
+    for (const line of content) {
         y += contentCellHeight;
         fontInstructions.push({
             x: x,
             y: y,
             text: line
-        })
+        });
     }
 
     return y;
@@ -91,7 +91,7 @@ export function generateTextSectionLayout(
  * Generates a title section's layout.
  * @param x
  *  The section's top-left x-coordinate.
- * @param y 
+ * @param y
  *  The section's top-left y-coordinate.
  * @param title
  *  The section's title.
@@ -119,19 +119,19 @@ export function generateTitleSectionLayout(
     text: DrawTextInstructionSet
 ): number {
     let fontInstructions: DrawTextInstruction[];
-    
+
     // Register title font
     fontInstructions = text.getInstructionsWithFont(
         titleFont, titleColor
     );
-    
+
     // Add title instructions
     let titleY;
-    if(titleAlignTop) {
+    if (titleAlignTop) {
         const { ascent } = titleFont.measure(title);
-        titleY = y + Math.min(titleCellHeight, round(ascent))
+        titleY = y + Math.min(titleCellHeight, round(ascent));
     } else {
-        titleY = y + titleCellHeight; 
+        titleY = y + titleCellHeight;
     }
     fontInstructions?.push({
         x: x,
@@ -150,7 +150,7 @@ export function generateTitleSectionLayout(
  * Generates a text section's layout.
  * @param x
  *  The section's top-left x-coordinate.
- * @param y 
+ * @param y
  *  The section's top-left y-coordinate.
  * @param title
  *  The section's title.
@@ -189,16 +189,16 @@ export function generateContentSectionLayout(
     // Register content font
     fontInstructions = text.getInstructionsWithFont(
         contentFont, contentColor
-    )
-    
+    );
+
     // Add content instructions
-    for(const line of content) {
+    for (const line of content) {
         y += contentCellHeight;
         fontInstructions.push({
             x: x,
             y: y,
             text: line
-        })
+        });
     }
 
     return y;

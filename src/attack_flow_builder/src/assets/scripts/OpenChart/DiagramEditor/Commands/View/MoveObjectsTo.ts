@@ -45,10 +45,10 @@ export class MoveObjectsTo extends EditorCommand {
         this.object = object;
         this.nx = x;
         this.ny = y;
-        if(Array.isArray(this.object)) {
+        if (Array.isArray(this.object)) {
             this.px = new Array(this.object.length);
             this.py = new Array(this.object.length);
-            for(let i = 0; i < this.object.length; i++) {
+            for (let i = 0; i < this.object.length; i++) {
                 this.px[i] = this.object[i].x;
                 this.py[i] = this.object[i].y;
             }
@@ -57,7 +57,7 @@ export class MoveObjectsTo extends EditorCommand {
             this.py = this.object.y;
         }
     }
-    
+
 
     /**
      * Executes the editor command.
@@ -65,7 +65,7 @@ export class MoveObjectsTo extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
-        if(Array.isArray(this.object)) {
+        if (Array.isArray(this.object)) {
             this.object.forEach(o => o.moveTo(this.nx, this.ny));
         } else {
             this.object.moveTo(this.nx, this.ny);
@@ -79,8 +79,8 @@ export class MoveObjectsTo extends EditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
-        if(Array.isArray(this.object)) {
-            for(let i = 0; i < this.object.length; i++) {
+        if (Array.isArray(this.object)) {
+            for (let i = 0; i < this.object.length; i++) {
                 this.object[i].moveTo(
                     (this.px as number[])[i],
                     (this.py as number[])[i]
@@ -94,5 +94,5 @@ export class MoveObjectsTo extends EditorCommand {
         }
         issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
-    
+
 }

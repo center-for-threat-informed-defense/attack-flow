@@ -44,7 +44,7 @@ export type TextBlockStyle = {
          * Whether the title align's to the top of the unit.
          */
         alignTop: boolean;
-        
+
     };
 
     /**

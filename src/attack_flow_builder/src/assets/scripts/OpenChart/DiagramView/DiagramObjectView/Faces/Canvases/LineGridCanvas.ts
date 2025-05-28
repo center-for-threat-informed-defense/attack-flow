@@ -97,7 +97,7 @@ export class LineGridCanvas extends CanvasFace {
         fillColor: string,
         strokeColor: string
     ): CanvasPattern | string {
-        if(typeof document === "undefined") {
+        if (typeof document === "undefined") {
             return fillColor;
         }
         const can = document.createElement("canvas");

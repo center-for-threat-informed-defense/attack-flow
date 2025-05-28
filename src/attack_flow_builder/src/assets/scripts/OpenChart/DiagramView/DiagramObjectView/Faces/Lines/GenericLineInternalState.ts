@@ -12,11 +12,11 @@ export interface GenericLineInternalState {
      * The line's grid.
      */
     grid: [number, number];
-    
+
     /**
      * The line's points.
      */
-    points: DiagramObjectView[]
+    points: DiagramObjectView[];
 
     /**
      * The line's vertices.

@@ -20,4 +20,4 @@ export type LineDescriptor = {
      */
     y1: number;
 
-}
+};

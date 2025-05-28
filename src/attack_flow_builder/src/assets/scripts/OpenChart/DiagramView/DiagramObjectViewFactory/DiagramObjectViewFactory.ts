@@ -7,7 +7,7 @@ import {
     AnchorPoint, AnchorView, BlockView, BranchBlock,
     CanvasView, DictionaryBlock, DotGridCanvas, DynamicLine,
     GroupFace, GroupView, HandlePoint, HandleView, LatchPoint,
-    LatchView, LineGridCanvas, LineView, TextBlock,
+    LatchView, LineGridCanvas, LineView, TextBlock
 } from "../DiagramObjectView";
 import type { FaceDesign } from "./FaceDesign";
 import type { TypeToTemplate } from "./TypeToTemplate";

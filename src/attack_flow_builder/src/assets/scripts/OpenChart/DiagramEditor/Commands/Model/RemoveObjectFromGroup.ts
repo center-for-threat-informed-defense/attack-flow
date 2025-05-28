@@ -27,7 +27,7 @@ export class RemoveObjectFromGroup extends EditorCommand {
      * @remarks
      *  Do NOT perform more than one `RemoveObjectFromGroup` in a single
      *  transaction. If removals are broken into separate requests, their
-     *  mutual dependencies can't be determined. This may cause `undo()` and 
+     *  mutual dependencies can't be determined. This may cause `undo()` and
      *  `redo()` to break as they can no longer reconstruct the objects and
      *  dependencies correctly.
      * @param objects
@@ -35,18 +35,18 @@ export class RemoveObjectFromGroup extends EditorCommand {
      */
     constructor(objects: DiagramObject[]) {
         super();
-        if(objects.length === 0) {
+        if (objects.length === 0) {
             throw new Error("No objects to remove.");
         }
-        if(!(objects[0].parent instanceof Group)) {
+        if (!(objects[0].parent instanceof Group)) {
             throw new Error("Objects must belong to a group.");
         }
         this.group = objects[0].parent;
         this.objects = objects.map(o => [this.group.getObjectIndex(o), o]);
         this.links = findExternalLinks(objects);
     }
-    
-    
+
+
     /**
      * Executes the editor command.
      * @param issueDirective
@@ -54,20 +54,20 @@ export class RemoveObjectFromGroup extends EditorCommand {
      */
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
         // Detach links
-        for(const [_, link] of this.links) {
+        for (const [_, link] of this.links) {
             link.unlink(true);
         }
         // Remove objects
-        for(const [_, object] of this.objects) {
-            this.group.removeObject(object, true);   
+        for (const [_, object] of this.objects) {
+            this.group.removeObject(object, true);
             // Issue directives
-            const directives 
+            const directives
                 = EditorDirective.Autosave
                 | EditorDirective.Record
                 | EditorDirective.ReindexContent
                 | EditorDirective.ReindexSelection;
             issueDirective(directives, object.instance);
-        }   
+        }
     }
 
     /**
@@ -77,10 +77,10 @@ export class RemoveObjectFromGroup extends EditorCommand {
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
         // Add objects
-        for(const [idx, object] of this.objects) {
+        for (const [idx, object] of this.objects) {
             this.group.addObject(object, idx, true);
             // Issue directives
-            const directives 
+            const directives
                 = EditorDirective.Autosave
                 | EditorDirective.Record
                 | EditorDirective.ReindexContent
@@ -88,7 +88,7 @@ export class RemoveObjectFromGroup extends EditorCommand {
             issueDirective(directives, object.instance);
         }
         // Attach links
-        for(const [anchor, link] of this.links) {
+        for (const [anchor, link] of this.links) {
             anchor.link(link, true);
         }
     }

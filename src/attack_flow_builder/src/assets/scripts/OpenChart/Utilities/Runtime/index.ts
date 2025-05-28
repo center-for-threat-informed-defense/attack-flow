@@ -8,16 +8,16 @@ export * from "./JavaScriptEngine";
  *  Currently, there is no full-proof way to determine the runtime's JavaScript
  *  engine. Although, we can make an educated guess by cross-referencing the
  *  browser's rendering engine with its most common JavaScript engine.
- *  
+ *
  *  References:
  *   - {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Browser_detection_using_the_user_agent#rendering_engine}
  *   - {@link https://en.wikipedia.org/wiki/List_of_ECMAScript_engines}
- * 
+ *
  * @returns
  *  The runtime's JavaScript engine.
  */
 export function getJavaScriptEngine(): JavaScriptEngine {
-    if(typeof navigator === "undefined") {
+    if (typeof navigator === "undefined") {
         // Assume node outside of the browser
         return JavaScriptEngine.V8;
     }
@@ -38,11 +38,11 @@ export function getJavaScriptEngine(): JavaScriptEngine {
         return JavaScriptEngine.Carakan;
     }
     // Opera (Blink)
-    else if(navigator.userAgent.search(/OPR\/.*/) !== -1) {
+    else if (navigator.userAgent.search(/OPR\/.*/) !== -1) {
         return JavaScriptEngine.V8;
     }
     // Microsoft Edge (Legacy)
-    else if(navigator.userAgent.search(/Edge\/.*/) !== -1) {
+    else if (navigator.userAgent.search(/Edge\/.*/) !== -1) {
         return JavaScriptEngine.Chakra;
     }
     // Misc

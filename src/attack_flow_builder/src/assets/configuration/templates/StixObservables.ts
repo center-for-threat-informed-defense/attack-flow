@@ -92,7 +92,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
         role: SemanticRole.Node,
         properties: {
             path: {
-                type: PropertyType.String, 
+                type: PropertyType.String,
                 is_representative: true
             },
             path_enc: {
@@ -569,4 +569,4 @@ export const StixObservables: DiagramObjectTemplate[] = [
         },
         anchors: AnchorConfiguration
     }
-]
+];

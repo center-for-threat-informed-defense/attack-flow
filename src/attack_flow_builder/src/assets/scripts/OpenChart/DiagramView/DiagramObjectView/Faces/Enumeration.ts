@@ -22,4 +22,4 @@ export type Enumeration = {
      */
     exclude: Set<string>;
 
-}
+};

@@ -9,7 +9,7 @@ import { Alignment, DiagramObjectViewFactory, DiagramViewFile, FaceType } from "
 const PhantomTheme = ThemeLoader.unsafeLoad({
     id: "__phantom_theme",
     name: "Phantom Theme",
-    grid: [5,5],
+    grid: [5, 5],
     scale: 2,
     designs: {
         __phantom_canvas: {
@@ -18,7 +18,7 @@ const PhantomTheme = ThemeLoader.unsafeLoad({
             style: DarkStyle.Canvas()
         }
     }
-})
+});
 
 /**
  * Phantom view factory.
@@ -27,7 +27,7 @@ const PhantomFactory = new DiagramObjectViewFactory({
     id: "__phantom_schema",
     canvas: {
         name: "__phantom_canvas",
-        type: DiagramObjectType.Canvas,
+        type: DiagramObjectType.Canvas
     },
     templates: []
 }, PhantomTheme);

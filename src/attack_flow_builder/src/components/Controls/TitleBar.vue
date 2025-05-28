@@ -1,7 +1,7 @@
 <template>
   <div class="title-bar-control">
     <li class="icon">
-      <slot name="icon"></slot>
+      <slot name="icon" />
     </li>
     <li 
       v-for="menu of menus"

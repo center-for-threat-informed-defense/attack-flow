@@ -6,7 +6,7 @@ export const AttackFlow: CanvasTemplate = {
     type: DiagramObjectType.Canvas,
     role: SemanticRole.Node,
     properties: {
-        name: { 
+        name: {
             type: PropertyType.String,
             default: "Untitled Document",
             is_representative: true
@@ -17,15 +17,15 @@ export const AttackFlow: CanvasTemplate = {
         author: {
             type: PropertyType.Dictionary,
             form: {
-                name: { 
+                name: {
                     type: PropertyType.String,
-                    is_representative: true,
+                    is_representative: true
                 },
                 identity_class: {
                     type: PropertyType.Enum,
                     options: {
                         type: PropertyType.List,
-                        form: { 
+                        form: {
                             type: PropertyType.String
                         },
                         default: [
@@ -62,7 +62,7 @@ export const AttackFlow: CanvasTemplate = {
             form: {
                 type: PropertyType.Dictionary,
                 form: {
-                    source_name: { 
+                    source_name: {
                         type: PropertyType.String,
                         is_representative: true
                     },
@@ -76,8 +76,8 @@ export const AttackFlow: CanvasTemplate = {
             }
         },
         created: {
-            type: PropertyType.Date, 
+            type: PropertyType.Date,
             default: new Date()
         }
     }
-}
+};

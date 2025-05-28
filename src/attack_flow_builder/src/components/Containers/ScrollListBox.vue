@@ -1,20 +1,36 @@
 <template>
   <div class="scroll-list-box-container">
     <div class="up-indicator">
-      <slot v-if="isAtTop" name="up">[UP]</slot>
+      <slot
+        v-if="isAtTop"
+        name="up"
+      >
+        [UP]
+      </slot>
     </div>
-    <ul class="items" ref="content">
+    <ul
+      class="items"
+      ref="content"
+    >
       <li 
         v-for="item of box.content"
         :key="item.id"
         :class="['item', { active: item.id === box.item.id }]"
         @mousemove="onMouseMove($event, item.id)"
       >
-        <slot name="item" :item="item"></slot>
+        <slot
+          name="item"
+          :item="item"
+        />
       </li>
     </ul>
     <div class="down-indicator">
-      <slot v-if="isAtBottom" name="down">[DOWN]</slot>
+      <slot
+        v-if="isAtBottom"
+        name="down"
+      >
+        [DOWN]
+      </slot>
     </div>
   </div>
 </template>

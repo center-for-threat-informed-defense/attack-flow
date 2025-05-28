@@ -51,7 +51,7 @@ export abstract class CanvasFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        if (this.boundingBox.contains(x,y)) {
+        if (this.boundingBox.contains(x, y)) {
             // Try objects
             const object = findUnlinkedObjectAt(
                 [...this.view.objects], x, y
@@ -151,7 +151,7 @@ export abstract class CanvasFace extends DiagramFace {
         ctx.setLineDash([2, 2]);
         // Render debug information
         super.renderDebugTo(ctx, region);
-        for(const object of this.view.objects) {
+        for (const object of this.view.objects) {
             object.renderDebugTo(ctx, region);
         }
         // Restore context

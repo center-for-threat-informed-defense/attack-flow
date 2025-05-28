@@ -45,7 +45,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         return this.elHeight;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. View-Related Fields  ///////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
     //  2. Plugin-Related Fields  /////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * The interface's plugins.
      */
@@ -142,7 +142,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     constructor(root: CanvasView) {
         super();
-        
+
         // Configure state
         this.settings = new DisplaySettings();
         this.root = root;
@@ -161,7 +161,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
             .scaleExtent([1 / 8, 6])
             .on("zoom", this.onCanvasZoom.bind(this))
             .on("end", () => this.onCanvasZoomEnd());
-        
+
         // Configure canvas
         this.canvas
             .attr("style", "display:block;")
@@ -169,7 +169,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
                 this.onHoverSubject(event, ...d3.pointer(event));
             })
             .on("contextmenu", (e: Event) => e.preventDefault());
-        
+
         // Configure canvas interactions
         this.canvas
             .call(d3.drag<HTMLCanvasElement, unknown>()
@@ -178,7 +178,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
                 .on("drag", this.onObjectDragged.bind(this))
                 .on("end", this.onObjectDragEnded.bind(this))
             ).call(this.zoom);
-    
+
     }
 
 
@@ -268,21 +268,21 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      *  The animation.
      */
     public runAnimation(animation: Animation) {
-        if(this.animations.has(animation.id)) {
+        if (this.animations.has(animation.id)) {
             return;
         }
         const animations = this.settings.animationsEnabled;
         // Register animation
-        if(animation.frames === Infinity) {
+        if (animation.frames === Infinity) {
             // Always register continuous animations
             this.animations.set(animation.id, animation);
-        } else if(!animations) {
+        } else if (!animations) {
             // If animations are disabled, render last frame
             animation.renderFrame(this.context, animation.frames);
             this.render();
         }
         // If no animations were previously running...
-        if(animations && this.animations.size === 1) {
+        if (animations && this.animations.size === 1) {
             // ...kick off animation loop
             this.runAnimationLoop();
         }
@@ -302,26 +302,26 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     private runAnimationLoop() {
         // Bail if animations are disabled
-        if(!this.settings.animationsEnabled) {
+        if (!this.settings.animationsEnabled) {
             return;
         }
         // Schedule animation frame
         cancelAnimationFrame(this.rafId);
         this.rafId = requestAnimationFrame(() => {
             // Execute animations
-            for(const animation of this.animations.values()) {
-                if(!animation.nextFrame(this.context)) {
-                    this.animations.delete(animation.id)
+            for (const animation of this.animations.values()) {
+                if (!animation.nextFrame(this.context)) {
+                    this.animations.delete(animation.id);
                 }
             }
             // Render interface
             this.rafId = 0;
             this.executeRenderPipeline();
             // Schedule next animation frame
-            if(this.animations.size) {
-                this.runAnimationLoop()
+            if (this.animations.size) {
+                this.runAnimationLoop();
             }
-        })
+        });
     }
 
 
@@ -332,27 +332,27 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
     /**
      * Installs one or more {@link DiagramInterfacePlugin}s.
-     * @remarks 
-     *  ## About Plugins 
-     *  When the mouse interacts with the interface - whether by hovering, 
+     * @remarks
+     *  ## About Plugins
+     *  When the mouse interacts with the interface - whether by hovering,
      *  selecting, or dragging - the interface evaluates each plugin, in order
      *  of installation, to determine which one can manage the interaction. The
      *  first plugin to indicate that it can, takes control.
-     * 
+     *
      *  Only ONE plugin is selected to manage any given interaction. This is an
      *  intentional design choice meant to prevent the conflicting behaviors
      *  that could arise if multiple plugins were allowed to blindly handle the
      *  same interaction.
-     * 
+     *
      *  Plugins are not designed to coordinate with each other, nor should they
      *  be, as this would unnecessarily complicate the construct.
-     * 
+     *
      *  ### When Writing Plugins:
      *  Ensure that the conditions for `canHandleHover()` and
      *  `canHandleSelection()` are as specific as possible. These functions
      *  should only accept conditions that are essential for the plugin's
      *  intended behavior.
-     * 
+     *
      *  ### When Installing Plugins:
      *  Plugins designed to operate under very specific conditions should be
      *  installed before those that function under broader conditions.
@@ -360,7 +360,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      *  The plugins to install.
      */
     public installPlugin(...plugins: DiagramInterfacePlugin[]) {
-        for(const plugin of plugins) {
+        for (const plugin of plugins) {
             // Register plugin
             this.plugins.set(plugin.constructor, plugin);
         }
@@ -380,8 +380,8 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         y = this.transform.invertY(y);
         // Choose plugin
         let selectedPlugin;
-        for(const plugin of this.plugins.values()) {
-            if(plugin.canHandleHover(x, y, event)) {
+        for (const plugin of this.plugins.values()) {
+            if (plugin.canHandleHover(x, y, event)) {
                 selectedPlugin = plugin;
                 break;
             }
@@ -397,28 +397,28 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      * @returns
      *  The drag action to perform or `undefined` if no object was clicked.
      */
-    private onSelectSubject(event: any): Object | undefined {
+    private onSelectSubject(event: any): object | undefined {
         const evt = event.sourceEvent as MouseEvent;
         const x = this.transform.invertX(event.x);
         const y = this.transform.invertY(event.y);
         // Choose plugin
         this.activePlugin = null;
-        for(const plugin of this.plugins.values()) {
-            if(plugin.canHandleSelection(x, y, evt)) {
+        for (const plugin of this.plugins.values()) {
+            if (plugin.canHandleSelection(x, y, evt)) {
                 this.activePlugin = plugin;
                 break;
             }
         }
         // Use plugin
         let yieldedControl = true;
-        if(this.activePlugin) {
+        if (this.activePlugin) {
             yieldedControl = this.activePlugin.selectStart(x, y, evt);
         }
         // Emit canvas click event
         this.emit("canvas-click", evt, event.x, event.y, x, y);
         // Return
-        if(evt.button === MouseClick.Right) {
-            if(this.activePlugin && !yieldedControl) {
+        if (evt.button === MouseClick.Right) {
+            if (this.activePlugin && !yieldedControl) {
                 this.activePlugin.selectEnd(evt);
             }
             return undefined;
@@ -575,11 +575,11 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      *  True to enable, false to disable.
      */
     public enableAnimations(state: boolean) {
-        if(this.settings.animationsEnabled === state) {
+        if (this.settings.animationsEnabled === state) {
             return;
         }
         this.settings.animationsEnabled = state;
-        if(state && this.animations.size) {
+        if (state && this.animations.size) {
             this.runAnimationLoop();
         } else {
             this.render();

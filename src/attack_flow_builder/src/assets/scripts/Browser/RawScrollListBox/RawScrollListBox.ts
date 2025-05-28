@@ -64,7 +64,7 @@ export class RawScrollListBox<T> {
      */
     public propagateScroll: boolean;
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. List Dimensions  ///////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ export class RawScrollListBox<T> {
         return this._range;
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  3. List Controls  /////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -191,10 +191,10 @@ export class RawScrollListBox<T> {
         this._resetCursorId = 0;
         this._eventHandlers = {
             wheel: this.onScrollWheel.bind(reactive(this)),
-            emitScroll: () => {},
+            emitScroll: () => {}
         };
         this.itemDisplayCount = itemDisplayCount;
-        this.propagateScroll = false; 
+        this.propagateScroll = false;
         // Configure items
         this.items = items;
     }
@@ -231,22 +231,22 @@ export class RawScrollListBox<T> {
         const r0 = r[0];
         const r2 = r[2];
         r[1] = Math.min(floorNearestMultiple(this._cursor, m) / m, l - 1);
-        if(r[1] < r[0]) {
+        if (r[1] < r[0]) {
             r[2] = Math.min(r[1] + this.itemDisplayCount, l);
             r[0] = Math.max(r[2] - this.itemDisplayCount, 0);
         }
-        if(r[2] <= r[1]) {
+        if (r[2] <= r[1]) {
             r[0] = Math.max(r[1] - this.itemDisplayCount + 1, 0);
             r[2] = Math.min(r[0] + this.itemDisplayCount, l);
         }
         // Update content
-        if(r0 !== r[0] || r2 !== r[2]) {
+        if (r0 !== r[0] || r2 !== r[2]) {
             this._content = this._items.slice(r[0], r[2]);
         }
         // Emit scroll
         this._eventHandlers.emitScroll(this.index);
     }
-    
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  5. Scroll Element Management  /////////////////////////////////////////
@@ -299,36 +299,36 @@ export class RawScrollListBox<T> {
      * @remarks
      *  To ensure a natural scrolling experience, mouse scrolling and trackpad
      *  scrolling are handled differently.
-     *  
+     *
      *  ## Intended Behavior
      *   - Mouse: Each click of the mouse wheel moves the selection up or down
      *     one item.
      *   - Trackpad: Scrolling on the trackpad smoothly moves the selection
      *     through the list at a controlled pace.
-     * 
+     *
      *  ## Scrolling Heuristic
      *  Unfortunately, there is no way to reliably identify the input device
      *  (mouse vs. trackpad). Instead, this function implements a heuristic
      *  that attempts to treat these devices differently.
-     * 
+     *
      *  1. **Initial Scroll Detection**: The function checks if the current
      *  scroll event (`event`) is the first in a series of scroll events by
      *  comparing the time elapsed (`timeDelta`) since the last scroll event.
-     * 
+     *
      *  2. **Device Heuristic**: If the scroll event is the first in a series,
      *  the function evaluates the scroll distance:
-     * 
+     *
      *   - For physical distance (`wheelDeltaY`), a threshold of ±13 is used.
      *   - For digital distance (`deltaY`), a threshold of ±3 is used.
-     *  
+     *
      *  If the scroll distance exceeds these thresholds, the input is likely
      *  from a mouse, and the selection jumps to the adjacent item.
-     * 
+     *
      *  3. **Continuous Scrolling**: For subsequent scroll events in the series,
      *  the cursor is moved incrementally based on `deltaY`. To prevent abrupt
      *  jumps, the movement is clamped so that a single event never scrolls
      *  more than one item at a time.
-     * 
+     *
      * 4. **Cursor Reset**: At the end of the scroll action, the cursor is
      * automatically centered on the current item.
      * @param event
@@ -343,14 +343,14 @@ export class RawScrollListBox<T> {
         // Determine if first mouse wheel
         const timeDelta = nextScroll.getTime() - lastScroll.getTime();
         let isFirstMouseWheel = timeDelta > RawScrollListBox.newScrollActionPeriod;
-        if("wheelDeltaY" in event && typeof event.wheelDeltaY === "number") {
+        if ("wheelDeltaY" in event && typeof event.wheelDeltaY === "number") {
             isFirstMouseWheel &&= event.wheelDeltaY <= -12 || 12 <= event.wheelDeltaY;
         } else {
             isFirstMouseWheel &&= event.deltaY < -3 || 3 < event.deltaY;
         }
         // Move cursor
         const cursor = this.cursor;
-        if(isFirstMouseWheel) {
+        if (isFirstMouseWheel) {
             // Jump to adjacent item
             this.jumpToItem(this.index + Math.sign(event.deltaY));
         } else {
@@ -361,7 +361,7 @@ export class RawScrollListBox<T> {
             // Reset cursor on item
             this._resetCursorId = window.setTimeout(() => {
                 this.jumpToItem(this.index);
-            }, RawScrollListBox.newScrollActionPeriod)
+            }, RawScrollListBox.newScrollActionPeriod);
         }
         // Selectively propagate scroll event
         const canMove = 0 < this.cursor && this.cursor < this.scrollHeight;

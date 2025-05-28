@@ -21,10 +21,10 @@ export class DisplaySettings implements RenderSettings {
      * Whether debug information is enabled or disabled.
      */
     public debugInfoEnabled: boolean;
-    
+
 
     /**
-     * Whether shadows are enabled or disabled. (Internal) 
+     * Whether shadows are enabled or disabled. (Internal)
      */
     private _shadowsEnabled: boolean;
 
@@ -46,7 +46,7 @@ export class DisplaySettings implements RenderSettings {
         this.animationsEnabled = true;
         this.debugInfoEnabled = false;
     }
-    
+
 
     /**
      * Updates render settings based on the current transform.

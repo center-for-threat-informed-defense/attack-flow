@@ -57,12 +57,12 @@ export class SubjectTrack {
     public reset(x: number, y: number) {
 
     }
-    
+
     /**
      * Applies the cursor's delta to the track.
-     * @param dx 
+     * @param dx
      *  The cursor's current delta-x.
-     * @param dy 
+     * @param dy
      *  The cursor's current delta-y.
      */
     public applyCursorDelta(dx: number, dy: number) {
@@ -91,7 +91,7 @@ export class SubjectTrack {
         return [
             this.xCursorDelta - this.xSubjectDelta,
             this.yCursorDelta - this.ySubjectDelta
-        ]
+        ];
     }
 
     /**
@@ -105,7 +105,7 @@ export class SubjectTrack {
         return [
             roundNearestMultiple(this.xCursorDelta, grid[0]) - this.xSubjectDelta,
             roundNearestMultiple(this.yCursorDelta, grid[1]) - this.ySubjectDelta
-        ]
+        ];
     }
 
     /**
@@ -120,7 +120,7 @@ export class SubjectTrack {
         return [
             obj.x - obj1.x,
             obj.y - obj1.y
-        ]
+        ];
     }
 
 }

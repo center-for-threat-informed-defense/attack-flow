@@ -101,7 +101,7 @@ export abstract class CollectionProperty extends Property {
         }
         return id;
     }
-        
+
     /**
      * Returns the property's JSON value.
      * @returns
@@ -109,7 +109,7 @@ export abstract class CollectionProperty extends Property {
      */
     public toJson(): { [x: string]: JsonValue } {
         return Object.fromEntries(
-            [...this.value].map(([k,v]) => [k, v.toJson()])
+            [...this.value].map(([k, v]) => [k, v.toJson()])
         );
     }
 
@@ -120,8 +120,8 @@ export abstract class CollectionProperty extends Property {
      */
     public toOrderedJson(): JsonEntries {
         const entries: JsonEntries = [];
-        for(const [id, value] of this.value) {
-            if(value instanceof CollectionProperty) {
+        for (const [id, value] of this.value) {
+            if (value instanceof CollectionProperty) {
                 entries.push([id, value.toOrderedJson()]);
             } else {
                 entries.push([id, value.toJson()]);

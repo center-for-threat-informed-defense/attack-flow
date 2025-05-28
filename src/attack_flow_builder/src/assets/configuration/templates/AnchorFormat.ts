@@ -12,5 +12,5 @@ export const AnchorConfiguration = {
     [AnchorPosition.D240] : "vertical_anchor",
     [AnchorPosition.D270] : "vertical_anchor",
     [AnchorPosition.D300] : "vertical_anchor",
-    [AnchorPosition.D330] : "horizontal_anchor",
-}
+    [AnchorPosition.D330] : "horizontal_anchor"
+};

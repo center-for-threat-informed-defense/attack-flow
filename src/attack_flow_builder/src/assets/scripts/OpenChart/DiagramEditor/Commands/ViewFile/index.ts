@@ -1,7 +1,7 @@
 import { traverse } from "@OpenChart/DiagramModel";
 import { GroupCommand } from "../GroupCommand";
 import { SelectionAnimation } from "./Animations";
-import { 
+import {
     MoveCameraToObjects,
     SetCamera,
     SpawnObject
@@ -64,7 +64,7 @@ export function selectAllObjects(
     const canvas = editor.file.canvas;
     const cmd = new GroupCommand();
     cmd.do(new SelectObjects([...canvas.objects], true));
-    cmd.do(new RunAnimation(editor.interface, SelectionAnimation))
+    cmd.do(new RunAnimation(editor.interface, SelectionAnimation));
     return cmd;
 }
 
@@ -81,8 +81,8 @@ export function unselectAllObjects(
     const canvas = editor.file.canvas;
     const cmd = new GroupCommand();
     cmd.do(new SelectObjects([...canvas.objects], false));
-    cmd.do(new StopContinuousAnimation(editor.interface, SelectionAnimation))
-    return cmd; 
+    cmd.do(new StopContinuousAnimation(editor.interface, SelectionAnimation));
+    return cmd;
 }
 
 /**
@@ -98,7 +98,7 @@ export function selectObject(
     const cmd = new GroupCommand();
     cmd.do(new SelectObjects(object, true));
     cmd.do(new RunAnimation(editor.interface, SelectionAnimation));
-    return cmd; 
+    return cmd;
 }
 
 /**
@@ -111,13 +111,13 @@ export function selectObject(
 export function unselectObject(
     editor: DiagramViewEditor, object: DiagramObjectView
 ): EditorCommand {
-    if(editor.selection.size === 1) {
+    if (editor.selection.size === 1) {
         const cmd = new GroupCommand();
         cmd.do(new SelectObjects(object, false));
         cmd.do(new StopContinuousAnimation(editor.interface, SelectionAnimation));
         return cmd;
     } else {
-        return new SelectObjects(object, false); 
+        return new SelectObjects(object, false);
     }
 }
 
@@ -139,7 +139,7 @@ export function removeSelectedChildren(
 ): GroupCommand {
     const cmd = new GroupCommand();
     cmd.do(new RemoveSelectedChildren(editor.file.canvas));
-    cmd.do(new RunAnimation(editor.interface, SelectionAnimation))
+    cmd.do(new RunAnimation(editor.interface, SelectionAnimation));
     return cmd;
 }
 
@@ -170,7 +170,7 @@ export function setCamera(
 
 /**
  * Moves the camera to a collection of objects within an editor.
- * @param editor 
+ * @param editor
  *  The editor.
  * @param objects
  *  The objects.
@@ -215,7 +215,7 @@ export function moveCameraToSelection(
 export function runAnimation(
     ui: DiagramInterface, animation: Animation
 ): RunAnimation {
-    return new RunAnimation(ui, animation); 
+    return new RunAnimation(ui, animation);
 }
 
 /**
@@ -230,5 +230,5 @@ export function runAnimation(
 export function stopAnimation(
     ui: DiagramInterface, animation: Animation
 ): StopContinuousAnimation {
-    return new StopContinuousAnimation(ui, animation); 
+    return new StopContinuousAnimation(ui, animation);
 }

@@ -1,5 +1,5 @@
 export interface RenderSettings {
-    
+
     /**
      * Whether shadows are enabled or disabled.
      */

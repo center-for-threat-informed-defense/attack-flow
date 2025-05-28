@@ -19,7 +19,7 @@ export class HideSplashMenu extends AppCommand {
         this.context = context;
     }
 
-    
+
     /**
      * Executes the command.
      */

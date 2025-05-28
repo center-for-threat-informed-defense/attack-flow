@@ -98,7 +98,7 @@ export class AnchorPoint extends AnchorFace {
         ctx.fill();
 
         // Add stroke
-        if(strokeWidth) {
+        if (strokeWidth) {
             ctx.lineWidth = strokeWidth;
             ctx.strokeStyle = strokeColor;
             ctx.stroke();

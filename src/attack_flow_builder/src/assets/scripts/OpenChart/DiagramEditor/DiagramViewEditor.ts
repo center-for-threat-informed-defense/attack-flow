@@ -55,17 +55,17 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
             this.pointer[1] = yAbs;
         });
         this.interface.on("view-transform", (x, y, k) => {
-            this.execute(EditorCommands.setCamera(this.file, x, y, k))
+            this.execute(EditorCommands.setCamera(this.file, x, y, k));
         });
         // Reindex selection
         this.reindexSelection();
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Command Execution  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Executes a command's {@link DirectiveArguments}.
@@ -76,7 +76,7 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
         // Execute model directives
         super.executeDirectives(args);
         // Execute view directives
-        if(args.directives & EditorDirective.ReindexSelection) {
+        if (args.directives & EditorDirective.ReindexSelection) {
             this.reindexSelection();
         }
         // Render
@@ -94,7 +94,7 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
      */
     public reindexSelection(): void {
         this.selection.clear();
-        for(const obj of traverse(this.file.canvas, o => o.focused)) {
+        for (const obj of traverse(this.file.canvas, o => o.focused)) {
             this.selection.set(obj.instance, obj);
         }
     }

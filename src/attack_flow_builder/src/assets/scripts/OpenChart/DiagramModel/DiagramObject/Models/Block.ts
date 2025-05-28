@@ -68,9 +68,9 @@ export class Block extends DiagramObject {
         // Add anchor
         this._anchors.set(position, anchor);
         // Update diagram
-        if(update) {
+        if (update) {
             this.handleUpdate(ModelUpdateReason.ObjectAdded);
-        } 
+        }
     }
 
     /**
@@ -89,13 +89,13 @@ export class Block extends DiagramObject {
             // Remove anchor
             this._anchors.delete(position);
             // Update diagram
-            if(update) {
+            if (update) {
                 this.handleUpdate(ModelUpdateReason.ObjectRemoved);
-            } 
+            }
         }
     }
-        
-        
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -113,7 +113,7 @@ export class Block extends DiagramObject {
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
-        )
+        );
     }
 
 }

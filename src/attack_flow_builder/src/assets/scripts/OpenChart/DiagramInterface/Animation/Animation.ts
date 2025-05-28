@@ -49,13 +49,13 @@ export abstract class Animation {
      *   1. The interface invokes `nextFrame()` on each of its registered
      *      animations.
      *   2. The interface re-renders the diagram.
-     *  
+     *
      *  As a result, anything drawn to `context` in this function **will be
      *  overwritten**. Animations exist primarily to animate diagram object
      *  properties, not the context itself. `context` is provided primarily so
      *  that animations can reconfigure options that impact the final render.
      *  (e.g. `lineDashOffset`)
-     * 
+     *
      *  If a need arises to render arbitrary animations to the context,
      *  consider performing these animations on a separate context
      *  (superimposed on the primary context). This will offer much better

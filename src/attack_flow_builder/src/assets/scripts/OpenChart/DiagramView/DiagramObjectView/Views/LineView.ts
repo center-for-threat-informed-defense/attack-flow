@@ -75,7 +75,7 @@ export class LineView extends Line implements ViewObject {
      * The line's source object.
      */
     public get sourceObject(): DiagramObjectView | null {
-        return super.sourceObject as DiagramObjectView | null
+        return super.sourceObject as DiagramObjectView | null;
     }
 
     /**
@@ -96,7 +96,7 @@ export class LineView extends Line implements ViewObject {
      * The line's target object.
      */
     public get targetObject(): DiagramObjectView | null {
-        return super.targetObject as DiagramObjectView | null
+        return super.targetObject as DiagramObjectView | null;
     }
 
     /**
@@ -133,7 +133,7 @@ export class LineView extends Line implements ViewObject {
     public get orientation(): number {
         return this._face.orientation;
     }
-    
+
     /**
      * The view's orientation.
      */
@@ -250,7 +250,7 @@ export class LineView extends Line implements ViewObject {
         this.properties.subscribe(
             this.instance,
             () => this.handleUpdate(ViewUpdateReason.PropUpdate)
-        )
+        );
     }
 
 
@@ -384,7 +384,7 @@ export class LineView extends Line implements ViewObject {
         return this.face.renderDebugTo(ctx, region);
     }
 
-            
+
     ///////////////////////////////////////////////////////////////////////////
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -403,7 +403,7 @@ export class LineView extends Line implements ViewObject {
             this.attributes,
             this.properties.clone(),
             this.face.clone()
-        )
+        );
         // Assign latches
         line.source = this.source.clone();
         line.target = this.target.clone();
@@ -429,5 +429,5 @@ export class LineView extends Line implements ViewObject {
     public overlaps(region: BoundingBox): boolean {
         return this.face.overlaps(region);
     }
-    
+
 }

@@ -1,7 +1,7 @@
 
-import { AnchorConfiguration } from "./AnchorFormat"
+import { AnchorConfiguration } from "./AnchorFormat";
 import { AnchorPosition, Branch } from "@OpenChart/DiagramView";
-import { DiagramObjectType, PropertyType, SemanticRole } from "@OpenChart/DiagramModel"
+import { DiagramObjectType, PropertyType, SemanticRole } from "@OpenChart/DiagramModel";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
 
 export const AttackFlowObjects: DiagramObjectTemplate[] = [
@@ -39,7 +39,7 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                     form: {
                         type: PropertyType.Dictionary,
                         form: {
-                            text: { 
+                            text: {
                                 type: PropertyType.String,
                                 is_representative: true
                             },
@@ -67,7 +67,7 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.Date
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "asset",
@@ -83,7 +83,7 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             }
         },
-        anchors: AnchorConfiguration,
+        anchors: AnchorConfiguration
     },
     {
         name: "condition",
@@ -91,11 +91,11 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         type: DiagramObjectType.Block,
         role: SemanticRole.Node,
         properties: {
-            description: { 
+            description: {
                 type: PropertyType.String,
-                is_representative: true,
+                is_representative: true
             },
-            pattern: { 
+            pattern: {
                 type: PropertyType.String
             },
             pattern_type: {
@@ -119,7 +119,7 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
             [AnchorPosition.D210] : "horizontal_anchor",
             [AnchorPosition.D330] : "horizontal_anchor",
             [Branch("True")]      : "vertical_anchor",
-            [Branch("False")]     : "vertical_anchor",
+            [Branch("False")]     : "vertical_anchor"
         }
     },
     {
@@ -150,6 +150,6 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 is_editable: false
             }
         },
-        anchors: AnchorConfiguration,
-    },
-]
+        anchors: AnchorConfiguration
+    }
+];

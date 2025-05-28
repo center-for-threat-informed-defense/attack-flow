@@ -1,4 +1,4 @@
-import { type StixObject } from './StixObject';
+import { type StixObject } from "./StixObject";
 /**
  * STIX bundle interface representing a collection of STIX objects.
  */

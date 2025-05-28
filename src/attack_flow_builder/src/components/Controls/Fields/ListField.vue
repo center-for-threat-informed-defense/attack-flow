@@ -37,7 +37,10 @@
         </button>
       </template>
     </div>
-    <button class="create-button" @pointerdown="onCreate()">
+    <button
+      class="create-button"
+      @pointerdown="onCreate()"
+    >
       <span><PlusIcon /></span>Add
     </button>
   </div>

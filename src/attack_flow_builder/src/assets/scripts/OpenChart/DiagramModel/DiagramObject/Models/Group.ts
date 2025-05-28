@@ -39,7 +39,7 @@ export class Group extends DiagramObject {
         return this.getObjects();
     }
 
-    
+
     /**
      * Creates a new {@link Group}.
      * @param id
@@ -68,12 +68,12 @@ export class Group extends DiagramObject {
      * @returns
      *  The group's objects.
      */
-    private * getObjects(): Generator<DiagramObject> {
+    private *getObjects(): Generator<DiagramObject> {
         let i;
-        for(i = 0; i < this._lines.length; i++) {
+        for (i = 0; i < this._lines.length; i++) {
             yield this._lines[i];
         }
-        for(i = 0; i < this._blocks.length; i++) {
+        for (i = 0; i < this._blocks.length; i++) {
             yield this._blocks[i];
         }
     }
@@ -111,21 +111,21 @@ export class Group extends DiagramObject {
         // Remove existing child
         this.removeObject(child);
         // (Re)insert child back into children.
-        if(child instanceof Line) {
+        if (child instanceof Line) {
             index ??= this._lines.length;
             this._lines.splice(index, 0, child);
-        } else if(child instanceof Block) {
+        } else if (child instanceof Block) {
             index ??= this._blocks.length;
             this._blocks.splice(index, 0, child);
         } else {
-            throw new Error(`Groups cannot contain '${child.constructor.name}'.`)
+            throw new Error(`Groups cannot contain '${child.constructor.name}'.`);
         }
         // Set child's parent
         this.makeChild(child);
         // Update diagram
-        if(update) {
+        if (update) {
             this.handleUpdate(ModelUpdateReason.ObjectAdded);
-        }   
+        }
     }
 
     /**
@@ -133,7 +133,7 @@ export class Group extends DiagramObject {
      * @param child
      *  The {@link DiagramObject} to remove.
      * @param notify
-     *  Whether to notify parent diagram objects 
+     *  Whether to notify parent diagram objects
      *  (Default: `false`)
      * @param update
      *  Whether to update the diagram or not.
@@ -145,7 +145,7 @@ export class Group extends DiagramObject {
         // Remove child
         const index = this.getObjectIndex(child);
         if (index !== -1) {
-            const list = child instanceof Line ? this._lines : this._blocks; 
+            const list = child instanceof Line ? this._lines : this._blocks;
             list.splice(index, 1);
         } else {
             return index;
@@ -153,14 +153,14 @@ export class Group extends DiagramObject {
         // Clear child's parent
         this.makeChild(child, null);
         // Update diagram
-        if(update) {
+        if (update) {
             this.handleUpdate(ModelUpdateReason.ObjectRemoved);
-        } 
+        }
         // Return index
         return index;
     }
-    
-                
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -177,7 +177,7 @@ export class Group extends DiagramObject {
             Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
-        )
+        );
     }
 
 }

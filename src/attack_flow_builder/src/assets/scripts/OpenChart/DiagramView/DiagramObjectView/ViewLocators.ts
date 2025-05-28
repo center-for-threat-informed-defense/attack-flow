@@ -13,18 +13,18 @@ import type { DiagramObjectView } from "./Views";
  *  The y coordinate.
  * @returns
  *  The topmost view. `undefined` if there isn't one.
- */    
+ */
 export function findObjectAt(views: DiagramObjectView[], x: number, y: number): DiagramObjectView | undefined {
     let select = undefined;
     let object = undefined;
     for (let i = views.length - 1; 0 <= i; i--) {
         const view = views[i];
         // If no object, skip
-        if(!(object = view.getObjectAt(x, y))) {
+        if (!(object = view.getObjectAt(x, y))) {
             continue;
         }
         // Update selection
-        if(object?.tangibility === Tangibility.Priority) {
+        if (object?.tangibility === Tangibility.Priority) {
             return object;
         } else {
             select ??= object;
@@ -44,22 +44,22 @@ export function findObjectAt(views: DiagramObjectView[], x: number, y: number): 
  *  The y coordinate.
  * @returns
  *  The topmost unlinked view. `undefined` if there isn't one.
- */    
+ */
 export function findUnlinkedObjectAt(views: DiagramObjectView[], x: number, y: number): DiagramObjectView | undefined {
     let select = undefined;
     let object = undefined;
     for (let i = views.length - 1; 0 <= i; i--) {
         const view = views[i];
         // If linked latch, skip
-        if(view instanceof LatchView && view.isLinked()) {
+        if (view instanceof LatchView && view.isLinked()) {
             continue;
         }
         // If no object, skip
-        if(!(object = view.getObjectAt(x, y))) {
+        if (!(object = view.getObjectAt(x, y))) {
             continue;
         }
         // Update selection
-        if(object?.tangibility === Tangibility.Priority) {
+        if (object?.tangibility === Tangibility.Priority) {
             return object;
         } else {
             select ??= object;

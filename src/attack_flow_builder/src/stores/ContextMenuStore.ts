@@ -30,7 +30,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             const sections: ContextMenuSection<CommandEmitter>[] = [
                 this.openFileMenu,
                 this.isRecoverFileMenuShown ? this.recoverFileMenu : null,
-                this.saveFileMenu,
+                this.saveFileMenu
                 // ctx.publisher ? this.publishFileMenu : null
             ].filter(Boolean) as ContextMenuSection<CommandEmitter>[];
             // Menu
@@ -63,7 +63,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     {
                         text: "Open STIX File...",
                         type: MenuType.Action,
-                        data: () => AppCommands.prepareEditorFromStixFileSystem(app),
+                        data: () => AppCommands.prepareEditorFromStixFileSystem(app)
                     }
                 ]
             };
@@ -80,19 +80,19 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
 
             // Build file list
             const items: ContextMenu<CommandEmitter>[] = [];
-            for(const [id, { name, date, contents }] of files) {
+            for (const [id, { name, date, contents }] of files) {
                 // Ignore active file
-                if(id === app.activeEditor.id) {
+                if (id === app.activeEditor.id) {
                     continue;
                 }
                 // Add file
                 items.push({
-                    text: `${ name } (${ date.toLocaleString() })`,
+                    text: `${name} (${date.toLocaleString()})`,
                     type: MenuType.Action,
                     data: () => AppCommands.prepareEditorFromExistingFile(app, contents, name)
-                })
+                });
             }
-            if(items.length === 0) {
+            if (items.length === 0) {
                 items.push({
                     text: "No Recovered Files",
                     type: MenuType.Action,
@@ -119,12 +119,12 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         }]
                     }
                 ]
-            }
+            };
 
             // Return menu
             return {
                 id: "recover_file_options",
-                items: [ submenu ]
+                items: [submenu]
             };
 
         },
@@ -147,7 +147,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         data: () => AppCommands.saveActiveFileToDevice(app),
                         shortcut: file.save_file,
                         disabled: editor.id === PhantomEditor.id
-                    },
+                    }
                     // {
                     //     text: "Save as Image",
                     //     type: MenuType.Action,
@@ -162,7 +162,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     //     disabled: !ctx.hasSelection
                     // }
                 ]
-            }
+            };
         },
 
         // /**
@@ -608,7 +608,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             const app = useApplicationStore();
             // List themes
             const items: ContextMenu<CommandEmitter>[] = [];
-            for(const theme of app.themeRegistry.listThemes()) {
+            for (const theme of app.themeRegistry.listThemes()) {
                 items.push({
                     text: theme.name,
                     type: MenuType.Action,
@@ -649,9 +649,9 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         text: "Fullscreen",
                         type: MenuType.Action,
                         data: () => AppCommands.switchToFullscreen(),
-                        shortcut: view.fullscreen,
+                        shortcut: view.fullscreen
                     }
-                ],
+                ]
             };
         },
 
@@ -738,7 +738,7 @@ function prepareCreateMenu(
     templates: ReadonlyMap<string, DiagramObjectTemplate>,
     spawn: (id: string) => SpawnObject
 ): ContextMenuSubmenu<CommandEmitter> {
-    type MenuMap<T> = { 
+    type MenuMap<T> = {
         menu: T;
         submenus: Map<string, MenuMap<ContextMenuSubmenu<CommandEmitter>>>;
         subitems: Map<string, MenuMap<ContextMenuItem<CommandEmitter>>>;
@@ -754,29 +754,29 @@ function prepareCreateMenu(
         subitems: new Map()
     };
     // Enumerate templates
-    for(const template of templates.values()) {
+    for (const template of templates.values()) {
         const ns = template.namespace;
-        if(!ns) {
+        if (!ns) {
             continue;
         }
         // Construct submenus
         let i = 0, current = main, id, section;
-        for(id = ns[i]; i < ns.length - 1; id = ns[++i]) {
+        for (id = ns[i]; i < ns.length - 1; id = ns[++i]) {
             const space = ns[i];
             const { menu, submenus } = current;
-            if(submenus.size === 0) {
+            if (submenus.size === 0) {
                 menu.sections.unshift({
                     id: "namespace",
                     items: []
-                }) 
+                });
             }
-            if(!submenus.has(space)) {
+            if (!submenus.has(space)) {
                 const submenu: ContextMenu<CommandEmitter> = {
                     text: titleCase(space),
                     type: MenuType.Submenu,
                     sections: []
                 };
-                section = menu.sections[0]
+                section = menu.sections[0];
                 section.items.push(submenu);
                 submenus.set(space, {
                     menu: submenu,
@@ -788,13 +788,13 @@ function prepareCreateMenu(
         }
         // Construct create menu
         const { menu, subitems } = current;
-        if(subitems.size === 0) {
+        if (subitems.size === 0) {
             menu.sections.push({
                 id: "templates",
                 items: []
-            })
+            });
         }
-        if(subitems.has(id)) {
+        if (subitems.has(id)) {
             throw new Error(`Menu defines '${ns.join(".")}' twice.`);
         }
         const item: ContextMenu<CommandEmitter> = {

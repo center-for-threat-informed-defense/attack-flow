@@ -80,7 +80,7 @@ export class BlockView extends Block implements ViewObject {
     public get orientation(): number {
         return this._face.orientation;
     }
-    
+
     /**
      * The view's orientation.
      */
@@ -197,7 +197,7 @@ export class BlockView extends Block implements ViewObject {
         this.properties.subscribe(
             this.instance,
             () => this.handleUpdate(ViewUpdateReason.PropUpdate)
-        )
+        );
     }
 
 
@@ -328,8 +328,8 @@ export class BlockView extends Block implements ViewObject {
     public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
         return this.face.renderDebugTo(ctx, region);
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -348,15 +348,15 @@ export class BlockView extends Block implements ViewObject {
             this.attributes,
             this.properties.clone(),
             this.face.clone()
-        )
+        );
         // Add anchors
-        for(const [position, anchor] of this.anchors) {
+        for (const [position, anchor] of this.anchors) {
             block.addAnchor(position, anchor.clone());
         }
         // Return block
         return block;
     }
-    
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  8. Shape  /////////////////////////////////////////////////////////////

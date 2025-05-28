@@ -29,7 +29,7 @@ export abstract class BlockFace extends DiagramFace {
      * The face's height.
      */
     public height: number;
-    
+
     /**
      * The block's base grid.
      */
@@ -90,7 +90,7 @@ export abstract class BlockFace extends DiagramFace {
      *  The topmost view, undefined if there isn't one.
      */
     public getObjectAt(x: number, y: number): DiagramObjectView | undefined {
-        if (this.boundingBox.contains(x,y)) {
+        if (this.boundingBox.contains(x, y)) {
             // Try anchors
             const object = findUnlinkedObjectAt(
                 [...this.view.anchors.values()], x, y
@@ -104,7 +104,7 @@ export abstract class BlockFace extends DiagramFace {
             return undefined;
         }
     }
-    
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  2. Movement  //////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ export abstract class BlockFace extends DiagramFace {
         this.calculateBoundingBoxFromViews(this.view.anchors.values());
         return true;
     }
-    
+
     /**
      * Renders the face's debug information to a context.
      * @param ctx
@@ -162,7 +162,7 @@ export abstract class BlockFace extends DiagramFace {
     public renderDebugTo(ctx: CanvasRenderingContext2D, region: ViewportRegion): boolean {
         const isRendered = super.renderDebugTo(ctx, region);
         if (isRendered) {
-            for(const anchor of this.view.anchors.values()) {
+            for (const anchor of this.view.anchors.values()) {
                 anchor.renderDebugTo(ctx, region);
             }
         }
@@ -180,6 +180,6 @@ export abstract class BlockFace extends DiagramFace {
      * @returns
      *  A clone of the face.
      */
-    public abstract clone(): BlockFace; 
+    public abstract clone(): BlockFace;
 
 }
