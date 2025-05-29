@@ -99,8 +99,12 @@ def convert_attack_flow(bundle):
                 f"<b>Confidence</b> {confidence}",
             ]
             graph.add_node(o.id, "action", " - ".join(label_lines))
+            for ref in o.get("asset_refs", []):
+                graph.add_edge(o.id, ref, "asset")
             for ref in o.get("effect_refs", []):
                 graph.add_edge(o.id, ref, "effect")
+            if ref := o.get("command_ref"):
+                graph.add_edge(o.id, ref, "command")
         elif o.type == "attack-condition":
             graph.add_node(o.id, "condition", f"<b>Condition:</b> {o.description}")
             for ref in o.get("on_true_refs", []):
