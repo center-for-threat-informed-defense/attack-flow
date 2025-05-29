@@ -606,12 +606,14 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
          */
         themeMenu(): ContextMenuSection<CommandEmitter> {
             const app = useApplicationStore();
+            const active = app.activeEditor.file.factory.theme;
             // List themes
             const items: ContextMenu<CommandEmitter>[] = [];
             for (const theme of app.themeRegistry.listThemes()) {
                 items.push({
                     text: theme.name,
-                    type: MenuType.Action,
+                    type: MenuType.Toggle,
+                    value: active.id === theme.id,
                     data: () => AppCommands.setTheme(app, theme.id)
                 });
             }
