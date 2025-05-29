@@ -43,7 +43,7 @@ def convert_attack_flow(bundle):
                 gv.edge(o.id, ref, "asset")
             for ref in o.get("effect_refs", []):
                 gv.edge(o.id, ref, "effect")
-            if (ref := o.get("command_ref", None)) is not None:
+            if ref := o.get("command_ref"):
                 gv.edge(o.id, ref, "command")
         elif o.type == "attack-asset":
             gv.node(o.id, _get_asset_label(o), shape="plaintext")

@@ -52,7 +52,7 @@ class MermaidGraph:
                 shape_end = "))"
             elif self.classes[node_class][0] == "trap":
                 shape_start = "[/"
-                shape_end = "\\]"
+                shape_end = "\]"
             else:
                 shape_start = "["
                 shape_end = "]"
@@ -103,7 +103,7 @@ def convert_attack_flow(bundle):
                 graph.add_edge(o.id, ref, "asset")
             for ref in o.get("effect_refs", []):
                 graph.add_edge(o.id, ref, "effect")
-            if (ref := o.get("command_ref", None)) is not None:
+            if ref := o.get("command_ref"):
                 graph.add_edge(o.id, ref, "command")
         elif o.type == "attack-condition":
             graph.add_node(o.id, "condition", f"<b>Condition:</b> {o.description}")
