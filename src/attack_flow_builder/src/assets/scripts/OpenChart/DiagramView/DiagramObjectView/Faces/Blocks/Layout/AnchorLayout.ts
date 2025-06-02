@@ -1,11 +1,11 @@
 import { AnchorPosition } from "../AnchorPosition";
-import { floorNearestMultiple, roundNearestMultiple } from "@OpenChart/Utilities";
+import { roundNearestMultiple } from "@OpenChart/Utilities";
 import type { BoundingBox } from "../../BoundingBox";
 import type { BranchDescriptor } from "../BranchDescriptor";
 
 /**
- * Calculates all anchor positions around a bounding box.
- * @param bb
+ * Calculates all anchor positions surrounding a bounding box.
+ * @param box
  *  The bounding box.
  * @param grid
  *  The bounding box's grid.
@@ -14,61 +14,17 @@ import type { BranchDescriptor } from "../BranchDescriptor";
  * @returns
  *  The anchor positions.
  */
-export function calculateAnchorPositionsByFloor(
-    bb: BoundingBox, grid: [number, number], markerOffset: number
+export function calculateAnchorPositions(
+    box: BoundingBox, grid: [number, number], markerOffset: number
 ): { [key: string]: [number, number] } {
     const
         mo = markerOffset * 2,
-        objMidX = bb.xMid,
-        objMidY = bb.yMid,
-        objMaxX = bb.xMax - mo,
-        objMaxY = bb.yMax - mo,
-        objQuarterX = (objMidX - bb.xMin) / 2,
-        objQuarterY = (objMidY - bb.yMin) / 2,
-        centerMidX = floorNearestMultiple(objMidX, grid[0]),
-        centerMidY = floorNearestMultiple(objMidY, grid[1]),
-        lowerX = floorNearestMultiple(objMidX - objQuarterX, grid[0]),
-        upperX = floorNearestMultiple(objMidX + objQuarterX, grid[0]),
-        lowerY = floorNearestMultiple(objMidY + objQuarterY, grid[1]),
-        upperY = floorNearestMultiple(objMidY - objQuarterY, grid[1]);
-    return {
-        [AnchorPosition.D0]   : [objMaxX, centerMidY],
-        [AnchorPosition.D30]  : [objMaxX, upperY],
-        [AnchorPosition.D60]  : [upperX, bb.yMin],
-        [AnchorPosition.D90]  : [centerMidX, bb.yMin],
-        [AnchorPosition.D120] : [lowerX, bb.yMin],
-        [AnchorPosition.D150] : [bb.xMin, upperY],
-        [AnchorPosition.D180] : [bb.xMin, centerMidY],
-        [AnchorPosition.D210] : [bb.xMin, lowerY],
-        [AnchorPosition.D240] : [lowerX, objMaxY],
-        [AnchorPosition.D270] : [centerMidX, objMaxY],
-        [AnchorPosition.D300] : [upperX, objMaxY],
-        [AnchorPosition.D330] : [objMaxX, lowerY]
-    };
-}
-
-/**
- * Calculates all anchor positions around a bounding box.
- * @param bb
- *  The bounding box.
- * @param grid
- *  The bounding box's grid.
- * @param markerOffset
- *  The offset needed to align faces with the grid's markers.
- * @returns
- *  The anchor positions.
- */
-export function calculateAnchorPositionsByRound(
-    bb: BoundingBox, grid: [number, number], markerOffset: number
-): { [key: string]: [number, number] } {
-    const
-        mo = markerOffset * 2,
-        objMidX = bb.xMid,
-        objMidY = bb.yMid,
-        objMaxX = bb.xMax - mo,
-        objMaxY = bb.yMax - mo,
-        objQuarterX = roundNearestMultiple((objMidX - bb.xMin) / 2, grid[0]),
-        objQuarterY = roundNearestMultiple((objMidY - bb.yMin) / 2, grid[1]),
+        objMidX = box.xMid,
+        objMidY = box.yMid,
+        objMaxX = box.xMax - mo,
+        objMaxY = box.yMax - mo,
+        objQuarterX = roundNearestMultiple((objMidX - box.xMin) / 2, grid[0]),
+        objQuarterY = roundNearestMultiple((objMidY - box.yMin) / 2, grid[1]),
         centerMidX = roundNearestMultiple(objMidX, grid[0]),
         centerMidY = roundNearestMultiple(objMidY, grid[1]),
         lowerX = centerMidX - objQuarterX,
@@ -78,12 +34,12 @@ export function calculateAnchorPositionsByRound(
     return {
         [AnchorPosition.D0]   : [objMaxX, centerMidY],
         [AnchorPosition.D30]  : [objMaxX, upperY],
-        [AnchorPosition.D60]  : [upperX, bb.yMin],
-        [AnchorPosition.D90]  : [centerMidX, bb.yMin],
-        [AnchorPosition.D120] : [lowerX, bb.yMin],
-        [AnchorPosition.D150] : [bb.xMin, upperY],
-        [AnchorPosition.D180] : [bb.xMin, centerMidY],
-        [AnchorPosition.D210] : [bb.xMin, lowerY],
+        [AnchorPosition.D60]  : [upperX, box.yMin],
+        [AnchorPosition.D90]  : [centerMidX, box.yMin],
+        [AnchorPosition.D120] : [lowerX, box.yMin],
+        [AnchorPosition.D150] : [box.xMin, upperY],
+        [AnchorPosition.D180] : [box.xMin, centerMidY],
+        [AnchorPosition.D210] : [box.xMin, lowerY],
         [AnchorPosition.D240] : [lowerX, objMaxY],
         [AnchorPosition.D270] : [centerMidX, objMaxY],
         [AnchorPosition.D300] : [upperX, objMaxY],
@@ -92,28 +48,35 @@ export function calculateAnchorPositionsByRound(
 }
 
 /**
- * Calculates all branch positions below a bounding box.
- * @param bb
+ * Calculates all branch anchor positions below a bounding box.
+ * @param box
  *  The bounding box.
  * @param grid
  *  The bounding box's grid.
  * @param markerOffset
  *  The offset needed to align faces with the grid's markers.
  * @param branches
- *  The
+ *  A set of {@link BranchDescriptor}s.
  * @returns
  *  The anchor positions.
  */
-export function calculateBranchPositionsByRound(
-    bb: BoundingBox, grid: [number, number], markerOffset: number, branches: BranchDescriptor[]
+export function calculateBranchAnchorPositions(
+    box: BoundingBox, grid: [number, number], markerOffset: number, branches: BranchDescriptor[]
 ) {
     const positions = new Map<string, [number, number]>();
-    const branchWidth = bb.width / branches.length;
-    const y = bb.yMax - (markerOffset * 2);
-    let x = bb.xMin + branchWidth / 2;
+    const branchWidth = box.width / branches.length;
+    
+    // Calculate initial position
+    let x = box.xMin + branchWidth / 2;
+    const y = box.yMax - (markerOffset * 2);
+    
+    // Iterate branches
     for (const branch of branches) {
         positions.set(branch.id, [roundNearestMultiple(x, grid[0]), y]);
         x += branchWidth;
     }
+
+    // Return positions
     return Object.fromEntries([...positions]);
+
 }

@@ -4,196 +4,100 @@ import type { DrawTextInstruction } from "./DrawTextInstruction";
 import type { DrawTextInstructionSet } from "./DrawTextInstructionSet";
 
 /**
- * Generates a text section's layout.
+ * Adds a single text cell to a {@link DrawTextInstructionSet}.
+ * @param instructions
+ *  The instruction set to write the cell's draw instruction to.
  * @param x
- *  The section's top-left x-coordinate.
+ *  The cell's top-left x-coordinate.
  * @param y
- *  The section's top-left y-coordinate.
- * @param title
- *  The section's title.
- * @param titleFont
- *  The title's font.
- * @param titleColor
- *  The title's font color.
- * @param titleCellHeight
- *  The title's cell height (in px).
- * @param titleAlignTop
- *  Whether the title should align to the top of its cell.
- * @param content
- *  The section's content.
- * @param contentFont
- *  The content's font.
- * @param contentColor
- *  The content's font color.
- * @param contentCellHeight
- *  The content's cell height (in px).
+ *  The cell's top-left y-coordinate.
  * @param text
- *  The instruction set to write the layout instructions to.
+ *  The cell's text.
+ * @param textFont
+ *  The text's font.
+ * @param textColor
+ *  The text's font color.
+ * @param cellHeight
+ *  The cell's height (in px).
+ * @param alignTop
+ *  Whether to align the text at the top of the cell.
  * @returns
- *  The final y-coordinate.
+ *  The cell's bottom-left y-coordinate.
  */
-export function generateTextSectionLayout(
+export function addTextCell(
+    instructions: DrawTextInstructionSet,
     x: number,
     y: number,
-    title: string,
-    titleFont: Font,
-    titleColor: string,
-    titleCellHeight: number,
-    titleAlignTop: boolean,
-    content: string[],
-    contentFont: Font,
-    contentColor: string,
-    contentCellHeight: number,
-    text: DrawTextInstructionSet
+    text: string,
+    textFont: Font,
+    textColor: string,
+    cellHeight: number,
+    alignTop: boolean
 ): number {
     let fontInstructions: DrawTextInstruction[];
 
-    // Register title font
-    fontInstructions = text.getInstructionsWithFont(
-        titleFont, titleColor
+    // Get text instructions
+    fontInstructions = instructions.getInstructionsWithFont(
+        textFont, textColor
     );
 
-    // Add title instructions
+    // Add text instruction
     let titleY;
-    if (titleAlignTop) {
-        const { ascent } = titleFont.measure(title);
-        titleY = y + Math.min(titleCellHeight, round(ascent));
+    if (alignTop) {
+        const { ascent } = textFont.measure(text);
+        titleY = y + Math.min(cellHeight, round(ascent));
     } else {
-        titleY = y + titleCellHeight;
+        titleY = y + cellHeight;
     }
     fontInstructions?.push({
         x: x,
         y: titleY,
-        text: title
+        text: text
     });
-    y += titleCellHeight;
-
-    // Register content font
-    fontInstructions = text.getInstructionsWithFont(
-        contentFont, contentColor
-    );
-
-    // Add content instructions
-    for (const line of content) {
-        y += contentCellHeight;
-        fontInstructions.push({
-            x: x,
-            y: y,
-            text: line
-        });
-    }
+    y += cellHeight;
 
     return y;
 
 }
 
 /**
- * Generates a title section's layout.
+ * Adds a stack of text cells to a {@link DrawTextInstructionSet}.
+ * @param instructions
+ *  The instruction set to write the draw instruction to.
  * @param x
- *  The section's top-left x-coordinate.
+ *  The cell's top-left x-coordinate.
  * @param y
- *  The section's top-left y-coordinate.
- * @param title
- *  The section's title.
- * @param titleFont
- *  The title's font.
- * @param titleColor
- *  The title's font color.
- * @param titleCellHeight
- *  The title's cell height (in px).
- * @param titleAlignTop
- *  Whether the title should align to the top of its cell.
+ *  The cell's top-left y-coordinate.
  * @param text
- *  The instruction set to write the layout instructions to.
+ *  The cell's text.
+ * @param textFont
+ *  The text's font.
+ * @param textColor
+ *  The text's font color.
+ * @param cellHeight
+ *  Each cell's height (in px).
  * @returns
- *  The final y-coordinate.
+ *  The last cell's bottom-left y-coordinate.
  */
-export function generateTitleSectionLayout(
+export function addStackedTextCells(
+    instructions: DrawTextInstructionSet,
     x: number,
     y: number,
-    title: string,
-    titleFont: Font,
-    titleColor: string,
-    titleCellHeight: number,
-    titleAlignTop: boolean,
-    text: DrawTextInstructionSet
+    text: string[],
+    textFont: Font,
+    textColor: string,
+    cellHeight: number
 ): number {
     let fontInstructions: DrawTextInstruction[];
 
-    // Register title font
-    fontInstructions = text.getInstructionsWithFont(
-        titleFont, titleColor
+    // Get text instructions
+    fontInstructions = instructions.getInstructionsWithFont(
+        textFont, textColor
     );
 
-    // Add title instructions
-    let titleY;
-    if (titleAlignTop) {
-        const { ascent } = titleFont.measure(title);
-        titleY = y + Math.min(titleCellHeight, round(ascent));
-    } else {
-        titleY = y + titleCellHeight;
-    }
-    fontInstructions?.push({
-        x: x,
-        y: titleY,
-        text: title
-    });
-    y += titleCellHeight;
-
-    return y;
-
-}
-
-
-
-/**
- * Generates a text section's layout.
- * @param x
- *  The section's top-left x-coordinate.
- * @param y
- *  The section's top-left y-coordinate.
- * @param title
- *  The section's title.
- * @param titleFont
- *  The title's font.
- * @param titleColor
- *  The title's font color.
- * @param titleCellHeight
- *  The title's cell height (in px).
- * @param titleAlignTop
- *  Whether the title should align to the top of its cell.
- * @param content
- *  The section's content.
- * @param contentFont
- *  The content's font.
- * @param contentColor
- *  The content's font color.
- * @param contentCellHeight
- *  The content's cell height (in px).
- * @param text
- *  The instruction set to write the layout instructions to.
- * @returns
- *  The final y-coordinate.
- */
-export function generateContentSectionLayout(
-    x: number,
-    y: number,
-    content: string[],
-    contentFont: Font,
-    contentColor: string,
-    contentCellHeight: number,
-    text: DrawTextInstructionSet
-): number {
-    let fontInstructions: DrawTextInstruction[];
-
-    // Register content font
-    fontInstructions = text.getInstructionsWithFont(
-        contentFont, contentColor
-    );
-
-    // Add content instructions
-    for (const line of content) {
-        y += contentCellHeight;
+    // Add text instructions
+    for (const line of text) {
+        y += cellHeight;
         fontInstructions.push({
             x: x,
             y: y,

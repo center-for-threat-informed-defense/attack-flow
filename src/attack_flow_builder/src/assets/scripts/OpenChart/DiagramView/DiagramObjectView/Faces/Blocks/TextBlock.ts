@@ -1,9 +1,9 @@
 import { BlockFace } from "../Bases";
 import { ceilNearestMultiple, drawRect } from "@OpenChart/Utilities";
 import {
-    calculateAnchorPositionsByRound,
+    addStackedTextCells,
+    calculateAnchorPositions,
     DrawTextInstructionSet,
-    generateContentSectionLayout
 } from "./Layout";
 import type { TextBlockStyle } from "../Styles";
 import type { ViewportRegion } from "../../ViewportRegion";
@@ -54,7 +54,8 @@ export class TextBlock extends BlockFace {
      */
     public calculateLayout(): boolean {
         const markerOffset = BlockFace.markerOffset;
-        const grid = this.blockGrid;
+        const baseGrid = this.grid;
+        const blockGrid = this.blockGrid;
         const style = this.style;
         const props = this.view.properties;
 
@@ -74,15 +75,15 @@ export class TextBlock extends BlockFace {
         this.text.eraseAllInstructions();
 
         // Calculate padding
-        const xPadding = grid[0] * style.horizontalPadding;
-        const yPadding = grid[1] * style.verticalPadding;
+        const xPadding = blockGrid[0] * style.horizontalPadding;
+        const yPadding = blockGrid[1] * style.verticalPadding;
 
         // Calculate title and subtitle positions
         const x = xPadding + markerOffset;
         let y = yPadding + markerOffset;
 
         // Calculate max content width
-        const maxWidth = grid[0] * style.maxUnitWidth;
+        const maxWidth = blockGrid[0] * style.maxUnitWidth;
 
         // Update content width
         const content = style.text;
@@ -92,41 +93,39 @@ export class TextBlock extends BlockFace {
             width = content.font.measureWidth(lines[i]);
             this.width = Math.max(this.width, width);
         }
-        // Calculate title section layout
-        y = generateContentSectionLayout(
+        // Calculate content layout
+        y = addStackedTextCells(
+            this.text,
             x, y,
             lines,
             content.font,
             content.color,
-            content.units * grid[1],
-            this.text
+            content.units * blockGrid[1]
         );
 
         // Add head's bottom padding
         y += yPadding;
 
         // Round content width up to nearest multiple of the grid size
-        this.width = ceilNearestMultiple(this.width, grid[0]);
+        this.width = ceilNearestMultiple(this.width, blockGrid[0]);
 
         // Calculate block width and height
         this.width += 2 * (markerOffset + xPadding);
         this.height = y + markerOffset;
 
-        console.log(this.height);
-
         // Calculate block's bounding box
         const bb = this.boundingBox;
         const xMin = bb.x - (this.width / 2);
         const yMin = bb.y - (this.height / 2);
-        bb.xMin = ceilNearestMultiple(xMin, grid[0] / this.scale);
-        bb.yMin = ceilNearestMultiple(yMin, grid[1] / this.scale);
+        bb.xMin = ceilNearestMultiple(xMin, blockGrid[0] / this.scale);
+        bb.yMin = ceilNearestMultiple(yMin, blockGrid[1] / this.scale);
         bb.xMax = bb.xMin + this.width;
         bb.yMax = bb.yMin + this.height;
         const renderX = bb.xMin;
         const renderY = bb.yMin;
 
         // Update anchor positions
-        const anchors = calculateAnchorPositionsByRound(bb, grid, markerOffset);
+        const anchors = calculateAnchorPositions(bb, baseGrid, markerOffset);
         for (const position in anchors) {
             const coords = anchors[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
@@ -172,15 +171,10 @@ export class TextBlock extends BlockFace {
         drawRect(ctx, x, y, this.width, this.height, borderRadius, strokeWidth);
         if (settings.shadowsEnabled) {
             ctx.shadowBlur = 8;
-            ctx.shadowColor = "rgba(0,0,0,0.25)";  // Light Theme
-            // ctx.shadowOffsetX = dsx + (0.5 * region.scale);
-            // ctx.shadowOffsetY = dsy + (0.5 * region.scale);
             ctx.fillStyle = fillColor;
             ctx.strokeStyle = strokeColor;
             ctx.fill();
             ctx.shadowBlur = 0;
-            // ctx.shadowOffsetX = 0;
-            // ctx.shadowOffsetY = 0;
             ctx.stroke();
         } else {
             ctx.fillStyle = fillColor;

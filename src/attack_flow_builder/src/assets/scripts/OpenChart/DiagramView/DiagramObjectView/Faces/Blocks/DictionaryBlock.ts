@@ -1,10 +1,10 @@
 import { BlockFace } from "../Bases";
 import { drawRect, drawChip, ceilNearestMultiple } from "@OpenChart/Utilities";
 import {
-    calculateAnchorPositionsByFloor,
-    DrawTextInstructionSet,
-    generateTextSectionLayout,
-    generateTitleSectionLayout
+    addTextCell,
+    addStackedTextCells,
+    calculateAnchorPositions,
+    DrawTextInstructionSet
 } from "./Layout";
 import type { Enumeration } from "../Enumeration";
 import type { ViewportRegion } from "../../ViewportRegion";
@@ -83,7 +83,8 @@ export class DictionaryBlock extends BlockFace {
      */
     public calculateLayout(): boolean {
         const markerOffset = BlockFace.markerOffset;
-        const grid = this.blockGrid;
+        const baseGrid = this.grid;
+        const blockGrid = this.blockGrid;
         const head = this.style.head;
         const body = this.style.body;
         const props = this.view.properties;
@@ -104,10 +105,10 @@ export class DictionaryBlock extends BlockFace {
         this.text.eraseAllInstructions();
 
         // Calculate padding
-        const yHeadPadding = grid[1] * head.verticalPaddingUnits;
-        const yBodyPadding = grid[1] * body.bodyVerticalPaddingUnits;
-        const yFieldPadding = grid[1] * body.fieldVerticalPaddingUnits;
-        const xPadding = grid[0] * this.style.horizontalPaddingUnits;
+        const yHeadPadding = blockGrid[1] * head.verticalPaddingUnits;
+        const yBodyPadding = blockGrid[1] * body.bodyVerticalPaddingUnits;
+        const yFieldPadding = blockGrid[1] * body.fieldVerticalPaddingUnits;
+        const xPadding = blockGrid[0] * this.style.horizontalPaddingUnits;
 
         // Collect visible fields
         const fields: [string, string][] = [];
@@ -141,7 +142,7 @@ export class DictionaryBlock extends BlockFace {
         const fieldValue = body.fieldValueText;
 
         // Calculate max content width
-        let maxWidth = grid[0] * this.style.maxUnitWidth;
+        let maxWidth = blockGrid[0] * this.style.maxUnitWidth;
         this.width = title.font.measureWidth(titleText);
         maxWidth = Math.max(this.width, maxWidth);
         for (const [key] of fields) {
@@ -149,9 +150,22 @@ export class DictionaryBlock extends BlockFace {
             maxWidth = Math.max(this.width, maxWidth);
         }
 
-        // Calculate title and subtitle positions
+        // Calculate title and subtitle layout
         const x = xPadding + markerOffset;
         let y = yHeadPadding + markerOffset;
+        
+        // Calculate title
+        y = addTextCell(
+            this.text,
+            x, y,
+            titleText,
+            title.font,
+            title.color,
+            title.units * blockGrid[1],
+            title.alignTop,
+        );
+
+        // Calculate subtitle
         if (subtitleText) {
             const subtitle = head.twoTitle.subtitle;
             // Update content width
@@ -160,30 +174,15 @@ export class DictionaryBlock extends BlockFace {
                 width = subtitle.font.measureWidth(lines[i]);
                 this.width = Math.max(this.width, width);
             }
-            // Calculate title section layout
-            y = generateTextSectionLayout(
+            // Calculate subtitle
+            y = addStackedTextCells(
+                this.text,
                 x, y,
-                titleText,
-                title.font,
-                title.color,
-                title.units * grid[1],
-                title.alignTop,
                 lines,
                 subtitle.font,
                 subtitle.color,
-                subtitle.units * grid[1],
-                this.text
-            );
-        } else {
-            y = generateTitleSectionLayout(
-                x, y,
-                titleText,
-                title.font,
-                title.color,
-                title.units * grid[1],
-                title.alignTop,
-                this.text
-            );
+                subtitle.units * blockGrid[1]
+            )
         }
 
         // Add head's bottom padding
@@ -207,18 +206,22 @@ export class DictionaryBlock extends BlockFace {
                     this.width = Math.max(this.width, width);
                 }
                 // Calculate field's section layout
-                y = generateTextSectionLayout(
+                y = addTextCell(
+                    this.text,
                     x, y,
                     key,
                     fieldName.font,
                     fieldName.color,
-                    fieldName.units * grid[1],
-                    fieldName.alignTop,
+                    fieldName.units * blockGrid[1],
+                    fieldName.alignTop
+                );
+                y = addStackedTextCells(
+                    this.text,
+                    x, y,
                     lines,
                     fieldValue.font,
                     fieldValue.color,
-                    fieldValue.units * grid[1],
-                    this.text
+                    fieldValue.units * blockGrid[1]
                 );
             }
             y += yBodyPadding;
@@ -231,7 +234,7 @@ export class DictionaryBlock extends BlockFace {
         }
 
         // Round content width up to nearest multiple of the grid size
-        this.width = ceilNearestMultiple(this.width, grid[0]);
+        this.width = ceilNearestMultiple(this.width, blockGrid[0]);
 
         // Calculate block width and height
         this.width += 2 * (markerOffset + xPadding);
@@ -241,15 +244,15 @@ export class DictionaryBlock extends BlockFace {
         const bb = this.boundingBox;
         const xMin = bb.x - (this.width / 2);
         const yMin = bb.y - (this.height / 2);
-        bb.xMin = ceilNearestMultiple(xMin, grid[0] / this.scale);
-        bb.yMin = ceilNearestMultiple(yMin, grid[1] / this.scale);
+        bb.xMin = ceilNearestMultiple(xMin, blockGrid[0] / this.scale);
+        bb.yMin = ceilNearestMultiple(yMin, blockGrid[1] / this.scale);
         bb.xMax = bb.xMin + this.width;
         bb.yMax = bb.yMin + this.height;
         const renderX = bb.xMin;
         const renderY = bb.yMin;
 
         // Update anchor positions
-        const anchors = calculateAnchorPositionsByFloor(bb, grid, markerOffset);
+        const anchors = calculateAnchorPositions(bb, baseGrid, markerOffset);
         for (const position in anchors) {
             const coords = anchors[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
@@ -295,15 +298,10 @@ export class DictionaryBlock extends BlockFace {
         drawRect(ctx, x, y, this.width, this.height, borderRadius, strokeWidth);
         if (settings.shadowsEnabled) {
             ctx.shadowBlur = 8;
-            ctx.shadowColor = "rgba(0,0,0,0.25)";  // Light Theme
-            // ctx.shadowOffsetX = dsx + (0.5 * region.scale);
-            // ctx.shadowOffsetY = dsy + (0.5 * region.scale);
             ctx.fillStyle = this.fillColor;
             ctx.strokeStyle = this.strokeColor;
             ctx.fill();
             ctx.shadowBlur = 0;
-            // ctx.shadowOffsetX = 0;
-            // ctx.shadowOffsetY = 0;
             ctx.stroke();
         } else {
             ctx.fillStyle = this.fillColor;

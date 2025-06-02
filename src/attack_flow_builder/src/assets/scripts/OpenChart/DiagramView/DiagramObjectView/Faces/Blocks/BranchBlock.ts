@@ -2,11 +2,11 @@ import { BlockFace } from "../Bases";
 import { BranchName } from "./Branch";
 import { drawRect, drawChip, ceilNearestMultiple } from "@OpenChart/Utilities";
 import {
-    calculateAnchorPositionsByFloor,
-    calculateBranchPositionsByRound,
+    addTextCell,
+    addStackedTextCells,
+    calculateAnchorPositions,
+    calculateBranchAnchorPositions,
     DrawTextInstructionSet,
-    generateTextSectionLayout,
-    generateTitleSectionLayout,
     type LineDescriptor
 } from "./Layout";
 import type { Enumeration } from "../Enumeration";
@@ -96,7 +96,8 @@ export class BranchBlock extends BlockFace {
      */
     public calculateLayout(): boolean {
         const markerOffset = BlockFace.markerOffset;
-        const grid = this.blockGrid;
+        const baseGrid = this.grid;
+        const blockGrid = this.blockGrid;
         const head = this.style.head;
         const body = this.style.body;
         const branch = this.style.branch;
@@ -120,10 +121,10 @@ export class BranchBlock extends BlockFace {
         this.text.eraseAllInstructions();
 
         // Calculate padding
-        const yHeadPadding = grid[1] * head.verticalPaddingUnits;
-        const yBodyPadding = grid[1] * body.bodyVerticalPaddingUnits;
-        const yFieldPadding = grid[1] * body.fieldVerticalPaddingUnits;
-        const xPadding = grid[0] * this.style.horizontalPaddingUnits;
+        const yHeadPadding = blockGrid[1] * head.verticalPaddingUnits;
+        const yBodyPadding = blockGrid[1] * body.bodyVerticalPaddingUnits;
+        const yFieldPadding = blockGrid[1] * body.fieldVerticalPaddingUnits;
+        const xPadding = blockGrid[0] * this.style.horizontalPaddingUnits;
 
         // Collect visible fields
         const fields: [string, string][] = [];
@@ -156,8 +157,8 @@ export class BranchBlock extends BlockFace {
         const fieldName = body.fieldNameText;
         const fieldValue = body.fieldValueText;
 
-        // Calculate max content width
-        let maxWidth = grid[0] * this.style.maxUnitWidth;
+        // Calculate max content width from titles
+        let maxWidth = blockGrid[0] * this.style.maxUnitWidth;
         this.width = title.font.measureWidth(titleText);
         maxWidth = Math.max(this.width, maxWidth);
         for (const [key] of fields) {
@@ -165,15 +166,28 @@ export class BranchBlock extends BlockFace {
             maxWidth = Math.max(this.width, maxWidth);
         }
 
-        // Apply branches to max width
+        // Calculate max content width from branches
         const branchCount = branchAnchors.length;
-        const branchLength = branch.minWidth * grid[0];
+        const branchLength = branch.minWidth * blockGrid[0];
         this.width = Math.max(this.width, branchLength * branchCount);
         maxWidth = Math.max(this.width, maxWidth);
 
         // Calculate title and subtitle positions
         let x = xPadding + markerOffset;
         let y = yHeadPadding + markerOffset;
+
+        // Calculate title
+        y = addTextCell(
+            this.text,
+            x, y,
+            titleText,
+            title.font,
+            title.color,
+            title.units * blockGrid[1],
+            title.alignTop,
+        );
+
+        // Calculate subtitle
         if (subtitleText) {
             const subtitle = head.twoTitle.subtitle;
             // Update content width
@@ -182,32 +196,14 @@ export class BranchBlock extends BlockFace {
                 width = subtitle.font.measureWidth(lines[i]);
                 this.width = Math.max(this.width, width);
             }
-            // Calculate title section layout
-            y = generateTextSectionLayout(
+            // Calculate subtitle
+            y = addStackedTextCells(
+                this.text,
                 x, y,
-                titleText,
-                title.font,
-                title.color,
-                title.units * grid[1],
-                title.alignTop,
                 lines,
                 subtitle.font,
                 subtitle.color,
-                subtitle.units * grid[1],
-                this.text
-            );
-        } else {
-            // TODO: Rename these functions for clarity
-            // TODO: Align branch styles with other blocks
-            // TODO: Re-enable other themes.
-            y = generateTitleSectionLayout(
-                x, y,
-                titleText,
-                title.font,
-                title.color,
-                title.units * grid[1],
-                title.alignTop,
-                this.text
+                subtitle.units * blockGrid[1]
             );
         }
 
@@ -230,34 +226,36 @@ export class BranchBlock extends BlockFace {
                     this.width = Math.max(this.width, width);
                 }
                 // Calculate field's section layout
-                y = generateTextSectionLayout(
+                y = addTextCell(
+                    this.text,
                     x, y,
                     key,
                     fieldName.font,
                     fieldName.color,
-                    fieldName.units * grid[1],
-                    fieldName.alignTop,
+                    fieldName.units * blockGrid[1],
+                    fieldName.alignTop
+                );
+                y = addStackedTextCells(
+                    this.text,
+                    x, y,
                     lines,
                     fieldValue.font,
                     fieldValue.color,
-                    fieldValue.units * grid[1],
-                    this.text
+                    fieldValue.units * blockGrid[1]
                 );
             }
             y += yBodyPadding;
         }
 
         // Round content width up to nearest multiple of the grid size
-        this.width = ceilNearestMultiple(this.width, grid[0]);
+        this.width = ceilNearestMultiple(this.width, blockGrid[0]);
 
         // Calculate block width and height
         this.width += 2 * (markerOffset + xPadding);
         this.height = y + markerOffset;
 
-        // Calculate branch separator
-        const branchWidth = this.width / 2;
+        // Calculate fields/branch separator
         const halfOffset = markerOffset / 2;
-        const fi = this.text.getInstructionsWithFont(branch.font, branch.color);
         if (fields.length) {
             this.lines.push({
                 y0: y + halfOffset, x0: 0,
@@ -265,18 +263,20 @@ export class BranchBlock extends BlockFace {
             });
         }
 
-        // Calculate branch labels and lines
-        x = branchWidth / 2;
-        const branchHeight = branch.height * grid[0];
+        // Calculate branch labels and separators
+        const branchWidth = this.width / branchCount;
+        const branchHeight = branch.height * blockGrid[0];
+        const branchLabels = this.text.getInstructionsWithFont(branch.font, branch.color);
         this.height += branchHeight;
+        x = branchWidth / 2;
         for (let i = 1; i <= branchCount; i++) {
             // Configure label
             const text = branchAnchors[i - 1].name;
             const { ascent, width } = branch.font.measure(text);
             const labelX = Math.round(x - (width / 2));
             const labelY = y + (branchHeight / 2) + (ascent / 2);
-            fi.push({ x: labelX, y: labelY, text });
-            // Configure line
+            branchLabels.push({ x: labelX, y: labelY, text });
+            // Configure separator
             if (i === branchCount) {
                 continue;
             }
@@ -291,22 +291,22 @@ export class BranchBlock extends BlockFace {
         const bb = this.boundingBox;
         const xMin = bb.x - (this.width / 2);
         const yMin = bb.y - (this.height / 2);
-        bb.xMin = ceilNearestMultiple(xMin, grid[0] / this.scale);
-        bb.yMin = ceilNearestMultiple(yMin, grid[1] / this.scale);
+        bb.xMin = ceilNearestMultiple(xMin, blockGrid[0] / this.scale);
+        bb.yMin = ceilNearestMultiple(yMin, blockGrid[1] / this.scale);
         bb.xMax = bb.xMin + this.width;
         bb.yMax = bb.yMin + this.height;
         const renderX = bb.xMin;
         const renderY = bb.yMin;
 
         // Update anchor positions
-        const anchors = calculateAnchorPositionsByFloor(bb, grid, markerOffset);
+        const anchors = calculateAnchorPositions(bb, baseGrid, markerOffset);
         for (const position in anchors) {
             const coords = anchors[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
         }
 
         // Update branch positions
-        const branches = calculateBranchPositionsByRound(bb, this.grid, markerOffset, branchAnchors);
+        const branches = calculateBranchAnchorPositions(bb, baseGrid, markerOffset, branchAnchors);
         for (const position in branches) {
             const coords = branches[position];
             this.view.anchors.get(position)?.face.moveTo(...coords);
@@ -352,15 +352,10 @@ export class BranchBlock extends BlockFace {
         drawRect(ctx, x, y, this.width, this.height, borderRadius, strokeWidth);
         if (settings.shadowsEnabled) {
             ctx.shadowBlur = 8;
-            ctx.shadowColor = "rgba(0,0,0,0.25)";  // Light Theme
-            // ctx.shadowOffsetX = dsx + (0.5 * region.scale);
-            // ctx.shadowOffsetY = dsy + (0.5 * region.scale);
             ctx.fillStyle = body.fillColor;
             ctx.strokeStyle = body.strokeColor;
             ctx.fill();
             ctx.shadowBlur = 0;
-            // ctx.shadowOffsetX = 0;
-            // ctx.shadowOffsetY = 0;
             ctx.stroke();
         } else {
             ctx.fillStyle = body.fillColor;
