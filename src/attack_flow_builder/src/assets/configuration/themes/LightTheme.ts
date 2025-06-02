@@ -72,12 +72,12 @@ const AttackObjects = {
         attributes: Alignment.Grid,
         style: LightStyle.DictionaryBlock({ head: Colors.Green })
     },
-    or: {
+    OR_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
         style: LightStyle.TextBlock(Colors.Red)
     },
-    and: {
+    AND_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
         style: LightStyle.TextBlock(Colors.Red)

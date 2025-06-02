@@ -353,7 +353,7 @@ export const LightStyle = new StyleGenerator({
         grid_color: "#e0e0e0",
         background_color: "#f2f2f2",
         drop_shadow: {
-            color: "rgba(0,0,0,.4)",
+            color: "rgba(0,0,0,0.25)",
             offset: [3, 3]
         }
     }
@@ -533,7 +533,7 @@ export const BlogStyle = new StyleGenerator({
         grid_color: "#e5e5e5",
         background_color: "#e5e5e5",
         drop_shadow: {
-            color: "rgba(0,0,0,.3)",
+            color: "rgba(0,0,0,0.25)",
             offset: [3, 3]
         }
     }
