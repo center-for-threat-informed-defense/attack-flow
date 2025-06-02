@@ -1,8 +1,9 @@
 import { Crypto } from "@OpenChart/Utilities";
 import { linkFaceToView } from "../FaceLinker";
 import { ViewUpdateReason } from "../ViewUpdateReason";
-import { Canvas, RootProperty } from "@OpenChart/DiagramModel";
+import { Canvas, DiagramObject, RootProperty } from "@OpenChart/DiagramModel";
 import type { LineView } from "./LineView";
+import type { BlockView } from "./BlockView";
 import type { ViewObject } from "../ViewObject";
 import type { ViewportRegion } from "../ViewportRegion";
 import type { RenderSettings } from "../RenderSettings";
@@ -37,7 +38,7 @@ export class CanvasView extends Canvas implements ViewObject {
     /**
      * The canvas's (internal) blocks.
      */
-    declare protected _blocks: DiagramObjectView[];
+    declare protected _blocks: BlockView[];
 
     /**
      * The canvas's (internal) lines.
@@ -54,7 +55,7 @@ export class CanvasView extends Canvas implements ViewObject {
     /**
      * The canvas's blocks.
      */
-    public get blocks(): ReadonlyArray<DiagramObjectView> {
+    public get blocks(): ReadonlyArray<BlockView> {
         return this._blocks;
     }
 
@@ -379,26 +380,37 @@ export class CanvasView extends Canvas implements ViewObject {
 
 
     /**
-     * Returns a childless clone of the view.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @param match
+     *  A predicate which is applied to each child. If the predicate returns 
+     *  false, the object is not included in the clone.
      * @returns
-     *  A clone of the view.
+     *  A clone of the object.
      */
-    public clone(): CanvasView {
-        // Create canvas
-        const canvas = new CanvasView(
+    public clone(instance?: string, match?: (obj: DiagramObjectView) => boolean): CanvasView {
+        const _match = match as unknown as (obj: DiagramObject) => boolean;
+        return this.replicateChildrenTo(this.isolatedClone(instance), _match);
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): CanvasView {
+        return new CanvasView(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()
         );
-        // Add objects
-        for (const object of this.objects) {
-            // TODO: Relink lines with anchors
-            canvas.addObject(object.clone());
-        }
-        // Return canvas
-        return canvas;
     }
 
 

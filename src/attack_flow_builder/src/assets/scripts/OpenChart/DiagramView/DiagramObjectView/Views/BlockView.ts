@@ -337,28 +337,37 @@ export class BlockView extends Block implements ViewObject {
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+    
+    /**
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(instance?: string): BlockView {
+        return this.replicateChildrenTo(this.isolatedClone(instance));
+    }
 
     /**
-     * Returns a childless clone of the view.
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
-     *  A clone of the view.
+     *  A clone of the object.
      */
-    public clone(): BlockView {
-        // Create block
-        const block = new BlockView(
+    public isolatedClone(instance?: string): BlockView {
+        return new BlockView(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()
         );
-        // Add anchors
-        for (const [position, anchor] of this.anchors) {
-            block.addAnchor(position, anchor.clone());
-        }
-        // Return block
-        return block;
     }
+
 
 
     ///////////////////////////////////////////////////////////////////////////

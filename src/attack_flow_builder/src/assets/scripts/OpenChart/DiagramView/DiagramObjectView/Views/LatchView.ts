@@ -367,22 +367,37 @@ export class LatchView extends Latch implements ViewObject {
     //  8. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+    
+    /**
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(instance?: string): LatchView {
+        return this.isolatedClone(instance);
+    }
 
     /**
-     * Returns a childless clone of the view.
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
-     *  A clone of the view.
+     *  A clone of the object.
      */
-    public clone(): LatchView {
+    public isolatedClone(instance?: string): LatchView {
         return new LatchView(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()
         );
     }
-
+    
 
     ///////////////////////////////////////////////////////////////////////////
     //  9. Shape  /////////////////////////////////////////////////////////////

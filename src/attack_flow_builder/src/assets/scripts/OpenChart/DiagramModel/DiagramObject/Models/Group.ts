@@ -1,16 +1,17 @@
+import { Line } from "./Line";
+import { Block } from "./Block";
 import { Crypto } from "@OpenChart/Utilities";
 import { DiagramObject } from "../DiagramObject";
 import { ModelUpdateReason } from "../../ModelUpdateReason";
+import type { Anchor } from "./Anchor";
 import type { RootProperty } from "../Property";
-import { Line } from "./Line";
-import { Block } from "./Block";
 
 export class Group extends DiagramObject {
 
     /**
      * The group's (internal) blocks.
      */
-    protected _blocks: DiagramObject[];
+    protected _blocks: Block[];
 
     /**
      * The group's (internal) lines.
@@ -21,7 +22,7 @@ export class Group extends DiagramObject {
     /**
      * The group's blocks.
      */
-    public get blocks(): ReadonlyArray<DiagramObject> {
+    public get blocks(): ReadonlyArray<Block> {
         return this._blocks;
     }
 
@@ -167,17 +168,82 @@ export class Group extends DiagramObject {
 
 
     /**
-     * Returns a childless clone of the object.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @param match
+     *  A predicate which is applied to each child. If the predicate returns 
+     *  false, the object is not included in the clone.
      * @returns
      *  A clone of the object.
      */
-    public clone(): Group {
+    public clone(instance?: string, match?: (obj: DiagramObject) => boolean): Group {
+        return this.replicateChildrenTo(this.isolatedClone(instance), match);
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): Group {
         return new Group(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
         );
+    }
+
+    /**
+     * Clones the object's children and transfers them to `object`.
+     * @param object
+     *  The object to transfer the clones to.
+     * @param match
+     *  A predicate which is applied to each child. If the predicate returns 
+     *  false, the object is not included in the clone.
+     * @returns
+     *  The provided `object`.
+     */
+    protected replicateChildrenTo<T extends Group>(object: T, match?: (obj: DiagramObject) => boolean): T {
+        const anchorMap = new Map<string, Anchor>();
+        // Clone blocks
+        for(const block of this.blocks) {
+            if(match && !match(block)) {
+                continue;
+            }
+            // Clone block
+            const clone = block.clone();
+            object.addObject(clone);
+            // Map anchors
+            for(const [position, { instance }] of block.anchors) {
+                const anchorClone = clone.anchors.get(position)!;
+                anchorMap.set(instance, anchorClone);
+            }
+        }
+        // Clone lines
+        for(const line of this.lines) {
+            if(match && !match(line)) {
+                continue;
+            }
+            // Clone line
+            const clone = line.clone();
+            object.addObject(line);
+            // Link lines
+            const srcAnchor = line.source.anchor;
+            if(srcAnchor && anchorMap.has(srcAnchor.instance)) {
+                clone.source.link(anchorMap.get(srcAnchor.instance)!);
+            }
+            const trgAnchor = line.target.anchor;
+            if(trgAnchor && anchorMap.has(trgAnchor.instance)) {
+                clone.source.link(anchorMap.get(trgAnchor.instance)!);
+            }
+        }
+        return object;
     }
 
 }

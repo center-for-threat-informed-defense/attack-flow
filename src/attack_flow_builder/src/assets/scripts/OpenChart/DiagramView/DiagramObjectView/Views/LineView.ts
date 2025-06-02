@@ -391,26 +391,33 @@ export class LineView extends Line implements ViewObject {
 
 
     /**
-     * Returns a childless clone of the view.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
-     *  A clone of the view.
+     *  A clone of the object.
      */
-    public clone(): LineView {
-        // Create line
-        const line = new LineView(
+    public clone(instance?: string): LineView {
+        return this.replicateChildrenTo(this.isolatedClone(instance));
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): LineView {
+        return new LineView(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()
         );
-        // Assign latches
-        line.source = this.source.clone();
-        line.target = this.target.clone();
-        // Assign reference handle
-        line.addHandle(this.handles[0].clone());
-        // Return line
-        return line;
     }
 
 

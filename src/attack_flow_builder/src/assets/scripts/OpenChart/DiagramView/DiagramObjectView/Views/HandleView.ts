@@ -319,16 +319,31 @@ export class HandleView extends Handle implements ViewObject {
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+    
+    /**
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(instance?: string): HandleView {
+        return this.isolatedClone(instance);
+    }
 
     /**
-     * Returns a childless clone of the view.
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
-     *  A clone of the view.
+     *  A clone of the object.
      */
-    public clone(): HandleView {
+    public isolatedClone(instance?: string): HandleView {
         return new HandleView(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()

@@ -153,14 +153,29 @@ export class DiagramObject {
 
 
     /**
-     * Returns a childless clone of the object.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
      *  A clone of the object.
      */
-    public clone(): DiagramObject {
+    public clone(instance?: string): DiagramObject {
+        return this.isolatedClone(instance);
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): DiagramObject {
         return new DiagramObject(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
         );

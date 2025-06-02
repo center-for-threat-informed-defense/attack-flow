@@ -31,14 +31,29 @@ export class Handle extends DiagramObject {
 
 
     /**
-     * Returns a childless clone of the object.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
      *  A clone of the object.
      */
-    public clone(): Handle {
+    public clone(instance?: string): Handle {
+        return this.isolatedClone(instance);
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): Handle {
         return new Handle(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
         );

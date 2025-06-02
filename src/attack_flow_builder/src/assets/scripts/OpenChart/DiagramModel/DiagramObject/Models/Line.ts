@@ -244,17 +244,54 @@ export class Line extends DiagramObject {
 
 
     /**
-     * Returns a childless clone of the object.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
      *  A clone of the object.
      */
-    public clone(): Line {
+    public clone(instance?: string): Line {
+        return this.replicateChildrenTo(this.isolatedClone(instance));
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): Line {
         return new Line(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
         );
+    }
+
+    /**
+     * Clones the object's children and transfers them to `object`.
+     * @param object
+     *  The object to transfer the clones to.
+     * @returns
+     *  The provided `object`.
+     */
+    protected replicateChildrenTo<T extends Line>(object: T): T {
+        // Clone handles
+        for(const handle of this.handles) {
+            object.addHandle(handle.clone());
+        }
+        // Clone latches
+        if(this._sourceLatch) {
+            object.setSource(this.source.clone());
+        }
+        if(this._targetLatch) {
+            object.setTarget(this.target.clone());
+        }
+        return object;
     }
 
 }

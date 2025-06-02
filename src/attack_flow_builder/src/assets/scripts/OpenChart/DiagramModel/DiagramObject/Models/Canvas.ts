@@ -1,6 +1,7 @@
 import { Group } from "./Group";
 import { Crypto } from "@OpenChart/Utilities";
 import type { RootProperty } from "../Property";
+import type { DiagramObject } from "../DiagramObject";
 
 export class Canvas extends Group {
 
@@ -31,14 +32,32 @@ export class Canvas extends Group {
 
 
     /**
-     * Returns a childless clone of the object.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @param match
+     *  A predicate which is applied to each child. If the predicate returns 
+     *  false, the object is not included in the clone.
      * @returns
      *  A clone of the object.
      */
-    public clone(): Canvas {
+    public clone(instance?: string, match?: (obj: DiagramObject) => boolean): Canvas {
+        return this.replicateChildrenTo(this.isolatedClone(instance), match);
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): Canvas {
         return new Canvas(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
         );

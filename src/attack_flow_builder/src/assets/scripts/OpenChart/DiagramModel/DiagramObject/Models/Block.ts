@@ -102,18 +102,46 @@ export class Block extends DiagramObject {
 
 
     /**
-     * Returns a childless clone of the object.
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
      *  A clone of the object.
      */
-    public clone(): Block {
-        // TODO: Implement child cloning
+    public clone(instance?: string): Block {
+        return this.replicateChildrenTo(this.isolatedClone(instance));
+    }
+
+    /**
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public isolatedClone(instance?: string): Block {
         return new Block(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone()
         );
+    }
+
+    /**
+     * Clones the object's children and transfers them to `object`.
+     * @param object
+     *  The object to transfer the clones to.
+     * @returns
+     *  The provided `object`.
+     */
+    protected replicateChildrenTo<T extends Block>(object: T): T {
+        for(const [position, anchor] of this._anchors) {
+            object.addAnchor(position, anchor.clone());
+        }
+        return object;
     }
 
 }

@@ -331,16 +331,31 @@ export class AnchorView extends Anchor implements ViewObject {
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
+    
+    /**
+     * Returns a complete clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
+     * @returns
+     *  A clone of the object.
+     */
+    public clone(instance?: string): AnchorView {
+        return this.isolatedClone(instance);
+    }
 
     /**
-     * Returns a childless clone of the view.
+     * Returns a childless clone of the object.
+     * @param instance
+     *  The clone's instance identifier.
+     *  (Default: Random UUID)
      * @returns
-     *  A clone of the view.
+     *  A clone of the object.
      */
-    public clone(): AnchorView {
+    public isolatedClone(instance?: string): AnchorView {
         return new AnchorView(
             this.id,
-            Crypto.randomUUID(),
+            instance ?? Crypto.randomUUID(),
             this.attributes,
             this.properties.clone(),
             this.face.clone()
