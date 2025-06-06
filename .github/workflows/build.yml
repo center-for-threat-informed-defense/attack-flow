@@ -168,7 +168,7 @@ jobs:
       with:
         name: attack-flow-docs-html
         path: docs/_build/dirhtml/
-    
+
 
   deploy_prod:
     # This job only runs when creating a tag.
@@ -237,6 +237,8 @@ jobs:
         with:
           node-version: '22'
       - run: npm install -g staticrypt
+      # Bug fix for regression in yargs:
+      - run: npm install -g yargs@17.7.2 --save-exact
       - name: Download HTML
         uses: actions/download-artifact@v4
         with:
