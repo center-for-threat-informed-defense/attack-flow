@@ -235,10 +235,8 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '18'
       - run: npm install -g staticrypt
-      # Bug fix for regression in yargs:
-      - run: npm install -g yargs@17.7.2 --save-exact
       - name: Download HTML
         uses: actions/download-artifact@v4
         with:
