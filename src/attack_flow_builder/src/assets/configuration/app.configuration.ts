@@ -43,11 +43,15 @@ const configuration: AppConfiguration = {
         organization: CtidLogo,
         new_file: {
             title: "New Flow",
-            description: "Create a new, blank Flow."
+            description: "Create a blank flow."
         },
         open_file: {
             title: "Open Flow",
-            description: "Open an existing Flow."
+            description: "Open an existing flow on your computer."
+        },
+        import_stix: {
+            title: "Import STIX",
+            description: "Import a bundle into a new flow."
         },
         help_links: [
             {
@@ -57,7 +61,7 @@ const configuration: AppConfiguration = {
             },
             {
                 title: "Builder Help",
-                description: "Read the Builder's User Guide.",
+                description: "Read the builder's user guide.",
                 url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
             }
         ]

@@ -87,6 +87,20 @@
               {{ openFile.description }}
             </p>
           </div>
+          <div
+            class="button"
+            @click="onImportStix"
+          >
+            <div class="button-header">
+              <span class="button-icon"><FolderIcon /></span>
+              <p class="button-title">
+                {{ importStix.title }}
+              </p>
+            </div>
+            <p class="button-description">
+              {{ importStix.description }}
+            </p>
+          </div>
         </div>
       </div>
       <div
@@ -144,6 +158,7 @@ export default defineComponent({
       organization: Configuration.splash.organization,
       newFile: Configuration.splash.new_file,
       openFile: Configuration.splash.open_file,
+      importStix: Configuration.splash.import_stix,
       helpLinks: Configuration.splash.help_links
     }
   },
@@ -190,6 +205,14 @@ export default defineComponent({
     async onOpenFile() {
       const ctx = this.application;
       this.execute(await AppCommands.prepareEditorFromFileSystem(ctx));
+    },
+
+    /**
+     * Import STIX behvior.
+     */
+    async onImportStix() {
+      const ctx = this.application;
+      this.execute(await AppCommands.prepareEditorFromStixFileSystem(ctx));
     },
 
     /**
@@ -241,6 +264,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   min-width: 640px;
+  max-width: 740px;
   border: solid 1px #383838;
   border-radius: 5px;
   background: #242424;
@@ -417,7 +441,7 @@ export default defineComponent({
 .section.open-file .button-grid {
   display: grid;
   grid-template-rows: minmax(0, 1fr);
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   column-gap: 14px;
 }
 

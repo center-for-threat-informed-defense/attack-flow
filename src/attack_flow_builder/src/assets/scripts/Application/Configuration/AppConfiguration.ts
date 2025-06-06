@@ -48,6 +48,11 @@ export interface AppConfiguration {
         open_file: SplashButton;
 
         /**
+         * Import STIX file button.
+         */
+        import_stix: SplashButton;
+
+        /**
          * Help link splash buttons.
          */
         help_links: SplashButton[];
