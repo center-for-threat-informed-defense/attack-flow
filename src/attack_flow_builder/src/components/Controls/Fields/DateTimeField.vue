@@ -68,11 +68,7 @@
             v-model="value_Offset"
           >
           <datalist id="all_offsets">
-            <option
-              v-for="[offsetName, offsetValue] in supportedOffsets"
-              :value="offsetValue"
-              :key="offsetName"
-            >
+            <option v-for="[offsetName, offsetValue] in supportedOffsets" :value="offsetValue" :key="offsetName">
               {{ offsetName }}
             </option>
           </datalist>
@@ -95,6 +91,8 @@ type Segments =
 const Segment = [
   "Date", "Time", "Zone"
 ] as Segments[]
+
+const timezoneOptions = Intl.supportedValuesOf('timeZone');
 
 export default defineComponent({
   name: "DateTimeField",
@@ -128,7 +126,7 @@ export default defineComponent({
         *   An array of [offsetName, offsetValue] string arrays
         */
     supportedOffsets(): Array<Array<string>> {
-      const nameToOffsetMap = Intl.supportedValuesOf('timeZone').reduce((o: Map<string, string>, n: string) => {
+      const nameToOffsetMap = timezoneOptions.reduce((o: Map<string, string>, n: string) => {
         // evaluate this datetime in each known timezone
         let d = DateTime.fromISO(this.value_Date + "T" + this.value_Time + "Z")?.setZone(n);
         // or evaluate the user's local datetime in each timezone
@@ -359,7 +357,8 @@ export default defineComponent({
   color: #cccccc;
   cursor: text;
   overflow: hidden;
-  height: 60px;
+  height: auto;
+  /* 60px high when editing, 30px (17px without padding) when displaying the value */
 }
 
 .datetime-field-control:focus {
@@ -435,6 +434,7 @@ input:focus {
 .value {
   grid-area: 1 / 1;
   padding: 6px 12px;
+  height: 17px;
 }
 
 .null-value {
