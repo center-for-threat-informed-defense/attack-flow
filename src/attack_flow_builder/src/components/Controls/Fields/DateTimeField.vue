@@ -33,40 +33,14 @@
         v-show="showEditor"
       >
         <div class="date-wrapper">
-          <input
-            type="date"
-            maxlength="10"
-            segment="Date"
-            ref="Date"
-            class="Date"
-            @blur="onBlur"
-            @keydown="onKeyDown"
-            v-model="value_Date"
-          >
+          <input type="date" maxlength="10" segment="Date" ref="Date" class="Date" @blur="onBlur" v-model="value_Date">
         </div>
         <div class="time-wrapper">
-          <input
-            type="time"
-            segment="Time"
-            ref="Time"
-            class="Time"
-            step="0.01"
-            value="00:00:00"
-            @blur="onBlur"
-            @keydown="onKeyDown"
-            v-model="value_Time"
-          >
+          <input type="time" segment="Time" ref="Time" class="Time" step="0.01" value="00:00:00" @blur="onBlur"
+            v-model="value_Time">
           <span class="space" />
-          <input
-            type="text"
-            segment="Offset"
-            ref="Offset"
-            class="Offset"
-            list="all_offsets"
-            @blur="onBlur"
-            @keydown="onKeyDown"
-            v-model="value_Offset"
-          >
+          <input type="text" segment="Offset" ref="Offset" class="Offset" list="all_offsets" @blur="onBlur"
+            v-model="value_Offset">
           <datalist id="all_offsets">
             <option v-for="[offsetName, offsetValue] in supportedOffsets" :value="offsetValue" :key="offsetName">
               {{ offsetName }}
@@ -190,39 +164,6 @@ export default defineComponent({
     },
 
     /**
-     * Field segment keydown behavior.
-     * @param event
-     *  The keydown event.
-     */
-    onKeyDown(event: KeyboardEvent) {
-      const field = event.target as HTMLInputElement;
-      if (field.selectionStart !== field.selectionEnd) {
-        return;
-      }
-      switch (event.key) {
-        case "Backspace":
-          break;
-        case "ArrowLeft":
-          if (field.selectionEnd === 0) {
-            this.shiftFocus(-1);
-            event.preventDefault();
-          }
-          break;
-        case "ArrowRight":
-          if (field.selectionEnd === field.maxLength) {
-            this.shiftFocus(+1);
-            event.preventDefault();
-          }
-          break;
-        default:
-          // if the value is a full YYYY-MM-DD string
-          if (field.value?.match(/^[^0]\d\d\d/)) {
-            this.shiftFocus(+1);
-          }
-      }
-    },
-
-    /**
      * Enters edit mode.
      */
     enterEditMode() {
@@ -247,33 +188,6 @@ export default defineComponent({
     exitEditMode() {
       this.updateProperty();
       this.showEditor = false;
-    },
-
-    /**
-     * Shifts focus from the current segment to an adjacent segment.
-     * @param delta
-     *  The number of segments to shift over.
-     * @param start
-     *  [true]
-     *   Position caret at the start of the segment.
-     *  [false]
-     *   Position caret at the end of the segment.
-     *  (Default: true)
-     */
-    shiftFocus(delta: number) {
-      const field = document.activeElement as HTMLInputElement;
-      const attr = field.getAttribute("segment")! as Segments;
-      const index = Segment.indexOf(attr) + delta;
-      if (0 <= index && index < Segment.length) {
-        this.$nextTick(() => {
-          // Get adjacent segment
-          const adj: HTMLInputElement = this[Segment[index]]!;
-          // Focus adjacent segment
-          adj.focus();
-          // Position caret
-          adj.selectionEnd = start ? 0 : adj.value.length;
-        });
-      }
     },
 
     /**
