@@ -69,22 +69,41 @@ table p {
   font-weight: normal;
 }
 
+.site-toc .toc .current > a {
+  color: var(--mitre-black);
+}
+
 .rst-content .toctree-wrapper ul li ul {
   margin-top: 0;
 }
 
-.site-toc .toc li.current>a {
+.site-toc .toc li.current > a {
   font-weight: bold;
 }
-
+.site-toc .toc ul {
+  margin-left: 2rem;
+}
 .site-toc .toc ul li ul {
-  background-color: #F1F3F4;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin-left: 1.5rem;
 }
 
-.site-toc .toc ul li ul a {
-  color: #4f5254;
+.toc .current > .toctree-expand,
+.toctree-expand {
+  color: var(--mitre-blue);
+  background-color: inherit !important;
+  transition: none !important;
+}
+body.theme-dark {
+  .toc .current > .toctree-expand,
+  .toctree-expand {
+    color: var(--mitre-light-blue) !important;
+  }
+  .current.reference.internal {
+    color: white;
+  }
+}
+.toc li[aria-expanded="false"] {
+  color: red !important;
 }
 
 /* Admonition styles */
@@ -171,6 +190,9 @@ blockquote.epigraph p.attribution {
   font-size: 12pt;
   font-style: italic;
 }
+body.theme-dark blockquote {
+  background-color: var(--mitre-dark-navy);
+}
 
 body.theme-dark {
   background-color: var(--mitre-black);
@@ -214,7 +236,6 @@ a:hover {
 }
 
 body.theme-dark {
-
   h1,
   h2,
   h3,
@@ -306,7 +327,7 @@ body.theme-dark .admonition.note p {
 
 .navbar .version {
   font-size: 16px;
-  color: #87DEFF;
+  color: #87deff;
 }
 
 .navbar .logo-img {
@@ -440,7 +461,7 @@ h6 {
 }
 
 section[id],
-section[id]>span[id] {
+section[id] > span[id] {
   scroll-margin-top: 6rem;
 }
 

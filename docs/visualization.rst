@@ -2,9 +2,7 @@ Visualization
 =============
 
 Attack Flow offers several tools for visualizing sequences of behaviors. The :doc:`Attack Flow Builder
-<builder>` is a great option, offers easy navigation of large flows, and exports to PNG format. We also have
-several :ref:`command line visualizations <cli_viz>` as well as some `experimental visualizations
-<https://observablehq.com/@mehaase/attack-flow-business>`__.
+<builder>` is a great option, offers easy navigation of large flows, and exports to PNG format.
 
 .. raw:: html
 
@@ -201,4 +199,3 @@ On this page, you can visualize the distribution of techniques across multiple A
    :scale: 80%
    :alt: An example Treemap Visualization
    :align: center
-

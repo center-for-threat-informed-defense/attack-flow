@@ -66,24 +66,24 @@ maximize effectiveness. Consider the following:
 * **Threat Hunters** – Reference or include specific **analytics**, detection
   logic, or alert mappings that helped identify the behavior. This ensures
   repeatability and allows other hunters to validate or refine detection
-  capabilities.  
+  capabilities.
 * **Cyber Threat Intelligence (CTI) Analysts** – If the flow is used for
   external reporting, remove **sensitive information** and focus on the
   **critical impact** and adversary behavior. Consider including **TTPs and
-  relevant threat groups** for a broader intelligence context.  
+  relevant threat groups** for a broader intelligence context.
 * **Adversary Emulation Teams** – Provide details on **malicious commands and
   techniques** that were **not detected** by existing analytics, helping them
-  build realistic tests to improve detection.  
+  build realistic tests to improve detection.
 * **Incident Responders** – Include **timeline information, lateral movement
   paths, and compromised credentials** to support forensic analysis and
-  remediation efforts.  
+  remediation efforts.
 * **Leadership & Executives** – Emphasize the **scale of the operation**,
   highlight **critical assets compromised**, and demonstrate the **business
   impact**. Use high-level summaries rather than technical details to ensure
-  clarity.  
+  clarity.
 * **SOC Analysts** – Provide actionable insights such as **log sources**, event
   IDs, and real-world examples of detection to aid faster investigation and
-  triage.  
+  triage.
 
 Structuring your flow according to your audience improves communication, speeds up response times, and ensures the right level of detail is conveyed.
 
@@ -97,6 +97,3 @@ follow the best practices described above as well as meet the following requirem
 
 * Must have 10+ actions with proper structure.
 * Must include at least one credible source in metadata.
-
-Integration & Automation
-~~~~~~~~~~~~~~~~~~~~~~~~
