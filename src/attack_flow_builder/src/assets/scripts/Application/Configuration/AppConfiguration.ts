@@ -82,4 +82,9 @@ export interface AppConfiguration {
      */
     publisher?: typeof FilePublisher,
 
+    /**
+     * The publisher's menu text.
+     */
+    publisherMenuText?: string
+
 }

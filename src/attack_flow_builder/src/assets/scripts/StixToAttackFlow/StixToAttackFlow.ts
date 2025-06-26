@@ -1,6 +1,6 @@
-import { Crypto } from "../OpenChart/Utilities";
 import { StixToTemplate } from "./StixToTemplate";
 import { ManualLayoutEngine } from "@OpenChart/DiagramView";
+import { populateProperties } from "./PopulateBlockProperties";
 import { GraphEdge, GraphNode } from "../SegmentLayoutEngine";
 import { DiagramObjectSerializer } from "@OpenChart/DiagramModel";
 import { resolveEmbeddedRelationships } from "./ResolveEmbeddedRelationships";
@@ -8,7 +8,7 @@ import { Canvas, Block, DiagramObject, Line } from "../OpenChart/DiagramModel/Di
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
 import type { StixBundle, StixObject } from "./StixTypes";
 import type { Constructor, DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
-import { populateProperties } from "./PopulateBlockProperties";
+
 
 export class StixToAttackFlowConverter {
 

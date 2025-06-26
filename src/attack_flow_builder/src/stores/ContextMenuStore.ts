@@ -207,11 +207,13 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             const app = useApplicationStore();
             const editor = app.activeEditor;
             const file = app.settings.hotkeys.file;
+            const menuText = Configuration.publisherMenuText 
+                ?? `Publish ${Configuration.file_type_name}`;
             return {
                 id: "publish_options",
                 items: [
                     {
-                        text: `Publish ${Configuration.file_type_name}`,
+                        text: menuText,
                         type: MenuType.Action,
                         data: () => AppCommands.publishActiveFileToDevice(app),
                         shortcut: file.publish_file,

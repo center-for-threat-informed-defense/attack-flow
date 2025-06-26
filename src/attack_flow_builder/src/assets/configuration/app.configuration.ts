@@ -117,7 +117,9 @@ const configuration: AppConfiguration = {
 
     validator: AttackFlowValidator,
 
-    publisher: AttackFlowPublisher
+    publisher: AttackFlowPublisher,
+
+    publisherMenuText: "Export STIX File"
 
 };
 
