@@ -1,11 +1,10 @@
-import { Canvas, DiagramModelFile } from "@OpenChart/DiagramModel";
 import { ManualLayoutEngine } from "./DiagramLayoutEngine";
-import type { CanvasView } from "./DiagramObjectView";
+import { Canvas, DiagramModelFile, DiagramObjectSerializer } from "@OpenChart/DiagramModel";
 import type { CameraLocation } from "./CameraLocation";
 import type { DiagramViewExport } from "./DiagramViewExport";
 import type { DiagramLayoutEngine } from "./DiagramLayoutEngine";
+import type { CanvasView, DiagramObjectView } from "./DiagramObjectView";
 import type { DiagramTheme, DiagramObjectViewFactory } from "./DiagramObjectViewFactory";
-import { AutomaticLayoutEngine } from "./DiagramLayoutEngine";
 
 export class DiagramViewFile extends DiagramModelFile {
 
@@ -38,17 +37,9 @@ export class DiagramViewFile extends DiagramModelFile {
      *  The file's object factory.
      * @param diagram
      *  The file to import.
-     * @param stix
-     * The STIX bundle to import.
-     * @param layoutEngine
-     * The layout engine to use for the diagram if the diagram does not contain a layout.
      */
-    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport | Canvas);
-    constructor(
-        factory: DiagramObjectViewFactory,
-        diagram?: DiagramViewExport | Canvas,
-        layoutEngine: DiagramLayoutEngine = new AutomaticLayoutEngine()
-    ) {
+    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport);
+    constructor(factory: DiagramObjectViewFactory, diagram?: DiagramViewExport) {
         // Create / Import
         super(factory, diagram);
         // Calculate layout
@@ -56,11 +47,9 @@ export class DiagramViewFile extends DiagramModelFile {
         // Run layout engine
         if (diagram && !(diagram instanceof Canvas) && diagram.layout) {
             new ManualLayoutEngine(diagram.layout).run([this.canvas]);
-        } else {
-            layoutEngine.run([this.canvas]);
         }
         // Set camera
-        this.camera = diagram instanceof Canvas || !diagram?.camera ? ({ x: 0, y: 0, k: 1 }) : diagram.camera;
+        this.camera = diagram?.camera ?? { x: 0, y: 0, k: 1 };
     }
 
 
@@ -83,6 +72,62 @@ export class DiagramViewFile extends DiagramModelFile {
      */
     public runLayout(layout: DiagramLayoutEngine) {
         layout.run([this.canvas]);
+    }
+
+    /**
+     * Clones the {@link DiagramViewFile}.
+     * @param match
+     *  A predicate which is applied to each child of the canvas. If the 
+     *  predicate returns false, the child is excluded from the clone.
+     */
+    public clone(match?: (obj: DiagramObjectView) => boolean): DiagramViewFile {
+        
+        // Clone canvas
+        const instanceMap = new Map<string, string>();
+        const canvas = this.canvas.clone(this.canvas.instance, instanceMap, match);
+        
+        // Calculate layout
+        canvas.calculateLayout();
+        
+        // Apply existing layout to clone
+        const existingLayout = ManualLayoutEngine.generatePositionMap([this.canvas]);
+        const remappedLayout = Object.fromEntries(
+            Object.entries(existingLayout).map(
+                ([i, p]) => [instanceMap.get(i)!, p]
+            )
+        );
+        new ManualLayoutEngine(remappedLayout).run([canvas]);
+
+        /**
+         * Developer's Note:
+         * You may be wondering why we generate a new position map from `canvas`
+         * instead of simply using `remappedLayout`.
+         * 
+         * Simply put, `layout` and `remappedLayout` are not always equivalent. 
+         * 
+         * For example, `remappedLayout` excludes the positions of latches
+         * linked to block anchors. Those same latches may be unlinked in
+         * `canvas` if their blocks were omitted from the clone.
+         * 
+         * To ensure these latches are included in the position map, we have to
+         * generate a new position map directly from `canvas`. 
+         */
+
+        // Calculate final layout
+        const layout = ManualLayoutEngine.generatePositionMap([canvas]);
+
+        // Return clone
+        return new DiagramViewFile(
+            this.factory,
+            {
+                schema  : this.factory.id,
+                theme   : this.factory.theme.id,
+                objects : DiagramObjectSerializer.exportObjects([canvas]),
+                layout  : layout,
+                camera  : { ...this.camera }
+            }
+        );
+        
     }
 
     /**

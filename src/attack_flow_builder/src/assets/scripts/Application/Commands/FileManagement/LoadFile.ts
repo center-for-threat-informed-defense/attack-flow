@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { AppCommand } from "../AppCommand";
+import { EditorDirective } from "@OpenChart/DiagramEditor/EditorDirectives";
 import { DiagramViewEditor, PowerEditPlugin } from "@OpenChart/DiagramEditor";
 import { SaveDiagramFileToRecoveryBank } from "./SaveDiagramFileToRecoveryBank";
 import type { DiagramViewFile } from "@OpenChart/DiagramView";
@@ -46,6 +47,13 @@ export class LoadFile extends AppCommand {
         this.editor.on("autosave", editor => {
             context.execute(new SaveDiagramFileToRecoveryBank(context, editor));
         });
+        this.editor.on("edit", (editor, _, args) => {
+            // If command will result in an auto-save...
+            if(args.directives & EditorDirective.Autosave) {
+                // ...run the validator.
+                context.activeValidator?.run(editor.file);
+            }
+        })
         // Configure interface plugins
         const factory = this.editor.file.factory;
         const lineTemplate = settings.edit.anchor_line_template;
@@ -57,6 +65,8 @@ export class LoadFile extends AppCommand {
         this.editor.interface.enableShadows(view.display_shadows);
         this.editor.interface.enableDebugInfo(view.display_debug_info);
         this.editor.interface.enableAnimations(view.display_animations);
+        // Run validator
+        context.activeValidator?.run(this.editor.file);
     }
 
 

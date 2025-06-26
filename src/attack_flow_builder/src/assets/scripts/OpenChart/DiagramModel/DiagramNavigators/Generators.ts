@@ -11,11 +11,12 @@ import { Block, DiagramObject, Group, Line } from "../DiagramObject";
  *  The provided object and all child objects.
  */
 export function *traverse<T extends DiagramObject>(
-    objects: T | T[], match?: (obj: T) => boolean
+    objects: T | T[],
+    match?: (obj: T) => boolean
 ): Generator<T> {
     const visited = new Set<string>();
     // Prepare queue
-    const queue: T[] = [];
+    const queue: DiagramObject[] = [];
     if (!Array.isArray(objects)) {
         queue.push(objects);
         visited.add(objects.instance);
@@ -23,13 +24,13 @@ export function *traverse<T extends DiagramObject>(
         for (const object of objects) {
             if (!visited.has(object.instance)) {
                 visited.add(object.instance);
-                queue.push(object as T);
+                queue.push(object);
             }
         }
     }
     // Iterate
     while (queue.length != 0) {
-        const obj = queue.shift()!;
+        const obj = queue.shift()! as T;
         // Yield object
         if (!match || match(obj)) {
             yield obj;
@@ -48,7 +49,7 @@ export function *traverse<T extends DiagramObject>(
         for (const child of children) {
             if (!visited.has(child.instance)) {
                 visited.add(child.instance);
-                queue.push(child as T);
+                queue.push(child);
             }
         }
     }

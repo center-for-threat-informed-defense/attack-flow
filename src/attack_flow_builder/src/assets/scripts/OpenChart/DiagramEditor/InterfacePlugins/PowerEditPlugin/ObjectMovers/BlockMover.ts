@@ -4,6 +4,7 @@ import { ObjectMover } from "./ObjectMover";
 import { LineView, type BlockView } from "@OpenChart/DiagramView";
 import type { SubjectTrack } from "@OpenChart/DiagramInterface";
 import type { PowerEditPlugin } from "../PowerEditPlugin";
+import type { CommandExecutor } from "../CommandExecutor";
 
 export class BlockMover extends ObjectMover {
 
@@ -27,11 +28,17 @@ export class BlockMover extends ObjectMover {
      * Creates a new {@link ObjectMover}.
      * @param plugin
      *  The mover's plugin.
+     * @param execute
+     *  The mover's command executor.
      * @param block
      *  The mover's block.
      */
-    constructor(plugin: PowerEditPlugin, block: BlockView) {
-        super(plugin);
+    constructor(
+        plugin: PowerEditPlugin,
+        execute: CommandExecutor,
+        block: BlockView
+    ) {
+        super(plugin, execute);
         this.lines = new Map();
         this.block = block;
         this.alignment = block.alignment;
@@ -41,7 +48,10 @@ export class BlockMover extends ObjectMover {
     /**
      * Captures the subject.
      */
-    public captureSubject(): void {}
+    public captureSubject(): void {
+        const { userSetObjectPosition } = EditorCommands;
+        this.execute(userSetObjectPosition(this.block));
+    }
 
     /**
      * Moves the subject.
@@ -60,7 +70,7 @@ export class BlockMover extends ObjectMover {
             delta = track.getDistance();
         }
         // Move
-        editor.execute(moveObjectsBy(this.block, ...delta));
+        this.execute(moveObjectsBy(this.block, ...delta));
         // Update overlap
         this.updateOverlap(canvas);
         // Apply delta
@@ -105,10 +115,10 @@ export class BlockMover extends ObjectMover {
         const { selectObject, unselectObject } = EditorCommands;
         if (value) {
             this.lines.set(line.instance, line);
-            editor.execute(selectObject(editor, line));
+            this.execute(selectObject(editor, line));
         } else {
             this.lines.delete(line.instance);
-            editor.execute(unselectObject(editor, line));
+            this.execute(unselectObject(editor, line));
         }
     }
 
@@ -118,10 +128,12 @@ export class BlockMover extends ObjectMover {
     public releaseSubject(): void {
         const editor = this.plugin.editor;
         const canvas = editor.file.canvas;
+        const block = this.block;
+        const lines = [...this.lines.values()];
         const { routeLinesThroughBlock, selectObject, unselectAllObjects } = EditorCommands;
-        editor.execute(routeLinesThroughBlock(canvas, this.block, [...this.lines.values()]));
-        editor.execute(unselectAllObjects(editor));
-        editor.execute(selectObject(editor, this.block));
+        this.execute(routeLinesThroughBlock(canvas, block, lines));
+        this.execute(unselectAllObjects(editor));
+        this.execute(selectObject(editor, this.block));
     }
 
 }

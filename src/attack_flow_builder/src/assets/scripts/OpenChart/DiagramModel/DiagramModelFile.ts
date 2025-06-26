@@ -1,4 +1,4 @@
-import { Canvas } from "./DiagramObject";
+import { Canvas, DiagramObject } from "./DiagramObject";
 import { DiagramObjectSerializer } from "./DiagramObjectSerializer";
 import type { DiagramModelExport } from "./DiagramModelExport";
 import type { DiagramObjectFactory } from "./DiagramObjectFactory";
@@ -50,6 +50,25 @@ export class DiagramModelFile {
         }
     }
 
+
+    /**
+     * Clones the {@link DiagramModelFile}.
+     * @param match
+     *  A predicate which is applied to each child of the canvas. If the 
+     *  predicate returns false, the child is excluded from the clone.
+     */
+    public clone(match?: (obj: DiagramObject) => boolean): DiagramModelFile {
+        // Clone canvas
+        const canvas = this.canvas.clone(this.canvas.instance, undefined, match);
+        // Return clone
+        return new DiagramModelFile(
+            this.factory,
+            {
+                schema  : this.factory.id,
+                objects : DiagramObjectSerializer.exportObjects([canvas])
+            }
+        );
+    }
 
     /**
      * Exports the file.

@@ -1,4 +1,10 @@
-import { EnableAnimations, EnableDebugInfo, EnableShadows, LoadSettings } from "./index.commands";
+import { 
+    EnableAnimations,
+    EnableDebugInfo,
+    EnableImageExportBackground,
+    EnableShadows,
+    LoadSettings
+} from "./index.commands";
 import type { AppSettings } from "@/assets/scripts/Application";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 
@@ -60,4 +66,19 @@ export function enableDebugInfo(
     context: ApplicationStore, value: boolean
 ): EnableDebugInfo {
     return new EnableDebugInfo(context, value);
+}
+
+/**
+ * Toggles the application's image export background.
+ * @param context
+ *  The application context.
+ * @param value
+ *  Whether to enable or disable the background during image export.
+ * @returns
+ *  A command that represents the action.
+ */
+export function enableImageExportBackground(
+    context: ApplicationStore, value: boolean
+) {
+    return new EnableImageExportBackground(context, value);
 }

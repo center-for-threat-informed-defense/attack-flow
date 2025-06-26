@@ -1,4 +1,5 @@
 import { DiagramFace } from "../DiagramFace";
+import { PositionSetByUser } from "../../ViewAttributes";
 import { findUnlinkedObjectAt } from "../../ViewLocators";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
@@ -20,6 +21,25 @@ export abstract class CanvasFace extends DiagramFace {
      * The face's scale.
      */
     public readonly scale: number;
+
+
+    /**
+     * Whether view's position has been set by the user.
+     * @remarks
+     *  The position of a canvas is always defined by its children. Its
+     *  position cannot be "set" by the user.
+     */
+    public get userSetPosition(): number  {
+        return PositionSetByUser.False;
+    }
+
+    /**
+     * Whether view's position has been set by the user.
+     * @remarks
+     *  The position of a canvas is always defined by its children. Its
+     *  position cannot be "set" by the user.
+     */
+    public set userSetPosition(value: number) {}
 
 
     /**

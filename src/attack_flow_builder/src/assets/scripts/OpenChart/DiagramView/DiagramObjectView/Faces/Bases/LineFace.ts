@@ -1,4 +1,5 @@
 import { DiagramFace } from "../DiagramFace";
+import { PositionSetByUser } from "../../ViewAttributes";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { DiagramObjectView, LineView } from "../../Views";
 
@@ -8,6 +9,25 @@ export abstract class LineFace extends DiagramFace {
      * The face's view.
      */
     declare protected view: LineView;
+
+
+    /**
+     * Whether view's position has been set by the user.
+     * @remarks
+     *  The position of a line is always defined by its children. Its position
+     *  cannot be "set" by the user.
+     */
+    public get userSetPosition(): number  {
+        return PositionSetByUser.False;
+    }
+
+    /**
+     * Whether view's position has been set by the user.
+     * @remarks
+     *  The position of a line is always defined by its children. Its position
+     *  cannot be "set" by the user.
+     */
+    public set userSetPosition(value: number) {}
 
 
     /**

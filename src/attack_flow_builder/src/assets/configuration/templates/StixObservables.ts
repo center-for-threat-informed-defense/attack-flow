@@ -1,6 +1,6 @@
 import { BoolEnum } from "./BoolEnum";
 import { AnchorConfiguration } from "./AnchorFormat";
-import { DiagramObjectType, PropertyType, SemanticRole } from "@OpenChart/DiagramModel";
+import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
 
 export const StixObservables: DiagramObjectTemplate[] = [
@@ -8,7 +8,6 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "artifact",
         namespace: ["stix_observable", "artifact"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             mime_type: {
                 type: PropertyType.String
@@ -70,11 +69,15 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "autonomous_system",
         namespace: ["stix_observable", "autonomous_system"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             number: {
                 type: PropertyType.Int,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             name: {
                 type: PropertyType.String
@@ -89,11 +92,15 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "directory",
         namespace: ["stix_observable", "directory"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             path: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             path_enc: {
                 type: PropertyType.String
@@ -114,10 +121,14 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "domain_name",
         namespace: ["stix_observable", "domain_name"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             value: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -126,10 +137,14 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "email_address",
         namespace: ["stix_observable", "email_address"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             value: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             display_name: {
                 type: PropertyType.String
@@ -141,9 +156,15 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "email_message",
         namespace: ["stix_observable", "email_message"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
-            is_multipart: BoolEnum,
+            is_multipart: {
+                ...BoolEnum,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
+            },
             date: {
                 type: PropertyType.String
             },
@@ -176,7 +197,6 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "file",
         namespace: ["stix_observable", "file"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
@@ -239,10 +259,14 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "ipv4_addr",
         namespace: ["stix_observable", "ipv4_addr"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             value: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -251,10 +275,14 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "ipv6_addr",
         namespace: ["stix_observable", "ipv6_addr"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             value: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -263,10 +291,14 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "mac_addr",
         namespace: ["stix_observable", "mac_addr"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             value: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -275,10 +307,14 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "mutex",
         namespace: ["stix_observable", "mutex"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -287,7 +323,6 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "network_traffic",
         namespace: ["stix_observable", "network_traffic"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             start: {
                 type: PropertyType.Date
@@ -308,7 +343,19 @@ export const StixObservables: DiagramObjectTemplate[] = [
             },
             protocols: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: {
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                },
+                metadata: {
+                    validator: {
+                        min_items: 1
+                    }       
+                }
             },
             src_byte_count: {
                 type: PropertyType.Int,
@@ -336,7 +383,6 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "process",
         namespace: ["stix_observable", "process"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             is_hidden: BoolEnum,
             pname: {
@@ -350,7 +396,12 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 type: PropertyType.String
             },
             command_line: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             environment_variables: {
                 type: PropertyType.String
@@ -362,11 +413,15 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "software",
         namespace: ["stix_observable", "software"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             cpe: {
                 type: PropertyType.String
@@ -388,10 +443,14 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "url",
         namespace: ["stix_observable", "url"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             value: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -400,7 +459,6 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "user_account",
         namespace: ["stix_observable", "user_account"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             user_name: {
                 type: PropertyType.String
@@ -416,7 +474,12 @@ export const StixObservables: DiagramObjectTemplate[] = [
             },
             display_name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             is_service_account: BoolEnum,
             is_privileged: BoolEnum,
@@ -444,7 +507,6 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "windows_registry_key",
         namespace: ["stix_observable", "windows_registry_key"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             key: {
                 type: PropertyType.String,
@@ -502,11 +564,15 @@ export const StixObservables: DiagramObjectTemplate[] = [
         name: "x509_certificate",
         namespace: ["stix_observable", "x509_certificate"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             subject: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             is_self_signed: BoolEnum,
             hashes: {

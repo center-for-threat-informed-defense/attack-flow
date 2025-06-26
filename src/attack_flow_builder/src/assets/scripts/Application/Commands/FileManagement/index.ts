@@ -1,17 +1,28 @@
 import Configuration from "@/assets/configuration/app.configuration";
 import { Device } from "@/assets/scripts/Browser";
 import { DoNothing } from "../index.commands";
+import { AppCommand } from "../index.commands";
+import { StixToAttackFlowConverter } from "@/assets/scripts/StixToAttackFlow";
 import { DiagramObjectViewFactory, DiagramViewFile } from "@OpenChart/DiagramView";
-import { ClearFileRecoveryBank, LoadFile, PrepareEditorWithFile, RemoveFileFromRecoveryBank, SaveDiagramFileToDevice } from "./index.commands";
-import type { AppCommand } from "../index.commands";
+import { 
+    ClearFileRecoveryBank, 
+    ImportFile, 
+    LoadFile,
+    PrepareEditorWithFile,
+    PublishDiagramFileToDevice,
+    RemoveFileFromRecoveryBank,
+    SaveDiagramFileToDevice,
+    SaveDiagramImageToDevice,
+    SaveSelectionImageToDevice
+} from "./index.commands";
+import type { StixBundle } from "@/assets/scripts/StixToAttackFlow";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
-import { StixToFlow } from "@/assets/scripts/StixToFlow/StixToFlow";
-import type { StixBundle } from "@/assets/scripts/StixToFlow/StixBundle";
+import type { DiagramViewEditor } from "@/assets/scripts/OpenChart/DiagramEditor";
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  1. Open / Import Files  ///////////////////////////////////////////////////
+//  1. Open Files  ////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -25,14 +36,8 @@ import type { StixBundle } from "@/assets/scripts/StixToFlow/StixBundle";
 export async function loadNewFile(
     context: ApplicationStore
 ): Promise<LoadFile> {
-    // Get theme
-    const themeId = context.settings.view.diagram.theme;
-    const theme = await context.themeRegistry.getTheme(themeId);
-    // Construct factory
-    const schema = Configuration.schema;
-    const factory = new DiagramObjectViewFactory(schema, theme);
     // Construct file
-    const file = new DiagramViewFile(factory);
+    const file = new DiagramViewFile(await getObjectFactory(context));
     // Return command
     return new LoadFile(context, file);
 }
@@ -52,16 +57,8 @@ export async function loadExistingFile(
     context: ApplicationStore, file: string, name?: string
 ): Promise<LoadFile> {
     const jsonFile = JSON.parse(file) as DiagramViewExport;
-    // Resolve theme
-    const themeId = context.settings.view.diagram.theme;
-    const theme = await context.themeRegistry.getTheme(jsonFile.theme ?? themeId);
-    // Resolve schema
-    const schema = Configuration.schema;
-    if (jsonFile.schema !== schema.id) {
-        throw new Error(`Unsupported schema: '${jsonFile.schema}'`);
-    }
     // Construct factory
-    const factory = new DiagramObjectViewFactory(schema, theme);
+    const factory = await getObjectFactory(context, jsonFile.schema);
     // Construct file
     const viewFile = new DiagramViewFile(factory, jsonFile);
     // Run layout
@@ -91,6 +88,23 @@ export async function loadFileFromFileSystem(
 }
 
 /**
+ * Loads a diagram file, from a remote url, into the application.
+ * @param context
+ *  The application's context.
+ * @param url
+ *  The remote url.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function loadFileFromUrl(
+    context: ApplicationStore, url: string
+): Promise<LoadFile> {
+    const path = new URL(url).pathname.split(/\//g);
+    const filename = path[path.length - 1].match(/.*(?=\.[^\.]*$)/) ?? ["untitled_file"];
+    return loadExistingFile(context, await (await fetch(url)).text(), filename[0]);
+}
+
+/**
  * Loads a STIX file into the application.
  * @param context
  *  The application's context.
@@ -105,16 +119,12 @@ export async function loadExistingStixFile(
     context: ApplicationStore, file: string, name?: string
 ): Promise<LoadFile> {
     const stixBundle = JSON.parse(file) as StixBundle;
-    // Resolve theme
-    const themeId = context.settings.view.diagram.theme;
-    const theme = await context.themeRegistry.getTheme(themeId);
-    // Resolve schema
-    const schema = Configuration.schema;
     // Construct factory
-    const factory = new DiagramObjectViewFactory(schema, theme);
-    // Construct stix
-    const canvas = StixToFlow.toFlow(stixBundle, factory);
-    const viewFile = new DiagramViewFile(factory, canvas);
+    const factory = await getObjectFactory(context)
+    // Translate STIX
+    const jsonFile = new StixToAttackFlowConverter(factory).convert(stixBundle);
+    // Construct file
+    const viewFile = new DiagramViewFile(factory, jsonFile);
     // Return command
     return new LoadFile(context, viewFile, name);
 }
@@ -138,25 +148,129 @@ export async function loadStixFileFromFileSystem(
 }
 
 /**
- * Loads a diagram file, from a remote url, into the application.
+ * Returns the requested object factory.
  * @param context
  *  The application's context.
- * @param url
- *  The remote url.
- * @returns
- *  A command that represents the action.
+ * @param id
+ *  The requested schema.
+ *  (Default: The Primary Application Schema)
+ * @returns 
  */
-export async function loadFileFromUrl(
-    context: ApplicationStore, url: string
-): Promise<LoadFile> {
-    const path = new URL(url).pathname.split(/\//g);
-    const filename = path[path.length - 1].match(/.*(?=\.[^\.]*$)/) ?? ["untitled_file"];
-    return loadExistingFile(context, await (await fetch(url)).text(), filename[0]);
+async function getObjectFactory(
+    context: ApplicationStore, id?: string
+): Promise<DiagramObjectViewFactory> {
+    // Resolve theme
+    const themeId = context.settings.view.diagram.theme;
+    const theme = await context.themeRegistry.getTheme(themeId);
+    // Resolve schema
+    const schema = Configuration.schema;
+    if (id && id !== schema.id) {
+        throw new Error(`Unsupported schema: '${id}'`);
+    }
+    // Construct factory
+    return new DiagramObjectViewFactory(schema, theme);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  2. Prepare Editor with File  //////////////////////////////////////////////
+//  2. Import Files  //////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Imports a diagram file into an existing editor.
+ * @param context
+ *  The application context.
+ * @param editor
+ *  The editor to import into.
+ * @param file
+ *  The file to import.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function importExistingFile(
+    context: ApplicationStore, editor: DiagramViewEditor, file: string
+): Promise<AppCommand> {
+    // Parse file
+    const jsonFile = JSON.parse(file) as DiagramViewExport;
+    // Construct factory
+    const factory = await getObjectFactory(context, jsonFile.schema);
+    // Construct file
+    const viewFile = new DiagramViewFile(factory, jsonFile);
+    // Run layout
+    if (!jsonFile.layout) {
+        // TODO: Run automated layout
+    }
+    // Import file
+    return new ImportFile(context, editor, viewFile);
+}
+
+/**
+ * Imports a diagram file, from the file system, into the application.
+ * @param context
+ *  The application context.
+ * @param file
+ *  The file to import.
+ */
+export async function importFileFromFilesystem(
+    context: ApplicationStore, editor: DiagramViewEditor
+): Promise<AppCommand> {
+    const file = await Device.openTextFileDialog(Configuration.file_type_extension);
+    if (file) {
+        return importExistingFile(context, editor, file.contents as string);
+    } else {
+        return new DoNothing();
+    }
+}
+
+/**
+ * Imports a STIX file into an existing editor.
+ * @param context
+ *  The application context.
+ * @param editor
+ *  The editor to import into.
+ * @param file
+ *  The file to import.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function importExistingStixFile(
+    context: ApplicationStore, editor: DiagramViewEditor, file: string
+): Promise<AppCommand> {
+    const stixBundle = JSON.parse(file) as StixBundle;
+    // Construct factory
+    const factory = await getObjectFactory(context)
+    // Translate STIX
+    const jsonFile = new StixToAttackFlowConverter(factory).convert(stixBundle);
+    // Construct file
+    const viewFile = new DiagramViewFile(factory, jsonFile);
+    // Return command
+    return new ImportFile(context, editor, viewFile);
+}
+
+/**
+ * Imports a STIX file, from the file system, into the application.
+ * @param context
+ *  The application context.
+ * @param editor
+ *  The editor to import into.
+ * @returns
+ *  A command that represents the action.
+ */
+export async function importStixFileFromFilesystem(
+    context: ApplicationStore, editor: DiagramViewEditor
+) {
+    const file = await Device.openTextFileDialog("json");
+    if (file) {
+        return importExistingStixFile(context, editor, file.contents as string);
+    } else {
+        return new DoNothing();
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  3. Prepare Editor with File  //////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -258,7 +372,7 @@ export async function prepareEditorFromUrl(
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  3. Save / Export Files  ///////////////////////////////////////////////////
+//  4. Save / Export Files  ///////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -275,9 +389,48 @@ export function saveActiveFileToDevice(
     return new SaveDiagramFileToDevice(context, context.activeEditor);
 }
 
+/**
+ * Publishes a diagram file to the user's file system.
+ * @param context
+ *  The application's context.
+ * @returns
+ *  A command that represents the action.
+ */
+export function publishActiveFileToDevice(
+    context: ApplicationStore
+) {
+    return new PublishDiagramFileToDevice(context, context.activeEditor);
+}
+
+/**
+ * Saves a diagram file to the user's file system.
+ * @param context
+ *  The application context.
+ * @returns
+ *  A command that represents the action.
+ */
+export function saveDiagramImageToDevice(
+    context: ApplicationStore
+) {
+    return new SaveDiagramImageToDevice(context, context.activeEditor);
+}
+
+/**
+ * Saves a diagram's selection as an image to the user's file system.
+ * @param context
+ *  The application context.
+ * @returns
+ *  A command that represents the action.
+ */
+export function saveSelectionImageToDevice(
+    context: ApplicationStore
+) {
+    return new SaveSelectionImageToDevice(context, context.activeEditor);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
-//  4. File Recovery Bank  ////////////////////////////////////////////////////
+//  5. File Recovery Bank  ////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 

@@ -1,9 +1,9 @@
-import { EditorCommand } from "../EditorCommand";
-import { EditorDirective } from "../EditorDirective";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class MoveObjectsBy extends EditorCommand {
+export class MoveObjectsBy extends SynchronousEditorCommand {
 
     /**
      * The object(s) to move.

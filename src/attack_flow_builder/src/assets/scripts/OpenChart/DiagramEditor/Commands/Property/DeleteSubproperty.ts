@@ -1,9 +1,9 @@
-import { EditorCommand } from "../EditorCommand";
-import { EditorDirective } from "../EditorDirective";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 import type { ListProperty, Property } from "@OpenChart/DiagramModel";
 
-export class DeleteSubproperty extends EditorCommand {
+export class DeleteSubproperty extends SynchronousEditorCommand {
 
     /**
      * The property.

@@ -1,11 +1,12 @@
 {
     "file": {
         "image_export": {
-            "padding": 30
+            "padding": 30,
+            "include_background": true
         }
     },
     "edit": {
-        "clone_offset": [20, 20],
+        "clone_offset": [4, 4],
         "anchor_line_template": "dynamic_line"
     },
     "view": {
@@ -26,6 +27,9 @@
         "file": {
             "new_file": "Control+N",
             "open_file": "Control+O",
+            "open_stix_file": "",
+            "import_file": "",
+            "import_stix_file": "",
             "save_file": "Control+S",
             "save_image": "",
             "save_select_image": "",

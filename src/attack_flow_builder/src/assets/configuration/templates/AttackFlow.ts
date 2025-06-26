@@ -1,10 +1,9 @@
-import { DiagramObjectType, PropertyType, SemanticRole } from "@OpenChart/DiagramModel";
+import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
 import type { CanvasTemplate } from "@OpenChart/DiagramModel";
 
 export const AttackFlow: CanvasTemplate = {
     name: "flow",
     type: DiagramObjectType.Canvas,
-    role: SemanticRole.Node,
     properties: {
         name: {
             type: PropertyType.String,
@@ -19,7 +18,12 @@ export const AttackFlow: CanvasTemplate = {
             form: {
                 name: {
                     type: PropertyType.String,
-                    is_representative: true
+                    is_representative: true,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
                 },
                 identity_class: {
                     type: PropertyType.Enum,
@@ -64,7 +68,12 @@ export const AttackFlow: CanvasTemplate = {
                 form: {
                     source_name: {
                         type: PropertyType.String,
-                        is_representative: true
+                        is_representative: true,
+                        metadata: {
+                            validator: {
+                                is_required: true
+                            }       
+                        }
                     },
                     description: {
                         type: PropertyType.String

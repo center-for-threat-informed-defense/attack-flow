@@ -1,5 +1,6 @@
 import type { JsonValue } from "./JsonTypes";
 import type { DiagramObject } from "../DiagramObject";
+import type { PropertyMetadata } from "./PropertyMetadata";
 
 export abstract class Property {
 
@@ -12,6 +13,11 @@ export abstract class Property {
      * Whether the property is editable.
      */
     public readonly isEditable: boolean;
+
+    /**
+     * The property's auxiliary metadata.
+     */
+    public readonly metadata: PropertyMetadata;
 
     /**
      * The property's (internal) parent.
@@ -43,10 +49,13 @@ export abstract class Property {
      *  The property's id.
      * @param editable
      *  Whether the property is editable.
+     * @param meta
+     *  The property's auxiliary metadata.
      */
-    constructor(id: string, editable: boolean) {
+    constructor(id: string, editable: boolean, meta?: PropertyMetadata) {
         this.id = id;
         this.isEditable = editable;
+        this.metadata = meta ?? {};
         this._parent = null;
     }
 

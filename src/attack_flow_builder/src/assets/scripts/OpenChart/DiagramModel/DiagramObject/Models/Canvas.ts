@@ -36,14 +36,26 @@ export class Canvas extends Group {
      * @param instance
      *  The clone's instance identifier.
      *  (Default: Random UUID)
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations. 
      * @param match
      *  A predicate which is applied to each child. If the predicate returns 
      *  false, the object is not included in the clone.
      * @returns
      *  A clone of the object.
      */
-    public clone(instance?: string, match?: (obj: DiagramObject) => boolean): Canvas {
-        return this.replicateChildrenTo(this.isolatedClone(instance), match);
+    public clone(
+        instance?: string,
+        instanceMap?: Map<string, string>,
+        match?: (obj: DiagramObject) => boolean
+    ): Canvas {
+        // Create clone
+        const clone = this.replicateChildrenTo(this.isolatedClone(instance), instanceMap, match);
+        // Create association
+        instanceMap?.set(this.instance, clone.instance);
+        // Return clone
+        return clone;
     }
 
     /**

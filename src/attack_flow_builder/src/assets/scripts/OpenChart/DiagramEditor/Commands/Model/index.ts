@@ -1,4 +1,5 @@
 import {
+    AddGroupToGroup,
     AddObjectToGroup,
     AttachLatchToAnchor,
     DetachLatchFromAnchor,
@@ -60,6 +61,20 @@ export function addObjectToGroup(
     return new AddObjectToGroup(object, group);
 }
 
+/**
+ * Adds a diagram group to a group.
+ * @param sourceGroup
+ *  The source group.
+ * @param targetGroup
+ *  The target group.
+ * @returns
+ *  A command that represents the action.
+ */
+export function addGroupToGroup(
+    sourceGroup: Group, targetGroup: Group
+): AddGroupToGroup {
+    return new AddGroupToGroup(sourceGroup, targetGroup);
+}
 
 /**
  * Removes one or more objects from their parent object.

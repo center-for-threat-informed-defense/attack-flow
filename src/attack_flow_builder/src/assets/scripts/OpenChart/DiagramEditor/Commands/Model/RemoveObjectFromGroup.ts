@@ -1,10 +1,10 @@
-import { EditorCommand } from "../EditorCommand";
-import { EditorDirective } from "../EditorDirective";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import { Anchor, findExternalLinks, Group, Latch } from "@OpenChart/DiagramModel";
 import type { DiagramObject } from "@OpenChart/DiagramModel";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 
-export class RemoveObjectFromGroup extends EditorCommand {
+export class RemoveObjectFromGroup extends SynchronousEditorCommand {
 
     /**
      * The diagram objects to remove.

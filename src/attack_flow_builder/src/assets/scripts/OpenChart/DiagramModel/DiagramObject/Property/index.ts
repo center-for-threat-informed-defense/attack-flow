@@ -5,6 +5,7 @@
  * prevent circular dependencies.
  */
 
+export * from "./PropertyMetadata";
 export * from "./Property";
 export * from "./CollectionProperty/CollectionProperty";
 export * from "./CollectionProperty/DictionaryProperty";

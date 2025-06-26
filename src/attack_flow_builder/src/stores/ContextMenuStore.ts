@@ -29,9 +29,10 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             // Sections
             const sections: ContextMenuSection<CommandEmitter>[] = [
                 this.openFileMenu,
+                this.importFileMenu,
                 this.isRecoverFileMenuShown ? this.recoverFileMenu : null,
-                this.saveFileMenu
-                // ctx.publisher ? this.publishFileMenu : null
+                this.saveFileMenu,
+                app.activePublisher ? this.publishFileMenu : null
             ].filter(Boolean) as ContextMenuSection<CommandEmitter>[];
             // Menu
             return { text: "File", type: MenuType.Submenu, sections };
@@ -63,7 +64,38 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     {
                         text: "Open STIX File...",
                         type: MenuType.Action,
-                        data: () => AppCommands.prepareEditorFromStixFileSystem(app)
+                        data: () => AppCommands.prepareEditorFromStixFileSystem(app),
+                        shortcut: file.open_stix_file
+                    }
+                ]
+            };
+        },
+
+        /**
+         * Returns the 'import file' menu section.
+         * @returns
+         *  The 'import file' menu section.
+         */
+        importFileMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const file = app.settings.hotkeys.file;
+            const editor = app.activeEditor;
+            return {
+                id: "open_file_options",
+                items: [
+                    {
+                        text: "Import File...",
+                        type: MenuType.Action,
+                        data: () => AppCommands.importFileFromFilesystem(app, editor),
+                        shortcut: file.import_file,
+                        disabled: editor.id === PhantomEditor.id
+                    },
+                    {
+                        text: "Import STIX File...",
+                        type: MenuType.Action,
+                        data: () => AppCommands.importStixFileFromFilesystem(app, editor),
+                        shortcut: file.import_stix_file,
+                        disabled: editor.id === PhantomEditor.id
                     }
                 ]
             };
@@ -147,45 +179,47 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         data: () => AppCommands.saveActiveFileToDevice(app),
                         shortcut: file.save_file,
                         disabled: editor.id === PhantomEditor.id
+                    },
+                    {
+                        text: "Save as Image",
+                        type: MenuType.Action,
+                        data: () => AppCommands.saveDiagramImageToDevice(app),
+                        shortcut: file.save_image,
+                        disabled: editor.id === PhantomEditor.id
+                    },
+                    {
+                        text: "Save Selection as Image",
+                        type: MenuType.Action,
+                        data: () => AppCommands.saveSelectionImageToDevice(app),
+                        shortcut: file.save_select_image,
+                        disabled: !app.hasSelection
                     }
-                    // {
-                    //     text: "Save as Image",
-                    //     type: MenuType.Action,
-                    //     data: () => new App.SavePageImageToDevice(ctx),
-                    //     shortcut: file.save_image
-                    // },
-                    // {
-                    //     text: "Save Selection as Image",
-                    //     type: MenuType.Action,
-                    //     data: () => new App.SaveSelectionImageToDevice(ctx),
-                    //     shortcut: file.save_select_image,
-                    //     disabled: !ctx.hasSelection
-                    // }
                 ]
             };
         },
 
-        // /**
-        //  * Returns the 'publish file' menu section.
-        //  * @returns
-        //  *  The 'publish file' menu section.
-        //  */
-        // publishFileMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const file = ctx.settings.hotkeys.file;
-        //     return {
-        //         id: "publish_options",
-        //         items: [
-        //             {
-        //                 text: `Publish ${Configuration.file_type_name}`,
-        //                 type: MenuType.Action,
-        //                 data: () => new App.PublishPageToDevice(ctx),
-        //                 shortcut: file.publish_file,
-        //                 disabled: !ctx.isValid
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the 'publish file' menu section.
+         * @returns
+         *  The 'publish file' menu section.
+         */
+        publishFileMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const editor = app.activeEditor;
+            const file = app.settings.hotkeys.file;
+            return {
+                id: "publish_options",
+                items: [
+                    {
+                        text: `Publish ${Configuration.file_type_name}`,
+                        type: MenuType.Action,
+                        data: () => AppCommands.publishActiveFileToDevice(app),
+                        shortcut: file.publish_file,
+                        disabled: !app.isValid || editor.id === PhantomEditor.id
+                    }
+                ]
+            };
+        },
 
         /**
          * Tests if the 'recovery file' menu should be displayed.
@@ -216,7 +250,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 type: MenuType.Submenu,
                 sections: [
                     this.undoRedoMenu,
-                    // this.clipboardMenu,
+                    this.clipboardMenu,
                     this.deleteMenu,
                     // this.duplicateMenu,
                     this.findMenu,
@@ -257,44 +291,43 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             };
         },
 
-        // /**
-        //  * Returns the clipboard menu section.
-        //  * @returns
-        //  *  The clipboard menu section.
-        //  */
-        // clipboardMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const edit = ctx.settings.hotkeys.edit;
-        //     const canPaste = ctx.clipboard.length;
-        //     const hasSelection = ctx.hasSelection;
-        //     return {
-        //         id: "clipboard_options",
-        //         items: [
-        //             {
-        //                 text: "Cut",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.CutSelectedChildren(ctx, page),
-        //                 shortcut: edit.cut,
-        //                 disabled: !hasSelection
-        //             },
-        //             {
-        //                 text: "Copy",
-        //                 type: MenuType.Action,
-        //                 data: () => new App.CopySelectedChildren(ctx, page),
-        //                 shortcut: edit.copy,
-        //                 disabled: !hasSelection
-        //             },
-        //             {
-        //                 text: "Paste",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.PasteToObject(ctx, page),
-        //                 shortcut: edit.paste,
-        //                 disabled: !canPaste
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the clipboard menu section.
+         * @returns
+         *  The clipboard menu section.
+         */
+        clipboardMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const edit = app.settings.hotkeys.edit;
+            const editor = app.activeEditor;
+            const hasSelection = app.hasSelection;
+            return {
+                id: "clipboard_options",
+                items: [
+                    {
+                        text: "Cut",
+                        type: MenuType.Action,
+                        data: () => AppCommands.cutActiveSelectionToClipboard(app),
+                        shortcut: edit.cut,
+                        disabled: !hasSelection
+                    },
+                    {
+                        text: "Copy",
+                        type: MenuType.Action,
+                        data: () => AppCommands.copyActiveSelectionToClipboard(app),
+                        shortcut: edit.copy,
+                        disabled: !hasSelection
+                    },
+                    {
+                        text: "Paste",
+                        type: MenuType.Action,
+                        data: () => AppCommands.pasteFileFromClipboard(app),
+                        shortcut: edit.paste,
+                        disabled: editor.id === PhantomEditor.id
+                    }
+                ]
+            };
+        },
 
         /**
          * Returns the delete menu section.
@@ -480,9 +513,9 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                 type: MenuType.Submenu,
                 sections: [
                     this.diagramViewMenu,
-                    // this.diagramRenderMenu,
+                    this.imageExportMenu,
                     this.zoomMenu,
-                    // this.jumpMenu,
+                    this.jumpMenu,
                     this.themeMenu,
                     this.fullscreenMenu,
                     this.developerViewMenu
@@ -527,6 +560,27 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
         },
 
         /**
+         * Returns the 'image export' menu section.
+         * @returns
+         *  The 'image export' menu section.
+         */
+        imageExportMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const image = app.settings.file.image_export;
+            return {
+                id: "image_export_options",
+                items: [
+                    {
+                        text: "Background (Image Export)",
+                        type: MenuType.Toggle,
+                        data: () => AppCommands.enableImageExportBackground(app, !image.include_background),
+                        value: image.include_background
+                    }
+                ]
+            };
+        },
+
+        /**
          * Returns the zoom menu section.
          * @returns
          *  The zoom menu section.
@@ -560,43 +614,43 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             };
         },
 
-        // /**
-        //  * Returns the jump menu section.
-        //  * @returns
-        //  *  The jump menu section.
-        //  */
-        // jumpMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const view = ctx.settings.hotkeys.view;
-        //     const hasSelection = ctx.hasSelection;
-        //     return {
-        //         id: "jump_options",
-        //         items: [
-        //             {
-        //                 text: "Zoom to Selection",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.MoveCameraToSelection(ctx, page),
-        //                 shortcut: view.jump_to_selection,
-        //                 disabled: !hasSelection
-        //             },
-        //             {
-        //                 text: "Jump to Parents",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.MoveCameraToParents(ctx, page),
-        //                 shortcut: view.jump_to_parents,
-        //                 disabled: !hasSelection
-        //             },
-        //             {
-        //                 text: "Jump to Children",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.MoveCameraToChildren(ctx, page),
-        //                 shortcut: view.jump_to_children,
-        //                 disabled: !hasSelection
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the jump menu section.
+         * @returns
+         *  The jump menu section.
+         */
+        jumpMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const editor = app.activeEditor;
+            const view = app.settings.hotkeys.view;
+            const hasSelection = app.hasSelection;
+            return {
+                id: "jump_options",
+                items: [
+                    {
+                        text: "Zoom to Selection",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.moveCameraToSelection(editor),
+                        shortcut: view.jump_to_selection,
+                        disabled: !hasSelection
+                    },
+                    {
+                        text: "Jump to Parents",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.moveCameraToParents(editor),
+                        shortcut: view.jump_to_parents,
+                        disabled: !hasSelection
+                    },
+                    {
+                        text: "Jump to Children",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.moveCameraToChildren(editor),
+                        shortcut: view.jump_to_children,
+                        disabled: !hasSelection
+                    }
+                ]
+            };
+        },
 
 
         /**

@@ -35,11 +35,19 @@ export class Handle extends DiagramObject {
      * @param instance
      *  The clone's instance identifier.
      *  (Default: Random UUID)
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations.
      * @returns
      *  A clone of the object.
      */
-    public clone(instance?: string): Handle {
-        return this.isolatedClone(instance);
+    public clone(instance?: string, instanceMap?: Map<string, string>): Handle {
+        // Create clone
+        const clone = this.isolatedClone(instance);
+        // Create association
+        instanceMap?.set(this.instance, clone.instance);
+        // Return clone
+        return clone;
     }
 
     /**

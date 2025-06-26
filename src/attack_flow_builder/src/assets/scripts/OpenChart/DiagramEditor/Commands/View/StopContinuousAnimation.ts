@@ -1,12 +1,12 @@
-import { EditorCommand } from "../EditorCommand";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
 
-export class StopContinuousAnimation extends EditorCommand {
+export class StopContinuousAnimation extends SynchronousEditorCommand {
 
     /**
      * The interface to run the animation on.
      */
-    public readonly interface: DiagramInterface<EditorCommand>;
+    public readonly interface: DiagramInterface;
 
     /**
      * The animation's identifier.
@@ -21,7 +21,7 @@ export class StopContinuousAnimation extends EditorCommand {
      * @param animation
      *  The animation.
      */
-    constructor(ui: DiagramInterface<EditorCommand>, animation: Animation) {
+    constructor(ui: DiagramInterface, animation: Animation) {
         super();
         this.interface = ui;
         this.animation = animation;

@@ -1,12 +1,13 @@
 import * as EditorCommands from "./Commands";
 import { traverse } from "@OpenChart/DiagramModel";
-import { EditorDirective } from "./Commands";
+import { EditorDirective } from "./EditorDirectives";
 import { DiagramViewFile } from "@OpenChart/DiagramView";
 import { DiagramInterface } from "@OpenChart/DiagramInterface";
 import { DiagramModelEditor } from "./DiagramModelEditor";
 import type { ViewEditorEvents } from "./ViewEditorEvents";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
-import type { DirectiveArguments } from "./Commands";
+import type { DirectiveArguments } from "./EditorDirectives";
+import type { AutosaveController } from "./AutosaveController";
 
 export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewEditorEvents> {
 
@@ -39,13 +40,13 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
      *  The editor's file.
      * @param name
      *  The editor's file name.
-     * @param autosaveInterval
-     *  How long a period of inactivity must be before autosaving.
-     *  (Default: 1500ms)
+     * @param autosave
+     *  The editor's autosave controller.
+     *  (Default: Default autosave controller)
      */
-    constructor(file: DiagramViewFile, name?: string, autosaveInterval?: number);
-    constructor(file: DiagramViewFile, name?: string, autosaveInterval: number = 1500) {
-        super(file, name, autosaveInterval);
+    constructor(file: DiagramViewFile, name?: string, autosave?: AutosaveController);
+    constructor(file: DiagramViewFile, name?: string, autosave?: AutosaveController) {
+        super(file, name, autosave);
         this.pointer = [0, 0];
         this.selection = new Map();
         // Create interface
@@ -72,7 +73,7 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
      * @param args
      *  The arguments.
      */
-    public executeDirectives(args: DirectiveArguments) {
+    protected executeDirectives(args: DirectiveArguments) {
         // Execute model directives
         super.executeDirectives(args);
         // Execute view directives
@@ -97,6 +98,28 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
         for (const obj of traverse(this.file.canvas, o => o.focused)) {
             this.selection.set(obj.instance, obj);
         }
+    }
+    
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  3. Search  ////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Returns the {@link DiagramObject} with specified instance id.
+     * @param id
+     *  The object's instance id.
+     * @returns
+     *  The {@link DiagramObject}.
+     */
+    public lookup(id: string): DiagramObjectView | undefined {
+        for(const obj of traverse<DiagramObjectView>(this.file.canvas)) {
+            if(obj.instance === id) {
+                return obj;
+            }
+        }
+        return undefined;
     }
 
 }

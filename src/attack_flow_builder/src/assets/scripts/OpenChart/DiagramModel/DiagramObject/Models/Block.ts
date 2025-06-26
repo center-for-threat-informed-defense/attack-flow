@@ -106,11 +106,19 @@ export class Block extends DiagramObject {
      * @param instance
      *  The clone's instance identifier.
      *  (Default: Random UUID)
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations. 
      * @returns
      *  A clone of the object.
      */
-    public clone(instance?: string): Block {
-        return this.replicateChildrenTo(this.isolatedClone(instance));
+    public clone(instance?: string, instanceMap?: Map<string, string>): Block {
+        // Create clone
+        const clone = this.replicateChildrenTo(this.isolatedClone(instance), instanceMap);
+        // Create association
+        instanceMap?.set(this.instance, clone.instance);
+        // Return clone
+        return clone;
     }
 
     /**
@@ -134,12 +142,15 @@ export class Block extends DiagramObject {
      * Clones the object's children and transfers them to `object`.
      * @param object
      *  The object to transfer the clones to.
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations. 
      * @returns
      *  The provided `object`.
      */
-    protected replicateChildrenTo<T extends Block>(object: T): T {
+    protected replicateChildrenTo<T extends Block>(object: T, instanceMap?: Map<string, string>): T {
         for(const [position, anchor] of this._anchors) {
-            object.addAnchor(position, anchor.clone());
+            object.addAnchor(position, anchor.clone(undefined, instanceMap));
         }
         return object;
     }

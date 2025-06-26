@@ -360,15 +360,29 @@ export class GroupView extends Group implements ViewObject {
      * @param instance
      *  The clone's instance identifier.
      *  (Default: Random UUID)
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations.
      * @param match
      *  A predicate which is applied to each child. If the predicate returns 
      *  false, the object is not included in the clone.
      * @returns
      *  A clone of the object.
      */
-    public clone(instance?: string, match?: (obj: DiagramObjectView) => boolean): GroupView {
+    public clone(
+        instance?: string,
+        instanceMap?: Map<string, string>,
+        match?: (obj: DiagramObjectView) => boolean
+    ): GroupView {
         const _match = match as unknown as (obj: DiagramObject) => boolean;
-        return this.replicateChildrenTo(this.isolatedClone(instance), _match);
+        // Create clone
+        const clone = this.replicateChildrenTo(this.isolatedClone(instance), instanceMap, _match);
+        // Calculate layout and position
+        clone.face.calculateLayout();
+        // Create association
+        instanceMap?.set(this.instance, clone.instance);
+        // Return clone
+        return clone;
     }
 
     /**

@@ -1,8 +1,12 @@
+
 import { EventEmitter } from "@OpenChart/Utilities";
-import { DiagramModelFile } from "@OpenChart/DiagramModel";
-import { EditorDirective, GroupCommand } from "./Commands";
+import { DiagramModelFile, DiagramObject, traverse } from "@OpenChart/DiagramModel";
+import { AutosaveController } from "./AutosaveController";
+import { GroupCommand, SynchronousEditorCommand } from "./Commands";
+import { EditorDirective, newDirectiveArguments } from "./EditorDirectives";
 import type { ModelEditorEvents } from "./ModelEditorEvents";
-import type { DirectiveArguments, DirectiveIssuer, EditorCommand } from "./Commands";
+import type { DirectiveArguments } from "./EditorDirectives";
+import type { AsynchronousEditorCommand, EditorCommand } from "./Commands";
 
 export class DiagramModelEditor<
     T extends DiagramModelFile = DiagramModelFile,
@@ -25,6 +29,11 @@ export class DiagramModelEditor<
     public readonly name: string;
 
     /**
+     * The editor's autosave controller.
+     */
+    public readonly autosave: AutosaveController;
+
+    /**
      * The editor's undo stack.
      */
     private _undoStack: EditorCommand[];
@@ -35,19 +44,9 @@ export class DiagramModelEditor<
     private _redoStack: EditorCommand[];
 
     /**
-     * The editor's autosave interval.
+     * The editor's active command streams.
      */
-    private _autosaveInterval: number;
-
-    /**
-     * The editor's autosave timeout id.
-     */
-    private _autosaveTimeoutId: number | null;
-
-    /**
-     * The last time the editor autosaved.
-     */
-    private _lastAutosave: Date | null;
+    private _streams: Map<string, GroupCommand>;
 
     /**
      * The editor's index.
@@ -62,7 +61,7 @@ export class DiagramModelEditor<
      *  `Invalid Date` indicates the editor failed to autosave.
      */
     public get lastAutosave(): Date | null {
-        return this._lastAutosave;
+        return this.autosave.lastAutosave;
     }
 
 
@@ -79,93 +78,136 @@ export class DiagramModelEditor<
      *  The editor's file.
      * @param name
      *  The editor's file name.
-     * @param autosaveInterval
-     *  How long a period of inactivity must be before autosaving.
-     *  (Default: 1500ms)
+     * @param autosave
+     *  The editor's autosave controller.
+     *  (Default: Default autosave controller)
      */
-    constructor(file: T, name?: string, autosaveInterval?: number);
-    constructor(file: T, name?: string, autosaveInterval: number = 1500) {
+    constructor(file: T, name?: string, autosave?: AutosaveController);
+    constructor(file: T, name?: string, autosave?: AutosaveController) {
         super();
         this.id = file.canvas.instance;
         this.file = file;
         this.name = name ?? "new_file";
         this._undoStack = [];
         this._redoStack = [];
-        this._autosaveInterval = autosaveInterval;
-        this._autosaveTimeoutId = null;
-        this._lastAutosave = null;
-        // this._searchIndex = new FlexSearch.Document({
-        //     document: { id: "$", index: [] }
-        // })
+        this._streams = new Map();
+        this.autosave = autosave ?? new AutosaveController();
+        this.autosave.on("autosave", () => this.emit("autosave", this));
         this.reindexFile();
+    }
+
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Command Streams  ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Begins a new command stream.
+     * @remarks
+     *  Currently, "Command Streams" do not account for mid-stream `undo()`.
+     *  Invoking `undo()` during an active stream will not reverse the stream's
+     *  actions. This behavior is likely to change in the future.
+     * @param id
+     *  The stream's identifier.
+     */
+    public beginCommandStream(id: string) {
+        if(this._streams.has(id)) {
+            throw new Error(`Command stream '${id}' already exists.`)
+        } else {
+            this._streams.set(id, new GroupCommand());
+        }
+    }
+
+    /**
+     * Ends a command stream.
+     * @param id
+     *  The stream's identifier.
+     */
+    public endCommandStream(id: string) {
+        const cmd = this._streams.get(id);
+        if(!cmd) {
+            throw new Error(`Command stream '${id}' does not exist.`);
+        } else if(!cmd.isEmpty) {
+            this._redoStack = [];
+            this._undoStack.push(cmd);
+        }
+        this._streams.delete(id);
+    }
+
+    /**
+     * Records a command to a command stream.
+     * @param id
+     *  The stream's identifier. 
+     * @param command
+     *  The command.
+     */
+    private recordCommandToStream(id: string, command: SynchronousEditorCommand) {
+        const group = this._streams.get(id);
+        if(!group) {
+            throw new Error(`Command stream '${id}' does not exist.`);
+        } else {
+            group.do(command);
+        }
     }
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  1. Command Execution  /////////////////////////////////////////////////
+    //  2. Command Execution  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
     /**
      * Executes one or more editor commands.
-     * @param commands
+     * @param cmd
      *  The commands.
-     * @returns
-     *  The command directives.
+     * @param id
+     *  The command's stream identifier.
      */
-    public async execute(...commands: EditorCommand[]) {
-        // Package command
-        let cmd: EditorCommand;
-        if (commands.length === 0) {
-            return;
-        } else if (commands.length === 1) {
-            cmd = commands[0];
-        } else {
-            const grp = new GroupCommand();
-            for (const command of commands) {
-                grp.do(command);
-            }
-            cmd = grp;
-        }
+    public execute(cmd: SynchronousEditorCommand | SynchronousEditorCommand[], stream?: string) {
+        cmd = Array.isArray(cmd) ? new GroupCommand().do(cmd) : cmd;
+        // Emit 'beforeEdit' hook
+        this.emit("beforeEdit", this, cmd);
         // Construct arguments
-        const { args, issuer } = this.newDirectiveArguments();
+        const { args, issuer } = newDirectiveArguments();
         // Execute command
-        const result = cmd.execute(issuer);
-        if (result instanceof Promise) {
-            await result;
+        cmd.execute(issuer);
+        // Execute directives
+        this.executeDirectives(args);
+        // Update command history
+        if (args.directives & EditorDirective.Record) {
+            if(stream) {
+                this.recordCommandToStream(stream, cmd);
+            } else {
+                this._redoStack = [];
+                this._undoStack.push(cmd);
+            }
         }
+        // Emit 'edit' hook
+        this.emit("edit", this, cmd, args);
+    }
+
+    /**
+     * Executes an asynchronous editor command.
+     * @param cmd
+     *  The command.
+     */
+    public async executeAsync(cmd: AsynchronousEditorCommand) {
+        // Emit 'beforeEdit' hook
+        this.emit("beforeEdit", this, cmd);
+        // Construct arguments
+        const { args, issuer } = newDirectiveArguments();
+        // Execute command
+        await cmd.execute(issuer);
+        // Execute directives
+        this.executeDirectives(args);
+        // Update command history
         if (args.directives & EditorDirective.Record) {
             this._redoStack = [];
             this._undoStack.push(cmd);
         }
-        this.executeDirectives(args);
-    }
-
-    /**
-     * Creates a new set of {@link DirectiveArguments}.
-     * @returns
-     *  A new set of {@link DirectiveArguments} and a function which can issue
-     *  updates to the arguments.
-     */
-    private newDirectiveArguments(): {
-        args: DirectiveArguments;
-        issuer: DirectiveIssuer;
-    } {
-        // Create arguments
-        const args: DirectiveArguments = {
-            directives: EditorDirective.None,
-            reindexObjects: new Set()
-        };
-        // Create append arguments function
-        const issuer = (dirs: EditorDirective, obj?: string) => {
-            // Update directives
-            args.directives = args.directives | dirs;
-            // Update items to reindex
-            if (dirs & EditorDirective.ReindexContent && obj) {
-                args.reindexObjects.add(obj);
-            }
-        };
-        return { args, issuer };
+        // Emit 'edit' hook
+        this.emit("edit", this, cmd, args);
     }
 
     /**
@@ -173,20 +215,20 @@ export class DiagramModelEditor<
      * @param args
      *  The arguments.
      */
-    public executeDirectives(args: DirectiveArguments) {
+    protected executeDirectives(args: DirectiveArguments) {
+        // Request autosave
         if (args.directives & EditorDirective.Autosave) {
-            // Request save
-            this.requestSave();
+            this.autosave.requestSave();
         }
-        // Update reindex file
+        // Update file index
         if (args.directives & EditorDirective.ReindexContent) {
-            this.reindexFile(args.reindexObjects);
+            this.reindexFile(args.index);
         }
     }
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  2. File History  //////////////////////////////////////////////////////
+    //  3. File History  //////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -194,15 +236,25 @@ export class DiagramModelEditor<
      * Undoes the last editor command.
      */
     public async undo() {
-        if (this._undoStack.length) {
-            // Construct arguments
-            const { args, issuer } = this.newDirectiveArguments();
-            // Execute undo
-            const cmd = this._undoStack[this._undoStack.length - 1];
-            await cmd.undo(issuer);
-            this._redoStack.push(this._undoStack.pop()!);
-            this.executeDirectives(args);
+        if (!this._undoStack.length) {
+            return;
         }
+        const cmd = this._undoStack[this._undoStack.length - 1];
+        // Construct arguments
+        const { args, issuer } = newDirectiveArguments();
+        // Emit 'beforeEdit' hook
+        this.emit("beforeEdit", this, cmd);
+        // Execute undo
+        if(cmd instanceof SynchronousEditorCommand) {
+            cmd.undo(issuer);
+        } else {
+            await cmd.undo(issuer);
+        }
+        this.executeDirectives(args);
+        // Update command history
+        this._redoStack.push(this._undoStack.pop()!);
+        // Emit 'edit' hook
+        this.emit("edit", this, cmd, args);
     }
 
     /**
@@ -218,15 +270,25 @@ export class DiagramModelEditor<
      * Redoes the last undone editor command.
      */
     public async redo() {
-        if (this._redoStack.length) {
-            // Construct arguments
-            const { args, issuer } = this.newDirectiveArguments();
-            // Execute redo
-            const cmd = this._redoStack[this._redoStack.length - 1];
-            await cmd.redo(issuer);
-            this._undoStack.push(this._redoStack.pop()!);
-            this.executeDirectives(args);
+        if (!this._redoStack.length) {
+            return;
         }
+        const cmd = this._redoStack[this._redoStack.length - 1];
+        // Construct arguments
+        const { args, issuer } = newDirectiveArguments();
+        // Emit 'beforeEdit' hook
+        this.emit("beforeEdit", this, cmd);
+        // Execute redo
+        if(cmd instanceof SynchronousEditorCommand) {
+            cmd.redo(issuer);
+        } else {
+            await cmd.redo(issuer);
+        }
+        this.executeDirectives(args);
+        // Update command history
+        this._undoStack.push(this._redoStack.pop()!);
+        // Emit 'edit' hook
+        this.emit("edit", this, cmd, args);
     }
 
     /**
@@ -236,73 +298,6 @@ export class DiagramModelEditor<
      */
     public canRedo(): boolean {
         return 0 < this._redoStack.length;
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  3. Autosave  //////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    /**
-     * Forces the dispatch of any outstanding save action.
-     */
-    public tryDispatchOutstandingAutosave() {
-        if (this.tryCancelAutosave()) {
-            this.save();
-        }
-    }
-
-    /**
-     * Temporarily withholds any outstanding save action.
-     */
-    public tryDelayAutosave(): void {
-        if (this._autosaveTimeoutId !== null) {
-            this.requestSave();
-        }
-    }
-
-    /**
-     * Cancels any outstanding save action.
-     * @returns
-     *  True if the save action was cancelled.
-     *  False if no save action was scheduled.
-     */
-    public tryCancelAutosave() {
-        if (this._autosaveTimeoutId !== null) {
-            clearTimeout(this._autosaveTimeoutId);
-            this._autosaveTimeoutId = null;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Performs a save action at the editor's earliest convenience.
-     */
-    private requestSave() {
-        if (this._autosaveTimeoutId !== null) {
-            clearTimeout(this._autosaveTimeoutId);
-        }
-        this._autosaveTimeoutId = window.setTimeout(() => {
-            this._autosaveTimeoutId = null;
-            this.save();
-        }, this._autosaveInterval);
-    }
-
-    /**
-     * Invokes all `autosave` event handlers.
-     */
-    private save() {
-        try {
-            this.emit("autosave", this);
-            this._lastAutosave = new Date();
-        } catch (ex) {
-            this._lastAutosave = new Date(Number.NaN);
-            console.error("Failed to autosave:");
-            console.error(ex);
-        }
     }
 
 
@@ -368,6 +363,22 @@ export class DiagramModelEditor<
         //     }
         // }
         return results;
+    }
+
+    /**
+     * Returns the {@link DiagramObject} with specified instance id.
+     * @param id
+     *  The object's instance id.
+     * @returns
+     *  The {@link DiagramObject}.
+     */
+    public lookup(id: string): DiagramObject | undefined {
+        for(const obj of traverse(this.file.canvas)) {
+            if(obj.instance === id) {
+                return obj;
+            }
+        }
+        return undefined;
     }
 
 }

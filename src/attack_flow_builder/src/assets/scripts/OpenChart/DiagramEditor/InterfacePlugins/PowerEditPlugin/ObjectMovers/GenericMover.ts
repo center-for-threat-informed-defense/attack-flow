@@ -4,6 +4,7 @@ import { ObjectMover } from "./ObjectMover";
 import type { SubjectTrack } from "@OpenChart/DiagramInterface";
 import type { PowerEditPlugin } from "../PowerEditPlugin";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
+import type { CommandExecutor } from "../CommandExecutor";
 
 export class GenericMover extends ObjectMover {
 
@@ -22,11 +23,17 @@ export class GenericMover extends ObjectMover {
      * Creates a new {@link ObjectMover}.
      * @param plugin
      *  The mover's plugin.
+     * @param execute
+     *  The mover's command executor.
      * @param objects
      *  The mover's objects.
      */
-    constructor(plugin: PowerEditPlugin, objects: DiagramObjectView[]) {
-        super(plugin);
+    constructor(
+        plugin: PowerEditPlugin,
+        executor: CommandExecutor,
+        objects: DiagramObjectView[]
+    ) {
+        super(plugin, executor);
         this.objects = objects;
         this.alignment = this.objects.some(
             o => o.alignment === Alignment.Grid
@@ -38,10 +45,9 @@ export class GenericMover extends ObjectMover {
      * Captures the subject.
      */
     public captureSubject(): void {
-        const editor = this.plugin.editor;
         const { userSetObjectPosition } = EditorCommands;
         for (const object of this.objects) {
-            editor.execute(userSetObjectPosition(object));
+            this.execute(userSetObjectPosition(object));
         }
     }
 
@@ -62,7 +68,7 @@ export class GenericMover extends ObjectMover {
             delta = track.getDistance();
         }
         // Move
-        editor.execute(moveObjectsBy(this.objects, ...delta));
+        this.execute(moveObjectsBy(this.objects, ...delta));
         // Apply delta
         track.applyDelta(delta);
     }

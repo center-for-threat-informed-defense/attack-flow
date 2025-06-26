@@ -21,7 +21,7 @@ export class SaveDiagramFileToDevice extends GroupCommand {
         const json = JSON.stringify(file, null, 4);
         // Save file
         this.add(new SaveFileToDevice(editor.name, Configuration.file_type_extension, json));
-        this.add(new RemoveFileFromRecoveryBank(context, editor));
+        this.add(new RemoveFileFromRecoveryBank(context, editor.id));
     }
 
 }

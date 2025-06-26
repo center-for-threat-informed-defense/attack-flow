@@ -1,7 +1,8 @@
-import { EditorCommand } from "../EditorCommand";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { CameraLocation, DiagramViewFile } from "@OpenChart/DiagramView";
 
-export class SetCamera extends EditorCommand {
+
+export class SetCamera extends SynchronousEditorCommand {
 
     /**
      * The object(s) to move.

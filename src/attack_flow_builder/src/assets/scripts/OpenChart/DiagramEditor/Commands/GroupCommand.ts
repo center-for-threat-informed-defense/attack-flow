@@ -1,12 +1,12 @@
-import { EditorCommand } from "./EditorCommand";
-import type { DirectiveIssuer } from ".";
+import { SynchronousEditorCommand } from "./SynchronousEditorCommand";
+import type { DirectiveIssuer } from "../EditorDirectives";
 
-export class GroupCommand extends EditorCommand {
+export class GroupCommand extends SynchronousEditorCommand {
 
     /**
      * The list of commands in order of application.
      */
-    private _commands: EditorCommand[];
+    protected _commands: SynchronousEditorCommand[];
 
     /**
      * If true, when an exception occurs, all commands successfully run up to
@@ -14,6 +14,14 @@ export class GroupCommand extends EditorCommand {
      * false, the exception is simply thrown.
      */
     private _rollbackOnFailure: boolean;
+
+
+    /**
+     * Whether the group contains any command.
+     */
+    public get isEmpty(): boolean {
+        return this._commands.length === 0;
+    }
 
 
     /**
@@ -40,14 +48,24 @@ export class GroupCommand extends EditorCommand {
 
     /**
      * Appends a command to the command sequence.
-     * @param command
-     *  The command.
+     * @param commands
+     *  A command or an array of commands.
      * @returns
-     *  The command.
+     *  The group command.
      */
-    public do<T extends EditorCommand>(command: T): T {
-        this._commands.push(command);
-        return command;
+    public do(commands: SynchronousEditorCommand | SynchronousEditorCommand[]): GroupCommand {
+        commands = Array.isArray(commands) ? commands : [commands];
+        for(const cmd of commands) {
+            const index = this._commands.length - 1;
+            const cmdMerge = this._commands[index]?.merge(cmd);
+            if(cmdMerge) {
+                this._commands.pop();
+                this._commands.push(cmdMerge);
+            } else {
+                this._commands.push(cmd);
+            }
+        }
+        return this;
     }
 
     /**
@@ -55,7 +73,7 @@ export class GroupCommand extends EditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async execute(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+    public execute(issueDirective: DirectiveIssuer = () => {}): void {
         return this._execute("execute", issueDirective);
     }
 
@@ -64,7 +82,7 @@ export class GroupCommand extends EditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async redo(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+    public redo(issueDirective: DirectiveIssuer = () => {}): void {
         return this._execute("redo", issueDirective);
     }
 
@@ -73,10 +91,10 @@ export class GroupCommand extends EditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async undo(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+    public undo(issueDirective: DirectiveIssuer = () => {}): void {
         const l = this._commands.length - 1;
         for (let i = l; 0 <= i; i--) {
-            await this._commands[i].undo(issueDirective);
+            this._commands[i].undo(issueDirective);
         }
     }
 
@@ -87,16 +105,16 @@ export class GroupCommand extends EditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    private async _execute(func: "execute" | "redo", issueDirective: DirectiveIssuer) {
+    private _execute(func: "execute" | "redo", issueDirective: DirectiveIssuer) {
         let i = 0;
         try {
             for (; i < this._commands.length; i++) {
-                await this._commands[i][func](issueDirective);
+                this._commands[i][func](issueDirective);
             }
         } catch (ex) {
             if (this._rollbackOnFailure) {
                 for (i--; 0 <= i; i--) {
-                    await this._commands[i].undo();
+                    this._commands[i].undo();
                 }
             }
             throw ex;

@@ -1,5 +1,6 @@
 import { Property } from "..";
 import type { JsonValue } from "..";
+import type { PropertyMetadata } from "../PropertyMetadata";
 
 export class StringProperty extends Property {
 
@@ -30,11 +31,19 @@ export class StringProperty extends Property {
      *  Whether the property is editable.
      * @param suggestions
      *  The property's list of suggestions.
+     * @param meta
+     *  The property's auxiliary metadata.
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, suggestions: string[], value?: JsonValue) {
-        super(id, editable);
+    constructor(
+        id: string,
+        editable: boolean,
+        suggestions: string[], 
+        meta?: PropertyMetadata,
+        value?: JsonValue
+    ) {
+        super(id, editable, meta);
         this.suggestions = suggestions;
         this._value = null;
         // Set value
@@ -100,7 +109,11 @@ export class StringProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): StringProperty {
-        return new StringProperty(id, this.isEditable, this.suggestions, this._value);
+        return new StringProperty(
+            id,
+            this.isEditable, this.suggestions,
+            this.metadata, this._value
+        );
     }
 
 }

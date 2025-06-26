@@ -1,5 +1,4 @@
 import { SubjectTrack } from "./ObjectTrack";
-import type { Cursor } from "./Mouse";
 
 export abstract class DiagramInterfacePlugin {
 

@@ -1,9 +1,9 @@
-import { EditorCommand } from "../EditorCommand";
-import { EditorDirective } from "../EditorDirective";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { StringProperty } from "@OpenChart/DiagramModel";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 
-export class SetStringProperty extends EditorCommand {
+export class SetStringProperty extends SynchronousEditorCommand {
 
     /**
      * The property.

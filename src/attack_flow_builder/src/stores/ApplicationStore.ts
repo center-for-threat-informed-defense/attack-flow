@@ -1,14 +1,15 @@
 import Configuration from "@/assets/configuration/app.configuration";
+import { DateTime } from "luxon";
 import { FileStore } from "@/assets/scripts/Browser";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { BaseAppSettings } from "@/assets/scripts/Application";
 import { OpenChartFinder } from "@/assets/scripts/OpenChartFinder";
 import { ThemeRegistry, ThemeSourceFile } from "@OpenChart/ThemeRegistry";
-import { BasicRecommender, DiagramViewEditor, EditorCommand } from "@OpenChart/DiagramEditor";
-import type { AppCommand } from "@/assets/scripts/Application";
+import { AsynchronousEditorCommand, BasicRecommender, DiagramViewEditor, SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
+import type { EditorCommand } from "@OpenChart/DiagramEditor";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
-import { DateTime } from "luxon";
+import type { AppCommand, ValidationErrorResult, ValidationWarningResult } from "@/assets/scripts/Application";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -16,8 +17,11 @@ import { DateTime } from "luxon";
 ///////////////////////////////////////////////////////////////////////////////
 
 
-// const Publisher = Configuration.publisher ?
-//     new Configuration.publisher() : undefined;
+const Publisher = Configuration.publisher ?
+    new Configuration.publisher() : undefined;
+
+const Validator = Configuration.validator ?
+    new Configuration.validator() : undefined;
 
 // const Processor = Configuration.processor ?
 //     new Configuration.processor() : undefined;
@@ -39,6 +43,8 @@ export const useApplicationStore = defineStore("applicationStore", {
         themeRegistry: themeRegistry,
         fileRecoveryBank: new FileStore("__recovery_bank_"),
         activeEditor: PhantomEditor,
+        activeValidator: Validator,
+        activePublisher: Publisher,
         activeRecommender: new BasicRecommender(),
         activeFinder: new OpenChartFinder<DiagramViewEditor, DiagramObjectView>(),
         settings: BaseAppSettings,
@@ -109,10 +115,7 @@ export const useApplicationStore = defineStore("applicationStore", {
          *  True if the page is valid, false otherwise.
          */
         isValid(): boolean {
-            // const p = state.activeEditor;
-            // Use trigger to trip the reactivity system
-            // return (p.trigger.value ? p : p).isValid();
-            return true;
+            return this.activeValidator?.inValidState() ?? true;
         },
 
         /**
@@ -123,11 +126,8 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  The active page's validation errors.
          */
-        getValidationErrors(): any[] {
-            // const p = state.activeEditor;
-            // Use trigger to trip the reactivity system
-            // return (p.trigger.value ? p : p).getValidationErrors();
-            return [];
+        getValidationErrors(): ValidationErrorResult[] {
+            return this.activeValidator?.getErrors() ?? [];
         },
 
         /**
@@ -138,11 +138,8 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  The active page's validation warnings.
          */
-        getValidationWarnings(): any[] {
-            // const p = state.activeEditor;
-            // Use trigger to trip the reactivity system
-            // return (p.trigger.value ? p : p).getValidationWarnings();
-            return [];
+        getValidationWarnings(): ValidationWarningResult[] {
+            return this.activeValidator?.getWarnings() ?? [];
         },
 
 
@@ -200,12 +197,15 @@ export const useApplicationStore = defineStore("applicationStore", {
          *  The application command.
          */
         async execute(command: AppCommand | EditorCommand) {
-            if (command instanceof EditorCommand) {
-                await this.activeEditor.execute(command);
+            if (command instanceof SynchronousEditorCommand) {
+                this.activeEditor.execute(command);
+            } else if(command instanceof AsynchronousEditorCommand) { 
+                await this.activeEditor.executeAsync(command);
             } else {
                 command.execute();
             }
         },
+        
         /**
          * Updates sticky timezone with most recently used timezone offset
          * @param utc new value to save

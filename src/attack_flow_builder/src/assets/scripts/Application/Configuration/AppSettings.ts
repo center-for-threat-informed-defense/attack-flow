@@ -4,7 +4,8 @@
 export const BaseAppSettings: AppSettings = {
     file: {
         image_export: {
-            padding: 0
+            padding: 0,
+            include_background: true
         }
     },
     edit: {
@@ -29,6 +30,9 @@ export const BaseAppSettings: AppSettings = {
         file: {
             new_file: "",
             open_file: "",
+            open_stix_file: "",
+            import_file: "",
+            import_stix_file: "",
             save_file: "",
             save_image: "",
             save_select_image: "",
@@ -91,6 +95,7 @@ export type AppSettings = {
     file: {
         image_export: {
             padding: number;
+            include_background: boolean
         };
     };
     edit: {
@@ -131,6 +136,9 @@ export type DiagramDisplaySettings = {
 export type FileHotkeys = {
     new_file: string;
     open_file: string;
+    open_stix_file: string;
+    import_file: string;
+    import_stix_file: string;
     save_file: string;
     save_image: string;
     save_select_image: string;

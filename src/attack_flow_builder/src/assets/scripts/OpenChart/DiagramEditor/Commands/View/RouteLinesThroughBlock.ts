@@ -3,7 +3,7 @@ import { GroupCommand } from "../GroupCommand";
 import { MoveObjectsTo } from "./MoveObjectsTo";
 import { AnchorView, GroupView, Orientation } from "@OpenChart/DiagramView";
 import { AddObjectToGroup, AttachLatchToAnchor } from "../Model/index.commands";
-import type { BlockView, CanvasView, DiagramObjectView, LatchView, LineView } from "@OpenChart/DiagramView";
+import type { BlockView, CanvasView, LatchView, LineView } from "@OpenChart/DiagramView";
 
 export class RouteLinesThroughBlock extends GroupCommand {
 

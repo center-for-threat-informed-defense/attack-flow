@@ -1,7 +1,6 @@
 import { FaceType } from "./FaceType";
 import {
-    DiagramObjectFactory, DiagramObjectType,
-    SemanticRole, SemanticRoleMask, traversePostfix
+    DiagramObjectFactory, DiagramObjectType, traversePostfix
 } from "@OpenChart/DiagramModel";
 import {
     AnchorPoint, AnchorView, BlockView, BranchBlock,
@@ -208,6 +207,8 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 // Attach reference handle
                 const handle = template.handle_template;
                 object.addHandle(this.createNewDiagramObject(handle, HandleView));
+                // Provide line volume
+                object.target.moveBy(100, 100);
                 break;
 
             default:
@@ -242,8 +243,8 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
         const design = this.resolveDesign(template.name);
         // Define attributes
         let attrs = 0;
-        attrs |= template.role ?? SemanticRole.None;
-        attrs |= ~SemanticRoleMask & (design.attributes ?? 0);
+        attrs |= template.attributes ?? 0;
+        attrs |= design.attributes ?? 0;
         // Create object
         let face;
         switch (design.type) {

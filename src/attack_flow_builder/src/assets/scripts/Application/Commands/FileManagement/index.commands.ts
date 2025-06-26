@@ -5,4 +5,8 @@ export * from "./RemoveFileFromRecoveryBank";
 export * from "./SaveDiagramFileToDevice";
 export * from "./SaveDiagramFileToRecoveryBank";
 export * from "./SaveFileToDevice";
+export * from "./SaveDiagramImageToDevice";
+export * from "./SaveSelectionImageToDevice";
 export * from "./PrepareEditorWithFile";
+export * from "./PublishDiagramFileToDevice";
+export * from "./ImportFile";

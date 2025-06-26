@@ -1,5 +1,6 @@
 import { ListProperty, Property } from "..";
 import type { JsonValue } from "..";
+import type { PropertyMetadata } from "../PropertyMetadata";
 
 export class EnumProperty extends Property {
 
@@ -30,11 +31,19 @@ export class EnumProperty extends Property {
      *  Whether the property is editable.
      * @param options
      *  The property's list of options.
+     * @param meta
+     *  The property's auxiliary metadata.
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, options: ListProperty, value?: JsonValue) {
-        super(id, editable);
+    constructor(
+        id: string,
+        editable: boolean,
+        options: ListProperty,
+        meta?: PropertyMetadata,
+        value?: JsonValue
+    ) {
+        super(id, editable, meta);
         this.options = options;
         this._value = null;
         // Set value
@@ -127,7 +136,11 @@ export class EnumProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): EnumProperty {
-        return new EnumProperty(id, this.isEditable, this.options, this._value);
+        return new EnumProperty(
+            id,
+            this.isEditable, this.options,
+            this.metadata, this._value
+        );
     }
 
 }

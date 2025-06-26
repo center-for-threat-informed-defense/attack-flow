@@ -33,6 +33,11 @@ type BasePropertyDescriptor<K extends PropertyType> = {
      */
     is_representative?: boolean;
 
+    /**
+     * The property's auxiliary metadata.
+     */
+    metadata?: { [key: string]: any }
+
 };
 
 

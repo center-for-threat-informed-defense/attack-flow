@@ -1,6 +1,6 @@
 import { Property } from "..";
 import { Crypto, MD5 } from "@OpenChart/Utilities";
-import type { JsonEntries, JsonValue } from "..";
+import type { PropertyMetadata, JsonEntries, JsonValue } from "..";
 
 export abstract class CollectionProperty extends Property {
 
@@ -18,9 +18,11 @@ export abstract class CollectionProperty extends Property {
      *  The property's id.
      * @param editable
      *  Whether the property is editable.
+     * @param meta
+     *  The property's auxiliary metadata.
      */
-    constructor(id: string, editable: boolean) {
-        super(id, editable);
+    constructor(id: string, editable: boolean, meta?: PropertyMetadata) {
+        super(id, editable, meta);
         this.value = new Map();
     }
 

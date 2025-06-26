@@ -1,7 +1,7 @@
-import { EditorCommand } from "../EditorCommand";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class SetTangibility extends EditorCommand {
+export class SetTangibility extends SynchronousEditorCommand {
 
     /**
      *  The object to configure.

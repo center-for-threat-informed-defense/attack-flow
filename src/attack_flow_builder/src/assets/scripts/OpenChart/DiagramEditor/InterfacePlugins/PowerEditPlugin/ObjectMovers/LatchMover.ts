@@ -4,6 +4,7 @@ import { Alignment, AnchorView, GroupView } from "@OpenChart/DiagramView";
 import type { SubjectTrack } from "@OpenChart/DiagramInterface";
 import type { PowerEditPlugin } from "../PowerEditPlugin";
 import type { CanvasView, DiagramObjectView, LatchView } from "@OpenChart/DiagramView";
+import type { CommandExecutor } from "../CommandExecutor";
 
 export class LatchMover extends ObjectMover {
 
@@ -27,13 +28,17 @@ export class LatchMover extends ObjectMover {
      * Creates a new {@link LatchMover}.
      * @param plugin
      *  The mover's plugin.
+     * @param execute
+     *  The mover's command executor.
      * @param latches
      *  The latches to move.
-     * @param newLine
-     *  Whether the latch is
      */
-    constructor(plugin: PowerEditPlugin, latches: LatchView[]) {
-        super(plugin);
+    constructor(
+        plugin: PowerEditPlugin,
+        execute: CommandExecutor,
+        latches: LatchView[]
+    ) {
+        super(plugin, execute);
         this.leader = latches[0];
         this.latches = latches;
         this.alignment = this.latches.some(
@@ -63,9 +68,9 @@ export class LatchMover extends ObjectMover {
             canvas
         );
         // Update hover
-        editor.execute(EditorCommands.clearHover(canvas));
+        this.execute(EditorCommands.clearHover(canvas));
         if (target) {
-            editor.execute(EditorCommands.hoverObject(target, true));
+            this.execute(EditorCommands.hoverObject(target, true));
         }
         // Update distance, if necessary
         if (this.alignment === Alignment.Grid) {
@@ -80,7 +85,7 @@ export class LatchMover extends ObjectMover {
         }
         // Move object
         const { moveObjectsBy } = EditorCommands;
-        editor.execute(moveObjectsBy(this.latches, delta[0], delta[1]));
+        this.execute(moveObjectsBy(this.latches, delta[0], delta[1]));
         // Apply delta
         track.applyDelta(delta);
     }
@@ -101,11 +106,10 @@ export class LatchMover extends ObjectMover {
      *  The anchor to link the latches to.
      */
     private linkLatches(anchor: AnchorView) {
-        const editor = this.plugin.editor;
         const { attachLatchToAnchor } = EditorCommands;
         for (const latch of this.latches) {
             if (!latch.isLinked(anchor)) {
-                editor.execute(attachLatchToAnchor(latch, anchor));
+                this.execute(attachLatchToAnchor(latch, anchor));
             }
         }
     }
@@ -114,11 +118,10 @@ export class LatchMover extends ObjectMover {
      * Unlinks the mover's latches.
      */
     private unlinkLatches() {
-        const editor = this.plugin.editor;
         const { detachLatchFromAnchor } = EditorCommands;
         for (const latch of this.latches) {
             if (latch.isLinked()) {
-                editor.execute(detachLatchFromAnchor(latch));
+                this.execute(detachLatchFromAnchor(latch));
             }
         }
     }

@@ -36,10 +36,11 @@
 </template>
 
 <script lang="ts">
+import * as EditorCommands from "@OpenChart/DiagramEditor/Commands";
 // Dependencies
 import { defineComponent } from "vue";
 import { useApplicationStore } from "@/stores/ApplicationStore";
-import type { Command } from "@/stores/Commands/Command";
+import type { EditorCommand } from "@/assets/scripts/OpenChart/DiagramEditor";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 
@@ -78,7 +79,7 @@ export default defineComponent({
      * @param command
      *  The command to execute.
      */
-    execute(command: Command) {
+    execute(command: EditorCommand) {
       this.application.execute(command);
     },
 
@@ -88,14 +89,12 @@ export default defineComponent({
      *  The id of the object.
      */
     focus(id: string) {
-      const editor = this.application.activePage;
-      const obj = editor.page.lookup(id);
-      if(obj === editor.page) {
-        // this.execute(new Page.UnselectDescendants(editor.page));
-      } else if(obj) {
-        // this.execute(new Page.UnselectDescendants(editor.page));
-        // this.execute(new Page.SelectObject(obj));
-        // this.execute(new Page.MoveCameraToSelection(this.application, editor.page))
+      const editor = this.application.activeEditor;
+      const object = editor.lookup(id);
+      this.execute(EditorCommands.unselectAllObjects(editor));
+      if(object && id !== editor.file.canvas.instance) {
+        this.execute(EditorCommands.selectObject(editor, object));
+        this.execute(EditorCommands.moveCameraToSelection(editor));
       }
     },
 

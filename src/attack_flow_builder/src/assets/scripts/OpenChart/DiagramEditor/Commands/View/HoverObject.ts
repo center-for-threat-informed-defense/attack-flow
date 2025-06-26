@@ -1,8 +1,8 @@
 import { Hover } from "@OpenChart/DiagramView";
-import { EditorCommand } from "../EditorCommand";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class HoverObject extends EditorCommand {
+export class HoverObject extends SynchronousEditorCommand {
 
     /**
      * The object to hover.

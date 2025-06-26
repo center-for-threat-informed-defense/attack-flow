@@ -1,6 +1,6 @@
 import { traverse } from "./Generators";
 import { Anchor, Latch, Line } from "../DiagramObject";
-import type { DiagramObject } from "../DiagramObject";
+import type { Block, DiagramObject } from "../DiagramObject";
 
 /**
  * Returns all external anchors and latches linked to the specified objects.

@@ -45,41 +45,55 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
          */
         fileHotkeys(): Hotkey<CommandEmitter>[] {
             const app = useApplicationStore();
+            const editor = app.activeEditor;
             const file = app.settings.hotkeys.file;
             return [
                 {
-                    // data: () => App.PrepareEditorWithFile.fromNew(ctx),
-                    data: () => AppCommands.loadNewFile(app),
+                    data: () => AppCommands.prepareEditorFromNewFile(app),
                     shortcut: file.new_file,
                     repeatable: false
                 },
                 {
-                    // data: () => App.PrepareEditorWithFile.fromFileSystem(ctx),
-                    data: () => AppCommands.loadFileFromFileSystem(app),
+                    data: () => AppCommands.prepareEditorFromFileSystem(app),
                     shortcut: file.open_file,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.prepareEditorFromStixFileSystem(app),
+                    shortcut: file.open_stix_file,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.importFileFromFilesystem(app, editor),
+                    shortcut: file.import_file,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.importStixFileFromFilesystem(app, editor),
+                    shortcut: file.import_stix_file,
                     repeatable: false
                 },
                 {
                     data: () => AppCommands.saveActiveFileToDevice(app),
                     shortcut: file.save_file,
                     repeatable: false
+                },
+                {
+                    data: () => AppCommands.saveDiagramImageToDevice(app),
+                    shortcut: file.save_image,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.saveSelectionImageToDevice(app),
+                    shortcut: file.save_select_image,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.publishActiveFileToDevice(app),
+                    shortcut: file.publish_file,
+                    repeatable: false,
+                    disabled: !app.activePublisher || !app.isValid
                 }
-                // {
-                //     data: () => new App.SavePageImageToDevice(ctx),
-                //     shortcut: file.save_image,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new App.SaveSelectionImageToDevice(ctx),
-                //     shortcut: file.save_select_image,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new App.PublishPageToDevice(ctx),
-                //     shortcut: file.publish_file,
-                //     repeatable: false,
-                //     disabled: !ctx.publisher || !ctx.isValid
-                // }
             ];
         },
 
@@ -104,22 +118,22 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                     shortcut: edit.redo,
                     repeatable: true
                 },
-                // {
-                //     data: () => new Page.CutSelectedChildren(ctx, page),
-                //     shortcut: edit.cut,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new App.CopySelectedChildren(ctx, page),
-                //     shortcut: edit.copy,
-                //     repeatable: false,
-                //     allowBrowserBehavior: true
-                // },
-                // {
-                //     data: () => new Page.PasteToObject(ctx, page),
-                //     shortcut: edit.paste,
-                //     repeatable: true
-                // },
+                {
+                    data: () => AppCommands.cutActiveSelectionToClipboard(app),
+                    shortcut: edit.cut,
+                    repeatable: false
+                },
+                {
+                    data: () => AppCommands.copyActiveSelectionToClipboard(app),
+                    shortcut: edit.copy,
+                    repeatable: false,
+                    allowBrowserBehavior: true
+                },
+                {
+                    data: () => AppCommands.pasteFileFromClipboard(app),
+                    shortcut: edit.paste,
+                    repeatable: true
+                },
                 {
                     data: () => EditorCommands.removeSelectedChildren(editor),
                     shortcut: edit.delete,
@@ -200,21 +214,21 @@ export const useHotkeyStore = defineStore("hotkeyStore", {
                     shortcut: view.zoom_out,
                     repeatable: true
                 },
-                // {
-                //     data: () => new Page.MoveCameraToSelection(ctx, page),
-                //     shortcut: view.jump_to_selection,
-                //     repeatable: false
-                // },
-                // {
-                //     data: () => new Page.MoveCameraToParents(ctx, page),
-                //     shortcut: view.jump_to_parents,
-                //     repeatable: true
-                // },
-                // {
-                //     data: () => new Page.MoveCameraToChildren(ctx, page),
-                //     shortcut: view.jump_to_children,
-                //     repeatable: true
-                // },
+                {
+                    data: () => EditorCommands.moveCameraToSelection(editor),
+                    shortcut: view.jump_to_selection,
+                    repeatable: false
+                },
+                {
+                    data: () => EditorCommands.moveCameraToParents(editor),
+                    shortcut: view.jump_to_parents,
+                    repeatable: true
+                },
+                {
+                    data: () => EditorCommands.moveCameraToChildren(editor),
+                    shortcut: view.jump_to_children,
+                    repeatable: true
+                },
                 {
                     data: () => AppCommands.switchToFullscreen(),
                     shortcut: view.fullscreen,

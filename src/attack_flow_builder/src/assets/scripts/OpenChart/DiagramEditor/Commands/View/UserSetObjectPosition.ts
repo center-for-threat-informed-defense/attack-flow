@@ -1,10 +1,10 @@
-import { EditorCommand } from "../EditorCommand";
 import { PositionSetByUser } from "@OpenChart/DiagramView";
-import { EditorDirective } from "../EditorDirective";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
-export class UserSetObjectPosition extends EditorCommand {
+export class UserSetObjectPosition extends SynchronousEditorCommand {
 
     /**
      * The object.

@@ -1,6 +1,7 @@
 import { Property } from "..";
-import type { JsonValue } from "..";
 import { DateTime } from "luxon";
+import type { JsonValue } from "..";
+import type { PropertyMetadata } from "../PropertyMetadata";
 
 export class DateProperty extends Property {
 
@@ -23,11 +24,18 @@ export class DateProperty extends Property {
      *  The property's id.
      * @param editable
      *  Whether the property is editable.
+     * @param meta
+     *  The property's auxiliary metadata.
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, value?: JsonValue) {
-        super(id, editable);
+    constructor(
+        id: string,
+        editable: boolean,
+        meta?: PropertyMetadata,
+        value?: JsonValue
+    ) {
+        super(id, editable, meta);
         this._value = null;
 
         // Set value
@@ -99,7 +107,7 @@ export class DateProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): DateProperty {
-        return new DateProperty(id, this.isEditable, this._value);
+        return new DateProperty(id, this.isEditable, this.metadata, this._value?.toISO());
     }
 
 }

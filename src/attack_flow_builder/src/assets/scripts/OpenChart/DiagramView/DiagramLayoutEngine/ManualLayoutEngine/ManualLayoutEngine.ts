@@ -1,6 +1,6 @@
 import { Group, Handle, Latch, traverse } from "@OpenChart/DiagramModel";
 import type { PositionMap } from "./PositionMap";
-import type { DiagramObjectView } from "../../DiagramObjectView";
+import { PositionSetByUser, type DiagramObjectView } from "../../DiagramObjectView";
 import type { DiagramLayoutEngine } from "../DiagramLayoutEngine";
 
 export class ManualLayoutEngine implements DiagramLayoutEngine {
@@ -44,27 +44,11 @@ export class ManualLayoutEngine implements DiagramLayoutEngine {
      *  The {@link PositionMap}.
      */
     public static generatePositionMap(objects: DiagramObjectView[]): PositionMap {
-        const positionedObjects = [
-            // Include explicitly provided objects
-            ...objects,
-            ...traverse(objects, (obj) => {
-                // Include children of groups
-                if (obj.parent instanceof Group) {
-                    return true;
-                }
-                // Include positioned latches
-                if (obj instanceof Latch && !obj.isLinked()) {
-                    return true;
-                }
-                // Include positioned handles
-                if (obj instanceof Handle && obj.userSetPosition) {
-                    return true;
-                }
-                return false;
-            })
-        ];
+        // Collect positioned objects
+        const objs = traverse(objects, o => o.userSetPosition !== PositionSetByUser.False);
+        // Construct map
         const positions = new Map<string, [number, number]>(
-            positionedObjects.map(obj => [obj.instance, [obj.x, obj.y]])
+            [...objs].map(obj => [obj.instance, [obj.x, obj.y]])
         );
         return Object.fromEntries(positions);
     }

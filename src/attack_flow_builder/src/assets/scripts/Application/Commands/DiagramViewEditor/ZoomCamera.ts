@@ -40,7 +40,6 @@ export class ZoomCamera extends AppCommand {
      */
     public async execute(): Promise<void> {
         this.editor.interface.setCameraLocation(this.location);
-        await this.editor.redo();
     }
 
 }

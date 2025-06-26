@@ -1,11 +1,17 @@
 import { CollectionProperty, Property } from "..";
+import type { PropertyMetadata } from "..";
 
 export class ListProperty extends CollectionProperty {
 
     /**
      * The list property's template.
      */
-    private template: Property;
+    private readonly template: Property;
+
+    /**
+     * The list property's type.
+     */
+    public readonly type: Function;
 
 
     /**
@@ -16,10 +22,13 @@ export class ListProperty extends CollectionProperty {
      *  Whether the property is editable.
      * @param template
      *  The property's template.
+     * @param meta
+     *  The property's auxiliary metadata.
      */
-    constructor(id: string, editable: boolean, template: Property) {
-        super(id, editable);
+    constructor(id: string, editable: boolean, template: Property, meta?: PropertyMetadata) {
+        super(id, editable, meta);
         this.template = template;
+        this.type = template.constructor;
     }
 
 
@@ -49,7 +58,7 @@ export class ListProperty extends CollectionProperty {
      *  A clone of the property.
      */
     public clone(id: string = this.id): ListProperty {
-        const property = new ListProperty(id, this.isEditable, this.template);
+        const property = new ListProperty(id, this.isEditable, this.template, this.metadata);
         for (const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }

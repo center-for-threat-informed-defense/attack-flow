@@ -1,10 +1,10 @@
-import { EditorCommand } from "../EditorCommand";
-import { EditorDirective } from "../EditorDirective";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { DateProperty } from "@OpenChart/DiagramModel";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 import type { DateTime } from "luxon";
 
-export class SetDateProperty extends EditorCommand {
+export class SetDateProperty extends SynchronousEditorCommand {
 
     /**
      * The property.

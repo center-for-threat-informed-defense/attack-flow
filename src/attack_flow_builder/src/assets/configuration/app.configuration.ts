@@ -1,3 +1,5 @@
+import AttackFlowValidator from "./validator/AttackFlowValidator";
+import AttackFlowPublisher from "./publisher/AttackFlowPublisher";
 import { DarkTheme } from "./themes/DarkTheme";
 import { BlogTheme } from "./themes/BlogTheme";
 import { LightTheme } from "./themes/LightTheme";
@@ -111,7 +113,11 @@ const configuration: AppConfiguration = {
                 }
             ]
         }
-    }
+    },
+
+    validator: AttackFlowValidator,
+
+    publisher: AttackFlowPublisher
 
 };
 

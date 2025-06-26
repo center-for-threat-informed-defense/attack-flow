@@ -373,11 +373,22 @@ export class LatchView extends Latch implements ViewObject {
      * @param instance
      *  The clone's instance identifier.
      *  (Default: Random UUID)
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations.
      * @returns
      *  A clone of the object.
      */
-    public clone(instance?: string): LatchView {
-        return this.isolatedClone(instance);
+    public clone(instance?: string, instanceMap?: Map<string, string>): LatchView {
+        // Create clone
+        const clone = this.isolatedClone(instance);
+        // Calculate layout and position
+        clone.face.calculateLayout();
+        clone.moveTo(this.x, this.y);
+        // Create association
+        instanceMap?.set(this.instance, clone.instance);
+        // Return clone
+        return clone;
     }
 
     /**

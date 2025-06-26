@@ -1,7 +1,7 @@
 
 import { AnchorConfiguration } from "./AnchorFormat";
 import { AnchorPosition, Branch } from "@OpenChart/DiagramView";
-import { DiagramObjectType, PropertyType, SemanticRole } from "@OpenChart/DiagramModel";
+import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
 
 export const AttackFlowObjects: DiagramObjectTemplate[] = [
@@ -9,25 +9,29 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         name: "action",
         namespace: ["attack_flow", "action"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             tactic_id: {
                 type: PropertyType.String
             },
             tactic_ref: {
                 type: PropertyType.String,
-                is_editable: false
+                // is_editable: false
             },
             technique_id: {
                 type: PropertyType.String
             },
             technique_ref: {
                 type: PropertyType.String,
-                is_editable: false
+                // is_editable: false
             },
             description: {
                 type: PropertyType.String
@@ -73,11 +77,15 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         name: "asset",
         namespace: ["attack_flow", "asset"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
@@ -89,11 +97,15 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         name: "condition",
         namespace: ["attack_flow", "condition"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             description: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             pattern: {
                 type: PropertyType.String
@@ -126,7 +138,6 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         name: "OR_operator",
         namespace: ["attack_flow", "OR_operator"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             operator: {
                 type: PropertyType.String,
@@ -141,7 +152,6 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         name: "AND_operator",
         type: DiagramObjectType.Block,
         namespace: ["attack_flow", "AND_operator"],
-        role: SemanticRole.Node,
         properties: {
             operator: {
                 type: PropertyType.String,

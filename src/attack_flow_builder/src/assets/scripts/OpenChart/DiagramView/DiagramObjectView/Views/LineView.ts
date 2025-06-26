@@ -395,11 +395,21 @@ export class LineView extends Line implements ViewObject {
      * @param instance
      *  The clone's instance identifier.
      *  (Default: Random UUID)
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations.
      * @returns
      *  A clone of the object.
      */
-    public clone(instance?: string): LineView {
-        return this.replicateChildrenTo(this.isolatedClone(instance));
+    public clone(instance?: string, instanceMap?: Map<string, string>): LineView {
+        // Create clone
+        const clone = this.replicateChildrenTo(this.isolatedClone(instance), instanceMap);
+        // Calculate layout and position
+        clone.face.calculateLayout();
+        // Create association
+        instanceMap?.set(this.instance, clone.instance);
+        // Return clone
+        return clone;
     }
 
     /**

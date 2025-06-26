@@ -1,9 +1,9 @@
-import { EditorCommand } from "../EditorCommand";
-import { EditorDirective } from "../EditorDirective";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { Anchor, Latch } from "@OpenChart/DiagramModel";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 
-export class AttachLatchToAnchor extends EditorCommand {
+export class AttachLatchToAnchor extends SynchronousEditorCommand {
 
     /**
      * The latch.

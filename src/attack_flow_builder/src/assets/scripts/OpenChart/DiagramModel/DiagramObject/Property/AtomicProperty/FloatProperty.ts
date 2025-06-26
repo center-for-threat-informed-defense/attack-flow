@@ -1,5 +1,6 @@
 import { Property } from "..";
 import type { JsonValue } from "..";
+import type { PropertyMetadata } from "../PropertyMetadata";
 
 export class FloatProperty extends Property {
 
@@ -37,11 +38,20 @@ export class FloatProperty extends Property {
      *  The property's minimum allowed value.
      * @param max
      *  The property's maximum allowed value.
+     * @param meta
+     *  The property's auxiliary metadata.
      * @param value
      *  The property's value.
      */
-    constructor(id: string, editable: boolean, min: number, max: number, value?: JsonValue) {
-        super(id, editable);
+    constructor(
+        id: string,
+        editable: boolean,
+        min: number,
+        max: number,
+        meta?: PropertyMetadata,
+        value?: JsonValue
+    ) {
+        super(id, editable, meta);
         this.min = min;
         this.max = max;
         this._value = null;
@@ -114,7 +124,11 @@ export class FloatProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): FloatProperty {
-        return new FloatProperty(id, this.isEditable, this.min, this.max, this._value);
+        return new FloatProperty(
+            id,
+            this.isEditable, this.min, this.max,
+            this.metadata, this._value
+        );
     }
 
 }

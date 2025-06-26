@@ -175,8 +175,6 @@ export default defineComponent({
     }
     // Load settings
     this.execute(AppCommand.loadSettings(ctx, settings));
-    // Load empty file
-    this.execute(await AppCommand.loadNewFile(ctx));
     // Load file from query parameters, if possible
     const params = new URLSearchParams(window.location.search);
     const src = params.get("src");

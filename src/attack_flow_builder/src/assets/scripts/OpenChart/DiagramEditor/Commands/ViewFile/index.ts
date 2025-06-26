@@ -1,4 +1,4 @@
-import { traverse } from "@OpenChart/DiagramModel";
+import { SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
 import { GroupCommand } from "../GroupCommand";
 import { SelectionAnimation } from "./Animations";
 import {
@@ -12,10 +12,9 @@ import {
     SelectObjects,
     StopContinuousAnimation
 } from "../View/index.commands";
-import type { EditorCommand } from "../EditorCommand";
-import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
+import type { DiagramViewEditor, SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
-import type { DiagramObjectView, DiagramViewFile } from "@OpenChart/DiagramView";
+import type { BlockView, DiagramObjectView, DiagramViewFile } from "@OpenChart/DiagramView";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -60,7 +59,7 @@ export function spawnObject(
  */
 export function selectAllObjects(
     editor: DiagramViewEditor
-): EditorCommand {
+): SynchronousEditorCommand {
     const canvas = editor.file.canvas;
     const cmd = new GroupCommand();
     cmd.do(new SelectObjects([...canvas.objects], true));
@@ -77,7 +76,7 @@ export function selectAllObjects(
  */
 export function unselectAllObjects(
     editor: DiagramViewEditor
-): EditorCommand {
+): SynchronousEditorCommand {
     const canvas = editor.file.canvas;
     const cmd = new GroupCommand();
     cmd.do(new SelectObjects([...canvas.objects], false));
@@ -94,7 +93,7 @@ export function unselectAllObjects(
  */
 export function selectObject(
     editor: DiagramViewEditor, object: DiagramObjectView
-): EditorCommand {
+): SynchronousEditorCommand {
     const cmd = new GroupCommand();
     cmd.do(new SelectObjects(object, true));
     cmd.do(new RunAnimation(editor.interface, SelectionAnimation));
@@ -110,7 +109,7 @@ export function selectObject(
  */
 export function unselectObject(
     editor: DiagramViewEditor, object: DiagramObjectView
-): EditorCommand {
+): SynchronousEditorCommand {
     if (editor.selection.size === 1) {
         const cmd = new GroupCommand();
         cmd.do(new SelectObjects(object, false));
@@ -136,7 +135,7 @@ export function unselectObject(
  */
 export function removeSelectedChildren(
     editor: DiagramViewEditor
-): GroupCommand {
+): SynchronousEditorCommand {
     const cmd = new GroupCommand();
     cmd.do(new RemoveSelectedChildren(editor.file.canvas));
     cmd.do(new RunAnimation(editor.interface, SelectionAnimation));
@@ -195,6 +194,75 @@ export function moveCameraToSelection(
 ): MoveCameraToObjects {
     const objs = [...traverse(editor.file.canvas, o => o.focused)];
     return new MoveCameraToObjects(editor, objs);
+}
+
+
+/**
+ * Moves the camera to the selected objects' parent.
+ * @param editor
+ *  The editor.
+ * @returns
+ *  A command that represents the action.
+ */
+export function moveCameraToParents(
+    editor: DiagramViewEditor
+) {
+    const cmd = new GroupCommand();
+    // Get (graph-wise) parents
+    const canvas = editor.file.canvas;
+    const objs = [...traverse<DiagramObjectView>(canvas, o => o.focused)];
+    const parents = new Map<string, DiagramObjectView>();
+    for (const obj of objs) {
+        const getParents = SemanticAnalyzer.getParentBlocks;
+        for (const n of getParents<DiagramObjectView, BlockView>(obj)) {
+            parents.set(n.instance, n);
+        }
+    }
+    // Unselect objects
+    cmd.do(unselectAllObjects(editor));
+    // Select parents
+    for (const child of parents.values()) {
+        cmd.do(selectObject(editor, child));
+    }
+    // Move camera to parents
+    if (parents.size) {
+        cmd.do(new MoveCameraToObjects(editor, [...parents.values()]));
+    }
+    return cmd;
+}
+
+/**
+ * Moves the camera to the selected objects' children.
+ * @param editor
+ *  The editor.
+ * @returns
+ *  A command that represents the action.
+ */
+export function moveCameraToChildren(
+    editor: DiagramViewEditor
+) {
+    const cmd = new GroupCommand();
+    // Get (graph-wise) children
+    const canvas = editor.file.canvas;
+    const objs = [...traverse<DiagramObjectView>(canvas, o => o.focused)];
+    const children = new Map<string, DiagramObjectView>();
+    for (const obj of objs) {
+        const getChildren = SemanticAnalyzer.getChildBlocks;
+        for (const n of getChildren<DiagramObjectView, BlockView>(obj)) {
+            children.set(n.instance, n);
+        }
+    }
+    // Unselect objects
+    cmd.do(unselectAllObjects(editor));
+    // Select children
+    for (const child of children.values()) {
+        cmd.do(selectObject(editor, child));
+    }
+    // Move camera to children
+    if (children.size) {
+        cmd.do(new MoveCameraToObjects(editor, [...children.values()]));
+    }
+    return cmd;
 }
 
 

@@ -108,9 +108,9 @@ export default defineComponent({
       if(this.application.hasSelection) {
         return [
           this.contextMenus.deleteMenu,
-          // this.contextMenus.clipboardMenu,
+          this.contextMenus.clipboardMenu,
           // this.contextMenus.duplicateMenu,
-          // this.contextMenus.jumpMenu
+          this.contextMenus.jumpMenu
         ];
       } else {
         return [

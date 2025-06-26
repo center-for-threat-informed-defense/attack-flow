@@ -1,9 +1,9 @@
-import { EditorCommand } from "../EditorCommand";
-import { EditorDirective } from "../EditorDirective";
-import type { DirectiveIssuer } from "../DirectiveIssuer";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
+import type { DirectiveIssuer } from "../../EditorDirectives";
 import type { FloatProperty, IntProperty } from "@OpenChart/DiagramModel";
 
-export class SetNumberProperty extends EditorCommand {
+export class SetNumberProperty extends SynchronousEditorCommand {
 
     /**
      * The property.

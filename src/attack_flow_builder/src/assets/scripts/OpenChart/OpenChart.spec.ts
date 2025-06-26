@@ -195,16 +195,16 @@ describe("OpenChart", () => {
             });
             it("correctly scales by", async () => {
                 const line = await createTestingLine();
-                line.target.moveTo(1, 1);
-                line.target.moveBy(1, 1);
-                expect(line.handles[0].x).toBe(1);
-                expect(line.handles[0].y).toBe(1);
+                line.source.moveTo(5, 5);
+                line.target.moveBy(5, 5);
+                expect(line.handles[0].x).toBe(5);
+                expect(line.handles[0].y).toBe(5);
             });
             it("correctly scales to", async () => {
                 const line = await createTestingLine();
-                line.target.moveTo(3, 3);
-                expect(line.handles[0].x).toBe(1.5);
-                expect(line.handles[0].y).toBe(1.5);
+                line.target.moveTo(20, 20);
+                expect(line.handles[0].x).toBe(10);
+                expect(line.handles[0].y).toBe(10);
             });
             it("correctly computes bounding box", async () => {
                 const line = await createTestingLine();

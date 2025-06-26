@@ -1,5 +1,6 @@
 import type { SubjectTrack } from "@OpenChart/DiagramInterface";
 import type { PowerEditPlugin } from "../PowerEditPlugin";
+import type { CommandExecutor } from "../CommandExecutor";
 
 export abstract class ObjectMover {
 
@@ -7,6 +8,11 @@ export abstract class ObjectMover {
      * The mover's plugin.
      */
     protected plugin: PowerEditPlugin;
+
+    /**
+     * The mover's command executor.
+     */
+    protected execute: CommandExecutor;
 
 
     /**
@@ -16,8 +22,9 @@ export abstract class ObjectMover {
      * @param execute
      *  The mover's command executor.
      */
-    constructor(plugin: PowerEditPlugin) {
+    constructor(plugin: PowerEditPlugin, execute: CommandExecutor) {
         this.plugin = plugin;
+        this.execute = execute;
     }
 
 

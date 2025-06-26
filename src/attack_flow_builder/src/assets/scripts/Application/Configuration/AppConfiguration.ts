@@ -1,4 +1,6 @@
 import type { SplashButton } from "./SplashButton";
+import type { FileValidator } from "../FileValidator";
+import type { FilePublisher } from "../FilePublisher";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 import type { DiagramSchemaConfiguration } from "@OpenChart/DiagramModel";
 
@@ -69,5 +71,15 @@ export interface AppConfiguration {
             help_links: { text: string, url: string }[];
         };
     };
+
+    /**
+     * The application's validator.
+     */
+    validator?: typeof FileValidator,
+
+    /**
+     * The application's publisher.
+     */
+    publisher?: typeof FilePublisher,
 
 }

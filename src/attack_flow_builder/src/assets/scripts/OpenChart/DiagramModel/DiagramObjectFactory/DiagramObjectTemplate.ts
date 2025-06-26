@@ -28,9 +28,9 @@ export type BaseDiagramObjectTemplate<T extends TemplateType> = {
     type: T;
 
     /**
-     * The object's semantic role.
+     * The object's attributes.
      */
-    role?: number;
+    attributes?: number;
 
     /**
      * The object's properties.

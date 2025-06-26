@@ -1,5 +1,4 @@
 import { Crypto } from "../../Utilities";
-import { SemanticRole } from "../SemanticAnalysis";
 import { PropertyType } from "./PropertyDescriptor";
 import { DiagramObjectType } from "./DiagramObjectType";
 import {
@@ -267,7 +266,7 @@ export class DiagramObjectFactory {
         // Create properties
         const props = this.createRootProperty(template.properties ?? {}, values);
         // Define attributes
-        const attrs = template.role ?? SemanticRole.None;
+        const attrs = template.attributes ?? 0;
         // Create object
         switch (template.type) {
             case DiagramObjectType.Anchor:
@@ -386,7 +385,9 @@ export class DiagramObjectFactory {
     ): DictionaryProperty {
         const map = new Map(values);
         // Create property
-        const property = new DictionaryProperty(id, descriptor.is_editable ?? true);
+        const meta = descriptor.metadata;
+        const editable = descriptor.is_editable ?? true;
+        const property = new DictionaryProperty(id, editable, meta);
         // Create sub-properties
         for (const [id, desc] of Object.entries(descriptor.form)) {
             // Add property
@@ -421,9 +422,10 @@ export class DiagramObjectFactory {
         }
         // Create property
         const desc = descriptor.form;
+        const meta = descriptor.metadata;
         const editable = desc.is_editable ?? true;
         const template = this.createProperty("template", desc);
-        const property = new ListProperty(id, editable, template);
+        const property = new ListProperty(id, editable, template, meta);
         // Create values
         for (const [id, value] of values ?? []) {
             property.addProperty(this.createProperty(id, desc, value), id);
@@ -452,25 +454,26 @@ export class DiagramObjectFactory {
             value = descriptor.default;
         }
         // Create property
+        const meta = descriptor.metadata;
         const editable = descriptor.is_editable ?? true;
         let min, max, suggestions, options;
         switch (descriptor.type) {
             case PropertyType.Int:
                 min = descriptor.min ?? -Infinity;
                 max = descriptor.max ?? Infinity;
-                return new IntProperty(id, editable, min, max, value);
+                return new IntProperty(id, editable, min, max, meta, value);
             case PropertyType.Float:
                 min = descriptor.min ?? -Infinity;
                 max = descriptor.max ?? Infinity;
-                return new FloatProperty(id, editable, min, max, value);
+                return new FloatProperty(id, editable, min, max, meta, value);
             case PropertyType.String:
                 suggestions = descriptor.suggestions ?? [];
-                return new StringProperty(id, editable, suggestions, value);
+                return new StringProperty(id, editable, suggestions, meta, value);
             case PropertyType.Date:
-                return new DateProperty(id, editable, value);
+                return new DateProperty(id, editable, meta, value);
             case PropertyType.Enum:
                 options = this.createListProperty(`${id}.options`, descriptor.options);
-                return new EnumProperty(id, editable, options, value);
+                return new EnumProperty(id, editable, options, meta, value);
         }
     }
 

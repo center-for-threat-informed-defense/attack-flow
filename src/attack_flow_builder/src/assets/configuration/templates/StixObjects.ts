@@ -1,6 +1,6 @@
 import { BoolEnum } from "./BoolEnum";
 import { AnchorConfiguration } from "./AnchorFormat";
-import { DiagramObjectType, PropertyType, SemanticRole } from "@OpenChart/DiagramModel";
+import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
 
 export const StixObjects: DiagramObjectTemplate[] = [
@@ -8,11 +8,15 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "attack_pattern",
         namespace: ["stix_object", "attack_pattern"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
@@ -32,11 +36,15 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "campaign",
         namespace: ["stix_object", "campaign"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
@@ -61,11 +69,15 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "course_of_action",
         namespace: ["stix_object", "course_of_action"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
@@ -87,11 +99,15 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "grouping",
         namespace: ["stix_object", "grouping"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
@@ -106,11 +122,15 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "identity",
         namespace: ["stix_object", "identity"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
@@ -120,7 +140,12 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 form: { type: PropertyType.String }
             },
             identity_class: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             sectors: {
                 type: PropertyType.List,
@@ -136,7 +161,6 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "indicator",
         namespace: ["stix_object", "indicator"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
@@ -147,19 +171,41 @@ export const StixObjects: DiagramObjectTemplate[] = [
             },
             indicator_types: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: { 
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                }
             },
             pattern: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             pattern_type: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             pattern_version: {
                 type: PropertyType.String
             },
             valid_from: {
-                type: PropertyType.Date
+                type: PropertyType.Date,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             valid_until: {
                 type: PropertyType.Date
@@ -175,18 +221,29 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "infrastructure",
         namespace: ["stix_object", "infrastructure"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
             },
             infrastructure_types: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: { 
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                }
             },
             aliases: {
                 type: PropertyType.List,
@@ -209,18 +266,29 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "intrusion_set",
         namespace: ["stix_object", "intrusion_set"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
             },
             aliases: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: {
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                }
             },
             first_seen: {
                 type: PropertyType.Date
@@ -249,7 +317,6 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "location",
         namespace: ["stix_object", "location"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
@@ -296,7 +363,6 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "malware",
         namespace: ["stix_object", "malware"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
@@ -307,9 +373,23 @@ export const StixObjects: DiagramObjectTemplate[] = [
             },
             malware_types: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: { 
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                }
             },
-            is_family: BoolEnum,
+            is_family: { 
+                ...BoolEnum,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
+            },
             aliases: {
                 type: PropertyType.List,
                 form: { type: PropertyType.String }
@@ -347,11 +427,15 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "malware_analysis",
         namespace: ["stix_object", "malware_analysis"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             product: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             version: {
                 type: PropertyType.String
@@ -401,14 +485,18 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "note",
         namespace: ["stix_object", "note"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             abstract: {
                 type: PropertyType.String,
                 is_representative: true
             },
             content: {
-                type: PropertyType.String
+                type: PropertyType.String,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             authors: {
                 type: PropertyType.List,
@@ -421,17 +509,31 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "observed_data",
         namespace: ["stix_object", "observed_data"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             first_observed: {
-                type: PropertyType.Date
+                type: PropertyType.Date,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             last_observed: {
-                type: PropertyType.Date
+                type: PropertyType.Date,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             number_observed: {
                 type: PropertyType.Int,
-                min: 0
+                min: 0,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -440,7 +542,6 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "opinion",
         namespace: ["stix_object", "opinion"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             explanation: {
                 type: PropertyType.String,
@@ -464,6 +565,11 @@ export const StixObjects: DiagramObjectTemplate[] = [
                         ["agree", "Agree"],
                         ["strongly-agree", "Strongly Agree"]
                     ]
+                },
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
                 }
             }
         },
@@ -473,21 +579,37 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "report",
         namespace: ["stix_object", "report"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
             },
             report_types: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: {
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                }
             },
             published: {
-                type: PropertyType.Date
+                type: PropertyType.Date,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             }
         },
         anchors: AnchorConfiguration
@@ -496,18 +618,29 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "threat_actor",
         namespace: ["stix_object", "threat_actor"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
             },
             threat_actor_types: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: {
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                }
             },
             aliases: {
                 type: PropertyType.List,
@@ -551,18 +684,29 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "tool",
         namespace: ["stix_object", "tool"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
             },
             tool_types: {
                 type: PropertyType.List,
-                form: { type: PropertyType.String }
+                form: {
+                    type: PropertyType.String,
+                    metadata: {
+                        validator: {
+                            is_required: true
+                        }       
+                    }
+                }
             },
             aliases: {
                 type: PropertyType.List,
@@ -582,11 +726,15 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "vulnerability",
         namespace: ["stix_object", "vulnerability"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,
-                is_representative: true
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }       
+                }
             },
             description: {
                 type: PropertyType.String
@@ -598,7 +746,6 @@ export const StixObjects: DiagramObjectTemplate[] = [
         name: "marking_definition",
         namespace: ["stix_object", "marking_definition"],
         type: DiagramObjectType.Block,
-        role: SemanticRole.Node,
         properties: {
             name: {
                 type: PropertyType.String,

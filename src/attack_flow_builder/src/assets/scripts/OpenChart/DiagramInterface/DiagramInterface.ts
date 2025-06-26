@@ -356,6 +356,12 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      *  ### When Installing Plugins:
      *  Plugins designed to operate under very specific conditions should be
      *  installed before those that function under broader conditions.
+     * 
+     *  ### Limitations
+     *  Multi-touch interactions are not currently supported. A single plugin
+     *  will be chosen to handle the single point of contact. In the future, 
+     *  plugins should be refactored to support multi-touch.
+     * 
      * @param plugins
      *  The plugins to install.
      */

@@ -172,14 +172,26 @@ export class Group extends DiagramObject {
      * @param instance
      *  The clone's instance identifier.
      *  (Default: Random UUID)
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations.
      * @param match
      *  A predicate which is applied to each child. If the predicate returns 
      *  false, the object is not included in the clone.
      * @returns
      *  A clone of the object.
      */
-    public clone(instance?: string, match?: (obj: DiagramObject) => boolean): Group {
-        return this.replicateChildrenTo(this.isolatedClone(instance), match);
+    public clone(
+        instance?: string,
+        instanceMap?: Map<string, string>,
+        match?: (obj: DiagramObject) => boolean
+    ): Group {
+        // Create clone
+        const clone = this.replicateChildrenTo(this.isolatedClone(instance), instanceMap, match);
+        // Create association
+        instanceMap?.set(this.instance, clone.instance);
+        // Return clone
+        return clone;
     }
 
     /**
@@ -206,10 +218,17 @@ export class Group extends DiagramObject {
      * @param match
      *  A predicate which is applied to each child. If the predicate returns 
      *  false, the object is not included in the clone.
+     * @param instanceMap
+     *  An empty map that, if provided, will be populated with object instance
+     *  ID to clone instance ID associations. 
      * @returns
      *  The provided `object`.
      */
-    protected replicateChildrenTo<T extends Group>(object: T, match?: (obj: DiagramObject) => boolean): T {
+    protected replicateChildrenTo<T extends Group>(
+        object: T,
+        instanceMap?: Map<string, string>,
+        match?: (obj: DiagramObject) => boolean,
+    ): T {
         const anchorMap = new Map<string, Anchor>();
         // Clone blocks
         for(const block of this.blocks) {
@@ -217,7 +236,7 @@ export class Group extends DiagramObject {
                 continue;
             }
             // Clone block
-            const clone = block.clone();
+            const clone = block.clone(undefined, instanceMap);
             object.addObject(clone);
             // Map anchors
             for(const [position, { instance }] of block.anchors) {
@@ -231,8 +250,8 @@ export class Group extends DiagramObject {
                 continue;
             }
             // Clone line
-            const clone = line.clone();
-            object.addObject(line);
+            const clone = line.clone(undefined, instanceMap);
+            object.addObject(clone);
             // Link lines
             const srcAnchor = line.source.anchor;
             if(srcAnchor && anchorMap.has(srcAnchor.instance)) {
@@ -240,7 +259,7 @@ export class Group extends DiagramObject {
             }
             const trgAnchor = line.target.anchor;
             if(trgAnchor && anchorMap.has(trgAnchor.instance)) {
-                clone.source.link(anchorMap.get(trgAnchor.instance)!);
+                clone.target.link(anchorMap.get(trgAnchor.instance)!);
             }
         }
         return object;
