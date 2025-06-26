@@ -1,16 +1,17 @@
-import AttackFlowValidator from "./validator/AttackFlowValidator";
-import AttackFlowPublisher from "./publisher/AttackFlowPublisher";
-import { DarkTheme } from "./themes/DarkTheme";
-import { BlogTheme } from "./themes/BlogTheme";
-import { LightTheme } from "./themes/LightTheme";
-import { CtidIcon, CtidLogo } from "./images";
+import AttackFlowValidator from "./AttackFlowValidator/AttackFlowValidator";
+import AttackFlowPublisher from "./AttackFlowPublisher/AttackFlowPublisher";
+import AttackFlowFilePreprocessor from "./AttackFlowFilePreprocessor/AttackFlowFilePreprocessor";
+import { DarkTheme } from "./AttackFlowThemes/DarkTheme";
+import { BlogTheme } from "./AttackFlowThemes/BlogTheme";
+import { LightTheme } from "./AttackFlowThemes/LightTheme";
+import { CtidIcon, CtidLogo } from "./Images";
 import {
     AttackFlow,
     AttackFlowObjects,
     BaseObjects,
     StixObjects,
     StixObservables
-} from "./templates";
+} from "./AttackFlowTemplates";
 import type { AppConfiguration } from "../scripts/Application";
 
 const configuration: AppConfiguration = {
@@ -115,11 +116,18 @@ const configuration: AppConfiguration = {
         }
     },
 
-    validator: AttackFlowValidator,
+    validator: {
+        create: () => new AttackFlowValidator(),
+    },
 
-    publisher: AttackFlowPublisher,
+    publisher: {
+        create: () => new AttackFlowPublisher(),
+        menuText: "Export STIX File",
+    },
 
-    publisherMenuText: "Export STIX File"
+    preprocessor: {
+        create: () => new AttackFlowFilePreprocessor()
+    },
 
 };
 

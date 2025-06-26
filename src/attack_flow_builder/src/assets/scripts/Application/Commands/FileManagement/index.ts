@@ -56,7 +56,11 @@ export async function loadNewFile(
 export async function loadExistingFile(
     context: ApplicationStore, file: string, name?: string
 ): Promise<LoadFile> {
-    const jsonFile = JSON.parse(file) as DiagramViewExport;
+    let jsonFile = JSON.parse(file) as DiagramViewExport;
+    // Preprocess file
+    if(context.activePreprocessor) {
+        jsonFile = context.activePreprocessor.process(jsonFile);
+    }
     // Construct factory
     const factory = await getObjectFactory(context, jsonFile.schema);
     // Construct file

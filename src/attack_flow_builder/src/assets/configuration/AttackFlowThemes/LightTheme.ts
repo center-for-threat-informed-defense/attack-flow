@@ -1,6 +1,6 @@
 import { Colors, LightStyle } from "@OpenChart/ThemeLoader";
 import { Alignment, FaceType, Orientation } from "@OpenChart/DiagramView";
-import { StixObjects, StixObservables } from "../templates";
+import { StixObjects, StixObservables } from "../AttackFlowTemplates";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 
 /**

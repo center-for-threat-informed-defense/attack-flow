@@ -2,7 +2,7 @@ import type { DiagramModelFile } from "@OpenChart/DiagramModel";
 import type { ValidationErrorResult } from "./ValidationErrorResult";
 import type { ValidationWarningResult } from "./ValidationWarningResult";
 
-export class FileValidator {
+export abstract class FileValidator {
 
     /**
      * The validator's error list.
@@ -39,13 +39,7 @@ export class FileValidator {
      * @param file
      *  The file to validate.
      */
-    protected validate(_file: DiagramModelFile) {
-        /**
-         * We must keep `file` in this method header, otherwise `run()`
-         * can't pass the object to `validate()` which will likely be
-         * overridden by one or more child classes.
-         */
-    }
+    protected abstract validate(file: DiagramModelFile): void;
 
     /**
      * Returns the validator's current set of warnings.

@@ -1,4 +1,4 @@
-import { FileValidator } from "../../scripts/Application";
+import { FileValidator } from "@/assets/scripts/Application";
 import { 
     DiagramModelFile, DictionaryProperty,
     ListProperty, Property, SemanticAnalyzer
@@ -8,7 +8,9 @@ import {
     MacAddressRegex, MimeTypeRegex, PayloadRegex,
     StixObservables, StixRegex, WindowsRegistryRegex
 } from "./AttackFlowRegex";
-import type { GraphExport, SemanticGraphNode, SemanticGraphEdge } from "@OpenChart/DiagramModel";
+import type { 
+    GraphExport, SemanticGraphNode, SemanticGraphEdge
+} from "@OpenChart/DiagramModel";
 
 class AttackFlowValidator extends FileValidator {
 

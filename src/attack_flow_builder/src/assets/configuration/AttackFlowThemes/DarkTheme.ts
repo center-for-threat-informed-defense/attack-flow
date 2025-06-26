@@ -1,6 +1,6 @@
-import { StixObjects, StixObservables } from "../templates";
-import { BlogStyle, Colors, DarkStyle } from "@OpenChart/ThemeLoader";
+import { Colors, DarkStyle } from "@OpenChart/ThemeLoader";
 import { Alignment, FaceType, Orientation } from "@OpenChart/DiagramView";
+import { StixObjects, StixObservables } from "../AttackFlowTemplates";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 
 /**
@@ -10,7 +10,7 @@ const BaseObjects = {
     dynamic_line: {
         type: FaceType.DynamicLine,
         attributes: Alignment.Grid,
-        style: BlogStyle.Line()
+        style: DarkStyle.Line()
     },
     vertical_anchor: {
         type: FaceType.AnchorPoint,
@@ -37,7 +37,7 @@ const BaseObjects = {
         attributes: Alignment.Grid,
         style: {
             radius: 8,
-            fill_color: "rgba(0, 0, 0, 0.3)",
+            fill_color: "rgba(230, 216, 69, 0.3)",
             stroke_color: "#141414",
             stroke_width: 0
         }
@@ -45,7 +45,7 @@ const BaseObjects = {
     generic_handle: {
         type: FaceType.HandlePoint,
         attributes: Alignment.Grid,
-        style: BlogStyle.Point()
+        style: DarkStyle.Point()
     }
 };
 
@@ -55,33 +55,32 @@ const BaseObjects = {
 const AttackObjects = {
     flow: {
         type: FaceType.DotGridCanvas,
-        style: BlogStyle.Canvas()
+        style: DarkStyle.Canvas()
     },
     action: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        properties: { include: ["description"] },
-        style: BlogStyle.DictionaryBlock({ head: Colors.SimpleBlue })
+        style: DarkStyle.DictionaryBlock({ head: Colors.Blue })
     },
     asset: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.DictionaryBlock()
+        style:DarkStyle.DictionaryBlock({ head: Colors.Orange })
     },
     condition: {
-        type: FaceType.DictionaryBlock,
+        type: FaceType.BranchBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.DictionaryBlock()
+        style: DarkStyle.BranchBlock({ head: Colors.Green })
     },
     OR_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.TextBlock(Colors.Red)
+        style: DarkStyle.TextBlock(Colors.Red)
     },
     AND_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.TextBlock(Colors.Red)
+        style: DarkStyle.TextBlock(Colors.Red)
     }
 };
 
@@ -93,17 +92,16 @@ for (const object of [...StixObjects, ...StixObservables]) {
     Stix.set(object.name, {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        properties: { include: ["description"] },
-        style: BlogStyle.DictionaryBlock({ head: Colors.SimpleGray })
+        style: DarkStyle.DictionaryBlock({ head: Colors.Gray })
     });
 }
 
 /**
- * Blog Theme
+ * Dark Theme
  */
-export const BlogTheme: DiagramThemeConfiguration = {
-    id: "blog_theme",
-    name: "Blog Theme",
+export const DarkTheme: DiagramThemeConfiguration = {
+    id: "dark_theme",
+    name: "Dark Theme",
     grid: [5, 5],
     scale: 2,
     designs: Object.fromEntries([

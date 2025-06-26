@@ -1,6 +1,6 @@
 import type { DiagramModelFile } from "@OpenChart/DiagramModel";
 
-export class FilePublisher {
+export interface FilePublisher {
 
     /**
      * Returns the published file in text form.
@@ -9,17 +9,13 @@ export class FilePublisher {
      * @returns
      *  The published file in text form.
      */
-    public publish(file: DiagramModelFile): string {
-        return "";
-    }
+    publish(file: DiagramModelFile): string;
 
     /**
      * Returns the publisher's file extension.
      * @returns
      *  The publisher's file extension.
      */
-    public getFileExtension() {
-        return "txt";
-    }
+    getFileExtension(): string;
 
 }

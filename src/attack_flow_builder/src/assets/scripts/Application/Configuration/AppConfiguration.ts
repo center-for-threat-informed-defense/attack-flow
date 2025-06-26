@@ -1,6 +1,7 @@
 import type { SplashButton } from "./SplashButton";
 import type { FileValidator } from "../FileValidator";
 import type { FilePublisher } from "../FilePublisher";
+import type { FilePreprocessor } from "../FilePreprocessor";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 import type { DiagramSchemaConfiguration } from "@OpenChart/DiagramModel";
 
@@ -75,12 +76,49 @@ export interface AppConfiguration {
     /**
      * The application's validator.
      */
-    validator?: typeof FileValidator,
+    validator?: {
+
+        /**
+         * The application's validator.
+         * @remarks
+         *  `create` should return a new validator. 
+         */
+        create: () => FileValidator
+    
+    },
 
     /**
      * The application's publisher.
      */
-    publisher?: typeof FilePublisher,
+    publisher?: {
+
+        /**
+         * The publisher's menu text.
+         */
+        menuText?: string,
+
+        /**
+         * The application's publisher.
+         * @remarks
+         *  `create` should return a new migrator.
+         */
+        create: () => FilePublisher
+        
+    },
+
+    /**
+     * The application's file preprocessor.
+     */
+    preprocessor?: {
+
+        /**
+         * The application's file preprocessor.
+         * @remarks
+         *  `create` should return a new file preprocessor.
+         */
+        create: () => FilePreprocessor,
+    
+    }
 
     /**
      * The publisher's menu text.

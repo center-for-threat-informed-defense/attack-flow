@@ -33,17 +33,17 @@ export function calculateAnchorPositions(
         upperY = centerMidY + objQuarterY;
     return {
         [AnchorPosition.D0]   : [objMaxX, centerMidY],
-        [AnchorPosition.D30]  : [objMaxX, upperY],
+        [AnchorPosition.D30]  : [objMaxX, lowerY],
         [AnchorPosition.D60]  : [upperX, box.yMin],
         [AnchorPosition.D90]  : [centerMidX, box.yMin],
         [AnchorPosition.D120] : [lowerX, box.yMin],
-        [AnchorPosition.D150] : [box.xMin, upperY],
+        [AnchorPosition.D150] : [box.xMin, lowerY],
         [AnchorPosition.D180] : [box.xMin, centerMidY],
-        [AnchorPosition.D210] : [box.xMin, lowerY],
+        [AnchorPosition.D210] : [box.xMin, upperY],
         [AnchorPosition.D240] : [lowerX, objMaxY],
         [AnchorPosition.D270] : [centerMidX, objMaxY],
         [AnchorPosition.D300] : [upperX, objMaxY],
-        [AnchorPosition.D330] : [objMaxX, lowerY]
+        [AnchorPosition.D330] : [objMaxX, upperY]
     };
 }
 

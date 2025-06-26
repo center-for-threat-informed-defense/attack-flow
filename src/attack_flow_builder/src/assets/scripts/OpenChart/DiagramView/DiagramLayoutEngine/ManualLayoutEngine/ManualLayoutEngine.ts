@@ -29,7 +29,13 @@ export class ManualLayoutEngine implements DiagramLayoutEngine {
     public run(objects: DiagramObjectView[]): void {
         for (const object of traverse(objects)) {
             const coords = this.layout[object.instance];
-            if (coords) {
+            if(!coords) {
+                continue;
+            } 
+            if(object instanceof Handle) {
+                object.userSetPosition = PositionSetByUser.True;
+            }
+            if (object.userSetPosition !== PositionSetByUser.False) {
                 object.moveTo(coords[0], coords[1]);
             }
         }

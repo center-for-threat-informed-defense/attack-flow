@@ -1,13 +1,13 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Crypto } from "@OpenChart/Utilities";
-import { FilePublisher } from "../../scripts/Application";
 import {
     CollectionProperty, DiagramModelFile, DictionaryProperty,
     EnumProperty, ListProperty, Property, SemanticAnalyzer,
     SemanticGraphNode, StringProperty,
 } from "@OpenChart/DiagramModel";
 import type { GraphExport } from "@OpenChart/DiagramModel";
+import type { FilePublisher } from "@/assets/scripts/Application";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -73,14 +73,12 @@ const AttackFlowTemplatesMap: Map<string, string>
 ///////////////////////////////////////////////////////////////////////////////
 
 
-class AttackFlowPublisher extends FilePublisher {
+class AttackFlowPublisher implements FilePublisher {
 
     /**
-     * Creates a new {@Lin}
+     * Creates a new {@link AttackFlowPublisher}.
      */
-    constructor() {
-        super();
-    }
+    constructor() {}
 
     /**
      * Returns the published diagram in text form.
@@ -89,7 +87,7 @@ class AttackFlowPublisher extends FilePublisher {
      * @returns
      *  The published diagram in text form.
      */
-    public override publish(file: DiagramModelFile): string {
+    public publish(file: DiagramModelFile): string {
         const graph = SemanticAnalyzer.toGraph(file.canvas);
 
         // Extract page

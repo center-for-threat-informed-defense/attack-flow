@@ -18,9 +18,20 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                     }       
                 }
             },
-            tactic_and_technique: {
-                type: PropertyType.Technique
+            tactic_id: {
+                type: PropertyType.String
             },
+            // tactic_ref: {
+            //     type: PropertyType.String,
+            //     is_editable: false
+            // },
+            technique_id: {
+                type: PropertyType.String
+            },
+            // technique_ref: {
+            //     type: PropertyType.String,
+            //     is_editable: false
+            // },
             description: {
                 type: PropertyType.String
             },
