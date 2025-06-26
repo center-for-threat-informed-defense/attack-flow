@@ -80,8 +80,8 @@ export default defineComponent({
         case IntProperty.name:
         case FloatProperty.name:
           return "NumberField";
-        // case DateProperty.name:
-        //   return "DateTimeField";
+        case DateProperty.name:
+          return "DateTimeField";
         case EnumProperty.name:
           return "EnumField";
         case ListProperty.name:
