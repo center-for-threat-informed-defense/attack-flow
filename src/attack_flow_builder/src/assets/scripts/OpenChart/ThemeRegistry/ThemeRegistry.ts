@@ -1,5 +1,5 @@
 import type { ThemeSource } from "./ThemeSource";
-import type { DiagramTheme } from "../DiagramViewSchema";
+import type { DiagramTheme } from "../DiagramView";
 
 export class ThemeRegistry {
 

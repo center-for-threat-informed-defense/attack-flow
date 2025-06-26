@@ -1,5 +1,5 @@
 import type { Dictionary } from "../StixCommonDataTypes";
-import type { EmailMimeComponent } from "./EmailMIMEComponent";
+import type { EmailMimeComponent } from "./EmailMimeComponent";
 import type { StixObservableObjectBase } from "./StixObservableObjectBase";
 
 /**

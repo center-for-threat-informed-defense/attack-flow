@@ -1,4 +1,4 @@
-import type { DiagramObjectView } from "../DiagramView";
+import type { DiagramObjectView } from "../DiagramObjectView";
 
 export interface DiagramLayoutEngine {
 

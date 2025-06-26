@@ -34,7 +34,7 @@ export class RemoveEditorFromRecoveryBank extends AppCommand {
      */
     public async execute(): Promise<void> {
         // Cancel any outstanding saves
-        this.editor.tryCancelAutosave();
+        this.editor.autosave.tryCancelAutosave();
         // Remove file from recovery bank
         this.context.fileRecoveryBank.deleteFile(this.editor.id);
     }

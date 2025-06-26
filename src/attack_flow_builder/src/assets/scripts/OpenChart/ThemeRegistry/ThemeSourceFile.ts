@@ -1,6 +1,6 @@
 import { ThemeSource } from "./ThemeSource";
 import { ThemeLoader } from "../ThemeLoader";
-import type { DiagramTheme } from "../DiagramViewSchema";
+import type { DiagramTheme } from "../DiagramView";
 import type { DiagramThemeConfiguration } from "../ThemeLoader";
 
 export class ThemeSourceFile extends ThemeSource {

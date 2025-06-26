@@ -362,22 +362,11 @@ export class DiagramObjectFactory {
             case PropertyType.Float:
             case PropertyType.Date:
             case PropertyType.Enum:
-                if (Array.isArray(value)) {
-                    throw new Error(`Invalid JSON primitive: '${value}'.`);
-                }
-                return this.createAtomicProperty(id, descriptor, value);
             case PropertyType.Technique:
                 if (Array.isArray(value)) {
                     throw new Error(`Invalid JSON primitive: '${value}'.`);
                 }
-                // Create technique property descriptor
-                const techniqueDescriptor: TechniquePropertyDescriptor = {
-                    type: PropertyType.Technique,
-                    is_editable: descriptor.is_editable ?? true,
-                    tacticDetails: intel.tactics,
-                    techniqueDetails: intel.technique
-                };
-                return new TechniqueProperty(id, descriptor.is_editable ?? true, techniqueDescriptor, value);
+                return this.createAtomicProperty(id, descriptor, value);
         }
     }
 
@@ -487,16 +476,9 @@ export class DiagramObjectFactory {
                 return new DateProperty(id, editable, meta, value);
             case PropertyType.Enum:
                 options = this.createListProperty(`${id}.options`, descriptor.options);
-                return new EnumProperty(id, editable, options, value);
+                return new EnumProperty(id, editable, options, meta, value);
             case PropertyType.Technique:
-                // Create technique property descriptor
-                const techniqueDescriptor: TechniquePropertyDescriptor = {
-                    type: PropertyType.Technique,
-                    is_editable: editable,
-                    tacticDetails: intel.tactics,
-                    techniqueDetails: intel.technique
-                };
-                return new TechniqueProperty(id, editable, techniqueDescriptor, value);
+                throw new Error("Not implemented");
         }
     }
 
