@@ -1,4 +1,5 @@
 import { Cursor, DiagramInterfacePlugin, SubjectTrack } from "../../../DiagramInterface";
+import type { MarqueeDesign } from "../../../DiagramView";
 import { selectObject, unselectAllObjects } from "../../Commands";
 import type { DiagramViewEditor } from "../../DiagramViewEditor";
 import { RectangleMarquee } from "./RectangleMarquee";
@@ -7,7 +8,7 @@ const MARKUP_ID = "rectangle_select_plugin_markup";
 
 export class RectangleSelectPlugin extends DiagramInterfacePlugin {
     private editor: DiagramViewEditor;
-    private marquee: RectangleMarquee;
+    private marquee: RectangleMarquee | null;
 
     /**
      * Creates a new {@link RectangleSelectPlugin}.
@@ -16,8 +17,7 @@ export class RectangleSelectPlugin extends DiagramInterfacePlugin {
     constructor(editor: DiagramViewEditor) {
         super();
         this.editor = editor;
-        // this.markup = new RectangleMarquee(new BoundingBox());
-        this.marquee = new RectangleMarquee();
+        this.marquee = null;
     }
 
     /**
@@ -58,7 +58,7 @@ export class RectangleSelectPlugin extends DiagramInterfacePlugin {
      *  Always return false to avoid transferring control back to the interface.
     */
     protected handleSelectStart(_event: MouseEvent): boolean {
-        this.marquee.setStart(this.track.xCursor, this.track.yCursor);
+        this.marquee = this.createMarquee();
         this.editor.interface.addMarkup(MARKUP_ID, this.marquee);
         this.editor.interface.emit("cursor-change", Cursor.Crosshair);
         return false;
@@ -71,10 +71,10 @@ export class RectangleSelectPlugin extends DiagramInterfacePlugin {
      */
     protected handleSelectDrag(track: SubjectTrack, _event: MouseEvent): void {
         const delta = track.getDistance();
-        this.marquee.moveEnd(delta);
+        this.marquee!.moveEnd(delta);
 
         this.editor.execute(unselectAllObjects(this.editor));
-        const rect = this.marquee.boundingBox;
+        const rect = this.marquee!.boundingBox;
         for (const obj of this.editor.file.canvas.objects) {
             if (obj.overlaps(rect)) {
                 this.editor.execute(selectObject(this.editor, obj));
@@ -90,9 +90,20 @@ export class RectangleSelectPlugin extends DiagramInterfacePlugin {
      * @param _event
      */
     protected handleSelectEnd(_event: MouseEvent): void {
+        this.marquee = null;
         this.track.reset(0, 0);
         this.editor.interface.clearMarkup(MARKUP_ID);
         this.editor.interface.emit("cursor-change", Cursor.Default);
         this.editor.interface.render();
+    }
+
+    /**
+     * Create a marquee based on the current theme.
+     * @returns
+     */
+    protected createMarquee(): RectangleMarquee {
+        const theme = this.editor.file.factory.theme;
+        const design = theme.designs["marquee"] as MarqueeDesign;
+        return new RectangleMarquee(design.style, this.track.xCursor, this.track.yCursor);
     }
 }

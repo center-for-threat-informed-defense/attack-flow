@@ -1,4 +1,4 @@
-import { BoundingBox, type ViewportRegion } from "../../../DiagramView";
+import { BoundingBox, type MarqueeStyle, type RenderSettings, type ViewportRegion } from "../../../DiagramView";
 import type { DiagramInterfaceMarkup } from "../../../DiagramInterface";
 
 export class RectangleMarquee implements DiagramInterfaceMarkup {
@@ -6,17 +6,20 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
     protected startY: number;
     protected endX: number;
     protected endY: number;
+    protected style: MarqueeStyle;
 
     /**
      * Creates a new {@link RectangleMarquee}.
      * @param boundingBox
+     * @param x
+     * @param y
      */
-    // constructor(boundingBox: BoundingBox) {
-    constructor() {
-        this.startX = 0;
-        this.startY = 0;
-        this.endX = 0;
-        this.endY = 0;
+    constructor(style: MarqueeStyle, x: number, y: number) {
+        this.style = style;
+        this.startX = x;
+        this.endX = x;
+        this.startY = y;
+        this.endY = y;
     }
 
     /**
@@ -25,26 +28,26 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
      *  The context to render to.
      * @param region
      *  The context's viewport.
-     * @param settings
+     * @param _settings
      *  The current render settings.
      */
     public render(
         ctx: CanvasRenderingContext2D,
         region: ViewportRegion,
-        settings: RenderSettings
+        _settings: RenderSettings
     ): void {
         // Ensure the markup is visible before rendering it
         if (!this.isVisible(region)) {
             return;
         }
 
-        // ctx.setLineDash([5, 3]);
         const boundingBox = this.boundingBox;
-        ctx.fillStyle = "rgb(255 255 255 / 10%)"; // TODO how to change color based on mode, is that what settings is for?
+        const { strokeWidth, strokeColor, fillColor } = this.style;
+        ctx.lineWidth = strokeWidth;
+        ctx.fillStyle = fillColor;
         ctx.fillRect(boundingBox.xMin, boundingBox.yMin, boundingBox.width, boundingBox.height);
-        ctx.strokeStyle = "rgb(255 255 255 / 50%)"; // TODO how to change color based on mode, is that what settings is for?
+        ctx.strokeStyle = strokeColor;
         ctx.strokeRect(boundingBox.xMin, boundingBox.yMin, boundingBox.width, boundingBox.height);
-        // ctx.setLineDash([]);
     }
     /**
      * Tests if the markup overlaps the given viewport.
@@ -59,6 +62,10 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
             (viewport.yMin <= yMax && viewport.yMax >= yMin);
     }
 
+    /**
+     * Get a bounding box for the marquee.
+     * @returns
+     */
     public get boundingBox(): BoundingBox {
         return new BoundingBox(
             Math.min(this.startX, this.endX),
@@ -66,18 +73,6 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
             Math.max(this.startX, this.endX),
             Math.max(this.startY, this.endY)
         );
-    }
-
-    /**
-     * Set the starting coordinates for the marquee.
-     * @param x
-     * @param y
-     */
-    public setStart(x: number, y:number) {
-        this.startX = x;
-        this.endX = x;
-        this.startY = y;
-        this.endY = y;
     }
 
     /**

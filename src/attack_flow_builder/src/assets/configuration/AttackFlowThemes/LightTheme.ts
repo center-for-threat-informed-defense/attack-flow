@@ -97,6 +97,21 @@ for (const object of [...StixObjects, ...StixObservables]) {
 }
 
 /**
+ * Markup
+ */
+const Markup = {
+    marquee: {
+        type: FaceType.Marquee,
+        attributes: 0,
+        style: {
+            strokeWidth: 1,
+            strokeColor: "rgba(0, 0, 0, 0.5)",
+            fillColor: "rgba(0, 0, 0, 0.1)"
+        }
+    }
+};
+
+/**
  * Light Theme
  */
 export const LightTheme: DiagramThemeConfiguration = {
@@ -107,6 +122,7 @@ export const LightTheme: DiagramThemeConfiguration = {
     designs: Object.fromEntries([
         ...Object.entries(BaseObjects),
         ...Object.entries(AttackObjects),
-        ...Stix.entries()
+        ...Stix.entries(),
+        ...Object.entries(Markup)
     ])
 };

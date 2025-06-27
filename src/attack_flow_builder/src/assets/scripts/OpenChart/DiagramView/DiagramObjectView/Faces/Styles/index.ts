@@ -5,3 +5,4 @@ export * from "./PointStyle";
 export * from "./LineStyle";
 export * from "./TextBlockStyle";
 export * from "./PageStyle";
+export * from "./MarqueeStyle";
