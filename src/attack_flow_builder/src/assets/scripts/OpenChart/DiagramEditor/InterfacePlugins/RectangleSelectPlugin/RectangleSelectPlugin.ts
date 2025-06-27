@@ -47,7 +47,6 @@ export class RectangleSelectPlugin extends DiagramInterfacePlugin {
      * @param event
      */
     public canHandleSelection(_x: number, _y: number, event: MouseEvent): boolean {
-        // TODO should this key be configured in settings? i don't have settings available here.
         return event.altKey;
     }
 
