@@ -11,6 +11,16 @@ export class UserSetObjectPosition extends SynchronousEditorCommand {
      */
     public readonly object: DiagramObjectView;
 
+    /**
+     * The object's previous value.
+     */
+    public readonly prevValue: number;
+
+    /**
+     * The object's next value.
+     */
+    public readonly nextValue: number;
+
 
     /**
      * Declares that an object's position was set by the user.
@@ -20,6 +30,8 @@ export class UserSetObjectPosition extends SynchronousEditorCommand {
     constructor(object: DiagramObjectView) {
         super();
         this.object = object;
+        this.prevValue = object.userSetPosition;
+        this.nextValue = PositionSetByUser.True;
     }
 
 
@@ -29,7 +41,7 @@ export class UserSetObjectPosition extends SynchronousEditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
-        this.object.userSetPosition = PositionSetByUser.True;
+        this.object.userSetPosition = this.nextValue;
         issueDirective(EditorDirective.Record);
     }
 
@@ -39,7 +51,7 @@ export class UserSetObjectPosition extends SynchronousEditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
-        this.object.userSetPosition = PositionSetByUser.False;
+        this.object.userSetPosition = this.prevValue;
         issueDirective(EditorDirective.Record);
     }
 
