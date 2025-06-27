@@ -52,7 +52,8 @@ export const BaseAppSettings: AppSettings = {
             find_next: "",
             find_previous: "",
             select_all: "",
-            unselect_all: ""
+            unselect_all: "",
+            select_marquee: ""
         },
         layout: {
             selection_to_front: "",
@@ -163,6 +164,7 @@ export type EditHotkeys = {
     find_previous: string;
     select_all: string;
     unselect_all: string;
+    select_marquee: string;
 };
 
 /**

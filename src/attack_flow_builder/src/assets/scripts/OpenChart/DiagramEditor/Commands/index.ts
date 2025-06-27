@@ -20,6 +20,6 @@ import { GroupCommand } from "./index.commands";
  * @returns
  *  A command that represents the action.
  */
-export function newGroupCommand(rollbackOnFailure: boolean): GroupCommand {
+export function newGroupCommand(rollbackOnFailure: boolean = true): GroupCommand {
     return new GroupCommand(rollbackOnFailure);
 }

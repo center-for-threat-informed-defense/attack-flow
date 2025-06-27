@@ -35,7 +35,7 @@ export abstract class DiagramInterfacePlugin {
     public abstract canHandleHover(x: number, y: number, event: MouseEvent): boolean;
 
     /**
-     * Singles the start of a hover event.
+     * Signals the start of a hover event.
      * @param x
      *  The cursor's current x-coordinate.
      * @param y

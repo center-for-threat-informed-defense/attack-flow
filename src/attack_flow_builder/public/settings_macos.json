@@ -49,7 +49,8 @@
             "find_next": "Meta+G",
             "find_previous": "Shift+Meta+G",
             "select_all": "Meta+A",
-            "unselect_all": "Escape"
+            "unselect_all": "Escape",
+            "select_marquee": "Alt"
         },
         "layout": {
             "selection_to_front": "Shift+Meta+F",

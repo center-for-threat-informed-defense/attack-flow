@@ -7,11 +7,11 @@ import { ViewportRegion } from "@OpenChart/DiagramView";
 import { EventEmitter, round } from "@OpenChart/Utilities";
 import { resizeAndTransformContext, resizeContext, transformContext } from "./Context";
 import type { Animation } from "./Animation";
+import type { DiagramInterfaceMarkup } from "./DiagramInterfaceMarkup";
 import type { DiagramInterfacePlugin } from "./DiagramInterfacePlugin";
 import type { DiagramInterfaceEvents } from "./DiagramInterfaceEvents";
 import type { CameraLocation, CanvasView } from "@OpenChart/DiagramView";
 import type { CanvasSelection, CanvasZoomBehavior } from "./D3Types";
-import type { DiagramInterfaceMarkup } from "./DiagramInterfaceMarkup";
 
 export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
@@ -120,14 +120,18 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
     private readonly animations: Map<string, Animation>;
 
     /**
+     * The interface's active markup.
+     * @remarks
+     *  Markup elements are drawn on the diagram but are not part of the
+     *  diagram model.
+     */
+    private readonly markup: Map<string, DiagramInterfaceMarkup>;
+
+    /**
      * The id of the last animation frame request.
      */
     private rafId: number;
 
-    /**
-     * Markup elements are drawn on the diagram but are not part of the diagram model.
-     */
-    private markup: Map<string, DiagramInterfaceMarkup>;
 
     ///////////////////////////////////////////////////////////////////////////
     //  4. Behavior-Related Fields  ///////////////////////////////////////////
@@ -161,8 +165,8 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         this.plugins = new Map();
         this.activePlugin = null;
         this.animations = new Map();
-        this.rafId = 0;
         this.markup = new Map();
+        this.rafId = 0;
         this.zoom = d3.zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([1 / 8, 6])
             .on("zoom", this.onCanvasZoom.bind(this))
@@ -336,7 +340,43 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  8. Canvas Interactions  ///////////////////////////////////////////////
+    //  8. Markup  ////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Adds markup to the diagram.
+     * @param id
+     *  The markup object's identifier.
+     * @param markup
+     *  The markup object.
+     */
+    public addMarkup(id: string, markup: DiagramInterfaceMarkup) {
+        this.markup.set(id, markup);
+    }
+
+    /**
+     * Removes all markup from the diagram.
+     */
+    public clearMarkup(): void;
+
+    /**
+     * Removes a specific markup object from the diagram.
+     * @param id
+     *  The markup object's id.
+     */
+    public clearMarkup(id?: string): void;
+    public clearMarkup(id?: string) {
+        if (id === undefined) {
+            this.markup.clear();
+        } else {
+            this.markup.delete(id);
+        }
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  9. Canvas Interactions  ///////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -566,7 +606,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  9. View Controls  /////////////////////////////////////////////////////
+    //  10. View Controls  ////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -629,7 +669,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    //  10. Events  ///////////////////////////////////////////////////////////
+    //  11. Events  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
 
@@ -644,29 +684,4 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         super.emit(event, ...args);
     }
 
-
-    ///////////////////////////////////////////////////////////////////////////
-    //  11. Markup  ///////////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Add a markup to the diagram.
-     * @param id
-     * @param markup
-     */
-    public addMarkup(id: string, markup: DiagramInterfaceMarkup) {
-        this.markup.set(id, markup);
-    }
-
-    /**
-     * Remove a specific markup, or if no ID specified, then remove all markups.
-     * @param id
-     */
-    public clearMarkup(id?: string) {
-        if (id === undefined) {
-            this.markup.clear();
-        } else {
-            this.markup.delete(id);
-        }
-    }
 }

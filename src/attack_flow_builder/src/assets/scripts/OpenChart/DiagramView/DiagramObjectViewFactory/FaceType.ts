@@ -8,6 +8,5 @@ export enum FaceType {
     DynamicLine     = "line_dynamic",
     Group           = "group",
     LineGridCanvas  = "canvas_line_grid",
-    DotGridCanvas   = "canvas_dot_grid",
-    Marquee         = "marquee"
+    DotGridCanvas   = "canvas_dot_grid"
 }

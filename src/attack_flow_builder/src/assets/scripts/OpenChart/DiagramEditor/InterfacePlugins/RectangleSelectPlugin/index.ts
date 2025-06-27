@@ -1,1 +1,2 @@
-export { RectangleSelectPlugin } from "./RectangleSelectPlugin";
+export * from "./RectangleMarquee";
+export * from "./RectangleSelectPlugin";

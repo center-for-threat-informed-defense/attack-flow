@@ -1,11 +1,13 @@
 import { ref } from "vue";
 import { AppCommand } from "../AppCommand";
 import { EditorDirective } from "@OpenChart/DiagramEditor/EditorDirectives";
-import { DiagramViewEditor, PowerEditPlugin } from "@OpenChart/DiagramEditor";
 import { SaveDiagramFileToRecoveryBank } from "./SaveDiagramFileToRecoveryBank";
+import { 
+    DarkThemeMarquee, DiagramViewEditor, LightThemeMarquee,
+    PowerEditPlugin, RectangleSelectPlugin
+} from "@OpenChart/DiagramEditor";
 import type { DiagramViewFile } from "@OpenChart/DiagramView";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
-import { RectangleSelectPlugin } from "@/assets/scripts/OpenChart/DiagramEditor/InterfacePlugins/RectangleSelectPlugin";
 
 export class LoadFile extends AppCommand {
 
@@ -55,11 +57,18 @@ export class LoadFile extends AppCommand {
                 context.activeValidator?.run(editor.file);
             }
         })
+        // TODO: Move into application configuration
+        const marqueeThemes = {
+            "dark_theme"  : DarkThemeMarquee,
+            "blog_theme"  : LightThemeMarquee,
+            "light_theme" : LightThemeMarquee,
+        }
         // Configure interface plugins
+        const hotkeys = context.settings.hotkeys.edit;
         const factory = this.editor.file.factory;
         const lineTemplate = settings.edit.anchor_line_template;
         this.editor.interface.installPlugin(
-            new RectangleSelectPlugin(this.editor),
+            new RectangleSelectPlugin(this.editor, marqueeThemes, hotkeys.select_marquee),
             new PowerEditPlugin(this.editor, { factory, lineTemplate })
         );
         // Apply view settings

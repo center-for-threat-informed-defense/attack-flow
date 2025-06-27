@@ -1,108 +1,171 @@
-import { Cursor, DiagramInterfacePlugin, SubjectTrack } from "../../../DiagramInterface";
-import type { MarqueeDesign } from "../../../DiagramView";
-import { selectObject, unselectAllObjects } from "../../Commands";
+import * as EditorCommands from "../../Commands";
+import { DarkThemeMarquee, RectangleMarquee } from "./RectangleMarquee";
+import { Cursor, DiagramInterfacePlugin, SubjectTrack } from "@OpenChart/DiagramInterface";
+import type { MarqueeThemeMap } from "./MarqueeThemeMap";
 import type { DiagramViewEditor } from "../../DiagramViewEditor";
-import { RectangleMarquee } from "./RectangleMarquee";
-
-const MARKUP_ID = "rectangle_select_plugin_markup";
 
 export class RectangleSelectPlugin extends DiagramInterfacePlugin {
-    private editor: DiagramViewEditor;
-    private marquee: RectangleMarquee | null;
+    
+    /**
+     * The rectangle marquee's markup identifier.
+     */
+    private static MarkupId = "rectangle_select_plugin_markup";
+
+    /**
+     * The plugin's editor.
+     */
+    private readonly editor: DiagramViewEditor;
+
+    /**
+     * The plugin's theme map.
+     */
+    private readonly themes: MarqueeThemeMap;
+
+    /**
+     * The plugin's hotkey.
+     */
+    private readonly hotkey: string;
+
+    /**
+     * The plugin's marquee markup object.
+     */
+    private readonly marquee: RectangleMarquee;
+
 
     /**
      * Creates a new {@link RectangleSelectPlugin}.
      * @param editor
+     *  The plugin's editor.
+     * @param themes
+     *  The plugin's theme map.
+     * @param hotkey
+     *  The plugin's hotkey.
      */
-    constructor(editor: DiagramViewEditor) {
+    constructor(editor: DiagramViewEditor, themes: MarqueeThemeMap, hotkey: string) {
         super();
         this.editor = editor;
-        this.marquee = null;
+        this.themes = themes;
+        this.hotkey = hotkey;
+        this.marquee = new RectangleMarquee(DarkThemeMarquee);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  1. Hover Interactions  ////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+
     /**
-     * This plugin does not support hover, so this method always returns false.
-     * @param _x
-     * @param _y
-     * @param _event
-     * @returns
+     * Tests if the plugin can handle a hover event.
+     * @remarks
+     *  This plugin doesn't handle hover events, so it always returns false.
      */
-    public canHandleHover(_x: number, _y: number, _event: MouseEvent): boolean {
+    public canHandleHover(): boolean {
         return false;
     }
 
     /**
-     * This plugin does not support hover, so this method is a no-op.
-     * @param _x
-     * @param _y
-     * @param _event
+     * Hover start logic.
+     * @remarks
+     *  This plugins doesn't handle hover events, so this is a no-op.
      */
-    protected handleHoverStart(_x: number, _y: number, _event: MouseEvent): void {
-    }
+    protected handleHoverStart(): void {}
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  2. Selection Interactions  ////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
 
     /**
-     * Determine if the selection modifier key is being pressed.
+     * Tests if the plugin can handle a selection.
+     * @remarks
+     *  Determine if the selection modifier key is being pressed.
      * @param _x
+     *  The cursor's current x-coordinate. (Unused)
      * @param _y
+     *  The cursor's current y-coordinate. (Unused)
      * @param event
+     *  The mouse event.
+     * @returns
+     *  True if the plugin can handle the event, false otherwise.
      */
     public canHandleSelection(_x: number, _y: number, event: MouseEvent): boolean {
-        return event.altKey;
+        switch(this.hotkey.toLocaleLowerCase()) {
+            case "alt":
+                return event.altKey;
+            case "control":
+                return event.ctrlKey;
+            case "shift":
+                return event.shiftKey;
+            case "meta":
+                return event.metaKey;
+            default:
+                return false;
+        }
     }
 
     /**
-     * Initialize a new rectangular selection.
-     * @param _event
+     * Selection start logic.
+     * @remarks
+     *  Initialize a new rectangular selection.
      * @returns
      *  Always return false to avoid transferring control back to the interface.
     */
-    protected handleSelectStart(_event: MouseEvent): boolean {
-        this.marquee = this.createMarquee();
-        this.editor.interface.addMarkup(MARKUP_ID, this.marquee);
+    protected handleSelectStart(): boolean {
+        // Reset marquee style
+        const theme = this.editor.file.factory.theme.id;
+        this.marquee.style = this.themes[theme] ?? DarkThemeMarquee;
+        // Reset marquee position
+        this.marquee.reset(this.track.xCursor, this.track.yCursor);
+        // Register markup
+        this.editor.interface.addMarkup(RectangleSelectPlugin.MarkupId, this.marquee);
+        // Update cursor
         this.editor.interface.emit("cursor-change", Cursor.Crosshair);
+        // Return
         return false;
     }
 
     /**
-     * Select all the objects that intersect the marquee.
+     * Selection drag logic.
+     * @remarks
+     *  Select all objects that intersect the marquee.
      * @param track
-     * @param _event
+     *  The subject track.
      */
-    protected handleSelectDrag(track: SubjectTrack, _event: MouseEvent): void {
+    protected handleSelectDrag(track: SubjectTrack): void {
+        const { newGroupCommand, selectObject, unselectAllObjects } = EditorCommands;
+        // Get delta
         const delta = track.getDistance();
-        this.marquee!.moveEnd(delta);
-
-        this.editor.execute(unselectAllObjects(this.editor));
-        const rect = this.marquee!.boundingBox;
+        // Update the marquee's position
+        this.marquee.moveEndPoint(delta);
+        // Update the marquee's selection
+        const cmd = newGroupCommand();
+        cmd.do(unselectAllObjects(this.editor));
         for (const obj of this.editor.file.canvas.objects) {
-            if (obj.overlaps(rect)) {
-                this.editor.execute(selectObject(this.editor, obj));
+            if (obj.overlaps(this.marquee.boundingBox)) {
+                cmd.do(selectObject(this.editor, obj));
             }
         }
-
+        this.editor.execute(cmd);
+        // Apply delta
         this.track.applyDelta(delta);
+        // Render marquee
         this.editor.interface.render();
     }
 
     /**
-     * Hide the markup.
-     * @param _event
+     * Selection end logic.
+     * @remarks
+     *  Hide the markup.
      */
-    protected handleSelectEnd(_event: MouseEvent): void {
-        this.marquee = null;
-        this.track.reset(0, 0);
-        this.editor.interface.clearMarkup(MARKUP_ID);
+    protected handleSelectEnd(): void {
+        // Remove marquee markup
+        this.editor.interface.clearMarkup(RectangleSelectPlugin.MarkupId);
+        // Reset cursor
         this.editor.interface.emit("cursor-change", Cursor.Default);
+        // Re-render interface
         this.editor.interface.render();
     }
 
-    /**
-     * Create a marquee based on the current theme.
-     * @returns
-     */
-    protected createMarquee(): RectangleMarquee {
-        const theme = this.editor.file.factory.theme;
-        const design = theme.designs["marquee"] as MarqueeDesign;
-        return new RectangleMarquee(design.style, this.track.xCursor, this.track.yCursor);
-    }
 }
