@@ -55,7 +55,12 @@ export class SubjectTrack {
      *  The cursor's current y-coordinate.
      */
     public reset(x: number, y: number) {
-
+        this.xCursor = x;
+        this.yCursor = y;
+        this.xCursorDelta = 0;
+        this.yCursorDelta = 0;
+        this.xSubjectDelta = 0;
+        this.ySubjectDelta = 0;
     }
 
     /**

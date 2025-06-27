@@ -5,6 +5,7 @@ import { DiagramViewEditor, PowerEditPlugin } from "@OpenChart/DiagramEditor";
 import { SaveDiagramFileToRecoveryBank } from "./SaveDiagramFileToRecoveryBank";
 import type { DiagramViewFile } from "@OpenChart/DiagramView";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
+import { RectangleSelectPlugin } from "@/assets/scripts/OpenChart/DiagramEditor/InterfacePlugins/RectangleSelectPlugin";
 
 export class LoadFile extends AppCommand {
 
@@ -58,6 +59,7 @@ export class LoadFile extends AppCommand {
         const factory = this.editor.file.factory;
         const lineTemplate = settings.edit.anchor_line_template;
         this.editor.interface.installPlugin(
+            new RectangleSelectPlugin(this.editor),
             new PowerEditPlugin(this.editor, { factory, lineTemplate })
         );
         // Apply view settings

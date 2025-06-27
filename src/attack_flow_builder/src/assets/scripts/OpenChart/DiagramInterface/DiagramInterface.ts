@@ -11,6 +11,7 @@ import type { DiagramInterfacePlugin } from "./DiagramInterfacePlugin";
 import type { DiagramInterfaceEvents } from "./DiagramInterfaceEvents";
 import type { CameraLocation, CanvasView } from "@OpenChart/DiagramView";
 import type { CanvasSelection, CanvasZoomBehavior } from "./D3Types";
+import type { DiagramInterfaceMarkup } from "./DiagramInterfaceMarkup";
 
 export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
 
@@ -123,6 +124,10 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
      */
     private rafId: number;
 
+    /**
+     * Markup elements are drawn on the diagram but are not part of the diagram model.
+     */
+    private markup: Map<string, DiagramInterfaceMarkup>;
 
     ///////////////////////////////////////////////////////////////////////////
     //  4. Behavior-Related Fields  ///////////////////////////////////////////
@@ -157,6 +162,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         this.activePlugin = null;
         this.animations = new Map();
         this.rafId = 0;
+        this.markup = new Map();
         this.zoom = d3.zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([1 / 8, 6])
             .on("zoom", this.onCanvasZoom.bind(this))
@@ -250,6 +256,10 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         this.root.renderSurfaceTo(this.context, this.viewport);
         // Render root
         this.root.renderTo(this.context, this.viewport, this.settings);
+        // Render markup
+        for (const markup of this.markup.values()) {
+            markup.render(this.context, this.viewport, this.settings);
+        }
         // Render debug display
         if (s.debugInfoEnabled) {
             this.root.renderDebugTo(this.context, this.viewport);
@@ -634,4 +644,29 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
         super.emit(event, ...args);
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  11. Markup  ///////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Add a markup to the diagram.
+     * @param id
+     * @param markup
+     */
+    public addMarkup(id: string, markup: DiagramInterfaceMarkup) {
+        this.markup.set(id, markup);
+    }
+
+    /**
+     * Remove a specific markup, or if no ID specified, then remove all markups.
+     * @param id
+     */
+    public clearMarkup(id?: string) {
+        if (id === undefined) {
+            this.markup.clear();
+        } else {
+            this.markup.delete(id);
+        }
+    }
 }

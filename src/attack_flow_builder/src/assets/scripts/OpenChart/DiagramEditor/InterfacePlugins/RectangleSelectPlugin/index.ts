@@ -1,0 +1,1 @@
+export { RectangleSelectPlugin } from "./RectangleSelectPlugin";
