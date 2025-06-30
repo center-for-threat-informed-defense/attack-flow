@@ -1,7 +1,8 @@
 import * as EditorCommands from "../../../Commands";
-import { Alignment, AnchorPosition, BoundingBox, CanvasView, Focus, GroupView } from "@OpenChart/DiagramView";
+import { LineView } from "@OpenChart/DiagramView";
 import { ObjectMover } from "./ObjectMover";
-import { LineView, type BlockView } from "@OpenChart/DiagramView";
+import { Alignment, BoundingBox, CanvasView, GroupView } from "@OpenChart/DiagramView";
+import type { BlockView } from "@OpenChart/DiagramView";
 import type { SubjectTrack } from "@OpenChart/DiagramInterface";
 import type { PowerEditPlugin } from "../PowerEditPlugin";
 import type { CommandExecutor } from "../CommandExecutor";
@@ -48,10 +49,7 @@ export class BlockMover extends ObjectMover {
     /**
      * Captures the subject.
      */
-    public captureSubject(): void {
-        const { userSetObjectPosition } = EditorCommands;
-        this.execute(userSetObjectPosition(this.block));
-    }
+    public captureSubject(): void {}
 
     /**
      * Moves the subject.
@@ -61,7 +59,7 @@ export class BlockMover extends ObjectMover {
     public moveSubject(track: SubjectTrack): void {
         const editor = this.plugin.editor;
         const canvas = editor.file.canvas;
-        const { moveObjectsBy } = EditorCommands;
+        const { moveObjectsBy, userSetObjectPosition } = EditorCommands;
         // Get distance
         let delta;
         if (this.alignment === Alignment.Grid) {
@@ -70,7 +68,12 @@ export class BlockMover extends ObjectMover {
             delta = track.getDistance();
         }
         // Move
-        this.execute(moveObjectsBy(this.block, ...delta));
+        if(delta[0] + delta[1]) {
+            if(!this.block.userSetPosition) {
+                this.execute(userSetObjectPosition(this.block))
+            }
+            this.execute(moveObjectsBy(this.block, ...delta));
+        }
         // Update overlap
         this.updateOverlap(canvas);
         // Apply delta
@@ -126,14 +129,16 @@ export class BlockMover extends ObjectMover {
      * Releases the subject from movement.
      */
     public releaseSubject(): void {
+        const { routeLinesThroughBlock, selectObject, unselectAllObjects } = EditorCommands;
         const editor = this.plugin.editor;
         const canvas = editor.file.canvas;
         const block = this.block;
         const lines = [...this.lines.values()];
-        const { routeLinesThroughBlock, selectObject, unselectAllObjects } = EditorCommands;
-        this.execute(routeLinesThroughBlock(canvas, block, lines));
-        this.execute(unselectAllObjects(editor));
-        this.execute(selectObject(editor, this.block));
+        if(lines.length) {
+            this.execute(routeLinesThroughBlock(canvas, block, lines));
+            this.execute(unselectAllObjects(editor));
+            this.execute(selectObject(editor, this.block));
+        }
     }
 
 }
