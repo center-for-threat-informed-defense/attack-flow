@@ -1,5 +1,6 @@
 import { Property } from "..";
 import { Crypto, MD5 } from "@OpenChart/Utilities";
+import type { Constructor } from "@OpenChart/Utilities";
 import type { PropertyMetadata, JsonEntries, JsonValue } from "..";
 
 export abstract class CollectionProperty extends Property {
@@ -78,6 +79,22 @@ export abstract class CollectionProperty extends Property {
         }
         // Update property
         this.updateParentProperty();
+    }
+
+
+    /**
+     * Returns a property from the collection.
+     * @param id
+     *  The property's id.
+     * @param type
+     *  The property's expected type.
+     */
+    public get<T extends Property>(id: string, type?: Constructor<T>): T | undefined {
+        const property = this.value.get(id);
+        if(type && !(property instanceof type)) {
+            throw new Error(`Property '${id}' is not a '${type.name}'.`);
+        }
+        return property as T | undefined;
     }
 
     /**

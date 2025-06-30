@@ -22,7 +22,7 @@ export class DictionaryProperty extends CollectionProperty {
         super(id, editable, meta);
         this.representativeKey = null;
     }
-
+    
 
     /**
      * Tests if the primary property is defined.

@@ -6,3 +6,5 @@ export * from "./Object";
 export * from "./EventEmitter";
 export * from "./Drawing";
 export * from "./Runtime";
+export * from "./Date";
+export * from "./Types";

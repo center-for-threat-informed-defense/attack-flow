@@ -1,42 +1,36 @@
 <template>
   <div :class="['options-list-field-control', { flip }]">
-    <ScrollBox
-      :top="scrollTop"
-      :style="style"
-      :propagate-scroll="false"
-    >
-      <ul
-        class="options"
-        v-if="hasOptions"
-      >
-        <li 
-          ref="items"
-          v-for="opt in options"
-          :key="opt.value ?? 0"
-          :list-id="opt.value"
-          :class="{ active: isActive(opt), null: isNull(opt) }"
-          @click="$emit('select', opt.value)"
-          @mouseenter="active = opt.value"
-          exit-focus-box
+    <div ref="scrollbox" :style="style">
+      <div ref="content">
+        <ul class="options" v-if="hasOptions">
+          <li 
+            ref="items"
+            v-for="opt in options"
+            :key="opt.value ?? 0"
+            :list-id="opt.value"
+            :class="{ active: isActive(opt), null: isNull(opt) }"
+            @click="$emit('select', opt.value)"
+            @mouseenter="setActive(opt)"
+            exit-focus-box
+          >
+            {{ opt.text }}
+          </li>
+        </ul>
+        <div
+          class="no-options"
+          v-if="!hasOptions"
         >
-          {{ opt.text }}
-        </li>
-      </ul>
-      <div
-        class="no-options"
-        v-if="!hasOptions"
-      >
-        No matches
+          No matches
+        </div>
       </div> 
-    </ScrollBox>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 // Dependencies
-import { defineComponent, type PropType } from "vue";
-// Components
-import ScrollBox from "@/components/Containers/ScrollBox.vue";
+import { defineComponent, markRaw, type PropType } from "vue";
+import { RawScrollBox } from "@/assets/scripts/Browser";
 
 export default defineComponent({
   name: "EnumField",
@@ -57,7 +51,7 @@ export default defineComponent({
   data() {
     return {
       flip: false,
-      active: this.option ?? null,
+      scrollbox: markRaw(new RawScrollBox(false, false)),
       scrollTop: 0
     }
   },
@@ -82,7 +76,7 @@ export default defineComponent({
     }
 
   },
-  emits: ["select"],
+  emits: ["select", "hover"],
   methods: {
 
     /**
@@ -100,44 +94,105 @@ export default defineComponent({
      *  True if the option is active, false otherwise.
      */
     isActive(option: { value: string | null, text: string }) {
-      return this.active === option.value;
+      return this.option === option.value;
     },
 
     /**
-     * Moves the focus to the currently active item.
+     * Sets the active option.
+     * @param option
+     *  The option.
      */
-    focusActive() {
-      // Resolve active item
-      let item: HTMLElement | undefined;
-      for(const el of this.$refs.items as HTMLElement[]) {
-        if(this.option === el.getAttribute("list-id")) {
+    setActive(option: { value: string | null, text: string }) {
+      this.$emit("hover", option.value);
+    },
+
+    /**
+     * Brings an item into focus at the top of the list.
+     * @param value
+     *  The value to bring into focus.
+     */
+    focusItemTop(value: string | null) {
+      let item = this.getItemElement(value);
+      // Update scroll position
+      if(item) {
+        // -6px for the <ul>'s padding
+        this.scrollbox.moveScrollPosition(item.offsetTop - 6)
+      }
+    },
+
+    /**
+     * Brings an item into focus at the bottom of the list.
+     * @param value 
+     *  The value to bring into focus.
+     */
+    focusItemBottom(value: string | null) {
+      let item = this.getItemElement(value);
+      let scrollbox = this.$refs.scrollbox as HTMLElement;
+      // Update scroll position
+      if(item) {
+        let { top: itTop, bottom: itBottom } = item.getBoundingClientRect();
+        let { top: elTop, bottom: elBottom } = scrollbox.getBoundingClientRect();
+        // -6px for the <ul>'s padding
+        let offsetHeight = (elBottom - elTop) - (itBottom - itTop) - 6;
+          this.scrollbox.moveScrollPosition(item.offsetTop - offsetHeight);
+      }
+    },
+
+    /**
+     * Brings an item into focus.
+     * @param value
+     *  The value to bring into focus.
+     * @param prefer
+     *  The preferred placement in the frame.
+     *  (Default: Whichever side is closest to the element.)
+     */
+    bringItemIntoFocus(value: string | null, prefer?: "top" | "bottom") {
+      let item = this.getItemElement(value);
+      let scrollbox = this.$refs.scrollbox as HTMLElement;
+      // Update scroll position
+      if(item) {
+        const { top: itTop, bottom: itBottom } = item.getBoundingClientRect();
+        const { top: elTop, bottom: elBottom } = scrollbox.getBoundingClientRect();
+        // -6px for the <ul>'s padding
+        const aboveFrame = (itTop - 6) < elTop;
+        const belowFrame = elBottom < (itBottom + 6);
+        const outOfFrame = aboveFrame || belowFrame;
+        const offsetHeight = (elBottom - elTop) - (itBottom - itTop) - 6;
+        if(outOfFrame && prefer) {
+          if(prefer === "top") {
+            this.scrollbox.moveScrollPosition(item.offsetTop - 6)
+          } else {
+            this.scrollbox.moveScrollPosition(item.offsetTop - offsetHeight);
+          }
+        } else if(aboveFrame) {
+          this.scrollbox.moveScrollPosition(item.offsetTop - 6)
+        } else if(belowFrame) {
+          this.scrollbox.moveScrollPosition(item.offsetTop - offsetHeight);
+        }
+      }
+    },
+
+    /**
+     * Get an item's {@link HTMLElement} from the list.
+     * @param value
+     *  The value.
+     * @returns
+     *  The {@link HTMLElement}. `undefined` if the item doesn't exist.
+     */
+    getItemElement(value: string | null): HTMLElement | undefined {
+      let item: HTMLElement | undefined = undefined;
+      if(!this.$refs.items) {
+        return item;
+      }
+      for(let el of this.$refs.items as HTMLElement[]) {
+        if(value === el.getAttribute("list-id")) {
           item = el as HTMLElement;
           break;
         }
       }
-      // Update scroll position
-      if(item) {
-        // -6px for the <ul>'s padding
-        this.scrollTop = item.offsetTop - 6;
-      }
+      return item;
     }
 
-  },
-  watch: {
-    // On select change
-    select() {
-      // Update active item
-      this.active = this.option ?? null;
-      // Focus the active item
-      this.focusActive();
-    },
-    // On options change
-    options() {
-      // Focus the active item
-      this.$nextTick(() => {
-        this.focusActive();
-      });
-    }
   },
   mounted() {
 
@@ -151,7 +206,7 @@ export default defineComponent({
     
     // Resolve parent
     const sc = "scroll-content";
-    const ele = this.$el;
+    const ele = this.$refs.scrollbox as HTMLElement;
     let par = this.$el.parentElement;
     const body = document.body;
     while(par !== body && !par.classList.contains(sc)) {
@@ -165,10 +220,25 @@ export default defineComponent({
     } else {
       this.flip = false;
     }
-    // Focus the active item
-    this.focusActive();
+    // Configure scrollbox
+    this.scrollbox.mount(
+      this.$refs.scrollbox as HTMLElement,
+      this.$refs.content as HTMLElement,
+      this.$options.__scopeId
+    )
+    // Focus selection
+    if(this.option !== undefined) {
+      if(this.flip) {
+        this.focusItemBottom(this.option);
+      } else {
+        this.focusItemTop(this.option);
+      }
+      
+    }
   },
-  components: { ScrollBox }
+  unmounted() {
+    this.scrollbox.destroy();
+  }
 });
 </script>
 

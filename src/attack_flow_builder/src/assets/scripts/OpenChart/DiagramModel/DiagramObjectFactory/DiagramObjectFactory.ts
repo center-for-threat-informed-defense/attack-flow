@@ -1,4 +1,4 @@
-import { Crypto } from "../../Utilities";
+import { Crypto } from "@OpenChart/Utilities";
 import { PropertyType } from "./PropertyDescriptor";
 import { DiagramObjectType } from "./DiagramObjectType";
 import {
@@ -7,11 +7,12 @@ import {
     Latch, Line, ListProperty, Property, RootProperty,
     StringProperty, TechniqueProperty
 } from "../DiagramObject";
+import type { Constructor } from "@OpenChart/Utilities";
 import type {
     DiagramObject, JsonEntries, JsonValue
 } from "../DiagramObject";
 import type {
-    AtomicPropertyDescriptors, CanvasTemplate, Constructor, DiagramObjectTemplate,
+    AtomicPropertyDescriptors, CanvasTemplate, DiagramObjectTemplate,
     DiagramSchemaConfiguration, DictionaryPropertyDescriptor,
     ListPropertyDescriptor, PropertyDescriptor, RootPropertyDescriptor,
     TechniquePropertyDescriptor

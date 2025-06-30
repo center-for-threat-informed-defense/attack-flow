@@ -175,6 +175,7 @@ export default defineComponent({
   display: flex; 
   align-items: center;
   color: #cccccc;
+  background: #2e2e2e;
   cursor: text;
   overflow: hidden;
 }

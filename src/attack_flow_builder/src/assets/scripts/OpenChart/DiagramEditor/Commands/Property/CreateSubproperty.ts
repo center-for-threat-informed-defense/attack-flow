@@ -33,7 +33,7 @@ export class CreateSubproperty extends SynchronousEditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async execute(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+    public execute(issueDirective: DirectiveIssuer = () => {}): void {
         this.property.addProperty(this.subproperty, this.subproperty.id);
         issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
@@ -43,7 +43,7 @@ export class CreateSubproperty extends SynchronousEditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async undo(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+    public undo(issueDirective: DirectiveIssuer = () => {}): void {
         this.property.removeProperty(this.subproperty.id);
         issueDirective(EditorDirective.Autosave);
     }

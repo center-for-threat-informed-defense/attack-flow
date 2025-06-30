@@ -1,12 +1,13 @@
-import type { DateTime } from "luxon";
 import {
     SetStringProperty,
     SetEnumProperty,
-    SetDateProperty,
     CreateSubproperty,
     DeleteSubproperty,
-    SetNumberProperty
+    SetNumberProperty,
+    SetDatePropertyTime,
+    SetDatePropertyTimezone
 } from "./index.commands";
+import type { DateTime } from "luxon";
 import type {
     DateProperty,
     EnumProperty,
@@ -48,18 +49,33 @@ export function setEnumProperty(
 }
 
 /**
- * Sets the value of a {@link DateProperty}.
+ * Sets the time value of a {@link DateProperty}.
  * @param property
  *  The {@link DateProperty}.
  * @param value
- *  The {@link DateProperty}'s new value.
+ *  The {@link DateProperty}'s new time value.
  * @returns
  *  A command that represents the action.
  */
-export function setDateProperty(
-    property: DateProperty, value: DateTime | null
-): SetDateProperty {
-    return new SetDateProperty(property, value);
+export function setDatePropertyTime(
+    property: DateProperty, value: DateTime | Date | null
+): SetDatePropertyTime {
+    return new SetDatePropertyTime(property, value);
+}
+
+/**
+ * Sets the timezone value of a {@link DateProperty}.
+ * @param property
+ *  The {@link DateProperty}.
+ * @param value
+ *  The {@link DateProperty}'s new timezone value.
+ * @returns
+ *  A command that represents the action.
+ */
+export function setDatePropertyTimezone(
+    property: DateProperty, value: string | null
+): SetDatePropertyTimezone {
+    return new SetDatePropertyTimezone(property, value);
 }
 
 /**

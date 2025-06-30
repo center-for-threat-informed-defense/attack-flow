@@ -41,7 +41,7 @@ export class SetStringProperty extends SynchronousEditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async execute(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+    public execute(issueDirective: DirectiveIssuer = () => {}): void {
         this.property.setValue(this.nextValue);
         issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
@@ -51,7 +51,7 @@ export class SetStringProperty extends SynchronousEditorCommand {
      * @param issueDirective
      *  A function that can issue one or more editor directives.
      */
-    public async undo(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
+    public undo(issueDirective: DirectiveIssuer = () => {}): void {
         this.property.setValue(this.prevValue);
         issueDirective(EditorDirective.Autosave);
     }

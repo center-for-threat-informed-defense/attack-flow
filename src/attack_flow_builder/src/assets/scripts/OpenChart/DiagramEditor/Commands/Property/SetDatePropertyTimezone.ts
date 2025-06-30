@@ -1,42 +1,38 @@
 import { EditorDirective } from "../../EditorDirectives";
 import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
+import type { DateProperty } from "@OpenChart/DiagramModel";
 import type { DirectiveIssuer } from "../../EditorDirectives";
-import type { ListProperty, Property } from "@OpenChart/DiagramModel";
 
-export class DeleteSubproperty extends SynchronousEditorCommand {
+export class SetDatePropertyTimezone extends SynchronousEditorCommand {
 
     /**
      * The property.
      */
-    public readonly property: ListProperty;
+    public readonly property: DateProperty;
 
     /**
-     * The subproperty.
+     * The property's next value.
      */
-    private readonly subproperty: Property;
+    public readonly nextValue: string | null;
 
     /**
-     * The subproperty's location in the collection.
+     * The property's previous value.
      */
-    private readonly index: number;
+    private readonly prevValue: string | null;
 
 
     /**
-     * Deletes a subproperty from a {@link ListProperty}.
+     * Sets the timezone value of a {@link DateProperty}.
      * @param property
-     *  The {@link ListProperty}.
-     * @param id
-     *  The subproperty's id.
+     *  The {@link DateProperty}.
+     * @param value
+     *  The {@link DateProperty}'s new timezone value.
      */
-    constructor(property: ListProperty, id: string) {
+    constructor(property: DateProperty, value: string | null) {
         super();
-        const subproperty = property.value.get(id);
-        if (!subproperty) {
-            throw new Error(`Subproperty '${id}' does not exist.`);
-        }
-        this.index = property.indexOf(id);
         this.property = property;
-        this.subproperty = subproperty;
+        this.prevValue = property.timezone.value;
+        this.nextValue = value;
     }
 
 
@@ -46,7 +42,7 @@ export class DeleteSubproperty extends SynchronousEditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public execute(issueDirective: DirectiveIssuer = () => {}): void {
-        this.property.removeProperty(this.subproperty.id);
+        this.property.setTimezone(this.nextValue);
         issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
 
@@ -56,9 +52,8 @@ export class DeleteSubproperty extends SynchronousEditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public undo(issueDirective: DirectiveIssuer = () => {}): void {
-        this.property.addProperty(this.subproperty, this.subproperty.id, this.index);
+        this.property.setTimezone(this.prevValue);
         issueDirective(EditorDirective.Autosave);
     }
 
 }
-

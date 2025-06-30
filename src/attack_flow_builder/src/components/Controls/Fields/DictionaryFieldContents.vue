@@ -137,15 +137,6 @@ export default defineComponent({
 .datetime-field-control {
   min-height: 30px;
   border-radius: 4px;
-  background: #2e2e2e;
-}
-
-.text-field-control.disabled,
-.enum-field-control.disabled,
-.number-field-control.disabled,
-.datetime-field-control.disabled {
-  background: none;
-  border: dashed 1px #404040;
 }
 
 </style>

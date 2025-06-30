@@ -8,11 +8,13 @@
   >
     <div class="options-container">
       <OptionsList 
+        ref="optionsList"
         class="options-list"
         :option="select"
         :options="options"
         :max-height="maxHeight"
         @select="updateProperty"
+        @hover="value => select = value"
         v-if="showMenu"
       />
     </div>
@@ -50,6 +52,7 @@ import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";
 import type { EnumProperty } from "@OpenChart/DiagramModel";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
+import { unsignedMod } from "@/assets/scripts/Browser";
 
 export default defineComponent({
   name: "EnumField",
@@ -165,18 +168,25 @@ export default defineComponent({
      * Search field input behavior.
      */
     onSearchInput() {
-      this.select = null;
+      const optionAvailable = this.options.find(
+        o => o.value === this.select
+      );
+      // Update select
       if(this.searchTerm === "") {
-        this.select = this.property.toJson();
-        return;
+        this.select = this.property.value;
+      } else if(optionAvailable) {
+        // Retain current value
+      } else if(this.options.length) {
+        this.select = this.options[0].value;
+      } else {
+        this.select = null;
       }
-      const st = this.searchTerm.toLocaleLowerCase();
-      for(const [value, prop] of this.property.options.value) {
-        const text = prop.toString();
-        if(text.toLocaleLowerCase().includes(st)) {
-          this.select = value;
-          return;
-        }
+      // Focus selection
+      let optionsList = this.$refs.optionsList as any;
+      if(optionsList.flip) {
+        optionsList?.bringItemIntoFocus(this.select, "bottom");
+      } else {
+        optionsList?.bringItemIntoFocus(this.select, "top");
       }
     },
 
@@ -191,19 +201,32 @@ export default defineComponent({
         return;
       }
       let idx;
-      const options = this.options;
+      let options = this.options;
+      let optionsList = this.$refs.optionsList as any;
       switch(event.key) {
         case "ArrowUp":
-          idx = options.findIndex(o => o.value === this.select);
-          if(0 < idx) {
-            this.select = options[idx - 1].value;
+          if(!options.length) {
+            return;
           }
+          event.preventDefault();
+          // Resolve index
+          idx = options.findIndex(o => o.value === this.select);
+          idx = unsignedMod(idx - 1, options.length);
+          // Update selection
+          this.select = options[idx].value;
+          optionsList?.bringItemIntoFocus(this.select);
           break;
         case "ArrowDown":
-          idx = options.findIndex(o => o.value === this.select);
-          if(idx < options.length - 1) {
-            this.select = options[idx + 1].value;
+          if(!options.length) {
+            return;
           }
+          event.preventDefault();
+          // Resolve index
+          idx = options.findIndex(o => o.value === this.select);
+          idx = unsignedMod(idx + 1, options.length);
+          // Update selection
+          this.select = options[idx].value;
+          optionsList?.bringItemIntoFocus(this.select);
           break;
         case "Tab":
         case "Enter":
@@ -267,6 +290,7 @@ export default defineComponent({
   grid-template-rows: minmax(0, 1fr);
   color: #cccccc;
   box-sizing: border-box;
+  background: #2e2e2e;
   cursor: pointer;
 }
 

@@ -1,4 +1,3 @@
-export * from "./Constructor";
 export * from "./PropertyDescriptor";
 export * from "./DiagramObjectTemplate";
 export * from "./DiagramSchemaConfiguration";

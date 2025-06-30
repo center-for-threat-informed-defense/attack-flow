@@ -1,10 +1,10 @@
 import { EditorDirective } from "../../EditorDirectives";
 import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
+import type { DateTime } from "luxon";
 import type { DateProperty } from "@OpenChart/DiagramModel";
 import type { DirectiveIssuer } from "../../EditorDirectives";
-import type { DateTime } from "luxon";
 
-export class SetDateProperty extends SynchronousEditorCommand {
+export class SetDatePropertyTime extends SynchronousEditorCommand {
 
     /**
      * The property.
@@ -14,7 +14,7 @@ export class SetDateProperty extends SynchronousEditorCommand {
     /**
      * The property's next value.
      */
-    public readonly nextValue: DateTime | null;
+    public readonly nextValue: DateTime | Date | null;
 
     /**
      * The property's previous value.
@@ -23,21 +23,17 @@ export class SetDateProperty extends SynchronousEditorCommand {
 
 
     /**
-     * Sets the value of a {@link DateProperty}.
+     * Sets the time value of a {@link DateProperty}.
      * @param property
      *  The {@link DateProperty}.
      * @param value
-     *  The {@link DateProperty}'s new value.
+     *  The {@link DateProperty}'s new time value.
      */
-    constructor(property: DateProperty, value: DateTime | null) {
+    constructor(property: DateProperty, value: DateTime | Date | null) {
         super();
         this.property = property;
+        this.prevValue = property.time;
         this.nextValue = value;
-        if (property.value) {
-            this.prevValue = property.value;
-        } else {
-            this.prevValue = null;
-        }
     }
 
 
@@ -47,7 +43,7 @@ export class SetDateProperty extends SynchronousEditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public async execute(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
-        this.property.setValue(this.nextValue);
+        this.property.setTime(this.nextValue);
         issueDirective(EditorDirective.Record | EditorDirective.Autosave);
     }
 
@@ -57,7 +53,7 @@ export class SetDateProperty extends SynchronousEditorCommand {
      *  A function that can issue one or more editor directives.
      */
     public async undo(issueDirective: DirectiveIssuer = () => {}): Promise<void> {
-        this.property.setValue(this.prevValue);
+        this.property.setTime(this.prevValue);
         issueDirective(EditorDirective.Autosave);
     }
 

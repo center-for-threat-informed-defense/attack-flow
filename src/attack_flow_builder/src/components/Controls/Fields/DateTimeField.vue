@@ -1,80 +1,67 @@
 <template>
-  <div
-    class="datetime-field-control"
-    tabindex="0"
-    @focus="enterEditMode()"
-  >
-    <div class="grid-container">
-      <div
-        class="value"
-        v-show="!showEditor"
-      >
-        <p
-          v-if="value === null"
-          class="null-value"
-        >
-          None
-        </p>
-        <p
-          v-else
-          class="date-value"
-        >
-          {{ `${value.toLocaleString({
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric'
-          })} ${value.toFormat("ZZZZ")}` }}
-        </p>
-      </div>
-      <div
-        class="editor"
-        v-show="showEditor"
-      >
-        <div class="date-wrapper">
-          <input type="date" maxlength="10" segment="Date" ref="Date" class="Date" @blur="onBlur" v-model="value_Date">
+  <div class="datetime-field-control">
+    <div class="datetime-segment" tabindex="0" @focus="enterEditMode()">
+      <ClockIcon class="clock-icon"></ClockIcon>
+      <div class="grid-container">
+        <div class="value" v-show="!showEditor">
+          <p v-if="time === null" class="null-value">
+            None
+          </p>
+          <p v-else class="date-value">{{ timeString }}</p>
         </div>
-        <div class="time-wrapper">
-          <input type="time" segment="Time" ref="Time" class="Time" step="0.01" value="00:00:00" @blur="onBlur"
-            v-model="value_Time">
-          <span class="space" />
-          <input type="text" segment="Offset" ref="Offset" class="Offset" list="all_offsets" @blur="onBlur"
-            v-model="value_Offset">
-          <datalist id="all_offsets">
-            <option v-for="[offsetName, offsetValue] in supportedOffsets" :value="offsetValue" :key="offsetName">
-              {{ offsetName }}
-            </option>
-          </datalist>
+        <div ref="editorDiv" class="editor" v-show="showEditor">
+          <input
+            ref="dateInput"  
+            type="date"
+            class="date-field"
+            @blur="onBlur"
+            v-model="valueDate"
+          >
+          <input
+            ref="timeInput"  
+            type="time"
+            class="time-field"
+            step="0.01"
+            value="00:00:00"
+            @blur="onBlur"
+            v-model="valueTime"
+          >
         </div>
       </div>
     </div>
+    <div class="separator horizontal"></div>
+    <div class="timezone-segment">
+      <TimezoneIcon class="timezone-icon"></TimezoneIcon>
+      <EnumField
+        class="timezone-field"
+        :property="property.timezone"
+        @execute="updateTimezoneProperty"
+      />
+    </div>
+    
   </div>
 </template>
 
 <script lang="ts">
-import * as EditorCommands from "@OpenChart/DiagramEditor"
+import * as EditorCommands from "@OpenChart/DiagramEditor";
+// Dependencies
+import { DateTime } from "luxon";
+import { SetEnumProperty } from "@OpenChart/DiagramEditor/Commands/index.commands";
+import { defineComponent, type PropType, ref } from "vue";
 import type { DateProperty } from "@OpenChart/DiagramModel";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
-import { defineComponent, type PropType, ref } from "vue";
-import { DateTime } from "luxon";
-import { useApplicationStore } from "@/stores/ApplicationStore";
-
-type Segments =
-  "Date" | "Time" | "Zone";
-const Segment = [
-  "Date", "Time", "Zone"
-] as Segments[]
-
-const timezoneOptions = Intl.supportedValuesOf('timeZone');
+// Components
+import EnumField from "./EnumField.vue";
+import ClockIcon from "@/components/Icons/ClockIcon.vue";
+import TimezoneIcon from "@/components/Icons/TimezoneIcon.vue";
 
 export default defineComponent({
   name: "DateTimeField",
   setup() {
     return {
-      Date: ref<HTMLInputElement | null>(null),
-      Time: ref<HTMLInputElement | null>(null),
-      Zone: ref<HTMLInputElement | null>(null),
+      editorDiv: ref<HTMLInputElement | null>(null),
+      dateInput: ref<HTMLInputElement | null>(null),
+      timeInput: ref<HTMLInputElement | null>(null)
     };
   },
   props: {
@@ -85,70 +72,33 @@ export default defineComponent({
   },
   data() {
     return {
-      application: useApplicationStore(),
-      value_Date: "",
-      value_Time: "00:00:00",
-      value_Offset: "",
+      valueDate: "",
+      valueTime: "00:00:00",
       showEditor: false
     }
   },
   computed: {
+    
     /**
-        * Gets all system-known offsets that could apply to this control's datetime
-        * (or to the system's date/time, if the control isn't filled in yet).
-        * @returns
-        *   An array of [offsetName, offsetValue] string arrays
-        */
-    supportedOffsets(): Array<Array<string>> {
-      const nameToOffsetMap = timezoneOptions.reduce((o: Map<string, string>, n: string) => {
-        // evaluate this datetime in each known timezone
-        let d = DateTime.fromISO(this.value_Date + "T" + this.value_Time + "Z")?.setZone(n);
-        // or evaluate the user's local datetime in each timezone
-        if (!d.isValid) {
-          d = DateTime.local({ 'zone': this.application.stickyTimezone });
-        }
-        // put the +0x00 offset string in the Map, using the offset name as key
-        return o.set(d.toFormat("ZZZZZ '('ZZZZ')'"), d.toFormat("ZZ"));
-      }, new Map());
-      // serialize Map key-value pairs to array of arrays
-      return Array.from(nameToOffsetMap);
-    },
-    /**
-     * The property's raw value.
-     * @returns
-     *  the property's raw value.
+     * Returns the currently set datetime as a string.
      */
-    value(): DateTime | null {
-      const value = this.property.toJson();
-      return value !== null ? DateTime.fromISO(value, { setZone: true }) : value;
+    timeString(): string {
+      return this.time?.toLocaleString({
+        year   : 'numeric',
+        month  : 'numeric',
+        day    : 'numeric',
+        hour   : 'numeric',
+        minute : 'numeric'
+      }) ?? "None"
     },
+
     /**
-         * Returns the currently configured date.
-         * @returns
-         *  The currently configured date in ISO.
-         */
-    prop_Date(): string {
-      const v = this.value;
-      return v?.toISODate() || "None";
-    },
-    /**
-     * Returns the currently configured time.
-     * @returns
-     *  The currently configured time.
+     * Returns the currently set datetime.
      */
-    prop_Time(): string {
-      const v = this.value;
-      return v?.toISOTime() || "None";
-    },
-    /**
-     * Returns the currently configured time.
-     * @returns
-     *  The currently configured time.
-     */
-    prop_Zone(): string {
-      const v = this.value;
-      return v?.zone.name || this.application.stickyTimezone;
+    time(): DateTime | null {
+      return this.property.time;
     }
+
   },
   methods: {
 
@@ -158,7 +108,8 @@ export default defineComponent({
      *  The blur event.
      */
     onBlur(event: FocusEvent) {
-      if (!this.$el.contains(event.relatedTarget)) {
+      const target = event.relatedTarget as Node | null;
+      if (!this.editorDiv?.contains(target)) {
         this.exitEditMode();
       }
     },
@@ -169,17 +120,9 @@ export default defineComponent({
     enterEditMode() {
       this.showEditor = true;
       this.$nextTick(() => {
-        // Select field
-        let field: HTMLInputElement;
-        for (const s of Segment) {
-          field = this[s]!;
-          if (!field.value) break;
-        }
-        // Focus field
-        field!.focus();
-        // Position caret
-        field!.selectionEnd = field!.value.length;
-      })
+        // Select date field
+        this.dateInput?.focus();
+      });
     },
 
     /**
@@ -194,31 +137,29 @@ export default defineComponent({
      * Updates the field's property value.
      */
     updateProperty() {
+      
       // Parse date
-      const ISO8601 = `${this.value_Date
-        }T${this.value_Time
-        }${this.value_Offset
-        }`;
+      const ISO8601 = `${
+        this.valueDate
+      }T${
+        this.valueTime
+      }`;
 
-      const date = DateTime.fromISO(ISO8601, { setZone: true });
       // Parse value
+      const date = DateTime.fromISO(ISO8601);
       let value;
-      if (ISO8601.startsWith("0000-00-00T00:00:00.000")) {
+      if (ISO8601 === "0000-00-00T00:00:00.000") {
         value = null;
       } else if (!date.isValid) {
         value = null;
       } else {
         value = date;
       }
-      if (this.value?.toISO() !== value?.toISO()) {
-        this.property.setValue(value);
+
+      if (this.property.time?.toISO() !== value?.toISO()) {
         // Update value
-        const cmd = EditorCommands.setDateProperty(this.property, value);
+        const cmd = EditorCommands.setDatePropertyTime(this.property, value);
         this.$emit("execute", cmd);
-        // update store's sticky timezone
-        if (this.value_Offset !== this.application.stickyTimezone) {
-          this.application.setStickyTimezone(this.value_Offset);
-        }
       } else {
         // Refresh value
         this.refreshValue();
@@ -230,13 +171,29 @@ export default defineComponent({
      */
     refreshValue() {
       // Parse date
-      const date = this.value?.toISODate();
-      const time = this.value?.toISOTime({ suppressMilliseconds: true, includeOffset: false }) || "00:00:00.000";
-      const offset = this.value?.toFormat("ZZ") || this.application.stickyTimezone;
+      const date = this.time?.toISODate();
+      const time = this.time?.toISOTime({
+        includeOffset: false
+      });
       // Update values
-      this.value_Date = String(date);
-      this.value_Time = String(time);
-      this.value_Offset = String(offset);
+      this.valueDate = date ?? "";
+      this.valueTime = time ?? "00:00:00.000";
+    },
+
+    /**
+     * Updates the field's timezone property.
+     * @param command
+     *  The `SetEnumProperty` command.
+     */
+    updateTimezoneProperty(command: EditorCommand) {
+      if(!(command instanceof SetEnumProperty)) {
+        return;  
+      }
+      // Augment command
+      const tz = command.nextValue;
+      const cmd = EditorCommands.setDatePropertyTimezone(this.property, tz);
+      // Update value
+      this.$emit("execute", cmd);
     }
 
   },
@@ -258,25 +215,68 @@ export default defineComponent({
   },
   unmounted() {
     this.updateProperty();
-  }
+  },
+  components: { ClockIcon, TimezoneIcon, EnumField }
 });
 </script>
 
 <style scoped>
+
 /** === Main Field === */
 
 .datetime-field-control {
   display: flex;
+  flex-direction: column;
+}
+
+.datetime-segment {
+  display: flex;
+  flex-direction: row;
   align-items: center;
   color: #cccccc;
   cursor: text;
-  overflow: hidden;
-  height: auto;
-  /* 60px high when editing, 30px (17px without padding) when displaying the value */
+  min-height: 30px;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  padding-left: 6px;
+  background: #2e2e2e;
 }
 
-.datetime-field-control:focus {
+.datetime-segment:focus {
   outline: none;
+}
+
+.timezone-segment {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  padding-left: 6px;
+  background: #2e2e2e;
+}
+
+.clock-icon,
+.timezone-icon {
+  height: 17px;
+}
+
+.timezone-field {
+  flex: 1;
+  height: 32px;
+  border-radius: inherit;
+}
+
+.separator {
+  border-color: #242424;
+}
+.separator.horizontal {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
 
 .grid-container {
@@ -292,13 +292,15 @@ export default defineComponent({
   grid-area: 1 / 1;
   display: flex;
   width: 100%;
-  padding: 3px 3px;
+  height: 32px;
+  padding: 0px 12px;
   border: none;
   box-sizing: border-box;
-  height: 60px;
+  overflow: hidden;
 }
 
 input {
+  color-scheme: dark;
   color: inherit;
   font-size: 10pt;
   font-family: inherit;
@@ -310,14 +312,6 @@ input {
 input::placeholder {
   color: #999;
   opacity: 1;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-  color-scheme: dark;
-}
-
-input[type="time"]::-webkit-calendar-picker-indicator {
-  display: none;
 }
 
 input:focus {
@@ -339,16 +333,27 @@ input:focus {
   margin-top: -30px;
 }
 
-.Offset {
-  width: 90%;
+.date-field {
+  flex: 1;
+  min-width: 105px;
+}
+
+.time-field {
+  flex: 1;
+  min-width: 148px;
+  padding-left: 10px;
+  border-left: solid 1px #242424;
+  margin-left: 10px;
 }
 
 /** === Value === */
 
 .value {
   grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
   padding: 6px 12px;
-  height: 17px;
+  height: 20px;
 }
 
 .null-value {
@@ -368,4 +373,5 @@ input:focus {
 .date-wrapper {
   border-right: thin #242424 solid;
 }
+
 </style>

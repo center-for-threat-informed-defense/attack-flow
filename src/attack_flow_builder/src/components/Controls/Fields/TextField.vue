@@ -290,6 +290,7 @@ export default defineComponent({
   grid-template-rows: minmax(0, 1fr);
   color: #cccccc;
   box-sizing: border-box;
+  background: #2e2e2e;
 }
 
 .text-field-control:focus {
