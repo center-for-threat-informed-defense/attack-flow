@@ -28,10 +28,12 @@
 </template>
 
 <script lang="ts">
+import * as EditorCommands from "@OpenChart/DiagramEditor/Commands";
 // Dependencies
-import { Property } from "@OpenChart/DiagramModel";
+import { Settings } from "luxon";
 import { useApplicationStore } from "@/stores/ApplicationStore";
 import { defineComponent, type PropType } from "vue";
+import { SetDatePropertyTimezone } from "@OpenChart/DiagramEditor/Commands/index.commands";
 import type { Command } from "@/assets/scripts/Application";
 import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 // Components
@@ -80,6 +82,17 @@ export default defineComponent({
      *  The command to execute.
      */
     execute(command: Command) {
+      // If timezone is being set...
+      if(command instanceof SetDatePropertyTimezone) {
+        // ...augment command to set the file's default timezone
+        const cmd = EditorCommands.newGroupCommand();
+        const file = this.application.activeEditor.file;
+        cmd.do(command);
+        cmd.do(EditorCommands.setDefaultTimezone(
+          file, command.nextValue ?? Settings.defaultZone.name
+        ));
+        command = cmd;
+      }
       this.application.execute(command);
     }
 

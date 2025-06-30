@@ -1,11 +1,12 @@
 import { Crypto } from "@OpenChart/Utilities";
+import { Settings } from "luxon";
 import { PropertyType } from "./PropertyDescriptor";
 import { DiagramObjectType } from "./DiagramObjectType";
 import {
     Anchor, Block, Canvas, DateProperty, DictionaryProperty,
     EnumProperty, FloatProperty, Group, Handle, IntProperty,
     Latch, Line, ListProperty, Property, RootProperty,
-    StringProperty, TechniqueProperty
+    StringProperty
 } from "../DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
 import type {
@@ -36,6 +37,13 @@ export class DiagramObjectFactory {
      */
     public readonly templates: ReadonlyMap<string, DiagramObjectTemplate>;
 
+    /**
+     * The factory's default timezone.
+     * @remarks
+     *  An IANA time zone canonical name.
+     */
+    public defaultTimezone: string;
+
 
     /**
      * Creates a new {@link DiagramObjectFactory}.
@@ -45,6 +53,7 @@ export class DiagramObjectFactory {
     constructor(schema: DiagramSchemaConfiguration) {
         this.id = schema.id;
         this.canvas = schema.canvas;
+        this.defaultTimezone = Settings.defaultZone.name;
         this.templates = new Map(
             [schema.canvas, ...schema.templates].map(o => [o.name, o])
         );
@@ -474,7 +483,7 @@ export class DiagramObjectFactory {
                 suggestions = descriptor.suggestions ?? [];
                 return new StringProperty(id, editable, suggestions, meta, value);
             case PropertyType.Date:
-                return new DateProperty(id, editable, meta, value);
+                return new DateProperty(id, editable, meta, this.defaultTimezone, value);
             case PropertyType.Enum:
                 options = this.createListProperty(`${id}.options`, descriptor.options);
                 return new EnumProperty(id, editable, options, meta, value);

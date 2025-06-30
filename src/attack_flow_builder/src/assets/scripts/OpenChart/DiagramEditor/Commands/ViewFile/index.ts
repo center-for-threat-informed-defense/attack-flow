@@ -1,9 +1,10 @@
-import { SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
 import { GroupCommand } from "../GroupCommand";
 import { SelectionAnimation } from "./Animations";
+import { DiagramModelFile, SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
 import {
     MoveCameraToObjects,
     SetCamera,
+    SetDefaultTimezone,
     SpawnObject
 } from "./index.commands";
 import {
@@ -12,8 +13,8 @@ import {
     SelectObjects,
     StopContinuousAnimation
 } from "../View/index.commands";
-import type { DiagramViewEditor, SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 import type { Animation, DiagramInterface } from "@OpenChart/DiagramInterface";
+import type { DiagramViewEditor, SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 import type { BlockView, DiagramObjectView, DiagramViewFile } from "@OpenChart/DiagramView";
 
 
@@ -299,4 +300,24 @@ export function stopAnimation(
     ui: DiagramInterface, animation: Animation
 ): StopContinuousAnimation {
     return new StopContinuousAnimation(ui, animation);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+//  6. Time  //////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Sets the diagram file's default timezone.
+ * @param file
+ *  The diagram file.
+ * @param zone
+ *  The diagram's default timezone.
+ * @returns
+ *  A command that represents the action.
+ */
+export function setDefaultTimezone(
+    file: DiagramModelFile, zone: string
+): SetDefaultTimezone {
+    return new SetDefaultTimezone(file, zone)
 }

@@ -1,6 +1,6 @@
 import { Property } from "../..";
 import { Timezones } from "./Timezones";
-import { DateTime, Settings } from "luxon";
+import { DateTime, Settings, Zone } from "luxon";
 import { EnumProperty, ListProperty } from "../..";
 import type { JsonValue } from "../..";
 import type { DateJsonValue } from "./DateValue";
@@ -39,6 +39,8 @@ export class DateProperty extends Property {
      *  Whether the property is editable.
      * @param meta
      *  The property's auxiliary metadata.
+     * @param zone
+     *  The property's default timezone.
      * @param value
      *  The property's value.
      */
@@ -46,25 +48,26 @@ export class DateProperty extends Property {
         id: string,
         editable: boolean,
         meta?: PropertyMetadata,
-        value?: JsonValue
+        zone?: string,
+        value?: JsonValue,
     ) {
         super(id, editable, meta);
         this._time = null;
         this.timezone = new EnumProperty("tz", true, DateProperty.timezones);
         // Set value
-        const now = DateTime.now();
+        const defaultZone = Settings.defaultZone.name;
         if ((value ?? null) === null) {
             this.setTime(null);
-            this.setTimezone(now.zoneName);
+            this.setTimezone(zone ?? defaultZone);
         } else if(typeof value === "string") {
             this.setTime(DateTime.fromISO(value));
-            this.setTimezone(now.zoneName);
+            this.setTimezone(zone ?? defaultZone);
         } else if (this.isJsonDateValue(value)) {
             this.setTime(DateTime.fromISO(value.time));
             this.setTimezone(value.zone);
         } else {
-            this.setTime(now);
-            this.setTimezone(now.zoneName);
+            this.setTime(DateTime.now());
+            this.setTimezone(zone ?? defaultZone);
         }
     }
 
@@ -171,7 +174,8 @@ export class DateProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): DateProperty {
-        return new DateProperty(id, this.isEditable, this.metadata, this.toJson());
+        const tz = this.timezone.value ?? Settings.defaultZone.name;
+        return new DateProperty(id, this.isEditable, this.metadata, tz, this.toJson());
     }
 
     /**
