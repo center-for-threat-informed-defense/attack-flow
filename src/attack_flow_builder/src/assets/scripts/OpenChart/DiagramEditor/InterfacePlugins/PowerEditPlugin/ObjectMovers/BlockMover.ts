@@ -68,7 +68,7 @@ export class BlockMover extends ObjectMover {
             delta = track.getDistance();
         }
         // Move
-        if(delta[0] + delta[1]) {
+        if(delta[0] | delta[1]) {
             if(!this.block.userSetPosition) {
                 this.execute(userSetObjectPosition(this.block))
             }
