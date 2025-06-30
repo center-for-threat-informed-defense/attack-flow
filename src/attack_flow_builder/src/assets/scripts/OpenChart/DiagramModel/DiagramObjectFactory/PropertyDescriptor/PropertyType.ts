@@ -9,5 +9,5 @@ export enum PropertyType {
     Enum       = "enum",
     List       = "list",
     Dictionary = "dict",
-    Technique  = "technique"
+    Tuple      = "tuple"
 }

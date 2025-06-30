@@ -54,8 +54,7 @@ type AtomicType
     | PropertyType.Float
     | PropertyType.String
     | PropertyType.Date
-    | PropertyType.Enum
-    | PropertyType.Technique;
+    | PropertyType.Enum;
 
 /**
  * Resolves the JSON type of an {@link AtomicType}.
@@ -66,7 +65,6 @@ type AtomicTypeToJsonType = {
     [PropertyType.String]: string | null;
     [PropertyType.Date]: Date | null;
     [PropertyType.Enum]: string | null;
-    [PropertyType.Technique]: string | null;
 };
 
 /**
@@ -89,7 +87,7 @@ export type StringPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Str
     /**
      * Suggested string values.
      */
-    suggestions?: string[];
+    suggestions?: ListPropertyDescriptor;
 
 };
 
@@ -145,32 +143,6 @@ export type EnumPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Enum>
 export type DatePropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Date>;
 
 /**
- * Technique Property Descriptor.
- */
-export type TechniquePropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Technique> & {
-    /**
-     * The property's tactic details.
-     */
-    tacticDetails: Array<{
-        id: string;
-        name: string;
-        matrix: string;
-        stixId?: string;
-        techniques?: string[];
-    }>;
-    /**
-     * The property's technique details.
-     */
-    techniqueDetails: Array<{
-        id: string;
-        name: string;
-        matrix: string;
-        stixId?: string;
-        tactics?: string[];
-    }>;
-};
-
-/**
  * All Atomic Property Descriptors.
  */
 export type AtomicPropertyDescriptors
@@ -178,14 +150,38 @@ export type AtomicPropertyDescriptors
     | IntPropertyDescriptor
     | FloatPropertyDescriptor
     | DatePropertyDescriptor
-    | EnumPropertyDescriptor
-    | TechniquePropertyDescriptor;
+    | EnumPropertyDescriptor;
 
 
 ///////////////////////////////////////////////////////////////////////////////
 //  2. Collection Properties  /////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
+
+/**
+ * Tuple Property Descriptor.
+ */
+export type TuplePropertyDescriptor = BasePropertyDescriptor<PropertyType.Tuple> & {
+
+    /**
+     * The tuple property's form.
+     */
+    form: {
+        [key: string]: AtomicPropertyDescriptors;
+    },
+
+    /**
+     * The tuple's cross-field suggestions.
+     */
+    crossFieldSuggestions?: {
+        // Tuple ID
+        [key: string]: {
+            // Maps Value ID -> Tuple ID Option Set
+            [key: string]: { [key:string]: string[] }
+        }
+    }
+
+}
 
 /**
  * Dictionary Property Descriptor.
