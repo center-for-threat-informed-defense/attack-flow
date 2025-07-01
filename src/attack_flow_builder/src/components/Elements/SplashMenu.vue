@@ -41,7 +41,7 @@
                   </p>
                 </div>
                 <p class="file-date">
-                  {{ p.date }}
+                  {{ p.date.toLocaleString() }}
                 </p>
               </div>
               <div
@@ -312,6 +312,7 @@ export default defineComponent({
 
 .file-entry {
   display: flex;
+  height: 36px;
 }
 
 .file-entry {
@@ -335,7 +336,7 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 24px;
+  padding: 0px 24px;
 }
 
 .button {
@@ -423,7 +424,7 @@ export default defineComponent({
 /** === Recovered File Section === */
 
 .section.open-recovered-file .file-scrollbox {
-  max-height: 160px;
+  max-height: 162px;
 }
 
 .section.open-recovered-file .file-grid.has-scrollbar {
