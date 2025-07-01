@@ -18,7 +18,7 @@ export default defineComponent({
   props: {
     collapseHeight: {
       type: Number,
-      default: 30,
+      default: 32,
     }
   },
   computed: {
@@ -474,13 +474,13 @@ type AccordionPaneHeight = {
   display: flex;
   align-items: center;
   color: #d9d9d9;
-  font-size: 10pt;
-  font-weight: 700;
+  font-size: 9.5pt;
+  font-weight: 600;
   user-select: none;
   border-top: solid 1px #474747;
   box-sizing: border-box;
-  background: #383838;
-  box-shadow: 0px 2px 0px 0px rgb(0 0 0 / 16%);
+  background: #3b3b3b;
+  box-shadow: 0px 2px 2px 0px rgb(0 0 0 / 16%);
 }
 
 .accordion-box-head .collapse-arrow {
