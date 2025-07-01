@@ -182,7 +182,6 @@ export default defineComponent({
     // Process query parameters
     const params = new URLSearchParams(window.location.search);
     ctx.theme = params.get("theme") ?? "";
-    console.log("ctx.theme", ctx.theme);
     const src = params.get("src");
     if(src) {
       // Set readonly mode. (Only applies when `src` parameter is also provided).

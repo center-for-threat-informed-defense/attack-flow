@@ -3,6 +3,7 @@
     class="app-hotkey-box-element"
     :hotkeys="hotkeySet"
     :global="true"
+    :readOnlyMode="application.readOnlyMode"
     @fire="onHotkeyFired"
   >
     <slot />
