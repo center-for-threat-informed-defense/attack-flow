@@ -1,3 +1,4 @@
+import { SetTheme } from "../DiagramViewEditor/index.commands";
 import { GroupCommand } from "../GroupCommand";
 import { HideSplashMenu } from "../ViewManagement/index.commands";
 import type { LoadFile } from "./LoadFile";
@@ -16,6 +17,9 @@ export class PrepareEditorWithFile extends GroupCommand {
         super();
         this.add(file);
         this.add(new HideSplashMenu(context));
+        if (context.theme !== "") {
+            this.add(new SetTheme(context, context.theme));
+        }
     }
 
 }

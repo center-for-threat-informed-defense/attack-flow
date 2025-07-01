@@ -204,7 +204,7 @@ export default defineComponent({
         this.execute(AppCommands.stopRecommender(this.application));
       }
       // Open context menu
-      if (e.button === MouseClick.Right) {
+      if (e.button === MouseClick.Right && !this.application.readOnlyMode) {
         this.openContextMenu(x, y);
       }
     },

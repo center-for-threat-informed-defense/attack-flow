@@ -56,21 +56,23 @@ export class LoadFile extends AppCommand {
                 // ...run the validator.
                 context.activeValidator?.run(editor.file);
             }
-        })
+        });
         // TODO: Move into application configuration
         const marqueeThemes = {
             "dark_theme"  : DarkThemeMarquee,
             "blog_theme"  : LightThemeMarquee,
             "light_theme" : LightThemeMarquee,
-        }
+        };
         // Configure interface plugins
         const hotkeys = context.settings.hotkeys.edit;
         const factory = this.editor.file.factory;
         const lineTemplate = settings.edit.anchor_line_template;
-        this.editor.interface.installPlugin(
-            new RectangleSelectPlugin(this.editor, marqueeThemes, hotkeys.select_marquee),
-            new PowerEditPlugin(this.editor, { factory, lineTemplate })
-        );
+        if (!context.readOnlyMode) {
+            this.editor.interface.installPlugin(
+                new RectangleSelectPlugin(this.editor, marqueeThemes, hotkeys.select_marquee),
+                new PowerEditPlugin(this.editor, { factory, lineTemplate })
+            );
+        }
         // Apply view settings
         const view = settings.view.diagram;
         this.editor.interface.enableShadows(view.display_shadows);

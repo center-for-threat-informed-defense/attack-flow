@@ -1,25 +1,29 @@
 <template>
   <AppHotkeyBox id="main">
-    <AppTitleBar id="app-title-bar" />
+    <AppTitleBar
+      id="app-title-bar"
+      v-if="!application.readOnlyMode"
+    />
     <FindDialog
       id="find-dialog"
       :style="findDialogLayout"
+      v-if="!application.readOnlyMode"
     />
     <div
       id="app-body"
       ref="body"
-      :style="application.isShowingSplash ? splashLayout : gridLayout"
+      :style="(application.isShowingSplash || application.readOnlyMode) ? splashLayout : gridLayout"
     >
       <div class="frame center">
         <BlockDiagram id="block-diagram" />
         <SplashMenu
           id="splash-menu"
-          v-if="application.isShowingSplash"
+          v-if="application.isShowingSplash && !application.readOnlyMode"
         />
       </div>
       <div
         class="frame right"
-        v-if="!application.isShowingSplash"
+        v-if="!application.isShowingSplash && !application.readOnlyMode"
       >
         <div
           class="resize-handle"
@@ -29,7 +33,7 @@
       </div>
       <div
         class="frame bottom"
-        v-if="!application.isShowingSplash"
+        v-if="!application.isShowingSplash && !application.readOnlyMode"
       >
         <AppFooterBar id="app-footer-bar" />
       </div>
@@ -175,10 +179,17 @@ export default defineComponent({
     }
     // Load settings
     this.execute(AppCommand.loadSettings(ctx, settings));
-    // Load file from query parameters, if possible
+    // Process query parameters
     const params = new URLSearchParams(window.location.search);
+    ctx.theme = params.get("theme") ?? "";
+    console.log("ctx.theme", ctx.theme);
     const src = params.get("src");
     if(src) {
+      // Set readonly mode. (Only applies when `src` parameter is also provided).
+      if (params.has("readonly")) {
+          ctx.readOnlyMode = true;
+      }
+      // Try to load a file from a URL.
       try {
         // TODO: Incorporate loading dialog
         this.execute(await AppCommand.prepareEditorFromUrl(ctx, src));
