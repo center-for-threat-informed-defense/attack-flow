@@ -66,22 +66,22 @@ const AttackObjects = {
     asset: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.DictionaryBlock()
+        style: BlogStyle.DictionaryBlock({ head: Colors.SimpleOrange })
     },
     condition: {
-        type: FaceType.DictionaryBlock,
+        type: FaceType.BranchBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.DictionaryBlock()
+        style: BlogStyle.BranchBlock({ head: Colors.SimpleGreen })
     },
     OR_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.TextBlock(Colors.Red)
+        style: BlogStyle.TextBlock(Colors.SimpleRed)
     },
     AND_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
-        style: BlogStyle.TextBlock(Colors.Red)
+        style: BlogStyle.TextBlock(Colors.SimpleRed)
     }
 };
 

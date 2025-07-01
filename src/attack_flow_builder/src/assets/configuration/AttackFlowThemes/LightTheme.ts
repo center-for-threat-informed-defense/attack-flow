@@ -60,27 +60,27 @@ const AttackObjects = {
     action: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        style: LightStyle.DictionaryBlock({ head: Colors.LightBlue })
+        style: LightStyle.DictionaryBlock({ head: Colors.LightThemeBlue })
     },
     asset: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        style: LightStyle.DictionaryBlock({ head: Colors.Orange })
+        style: LightStyle.DictionaryBlock({ head: Colors.LightThemeOrange })
     },
     condition: {
-        type: FaceType.DictionaryBlock,
+        type: FaceType.BranchBlock,
         attributes: Alignment.Grid,
-        style: LightStyle.DictionaryBlock({ head: Colors.Green })
+        style: LightStyle.BranchBlock({ head: Colors.LightThemeGreen })
     },
     OR_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
-        style: LightStyle.TextBlock(Colors.Red)
+        style: LightStyle.TextBlock(Colors.LightThemeRed)
     },
     AND_operator: {
         type: FaceType.TextBlock,
         attributes: Alignment.Grid,
-        style: LightStyle.TextBlock(Colors.Red)
+        style: LightStyle.TextBlock(Colors.LightThemeRed)
     }
 };
 
@@ -92,7 +92,7 @@ for (const object of [...StixObjects, ...StixObservables]) {
     Stix.set(object.name, {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        style: LightStyle.DictionaryBlock({ head: Colors.LightGray })
+        style: LightStyle.DictionaryBlock({ head: Colors.LightThemeGray })
     });
 }
 

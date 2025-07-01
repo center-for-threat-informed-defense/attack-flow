@@ -20,7 +20,7 @@ export const DarkStyle = new StyleGenerator({
             },
             two_title: {
                 title: {
-                    font: { family: "Inter", size: "8.7pt", weight: 500 },
+                    font: { family: "JetBrains Mono", size: "8.5pt", weight: 600 },
                     color: "#d8d8d8",
                     units: 1,
                     align_top: true
@@ -37,7 +37,7 @@ export const DarkStyle = new StyleGenerator({
             fill_color: "#1f1f1f",
             stroke_color: "#383838",
             field_name_text: {
-                font: { family: "Inter", size: "8.3pt", weight: 500 },
+                font: { family: "Inter", size: "8.1pt", weight: 600 },
                 color: "#a0a0a0",
                 units: 1,
                 align_top: false
@@ -84,7 +84,7 @@ export const DarkStyle = new StyleGenerator({
             },
             two_title: {
                 title: {
-                    font: { family: "Roboto Mono", size: "8.7pt", weight: 500 },
+                    font: { family: "JetBrains Mono", size: "8.5pt", weight: 600 },
                     color: "#d8d8d8",
                     units: 1,
                     align_top: true
@@ -101,7 +101,6 @@ export const DarkStyle = new StyleGenerator({
             fill_color: "#1f1f1f",
             stroke_color: "#383838",
             field_name_text: {
-                // font: { family: "Inter", size: "8.3pt", weight: 500 },
                 font: { family: "Inter", size: "8.1pt", weight: 600 },
                 color: "#a0a0a0",
                 units: 1,
@@ -193,38 +192,38 @@ export const LightStyle = new StyleGenerator({
             one_title: {
                 title: {
                     font: { family: "Inter", size: "10.5pt", weight: 700 },
-                    color: "#d8d8d8",
+                    color: "#fafafa",
                     units: 1,
                     align_top: false
                 }
             },
             two_title: {
                 title: {
-                    font: { family: "Inter", size: "8.7pt", weight: 500 },
-                    color: "#d8d8d8",
+                    font: { family: "JetBrains Mono", size: "8.5pt", weight: 600 },
+                    color: "#fafafa",
                     units: 1,
                     align_top: true
                 },
                 subtitle:  {
                     font: { family: "Inter", size: "13pt", weight: 800 },
-                    color: "#d8d8d8",
+                    color: "#fafafa",
                     units: 2
                 }
             },
             vertical_padding_units: 2
         },
         body: {
-            fill_color: "#1f1f1f",
-            stroke_color: "#383838",
+            fill_color: "#ededed",
+            stroke_color: "#b8b8b8",
             field_name_text: {
-                font: { family: "Inter", size: "8.3pt", weight: 500 },
-                color: "#a0a0a0",
+                font: { family: "Inter", size: "8.1pt", weight: 600 },
+                color: "#808080",
                 units: 1,
                 align_top: false
             },
             field_value_text: {
                 font: { family: "Inter", size: "10.5pt" },
-                color: "#cacaca",
+                color: "#525252",
                 units: 2
             },
             body_vertical_padding_units: 1.5,
@@ -264,7 +263,7 @@ export const LightStyle = new StyleGenerator({
             },
             two_title: {
                 title: {
-                    font: { family: "Roboto Mono", size: "8.7pt", weight: 500 },
+                    font: { family: "JetBrains Mono", size: "8.5pt", weight: 600 },
                     color: "#fafafa",
                     units: 1,
                     align_top: true
@@ -281,7 +280,6 @@ export const LightStyle = new StyleGenerator({
             fill_color: "#ededed",
             stroke_color: "#b8b8b8",
             field_name_text: {
-                // font: { family: "Inter", size: "8.3pt", weight: 500 },
                 font: { family: "Inter", size: "8.1pt", weight: 600 },
                 color: "#808080",
                 units: 1,
@@ -373,46 +371,46 @@ export const BlogStyle = new StyleGenerator({
             one_title: {
                 title: {
                     font: { family: "Inter", size: "10.5pt", weight: 700 },
-                    color: "#d8d8d8",
+                    color: "#ffffff",
                     units: 1,
                     align_top: false
                 }
             },
             two_title: {
                 title: {
-                    font: { family: "Inter", size: "8.7pt", weight: 500 },
-                    color: "#d8d8d8",
+                    font: { family: "JetBrains Mono", size: "8.5pt", weight: 600 },
+                    color: "#ffffff",
                     units: 1,
                     align_top: true
                 },
                 subtitle:  {
-                    font: { family: "Inter", size: "13pt", weight: 800 },
-                    color: "#d8d8d8",
+                    font: { family: "Inter", size: "13pt", weight: 700 },
+                    color: "#ffffff",
                     units: 2
                 }
             },
             vertical_padding_units: 2
         },
         body: {
-            fill_color: "#1f1f1f",
-            stroke_color: "#383838",
+            fill_color: "#e5e5e5",
+            stroke_color: "#e5e5e5",
             field_name_text: {
-                font: { family: "Inter", size: "8.3pt", weight: 500 },
-                color: "#a0a0a0",
+                font: { family: "Inter", size: "8.1pt", weight: 600 },
+                color: "#999999",
                 units: 1,
                 align_top: false
             },
             field_value_text: {
                 font: { family: "Inter", size: "10.5pt" },
-                color: "#cacaca",
+                color: "#737373",
                 units: 2
             },
-            body_vertical_padding_units: 1.5,
+            body_vertical_padding_units: 2,
             field_vertical_padding_units: 2
         },
         branch: {
-            font: { family: "Inter", size: "10.5pt" },
-            color: "#bfbfbf",
+            font: { family: "Inter", size: "10.5pt", weight: 600 },
+            color: "#737373",
             height: 3,
             min_width: 10
         },
@@ -444,7 +442,7 @@ export const BlogStyle = new StyleGenerator({
             },
             two_title: {
                 title: {
-                    font: { family: "Roboto Mono", size: "8.8pt", weight: 600 },
+                    font: { family: "JetBrains Mono", size: "8.5pt", weight: 600 },
                     color: "#ffffff",
                     units: 1,
                     align_top: true
@@ -461,7 +459,6 @@ export const BlogStyle = new StyleGenerator({
             fill_color: "#e5e5e5",
             stroke_color: "#e5e5e5",
             field_name_text: {
-                // font: { family: "Inter", size: "8.3pt", weight: 500 },
                 font: { family: "Inter", size: "8.1pt", weight: 600 },
                 color: "#999999",
                 units: 1,
