@@ -14,8 +14,7 @@ import type { DiagramTheme } from "./DiagramTheme";
 import type { TypeToTemplate } from "./TypeToTemplate";
 import type { DiagramObjectView } from "../DiagramObjectView";
 import type {
-    DiagramObjectTemplate, 
-    DiagramSchemaConfiguration, JsonEntries
+    DiagramObjectTemplate, DiagramSchemaConfiguration, JsonEntries
 } from "@OpenChart/DiagramModel";
 
 export class DiagramObjectViewFactory extends DiagramObjectFactory {
