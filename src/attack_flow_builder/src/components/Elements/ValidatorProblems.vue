@@ -59,7 +59,7 @@ export default defineComponent({
      *  The application's validation errors.
      */
     getValidationErrors() {
-      return this.application.getValidationErrors;
+      return this.application.validationErrors;
     },
 
     /**
@@ -68,7 +68,7 @@ export default defineComponent({
      *  The application's validation warnings.
      */
     getValidationWarnings() {
-      return this.application.getValidationWarnings;
+      return this.application.validationWarnings;
     }
 
   },
@@ -121,7 +121,7 @@ export default defineComponent({
 }
 
 .content {
-  padding: 5px 0px; 
+  padding: 8px 0px; 
 }
 
 /** === Validation Result === */

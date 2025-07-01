@@ -122,7 +122,7 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  The active page's validation errors.
          */
-        getValidationErrors(): ValidationErrorResult[] {
+        validationErrors(): ValidationErrorResult[] {
             return this.activeValidator?.getErrors() ?? [];
         },
 
@@ -134,7 +134,7 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  The active page's validation warnings.
          */
-        getValidationWarnings(): ValidationWarningResult[] {
+        validationWarnings(): ValidationWarningResult[] {
             return this.activeValidator?.getWarnings() ?? [];
         },
 

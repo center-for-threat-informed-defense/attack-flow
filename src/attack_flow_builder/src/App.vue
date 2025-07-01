@@ -272,7 +272,7 @@ ul {
   flex: 1;
   display: grid;
   overflow: hidden;
-  grid-template-rows: minmax(0, 1fr) 29px;
+  grid-template-rows: minmax(0, 1fr) 27px;
 }
 
 #block-diagram {
