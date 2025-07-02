@@ -1,13 +1,13 @@
 import { Property } from "..";
-import type { JsonValue } from "..";
-import type { PropertyMetadata } from "../PropertyMetadata";
+import type { JsonValue, ListProperty } from "..";
+import type { StringPropertyOptions } from "./StringPropertyOptions";
 
 export class StringProperty extends Property {
 
     /**
-     * The property's suggestions.
+     * The property's suggested options.
      */
-    public suggestions: string[];
+    public options: ListProperty | undefined;
 
     /**
      * The property's internal value.
@@ -25,29 +25,17 @@ export class StringProperty extends Property {
 
     /**
      * Creates a new {@link StringProperty}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
-     * @param suggestions
-     *  The property's list of suggestions.
-     * @param meta
-     *  The property's auxiliary metadata.
+     * @param options
+     *  The property's options.
      * @param value
      *  The property's value.
      */
-    constructor(
-        id: string,
-        editable: boolean,
-        suggestions: string[], 
-        meta?: PropertyMetadata,
-        value?: JsonValue
-    ) {
-        super(id, editable, meta);
-        this.suggestions = suggestions;
+    constructor(options: StringPropertyOptions, value?: JsonValue) {
+        super(options);
+        this.options = options.options;
         this._value = null;
         // Set value
-        this.setValue((value ?? null) === null ? null : `${value}`);
+        this.setValue(value ?? null);
     }
 
 
@@ -64,10 +52,21 @@ export class StringProperty extends Property {
      * Sets the property's value.
      * @param value
      *  The new value.
+     * @param update
+     *  Whether to update the parent or not.
+     *  (Default: `true`)
      */
-    public setValue(value: string | null) {
-        this._value = value;
-        this.updateParentProperty();
+    public setValue(value: JsonValue, update: boolean = true) {
+        if(value === null) {
+            this._value = null;
+        } else if(typeof value === "string") {
+            this._value = value;
+        } else {
+            this._value = `${ value }`;
+        }
+        if(update) {
+            this.updateParentProperty();
+        }
     }
 
     /**
@@ -109,11 +108,13 @@ export class StringProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): StringProperty {
-        return new StringProperty(
-            id,
-            this.isEditable, this.suggestions,
-            this.metadata, this._value
-        );
+        return new StringProperty({
+            id       : id,
+            name     : this.name,
+            metadata : this.metadata,
+            editable : this.isEditable,
+            options  : this.options
+        }, this._value);
     }
 
 }

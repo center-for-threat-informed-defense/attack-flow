@@ -3,6 +3,7 @@ import {
     Anchor, Block, Canvas, DiagramObject,
     Group, Handle, Latch, Line
 } from "../DiagramObject";
+import type { Constructor } from "@OpenChart/Utilities";
 import type { JsonEntries } from "../DiagramObject";
 import type { TypeToExport } from "./TypeToExport";
 import type {
@@ -10,7 +11,7 @@ import type {
     GenericObjectExport, GroupExport, LineExport
 } from "./DiagramObjectExport";
 import type {
-    AnchorTemplate, BlockTemplate, CanvasTemplate, Constructor, DiagramObjectFactory,
+    AnchorTemplate, BlockTemplate, CanvasTemplate, DiagramObjectFactory,
     DiagramObjectTemplate, GroupTemplate, LineTemplate
 } from "../DiagramObjectFactory";
 

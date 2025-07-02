@@ -6,13 +6,13 @@
       :key="key"
     >
       <p class="field-name">
-        {{ titleCase(key) }}
+        {{ value.name }}
       </p>
       <component
         class="field-value"
         :is="getField(value)"
         :property="value"
-        @execute="(cmd: EditorCommand) => $emit('execute', cmd)"
+        @execute="(cmd: SynchronousEditorCommand) => $emit('execute', cmd)"
       />
     </div>
   </div>
@@ -20,22 +20,21 @@
 
 <script lang="ts">
 // Dependencies
-import { titleCase } from "@/assets/scripts/Browser";
 import { defineAsyncComponent, defineComponent, type PropType } from "vue";
 import { 
   DateProperty, DictionaryProperty, EnumProperty, 
   FloatProperty, IntProperty, ListProperty, StringProperty,
-  TechniqueProperty
+  TupleProperty
 } from "@OpenChart/DiagramModel";
 import type { Property } from "@OpenChart/DiagramModel";
-import type { EditorCommand } from "@OpenChart/DiagramEditor";
+import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import TextField from "./TextField.vue";
 import ListField from "./ListField.vue";
 import EnumField from "./EnumField.vue";
+import TupleField from "./TupleField.vue";
 import NumberField from "./NumberField.vue";
 import DateTimeField from "./DateTimeField.vue";
-import TechniqueField from "./TechniqueField.vue";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
 
@@ -62,7 +61,7 @@ export default defineComponent({
 
   },
   emits: {
-    execute: (cmd: EditorCommand) => cmd
+    execute: (cmd: SynchronousEditorCommand) => cmd
   },
   methods: {
    
@@ -86,24 +85,22 @@ export default defineComponent({
           return "EnumField";
         case ListProperty.name:
           return "ListField";
+        case TupleProperty.name:
+          return "TupleField";
         case DictionaryProperty.name:
           return "DictionaryField";
-        case TechniqueProperty.name:
-          return "TechniqueField";
       }
-    },
-
-    titleCase
+    }
 
   },
   components: {
     TextField,
     ListField,
     EnumField,
+    TupleField,
     NumberField,
     DateTimeField,
-    DictionaryField,
-    TechniqueField
+    DictionaryField
   }
 });
 </script>
@@ -134,9 +131,11 @@ export default defineComponent({
 .text-field-control,
 .enum-field-control,
 .number-field-control,
-.datetime-field-control {
+.datetime-field-control,
+.tuple-field-control {
   min-height: 30px;
   border-radius: 4px;
+  background: #2e2e2e;
 }
 
 </style>

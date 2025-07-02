@@ -9,11 +9,12 @@ import {
     LatchView, LineGridCanvas, LineView, TextBlock
 } from "../DiagramObjectView";
 import type { FaceDesign } from "./FaceDesign";
+import type { Constructor } from "@OpenChart/Utilities";
 import type { DiagramTheme } from "./DiagramTheme";
 import type { TypeToTemplate } from "./TypeToTemplate";
 import type { DiagramObjectView } from "../DiagramObjectView";
 import type {
-    Constructor, DiagramObjectTemplate,
+    DiagramObjectTemplate, 
     DiagramSchemaConfiguration, JsonEntries
 } from "@OpenChart/DiagramModel";
 

@@ -10,7 +10,7 @@
         <component
           :is="getField(value)"
           :property="value"
-          @execute="(cmd: EditorCommand) => $emit('execute', cmd)"
+          @execute="(cmd: SynchronousEditorCommand) => $emit('execute', cmd)"
         >
           <button
             class="delete-button"
@@ -26,7 +26,7 @@
         <component
           :is="getField(value)"
           :property="value"
-          @execute="(cmd: EditorCommand) => $emit('execute', cmd)"
+          @execute="(cmd: SynchronousEditorCommand) => $emit('execute', cmd)"
         />
         <button
           class="delete-button"
@@ -55,7 +55,7 @@ import {
   FloatProperty, IntProperty, ListProperty, StringProperty
 } from "@OpenChart/DiagramModel";
 import type { Property } from "@OpenChart/DiagramModel";
-import type { EditorCommand } from "@OpenChart/DiagramEditor";
+import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import PlusIcon from "@/components/Icons/PlusIcon.vue";
 import TextField from "./TextField.vue";
@@ -120,7 +120,7 @@ export default defineComponent({
 
   },
   emits: {
-    execute: (cmd: EditorCommand) => cmd
+    execute: (cmd: SynchronousEditorCommand) => cmd
   },
   components: {
     PlusIcon,

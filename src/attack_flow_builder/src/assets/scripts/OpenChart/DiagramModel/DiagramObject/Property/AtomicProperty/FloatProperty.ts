@@ -1,6 +1,7 @@
+import { clamp } from "@OpenChart/Utilities";
 import { Property } from "..";
 import type { JsonValue } from "..";
-import type { PropertyMetadata } from "../PropertyMetadata";
+import type { NumberPropertyOptions } from "./NumberPropertyOptions";
 
 export class FloatProperty extends Property {
 
@@ -30,39 +31,18 @@ export class FloatProperty extends Property {
 
     /**
      * Creates a new {@link FloatProperty}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
-     * @param min
-     *  The property's minimum allowed value.
-     * @param max
-     *  The property's maximum allowed value.
-     * @param meta
-     *  The property's auxiliary metadata.
+     * @param options
+     *  The property's options.
      * @param value
      *  The property's value.
      */
-    constructor(
-        id: string,
-        editable: boolean,
-        min: number,
-        max: number,
-        meta?: PropertyMetadata,
-        value?: JsonValue
-    ) {
-        super(id, editable, meta);
-        this.min = min;
-        this.max = max;
+    constructor(options: NumberPropertyOptions, value?: JsonValue) {
+        super(options);
+        this.min = options.min;
+        this.max = options.max;
         this._value = null;
         // Set value
-        if ((value ?? null) === null) {
-            this.setValue(null);
-        } else if (typeof value === "number") {
-            this.setValue(value);
-        } else {
-            this.setValue(0);
-        }
+        this.setValue(value ?? null);
     }
 
 
@@ -79,14 +59,24 @@ export class FloatProperty extends Property {
      * Sets the property's value.
      * @param value
      *  The new value.
+     * @param update
+     *  Whether to update the parent or not.
+     *  (Default: `true`)
      */
-    public setValue(value: number | null) {
+    public setValue(value: JsonValue, update: boolean = true) {
         if (value === null) {
             this._value = null;
         } else {
-            this._value = Math.min(Math.max(value, this.min), this.max);
+            if (typeof value === "string") {
+                value = parseFloat(value);
+            } else if(typeof value !== "number") {
+                value = Number.NaN;
+            }
+            this._value = Math.round(clamp(value, this.min, this.max));
         }
-        this.updateParentProperty();
+        if(update) {
+            this.updateParentProperty();
+        }
     }
 
     /**
@@ -124,11 +114,14 @@ export class FloatProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): FloatProperty {
-        return new FloatProperty(
-            id,
-            this.isEditable, this.min, this.max,
-            this.metadata, this._value
-        );
+        return new FloatProperty({
+            id       : id,
+            name     : this.name,
+            metadata : this.metadata,
+            editable : this.isEditable,
+            min      : this.min,
+            max      : this.max,
+        }, this._value);
     }
 
 }

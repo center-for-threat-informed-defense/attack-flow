@@ -8,12 +8,12 @@
             v-for="opt in options"
             :key="opt.value ?? 0"
             :list-id="opt.value"
-            :class="{ active: isActive(opt), null: isNull(opt) }"
+            :class="classes(opt)"
             @click="$emit('select', opt.value)"
             @mouseenter="setActive(opt)"
             exit-focus-box
           >
-            {{ opt.text }}
+            <span>{{ opt.text }}</span>
           </li>
         </ul>
         <div
@@ -31,6 +31,7 @@
 // Dependencies
 import { defineComponent, markRaw, type PropType } from "vue";
 import { RawScrollBox } from "@/assets/scripts/Browser";
+import type { OptionItem } from "@/assets/scripts/Browser";
 
 export default defineComponent({
   name: "EnumField",
@@ -40,7 +41,7 @@ export default defineComponent({
       required: true
     },
     options: {
-      type: Array as PropType<{ value: string | null, text: string }[]>,
+      type: Array as PropType<OptionItem<string | null>[]>,
       required: true
     },
     option: {
@@ -80,21 +81,16 @@ export default defineComponent({
   methods: {
 
     /**
-     * Tests if an option is the null option.
-     * @returns
-     *  True if the options is the null option, false otherwise.
+     * Returns an option's classes. 
+     * @param option
+     *  The option.
      */
-    isNull(option: { value: string | null, text: string }) {
-      return option.value === null
-    },
-
-    /**
-     * Tests if an option is active.
-     * @returns
-     *  True if the option is active, false otherwise.
-     */
-    isActive(option: { value: string | null, text: string }) {
-      return this.option === option.value;
+    classes(option: OptionItem<string | null>) {
+      return { 
+        active : option.value === this.option,
+        null   : option.value === null,
+        dim    : !option.feature
+      }
     },
 
     /**
@@ -102,7 +98,7 @@ export default defineComponent({
      * @param option
      *  The option.
      */
-    setActive(option: { value: string | null, text: string }) {
+    setActive(option: OptionItem<string | null>) {
       this.$emit("hover", option.value);
     },
 
@@ -289,24 +285,30 @@ export default defineComponent({
   list-style: none;
   font-size: 10pt;
   user-select: none;
+}
+
+.options span {
+  display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
   padding: 5px 12px;
   overflow: hidden;
 }
 
-.options li.active,
-.options li.active.null {
+.options li.active span,
+.options li.active.dim span,
+.options li.active.null span {
   color: #fff;
   background: #726de2;
 }
 
-.options li.null {
-  color: #999;
+.options li.dim span,
+.options li.null span {
+  color: #8c8c8c;
 }
 
 .no-options {
-  color: #999;
+  color: #8c8c8c;
   user-select: none;
   padding: 8px 12px;
 }

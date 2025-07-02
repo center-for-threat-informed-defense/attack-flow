@@ -49,7 +49,7 @@ import { DateTime } from "luxon";
 import { SetEnumProperty } from "@OpenChart/DiagramEditor/Commands/index.commands";
 import { defineComponent, type PropType, ref } from "vue";
 import type { DateProperty } from "@OpenChart/DiagramModel";
-import type { EditorCommand } from "@OpenChart/DiagramEditor";
+import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import EnumField from "./EnumField.vue";
 import ClockIcon from "@/components/Icons/ClockIcon.vue";
@@ -185,7 +185,7 @@ export default defineComponent({
      * @param command
      *  The `SetEnumProperty` command.
      */
-    updateTimezoneProperty(command: EditorCommand) {
+    updateTimezoneProperty(command: SynchronousEditorCommand) {
       if(!(command instanceof SetEnumProperty)) {
         return;  
       }
@@ -198,7 +198,7 @@ export default defineComponent({
 
   },
   emits: {
-    execute: (cmd: EditorCommand) => cmd
+    execute: (cmd: SynchronousEditorCommand) => cmd
   },
   watch: {
     "property"() {
@@ -236,12 +236,7 @@ export default defineComponent({
   color: #cccccc;
   cursor: text;
   min-height: 30px;
-  border-top-left-radius: inherit;
-  border-top-right-radius: inherit;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
   padding-left: 6px;
-  background: #2e2e2e;
 }
 
 .datetime-segment:focus {
@@ -252,12 +247,7 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-left-radius: inherit;
-  border-bottom-right-radius: inherit;
   padding-left: 6px;
-  background: #2e2e2e;
 }
 
 .clock-icon,

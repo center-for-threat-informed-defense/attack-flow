@@ -6,15 +6,16 @@
  */
 
 export * from "./PropertyMetadata";
+export * from "./PropertyOptions";
 export * from "./Property";
 export * from "./CollectionProperty/CollectionProperty";
 export * from "./CollectionProperty/DictionaryProperty";
 export * from "./CollectionProperty/ListProperty";
+export * from "./CollectionProperty/TupleProperty";
 export * from "./CollectionProperty/RootProperty";
 export * from "./AtomicProperty/DateProperty";
 export * from "./AtomicProperty/EnumProperty";
 export * from "./AtomicProperty/FloatProperty";
 export * from "./AtomicProperty/IntProperty";
 export * from "./AtomicProperty/StringProperty";
-export * from "./AtomicProperty/TechniqueProperty";
 export * from "./JsonTypes";

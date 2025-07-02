@@ -1,5 +1,7 @@
+import { titleCase } from "@OpenChart/Utilities";
 import type { JsonValue } from "./JsonTypes";
 import type { DiagramObject } from "../DiagramObject";
+import type { PropertyOptions } from "./PropertyOptions";
 import type { PropertyMetadata } from "./PropertyMetadata";
 
 export abstract class Property {
@@ -8,6 +10,11 @@ export abstract class Property {
      * The property's id.
      */
     public readonly id: string;
+
+    /**
+     * The property's human-readable name.
+     */
+    public readonly name: string;
 
     /**
      * Whether the property is editable.
@@ -32,6 +39,17 @@ export abstract class Property {
     }
 
     /**
+     * The property's fully-qualified name.
+     */
+    public get fqn(): string {
+        if(this._parent) {
+            return `${ this._parent?.fqn }.${ this.id }`
+        } else {
+            return this.id;
+        }
+    }
+
+    /**
      * The diagram object the property belongs to.
      */
     public get object(): DiagramObject | null {
@@ -45,26 +63,26 @@ export abstract class Property {
 
     /**
      * Creates a new {@link Property}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
-     * @param meta
-     *  The property's auxiliary metadata.
+     * @param options
+     *  The property's options.
      */
-    constructor(id: string, editable: boolean, meta?: PropertyMetadata) {
-        this.id = id;
-        this.isEditable = editable;
-        this.metadata = meta ?? {};
+    constructor(options: PropertyOptions) {
+        this.id = options.id;
+        this.name = options.name ?? titleCase(options.id);
+        this.isEditable = options.editable;
+        this.metadata = options.metadata ?? {};
         this._parent = null;
     }
 
 
     /**
      * Updates the property's parent.
+     * @param property
+     *  The property that triggered the update.
+     *  (Default: `this`)
      */
-    protected updateParentProperty() {
-        this._parent?.updateParentProperty();
+    protected updateParentProperty(property: Property = this) {
+        this._parent?.updateParentProperty(property);
     }
 
     /**

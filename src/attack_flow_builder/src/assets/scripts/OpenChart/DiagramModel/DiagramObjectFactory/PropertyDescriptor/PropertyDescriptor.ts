@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PropertyType } from "./PropertyType";
+import type { ValueCombinations } from "../../DiagramObject";
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  1. Base Property Descriptor  //////////////////////////////////////////////
@@ -17,9 +19,14 @@ type BasePropertyDescriptor<K extends PropertyType> = {
     type: K;
 
     /**
+     * The property's human-readable name.
+     */
+    name?: string,
+
+    /**
      * Whether the property appears, and is editable within, the interface.
      */
-    is_editable? : boolean;
+    is_editable?: boolean;
 
     /**
      * Whether the property should be used to represent its parent property.
@@ -85,9 +92,9 @@ type AtomicPropertyDescriptor<K extends AtomicType> = BasePropertyDescriptor<K> 
 export type StringPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.String> & {
 
     /**
-     * Suggested string values.
+     * The property's suggested options.
      */
-    suggestions?: ListPropertyDescriptor;
+    options?: ListPropertyDescriptor;
 
 };
 
@@ -159,31 +166,6 @@ export type AtomicPropertyDescriptors
 
 
 /**
- * Tuple Property Descriptor.
- */
-export type TuplePropertyDescriptor = BasePropertyDescriptor<PropertyType.Tuple> & {
-
-    /**
-     * The tuple property's form.
-     */
-    form: {
-        [key: string]: AtomicPropertyDescriptors;
-    },
-
-    /**
-     * The tuple's cross-field suggestions.
-     */
-    crossFieldSuggestions?: {
-        // Tuple ID
-        [key: string]: {
-            // Maps Value ID -> Tuple ID Option Set
-            [key: string]: { [key:string]: string[] }
-        }
-    }
-
-}
-
-/**
  * Dictionary Property Descriptor.
  */
 export type DictionaryPropertyDescriptor = BasePropertyDescriptor<PropertyType.Dictionary> & {
@@ -213,6 +195,28 @@ export type ListPropertyDescriptor = BasePropertyDescriptor<PropertyType.List> &
     default?: [string, any][];
 
 };
+
+/**
+ * Tuple Property Descriptor.
+ */
+export type TuplePropertyDescriptor = BasePropertyDescriptor<PropertyType.Tuple> & {
+
+    /**
+     * The tuple property's form.
+     */
+    form: {
+        [key: string]: AtomicPropertyDescriptors;
+    },
+
+    /**
+     * The tuple's valid value combinations.
+     * @remarks
+     *  This allows you to limit the options/suggestions of one field based on
+     *  the value of the others.
+     */
+    validValueCombinations?: ValueCombinations
+
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -285,7 +289,8 @@ type SimpleDictionaryListPropertyDescriptor = BasePropertyDescriptor<PropertyTyp
 export type PropertyDescriptor
     = AtomicPropertyDescriptors
     | ListPropertyDescriptor
-    | DictionaryPropertyDescriptor;
+    | DictionaryPropertyDescriptor
+    | TuplePropertyDescriptor;
 
 
 /**
@@ -296,7 +301,8 @@ export type SimplePropertyDescriptor
     = AtomicPropertyDescriptors
     | SimpleListPropertyDescriptor
     | SimpleDictionaryPropertyDescriptor
-    | SimpleDictionaryListPropertyDescriptor;
+    | SimpleDictionaryListPropertyDescriptor
+    | TuplePropertyDescriptor;
 
 
 ///////////////////////////////////////////////////////////////////////////////

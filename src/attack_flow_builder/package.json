@@ -14,7 +14,7 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "update-intel": "node ./attack/update_attack_intel.js"
+    "update-attack": "node ./attack/update_mitre_attack.mjs"
   },
   "author": "mcarenzo",
   "dependencies": {

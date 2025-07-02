@@ -7,5 +7,5 @@ export * from "./ContextMenu";
 export * from "./PointerTracker";
 export * from "./Math";
 export * from "./FileStore";
-export * from "./String";
 export * from "./Debouncer";
+export * from "./OptionItem";

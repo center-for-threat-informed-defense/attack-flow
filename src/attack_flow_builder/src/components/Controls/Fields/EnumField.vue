@@ -44,20 +44,24 @@
 </template>
 
 <script lang="ts">
-// Dependencies
 import * as EditorCommands from "@OpenChart/DiagramEditor";
+// Dependencies
+import { unsignedMod } from "@/assets/scripts/Browser";
 import { defineComponent, type PropType, ref } from "vue";
+import type { OptionItem } from "@/assets/scripts/Browser";
+import type { EnumProperty } from "@OpenChart/DiagramModel";
+import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";
-import type { EnumProperty } from "@OpenChart/DiagramModel";
-import type { EditorCommand } from "@OpenChart/DiagramEditor";
-import { unsignedMod } from "@/assets/scripts/Browser";
 
 export default defineComponent({
   name: "EnumField",
   setup() {
-    return { search: ref<HTMLElement | null>(null) };
+    return {
+      search: ref<HTMLElement | null>(null),
+      optionsList: ref<HTMLElement | null>(null)
+    };
   },
   props: {
     property: {
@@ -67,7 +71,11 @@ export default defineComponent({
     maxHeight: {
       type: Number,
       default: 300
-    }
+    },
+    featuredOptions: {
+      type: Set as PropType<Set<string>>,
+      required: false
+    },
   },
   data() {
     return {
@@ -93,18 +101,32 @@ export default defineComponent({
      * @returns
      *  The enum's options.
      */
-    options(): { value: string | null, text: string }[] {
-      const options: { value: string | null, text: string }[] = [];
+    options(): OptionItem<string | null>[] {
+      const options: OptionItem<string | null>[] = [];
+      // Add null option
       if(this.searchTerm === "") {
-        options.push({ value: null, text: "None" });
+        options.push({ value: null, text: "None", feature: true });
       }
+      // Add remaining options
+      const fo = this.featuredOptions;
       const st = this.searchTerm.toLocaleLowerCase();
       for(const [value, prop] of this.property.options.value) {
         const text = prop.toString();
+        const feat = fo ? fo.has(value) : true;
         if(st === "" || text.toLocaleLowerCase().includes(st)) {
-          options.push({ value, text });
+          options.push({ value, text, feature: feat });
         }
       }
+      // Sort options
+      options.sort((a,b) => {
+        if(a.feature && !b.feature) {
+          return -1;
+        } else if(!a.feature && b.feature) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
       return options;
     },
 
@@ -133,7 +155,7 @@ export default defineComponent({
 
   },
   emits: {
-    execute: (cmd: EditorCommand) => cmd
+    execute: (cmd: SynchronousEditorCommand) => cmd
   },
   methods: {
 
@@ -200,9 +222,9 @@ export default defineComponent({
       if(field.selectionStart !== field.selectionEnd) {
         return;
       }
-      let idx;
       let options = this.options;
       let optionsList = this.$refs.optionsList as any;
+      let idx = options.findIndex(o => o.value === this.select);
       switch(event.key) {
         case "ArrowUp":
           if(!options.length) {
@@ -210,7 +232,6 @@ export default defineComponent({
           }
           event.preventDefault();
           // Resolve index
-          idx = options.findIndex(o => o.value === this.select);
           idx = unsignedMod(idx - 1, options.length);
           // Update selection
           this.select = options[idx].value;
@@ -222,7 +243,6 @@ export default defineComponent({
           }
           event.preventDefault();
           // Resolve index
-          idx = options.findIndex(o => o.value === this.select);
           idx = unsignedMod(idx + 1, options.length);
           // Update selection
           this.select = options[idx].value;
@@ -290,7 +310,6 @@ export default defineComponent({
   grid-template-rows: minmax(0, 1fr);
   color: #cccccc;
   box-sizing: border-box;
-  background: #2e2e2e;
   cursor: pointer;
 }
 
@@ -359,6 +378,13 @@ export default defineComponent({
 .options-container {
   position: relative;
   grid-area: 1 / 1;
+}
+
+.options-list >>> li:not(.dim) + li.dim:before {
+  content: "";
+  display: block;
+  border-top: dotted 1px #4d4d4d;
+  margin: 3px 6px;
 }
 
 </style>

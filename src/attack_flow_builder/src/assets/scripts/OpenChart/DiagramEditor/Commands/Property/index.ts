@@ -5,7 +5,8 @@ import {
     DeleteSubproperty,
     SetNumberProperty,
     SetDatePropertyTime,
-    SetDatePropertyTimezone
+    SetDatePropertyTimezone,
+    SetTupleSubproperty
 } from "./index.commands";
 import type { DateTime } from "luxon";
 import type {
@@ -14,8 +15,10 @@ import type {
     FloatProperty,
     IntProperty,
     ListProperty,
-    StringProperty
+    StringProperty,
+    TupleProperty
 } from "@OpenChart/DiagramModel";
+import type { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 
 
 /**
@@ -91,6 +94,21 @@ export function setNumberProperty(
     property: IntProperty | FloatProperty, value: number | null
 ): SetNumberProperty {
     return new SetNumberProperty(property, value);
+}
+
+/**
+ * Sets the value of a {@link TupleProperty}'s subproperty.
+ * @param property
+ *  The {@link TupleProperty}.
+ * @param value
+ *  The {@link SynchronousEditorCommand} that sets the subproperty.
+ * @returns
+ *  A command that represents the action.
+ */
+export function setTupleSubproperty(
+    property: TupleProperty, value: SynchronousEditorCommand
+): SetTupleSubproperty {
+    return new SetTupleSubproperty(property, value);
 }
 
 /**

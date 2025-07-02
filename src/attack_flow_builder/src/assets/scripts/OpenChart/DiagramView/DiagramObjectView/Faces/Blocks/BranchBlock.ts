@@ -1,5 +1,6 @@
 import { BlockFace } from "../Bases";
 import { BranchName } from "./Branch";
+import { TupleProperty } from "@OpenChart/DiagramModel";
 import { drawRect, drawChip, ceilNearestMultiple } from "@OpenChart/Utilities";
 import {
     addTextCell,
@@ -137,10 +138,23 @@ export class BranchBlock extends BlockFace {
             if (!property.isDefined() || id === props.representativeKey) {
                 continue;
             }
-            fields.push([
-                id.toLocaleUpperCase().replace(/_/g, " "),
-                property.toString()
-            ]);
+            if(property instanceof TupleProperty) {
+                // Unwrap tuples
+                for(const prop of property.value.values()) {
+                    if(!prop.isDefined()) {
+                        continue;
+                    }
+                    fields.push([
+                        prop.name.toLocaleUpperCase(),
+                        prop.toString()
+                    ]);
+                }
+            } else {
+                fields.push([
+                    property.name.toLocaleUpperCase(),
+                    property.toString()
+                ]);
+            }
         }
 
         // Determine title font

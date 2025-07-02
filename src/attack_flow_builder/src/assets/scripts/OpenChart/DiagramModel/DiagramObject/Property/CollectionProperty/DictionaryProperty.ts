@@ -1,5 +1,5 @@
 import { CollectionProperty } from "..";
-import type { PropertyMetadata } from "..";
+import type { PropertyOptions } from "..";
 
 export class DictionaryProperty extends CollectionProperty {
 
@@ -11,15 +11,11 @@ export class DictionaryProperty extends CollectionProperty {
 
     /**
      * Creates a new {@link DictionaryProperty}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
-     * @param meta
-     *  The property's auxiliary metadata.
+     * @param options
+     *  The property's options.
      */
-    constructor(id: string, editable: boolean, meta?: PropertyMetadata) {
-        super(id, editable, meta);
+    constructor(options: PropertyOptions) {
+        super(options);
         this.representativeKey = null;
     }
     
@@ -66,10 +62,18 @@ export class DictionaryProperty extends CollectionProperty {
      *  A clone of the property.
      */
     public clone(id: string = this.id): DictionaryProperty {
-        const property = new DictionaryProperty(id, this.isEditable, this.metadata);
+        // Create property
+        const property = new DictionaryProperty({
+            id: id,
+            name: this.name,
+            metadata: this.metadata,
+            editable: this.isEditable
+        });
+        // Create sub-properties
         for (const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }
+        // Set representative key
         property.representativeKey = this.representativeKey;
         return property;
     }

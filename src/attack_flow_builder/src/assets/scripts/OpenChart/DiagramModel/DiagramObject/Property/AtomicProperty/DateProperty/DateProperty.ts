@@ -1,10 +1,10 @@
 import { Property } from "../..";
 import { Timezones } from "./Timezones";
-import { DateTime, Settings, Zone } from "luxon";
+import { DateTime, Settings } from "luxon";
 import { EnumProperty, ListProperty } from "../..";
 import type { JsonValue } from "../..";
 import type { DateJsonValue } from "./DateValue";
-import type { PropertyMetadata } from "../../PropertyMetadata";
+import type { DatePropertyOptions } from "./DatePropertyOptions";
 
 export class DateProperty extends Property {
 
@@ -33,42 +33,24 @@ export class DateProperty extends Property {
 
     /**
      * Creates a new {@link DateProperty}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
-     * @param meta
-     *  The property's auxiliary metadata.
-     * @param zone
-     *  The property's default timezone.
+     * @param options
+     *  The property's options.
      * @param value
      *  The property's value.
      */
-    constructor(
-        id: string,
-        editable: boolean,
-        meta?: PropertyMetadata,
-        zone?: string,
-        value?: JsonValue,
-    ) {
-        super(id, editable, meta);
+    constructor(options: DatePropertyOptions, value?: JsonValue) {
+        super(options);
         this._time = null;
-        this.timezone = new EnumProperty("tz", true, DateProperty.timezones);
-        // Set value
+        this.timezone = new EnumProperty({ 
+            id       : "tz",
+            editable : true,
+            options  : DateProperty.timezones
+        });
+        // Set default timezone
         const defaultZone = Settings.defaultZone.name;
-        if ((value ?? null) === null) {
-            this.setTime(null);
-            this.setTimezone(zone ?? defaultZone);
-        } else if(typeof value === "string") {
-            this.setTime(DateTime.fromISO(value));
-            this.setTimezone(zone ?? defaultZone);
-        } else if (this.isJsonDateValue(value)) {
-            this.setTime(DateTime.fromISO(value.time));
-            this.setTimezone(value.zone);
-        } else {
-            this.setTime(DateTime.now());
-            this.setTimezone(zone ?? defaultZone);
-        }
+        this.setTimezone(options.zone ?? defaultZone);
+        // Set value
+        this.setValue(value ?? null);
     }
 
 
@@ -84,9 +66,33 @@ export class DateProperty extends Property {
     /**
      * Sets the property's value.
      * @param value
-     *  The new value.
+     *  The value.
+     * @param update
+     *  Whether to update the parent or not.
+     *  (Default: `true`)
      */
-    public setTime(value: DateTime | Date | null) {
+    public setValue(value: JsonValue, update: boolean = true) {
+        if (value === null) {
+            this.setTime(null, update);
+        } else if(typeof value === "string") {
+            this.setTime(DateTime.fromISO(value), update);
+        } else if (this.isJsonDateValue(value)) {
+            this.setTime(DateTime.fromISO(value.time), update);
+            this.setTimezone(value.zone, update);
+        } else {
+            this.setTime(DateTime.now(), update);
+        }
+    }
+
+    /**
+     * Sets the property's time component.
+     * @param value
+     *  The time value.
+     * @param update
+     *  Whether to update the parent or not.
+     *  (Default: `true`)
+     */
+    public setTime(value: DateTime | Date | null, update: boolean = true) {
         const tz = this.timezone.value ?? Settings.defaultZone.name;
         if(value === null) {
             this._time = null;
@@ -99,7 +105,9 @@ export class DateProperty extends Property {
                 keepLocalTime: true
             });
         }
-        this.updateParentProperty();
+        if(update) {
+            this.updateParentProperty();
+        }
     }
 
     /**
@@ -108,8 +116,11 @@ export class DateProperty extends Property {
      *  Expected format: [+-]00:00
      * @param tz
      *  The timezone's offset.  
+     * @param update
+     *  Whether to update the parent or not.
+     *  (Default: `true`)
      */
-    public setTimezone(tz: string | null) {
+    public setTimezone(tz: string | null, update: boolean = true) {
         tz ??= Settings.defaultZone.name;
         // Set timezone
         this.timezone.setValue(tz);
@@ -117,7 +128,9 @@ export class DateProperty extends Property {
         if(this._time) {
             this._time = this._time.setZone(tz, { keepLocalTime: true });
         }
-        this.updateParentProperty();
+        if(update) {
+            this.updateParentProperty();
+        }
     }
 
     /**
@@ -175,7 +188,13 @@ export class DateProperty extends Property {
      */
     public clone(id: string = this.id): DateProperty {
         const tz = this.timezone.value ?? Settings.defaultZone.name;
-        return new DateProperty(id, this.isEditable, this.metadata, tz, this.toJson());
+        return new DateProperty({
+            id          : id,
+            name        : this.name,
+            metadata    : this.metadata,
+            editable    : this.isEditable,
+            zone        : tz
+        }, this.toJson());
     }
 
     /**

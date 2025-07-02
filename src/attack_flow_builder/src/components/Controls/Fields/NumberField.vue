@@ -32,10 +32,11 @@
 
 <script lang="ts">
 import * as EditorCommands from "@OpenChart/DiagramEditor";
+// Dependencies
 import { clamp } from "@OpenChart/Utilities";
 import { IntProperty } from "@OpenChart/DiagramModel";
 import { defineComponent, type PropType, ref } from "vue";
-import type { EditorCommand } from "@OpenChart/DiagramEditor";
+import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 
 export default defineComponent({
   name: "NumberField",
@@ -146,7 +147,7 @@ export default defineComponent({
     
   },
   emits: {
-    execute: (cmd: EditorCommand) => cmd
+    execute: (cmd: SynchronousEditorCommand) => cmd
   },
   watch: {
     "property"() {
@@ -175,7 +176,6 @@ export default defineComponent({
   display: flex; 
   align-items: center;
   color: #cccccc;
-  background: #2e2e2e;
   cursor: text;
   overflow: hidden;
 }

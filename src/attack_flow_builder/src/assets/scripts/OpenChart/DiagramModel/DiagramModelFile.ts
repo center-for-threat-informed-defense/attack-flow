@@ -28,15 +28,12 @@ export class DiagramModelFile {
      * @param factory
      *  The file's object factory.
      * @param diagram
-     *  The file or canvas to import.
+     *  The file to import.
      */
-    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport | Canvas);
-    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport | Canvas) {
+    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport);
+    constructor(factory: DiagramObjectFactory, diagram?: DiagramModelExport) {
         this.factory = factory;
-        if (diagram && diagram instanceof Canvas) {
-            this.canvas = diagram;
-        }
-        else if (diagram) {
+        if (diagram) {
             // Import existing file
             const roots = DiagramObjectSerializer.importObjects(factory, diagram.objects);
             if (roots.length === 1 && roots[0] instanceof Canvas) {

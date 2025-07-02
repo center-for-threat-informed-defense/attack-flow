@@ -1,6 +1,6 @@
 import { ListProperty, Property } from "..";
 import type { JsonValue } from "..";
-import type { PropertyMetadata } from "../PropertyMetadata";
+import type { EnumPropertyOptions } from "./EnumPropertyOptions";
 
 export class EnumProperty extends Property {
 
@@ -25,35 +25,17 @@ export class EnumProperty extends Property {
 
     /**
      * Creates a new {@link EnumProperty}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
      * @param options
-     *  The property's list of options.
-     * @param meta
-     *  The property's auxiliary metadata.
+     *  The property's options.
      * @param value
      *  The property's value.
      */
-    constructor(
-        id: string,
-        editable: boolean,
-        options: ListProperty,
-        meta?: PropertyMetadata,
-        value?: JsonValue
-    ) {
-        super(id, editable, meta);
-        this.options = options;
+    constructor(options: EnumPropertyOptions, value?: JsonValue) {
+        super(options);
+        this.options = options.options;
         this._value = null;
         // Set value
-        if ((value ?? null) === null) {
-            this.setValue(null);
-        } else if (typeof value === "string") {
-            this.setValue(value);
-        } else {
-            this.setValue(null);
-        }
+        this.setValue(value ?? null);
     }
 
 
@@ -70,18 +52,25 @@ export class EnumProperty extends Property {
      * Sets the property's value.
      * @param value
      *  The new value.
+     * @param update
+     *  Whether to update the parent or not.
+     *  (Default: `true`)
      */
-    public setValue(value: string | null) {
+    public setValue(value: JsonValue, update: boolean = true) {
         if (value === null) {
             this._value = null;
-        } else {
+        } else if(typeof value === "string") {
             if (this.options.value.has(value)) {
                 this._value = value;
             } else {
                 this._value = null;
             }
+        } else {
+            this._value = null;
         }
-        this.updateParentProperty();
+        if(update) {
+            this.updateParentProperty();
+        }
     }
 
     /**
@@ -136,11 +125,13 @@ export class EnumProperty extends Property {
      *  A clone of the property.
      */
     public clone(id: string = this.id): EnumProperty {
-        return new EnumProperty(
-            id,
-            this.isEditable, this.options,
-            this.metadata, this._value
-        );
+        return new EnumProperty({
+            id       : id,
+            name     : this.name,
+            metadata : this.metadata,
+            editable : this.isEditable,
+            options  : this.options
+        }, this._value);
     }
 
 }

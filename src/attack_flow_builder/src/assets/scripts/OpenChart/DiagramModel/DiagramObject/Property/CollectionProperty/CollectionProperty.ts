@@ -1,7 +1,7 @@
 import { Property } from "..";
 import { Crypto, MD5 } from "@OpenChart/Utilities";
 import type { Constructor } from "@OpenChart/Utilities";
-import type { PropertyMetadata, JsonEntries, JsonValue } from "..";
+import type { JsonEntries, JsonValue, PropertyOptions } from "..";
 
 export abstract class CollectionProperty extends Property {
 
@@ -15,15 +15,11 @@ export abstract class CollectionProperty extends Property {
 
     /**
      * Creates a new {@link CollectionProperty}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
-     * @param meta
-     *  The property's auxiliary metadata.
+     * @param options
+     *  The property's options.
      */
-    constructor(id: string, editable: boolean, meta?: PropertyMetadata) {
-        super(id, editable, meta);
+    constructor(options: PropertyOptions) {
+        super(options);
         this.value = new Map();
     }
 
@@ -38,10 +34,13 @@ export abstract class CollectionProperty extends Property {
      * @param index
      *  The property's location in the collection.
      *  (Default: End of the collection)
+     * @param update
+     *  Whether to update the parent or not.
+     *  (Default: `true`)
      * @returns
      *  The property's id.
      */
-    public addProperty(property: Property, id?: string, index?: number): string {
+    public addProperty(property: Property, id?: string, index?: number, update: boolean = true): string {
         id ??= this.getNextId();
         // Validate
         const current = this.value.get(id)?.id;
@@ -59,7 +58,9 @@ export abstract class CollectionProperty extends Property {
             this.value.set(id, property);
         }
         // Update property
-        this.updateParentProperty();
+        if(update) {
+            this.updateParentProperty();
+        }
         // Return
         return id;
     }

@@ -1,5 +1,5 @@
 import { CollectionProperty, Property } from "..";
-import type { PropertyMetadata } from "..";
+import type { ListPropertyOptions } from "./ListPropertyOptions";
 
 export class ListProperty extends CollectionProperty {
 
@@ -16,19 +16,13 @@ export class ListProperty extends CollectionProperty {
 
     /**
      * Creates a new {@link ListProperty}.
-     * @param id
-     *  The property's id.
-     * @param editable
-     *  Whether the property is editable.
-     * @param template
-     *  The property's template.
-     * @param meta
-     *  The property's auxiliary metadata.
+     * @param options
+     *  The property's options.
      */
-    constructor(id: string, editable: boolean, template: Property, meta?: PropertyMetadata) {
-        super(id, editable, meta);
-        this.template = template;
-        this.type = template.constructor;
+    constructor(options: ListPropertyOptions) {
+        super(options);
+        this.template = options.template;
+        this.type = this.template.constructor;
     }
 
 
@@ -58,7 +52,15 @@ export class ListProperty extends CollectionProperty {
      *  A clone of the property.
      */
     public clone(id: string = this.id): ListProperty {
-        const property = new ListProperty(id, this.isEditable, this.template, this.metadata);
+        // Create property
+        const property = new ListProperty({
+            id       : id,
+            name     : this.name,
+            metadata : this.metadata,
+            editable : this.isEditable,
+            template : this.template
+        });
+        // Create sub-properties
         for (const [key, prop] of this.value) {
             property.addProperty(prop.clone(), key);
         }

@@ -167,6 +167,22 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
                     break;
                 
                 // Migrate blocks
+                case "action":
+                    // Convert tactic / technique properties
+                    const ap = new Map(obj.properties);
+                    obj.properties.push([
+                        "ttp", [
+                            [
+                                "tactic",
+                                ap.get("tactic_id") ?? null],
+                            [
+                                "technique",
+                                ap.get("technique_id") ?? null
+                            ]
+                        ]
+                    ]);
+                    // Fall-through
+
                 default:
                     const id = LegacyV2TemplateMap[obj.template] ?? obj.template;
                     migratedObj = { 

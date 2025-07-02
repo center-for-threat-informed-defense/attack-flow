@@ -65,8 +65,7 @@ export default defineComponent({
         return false;
       }
       for(const value of this.property.value.values()) {
-        // if(value.descriptor.is_visible_sidebar ?? true) {
-        if(true) {
+        if(value.isEditable) {
           return true;
         }
       }

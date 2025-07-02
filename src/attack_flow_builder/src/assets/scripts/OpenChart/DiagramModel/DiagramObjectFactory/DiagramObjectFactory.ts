@@ -2,25 +2,59 @@ import { Crypto } from "@OpenChart/Utilities";
 import { Settings } from "luxon";
 import { PropertyType } from "./PropertyDescriptor";
 import { DiagramObjectType } from "./DiagramObjectType";
+import { CombinationIndex } from "../DiagramObject";
 import {
     Anchor, Block, Canvas, DateProperty, DictionaryProperty,
     EnumProperty, FloatProperty, Group, Handle, IntProperty,
     Latch, Line, ListProperty, Property, RootProperty,
-    StringProperty
+    StringProperty, TupleProperty
 } from "../DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
-import type {
-    DiagramObject, JsonEntries, JsonValue
+import type { 
+    DiagramObject, JsonEntries,
+    JsonValue, ValueCombinations
 } from "../DiagramObject";
 import type {
     AtomicPropertyDescriptors, CanvasTemplate, DiagramObjectTemplate,
     DiagramSchemaConfiguration, DictionaryPropertyDescriptor,
     ListPropertyDescriptor, PropertyDescriptor, RootPropertyDescriptor,
-    TechniquePropertyDescriptor
+    TuplePropertyDescriptor,
 } from ".";
 import { intel } from "../../../../configuration_old/builder.config.intel";
 
 export class DiagramObjectFactory {
+
+    /**
+     * The factory's list cache.
+     * @remarks
+     *  The cache keeps us from recreating the same {@link ListProperty}'s
+     *  over and over again for enum and string properties.
+     * 
+     *  For maximum space savings, developers should reuse the same 
+     *  {@link ListPropertyDescriptor} object across multiple property
+     *  descriptors, when possible.
+     * 
+     *  In the future, we might consider keying by hash instead of reference.
+     */
+    private static readonly ListCache: Map<
+        ListPropertyDescriptor, ListProperty
+    > = new Map();
+
+    /**
+     * The factory's combination index cache.
+     * @remarks
+     *  This cache keeps us from recreating the same {@link CombinationIndex}'s
+     *  over and over again for tuple properties.
+     * 
+     *  For maximum space savings, developers should reuse the same
+     *  {@link ValueCombinations} object across multiple property descriptors,
+     *  when possible.
+     * 
+     *  In the future, we might consider keying by hash instead of reference.
+     */
+    private static readonly CombinationCache: Map<
+        ValueCombinations, CombinationIndex
+    > = new Map();
 
     /**
      * The factory schema's id.
@@ -367,12 +401,20 @@ export class DiagramObjectFactory {
                     return this.createListProperty(id, descriptor, value);
                 }
                 throw new Error(`Invalid JSON entries: '${value}'.`);
+            case PropertyType.Tuple:
+                if(value === undefined || Array.isArray(value)) {
+                    return this.createTupleProperty(id, descriptor, value);
+                }
+                if(value && typeof value === "object") {
+                    value = Object.entries(value);
+                    return this.createTupleProperty(id, descriptor, value);
+                }
+                throw new Error(`Invalid JSON entries: '${value}'.`);
             case PropertyType.String:
             case PropertyType.Int:
             case PropertyType.Float:
             case PropertyType.Date:
             case PropertyType.Enum:
-            case PropertyType.Technique:
                 if (Array.isArray(value)) {
                     throw new Error(`Invalid JSON primitive: '${value}'.`);
                 }
@@ -396,15 +438,20 @@ export class DiagramObjectFactory {
         descriptor: DictionaryPropertyDescriptor,
         values?: JsonEntries
     ): DictionaryProperty {
-        const map = new Map(values);
+        const valueMap = new Map(values);
         // Create property
-        const meta = descriptor.metadata;
-        const editable = descriptor.is_editable ?? true;
-        const property = new DictionaryProperty(id, editable, meta);
+        const property = new DictionaryProperty({
+            id       : id,
+            name     : descriptor.name,
+            metadata : descriptor.metadata,
+            editable : descriptor.is_editable ?? true
+        });
         // Create sub-properties
         for (const [id, desc] of Object.entries(descriptor.form)) {
             // Add property
-            property.addProperty(this.createProperty(id, desc, map.get(id)), id);
+            property.addProperty(
+                this.createProperty(id, desc, valueMap.get(id)), id
+            );
             // Set representative key
             if (desc.is_representative) {
                 property.representativeKey = id;
@@ -435,13 +482,67 @@ export class DiagramObjectFactory {
         }
         // Create property
         const desc = descriptor.form;
-        const meta = descriptor.metadata;
-        const editable = desc.is_editable ?? true;
-        const template = this.createProperty("template", desc);
-        const property = new ListProperty(id, editable, template, meta);
+        const property = new ListProperty({
+            id       : id,
+            name     : descriptor.name,
+            metadata : descriptor.metadata,
+            editable : descriptor.is_editable ?? true,
+            template : this.createProperty("template", desc)
+        });
         // Create values
         for (const [id, value] of values ?? []) {
-            property.addProperty(this.createProperty(id, desc, value), id);
+            property.addProperty(
+                this.createProperty(id, desc, value), id
+            );
+        }
+        return property;
+    }
+
+    /**
+     * Creates a new {@link TupleProperty}.
+     * @param id
+     *  The property's id.
+     * @param descriptor
+     *  The property's descriptor.
+     * @param values
+     *  The property's values.
+     * @returns
+     *  The tuple property.
+     */
+    public createTupleProperty(
+        id: string,
+        descriptor: TuplePropertyDescriptor,
+        values?: JsonEntries
+    ): TupleProperty {
+        // Resolve combination index
+        let combinations;
+        if(descriptor.validValueCombinations) {
+            combinations = this.getCachedCombinationIndex(
+                descriptor.validValueCombinations
+            );
+        }
+        // Create property
+        const property = new TupleProperty({
+            id       : id,
+            name     : descriptor.name,
+            metadata : descriptor.metadata,
+            editable : descriptor.is_editable ?? true,
+            combinations
+        });
+        // Create sub-properties
+        for (const [id, desc] of Object.entries(descriptor.form)) {
+            // Add property
+            property.addProperty(
+                this.createProperty(id, desc), id, undefined, false
+            );
+            // Set representative key
+            if (desc.is_representative) {
+                property.representativeKey = id;
+            }
+        }
+        // Set value
+        if(values) {
+            property.setValue(values as [string, JsonValue][]);
         }
         return property;
     }
@@ -461,7 +562,7 @@ export class DiagramObjectFactory {
         id: string,
         descriptor: AtomicPropertyDescriptors,
         value?: JsonValue
-    ) {
+    ): Property {
         // Resolve value
         if (value === undefined) {
             value = descriptor.default;
@@ -471,25 +572,98 @@ export class DiagramObjectFactory {
         const editable = descriptor.is_editable ?? true;
         let min, max, suggestions, options;
         switch (descriptor.type) {
+
+            // Int property
             case PropertyType.Int:
                 min = descriptor.min ?? -Infinity;
                 max = descriptor.max ?? Infinity;
-                return new IntProperty(id, editable, min, max, meta, value);
+                return new IntProperty({
+                    id       : id,
+                    name     : descriptor.name,
+                    editable : editable,
+                    metadata : descriptor.metadata,
+                    min, max
+                }, value);
+
+            // Float property
             case PropertyType.Float:
                 min = descriptor.min ?? -Infinity;
                 max = descriptor.max ?? Infinity;
-                return new FloatProperty(id, editable, min, max, meta, value);
-            case PropertyType.String:
-                suggestions = descriptor.suggestions ?? [];
-                return new StringProperty(id, editable, suggestions, meta, value);
+                return new FloatProperty({
+                    id       : id,
+                    name     : descriptor.name,
+                    editable : editable,
+                    metadata : descriptor.metadata,
+                    min, max
+                }, value);
+
+            // Date property
             case PropertyType.Date:
-                return new DateProperty(id, editable, meta, this.defaultTimezone, value);
+                return new DateProperty({
+                    id       : id,
+                    name     : descriptor.name,
+                    editable : editable,
+                    metadata : descriptor.metadata,
+                    zone     : this.defaultTimezone
+                }, value);
+
+            // Enum property
             case PropertyType.Enum:
-                options = this.createListProperty(`${id}.options`, descriptor.options);
-                return new EnumProperty(id, editable, options, meta, value);
-            case PropertyType.Technique:
-                throw new Error("Not implemented");
+                options = this.getCachedListProperty(descriptor.options);
+                return new EnumProperty({
+                    id       : id,
+                    name     : descriptor.name,
+                    editable : editable,
+                    metadata : descriptor.metadata,
+                    options  : options
+                }, value);
+
+            // String property
+            case PropertyType.String:  
+                if(descriptor.options) {
+                    options = this.getCachedListProperty(descriptor.options);
+                }
+                return new StringProperty({
+                    id       : id,
+                    name     : descriptor.name,
+                    editable : editable,
+                    metadata : meta,
+                    options  : options        
+                }, value);
+
         }
+    }
+
+    /**
+     * Returns a list property from the factory's cache.
+     * @param values
+     *  The property's descriptor.
+     * @returns
+     *  The cached {@link ListProperty}.
+     */
+    private getCachedListProperty(values: ListPropertyDescriptor): ListProperty {
+        const ListCache = DiagramObjectFactory.ListCache;
+        if(!ListCache.has(values)) {
+            ListCache.set(values,
+                this.createListProperty("options", values)
+            )
+        }
+        return ListCache.get(values)!;
+    }
+
+    /**
+     * Returns a combination index from the factory's cache.
+     * @param values
+     *  The index's value combinations.
+     * @returns
+     *  The cached {@link CombinationIndex}.
+     */
+    private getCachedCombinationIndex(values: ValueCombinations): CombinationIndex {
+        const ComboCache = DiagramObjectFactory.CombinationCache;
+        if(!ComboCache.has(values)) {
+            ComboCache.set(values, new CombinationIndex(values));
+        }
+        return ComboCache.get(values)!;
     }
 
 

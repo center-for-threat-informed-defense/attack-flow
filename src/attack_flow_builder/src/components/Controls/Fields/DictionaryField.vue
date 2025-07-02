@@ -27,7 +27,7 @@
       </template>
       <template v-else>
         <p class="no-properties">
-          No visible properties.
+          Dictionary contains no editable properties.
         </p>
       </template>
     </div>
@@ -37,8 +37,8 @@
 <script lang="ts">
 // Dependencies
 import { defineComponent, type PropType } from "vue";
-import type { EditorCommand } from "@OpenChart/DiagramEditor";
 import type { DictionaryProperty } from "@OpenChart/DiagramModel";
+import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import CollapseArrowIcon from "@/components/Icons/CollapseArrowIcon.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
@@ -74,7 +74,7 @@ export default defineComponent({
 
   },
   emits: {
-    execute: (cmd: EditorCommand) => cmd
+    execute: (cmd: SynchronousEditorCommand) => cmd
   },
   components: { CollapseArrowIcon, DictionaryFieldContents }
 });
