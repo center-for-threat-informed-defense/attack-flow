@@ -9,7 +9,6 @@
 
 <script lang="ts">
 import { HotkeyObserver } from "@/assets/scripts/Browser";
-import { useApplicationStore } from "@/stores/ApplicationStore";
 import { defineComponent, reactive, type PropType } from "vue";
 import type { Hotkey } from "@/assets/scripts/Browser";
 
@@ -42,10 +41,6 @@ export default defineComponent({
       type: Array as PropType<Hotkey<any>[]>,
       default: () => [],
     },
-    readOnlyMode: {
-      type: Boolean,
-      default: false
-    },
     global: {
       type: Boolean,
       default: false
@@ -61,14 +56,6 @@ export default defineComponent({
     // On hotkeys change
     hotkeys() {
       this.observer.setHotkeys(this.hotkeys);
-    },
-    readOnlyMode() {
-        if (this.readOnlyMode) {
-            this.observer.disconnect();
-        } else {
-            this.observer.observe(this.global ? document.body : this.$el);
-            this.observer.setHotkeys(this.hotkeys);
-        }
     }
   },
   mounted() {

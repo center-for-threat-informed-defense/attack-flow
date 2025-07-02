@@ -45,7 +45,6 @@ export const useApplicationStore = defineStore("applicationStore", {
         activeFinder: new OpenChartFinder<DiagramViewEditor, DiagramObjectView>(),
         settings: BaseAppSettings,
         readOnlyMode: false,
-        theme: "dark_theme",
         recentTimezone: DateTime.local().toFormat("ZZ")
     }),
     getters: {

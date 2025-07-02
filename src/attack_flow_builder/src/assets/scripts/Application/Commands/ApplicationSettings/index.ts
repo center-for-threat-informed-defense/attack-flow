@@ -3,7 +3,8 @@ import {
     EnableDebugInfo,
     EnableImageExportBackground,
     EnableShadows,
-    LoadSettings
+    LoadSettings,
+    SetDefaultTheme
 } from "./index.commands";
 import type { AppSettings } from "@/assets/scripts/Application";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
@@ -81,4 +82,17 @@ export function enableImageExportBackground(
     context: ApplicationStore, value: boolean
 ) {
     return new EnableImageExportBackground(context, value);
+}
+
+/**
+ * Sets the application's default theme.
+ * @param context
+ *  The application context.
+ * @param theme
+ *  The theme's identifier.
+ */
+export function setDefaultTheme(
+    context: ApplicationStore, theme: string
+): SetDefaultTheme {
+    return new SetDefaultTheme(context, theme);
 }

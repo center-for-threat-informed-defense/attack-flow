@@ -3,7 +3,6 @@
     class="app-hotkey-box-element"
     :hotkeys="hotkeySet"
     :global="true"
-    :readOnlyMode="application.readOnlyMode"
     @fire="onHotkeyFired"
   >
     <slot />
@@ -36,6 +35,9 @@ export default defineComponent({
      *  The application's hotkeys.
      */
     hotkeySet(): Hotkey<CommandEmitter>[] {
+      if(this.application.readOnlyMode) {
+        return []
+      }
       return [
         ...this.hotkeys.nativeHotkeys, 
         ...this.hotkeys.fileHotkeys,

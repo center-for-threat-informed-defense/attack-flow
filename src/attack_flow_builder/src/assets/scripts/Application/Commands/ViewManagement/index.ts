@@ -3,6 +3,7 @@ import {
     HideSplashMenu,
     OpenHyperlink,
     RunSearch,
+    SetReadonlyMode,
     ShowSearchMenu,
     ShowSplashMenu,
     SwitchToFullscreen,
@@ -141,4 +142,19 @@ export function openHyperlink(url: string): OpenHyperlink {
  */
 export function switchToFullscreen(): SwitchToFullscreen {
     return new SwitchToFullscreen();
+}
+
+/**
+ * Sets the application to readonly mode.
+ * @remarks
+ *  This will not affect currently loaded files.
+ * @param context
+ *  The application context.
+ * @returns
+ *  A command that represents the action.
+ */
+export function setReadonlyMode(
+    context: ApplicationStore, value: boolean
+): SetReadonlyMode {
+    return new SetReadonlyMode(context, value);
 }

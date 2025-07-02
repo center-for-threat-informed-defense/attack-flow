@@ -1,40 +1,24 @@
 <template>
-  <AppHotkeyBox id="main">
-    <AppTitleBar
-      id="app-title-bar"
-      v-if="!application.readOnlyMode"
-    />
-    <FindDialog
-      id="find-dialog"
-      :style="findDialogLayout"
-      v-if="!application.readOnlyMode"
-    />
+  <AppHotkeyBox id="main" :class="applicationMode">
+    <AppTitleBar id="app-title-bar" v-if="!application.readOnlyMode"/>
+    <FindDialog id="find-dialog" :style="findDialogLayout"/>
     <div
       id="app-body"
       ref="body"
-      :style="(application.isShowingSplash || application.readOnlyMode) ? splashLayout : gridLayout"
+      :style="gridLayout"
     >
       <div class="frame center">
         <BlockDiagram id="block-diagram" />
-        <SplashMenu
-          id="splash-menu"
-          v-if="application.isShowingSplash && !application.readOnlyMode"
-        />
+        <SplashMenu id="splash-menu" v-if="splashMenuShown"/>
       </div>
-      <div
-        class="frame right"
-        v-if="!application.isShowingSplash && !application.readOnlyMode"
-      >
+      <div class="frame right">
         <div
           class="resize-handle"
           @pointerdown="startResize($event, Handle.Right)"
         />
         <EditorSidebar id="app-sidebar" />
       </div>
-      <div
-        class="frame bottom"
-        v-if="!application.isShowingSplash && !application.readOnlyMode"
-      >
+      <div class="frame bottom">
         <AppFooterBar id="app-footer-bar" />
       </div>
     </div>
@@ -86,26 +70,44 @@ export default defineComponent({
   computed: {
 
     /**
+     * Returns the application's current mode.
+     */
+    applicationMode() {
+        const classes = [];
+        if(this.application.isShowingSplash) {
+          classes.push("landing");
+        }
+        if(this.application.readOnlyMode) {
+          classes.push("readonly")
+        }
+        return classes;
+    },
+
+    /**
+     * Returns whether the splash menu can be shown.
+     * @returns
+     *  True if the splash menu should be shown, false otherwise.
+     */
+    splashMenuShown(): boolean {
+      return this.application.isShowingSplash && !this.application.readOnlyMode;
+    },
+
+    /**
      * Returns the grid layout, for use after the splash screen.
      * @returns
      *  The current grid layout.
      */
-    gridLayout(): { gridTemplateColumns: string } {
+    gridLayout(): { gridTemplateColumns: string, gridTemplateRows?: string } {
       const r = this.frameSize[Handle.Right];
-      return {
-        gridTemplateColumns: `minmax(0, 1fr) ${ r }px`
-      }
-    },
-
-    /**
-     * Returns the layout for the splash screen.
-     * @returns
-     *  The current grid layout for splash screen mode.
-     */
-     splashLayout(): { gridTemplateColumns: string, gridTemplateRows: string } {
-      return {
-        gridTemplateColumns: "100%",
-        gridTemplateRows: "100%"
+      if(this.application.isShowingSplash || this.application.readOnlyMode) {
+        return {
+          gridTemplateColumns: "100%",
+          gridTemplateRows: "100%"
+        }
+      } else {
+        return {
+          gridTemplateColumns: `minmax(0, 1fr) ${ r }px`
+        }
       }
     },
 
@@ -169,6 +171,7 @@ export default defineComponent({
   },
   async created() {
     const ctx = this.application;
+    
     // Import settings
     const os = Device.getOperatingSystemClass();
     let settings;
@@ -177,16 +180,25 @@ export default defineComponent({
     } else {
       settings = await (await fetch("./settings_win.json")).json();
     }
+    
     // Load settings
     this.execute(AppCommand.loadSettings(ctx, settings));
+    
     // Process query parameters
     const params = new URLSearchParams(window.location.search);
-    ctx.theme = params.get("theme") ?? "";
+    
+    // Set default theme
+    const theme = params.get("theme");
+    if(theme) {
+      this.execute(AppCommand.setDefaultTheme(ctx, theme));
+    }
+
+    // Load file
     const src = params.get("src");
     if(src) {
       // Set readonly mode. (Only applies when `src` parameter is also provided).
       if (params.has("readonly")) {
-          ctx.readOnlyMode = true;
+        this.execute(AppCommand.setReadonlyMode(ctx, true));
       }
       // Try to load a file from a URL.
       try {
@@ -307,6 +319,20 @@ ul {
   height: 100%;
   border-top: solid 1px #333333;
   background: #262626;
+}
+
+.readonly #app-title-bar,
+.readonly #find-dialog,
+.readonly #splash-menu,
+.readonly .frame .right,
+.readonly .frame .bottom,
+.landing .frame.right,
+.landing .frame.bottom {
+  display: none;
+}
+
+.readonly #block-diagram {
+  border-top: none;
 }
 
 /** === Frames === */

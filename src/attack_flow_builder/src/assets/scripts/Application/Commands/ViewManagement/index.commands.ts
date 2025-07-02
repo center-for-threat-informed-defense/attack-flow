@@ -7,3 +7,4 @@ export * from "./HideSplashMenu";
 export * from "./ToNextSearchResult";
 export * from "./ToPreviousSearchResult";
 export * from "./RunSearch";
+export * from "./SetReadonlyMode";
