@@ -47,11 +47,11 @@ const configuration: AppConfiguration = {
         },
         open_file: {
             title: "Open Flow",
-            description: "Open an existing flow on your computer."
+            description: "Open an existing flow."
         },
         import_stix: {
             title: "Import STIX",
-            description: "Import a bundle into a new flow."
+            description: "Import a STIX bundle."
         },
         help_links: [
             {

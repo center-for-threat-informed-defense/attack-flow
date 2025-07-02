@@ -208,7 +208,7 @@ export default defineComponent({
     },
 
     /**
-     * Import STIX behvior.
+     * Import STIX behavior.
      */
     async onImportStix() {
       const ctx = this.application;
@@ -243,7 +243,6 @@ export default defineComponent({
      *  The url to open.
      */
     onOpenHelp(url: string) {
-      const ctx = this.application;
       this.execute(AppCommands.openHyperlink(url));
     }
 
