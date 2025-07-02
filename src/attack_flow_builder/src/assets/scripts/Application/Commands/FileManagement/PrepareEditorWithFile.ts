@@ -1,4 +1,3 @@
-import { SetTheme } from "../DiagramViewEditor/index.commands";
 import { GroupCommand } from "../GroupCommand";
 import { HideSplashMenu } from "../ViewManagement/index.commands";
 import type { LoadFile } from "./LoadFile";
