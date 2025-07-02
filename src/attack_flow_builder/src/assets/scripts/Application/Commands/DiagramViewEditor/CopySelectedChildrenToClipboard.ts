@@ -1,3 +1,4 @@
+import { Base64 } from "@/assets/scripts/Browser";
 import { AppCommand } from "../AppCommand";
 import { DiagramImage } from "@OpenChart/DiagramView";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
@@ -77,7 +78,7 @@ export class CopySelectedChildrenToClipboard extends AppCommand {
          */
         const json = JSON.stringify(virtualFile.toExport());
         const htmlBlob = new Blob([
-            `<img id="attack-flow-file" src="${pngUrl}" json-data="${btoa(json)}">`
+            `<img id="attack-flow-file" src="${pngUrl}" json-data="${Base64.encode(json)}">`
         ], { type:"text/html" })
 
         // Write image to device's clipboard
@@ -97,5 +98,5 @@ export class CopySelectedChildrenToClipboard extends AppCommand {
         }
 
     }
-
+    
 }

@@ -9,3 +9,4 @@ export * from "./Math";
 export * from "./FileStore";
 export * from "./Debouncer";
 export * from "./OptionItem";
+export * from "./Base64";

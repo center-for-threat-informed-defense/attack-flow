@@ -1,3 +1,4 @@
+import { Base64 } from "@/assets/scripts/Browser";
 import { AppCommand } from "../AppCommand";
 import { importExistingFile } from "../..";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
@@ -59,7 +60,7 @@ export class PasteFileFromClipboard extends AppCommand {
             if(!file) {
                 continue;
             }
-            const json = atob(file);
+            const json = Base64.decode(file);
 
             // Import file
             (await importExistingFile(this.context, this.editor, json)).execute();
