@@ -286,21 +286,17 @@ Finally, to run the application:
 
 .. code:: shell
 
-    $ npm run serve
-    DONE  Compiled successfully in 3342ms                                                                                                              3:02:19 PM
+    $ npm run dev
+    VITE v6.0.11  ready in 343 ms
 
-      App running at:
-      - Local:   http://localhost:8080/
-      - Network: unavailable
-
-      Note that the development build is not optimized.
-      To create a production build, run npm run build.
-
-    Issues checking in progress...
-    No issues found.
+    ➜  Local:   http://localhost:5173/
+    ➜  Network: use --host to expose
+    ➜  Vue DevTools: Open http://localhost:5173/__devtools__/ as a separate window
+    ➜  Vue DevTools: Press Option(⌥)+Shift(⇧)+D in App to toggle the Vue DevTools
+    ➜  press h + enter to show help
 
 If this starts up successfully, then you can access the application at
-http://localhost:8080/. As you edit source code and save, the server will automatically
+http://localhost:5173/. As you edit source code and save, the server will automatically
 rebuild the application and you can refresh the browser to run it again.
 
 Update Intelligence File
@@ -314,18 +310,18 @@ To update the Intelligence File, simply invoke:
 
 .. code:: shell
 
-    $ npm run update-intel
+    $ npm run update-attack
 
-    > attack-flow-builder@2.0.1 update-intel
-    > node ./attack/update_attack_intel.js
+    > attack-flow-builder@3.0.0 update-attack
+    > node ./attack/update_mitre_attack.mjs
 
-    → Downloading ATT\&CK Data...
-    → .../attack-stix-data/master/enterprise-attack/enterprise-attack-13.0.json
-    → ...m/mitre-attack/attack-stix-data/master/ics-attack/ics-attack-13.0.json
-    → ...e-attack/attack-stix-data/master/mobile-attack/mobile-attack-13.0.json
-    → Generating Application Intel File...
+    → Downloading ATT&CK Data...
+    → .../attack-stix-data/master/enterprise-attack/enterprise-attack-16.0.json
+    → ...m/mitre-attack/attack-stix-data/master/ics-attack/ics-attack-16.0.json
+    → ...e-attack/attack-stix-data/master/mobile-attack/mobile-attack-16.0.json
+    → Generating enumerations file...
 
-    Intelligence updated successfully.
+    MITRE ATT&CK enumerations updated successfully.
 
 The configured list of sources can be modified at any time from `download_sources.js`.
 

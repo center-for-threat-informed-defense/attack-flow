@@ -2,11 +2,11 @@ Red Teaming
 -----------
 
 Attack Flow is a powerful tool for red teams to plan, document, and communicate
-simulated adversary behavior during engagements. 
+simulated adversary behavior during engagements.
 
 **Key applications include:**
 
-* Red teams will build out a flow as part of the planning phase before a live operation. 
+* Red teams will build out a flow as part of the planning phase before a live operation.
 * Red teamers use Attack Flow at the end of an operation in their final report to show what they performed and compare with Blue Team. They summarize total TTPs executed, indicators, and assets that were compromised. This tells the story of the entire attack path (i.e., what were the meanings of the route taken)
 
 Attack Flow can be applied throughout the lifecycle of a red team operation:
@@ -88,7 +88,7 @@ Attack Flow enables both red and blue teams to:
 .. note::
 
   **Key Tips for Red Team Flow Building**
-  
+
     * Use ``conditions`` to flag required states (e.g., ``domain user credentials obtained``).
     * Use ``notes`` to add human-readable context at key nodes.
     * Link Indicators, Process objects, and CommandLines to actions for maximum clarity.
@@ -111,24 +111,24 @@ We can first look at the `"Turla Intelligence Summary Page" <https://github.com/
    :alt: Intelligence Summary Turla
    :align: center
 
-   Intelligence Summary from Turla (Snake) Adversary Emulation Library 
+   Intelligence Summary from Turla (Snake) Adversary Emulation Library
 
 
 Next, let's look at the `"Turla - Snake Emulation Plan .YML File" <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/yaml/turla_snake.yaml>`_  and see which componenets we can use for an exercise.
 
-* Adversary name and description: 
+* Adversary name and description:
 * Test scenarios that simulate various TTPs and commands
 * Mappings to MITRE ATT&CK techniques
 * Command-level execution steps and implementations in Caldera
 
-The emulation plan, created by the ATT&CK® Evaluations team, was used during Day 2 of the ATT&CK evaluations Round 5. 
+The emulation plan, created by the ATT&CK® Evaluations team, was used during Day 2 of the ATT&CK evaluations Round 5.
 This scenario focuses on Snake, a rootkit used to compromise computers and exfiltrate data. *If you have your own plans, you can convert them to STIX and import into Attack Flow.*
 
 For detailed information on the scenario to run, you can find the technical setup and commands `here <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/Snake_Scenario/Snake_Detections_Scenario.md>`_
 
 *Building the Attack Flow from the Plan*
 
-For example, the Turla (Snake) is publicy available via the adversary emulation library and has already been converted to a flow diagram, here: `here <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_ 
+For example, the Turla (Snake) is publicy available via the adversary emulation library and has already been converted to a flow diagram, here: `here <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_
 
 At a high level, we can observe the total count of each technique in the plan:
 
@@ -146,16 +146,16 @@ Then, begin constructing the flow by mapping in the identified techniques. Gradu
   1. **Start with adversary context**: Highlight the threat actor being emulated at the top of the flow. This gives context and helps align the test with known threat behavior.
 
   2. **Map techniques**: Add the ATT&CK techniques from the plan into the flow in logical order. *See CTI usage guide for tips how to map reports to techniques*
-  
+
   3. **Include conditions where it provides more context**:  Use Condition objects to define prerequisites for each stage (e.g., “User credentials acquired” or “Initial access to target machine achieved”). As the engagement progresses, conditions in the flow help capture key decision points—such as whether a required action (e.g., privilege escalation) was successful. The red team can annotate the flow with notes indicating success or failure, compromised assets, exploited vulnerabilities, and specific commands executed. This is particularly useful if certain behaviors go undetected by the blue team.
 
   4. **Incorporate operators**: If multiple scenarios or parallel actions are included (e.g., different lateral movement options), use AND/OR operators to represent branching paths. Throughout the operation, red teamers should track which paths were attempted, what actions were executed, and where they encountered blocks. If privilege escalation failed, for example, that should be clearly noted in the flow.
 
   5. **Add indicators where applicable**: to provide additional context, either for planning purposes or post-emulation reporting, you can include relevant STIX objects that map back to indicators (either of interest or that were successfully accessed)
 
-Red teams can choose to represent each scenario in its own flow or combine them into a single, comprehensive flow. A prebuilt Attack Flow based on this plan is already available `here: <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_ 
+Red teams can choose to represent each scenario in its own flow or combine them into a single, comprehensive flow. A prebuilt Attack Flow based on this plan is already available `here: <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_
 
-.. figure:: ../_static/turla_flow.png
+.. figure:: ../_static/turla-flow.png
    :alt: Turla Flow
    :align: center
    :scale: 100%

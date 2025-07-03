@@ -287,9 +287,9 @@ red team operation. Attack Flow can help track and visualize:
   controllers.
 - **Critical Assets**: Data exfiltration targets or mission-critical systems.
 
-An example of what an asset may look like 
+An example of what an asset may look like
 
-.. figure:: ../_static/asset_coa_flow.png
+.. figure:: ../_static/asset-coa-flow.png
    :alt: Assets example
    :figclass: center
 
