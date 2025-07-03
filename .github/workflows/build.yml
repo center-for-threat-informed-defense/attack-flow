@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     tags:
-      - 'v*'
+      - "v*"
   pull_request:
 
 permissions:
@@ -17,37 +17,37 @@ jobs:
   test_python:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-    - name: Install Poetry
-      run: curl -sSL https://install.python-poetry.org/ | python -
-    - name: Add Poetry to PATH
-      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-    - name: Install Python dependencies
-      run: poetry install
-    - name: Check code formatting
-      run: poetry run black --check src/attack_flow/
-    - name: Run unit tests
-      run: poetry run make test-ci
-    - name: Upload coverage to CodeCov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_SECRET }}
-        files: coverage.xml
-        verbose: true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org/ | python -
+      - name: Add Poetry to PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Install Python dependencies
+        run: poetry install
+      - name: Check code formatting
+        run: poetry run black --check src/attack_flow/
+      - name: Run unit tests
+        run: poetry run make test-ci
+      - name: Upload coverage to CodeCov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_SECRET }}
+          files: coverage.xml
+          verbose: true
 
   test_attack_flow_builder:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - name: Install dependencies
-      working-directory: ./src/attack_flow_builder/
-      run: npm ci
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        working-directory: ./src/attack_flow_builder/
+        run: npm ci
     # Temporarily disable tests and linting
     # - name: Lint
     #   working-directory: ./src/attack_flow_builder/
@@ -62,34 +62,62 @@ jobs:
     env:
       AFB_BASE_URL: "${{ startsWith(github.ref, 'refs/tags/v') && '/attack-flow/ui/' || format('{0}/ui/', github.head_ref || github.ref_name) }}"
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-    - name: Install dependencies
-      working-directory: ./src/attack_flow_builder/
-      run: npm ci
-    - run: echo "BRANCH_NAME=$BRANCH_NAME, AFB_BASE_URL=$AFB_BASE_URL"
-    - name: Build
-      working-directory: ./src/attack_flow_builder/
-      # Temporarily disable type checking
-      # run: npm run build
-      run: npm run build-only
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: attack-flow-builder
-        path: src/attack_flow_builder/dist/
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        working-directory: ./src/attack_flow_builder/
+        run: npm ci
+      - run: echo "BRANCH_NAME=$BRANCH_NAME, AFB_BASE_URL=$AFB_BASE_URL"
+      - name: Build
+        working-directory: ./src/attack_flow_builder/
+        # Temporarily disable type checking
+        # run: npm run build
+        run: npm run build-only
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: attack-flow-builder
+          path: src/attack_flow_builder/dist/
+
+  attack_flow_builder_v2:
+    needs: ["test_attack_flow_builder"]
+    runs-on: ubuntu-latest
+    env:
+      AFB_BASE_URL: "${{ startsWith(github.ref, 'refs/tags/v') && '/attack-flow/ui-v2/' || format('{0}/ui-v2/', github.head_ref || github.ref_name) }}"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: center-for-threat-informed-defense/attack-flow
+          ref: v2.3.3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "19"
+      - name: Install dependencies
+        working-directory: ./src/attack_flow_builder/
+        run: npm ci
+      - name: Build
+        working-directory: ./src/attack_flow_builder/
+        env:
+          # Workaround for node.js bug: https://github.com/webpack/webpack/issues/14532
+          NODE_OPTIONS: "--openssl-legacy-provider"
+        run: npm run build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: builder-v2
+          path: src/attack_flow_builder/dist/
 
   comment_flow_links:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/github-script@v6
-      if: github.event_name == 'pull_request'
-      env:
-        PR_NUMBER: ${{ github.event.number }}
-      with:
+      - uses: actions/checkout@v4
+      - uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+        with:
           script: |
             const { PR_NUMBER, GITHUB_SHA } = process.env;
             const builderUrl = "https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=";
@@ -121,54 +149,60 @@ jobs:
             }
 
   render_site:
-    needs: ["test_python", "attack_flow_builder"]
+    needs: ["test_python", "attack_flow_builder", "attack_flow_builder_v2"]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - name: Update APT
-      run: sudo apt update
-    - name: Install APT dependencies
-      run: sudo apt install graphviz
-    - name: Install Poetry
-      run: curl -sSL https://install.python-poetry.org/ | python -
-    - name: Add Poetry to PATH
-      run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-    - name: Install Python dependencies
-      run: poetry install
-    - name: Install Node dependencies
-      working-directory: ./src/attack_flow_builder/
-      run: npm ci
-    - name: Create client directory
-      run: mkdir docs/extra/ui
-    - name: Download Attack Flow Builder
-      uses: actions/download-artifact@v4
-      with:
-        name: attack-flow-builder
-        path: docs/extra/ui
-    - name: Make Attack Flow schema
-      run: poetry run make docs-schema
-    # These steps were broken in the AF-219 refactor. There's a new ticket AF-222 to
-    # track fixing the cli.ts script and re-enabling these steps.
-    # - name: Validate Corpus
-    #   run: poetry run make validate
-    # - name: Copy corpus into docs
-    #   run: poetry run make docs-examples
-    - name: Copy matrix-viz code into docs
-      run: poetry run make docs-matrix
-    - name: Build HTML docs
-      run: poetry run make docs
-    - name: Upload HTML docs
-      uses: actions/upload-artifact@v4
-      with:
-        name: attack-flow-docs-html
-        path: docs/_build/dirhtml/
-
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Update APT
+        run: sudo apt update
+      - name: Install APT dependencies
+        run: sudo apt install graphviz
+      - name: Install Poetry
+        run: curl -sSL https://install.python-poetry.org/ | python -
+      - name: Add Poetry to PATH
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Install Python dependencies
+        run: poetry install
+      - name: Install Node dependencies
+        working-directory: ./src/attack_flow_builder/
+        run: npm ci
+      - name: Create client directory
+        run: mkdir docs/extra/ui
+      - name: Download Attack Flow Builder
+        uses: actions/download-artifact@v4
+        with:
+          name: attack-flow-builder
+          path: docs/extra/ui
+      - name: Create v2 directory
+        run: mkdir docs/extra/ui-v2
+      - name: Download v2 Builder
+        uses: actions/download-artifact@v4
+        with:
+          name: builder-v2
+          path: docs/extra/ui-v2
+      - name: Make Attack Flow schema
+        run: poetry run make docs-schema
+      # These steps were broken in the AF-219 refactor. There's a new ticket AF-222 to
+      # track fixing the cli.ts script and re-enabling these steps.
+      # - name: Validate Corpus
+      #   run: poetry run make validate
+      # - name: Copy corpus into docs
+      #   run: poetry run make docs-examples
+      - name: Copy matrix-viz code into docs
+        run: poetry run make docs-matrix
+      - name: Build HTML docs
+        run: poetry run make docs
+      - name: Upload HTML docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: attack-flow-docs-html
+          path: docs/_build/dirhtml/
 
   deploy_prod:
     # This job only runs when creating a tag.
@@ -179,20 +213,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
-    - name: Download HTML docs
-      uses: actions/download-artifact@v4
-      with:
-        name: attack-flow-docs-html
-        path: docs
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./docs
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Download HTML docs
+        uses: actions/download-artifact@v4
+        with:
+          name: attack-flow-docs-html
+          path: docs
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   docker:
     # This job only runs when creating a tag.
@@ -235,7 +269,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
       - run: npm install -g staticrypt
       - name: Download HTML
         uses: actions/download-artifact@v4
@@ -266,10 +300,10 @@ jobs:
       - uses: actions/github-script@v6
         if: github.event_name == 'pull_request'
         with:
-            script: |
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: `This PR has been published to https://${process.env['AZURE_STORAGE_ACCOUNT']}.z13.web.core.windows.net/${process.env['BRANCH_NAME']}/`,
-              })
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `This PR has been published to https://${process.env['AZURE_STORAGE_ACCOUNT']}.z13.web.core.windows.net/${process.env['BRANCH_NAME']}/`,
+            })
