@@ -131,7 +131,9 @@ const configuration: AppConfiguration = {
 
     preprocessor: {
         create: () => new AttackFlowFilePreprocessor()
-    }
+    },
+
+    publisherMenuText: "Export STIX File"
 
 };
 
