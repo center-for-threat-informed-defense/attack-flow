@@ -369,23 +369,63 @@ This flow will be automatically loaded each time you refresh the page.
 Command Line Publisher
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The Attack Flow Builder also includes a command line tool for publishing ``.afb`` files into ``.json`` format.
+The Attack Flow Builder also includes a command line tool for working with
+``.afb`` files. It can upgrade v2 files to v3 or publish v3 files to STIX
+bundles. This script is useful
+
 First, compile the script:
 
 .. code:: shell
 
     $ cd src/attack_flow_builder
-    $ env VUE_CLI_SERVICE_CONFIG_PATH="$PWD/vue.cli.config.js" npx vue-cli-service build \
-        --target lib --name cli --formats commonjs --no-clean src/cli.ts
+    $ npm run build-cli
 
-Once the script is compiled, run the script using the Node.js interpreter and pass in one or more builder
-files to publish:
+Once the script is compiled, run the script using Node.js:
 
 .. code:: shell
 
-    $ node dist/cli.common.js -v ../../corpus/Target\ Breach.afb ../../corpus/Tesla\ Kubernetes\ Breach.afb
-    Publishing ../../corpus/Target Breach.afb -> ../../corpus/Target Breach.json
-    Publishing ../../corpus/Tesla Kubernetes Breach.afb -> ../../corpus/Tesla Kubernetes Breach.json
+    $ node dist-cli/cli.mjs --version
+    3.0.0
+
+    $ node dist-cli/cli.mjs --help
+    Usage: Attack Flow Builder CLI [options] [command]
+
+    Command line tool for working with Attack Flow Builder (.afb) files.
+
+    Options:
+      -V, --version                     output the version number
+      -h, --help                        display help for command
+
+    Commands:
+      export-stix [options] <paths...>  Convert .afb file to STIX bundle (.json)
+      upgrade-v2 [options] <paths...>   Convert v2 .afb file to v3 .afb format
+      help [command]                    display help for command
+
+The subcommand ``export-stix`` converts one or more ``.afb`` files to a STIX bundle (``.json``):
+
+.. code:: shell
+
+    $ node dist-cli/cli.mjs export-stix -v ../../corpus/*.afb
+    Exporting ../../corpus/Black Basta Ransomware.afb -> ../../corpus/Black Basta Ransomware.json
+    Exporting ../../corpus/CISA AA22-138B VMWare Workspace (Alt).afb -> ../../corpus/CISA AA22-138B VMWare Workspace (Alt).json
+    Exporting ../../corpus/CISA AA22-138B VMWare Workspace (TA1).afb -> ../../corpus/CISA AA22-138B VMWare Workspace (TA1).json
+    Exporting ../../corpus/CISA AA22-138B VMWare Workspace (TA2).afb -> ../../corpus/CISA AA22-138B VMWare Workspace (TA2).json
+    ...
+
+The subcommand ``upgrade-v2`` converts one or more ``.afb`` files from Attack
+Flow v2 format to v3 format. It renameds the existing file ``.afb`` file with an
+``.afb-v2`` extension so that you have a copy of the original. Then it upgrades
+the file to v3 format and saves it back to its original path.
+
+.. code:: shell
+
+    $ node dist-cli/cli.mjs convert-v2 -v ./corpus/*.afb
+    Renaming ./corpus/Black Basta Ransomware.afb -> ./corpus/Black Basta Ransomware.afb-v2
+    Saving v3 file: ./corpus/Black Basta Ransomware.afb
+    Renaming ./corpus/CISA AA22-138B VMWare Workspace (Alt).afb -> ./corpus/CISA AA22-138B VMWare Workspace (Alt).afb-v2
+    Saving v3 file: ./corpus/CISA AA22-138B VMWare Workspace (Alt).afb
+    Renaming ./corpus/CISA AA22-138B VMWare Workspace (TA1).afb -> ./corpus
+    ...
 
 The JSON files are saved back to the same location as the AFB files, using the same filename stem but with the
 file extension changed from ``.afb`` to ``.json``.

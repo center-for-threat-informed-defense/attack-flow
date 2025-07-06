@@ -62,7 +62,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
      * @returns
      *  The converted {@link DiagramViewExport}.
      */
-    private fromV2(file: LegacyV2PageExport) : DiagramViewExport {
+    public fromV2(file: LegacyV2PageExport) : DiagramViewExport {
         const gridSize = DarkTheme.grid
 
         // Create new file

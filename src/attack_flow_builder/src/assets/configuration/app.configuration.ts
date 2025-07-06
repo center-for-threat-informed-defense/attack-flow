@@ -1,9 +1,9 @@
-import AttackFlowValidator from "./AttackFlowValidator/AttackFlowValidator";
-import AttackFlowPublisher from "./AttackFlowPublisher/AttackFlowPublisher";
-import AttackFlowFilePreprocessor from "./AttackFlowFilePreprocessor/AttackFlowFilePreprocessor";
-import { DarkTheme } from "./AttackFlowThemes/DarkTheme";
-import { BlogTheme } from "./AttackFlowThemes/BlogTheme";
-import { LightTheme } from "./AttackFlowThemes/LightTheme";
+import AttackFlowValidator from "./AttackFlowValidator/AttackFlowValidator.ts";
+import AttackFlowPublisher from "./AttackFlowPublisher/AttackFlowPublisher.ts";
+import AttackFlowFilePreprocessor from "./AttackFlowFilePreprocessor/AttackFlowFilePreprocessor.ts";
+import { DarkTheme } from "./AttackFlowThemes/DarkTheme.ts";
+import { BlogTheme } from "./AttackFlowThemes/BlogTheme.ts";
+import { LightTheme } from "./AttackFlowThemes/LightTheme.ts";
 import { CtidIcon, CtidLogo } from "./Images";
 import {
     AttackFlow,
@@ -121,17 +121,17 @@ const configuration: AppConfiguration = {
     },
 
     validator: {
-        create: () => new AttackFlowValidator(),
+        create: () => new AttackFlowValidator()
     },
 
     publisher: {
         create: () => new AttackFlowPublisher(),
-        menuText: "Export STIX File",
+        menuText: "Export STIX File"
     },
 
     preprocessor: {
         create: () => new AttackFlowFilePreprocessor()
-    },
+    }
 
 };
 

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
-    "build-cli": "tsc --project tsconfig.cli.json",
+    "build-cli": "vite build -c vite.cli.config.ts",
     "preview": "vite preview",
     "test:unit": "vitest run",
     "test:watch": "vitest",
