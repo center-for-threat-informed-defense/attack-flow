@@ -1,5 +1,5 @@
 import * as EditorCommands from "../../Commands";
-import { Crypto } from "@OpenChart/Utilities";
+import { Crypto, wasHotkeyActive } from "@OpenChart/Utilities";
 import { findImplicitSelection, traverse } from "@OpenChart/DiagramModel";
 import { BlockMover, GenericMover, LatchMover } from "./ObjectMovers";
 import { Cursor, DiagramInterfacePlugin, SubjectTrack } from "@OpenChart/DiagramInterface";
@@ -379,7 +379,8 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
         execute: CommandExecutor, obj: DiagramObjectView | undefined, event: MouseEvent
     ) {
         // Update selection
-        if (!obj?.focused && !event.ctrlKey) {
+        const multiSelect = wasHotkeyActive(event, this.settings.multiselectHotkey);
+        if (!obj?.focused && !multiSelect) {
             execute(EditorCommands.unselectAllObjects(this.editor));
         }
         if (obj) {

@@ -64,13 +64,18 @@ export class LoadFile extends AppCommand {
             "light_theme" : LightThemeMarquee,
         };
         // Configure interface plugins
-        const hotkeys = context.settings.hotkeys.edit;
-        const factory = this.editor.file.factory;
-        const lineTemplate = settings.edit.anchor_line_template;
         if (!context.readOnlyMode) {
+            const hotkeys = settings.hotkeys.edit;
+            // Power Edit settings
+            const pluginSettings = {
+                factory           : this.editor.file.factory,
+                lineTemplate      : settings.edit.anchor_line_template,
+                multiselectHotkey : hotkeys.select_many
+            }
+            // Install plugins
             this.editor.interface.installPlugin(
                 new RectangleSelectPlugin(this.editor, marqueeThemes, hotkeys.select_marquee),
-                new PowerEditPlugin(this.editor, { factory, lineTemplate })
+                new PowerEditPlugin(this.editor, pluginSettings)
             );
         }
         // Apply view settings

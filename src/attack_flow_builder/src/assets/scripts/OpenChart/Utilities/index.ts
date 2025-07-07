@@ -9,3 +9,4 @@ export * from "./Runtime";
 export * from "./Date";
 export * from "./Types";
 export * from "./String";
+export * from "./Browser";
