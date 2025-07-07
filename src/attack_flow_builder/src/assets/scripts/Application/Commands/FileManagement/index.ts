@@ -2,6 +2,7 @@ import Configuration from "@/assets/configuration/app.configuration";
 import { Device } from "@/assets/scripts/Browser";
 import { DoNothing } from "../index.commands";
 import { AppCommand } from "../index.commands";
+import { stripExtension } from "@OpenChart/Utilities";
 import { StixToAttackFlowConverter } from "@/assets/scripts/StixToAttackFlow";
 import { DiagramObjectViewFactory, DiagramViewFile } from "@OpenChart/DiagramView";
 import { 
@@ -85,7 +86,8 @@ export async function loadFileFromFileSystem(
 ): Promise<AppCommand> {
     const file = await Device.openTextFileDialog(Configuration.file_type_extension);
     if (file) {
-        return loadExistingFile(context, file.contents as string, file.filename);
+        const filename = stripExtension(file.filename);
+        return loadExistingFile(context, file.contents as string, filename);
     } else {
         return new DoNothing();
     }
@@ -104,8 +106,14 @@ export async function loadFileFromUrl(
     context: ApplicationStore, url: string
 ): Promise<LoadFile> {
     const path = new URL(url).pathname.split(/\//g);
-    const filename = path[path.length - 1].match(/.*(?=\.[^\.]*$)/) ?? ["untitled_file"];
-    return loadExistingFile(context, await (await fetch(url)).text(), filename[0]);
+    // Parse filename
+    let filename = path[path.length - 1];
+    if(filename) {
+        filename = stripExtension(decodeURI(filename));
+    } else {
+        filename = "Untitled File";
+    }
+    return loadExistingFile(context, await (await fetch(url)).text(), filename);
 }
 
 /**
@@ -145,7 +153,8 @@ export async function loadStixFileFromFileSystem(
 ): Promise<AppCommand> {
     const file = await Device.openTextFileDialog("json");
     if (file) {
-        return loadExistingStixFile(context, file.contents as string, file.filename);
+        const filename = stripExtension(file.filename);
+        return loadExistingStixFile(context, file.contents as string, filename);
     } else {
         return new DoNothing();
     }

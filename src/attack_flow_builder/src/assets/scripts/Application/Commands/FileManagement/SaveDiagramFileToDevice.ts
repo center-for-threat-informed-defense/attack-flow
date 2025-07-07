@@ -5,8 +5,6 @@ import { RemoveFileFromRecoveryBank } from "./RemoveFileFromRecoveryBank";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
 
-const EXTENSION_RE = /\.\w+?$/;
-
 export class SaveDiagramFileToDevice extends GroupCommand {
 
     /**
@@ -21,9 +19,8 @@ export class SaveDiagramFileToDevice extends GroupCommand {
         const file = editor.file.toExport();
         // Serialize file
         const json = JSON.stringify(file, null, 4);
-        const baseName = editor.name.replace(EXTENSION_RE, "");
         // Save file
-        this.add(new SaveFileToDevice(baseName, Configuration.file_type_extension, json));
+        this.add(new SaveFileToDevice(editor.name, Configuration.file_type_extension, json));
         this.add(new RemoveFileFromRecoveryBank(context, editor.id));
     }
 
