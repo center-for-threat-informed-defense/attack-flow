@@ -82,10 +82,7 @@ export class BrowserFontStore implements FontStore {
     public async loadFont(descriptor: FontDescriptor, timeout: number = 4000): Promise<boolean> {
         const fontString = BrowserFont.getCssFontString(descriptor);
         const fonts = document.fonts;
-        if (fonts.check(fontString)) {
-            if (!this._fontList.has(fontString)) {
-                this._fontList.set(fontString, new BrowserFont(descriptor));
-            }
+        if (this._fontList.has(fontString)) {
             return true;
         } else {
             const set = this._fontList.set.bind(this._fontList);
