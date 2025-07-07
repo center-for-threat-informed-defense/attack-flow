@@ -125,9 +125,4 @@ export interface AppConfiguration {
     
     }
 
-    /**
-     * The publisher's menu text.
-     */
-    publisherMenuText?: string
-
 }
