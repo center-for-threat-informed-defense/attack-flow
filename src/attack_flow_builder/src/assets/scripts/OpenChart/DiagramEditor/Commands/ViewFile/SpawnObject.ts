@@ -1,10 +1,16 @@
 import { GroupCommand } from "../GroupCommand";
-import { SelectObjects } from "../View/index.commands";
 import { addObjectToGroup } from "../Model";
 import { Alignment, DiagramViewFile } from "@OpenChart/DiagramView";
 import { round, roundNearestMultiple } from "@OpenChart/Utilities";
+import type { DiagramObjectView } from "@OpenChart/DiagramView";
 
 export class SpawnObject extends GroupCommand {
+
+    /**
+     * The spawned object.
+     */
+    public readonly object: DiagramObjectView;
+
 
     /**
      * Spawns an object in a diagram file.
@@ -23,16 +29,16 @@ export class SpawnObject extends GroupCommand {
     constructor(file: DiagramViewFile, id: string, x: number, y: number, fromCorner: boolean = false) {
         super();
         // Create object
-        const object = file.factory.createNewDiagramObject(id);
+        this.object = file.factory.createNewDiagramObject(id);
         // Calculate object size
-        object.calculateLayout();
+        this.object.calculateLayout();
         // Calculate coordinate
         if (fromCorner) {
-            x += object.face.boundingBox.width / 2;
-            y += object.face.boundingBox.height / 2;
+            x += this.object.face.boundingBox.width / 2;
+            y += this.object.face.boundingBox.height / 2;
         }
         // Align coordinates
-        if (object.alignment === Alignment.Grid) {
+        if (this.object.alignment === Alignment.Grid) {
             x = roundNearestMultiple(x, file.canvas.grid[0]);
             y = roundNearestMultiple(y, file.canvas.grid[1]);
         } else {
@@ -40,12 +46,9 @@ export class SpawnObject extends GroupCommand {
             y = round(y);
         }
         // Position object
-        object.moveTo(x, y);
+        this.object.moveTo(x, y);
         // Add object to group
-        this.do(addObjectToGroup(object, file.canvas));
-        // Select object
-        this.do(new SelectObjects(object, undefined, false));
-        // TODO: Clear hover
+        this.do(addObjectToGroup(this.object, file.canvas));
     }
 
 }

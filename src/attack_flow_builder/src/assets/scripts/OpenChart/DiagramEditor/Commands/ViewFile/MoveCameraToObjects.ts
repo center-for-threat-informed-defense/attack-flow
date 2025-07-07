@@ -1,13 +1,14 @@
 import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
-import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
+import type { DiagramInterface } from "@OpenChart/DiagramInterface";
 import type { CameraLocation, DiagramObjectView } from "@OpenChart/DiagramView";
+
 
 export class MoveCameraToObjects extends SynchronousEditorCommand {
 
     /**
-     * The editor.
+     * The objects' interface.
      */
-    public readonly editor: DiagramViewEditor;
+    public readonly interface: DiagramInterface;
 
     /**
      * The camera's location.
@@ -18,13 +19,13 @@ export class MoveCameraToObjects extends SynchronousEditorCommand {
     /**
      * Focuses the camera on a set of objects.
      * @param editor
-     *  The objects' editor.
+     *  The objects' interface.
      * @param objects
      *  The objects.
      */
-    constructor(editor: DiagramViewEditor, objects: DiagramObjectView[]) {
+    constructor(ui: DiagramInterface, objects: DiagramObjectView[]) {
         super();
-        this.editor = editor;
+        this.interface = ui;
         // Calculate bounding box
         let xMin = Infinity;
         let yMin = Infinity;
@@ -42,8 +43,8 @@ export class MoveCameraToObjects extends SynchronousEditorCommand {
         const regionH = yMax - yMin;
         const x = Math.round((xMin + xMax) / 2);
         const y = Math.round((yMin + yMax) / 2);
-        const w = regionW / editor.interface.width;
-        const h = regionH / editor.interface.height;
+        const w = regionW / ui.width;
+        const h = regionH / ui.height;
         const r = Math.max(w, h);
         const k = Math.min(0.9 / r, 1.5);
         this.camera = { x, y, k };
@@ -56,7 +57,7 @@ export class MoveCameraToObjects extends SynchronousEditorCommand {
      *  True if the command should be recorded, false otherwise.
      */
     public execute(): void {
-        this.editor.interface.setCameraLocation(this.camera);
+        this.interface.setCameraLocation(this.camera);
     }
 
     /**

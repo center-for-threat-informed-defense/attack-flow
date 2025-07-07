@@ -312,6 +312,17 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
     }
 
     /**
+     * Tests if an animation is running.
+     * @param animation
+     *  The animation to test.
+     * @returns
+     *  True if the animation is running, false otherwise.
+     */
+    public isAnimationRunning(animation: Animation) {
+        return this.animations.has(animation.id);
+    }
+
+    /**
      * Runs the animation loop.
      */
     private runAnimationLoop() {
