@@ -3,8 +3,6 @@ name: Build
 on:
   push:
     branches: [main]
-    tags:
-      - "v*"
   pull_request:
 
 permissions:
@@ -110,10 +108,10 @@ jobs:
 
   comment_flow_links:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/github-script@v6
-        if: github.event_name == 'pull_request'
         env:
           PR_NUMBER: ${{ github.event.number }}
         with:
@@ -202,6 +200,7 @@ jobs:
           path: docs/_build/dirhtml/
 
   deploy_prod:
+    if: github.ref == 'refs/heads/main'
     needs: render_site
     runs-on: ubuntu-latest
     environment:
@@ -222,31 +221,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  docker:
-    # This job only runs when creating a tag.
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: ["test_python", "attack_flow_builder"]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Log in to the Container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get Docker metadata
-        id: af_meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ghcr.io/${{ github.repository }}
-          labels: org.opencontainers.image.url=https://ctid.mitre.org/our-work/attack-flow/
-      - name: Build Attack Flow Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.af_meta.outputs.tags }}
-          labels: ${{ steps.af_meta.outputs.labels }}
