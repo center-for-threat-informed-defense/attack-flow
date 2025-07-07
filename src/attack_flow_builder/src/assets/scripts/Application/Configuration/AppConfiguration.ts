@@ -4,6 +4,7 @@ import type { FilePublisher } from "../FilePublisher";
 import type { FilePreprocessor } from "../FilePreprocessor";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 import type { DiagramSchemaConfiguration } from "@OpenChart/DiagramModel";
+import type { SynchronousCommandProcessor } from "@OpenChart/DiagramEditor";
 
 export interface AppConfiguration {
 
@@ -114,7 +115,7 @@ export interface AppConfiguration {
     /**
      * The application's file preprocessor.
      */
-    preprocessor?: {
+    filePreprocessor?: {
 
         /**
          * The application's file preprocessor.
@@ -123,6 +124,15 @@ export interface AppConfiguration {
          */
         create: () => FilePreprocessor,
     
+    },
+
+    /**
+     * The application's command processor.
+     */
+    cmdProcessor?: {
+
+        create: () => SynchronousCommandProcessor,
+
     }
 
 }

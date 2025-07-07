@@ -16,10 +16,10 @@ import type { AppCommand, ValidationErrorResult, ValidationWarningResult } from 
 //  1. Registry Configuration  ////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-// Configure publishers, validators, and file preprocessors
+// Configure publishers, validators, file preprocessors, and command processors
 const Publisher = Configuration.publisher?.create();
 const Validator = Configuration.validator?.create();
-const Preprocessor = Configuration.preprocessor?.create();
+const FilePreprocessor = Configuration.filePreprocessor?.create();
 
 // Configure theme registry
 const themeRegistry = new ThemeRegistry();
@@ -40,7 +40,7 @@ export const useApplicationStore = defineStore("applicationStore", {
         activeEditor: PhantomEditor,
         activeValidator: Validator,
         activePublisher: Publisher,
-        activePreprocessor: Preprocessor,
+        activeFilePreprocessor: FilePreprocessor,
         activeRecommender: new BasicRecommender(),
         activeFinder: new OpenChartFinder<DiagramViewEditor, DiagramObjectView>(),
         settings: BaseAppSettings,

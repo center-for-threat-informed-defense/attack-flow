@@ -49,17 +49,6 @@ export abstract class Property {
         }
     }
 
-    /**
-     * The diagram object the property belongs to.
-     */
-    public get object(): DiagramObject | null {
-        if (this._parent) {
-            return this._parent.object;
-        } else {
-            return null;
-        }
-    }
-
 
     /**
      * Creates a new {@link Property}.
