@@ -193,13 +193,13 @@ class AttackFlowPublisher implements FilePublisher {
             switch (key) {
                 case "ttp":
                     const json = prop.toJson();
-                    if ("tactic" in json) {
+                    if (json.tactic) {
                         node["tactic_id"] = json.tactic;
                         if (json.tactic in Enums.stixIds) {
                             node["tactic_ref"] = Enums.stixIds[json.tactic];
                         }
                     }
-                    if ("technique" in json) {
+                    if (json.technique) {
                         node["technique_id"] = json.technique;
                         if (json.technique in Enums.stixIds) {
                             node["technique_ref"] = Enums.stixIds[json.technique];
