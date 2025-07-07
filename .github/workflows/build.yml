@@ -60,7 +60,7 @@ jobs:
     needs: ["test_attack_flow_builder"]
     runs-on: ubuntu-latest
     env:
-      AFB_BASE_URL: "${{ startsWith(github.ref, 'refs/tags/v') && '/attack-flow/ui/' || format('{0}/ui/', github.head_ref || github.ref_name) }}"
+      AFB_BASE_URL: "${{ github.ref == 'refs/heads/main' && '/attack-flow/ui/' || format('{0}/ui/', github.head_ref || github.ref_name) }}"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -69,7 +69,6 @@ jobs:
       - name: Install dependencies
         working-directory: ./src/attack_flow_builder/
         run: npm ci
-      - run: echo "BRANCH_NAME=$BRANCH_NAME, AFB_BASE_URL=$AFB_BASE_URL"
       - name: Build
         working-directory: ./src/attack_flow_builder/
         # Temporarily disable type checking
@@ -85,7 +84,7 @@ jobs:
     needs: ["test_attack_flow_builder"]
     runs-on: ubuntu-latest
     env:
-      AFB_BASE_URL: "${{ startsWith(github.ref, 'refs/tags/v') && '/attack-flow/ui-v2/' || format('{0}/ui-v2/', github.head_ref || github.ref_name) }}"
+      AFB_BASE_URL: "${{ github.ref == 'refs/heads/main' && '/attack-flow/ui-v2/' || format('{0}/ui-v2/', github.head_ref || github.ref_name) }}"
     steps:
       - uses: actions/checkout@v4
         with:
