@@ -38,18 +38,12 @@ export class RunAnimation extends SynchronousEditorCommand {
      * Executes the editor command.
      */
     public execute(): void {
-        if(!this.wasAnimationRunning) {
-            this.interface.runAnimation(this.animation);
-        }
+        this.interface.runAnimation(this.animation);
     }
 
     /**
      * Undoes the editor command.
      */
-    public undo(): void {
-        if(!this.wasAnimationRunning) {
-            this.interface.stopAnimation(this.animation.id);
-        }
-    }
+    public undo(): void {}
 
 }
