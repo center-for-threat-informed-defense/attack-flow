@@ -33,6 +33,7 @@ def test_convert_attack_flow_to_mermaid():
             class infrastructure__a75c83f7_147e_4695_b173_0981521b2f01 builtin
 
             attack_action__52f2c35a_fa2a_45a4_b84c_46ad9498071f -->|effect| attack_condition__64d5bf0b_6acc_4f43_b0f2_aa93a219897a
+            attack_action__dd3820fa_bae3_4270_8000_5c4642fa780c -->|asset| attack_asset__4ae37379_6a11_44c1_b6a8_d11733cfac06
             attack_condition__64d5bf0b_6acc_4f43_b0f2_aa93a219897a -->|on_true| attack_operator__8932b181_be87_4f81_851a_ab0b4288406a
             attack_condition__64d5bf0b_6acc_4f43_b0f2_aa93a219897a -->|on_false| attack_action__7ddab166_c83e_4c79_a701_a0dc2a905dd3
             attack_operator__8932b181_be87_4f81_851a_ab0b4288406a -->|effect| attack_action__dd3820fa_bae3_4270_8000_5c4642fa780c

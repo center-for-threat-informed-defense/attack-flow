@@ -39,15 +39,7 @@ export class BrowserFont extends Font {
      *  The width of the text (in pixels).
      */
     public measureWidth(text: string): number {
-        if (document.fonts.check(this.css)) {
-            return this._ctx.measureText(text).width;
-        } else {
-            throw new Error(`The font '${
-                this.css
-            }' has not been loaded. The width of '${
-                text
-            }' cannot be measured.`);
-        }
+        return this._ctx.measureText(text).width;
     }
 
     /**

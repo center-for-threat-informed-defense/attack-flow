@@ -189,19 +189,6 @@ Alternatively, you can run the Attack Flow Builder with Docker Compose:
 
 This will launch a container with Attack Flow Builder accessible at `http://localhost:8081 <http://localhost:8081>`_ . You can customize the provided docker-compose.yml sample file (volumes, ports, ...).
 
-Download
---------
-
-If you do not wish to use Docker, you can also download the Builder from the GitHub
-repository:
-
-1. Go to the `Attack Flow release page
-   <https://github.com/center-for-threat-informed-defense/attack-flow/releases>`__
-   and download ``attack_flow_builder.zip``.
-2. Unzip it.
-3. In the ``attack_flow_builder/`` directory, double click on ``index.html`` to open
-   it in a web browser.
-
 Developer
 ---------
 

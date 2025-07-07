@@ -12,4 +12,9 @@ export type PowerEditPluginSettings = {
      */
     lineTemplate: string;
 
+    /**
+     * The plugin's multiselect hotkey.
+     */
+    multiselectHotkey: string;
+
 };

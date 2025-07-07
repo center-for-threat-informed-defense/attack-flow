@@ -84,7 +84,14 @@ export class StringProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        return this._value ?? "None";
+        const options = this.options?.value;
+        if(this._value === null) {
+            return "None";
+        } else if(options?.has(this._value)) {
+            return options.get(this._value)!.toString();
+        } else {
+            return this._value;
+        }
     }
 
     /**

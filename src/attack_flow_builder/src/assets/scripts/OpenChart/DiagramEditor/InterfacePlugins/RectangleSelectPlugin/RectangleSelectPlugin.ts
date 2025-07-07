@@ -1,4 +1,5 @@
 import * as EditorCommands from "../../Commands";
+import { wasHotkeyActive } from "@OpenChart/Utilities";
 import { DarkThemeMarquee, RectangleMarquee } from "./RectangleMarquee";
 import { Cursor, DiagramInterfacePlugin, SubjectTrack } from "@OpenChart/DiagramInterface";
 import type { MarqueeThemeMap } from "./MarqueeThemeMap";
@@ -91,18 +92,7 @@ export class RectangleSelectPlugin extends DiagramInterfacePlugin {
      *  True if the plugin can handle the event, false otherwise.
      */
     public canHandleSelection(_x: number, _y: number, event: MouseEvent): boolean {
-        switch(this.hotkey.toLocaleLowerCase()) {
-            case "alt":
-                return event.altKey;
-            case "control":
-                return event.ctrlKey;
-            case "shift":
-                return event.shiftKey;
-            case "meta":
-                return event.metaKey;
-            default:
-                return false;
-        }
+        return wasHotkeyActive(event, this.hotkey);
     }
 
     /**

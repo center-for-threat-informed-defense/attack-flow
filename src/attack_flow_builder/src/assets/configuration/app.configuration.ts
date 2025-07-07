@@ -1,6 +1,7 @@
 import AttackFlowValidator from "./AttackFlowValidator/AttackFlowValidator.ts";
 import AttackFlowPublisher from "./AttackFlowPublisher/AttackFlowPublisher.ts";
 import AttackFlowFilePreprocessor from "./AttackFlowFilePreprocessor/AttackFlowFilePreprocessor.ts";
+import AttackFlowCommandProcessor from "./AttackFlowCommandProcessor/AttackFlowCommandProcessor.ts";
 import { DarkTheme } from "./AttackFlowThemes/DarkTheme.ts";
 import { BlogTheme } from "./AttackFlowThemes/BlogTheme.ts";
 import { LightTheme } from "./AttackFlowThemes/LightTheme.ts";
@@ -129,10 +130,14 @@ const configuration: AppConfiguration = {
         menuText: "Export STIX File"
     },
 
-    preprocessor: {
+    filePreprocessor: {
         create: () => new AttackFlowFilePreprocessor()
-    }
+    },
 
+    cmdProcessor: {
+        create: () => new AttackFlowCommandProcessor()
+    }
+    
 };
 
 export default configuration;

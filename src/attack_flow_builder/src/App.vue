@@ -1,7 +1,7 @@
 <template>
   <AppHotkeyBox id="main" :class="applicationMode">
     <AppTitleBar id="app-title-bar" v-if="!application.readOnlyMode"/>
-    <FindDialog id="find-dialog" :style="findDialogLayout"/>
+    <FindDialog id="find-dialog" v-if="extendedEditorShown" :style="findDialogLayout" />
     <div
       id="app-body"
       ref="body"
@@ -11,14 +11,14 @@
         <BlockDiagram id="block-diagram" />
         <SplashMenu id="splash-menu" v-if="splashMenuShown"/>
       </div>
-      <div class="frame right">
+      <div class="frame right" v-if="extendedEditorShown">
         <div
           class="resize-handle"
           @pointerdown="startResize($event, Handle.Right)"
         />
         <EditorSidebar id="app-sidebar" />
       </div>
-      <div class="frame bottom">
+      <div class="frame bottom" v-if="extendedEditorShown">
         <AppFooterBar id="app-footer-bar" />
       </div>
     </div>
@@ -81,6 +81,15 @@ export default defineComponent({
           classes.push("readonly")
         }
         return classes;
+    },
+
+    /**
+     * Returns whether the extended editor is shown.
+     * @returns
+     *  True if the extended editor should be shown, false otherwise.
+     */
+    extendedEditorShown() {
+      return !(this.application.isShowingSplash || this.application.readOnlyMode)
     },
 
     /**
@@ -319,16 +328,6 @@ ul {
   height: 100%;
   border-top: solid 1px #333333;
   background: #262626;
-}
-
-.readonly #app-title-bar,
-.readonly #find-dialog,
-.readonly #splash-menu,
-.readonly .frame .right,
-.readonly .frame .bottom,
-.landing .frame.right,
-.landing .frame.bottom {
-  display: none;
 }
 
 .readonly #block-diagram {

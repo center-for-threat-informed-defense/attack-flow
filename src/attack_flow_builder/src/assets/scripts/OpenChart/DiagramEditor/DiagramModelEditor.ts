@@ -1,11 +1,12 @@
 
 import { EventEmitter } from "@OpenChart/Utilities";
-import { DiagramModelFile, DiagramObject, traverse } from "@OpenChart/DiagramModel";
 import { AutosaveController } from "./AutosaveController";
 import { GroupCommand, SynchronousEditorCommand } from "./Commands";
 import { EditorDirective, newDirectiveArguments } from "./EditorDirectives";
+import { DiagramModelFile, DiagramObject, traverse } from "@OpenChart/DiagramModel";
 import type { ModelEditorEvents } from "./ModelEditorEvents";
 import type { DirectiveArguments } from "./EditorDirectives";
+import type { SynchronousCommandProcessor } from "./SynchronousCommandProcessor";
 import type { AsynchronousEditorCommand, EditorCommand } from "./Commands";
 
 export class DiagramModelEditor<
@@ -32,6 +33,11 @@ export class DiagramModelEditor<
      * The editor's autosave controller.
      */
     public readonly autosave: AutosaveController;
+
+    /**
+     * The editor's command processor.
+     */
+    public readonly processor: SynchronousCommandProcessor | undefined;
 
     /**
      * The editor's undo stack.
@@ -70,7 +76,9 @@ export class DiagramModelEditor<
      * @param file
      *  The editor's file.
      */
-    constructor(file: T);
+    constructor(
+        file: T
+    );
 
     /**
      * Creates a new {@link DiagramEditor}.
@@ -78,12 +86,24 @@ export class DiagramModelEditor<
      *  The editor's file.
      * @param name
      *  The editor's file name.
+     * @param processor
+     *  The editor's command processor.
      * @param autosave
      *  The editor's autosave controller.
      *  (Default: Default autosave controller)
      */
-    constructor(file: T, name?: string, autosave?: AutosaveController);
-    constructor(file: T, name?: string, autosave?: AutosaveController) {
+    constructor(
+        file: T,
+        name?: string,
+        processor?: SynchronousCommandProcessor,
+        autosave?: AutosaveController
+    );
+    constructor(
+        file: T,
+        name?: string,
+        processor?: SynchronousCommandProcessor,
+        autosave?: AutosaveController
+    ) {
         super();
         this.id = file.canvas.instance;
         this.file = file;
@@ -91,6 +111,7 @@ export class DiagramModelEditor<
         this._undoStack = [];
         this._redoStack = [];
         this._streams = new Map();
+        this.processor = processor;
         this.autosave = autosave ?? new AutosaveController();
         this.autosave.on("autosave", () => this.emit("autosave", this));
         this.reindexFile();
@@ -166,6 +187,8 @@ export class DiagramModelEditor<
      */
     public execute(cmd: SynchronousEditorCommand | SynchronousEditorCommand[], stream?: string) {
         cmd = Array.isArray(cmd) ? new GroupCommand().do(cmd) : cmd;
+        // Process command
+        cmd = this.processor?.process(cmd) ?? cmd;
         // Emit 'beforeEdit' hook
         this.emit("beforeEdit", this, cmd);
         // Construct arguments

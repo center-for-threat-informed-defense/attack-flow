@@ -8,6 +8,7 @@ import type { ViewEditorEvents } from "./ViewEditorEvents";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 import type { DirectiveArguments } from "./EditorDirectives";
 import type { AutosaveController } from "./AutosaveController";
+import type { SynchronousCommandProcessor } from "./SynchronousCommandProcessor";
 
 export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewEditorEvents> {
 
@@ -40,13 +41,25 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
      *  The editor's file.
      * @param name
      *  The editor's file name.
+     * @param processor
+     *  The editor's command processor.
      * @param autosave
      *  The editor's autosave controller.
      *  (Default: Default autosave controller)
      */
-    constructor(file: DiagramViewFile, name?: string, autosave?: AutosaveController);
-    constructor(file: DiagramViewFile, name?: string, autosave?: AutosaveController) {
-        super(file, name, autosave);
+    constructor(
+        file: DiagramViewFile,
+        name?: string,
+        processor?: SynchronousCommandProcessor,
+        autosave?: AutosaveController
+    );
+    constructor(
+        file: DiagramViewFile,
+        name?: string,
+        processor?: SynchronousCommandProcessor,
+        autosave?: AutosaveController,
+    ) {
+        super(file, name, processor, autosave);
         this.pointer = [0, 0];
         this.selection = new Map();
         // Create interface

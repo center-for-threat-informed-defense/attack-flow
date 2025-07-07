@@ -1,14 +1,13 @@
 import { StixToTemplate } from "./StixToTemplate";
-import { ManualLayoutEngine } from "@OpenChart/DiagramView";
 import { populateProperties } from "./PopulateBlockProperties";
 import { GraphEdge, GraphNode } from "../SegmentLayoutEngine";
 import { DiagramObjectSerializer } from "@OpenChart/DiagramModel";
 import { resolveEmbeddedRelationships } from "./ResolveEmbeddedRelationships";
 import { Canvas, Block, DiagramObject, Line } from "../OpenChart/DiagramModel/DiagramObject";
+import type { Constructor } from "@OpenChart/Utilities";
 import type { DiagramViewExport } from "@OpenChart/DiagramView";
 import type { StixBundle, StixObject } from "./StixTypes";
-import type { Constructor, DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
-
+import type { DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
 
 export class StixToAttackFlowConverter {
 
@@ -48,9 +47,9 @@ export class StixToAttackFlowConverter {
         // Randomize node positions
 
         for(const o of nodes) {
-            const x = Math.floor(Math.random() * 10000);
-            const y = Math.floor(Math.random() * 10000);
-            o.object.moveTo(x, y);
+            // const x = Math.floor(Math.random() * 10000);
+            // const y = Math.floor(Math.random() * 10000);
+            // o.object.moveTo(x, y);
         }
 
 
@@ -62,7 +61,7 @@ export class StixToAttackFlowConverter {
         return {
             schema  : this.factory.id,
             objects : DiagramObjectSerializer.exportObjects([canvas]),
-            layout  : ManualLayoutEngine.generatePositionMap([canvas]) 
+            // layout  : ManualLayoutEngine.generatePositionMap([canvas]) 
         };
     }
 

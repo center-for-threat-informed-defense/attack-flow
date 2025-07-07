@@ -41,3 +41,14 @@ export function capitalize(text: string): string {
 export function titleCase(text: string): string {
     return text.split(/\s+|_/).map(s => capitalize(s)).join(" ");
 }
+
+/**
+ * Strips a filename's extension.
+ * @param text
+ *  The filename.
+ * @returns
+ *  The filename stripped of its extension.
+ */
+export function stripExtension(text: string): string {
+    return text.replace(/\.\w+?$/, "")
+}

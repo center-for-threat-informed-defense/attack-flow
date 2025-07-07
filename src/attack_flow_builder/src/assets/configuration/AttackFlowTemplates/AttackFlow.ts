@@ -55,6 +55,7 @@ export const AttackFlow: CanvasTemplate = {
                     ["campaign", "Campaign"],
                     ["threat-actor", "Threat Actor"],
                     ["malware", "Malware"],
+                    ["emulation-plan", "Emulation Plan"],
                     ["attack-tree", "Attack Tree"],
                     ["other", "Other"]
                 ]

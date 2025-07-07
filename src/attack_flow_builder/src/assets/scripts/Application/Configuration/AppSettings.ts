@@ -53,6 +53,7 @@ export const BaseAppSettings: AppSettings = {
             find_previous: "",
             select_all: "",
             unselect_all: "",
+            select_many: "",
             select_marquee: ""
         },
         layout: {
@@ -82,9 +83,6 @@ export const BaseAppSettings: AppSettings = {
             jump_to_parents: "",
             jump_to_children: "",
             toggle_debug_info: ""
-        },
-        select: {
-            many: ""
         }
     }
 };
@@ -117,7 +115,6 @@ export type AppSettings = {
         edit: EditHotkeys;
         layout: LayoutHotkeys;
         view: ViewHotkeys;
-        select: SelectHotkeys;
     };
 };
 
@@ -164,6 +161,7 @@ export type EditHotkeys = {
     find_previous: string;
     select_all: string;
     unselect_all: string;
+    select_many: string,
     select_marquee: string;
 };
 
@@ -201,11 +199,4 @@ export type ViewHotkeys = {
     jump_to_children: string;
     fullscreen: string;
     toggle_debug_info: string;
-};
-
-/**
- * Select hotkeys
- */
-export type SelectHotkeys = {
-    many: string;
 };

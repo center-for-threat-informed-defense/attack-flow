@@ -16,7 +16,7 @@
       </Transition>
     </div>
     <div class="right-align">
-      <div class="metric validity valid" v-if="application.isValid">
+      <div class="metric validity valid" v-if="!displayProblems">
         <span class="icon">✓</span>Valid Attack Flow
       </div>
       <div class="metric validity" v-else>
@@ -51,6 +51,17 @@ export default defineComponent({
     }
   },
   computed: {
+    
+    /**
+     * Whether to display the editor's problems.
+     * @returns
+     *  True if the problem's should be displayed, false otherwise.
+     */
+    displayProblems(): boolean {
+      const warSize = this.application.validationWarnings.length;
+      const errSize = this.application.validationErrors.length;
+      return 0 < warSize || 0 < errSize;
+    },
 
     /**
      * Returns the number of warnings as a string.

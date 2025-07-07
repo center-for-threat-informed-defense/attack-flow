@@ -20,7 +20,6 @@ import type {
     ListPropertyDescriptor, PropertyDescriptor, RootPropertyDescriptor,
     TuplePropertyDescriptor,
 } from ".";
-import { intel } from "../../../../configuration_old/builder.config.intel";
 
 export class DiagramObjectFactory {
 

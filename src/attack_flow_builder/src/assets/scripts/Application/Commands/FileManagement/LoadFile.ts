@@ -1,3 +1,4 @@
+import Configuration from "@/assets/configuration/app.configuration";
 import { ref } from "vue";
 import { AppCommand } from "../AppCommand";
 import { EditorDirective } from "@OpenChart/DiagramEditor/EditorDirectives";
@@ -46,7 +47,8 @@ export class LoadFile extends AppCommand {
         this.context = context;
         const settings = context.settings;
         // Configure editor
-        this.editor = ref(new DiagramViewEditor(file, name)).value;
+        const cmdProcessor = Configuration.cmdProcessor?.create();
+        this.editor = ref(new DiagramViewEditor(file, name, cmdProcessor)).value;
         this.editor.on("autosave", editor => {
             context.execute(new SaveDiagramFileToRecoveryBank(context, editor));
         });
@@ -64,13 +66,18 @@ export class LoadFile extends AppCommand {
             "light_theme" : LightThemeMarquee,
         };
         // Configure interface plugins
-        const hotkeys = context.settings.hotkeys.edit;
-        const factory = this.editor.file.factory;
-        const lineTemplate = settings.edit.anchor_line_template;
         if (!context.readOnlyMode) {
+            const hotkeys = settings.hotkeys.edit;
+            // Power Edit settings
+            const pluginSettings = {
+                factory           : this.editor.file.factory,
+                lineTemplate      : settings.edit.anchor_line_template,
+                multiselectHotkey : hotkeys.select_many
+            }
+            // Install plugins
             this.editor.interface.installPlugin(
                 new RectangleSelectPlugin(this.editor, marqueeThemes, hotkeys.select_marquee),
-                new PowerEditPlugin(this.editor, { factory, lineTemplate })
+                new PowerEditPlugin(this.editor, pluginSettings)
             );
         }
         // Apply view settings

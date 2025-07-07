@@ -13,12 +13,12 @@ export class SetTupleSubproperty extends SynchronousEditorCommand {
     /**
      * The property's previous value.
      */
-    private readonly prevValue: [string, JsonValue][];
+    public readonly prevValue: [string, JsonValue][];
 
     /**
      * The command that sets the subproperty.
      */
-    private readonly nextValue: SynchronousEditorCommand;
+    public readonly nextValue: SynchronousEditorCommand;
 
 
     /**

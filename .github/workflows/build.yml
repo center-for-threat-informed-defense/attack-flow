@@ -203,8 +203,6 @@ jobs:
           path: docs/_build/dirhtml/
 
   deploy_prod:
-    # This job only runs when creating a tag.
-    if: startsWith(github.ref, 'refs/tags/v')
     needs: render_site
     runs-on: ubuntu-latest
     environment:

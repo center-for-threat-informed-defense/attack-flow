@@ -41,7 +41,7 @@ export class SemanticGraphNode {
      * The node's outbound edges.
      */
     public get nextEdges(): SemanticGraphEdge[] {
-        return [...this.prev.values()].flat();
+        return [...this.next.values()].flat();
     }
 
     /**

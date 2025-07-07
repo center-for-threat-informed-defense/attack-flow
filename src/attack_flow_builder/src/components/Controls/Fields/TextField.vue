@@ -367,7 +367,7 @@ textarea:focus {
   grid-area: 1 / 1;
 }
 
-.options-list >>> li:not(.dim) + li.dim:before {
+.options-list :deep(li:not(.dim) + li.dim:before)  {
   content: "";
   display: block;
   border-top: dotted 1px #4d4d4d;

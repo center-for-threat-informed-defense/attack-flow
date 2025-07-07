@@ -13,6 +13,11 @@ export class RunAnimation extends SynchronousEditorCommand {
      */
     public readonly animation: Animation;
 
+    /**
+     * Whether the animation was running pre-execution.
+     */
+    public readonly wasAnimationRunning: boolean;
+
 
     /**
      * Runs an animation on an interface.
@@ -25,6 +30,7 @@ export class RunAnimation extends SynchronousEditorCommand {
         super();
         this.interface = ui;
         this.animation = animation;
+        this.wasAnimationRunning = ui.isAnimationRunning(animation);
     }
 
 

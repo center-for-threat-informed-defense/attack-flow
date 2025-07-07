@@ -13,6 +13,11 @@ export class StopContinuousAnimation extends SynchronousEditorCommand {
      */
     public readonly animation: Animation;
 
+    /**
+     * Whether the animation was running pre-execution.
+     */
+    public readonly wasAnimationRunning: boolean;
+
 
     /**
      * Runs an animation on an interface.
@@ -25,6 +30,7 @@ export class StopContinuousAnimation extends SynchronousEditorCommand {
         super();
         this.interface = ui;
         this.animation = animation;
+        this.wasAnimationRunning = ui.isAnimationRunning(animation);
     }
 
 
@@ -32,14 +38,18 @@ export class StopContinuousAnimation extends SynchronousEditorCommand {
      * Executes the editor command.
      */
     public execute(): void {
-        this.interface.stopAnimation(this.animation.id);
+        if(this.wasAnimationRunning) {
+            this.interface.stopAnimation(this.animation.id);
+        }
     }
 
     /**
      * Undoes the editor command.
      */
     public undo(): void {
-        this.interface.runAnimation(this.animation);
+        if(this.wasAnimationRunning) {
+            this.interface.runAnimation(this.animation);
+        }
     }
 
 }
