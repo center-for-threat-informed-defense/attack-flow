@@ -16,11 +16,11 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             ttp: {
-                name: "Tactic / Technique",
+                name: "TTP Mapping",
                 ...TacticTechniqueProperty
             },
             description: {

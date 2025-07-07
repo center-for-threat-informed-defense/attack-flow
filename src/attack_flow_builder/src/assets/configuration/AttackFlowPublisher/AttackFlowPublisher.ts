@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Crypto } from "@OpenChart/Utilities";
 import {
-    CollectionProperty, DiagramModelFile, DictionaryProperty,
+    CollectionProperty, DateProperty, DiagramModelFile, DictionaryProperty,
     EnumProperty, ListProperty, Property, SemanticAnalyzer,
     SemanticGraphNode, StringProperty,
 } from "@OpenChart/DiagramModel";
@@ -62,8 +62,8 @@ const AttackFlowTemplatesMap: Map<string, string>
         ["action", "attack-action"],
         ["asset", "attack-asset"],
         ["condition", "attack-condition"],
-        ["or", "attack-operator"],
-        ["and", "attack-operator"],
+        ["OR_operator", "attack-operator"],
+        ["AND_operator", "attack-operator"],
         ["email_address", "email-addr"]
     ]);
 
@@ -205,7 +205,7 @@ class AttackFlowPublisher implements FilePublisher {
                     // Fall through
                 default:
                     if (prop.isDefined()) {
-                        node[key] = prop.toJson();
+                        node[key] = this.toStixValue(prop);
                     }
             }
 
@@ -231,7 +231,7 @@ class AttackFlowPublisher implements FilePublisher {
             if(prop instanceof DictionaryProperty) {
                 throw new Error("Basic dictionaries cannot contain dictionaries.");
             } else if(prop instanceof EnumProperty) {
-                const value = prop.toJson()!;
+                const value = this.toStixValue(prop)!;
                 if (["true", "false"].includes(value.toString())) {
                     // case(BoolEnum)
                     node[key] = value === "true";
@@ -250,10 +250,10 @@ class AttackFlowPublisher implements FilePublisher {
                 node[key] = prop.toString().trim();
             } else {
                 if (node.type === "mac-addr") {
-                    node[key] = prop.toJson()!.toString().toLowerCase();
+                    node[key] = this.toStixValue(prop)!.toString().toLowerCase();
                     break;
                 }
-                node[key] = prop.toJson();
+                node[key] = this.toStixValue(prop);
             }
         }
     }
@@ -284,7 +284,7 @@ class AttackFlowPublisher implements FilePublisher {
                 // Remove trailing whitespace on StringProperties
                 node[key].push(prop.toString().trim());
             } else {
-                node[key].push(prop.toJson());
+                node[key].push(this.toStixValue(prop));
             }
         }
     }
@@ -304,7 +304,7 @@ class AttackFlowPublisher implements FilePublisher {
                 const hashList = [];
                 for (const prop of property.value.values()) {
                     if(prop instanceof DictionaryProperty && prop.isDefined()) {
-                        hashList.push(prop.toJson());
+                        hashList.push(this.toStixValue(prop));
                     }
                 }
                 if (hashList.length > 0) {
@@ -713,7 +713,7 @@ class AttackFlowPublisher implements FilePublisher {
                             throw new Error(`'${key}' is improperly defined.`);
                         }
                         const entries = Object
-                            .entries(ref.toJson())
+                            .entries(this.toStixValue(ref))
                             .filter(o => o[1] !== null);
                         extRefs.push(Object.fromEntries(entries));
                     }
@@ -728,11 +728,11 @@ class AttackFlowPublisher implements FilePublisher {
                     if (!prop.isDefined()) {
                         break;
                     }
-                    flow[key] = prop.toJson();
+                    flow[key] = this.toStixValue(prop);
                     break;
                 default:
                     if (prop.isDefined()) {
-                        flow[key] = prop.toJson();
+                        flow[key] = this.toStixValue(prop);
                     }
                     break;
             }
@@ -971,6 +971,19 @@ class AttackFlowPublisher implements FilePublisher {
         return subproperties;
     }
 
+    /**
+     * Convert a property's value into an appropriate STIX representation.
+     * @param prop
+     * @returns
+     *  A STIX-formatted JSON property
+     */
+    public toStixValue(prop: Property) {
+        if (prop instanceof DateProperty) {
+            return prop.toUtcIso()
+        } else {
+            return prop.toJson();
+        }
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     //  6. File Extension  ////////////////////////////////////////////////////

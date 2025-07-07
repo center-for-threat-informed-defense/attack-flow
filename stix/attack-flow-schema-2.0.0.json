@@ -143,6 +143,7 @@
                         "campaign",
                         "threat-actor",
                         "malware",
+                        "emulation-plan",
                         "attack-tree",
                         "other"
                     ]

@@ -151,6 +151,19 @@ export class DateProperty extends Property {
     }
 
     /**
+     * Convert the property value to an ISO string in UTC.
+     * @returns
+     *  An ISO date string in UTC.
+     */
+    public toUtcIso(): string | null {
+        if(this._time === null) {
+            return null
+        } else {
+            return this._time.toUTC().toISO();
+        }
+    }
+
+    /**
      * Returns the property as a string.
      * @returns
      *  The property as a string.
