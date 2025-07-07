@@ -8,6 +8,7 @@ import {
 } from "@OpenChart/DiagramModel";
 import type { GraphExport } from "@OpenChart/DiagramModel";
 import type { FilePublisher } from "@/assets/scripts/Application";
+import Enums from "../AttackFlowTemplates/MitreAttack";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -190,6 +191,21 @@ class AttackFlowPublisher implements FilePublisher {
     private mergeActionProperty(node: Sdo, property: DictionaryProperty) {
         for (let [key, prop] of property.value) {
             switch (key) {
+                case "ttp":
+                    const json = prop.toJson();
+                    if ("tactic" in json) {
+                        node["tactic_id"] = json.tactic;
+                        if (json.tactic in Enums.stixIds) {
+                            node["tactic_ref"] = Enums.stixIds[json.tactic];
+                        }
+                    }
+                    if ("technique" in json) {
+                        node["technique_id"] = json.technique;
+                        if (json.technique in Enums.stixIds) {
+                            node["technique_ref"] = Enums.stixIds[json.technique];
+                        }
+                    }
+                    break;
                 case "confidence":
                     if (!(prop instanceof EnumProperty)) {
                         throw new Error("'confidence' is improperly defined.");

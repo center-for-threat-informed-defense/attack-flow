@@ -34,16 +34,16 @@ const JS_VAR_REGEX = /^[a-z_$][a-z0-9_$]*$/i;
  * @param {string} path
  *  The enum file's path.
  * @param  {...string} urls
- *  A list of STIX manifests specified by url. 
+ *  A list of STIX manifests specified by url.
  */
 async function updateApplicationAttackEnums(path, ...urls) {
     path = resolve(dirname(fileURLToPath(import.meta.url)), path);
-    
+
     // Validate export key
     if(!JS_VAR_REGEX.test(EXPORT_KEY)) {
         throw new Error(`Export key '${ EXPORT_KEY }' is not a valid variable name.`);
     }
-    
+
     // Collect data
     const types = await fetchAttackData(...urls);
 
@@ -52,6 +52,7 @@ async function updateApplicationAttackEnums(path, ...urls) {
     // Organize tactics and relationships
     const tactics = [];
     const relationships = [];
+    const stixIds = {};
     for(const tact of types.get("tactic")) {
         if(tact.deprecated) {
             continue;
@@ -62,11 +63,12 @@ async function updateApplicationAttackEnums(path, ...urls) {
         ).join(", ");
         // Format tactic
         tactics.push([
-            tact.id, `[${matrix}] ${tact.id}: ${tact.name}`
+            tact.id, `[${matrix}] ${tact.id} ${tact.name}`
         ]);
         for(const tech of tact.techniques) {
             relationships.push(["tactic", tact.id, "technique", tech.id]);
         }
+        stixIds[tact.id] = tact.stixId;
     }
     tactics.sort(([a],[b]) => a.localeCompare(b));
 
@@ -76,14 +78,18 @@ async function updateApplicationAttackEnums(path, ...urls) {
         if(tech.deprecated) {
             continue;
         }
-        techniques.push([tech.id, `${tech.id}: ${tech.name}`]);
+        const matrix = tech.domains.map(
+            o => o.substring(0,3).toLocaleUpperCase()
+        ).join(", ");
+        techniques.push([tech.id, `[${matrix}] ${tech.id} ${tech.name}`]);
+        stixIds[tech.id] = tech.stixId;
     }
     techniques.sort(([a],[b]) => a.localeCompare(b));
 
     // Generate enums file
     let file = "";
     file += `export const ${ EXPORT_KEY } = `;
-    file += JSON.stringify({ tactics, techniques, relationships });
+    file += JSON.stringify({ tactics, techniques, relationships, stixIds });
     file += `;\n\nexport default ${ EXPORT_KEY };\n`
     writeFileSync(path, file);
 
