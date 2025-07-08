@@ -22,10 +22,10 @@ slug = slugify(project)
 googleanalytics_id= "G-G4TFP56139" # find google analytics id from old analytics_id variable
 
 
-copyright = "2022, Center for Threat-Informed Defense"
+copyright = "2025, Center for Threat-Informed Defense"
 author = "Center for Threat-Informed Defense"
-copyright_years = "2024"
-prs_numbers = "CT0122"
+copyright_years = "2025"
+prs_numbers = "CT0122, 25-2036"
 
 # The full version, including alpha/beta/rc tags
 version = "v3.0.0"
