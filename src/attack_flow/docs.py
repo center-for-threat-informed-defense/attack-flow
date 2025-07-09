@@ -311,8 +311,12 @@ def generate_example_flows(jsons, afds):
         doc_lines.append("")
         doc_lines.append(".. raw:: html")
         doc_lines.append("")
-        doc_lines.append(f'    <p><em>Open:</em> <a href="../ui/?src={open_link}" target="_blank">Attack Flow Builder</a></p>')
-        doc_lines.append(f'    <p><em>Download:</em> <a href="../corpus/{quoted_stem}.afb" download>Attack Flow</a> | <a href="../corpus/{quoted_stem}.json" download>STIX</a> | <a href="../corpus/{quoted_stem}.dot" download>GraphViz</a> (<a href="../corpus/{quoted_stem}.dot.png">PNG</a>) | <a href="../corpus/{quoted_stem}.mmd" download>Mermaid</a></p>')
+        doc_lines.append(
+            f'    <p><em>Open:</em> <a href="../ui/?src={open_link}" target="_blank">Attack Flow Builder</a></p>'
+        )
+        doc_lines.append(
+            f'    <p><em>Download:</em> <a href="../corpus/{quoted_stem}.afb" download>Attack Flow</a> | <a href="../corpus/{quoted_stem}.json" download>STIX</a> | <a href="../corpus/{quoted_stem}.dot" download>GraphViz</a> (<a href="../corpus/{quoted_stem}.dot.png">PNG</a>) | <a href="../corpus/{quoted_stem}.mmd" download>Mermaid</a></p>'
+        )
         doc_lines.append("")
         doc_lines.append("----")
         doc_lines.append("")
