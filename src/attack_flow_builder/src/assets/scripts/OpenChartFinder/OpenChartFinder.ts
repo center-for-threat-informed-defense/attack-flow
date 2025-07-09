@@ -2,7 +2,8 @@ import { unsignedMod } from "@OpenChart/Utilities";
 import {
     Block, DateProperty, DiagramObject, DictionaryProperty,
     EnumProperty, FloatProperty, IntProperty, ListProperty,
-    Property, RootProperty, StringProperty, traverse
+    Property, RootProperty, StringProperty, traverse,
+    TupleProperty
 } from "@OpenChart/DiagramModel";
 import type { SearchResult } from "./SearchResult";
 import type { DiagramModelEditor } from "@OpenChart/DiagramEditor/index.model";
@@ -164,6 +165,8 @@ export class OpenChartFinder<
             case ListProperty.name:
                 // Falls through
             case RootProperty.name:
+                // Falls through
+            case TupleProperty.name:
                 // Falls through
             case DictionaryProperty.name:
                 for (const p of (property as DictionaryProperty).value.values()) {
