@@ -1,5 +1,6 @@
 from pathlib import Path
 import pytest
+import os
 
 from attack_flow.docs import (
     generate_example_flows,
@@ -379,31 +380,36 @@ def test_human_name():
 def test_generate_example_flows():
     jsons = [Path("tests/fixtures/flow1.json"), Path("tests/fixtures/flow2.json")]
     afds = [Path("tests/fixtures/flow1.afd")]
+    os.environ["DOCS_BASE_URL"] = "https://foo.com/bar/"
     result = generate_example_flows(jsons, afds)
     assert result == [
-        ".. list-table::",
-        "  :widths: 30 20 50",
-        "  :header-rows: 1",
+        "----",
         "",
-        "  * - Report",
-        "    - Authors",
-        "    - Description",
-        "  * - **Test Flow 1**",
+        "**Test Flow 1**",
         "",
-        "      .. raw:: html",
+        "*Author:* John Doe",
         "",
-        '        <p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2fflow1.afb"></i>Attack Flow Builder</a></p>',
-        '        <p><em>Download:</em> <a href="../corpus/flow1.json" download>JSON</a> | <a href="../corpus/flow1.dot">GraphViz</a> (<a href="../corpus/flow1.dot.png">PNG</a>) | <a href="../corpus/flow1.mmd">Mermaid</a>',
-        "    - John Doe",
-        "    - Test flow 1 is used for unit tests.",
+        "*Description:* Test flow 1 is used for unit tests.",
         "",
-        "  * - **Test Flow 2**",
+        ".. raw:: html",
         "",
-        "      .. raw:: html",
+        '    <p><em>Open:</em> <a href="../ui/?src=https%3A//foo.com/bar/corpus/flow1.afb" target="_blank">Attack Flow Builder</a></p>',
+        '    <p><em>Download:</em> <a href="../corpus/flow1.afb" download>Attack Flow</a> | <a href="../corpus/flow1.json" download>STIX</a> | <a href="../corpus/flow1.dot" download>GraphViz</a> (<a href="../corpus/flow1.dot.png">PNG</a>) | <a href="../corpus/flow1.mmd" download>Mermaid</a></p>',
         "",
-        '        <p><em>Download:</em> <a href="../corpus/flow2.json" download>JSON</a> | <a href="../corpus/flow2.dot">GraphViz</a> (<a href="../corpus/flow2.dot.png">PNG</a>) | <a href="../corpus/flow2.mmd">Mermaid</a>',
-        "    - Jane Doe",
-        "    - Test flow 2 is used for unit tests.",
+        "----",
+        "",
+        "**Test Flow 2**",
+        "",
+        "*Author:* Jane Doe",
+        "",
+        "*Description:* Test flow 2 is used for unit tests.",
+        "",
+        ".. raw:: html",
+        "",
+        '    <p><em>Open:</em> <a href="../ui/?src=https%3A//foo.com/bar/corpus/flow2.afb" target="_blank">Attack Flow Builder</a></p>',
+        '    <p><em>Download:</em> <a href="../corpus/flow2.afb" download>Attack Flow</a> | <a href="../corpus/flow2.json" download>STIX</a> | <a href="../corpus/flow2.dot" download>GraphViz</a> (<a href="../corpus/flow2.dot.png">PNG</a>) | <a href="../corpus/flow2.mmd" download>Mermaid</a></p>',
+        "",
+        "----",
         "",
         "",
     ]
