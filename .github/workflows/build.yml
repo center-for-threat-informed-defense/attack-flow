@@ -188,6 +188,8 @@ jobs:
       - name: Validate Corpus
         run: poetry run make validate
       - name: Copy corpus into docs
+        env:
+          DOCS_BASE_URL: "${{ github.ref == 'refs/heads/main' && 'https://center-for-threat-informed-defense.github.io/attack-flow/' || format('https://ctidflow.z13.web.core.windows.net/{0}/', github.head_ref || github.ref_name) }}"
         run: poetry run make docs-examples
       - name: Copy matrix-viz code into docs
         run: poetry run make docs-matrix

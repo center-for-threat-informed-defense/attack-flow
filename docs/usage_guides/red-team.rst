@@ -124,11 +124,15 @@ Next, let's look at the `"Turla - Snake Emulation Plan .YML File" <https://githu
 The emulation plan, created by the ATT&CK® Evaluations team, was used during Day 2 of the ATT&CK evaluations Round 5.
 This scenario focuses on Snake, a rootkit used to compromise computers and exfiltrate data. *If you have your own plans, you can convert them to STIX and import into Attack Flow.*
 
-For detailed information on the scenario to run, you can find the technical setup and commands `here <https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/Snake_Scenario/Snake_Detections_Scenario.md>`_
+For detailed information on the scenario to run, you can find the technical
+setup and commands `here
+<https://github.com/center-for-threat-informed-defense/adversary_emulation_library/blob/master/turla/Emulation_Plan/Snake_Scenario/Snake_Detections_Scenario.md>`__
 
 *Building the Attack Flow from the Plan*
 
-For example, the Turla (Snake) is publicy available via the adversary emulation library and has already been converted to a flow diagram, here: `here <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_
+For example, the Turla (Snake) is publicy available via the adversary emulation
+library and has already been converted to a flow diagram, here: `here
+<https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`__
 
 At a high level, we can observe the total count of each technique in the plan:
 

@@ -6,10 +6,11 @@ from collections import OrderedDict
 from datetime import datetime
 import json
 import operator
+import os
 import re
 import string
 import textwrap
-from urllib.parse import quote
+from urllib.parse import quote, urljoin
 
 from attack_flow.model import get_flow_object, load_attack_flow_bundle
 
@@ -278,8 +279,6 @@ def generate_example_flows(jsons, afds):
     :param set[Path] afd: set of .afd file paths
     :rtype: List[str]
     """
-    afd_stems = {p.stem for p in afds}
-
     reports = list()
     for path in jsons:
         flow_bundle = load_attack_flow_bundle(path)
@@ -298,37 +297,24 @@ def generate_example_flows(jsons, afds):
             )
         )
 
-    doc_lines = [
-        ".. list-table::",
-        "  :widths: 30 20 50",
-        "  :header-rows: 1",
-        "",
-        "  * - Report",
-        "    - Authors",
-        "    - Description",
-    ]
+    doc_lines = ["----", ""]
 
     for report in sorted(reports, key=operator.itemgetter(1)):
         stem, name, author, description = report
-        formats = []
         quoted_stem = quote(stem)
-        if stem in afd_stems:
-            formats.append(
-                f'<p><em>Open:</em> <a target="_blank" href="../ui/?src=..%2fcorpus%2f{quoted_stem}.afb"></i>Attack Flow Builder</a></p>'
-            )
-        formats.append(
-            f'<p><em>Download:</em> <a href="../corpus/{quoted_stem}.json" download>JSON</a> | '
-            f'<a href="../corpus/{quoted_stem}.dot">GraphViz</a> (<a href="../corpus/{quoted_stem}.dot.png">PNG</a>) | '
-            f'<a href="../corpus/{quoted_stem}.mmd">Mermaid</a>'
-        )
-        doc_lines.append(f"  * - **{name}**")
+        open_link = quote(urljoin(os.environ["DOCS_BASE_URL"], f"./corpus/{stem}.afb"))
+        doc_lines.append(f"**{name}**")
         doc_lines.append("")
-        doc_lines.append("      .. raw:: html")
+        doc_lines.append(f"*Author:* {author}")
         doc_lines.append("")
-        for f in formats:
-            doc_lines.append(f"        {f}")
-        doc_lines.append(f"    - {author}")
-        doc_lines.append(f"    - {description}")
+        doc_lines.append(f"*Description:* {description}")
+        doc_lines.append("")
+        doc_lines.append(".. raw:: html")
+        doc_lines.append("")
+        doc_lines.append(f'    <p><em>Open:</em> <a href="../ui/?src={open_link}" target="_blank">Attack Flow Builder</a></p>')
+        doc_lines.append(f'    <p><em>Download:</em> <a href="../corpus/{quoted_stem}.afb" download>Attack Flow</a> | <a href="../corpus/{quoted_stem}.json" download>STIX</a> | <a href="../corpus/{quoted_stem}.dot" download>GraphViz</a> (<a href="../corpus/{quoted_stem}.dot.png">PNG</a>) | <a href="../corpus/{quoted_stem}.mmd" download>Mermaid</a></p>')
+        doc_lines.append("")
+        doc_lines.append("----")
         doc_lines.append("")
 
     doc_lines.append("")
