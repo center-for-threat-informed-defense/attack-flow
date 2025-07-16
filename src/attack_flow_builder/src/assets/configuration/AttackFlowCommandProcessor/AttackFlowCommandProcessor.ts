@@ -93,7 +93,7 @@ export class AttackFlowCommandProcessor implements SynchronousCommandProcessor {
         if(tactText === undefined) {
             return null;
         }
-        return tactText.split(/TA?\d+/)[1].trim();
+        return tactText.split(/TA\d+/)[1].trim();
     }
 
     /**
@@ -120,7 +120,7 @@ export class AttackFlowCommandProcessor implements SynchronousCommandProcessor {
         if(techText === undefined) {
             return null;
         }
-        return techText.split(/TA?\d+/)[1].trim();
+        return techText.split(/T\d+(?:\.\d+)?/)[1].trim();
     }
 
     /**
