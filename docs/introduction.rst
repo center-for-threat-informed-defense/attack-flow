@@ -91,7 +91,7 @@ Operator Objects
 ----------------
 
 After a flow splits into parallel attack paths, **operators** combine them back
-together. An OR operator means that only of the incoming attack paths needs to succeed
+together. An OR operator means that only one of the incoming attack paths needs to succeed
 in order to continue the flow, while an AND operator means that all of the incoming
 attack paths must succeed in order to continue. The next example shows that the
 adversary has two different techniques for pivoting into a different user account. If
@@ -117,15 +117,15 @@ is at that point in the flow.
    A condition object clarifies how the actions before the operator are related to
    the action after the operator.
 
-Perhap the reader does not understand the consequences of dumping LSASS memory or how it
+Perhaps the reader does not understand the consequences of dumping LSASS memory or how it
 relates to the actions that come afterward. The condition clarifies that the adversary
 is now able to pivot into a different user account.
 
 .. warning::
 
-   It is possible to join paths together without using an operator by simplying pointing
+   It is possible to join paths together without using an operator by simply pointing
    two arrows at a single action or condition. This approach is ambiguous because it's
-   not clear how the sucess or failure of those paths affects the outcome of the flow,
+   not clear how the success or failure of those paths affects the outcome of the flow,
    but ambiguity may be appropriate in some circumstances, e.g. if the underlying CTI is
    itself ambiguous.
 
@@ -189,7 +189,7 @@ In this example, the adversary attempts to steal a targeted user's credentials v
 spearphishing. Since this technique relies evading email filtering and tricking users,
 it is inherently unreliable. The condition object after spearphishing shows a decision
 point for the adversary: if they obtained a credential then they can move on to logging
-in with it. But if the spearphshing fails, then the adversary falls back to a password
+in with it. But if the spearphishing fails, then the adversary falls back to a password
 spraying technique in another attempt to obtain a valid credential.
 
 Additional STIX Objects
