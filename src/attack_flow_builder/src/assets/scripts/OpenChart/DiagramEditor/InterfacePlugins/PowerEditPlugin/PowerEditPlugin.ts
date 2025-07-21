@@ -384,7 +384,11 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
             execute(EditorCommands.unselectAllObjects(this.editor));
         }
         if (obj) {
-            execute(EditorCommands.selectObject(this.editor, obj));
+            if (obj.focused && multiSelect) {
+                execute(EditorCommands.unselectObject(this.editor, obj));
+            } else {
+                execute(EditorCommands.selectObject(this.editor, obj));
+            }
         }
     }
 
