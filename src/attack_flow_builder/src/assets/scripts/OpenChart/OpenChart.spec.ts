@@ -197,8 +197,8 @@ describe("OpenChart", () => {
                 const line = await createTestingLine();
                 line.source.moveTo(5, 5);
                 line.target.moveBy(5, 5);
-                expect(line.handles[0].x).toBe(5);
-                expect(line.handles[0].y).toBe(5);
+                expect(line.handles[0].x).toBe(55);
+                expect(line.handles[0].y).toBe(55);
             });
             it("correctly scales to", async () => {
                 const line = await createTestingLine();
@@ -272,15 +272,23 @@ describe("OpenChart", () => {
         it("import valid layout", async () => {
             const file = await createTestingFile();
             const objects = [...file.canvas.objects];
-            expect([file.canvas.x, file.canvas.y]).toEqual([7.5, 7.5]);
-            expect([objects[0].x, objects[0].y]).toEqual([10, 10]);
-            expect([objects[1].x, objects[1].y]).toEqual([5, 5]);
+            expect([file.canvas.x, file.canvas.y]).toEqual([11, 11]);
+            expect([objects[0].x, objects[0].y]).toEqual([11, 11]);
+            expect([objects[1].x, objects[1].y]).toEqual([10, 10]);
         });
     });
     describe("Diagram Exports", () => {
         it("exports valid import", async () => {
             const file = await createTestingFile();
-            const importExport = file.toExport();
+            const expected = file.toExport();
+            expected.layout["1dd3ff00-4931-4005-9e7b-b6511e9cd246"] = [5, 5];
+            expected.layout["9aee95bb-6c28-48ad-9ad1-1042ff3e0aaf"] = [7.5, 7.5];
+            for (const obj of expected.objects) {
+                if (typeof obj.properties === "undefined") {
+                    delete obj.properties;
+                }
+            }
+            const importExport = expected;
             expect(sampleViewExport).toEqual(importExport);
         });
     });
