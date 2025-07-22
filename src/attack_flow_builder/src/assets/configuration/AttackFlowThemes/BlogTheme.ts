@@ -1,5 +1,5 @@
 import { StixObjects, StixObservables } from "../AttackFlowTemplates";
-import { BlogStyle, Colors, DarkStyle } from "@OpenChart/ThemeLoader";
+import { BlogStyle, Colors } from "@OpenChart/ThemeLoader";
 import { Alignment, FaceType, Orientation } from "@OpenChart/DiagramView";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 

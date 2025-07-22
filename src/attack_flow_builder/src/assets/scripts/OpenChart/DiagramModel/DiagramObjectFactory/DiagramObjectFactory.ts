@@ -569,7 +569,7 @@ export class DiagramObjectFactory {
         // Create property
         const meta = descriptor.metadata;
         const editable = descriptor.is_editable ?? true;
-        let min, max, suggestions, options;
+        let min, max, options;
         switch (descriptor.type) {
 
             // Int property

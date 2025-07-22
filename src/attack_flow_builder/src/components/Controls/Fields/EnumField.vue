@@ -7,7 +7,7 @@
     @focusout="onFocusOut"
   >
     <div class="options-container">
-      <OptionsList 
+      <OptionsList
         ref="optionsList"
         class="options-list"
         :option="select"
@@ -19,14 +19,14 @@
       />
     </div>
     <div class="value-container">
-      <div 
+      <div
         :class="['value-text', { 'is-null': isNull }]"
         v-show="!showSearch"
       >
         {{ selectText }}
       </div>
-      <input 
-        type="text" 
+      <input
+        type="text"
         ref="search"
         class="value-search"
         placeholder="Search"
@@ -95,7 +95,7 @@ export default defineComponent({
     isNull(): boolean {
       return this.property.toJson() === null;
     },
-    
+
     /**
      * Returns the enum's options.
      * @returns
@@ -204,6 +204,7 @@ export default defineComponent({
         this.select = null;
       }
       // Focus selection
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const optionsList = this.$refs.optionsList as any;
       if(optionsList.flip) {
         optionsList?.bringItemIntoFocus(this.select, "bottom");
@@ -223,6 +224,7 @@ export default defineComponent({
         return;
       }
       const options = this.options;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const optionsList = this.$refs.optionsList as any;
       let idx = options.findIndex(o => o.value === this.select);
       switch(event.key) {
@@ -280,7 +282,7 @@ export default defineComponent({
     refreshValue() {
       this.select = this.property.toJson()
     }
-    
+
   },
   watch: {
     "property"() {

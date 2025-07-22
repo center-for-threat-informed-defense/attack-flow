@@ -179,6 +179,7 @@ export interface BaseStixDomainObject<
      * described in section 7.3. When this extension facility is used the
      * extension_type property MUST be present.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     extensions?: { [key: string]: any };
 
 }

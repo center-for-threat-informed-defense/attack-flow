@@ -1,6 +1,6 @@
 import { ObjectRecommender } from "./ObjectRecommender";
 import { DiagramObjectType } from "@OpenChart/DiagramModel";
-import { FaceType, type DiagramObjectView, type DiagramObjectViewFactory, type DictionaryBlockStyle, type TextBlockStyle } from "@OpenChart/DiagramView";
+import { FaceType, type DiagramObjectView, type DiagramObjectViewFactory } from "@OpenChart/DiagramView";
 import type { DiagramViewEditor } from "../DiagramViewEditor";
 import type { ObjectRecommendation } from "./ObjectRecommendation";
 import type { ObjectRecommendations } from "./ObjectRecommendations";
@@ -56,7 +56,7 @@ export class BasicRecommender extends ObjectRecommender {
      * @returns
      *  A Promise that resolves with the recommendations.
      */
-    public async getRecommendations(search: string): Promise<ObjectRecommendations> {
+    public async getRecommendations(_search: string): Promise<ObjectRecommendations> {
         return {
             items: this.recommendations
         };

@@ -1,3 +1,4 @@
+import type { LegacyV2PageExport } from "@/assets/configuration/AttackFlowFilePreprocessor/FileDefinitions/LegacyV2";
 import type { DiagramViewExport } from "../../OpenChart/DiagramView";
 
 export interface FilePreprocessor {
@@ -10,6 +11,6 @@ export interface FilePreprocessor {
      * @returns
      *  The processed {@link DiagramViewExport}.
      */
-    process(file: any): DiagramViewExport;
+    process(file: LegacyV2PageExport | DiagramViewExport): DiagramViewExport;
 
 }

@@ -41,11 +41,8 @@ export class BoxTree {
      *  The box tree's nodes.
      */
     private buildBoxTree(nodes: GraphNode[]) {
-        const visitedEdges = new Set<string>();
         const unvisitedNodes = new Map(nodes.map(o => [o.id, o]));
         // Build layout segments
-        const segmentRoots = nodes.filter(o => o.inDegree !== 1);
-
 
         while (unvisitedNodes.size) {
             // Select node with smallest in-degree
@@ -61,7 +58,7 @@ export class BoxTree {
      *
      * @param node
      */
-    private buildLayoutSegment(node: GraphNode) {
+    private buildLayoutSegment(_node: GraphNode) {
 
     }
 

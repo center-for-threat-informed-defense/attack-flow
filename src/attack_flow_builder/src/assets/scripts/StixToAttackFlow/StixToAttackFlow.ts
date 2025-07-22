@@ -5,7 +5,6 @@ import { DiagramObjectSerializer } from "@OpenChart/DiagramModel";
 import { resolveEmbeddedRelationships } from "./ResolveEmbeddedRelationships";
 import { Canvas, Block, DiagramObject, Line } from "../OpenChart/DiagramModel/DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
-import type { DiagramViewExport } from "@OpenChart/DiagramView";
 import type { StixBundle, StixObject } from "./StixTypes";
 import type { DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
 
@@ -46,7 +45,7 @@ export class StixToAttackFlowConverter {
 
         // Randomize node positions
 
-        for (const o of nodes) {
+        for (const _o of nodes) {
             // const x = Math.floor(Math.random() * 10000);
             // const y = Math.floor(Math.random() * 10000);
             // o.object.moveTo(x, y);
@@ -237,4 +236,3 @@ export class StixToAttackFlowConverter {
 
 
 }
-

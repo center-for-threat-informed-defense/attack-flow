@@ -24,7 +24,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
      * @returns
      *  The processed {@link DiagramViewExport}.
      */
-    public process(file: any): DiagramViewExport {
+    public process(file: LegacyV2PageExport | DiagramViewExport): DiagramViewExport {
         // Migrate file format
         return this.migrate(file);
     }
@@ -36,7 +36,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
      * @returns
      *  The migrated {@link DiagramObjectExport}.
      */
-    public migrate(file: any): DiagramViewExport {
+    public migrate(file: LegacyV2PageExport | DiagramViewExport): DiagramViewExport {
         // If file contains 'version', it's likely an Attack Flow v2 file
         if ("version" in file) {
             // Migrate file

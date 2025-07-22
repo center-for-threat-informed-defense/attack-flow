@@ -1,6 +1,5 @@
 import { titleCase } from "@OpenChart/Utilities";
 import type { JsonValue } from "./JsonTypes";
-import type { DiagramObject } from "../DiagramObject";
 import type { PropertyOptions } from "./PropertyOptions";
 import type { PropertyMetadata } from "./PropertyMetadata";
 

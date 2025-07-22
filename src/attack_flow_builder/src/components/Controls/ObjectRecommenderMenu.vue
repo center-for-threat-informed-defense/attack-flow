@@ -77,11 +77,10 @@ export default defineComponent({
      */
     onKeyDown(event: KeyboardEvent) {
       // Cast scrollbox
-      const scrollbox = this.$refs.scrollbox as { 
+      const scrollbox = this.$refs.scrollbox as {
         shiftSelection(delta: number): void
       }
       // Update window
-      let index: number
       switch(event.key) {
         case "ArrowUp":
           event.preventDefault();
@@ -116,7 +115,7 @@ export default defineComponent({
     },
 
     /**
-     * Updates the list of recommendations. 
+     * Updates the list of recommendations.
      */
     async updateRecommendations() {
       // Get recommendations

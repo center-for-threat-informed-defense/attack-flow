@@ -22,6 +22,7 @@ export type LegacyV2PageExport = {
      *  Since version 2.1.0. Schemas now rest solely with the application and
      *  are no longer exported with each file.
      */
+    // eslint-disable-next-line
     schema?: any;
 
     /**

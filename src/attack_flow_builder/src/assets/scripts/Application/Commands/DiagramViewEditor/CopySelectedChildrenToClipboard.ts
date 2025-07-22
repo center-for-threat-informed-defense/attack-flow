@@ -56,9 +56,7 @@ export class CopySelectedChildrenToClipboard extends AppCommand {
         // Convert image to PNG blob
         const pngBlob = await new Promise<Blob>((res, rej) => {
             try {
-                canvas.toBlob((blob) => {
-                    blob ? res(blob) : rej(new Error("Unable to create blob."));
-                }, "image/png");
+                canvas.toBlob((blob) => blob ? res(blob) : rej(new Error("Unable to create blob.")), "image/png");
             } catch (err) {
                 rej(err);
             }

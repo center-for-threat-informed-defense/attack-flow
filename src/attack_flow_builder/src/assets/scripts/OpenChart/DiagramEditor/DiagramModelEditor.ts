@@ -340,7 +340,7 @@ export class DiagramModelEditor<
      *  The objects to reindex specified by id.
      */
     public reindexFile(ids: Set<string>): void;
-    public reindexFile(ids?: Set<string>) {
+    public reindexFile(_ids?: Set<string>) {
         // Collect objects
         // const objects = []
         // if(ids) {
@@ -376,7 +376,7 @@ export class DiagramModelEditor<
      * @returns
      *  All objects that match the search term.
      */
-    public search(searchTerm: string): Set<string> {
+    public search(_searchTerm: string): Set<string> {
         const results = new Set<string>();
         // const resultDict = this._searchIndex.search(searchTerm);
         // console.log(resultDict);

@@ -11,7 +11,8 @@ export class ListProperty extends CollectionProperty {
     /**
      * The list property's type.
      */
-    public readonly type: Function;
+
+    public readonly type: string;
 
 
     /**
@@ -22,7 +23,7 @@ export class ListProperty extends CollectionProperty {
     constructor(options: ListPropertyOptions) {
         super(options);
         this.template = options.template;
-        this.type = this.template.constructor;
+        this.type = this.template.constructor.name;
     }
 
 

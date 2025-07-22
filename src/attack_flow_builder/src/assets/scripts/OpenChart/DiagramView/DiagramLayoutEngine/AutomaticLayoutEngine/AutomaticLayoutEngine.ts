@@ -274,7 +274,7 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
             });
         }
 
-        components.forEach((component, componentId) => {
+        components.forEach((component, _componentId) => {
             const componentRoots: DiagramObjectView[] = [];
             component.forEach(node => {
                 const info = nodeInfo.get(node)!;

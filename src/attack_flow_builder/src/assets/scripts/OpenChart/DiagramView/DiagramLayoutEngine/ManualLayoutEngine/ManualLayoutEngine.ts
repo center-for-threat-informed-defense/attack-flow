@@ -1,4 +1,4 @@
-import { Group, Handle, Latch, traverse } from "@OpenChart/DiagramModel";
+import { Handle, traverse } from "@OpenChart/DiagramModel";
 import type { PositionMap } from "./PositionMap";
 import { PositionSetByUser, type DiagramObjectView } from "../../DiagramObjectView";
 import type { DiagramLayoutEngine } from "../DiagramLayoutEngine";

@@ -3,7 +3,7 @@
     <li class="icon">
       <slot name="icon" />
     </li>
-    <li 
+    <li
       v-for="menu of menus"
       :key="menu.text"
       :class="{ active: isActive(menu) }"
@@ -11,14 +11,14 @@
       @mouseenter="menuEnter(menu.text)"
     >
       <p>{{ menu.text }}</p>
-      <ContextMenuListing 
+      <ContextMenuListing
         class="menu-listing"
         :sections="menu.sections"
         @select="menuSelect"
         v-if="isActive(menu)"
       />
     </li>
-  </div> 
+  </div>
 </template>
 
 <script lang="ts">
@@ -59,7 +59,7 @@ export default defineComponent({
     isActive(menu: ContextMenuSubmenu<CommandEmitter>): boolean {
       return menu.text === this.activeMenu;
     },
-    
+
     /**
      * Menu selection behavior.
      * @param id
@@ -92,6 +92,7 @@ export default defineComponent({
      * @param data
      *  The menu item's data.
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     menuSelect(data: any) {
       this.$emit("select", data);
     }

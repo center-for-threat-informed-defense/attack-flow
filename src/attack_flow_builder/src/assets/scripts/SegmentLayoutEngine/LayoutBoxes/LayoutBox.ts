@@ -35,7 +35,7 @@ export class LayoutBox {
      * @param elements
      *  The box's elements.
      */
-    constructor(...elements: (LayoutBox | GraphNode)[]) {
+    constructor(..._elements: (LayoutBox | GraphNode)[]) {
         this.parent = null;
         this._elements = [];
     }

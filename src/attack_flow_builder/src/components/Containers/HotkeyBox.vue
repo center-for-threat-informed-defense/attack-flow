@@ -38,6 +38,7 @@ export default defineComponent({
   },
   props: {
     hotkeys: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       type: Array as PropType<Hotkey<any>[]>,
       default: () => [],
     },
@@ -48,6 +49,7 @@ export default defineComponent({
   },
   data() {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       observer: new HotkeyObserver((emitter?: any) => this.$emit("fire", emitter), reactive)
     };
   },

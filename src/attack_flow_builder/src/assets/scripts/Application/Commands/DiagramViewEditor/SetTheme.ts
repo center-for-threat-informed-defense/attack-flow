@@ -1,4 +1,3 @@
-import { traverse } from "@OpenChart/DiagramModel";
 import { AppCommand } from "../AppCommand";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
 

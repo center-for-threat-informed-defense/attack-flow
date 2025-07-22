@@ -1,6 +1,6 @@
 import { BoundingBox } from "@OpenChart/DiagramView";
 import type { MarqueeStyle } from "./MarqueeStyle";
-import type { RenderSettings, ViewportRegion } from "@OpenChart/DiagramView";
+import type { ViewportRegion } from "@OpenChart/DiagramView";
 import type { DiagramInterfaceMarkup } from "@OpenChart/DiagramInterface";
 import { round } from "@/assets/scripts/OpenChart/Utilities";
 

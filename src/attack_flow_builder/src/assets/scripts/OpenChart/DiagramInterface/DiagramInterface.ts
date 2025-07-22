@@ -101,7 +101,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
     /**
      * The interface's plugins.
      */
-    private readonly plugins: Map<Function, DiagramInterfacePlugin>;
+    private readonly plugins: Map<string, DiagramInterfacePlugin>;
 
     /**
      * The interface's active plugin.
@@ -429,7 +429,7 @@ export class DiagramInterface extends EventEmitter<DiagramInterfaceEvents> {
     public installPlugin(...plugins: DiagramInterfacePlugin[]) {
         for (const plugin of plugins) {
             // Register plugin
-            this.plugins.set(plugin.constructor, plugin);
+            this.plugins.set(plugin.constructor.name, plugin);
         }
     }
 

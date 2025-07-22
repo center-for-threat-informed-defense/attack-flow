@@ -1,6 +1,5 @@
 import { round } from "@OpenChart/Utilities";
 import type { Font } from "@OpenChart/Utilities";
-import type { DrawTextInstruction } from "./DrawTextInstruction";
 import type { DrawTextInstructionSet } from "./DrawTextInstructionSet";
 
 /**
@@ -34,10 +33,8 @@ export function addTextCell(
     cellHeight: number,
     alignTop: boolean
 ): number {
-    let fontInstructions: DrawTextInstruction[];
-
     // Get text instructions
-    fontInstructions = instructions.getInstructionsWithFont(
+    const fontInstructions = instructions.getInstructionsWithFont(
         textFont, textColor
     );
 
@@ -88,10 +85,8 @@ export function addStackedTextCells(
     textColor: string,
     cellHeight: number
 ): number {
-    let fontInstructions: DrawTextInstruction[];
-
     // Get text instructions
-    fontInstructions = instructions.getInstructionsWithFont(
+    const fontInstructions = instructions.getInstructionsWithFont(
         textFont, textColor
     );
 
