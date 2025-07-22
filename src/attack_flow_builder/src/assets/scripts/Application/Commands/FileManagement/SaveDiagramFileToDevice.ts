@@ -20,7 +20,10 @@ export class SaveDiagramFileToDevice extends GroupCommand {
         // Serialize file
         const json = JSON.stringify(file, null, 4);
         // Save file
-        this.add(new SaveFileToDevice(editor.name, Configuration.file_type_extension, json));
+        const nameProperty = editor.file?.canvas.properties.value.get("name");
+        const fileName = nameProperty ? nameProperty.toString() : "Untitled Document";
+        //  ?? "Untitled Document";
+        this.add(new SaveFileToDevice(fileName, Configuration.file_type_extension, json));
         this.add(new RemoveFileFromRecoveryBank(context, editor.id));
     }
 
