@@ -43,6 +43,6 @@ export type LegacyV2DiagramObjectExport = {
     /**
      * The object's angle (if an anchor).
      */
-    angle?: number
+    angle?: number;
 
 };

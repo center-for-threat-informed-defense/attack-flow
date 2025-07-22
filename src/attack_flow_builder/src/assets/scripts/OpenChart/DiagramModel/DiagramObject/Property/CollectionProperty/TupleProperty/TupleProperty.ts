@@ -1,6 +1,6 @@
-import { 
+import {
     CollectionProperty,
-    DateProperty, DictionaryProperty, EnumProperty, 
+    DateProperty, DictionaryProperty, EnumProperty,
     FloatProperty, IntProperty, Property, StringProperty
 } from "../..";
 import type { JsonValue } from "../../JsonTypes";
@@ -8,7 +8,7 @@ import type { CombinationIndex } from "./CombinationIndex";
 import type { TuplePropertyOptions } from "./TuplePropertyOptions";
 
 export class TupleProperty extends DictionaryProperty {
-    
+
     /**
      * The property's combination index.
      */
@@ -51,9 +51,9 @@ export class TupleProperty extends DictionaryProperty {
      *  (Default: `true`)
      */
     public setValue(value: Iterable<[string, JsonValue]>, update: boolean = true) {
-        for(const [id, v] of value) {
+        for (const [id, v] of value) {
             const prop = this.get(id);
-            if(
+            if (
                 prop instanceof StringProperty ||
                 prop instanceof IntProperty ||
                 prop instanceof FloatProperty ||
@@ -61,12 +61,12 @@ export class TupleProperty extends DictionaryProperty {
                 prop instanceof DateProperty
             ) {
                 prop.setValue(v, false);
-            } else if(prop) {
+            } else if (prop) {
                 const name = prop.constructor.name;
-                throw new Error(`Unsupported type '${ name }'.`);
+                throw new Error(`Unsupported type '${name}'.`);
             }
         }
-        if(update) {
+        if (update) {
             this.updateParentProperty();
         }
     }
@@ -77,14 +77,14 @@ export class TupleProperty extends DictionaryProperty {
      *  True if the primary property is defined, false otherwise.
      */
     public isDefined(): boolean {
-        for(const field of this.value.values()) {
-            if(field.isDefined()) {
+        for (const field of this.value.values()) {
+            if (field.isDefined()) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Returns the property's ordered JSON value.
      * @returns
@@ -144,48 +144,48 @@ export class TupleProperty extends DictionaryProperty {
      */
     protected updateParentProperty(property: Property = this) {
         const combos = this._combinations;
-        if(!combos) {
+        if (!combos) {
             super.updateParentProperty();
             return;
         }
-        
+
         // Collect set values
         const values = new Map<string, string>();
-        for(const [id, prop] of this.value) {
+        for (const [id, prop] of this.value) {
             const hasOptions =
                 prop instanceof StringProperty ||
                 prop instanceof EnumProperty;
-            if(hasOptions && prop.value !== null) {
-                values.set(id, prop.value!)
+            if (hasOptions && prop.value !== null) {
+                values.set(id, prop.value!);
             }
         }
-        
+
         // Update valid values
         this._validPropValues = combos.getValidOptions(values);
-        
+
         // Align tuple state
-        for(const [id, values] of this._validPropValues) {
+        for (const [id, values] of this._validPropValues) {
             const prop = this.value.get(id);
-            if(!prop || property === prop) {
+            if (!prop || property === prop) {
                 continue;
             }
             const isStr = prop instanceof StringProperty;
             const isEnu = prop instanceof EnumProperty;
             // If property has only one valid option...
-            if(values.size === 1 && (isEnu || isStr)) {
+            if (values.size === 1 && (isEnu || isStr)) {
                 // ...set it to that option
                 prop.setValue([...values][0]);
             }
             // If property's value is no longer valid...
-            if(isEnu && prop.value && !values.has(prop.value)) {
+            if (isEnu && prop.value && !values.has(prop.value)) {
                 // ...wipe it
                 prop!.setValue(null, false);
             }
         }
-        
+
         // Update parent
         super.updateParentProperty();
-    
+
     }
 
 }

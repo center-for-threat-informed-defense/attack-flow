@@ -14,41 +14,41 @@ export class AttackFlowCommandProcessor implements SynchronousCommandProcessor {
      *  The command to execute in its place.
      */
     public process(cmd: SynchronousEditorCommand): SynchronousEditorCommand | undefined {
-        if(!this.isSettingTtp(cmd)) {
+        if (!this.isSettingTtp(cmd)) {
             return undefined;
         }
         // Get root property
         const properties = cmd.property.parent;
-        if(!(properties instanceof RootProperty)) {
+        if (!(properties instanceof RootProperty)) {
             return undefined;
         }
         // Get name property
         const name = properties.get("name", StringProperty);
-        if(name === undefined) {
-            return undefined
+        if (name === undefined) {
+            return undefined;
         }
         const value = name.toString();
         // Set name
-        let tact: string | null = null, 
-            tech: string | null = null, 
+        let tact: string | null = null,
+            tech: string | null = null,
             prev: string | null = null;
-        if(this.isSettingTactic(cmd.nextValue)) {
+        if (this.isSettingTactic(cmd.nextValue)) {
             tact = this.getTacticName(cmd.property, cmd.nextValue.nextValue);
             prev = this.getTacticName(cmd.property);
             tech = this.getTechniqueName(cmd.property);
-            if(value === tact || value === prev) {
+            if (value === tact || value === prev) {
                 return this.setNameCmd(cmd, name, tact);
             }
 
-        } else if(this.isSettingTechnique(cmd.nextValue)) {
+        } else if (this.isSettingTechnique(cmd.nextValue)) {
             tact = this.getTacticName(cmd.property);
             prev = this.getTechniqueName(cmd.property);
             tech = this.getTechniqueName(cmd.property, cmd.nextValue.nextValue);
-            if(value === tact || value === prev) {
+            if (value === tact || value === prev) {
                 return this.setNameCmd(cmd, name, tech);
             }
         }
-        if(!name.isDefined() && (tech || tact)) {
+        if (!name.isDefined() && (tech || tact)) {
             return this.setNameCmd(cmd, name, tech ?? tact);
         }
     }
@@ -80,17 +80,17 @@ export class AttackFlowCommandProcessor implements SynchronousCommandProcessor {
      */
     public getTacticName(prop: TupleProperty, value?: string | null): string | null {
         const tact = prop.get("tactic", StringProperty);
-        if(!tact) {
+        if (!tact) {
             return null;
         }
-        if(value === undefined) {
-            value = tact.value;    
+        if (value === undefined) {
+            value = tact.value;
         }
-        if(value === null) {
+        if (value === null) {
             return null;
         }
         const tactText = tact?.options?.value.get(value)?.toString();
-        if(tactText === undefined) {
+        if (tactText === undefined) {
             return null;
         }
         return tactText.split(/TA\d+/)[1].trim();
@@ -107,17 +107,17 @@ export class AttackFlowCommandProcessor implements SynchronousCommandProcessor {
      */
     public getTechniqueName(prop: TupleProperty, value?: string | null): string | null {
         const tech = prop.get("technique", StringProperty);
-        if(!tech) {
+        if (!tech) {
             return null;
         }
-        if(value === undefined) {
-            value = tech.value;    
+        if (value === undefined) {
+            value = tech.value;
         }
-        if(value === null) {
+        if (value === null) {
             return null;
         }
         const techText = tech?.options?.value.get(value)?.toString();
-        if(techText === undefined) {
+        if (techText === undefined) {
             return null;
         }
         return techText.split(/T\d+(?:\.\d+)?/)[1].trim();

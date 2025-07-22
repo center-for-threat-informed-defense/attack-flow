@@ -137,7 +137,7 @@ const configuration: AppConfiguration = {
     cmdProcessor: {
         create: () => new AttackFlowCommandProcessor()
     }
-    
+
 };
 
 export default configuration;

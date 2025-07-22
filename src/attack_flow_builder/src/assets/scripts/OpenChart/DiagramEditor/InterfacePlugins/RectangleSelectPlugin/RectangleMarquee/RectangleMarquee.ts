@@ -9,8 +9,8 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
     /**
      * The marquee's bounding box.
      */
-    public readonly boundingBox: BoundingBox
-    
+    public readonly boundingBox: BoundingBox;
+
     /**
      * The x-coordinate of the marquee's starting point.
      */
@@ -34,7 +34,7 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
     /**
      * The marquee's style.
      */
-    public style: MarqueeStyle
+    public style: MarqueeStyle;
 
 
     /**
@@ -51,7 +51,7 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
         this.endY = 0;
         this.style = style;
         // Reset marquee
-        this.reset(0,0);
+        this.reset(0, 0);
     }
 
 
@@ -64,7 +64,7 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
      * Resets the marquee's position.
      * @param x
      *  The marquee's x-coordinate.
-     * @param y 
+     * @param y
      *  The marquee's y-coordinate.
      */
     public reset(x: number, y: number) {
@@ -100,7 +100,7 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
         this.boundingBox.yMax = round(Math.max(this.begY, this.endY));
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  2. Rendering  /////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -118,14 +118,14 @@ export class RectangleMarquee implements DiagramInterfaceMarkup {
         if (!this.isVisible(region)) {
             return;
         }
-        
+
         // Init
         const boundingBox = this.boundingBox;
         const { strokeWidth, strokeColor, fillColor } = this.style;
-        
+
         // Draw
-        const lineWidth = strokeWidth / region.scale; 
-        const lineOffset = (strokeWidth % 2) / (2 * region.scale)
+        const lineWidth = strokeWidth / region.scale;
+        const lineOffset = (strokeWidth % 2) / (2 * region.scale);
         ctx.lineWidth = lineWidth;
         ctx.fillStyle = fillColor;
         ctx.strokeStyle = strokeColor;

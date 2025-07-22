@@ -19,7 +19,7 @@ export interface Tool extends BaseStixDomainObject<"tool"> {
 
     /**
      * The kind(s) of tool(s) being described.
-     * 
+     *
      * The values for this property SHOULD come from the tool-type-ov open
      * vocabulary.
      */

@@ -62,4 +62,4 @@ export const StixToTemplate: { [key in StixObjectType]: string | null } = {
     "marking-definition"    : null,
     "extension-definition"  : null
 
-}
+};

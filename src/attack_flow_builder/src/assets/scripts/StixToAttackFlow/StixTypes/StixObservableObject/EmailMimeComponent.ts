@@ -9,7 +9,7 @@ export interface EmailMimeComponent {
      * Specifies the contents of the MIME part if the content_type is not
      * provided or starts with text/ (e.g., in the case of plain text or HTML
      * email).
-     * 
+     *
      * For inclusion in this property, the contents MUST be decoded to Unicode.
      * Note that the charset provided in content_type is for informational usage
      * and not for decoding of this property.
@@ -20,7 +20,7 @@ export interface EmailMimeComponent {
      * Specifies the contents of non-textual MIME parts, that is those whose
      * content_type does not start with text/, as a reference to an Artifact
      * object or File object.
-     * 
+     *
      * The object referenced in this property MUST be of type artifact or file.
      * For use cases where conveying the actual data contained in the MIME part
      * is of primary importance, artifact SHOULD be used. Otherwise, for use
@@ -31,10 +31,10 @@ export interface EmailMimeComponent {
 
     /**
      * Specifies the value of the "Content-Type" header field of the MIME part.
-     * 
+     *
      * Any additional "Content-Type" header field parameters such as charset
      * SHOULD be included in this property.
-     * 
+     *
      * Example:
      * text/html; charset=UTF-8
      */

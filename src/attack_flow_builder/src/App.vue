@@ -1,7 +1,17 @@
 <template>
-  <AppHotkeyBox id="main" :class="applicationMode">
-    <AppTitleBar id="app-title-bar" v-if="!application.readOnlyMode"/>
-    <FindDialog id="find-dialog" v-if="extendedEditorShown" :style="findDialogLayout" />
+  <AppHotkeyBox
+    id="main"
+    :class="applicationMode"
+  >
+    <AppTitleBar
+      id="app-title-bar"
+      v-if="!application.readOnlyMode"
+    />
+    <FindDialog
+      id="find-dialog"
+      v-if="extendedEditorShown"
+      :style="findDialogLayout"
+    />
     <div
       id="app-body"
       ref="body"
@@ -9,16 +19,25 @@
     >
       <div class="frame center">
         <BlockDiagram id="block-diagram" />
-        <SplashMenu id="splash-menu" v-if="splashMenuShown"/>
+        <SplashMenu
+          id="splash-menu"
+          v-if="splashMenuShown"
+        />
       </div>
-      <div class="frame right" v-if="extendedEditorShown">
+      <div
+        class="frame right"
+        v-if="extendedEditorShown"
+      >
         <div
           class="resize-handle"
           @pointerdown="startResize($event, Handle.Right)"
         />
         <EditorSidebar id="app-sidebar" />
       </div>
-      <div class="frame bottom" v-if="extendedEditorShown">
+      <div
+        class="frame bottom"
+        v-if="extendedEditorShown"
+      >
         <AppFooterBar id="app-footer-bar" />
       </div>
     </div>

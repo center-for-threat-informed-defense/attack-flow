@@ -20,7 +20,7 @@ export type StixDomainObjectType
     | "report"
     | "threat-actor"
     | "tool"
-    | "vulnerability"
+    | "vulnerability";
 
 /**
  * Attack Flow 2.0 Domain Object Type
@@ -30,4 +30,4 @@ export type AttackFlowObjectType
     | "attack-action"
     | "attack-operator"
     | "attack-condition"
-    | "attack-asset"
+    | "attack-asset";

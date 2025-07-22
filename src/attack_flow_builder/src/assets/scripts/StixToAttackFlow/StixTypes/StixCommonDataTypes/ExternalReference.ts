@@ -27,10 +27,10 @@ export interface ExternalReference {
     /**
      * Specifies a dictionary of hashes for the contents of the url. This SHOULD
      * be provided when the url property is present.
-     * 
+     *
      * Dictionary keys MUST come from one of the entries listed in the
      * hash-algorithm-ov open vocabulary.
-     * 
+     *
      * As stated in Section 2.7, to ensure interoperability, a SHA-256 hash
      * SHOULD be included whenever possible.
      */

@@ -14,9 +14,9 @@ export interface Action extends BaseStixDomainObject<"attack-action"> {
      * The action's tactic id.
      */
     tactic_id?: string;
-    
+
     /**
-     * The tactic's STIX id. 
+     * The tactic's STIX id.
      */
     tactic_ref?: string;
 
@@ -34,7 +34,7 @@ export interface Action extends BaseStixDomainObject<"attack-action"> {
      * A description that provides more details and context about the action.
      */
     description?: string;
-    
+
     /**
      * The action's start time.
      */

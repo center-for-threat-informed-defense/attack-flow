@@ -10,4 +10,4 @@ export type DateJsonValue = {
      */
     zone: string;
 
-}
+};

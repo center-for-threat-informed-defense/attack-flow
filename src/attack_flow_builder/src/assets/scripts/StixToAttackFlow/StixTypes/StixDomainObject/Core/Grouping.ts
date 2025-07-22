@@ -19,7 +19,7 @@ export interface Grouping extends BaseStixDomainObject<"grouping"> {
     /**
      * A short descriptor of the particular context shared by the content
      * referenced by the Grouping.
-     * 
+     *
      * The value for this property SHOULD come from the grouping-context-ov open
      * vocabulary.
      */

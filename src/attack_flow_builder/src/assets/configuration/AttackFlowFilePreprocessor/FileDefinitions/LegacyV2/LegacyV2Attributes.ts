@@ -6,5 +6,5 @@ import { generateBitMask } from "@OpenChart/Utilities";
 export const PositionSetByUser = {
     False      : 0b000000000000000,
     True       : 0b000000100000000
-}
+};
 export const PositionSetByUserMask = generateBitMask(PositionSetByUser);

@@ -14,10 +14,10 @@ export class PublishDiagramFileToDevice extends GroupCommand {
      */
     constructor(context: ApplicationStore, editor: DiagramViewEditor) {
         super();
-        if(!context.isValid) {
-            throw new Error(`File '${ editor.id }' is not valid.`);
-        } else if(!context.activePublisher) {
-            throw new Error(`Application is not configured with a publisher.`);
+        if (!context.isValid) {
+            throw new Error(`File '${editor.id}' is not valid.`);
+        } else if (!context.activePublisher) {
+            throw new Error("Application is not configured with a publisher.");
         }
         // Serialize file
         const file = context.activePublisher.publish(editor.file);

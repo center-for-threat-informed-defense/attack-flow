@@ -51,7 +51,7 @@ export class DiagramModelFile {
     /**
      * Clones the {@link DiagramModelFile}.
      * @param match
-     *  A predicate which is applied to each child of the canvas. If the 
+     *  A predicate which is applied to each child of the canvas. If the
      *  predicate returns false, the child is excluded from the clone.
      */
     public clone(match?: (obj: DiagramObject) => boolean): DiagramModelFile {

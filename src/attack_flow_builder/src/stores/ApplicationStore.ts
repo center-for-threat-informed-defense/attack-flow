@@ -196,13 +196,13 @@ export const useApplicationStore = defineStore("applicationStore", {
         async execute(command: AppCommand | EditorCommand) {
             if (command instanceof SynchronousEditorCommand) {
                 this.activeEditor.execute(command);
-            } else if(command instanceof AsynchronousEditorCommand) { 
+            } else if (command instanceof AsynchronousEditorCommand) {
                 await this.activeEditor.executeAsync(command);
             } else {
                 command.execute();
             }
         },
-        
+
         /**
          * Updates sticky timezone with most recently used timezone offset
          * @param utc new value to save

@@ -63,9 +63,9 @@ export class GenericMover extends ObjectMover {
             delta = track.getDistance();
         }
         // Move
-        if(delta[0] | delta[1]) {
-            for(const object of this.objects) {
-                if(!object.userSetPosition) {
+        if (delta[0] | delta[1]) {
+            for (const object of this.objects) {
+                if (!object.userSetPosition) {
                     this.execute(userSetObjectPosition(object));
                 }
             }

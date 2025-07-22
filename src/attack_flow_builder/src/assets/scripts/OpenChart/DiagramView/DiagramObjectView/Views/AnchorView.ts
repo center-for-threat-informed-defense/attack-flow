@@ -331,7 +331,7 @@ export class AnchorView extends Anchor implements ViewObject {
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Returns a complete clone of the object.
      * @param instance

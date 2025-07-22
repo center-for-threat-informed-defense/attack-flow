@@ -69,12 +69,12 @@ export class IntProperty extends Property {
         } else {
             if (typeof value === "string") {
                 value = parseInt(value);
-            } else if(typeof value !== "number") {
+            } else if (typeof value !== "number") {
                 value = Number.NaN;
             }
             this._value = Math.round(clamp(value, this.min, this.max));
         }
-        if(update) {
+        if (update) {
             this.updateParentProperty();
         }
     }
@@ -120,7 +120,7 @@ export class IntProperty extends Property {
             metadata : this.metadata,
             editable : this.isEditable,
             min      : this.min,
-            max      : this.max,
+            max      : this.max
         }, this._value);
     }
 

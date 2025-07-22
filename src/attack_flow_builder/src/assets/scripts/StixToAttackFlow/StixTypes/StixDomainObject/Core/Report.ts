@@ -18,7 +18,7 @@ export interface Report extends BaseStixDomainObject<"report"> {
 
     /**
      * The primary type(s) of content found in this report.
-     * 
+     *
      * The values for this property SHOULD come from the report-type-ov open
      * vocabulary.
      */
@@ -27,7 +27,7 @@ export interface Report extends BaseStixDomainObject<"report"> {
     /**
      * The date that this Report object was officially published by the creator
      * of this report.
-     * 
+     *
      * The publication date (public release, legal release, etc.) may be
      * different than the date the report was created or shared internally (the
      * date in the created property).

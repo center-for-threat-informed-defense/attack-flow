@@ -16,7 +16,7 @@ export class CutSelectedChildrenToClipboard extends CopySelectedChildrenToClipbo
         super(context, editor);
     }
 
-    
+
     /**
      * Executes the command.
      */

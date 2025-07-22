@@ -22,7 +22,7 @@ export interface Opinion extends BaseStixDomainObject<"opinion"> {
     /**
      * The opinion that the producer has about all of the STIX Object(s) listed
      * in the object_refs property.
-     * 
+     *
      * The values of this property MUST come from the opinion-enum enumeration.
      */
     opinion: "strongly-disagree" | "disagree" | "neutral" | "agree" | "strongly-agree";

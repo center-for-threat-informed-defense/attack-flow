@@ -176,7 +176,7 @@ export class Group extends DiagramObject {
      *  An empty map that, if provided, will be populated with object instance
      *  ID to clone instance ID associations.
      * @param match
-     *  A predicate which is applied to each child. If the predicate returns 
+     *  A predicate which is applied to each child. If the predicate returns
      *  false, the object is not included in the clone.
      * @returns
      *  A clone of the object.
@@ -216,37 +216,37 @@ export class Group extends DiagramObject {
      * @param object
      *  The object to transfer the clones to.
      * @param match
-     *  A predicate which is applied to each child. If the predicate returns 
+     *  A predicate which is applied to each child. If the predicate returns
      *  false, the object is not included in the clone.
      * @param instanceMap
      *  An empty map that, if provided, will be populated with object instance
-     *  ID to clone instance ID associations. 
+     *  ID to clone instance ID associations.
      * @returns
      *  The provided `object`.
      */
     protected replicateChildrenTo<T extends Group>(
         object: T,
         instanceMap?: Map<string, string>,
-        match?: (obj: DiagramObject) => boolean,
+        match?: (obj: DiagramObject) => boolean
     ): T {
         const anchorMap = new Map<string, Anchor>();
         // Clone blocks
-        for(const block of this.blocks) {
-            if(match && !match(block)) {
+        for (const block of this.blocks) {
+            if (match && !match(block)) {
                 continue;
             }
             // Clone block
             const clone = block.clone(undefined, instanceMap);
             object.addObject(clone);
             // Map anchors
-            for(const [position, { instance }] of block.anchors) {
+            for (const [position, { instance }] of block.anchors) {
                 const anchorClone = clone.anchors.get(position)!;
                 anchorMap.set(instance, anchorClone);
             }
         }
         // Clone lines
-        for(const line of this.lines) {
-            if(match && !match(line)) {
+        for (const line of this.lines) {
+            if (match && !match(line)) {
                 continue;
             }
             // Clone line
@@ -254,11 +254,11 @@ export class Group extends DiagramObject {
             object.addObject(clone);
             // Link lines
             const srcAnchor = line.source.anchor;
-            if(srcAnchor && anchorMap.has(srcAnchor.instance)) {
+            if (srcAnchor && anchorMap.has(srcAnchor.instance)) {
                 clone.source.link(anchorMap.get(srcAnchor.instance)!);
             }
             const trgAnchor = line.target.anchor;
-            if(trgAnchor && anchorMap.has(trgAnchor.instance)) {
+            if (trgAnchor && anchorMap.has(trgAnchor.instance)) {
                 clone.target.link(anchorMap.get(trgAnchor.instance)!);
             }
         }

@@ -39,9 +39,9 @@ export interface Directory extends StixObservableObjectBase<"directory"> {
     /**
      * Specifies a list of references to other File and/or Directory objects
      * contained within the directory.
-     * 
+     *
      * The objects referenced in this list MUST be of type file or directory.
      */
-    contains_refs?: string[]
+    contains_refs?: string[];
 
 }

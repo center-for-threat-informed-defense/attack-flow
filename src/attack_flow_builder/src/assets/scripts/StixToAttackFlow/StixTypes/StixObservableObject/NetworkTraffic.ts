@@ -21,10 +21,10 @@ export interface NetworkTraffic extends StixObservableObjectBase<"network-traffi
 
     /**
      * Specifies the date/time the network traffic ended, if known.
-     * 
+     *
      * If the is_active property is true, then the end property MUST NOT be
      * included.
-     * 
+     *
      * If this property and the start property are both defined, then this
      * property MUST be greater than or equal to the timestamp in the start
      * property.
@@ -33,7 +33,7 @@ export interface NetworkTraffic extends StixObservableObjectBase<"network-traffi
 
     /**
      * Indicates whether the network traffic is still ongoing.
-     * 
+     *
      * If the end property is provided, this property MUST be false.
      */
     is_active?: boolean;
@@ -41,7 +41,7 @@ export interface NetworkTraffic extends StixObservableObjectBase<"network-traffi
     /**
      * Specifies the source of the network traffic, as a reference to a
      * Cyber-observable Object.
-     * 
+     *
      * The object referenced MUST be of type ipv4-addr, ipv6-addr, mac-addr, or
      * domain-name (for cases where the IP address for a domain name is
      * unknown).
@@ -51,7 +51,7 @@ export interface NetworkTraffic extends StixObservableObjectBase<"network-traffi
     /**
      * Specifies the destination of the network traffic, as a reference to a
      * Cyber-observable Object.
-     * 
+     *
      * The object referenced MUST be of type ipv4-addr, ipv6-addr, mac-addr, or
      * domain-name (for cases where the IP address for a domain name is
      * unknown).
@@ -69,25 +69,25 @@ export interface NetworkTraffic extends StixObservableObjectBase<"network-traffi
      * integer. The port value MUST be in the range of 0 - 65535.
      */
     dst_port?: number;
-    
+
     /**
      * Specifies the protocols observed in the network traffic, along with their
      * corresponding state.
-     * 
+     *
      * Protocols MUST be listed in low to high order, from outer to inner in
      * terms of packet encapsulation. That is, the protocols in the outer level
      * of the packet, such as IP, MUST be listed first.
-     * 
+     *
      * The protocol names SHOULD come from the service names defined in the
      * Service Name column of the IANA Service Name and Port Number Registry
      * [Port Numbers]. In cases where there is variance in the name of a network
      * protocol not included in the IANA Registry, content producers should
      * exercise their best judgement, and it is recommended that lowercase names
      * be used for consistency with the IANA registry.
-     * 
+     *
      * If the protocol extension is present, the corresponding protocol value
      * for that extension SHOULD be listed in this property.
-     * 
+     *
      * Examples:
      * ipv4, tcp, http
      * ipv4, udp
@@ -132,14 +132,14 @@ export interface NetworkTraffic extends StixObservableObjectBase<"network-traffi
 
     /**
      * Specifies the bytes sent from the source to the destination.
-     * 
+     *
      * The object referenced in this property MUST be of type artifact.
      */
     src_payload_ref?: string;
 
     /**
      * Specifies the bytes sent from the destination to the source.
-     * 
+     *
      * The object referenced in this property MUST be of type artifact.
      */
     dst_payload_ref?: string;
@@ -147,14 +147,14 @@ export interface NetworkTraffic extends StixObservableObjectBase<"network-traffi
     /**
      * Links to other network-traffic objects encapsulated by this
      * network-traffic object.
-     * 
+     *
      * The objects referenced in this property MUST be of type network-traffic.
      */
     encapsulates_refs?: string[];
 
     /**
      * Links to another network-traffic object which encapsulates this object.
-     * 
+     *
      * The object referenced in this property MUST be of type network-traffic.
      */
     encapsulated_by_ref?: string;

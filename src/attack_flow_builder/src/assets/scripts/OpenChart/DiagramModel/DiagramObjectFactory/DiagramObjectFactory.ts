@@ -10,7 +10,7 @@ import {
     StringProperty, TupleProperty
 } from "../DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
-import type { 
+import type {
     DiagramObject, JsonEntries,
     JsonValue, ValueCombinations
 } from "../DiagramObject";
@@ -18,7 +18,7 @@ import type {
     AtomicPropertyDescriptors, CanvasTemplate, DiagramObjectTemplate,
     DiagramSchemaConfiguration, DictionaryPropertyDescriptor,
     ListPropertyDescriptor, PropertyDescriptor, RootPropertyDescriptor,
-    TuplePropertyDescriptor,
+    TuplePropertyDescriptor
 } from ".";
 
 export class DiagramObjectFactory {
@@ -28,11 +28,11 @@ export class DiagramObjectFactory {
      * @remarks
      *  The cache keeps us from recreating the same {@link ListProperty}'s
      *  over and over again for enum and string properties.
-     * 
-     *  For maximum space savings, developers should reuse the same 
+     *
+     *  For maximum space savings, developers should reuse the same
      *  {@link ListPropertyDescriptor} object across multiple property
      *  descriptors, when possible.
-     * 
+     *
      *  In the future, we might consider keying by hash instead of reference.
      */
     private static readonly ListCache: Map<
@@ -44,11 +44,11 @@ export class DiagramObjectFactory {
      * @remarks
      *  This cache keeps us from recreating the same {@link CombinationIndex}'s
      *  over and over again for tuple properties.
-     * 
+     *
      *  For maximum space savings, developers should reuse the same
      *  {@link ValueCombinations} object across multiple property descriptors,
      *  when possible.
-     * 
+     *
      *  In the future, we might consider keying by hash instead of reference.
      */
     private static readonly CombinationCache: Map<
@@ -401,10 +401,10 @@ export class DiagramObjectFactory {
                 }
                 throw new Error(`Invalid JSON entries: '${value}'.`);
             case PropertyType.Tuple:
-                if(value === undefined || Array.isArray(value)) {
+                if (value === undefined || Array.isArray(value)) {
                     return this.createTupleProperty(id, descriptor, value);
                 }
-                if(value && typeof value === "object") {
+                if (value && typeof value === "object") {
                     value = Object.entries(value);
                     return this.createTupleProperty(id, descriptor, value);
                 }
@@ -515,7 +515,7 @@ export class DiagramObjectFactory {
     ): TupleProperty {
         // Resolve combination index
         let combinations;
-        if(descriptor.validValueCombinations) {
+        if (descriptor.validValueCombinations) {
             combinations = this.getCachedCombinationIndex(
                 descriptor.validValueCombinations
             );
@@ -540,7 +540,7 @@ export class DiagramObjectFactory {
             }
         }
         // Set value
-        if(values) {
+        if (values) {
             property.setValue(values as [string, JsonValue][]);
         }
         return property;
@@ -618,8 +618,8 @@ export class DiagramObjectFactory {
                 }, value);
 
             // String property
-            case PropertyType.String:  
-                if(descriptor.options) {
+            case PropertyType.String:
+                if (descriptor.options) {
                     options = this.getCachedListProperty(descriptor.options);
                 }
                 return new StringProperty({
@@ -627,7 +627,7 @@ export class DiagramObjectFactory {
                     name     : descriptor.name,
                     editable : editable,
                     metadata : meta,
-                    options  : options        
+                    options  : options
                 }, value);
 
         }
@@ -642,10 +642,10 @@ export class DiagramObjectFactory {
      */
     private getCachedListProperty(values: ListPropertyDescriptor): ListProperty {
         const ListCache = DiagramObjectFactory.ListCache;
-        if(!ListCache.has(values)) {
+        if (!ListCache.has(values)) {
             ListCache.set(values,
                 this.createListProperty("options", values)
-            )
+            );
         }
         return ListCache.get(values)!;
     }
@@ -659,7 +659,7 @@ export class DiagramObjectFactory {
      */
     private getCachedCombinationIndex(values: ValueCombinations): CombinationIndex {
         const ComboCache = DiagramObjectFactory.CombinationCache;
-        if(!ComboCache.has(values)) {
+        if (!ComboCache.has(values)) {
             ComboCache.set(values, new CombinationIndex(values));
         }
         return ComboCache.get(values)!;

@@ -77,18 +77,18 @@ export class DiagramViewFile extends DiagramModelFile {
     /**
      * Clones the {@link DiagramViewFile}.
      * @param match
-     *  A predicate which is applied to each child of the canvas. If the 
+     *  A predicate which is applied to each child of the canvas. If the
      *  predicate returns false, the child is excluded from the clone.
      */
     public clone(match?: (obj: DiagramObjectView) => boolean): DiagramViewFile {
-        
+
         // Clone canvas
         const instanceMap = new Map<string, string>();
         const canvas = this.canvas.clone(this.canvas.instance, instanceMap, match);
-        
+
         // Calculate layout
         canvas.calculateLayout();
-        
+
         // Apply existing layout to clone
         const existingLayout = ManualLayoutEngine.generatePositionMap([this.canvas]);
         const remappedLayout = Object.fromEntries(
@@ -102,15 +102,15 @@ export class DiagramViewFile extends DiagramModelFile {
          * Developer's Note:
          * You may be wondering why we generate a new position map from `canvas`
          * instead of simply using `remappedLayout`.
-         * 
-         * Simply put, `layout` and `remappedLayout` are not always equivalent. 
-         * 
+         *
+         * Simply put, `layout` and `remappedLayout` are not always equivalent.
+         *
          * For example, `remappedLayout` excludes the positions of latches
          * linked to block anchors. Those same latches may be unlinked in
          * `canvas` if their blocks were omitted from the clone.
-         * 
+         *
          * To ensure these latches are included in the position map, we have to
-         * generate a new position map directly from `canvas`. 
+         * generate a new position map directly from `canvas`.
          */
 
         // Calculate final layout
@@ -127,7 +127,7 @@ export class DiagramViewFile extends DiagramModelFile {
                 camera  : { ...this.camera }
             }
         );
-        
+
     }
 
     /**

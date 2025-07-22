@@ -17,7 +17,7 @@ export interface StixObservableObjectBase<T extends StixObservableObjectType = S
     /**
      * The created_by_ref property specifies the id property of the identity
      * object that describes the entity that created this object.
-     * 
+     *
      * If this attribute is omitted, the source of this information is
      * undefined. This may be used by object creators who wish to remain
      * anonymous.
@@ -26,7 +26,7 @@ export interface StixObservableObjectBase<T extends StixObservableObjectType = S
 
     /**
      * The id property uniquely identifies this object.
-     * 
+     *
      * For objects that support versioning, all objects with the same id are
      * considered different versions of the same object and the version of the
      * object is identified by its modified property.
@@ -36,7 +36,7 @@ export interface StixObservableObjectBase<T extends StixObservableObjectType = S
     /**
      * The object_marking_refs property specifies a list of id properties of
      * marking-definition objects that apply to this object.
-     * 
+     *
      * In some cases, though uncommon, marking definitions themselves may be
      * marked with sharing or handling guidance. In this case, this property
      * MUST NOT contain any references to the same Marking Definition object
@@ -47,7 +47,7 @@ export interface StixObservableObjectBase<T extends StixObservableObjectType = S
     /**
      * The granular_markings property specifies a list of granular markings
      * applied to this object.
-     * 
+     *
      * In some cases, though uncommon, marking definitions themselves may be
      * marked with sharing or handling guidance. In this case, this property
      * MUST NOT contain any references to the same Marking Definition object
@@ -58,23 +58,23 @@ export interface StixObservableObjectBase<T extends StixObservableObjectType = S
     /**
      * This property defines whether or not the data contained within the object
      * has been defanged.
-     * 
+     *
      * The default value for this property is false.
-     * 
+     *
      * This property MUST NOT be used on any STIX Objects other than SCOs.
      */
     defanged?: boolean;
-    
+
     /**
      * Specifies any extensions of the object, as a dictionary.
-     * 
+     *
      * Dictionary keys SHOULD be the id of a STIX Extension object or the name
      * of a predefined object extension found in this specification, depending
      * on the type of extension being used.
-     * 
+     *
      * The corresponding dictionary values MUST contain the contents of the
      * extension instance.
-     * 
+     *
      * Each extension dictionary MAY contain the property extension_type. The
      * value of this property MUST come from the extension-type-enum
      * enumeration. If the extension_type property is not present, then this is
@@ -82,6 +82,6 @@ export interface StixObservableObjectBase<T extends StixObservableObjectType = S
      * described in section 7.3. When this extension facility is used the
      * extension_type property MUST be present.
      */
-    extensions?: { [key: string]: any; };
+    extensions?: { [key: string]: any };
 
 }

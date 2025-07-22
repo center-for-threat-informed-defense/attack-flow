@@ -18,7 +18,7 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
 
     /**
      * The type(s) of this threat actor.
-     * 
+     *
      * The values for this property SHOULD come from the threat-actor-type-ov
      * open vocabulary.
      */
@@ -28,10 +28,10 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
      * A list of other names that this Threat Actor is believed to use.
      */
     aliases?: string[];
-    
+
     /**
      * The time that this Threat Actor was first seen.
-     * 
+     *
      * This property is a summary property of data from sightings and other data
      * that may or may not be available in STIX. If new sightings are received
      * that are earlier than the first seen timestamp, the object may be updated
@@ -41,12 +41,12 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
 
     /**
      * The time that this Threat Actor was last seen.
-     * 
+     *
      * This property is a summary property of data from sightings and other data
      * that may or may not be available in STIX. If new sightings are received
      * that are later than the last seen timestamp, the object may be updated to
      * account for the new data.
-     * 
+     *
      * If this property and the first_seen property are both defined, then this
      * property MUST be greater than or equal to the timestamp in the first_seen
      * property.
@@ -55,7 +55,7 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
 
     /**
      * A list of roles the Threat Actor plays.
-     * 
+     *
      * The values for this property SHOULD come from the threat-actor-role-ov
      * open vocabulary.
      */
@@ -76,7 +76,7 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
      * goal is to steal credit card numbers. To do this, they may execute
      * specific Campaigns that have detailed objectives like compromising point
      * of sale systems at a large retailer.
-     * 
+     *
      * The value for this property SHOULD come from the
      * threat-actor-sophistication-ov open vocabulary.
      */
@@ -88,7 +88,7 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
      * use in an attack. This attribute is linked to the sophistication property
      * — a specific resource level implies that the Threat Actor has access to
      * at least a specific sophistication level.
-     * 
+     *
      * The value for this property SHOULD come from the attack-resource-level-ov
      * open vocabulary.
      */
@@ -98,10 +98,10 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
      * The primary reason, motivation, or purpose behind this Threat Actor. The
      * motivation is why the Threat Actor wishes to achieve the goal (what they
      * are trying to achieve).
-     * 
+     *
      * For example, a Threat Actor with a goal to disrupt the finance sector in
      * a country might be motivated by ideological hatred of capitalism.
-     * 
+     *
      * The value for this property SHOULD come from the attack-motivation-ov
      * open vocabulary.
      */
@@ -110,12 +110,12 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
     /**
      * This property specifies the secondary reasons, motivations, or purposes
      * behind this Threat Actor.
-     * 
+     *
      * These motivations can exist as an equal or near-equal cause to the
      * primary motivation. However, it does not replace or necessarily magnify
      * the primary motivation, but it might indicate additional context. The
      * position in the list has no significance.
-     * 
+     *
      * The value for this property SHOULD come from the attack-motivation-ov
      * open vocabulary.
      */
@@ -124,7 +124,7 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
     /**
      * The personal reasons, motivations, or purposes of the Threat Actor
      * regardless of organizational goals.
-     * 
+     *
      * Personal motivation, which is independent of the organization’s goals,
      * describes what impels an individual to carry out an attack. Personal
      * motivation may align with the organization’s motivation—as is common
@@ -136,7 +136,7 @@ export interface ThreatActor extends BaseStixDomainObject<"threat-actor"> {
      * reward may be even stronger for Threat Actors who commit illegal acts, as
      * it is more difficult for someone to cross that line purely for altruistic
      * reasons. The position in the list has no significance.
-     * 
+     *
      * The values for this property SHOULD come from the attack-motivation-ov
      * open vocabulary.
      */

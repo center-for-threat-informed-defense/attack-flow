@@ -2,19 +2,19 @@
 *
 *  Base64 encode / decode
 *  http://www.webtoolkit.info
-* 
+*
 **/
 export const Base64 = {
 
     // private property
-    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
 
     // public method for encoding
-    , encode: function (input: string): string
+    encode: function(input: string): string
     {
-        var output = "";
-        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-        var i = 0;
+        let output = "";
+        let chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        let i = 0;
 
         input = Base64._utf8_encode(input);
 
@@ -41,19 +41,19 @@ export const Base64 = {
             output = output +
                 this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
                 this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
-        } // Whend 
+        } // Whend
 
         return output;
-    } // End Function encode 
+    }, // End Function encode
 
 
     // public method for decoding
-    ,decode: function (input: string): string
+    decode: function(input: string): string
     {
-        var output = "";
-        var chr1, chr2, chr3;
-        var enc1, enc2, enc3, enc4;
-        var i = 0;
+        let output = "";
+        let chr1, chr2, chr3;
+        let enc1, enc2, enc3, enc4;
+        let i = 0;
 
         input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
         while (i < input.length)
@@ -79,23 +79,23 @@ export const Base64 = {
                 output = output + String.fromCharCode(chr3);
             }
 
-        } // Whend 
+        } // Whend
 
         output = Base64._utf8_decode(output);
 
         return output;
-    } // End Function decode 
+    }, // End Function decode
 
 
     // private method for UTF-8 encoding
-    ,_utf8_encode: function (string: string): string
+    _utf8_encode: function(string: string): string
     {
-        var utftext = "";
+        let utftext = "";
         string = string.replace(/\r\n/g, "\n");
 
-        for (var n = 0; n < string.length; n++)
+        for (let n = 0; n < string.length; n++)
         {
-            var c = string.charCodeAt(n);
+            const c = string.charCodeAt(n);
 
             if (c < 128)
             {
@@ -113,17 +113,17 @@ export const Base64 = {
                 utftext += String.fromCharCode((c & 63) | 128);
             }
 
-        } // Next n 
+        } // Next n
 
         return utftext;
-    } // End Function _utf8_encode 
+    }, // End Function _utf8_encode
 
     // private method for UTF-8 decoding
-    ,_utf8_decode: function (utftext: string): string
+    _utf8_decode: function(utftext: string): string
     {
-        var string = "";
-        var i = 0;
-        var c, c1, c2, c3;
+        let string = "";
+        let i = 0;
+        let c, c1, c2, c3;
         c = c1 = c2 = 0;
 
         while (i < utftext.length)
@@ -149,9 +149,9 @@ export const Base64 = {
                 i += 3;
             }
 
-        } // Whend 
+        } // Whend
 
         return string;
-    } // End Function _utf8_decode 
+    } // End Function _utf8_decode
 
-}
+};

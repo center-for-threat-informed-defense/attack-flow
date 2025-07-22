@@ -38,9 +38,9 @@ export class Canvas extends Group {
      *  (Default: Random UUID)
      * @param instanceMap
      *  An empty map that, if provided, will be populated with object instance
-     *  ID to clone instance ID associations. 
+     *  ID to clone instance ID associations.
      * @param match
-     *  A predicate which is applied to each child. If the predicate returns 
+     *  A predicate which is applied to each child. If the predicate returns
      *  false, the object is not included in the clone.
      * @returns
      *  A clone of the object.

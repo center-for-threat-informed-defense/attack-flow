@@ -12,4 +12,4 @@ export type NumberPropertyOptions = PropertyOptions & {
      */
     max: number;
 
-}
+};

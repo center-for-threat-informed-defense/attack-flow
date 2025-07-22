@@ -3,7 +3,7 @@ import { ceilNearestMultiple, drawRect } from "@OpenChart/Utilities";
 import {
     addStackedTextCells,
     calculateAnchorPositions,
-    DrawTextInstructionSet,
+    DrawTextInstructionSet
 } from "./Layout";
 import type { TextBlockStyle } from "../Styles";
 import type { ViewportRegion } from "../../ViewportRegion";

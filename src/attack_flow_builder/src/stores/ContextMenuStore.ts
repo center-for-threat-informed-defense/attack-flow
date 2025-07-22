@@ -208,7 +208,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             const app = useApplicationStore();
             const editor = app.activeEditor;
             const file = app.settings.hotkeys.file;
-            const menuText = Configuration.publisher?.menuText 
+            const menuText = Configuration.publisher?.menuText
                 ?? `Publish ${Configuration.file_type_name}`;
             return {
                 id: "publish_options",

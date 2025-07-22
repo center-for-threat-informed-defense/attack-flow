@@ -40,7 +40,7 @@ export interface Relationship extends BaseStixRelationshipObject<"relationship">
      * timestamp, at the time the start_time property is defined, then this
      * represents an estimate by the producer of the intelligence of the
      * earliest time at which relationship will be asserted to be true.
-     * 
+     *
      * If it is not specified, then the earliest time at which the relationship
      * between the objects exists is not defined.
      */
@@ -49,13 +49,13 @@ export interface Relationship extends BaseStixRelationshipObject<"relationship">
     /**
      * The latest time at which the Relationship between the objects exists. If
      * this property is a future timestamp, at the time the stop_time property
-     * is defined, then this represents an estimate by the producer of the 
+     * is defined, then this represents an estimate by the producer of the
      * intelligence of the latest time at which relationship will be asserted to
      * be true.
-     * 
+     *
      * If start_time and stop_time are both defined, then stop_time MUST be
      * later than the start_time value.
-     * 
+     *
      * If stop_time is not specified, then the latest time at which the
      * relationship between the objects exists is either not known, not
      * disclosed, or has no defined stop time.

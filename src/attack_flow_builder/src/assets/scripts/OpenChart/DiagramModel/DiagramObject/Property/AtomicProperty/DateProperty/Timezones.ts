@@ -14,7 +14,7 @@ const timezones = new ListProperty({
     editable : false,
     template : timezone
 });
-for(const id of getDeviceTimezones().keys()) {
+for (const id of getDeviceTimezones().keys()) {
     const item = timezones.createListItem() as StringProperty;
     item.setValue(id.replace(/_/g, " "));
     timezones.addProperty(item, id);

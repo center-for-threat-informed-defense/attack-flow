@@ -6,7 +6,7 @@ import type { MarqueeThemeMap } from "./MarqueeThemeMap";
 import type { DiagramViewEditor } from "../../DiagramViewEditor";
 
 export class RectangleSelectPlugin extends DiagramInterfacePlugin {
-    
+
     /**
      * The rectangle marquee's markup identifier.
      */

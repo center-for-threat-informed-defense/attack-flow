@@ -1,4 +1,4 @@
-import { AnchorConfiguration } from "./AnchorFormat"
+import { AnchorConfiguration } from "./AnchorFormat";
 import { AnchorPosition, Branch } from "@OpenChart/DiagramView";
 import { TacticTechniqueProperty } from "./TacticTechniqueProperty";
 import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
@@ -74,7 +74,7 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -94,7 +94,7 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             pattern: {

@@ -1,6 +1,9 @@
 <template>
   <div class="tuple-field-control">
-    <table class="tuple-table" v-if="property.value.size">
+    <table
+      class="tuple-table"
+      v-if="property.value.size"
+    >
       <tr
         class="field-item"
         v-for="[key, value] in property.value"
@@ -14,13 +17,16 @@
             class="field-value"
             :is="getField(value)"
             :property="value"
-            :featuredOptions="property.validPropValues?.get(key)"
+            :featured-options="property.validPropValues?.get(key)"
             @execute="execute"
           />
         </td>
       </tr>
     </table>
-    <div class="no-properties" v-else>
+    <div
+      class="no-properties"
+      v-else
+    >
       Tuple contains no properties.
     </div>
   </div>

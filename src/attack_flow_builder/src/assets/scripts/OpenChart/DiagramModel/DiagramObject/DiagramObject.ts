@@ -35,7 +35,7 @@ export class DiagramObject {
     public get parent(): DiagramObject | null {
         return this._parent;
     }
-    
+
 
     /**
      * Creates a new {@link DiagramObject}.

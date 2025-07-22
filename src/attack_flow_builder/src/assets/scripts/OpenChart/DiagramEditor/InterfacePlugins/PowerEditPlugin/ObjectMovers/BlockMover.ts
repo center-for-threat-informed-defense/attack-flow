@@ -68,9 +68,9 @@ export class BlockMover extends ObjectMover {
             delta = track.getDistance();
         }
         // Move
-        if(delta[0] | delta[1]) {
-            if(!this.block.userSetPosition) {
-                this.execute(userSetObjectPosition(this.block))
+        if (delta[0] | delta[1]) {
+            if (!this.block.userSetPosition) {
+                this.execute(userSetObjectPosition(this.block));
             }
             this.execute(moveObjectsBy(this.block, ...delta));
         }
@@ -134,7 +134,7 @@ export class BlockMover extends ObjectMover {
         const canvas = editor.file.canvas;
         const block = this.block;
         const lines = [...this.lines.values()];
-        if(lines.length) {
+        if (lines.length) {
             this.execute(routeLinesThroughBlock(canvas, block, lines));
             this.execute(unselectAllObjects(editor));
             this.execute(selectObject(editor, this.block));

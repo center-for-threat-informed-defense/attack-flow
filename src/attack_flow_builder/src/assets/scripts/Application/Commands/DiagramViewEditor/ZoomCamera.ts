@@ -27,7 +27,7 @@ export class ZoomCamera extends AppCommand {
         this.editor = editor;
         const camera = editor.file.camera;
         const k = camera.k;
-        this.location = { 
+        this.location = {
             x: camera.x,
             y: camera.y,
             k: k + delta

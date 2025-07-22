@@ -8,7 +8,7 @@
  *  True if the hotkey was active, false otherwise.
  */
 export function wasHotkeyActive(event: MouseEvent, hotkey: string): boolean {
-    switch(hotkey.toLocaleLowerCase()) {
+    switch (hotkey.toLocaleLowerCase()) {
         case "alt":
             return event.altKey;
         case "control":
@@ -18,6 +18,6 @@ export function wasHotkeyActive(event: MouseEvent, hotkey: string): boolean {
         case "meta":
             return event.metaKey;
         default:
-            throw new Error(`Cannot check '${hotkey}'.`)
+            throw new Error(`Cannot check '${hotkey}'.`);
     }
 }

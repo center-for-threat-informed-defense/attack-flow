@@ -2,8 +2,8 @@ import { DarkTheme } from "../AttackFlowThemes/DarkTheme";
 import { AnchorPosition } from "@OpenChart/DiagramView";
 import { AnchorConfiguration } from "../AttackFlowTemplates/AnchorFormat";
 import { roundNearestMultiple } from "@/assets/scripts/OpenChart/Utilities";
-import { 
-    ConditionAnchorPositionMap, LegacyV2TemplateMap, 
+import {
+    ConditionAnchorPositionMap, LegacyV2TemplateMap,
     PositionSetByUser, PositionSetByUserMask,
     StandardAnchorPositionMap
 } from "./FileDefinitions";
@@ -13,7 +13,7 @@ import type { LegacyV2PageExport } from "./FileDefinitions";
 import type { DiagramObjectExport } from "@OpenChart/DiagramModel";
 
 export class AttackFlowFilePreprocessor implements FilePreprocessor {
-    
+
     /**
      * Preprocess a save file.
      * @remarks
@@ -38,7 +38,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
      */
     public migrate(file: any): DiagramViewExport {
         // If file contains 'version', it's likely an Attack Flow v2 file
-        if("version" in file) {
+        if ("version" in file) {
             // Migrate file
             file = this.fromV2(file as LegacyV2PageExport);
             // Alert user
@@ -63,7 +63,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
      *  The converted {@link DiagramViewExport}.
      */
     public fromV2(file: LegacyV2PageExport) : DiagramViewExport {
-        const gridSize = DarkTheme.grid
+        const gridSize = DarkTheme.grid;
 
         // Create new file
         const migratedFile : DiagramViewExport = {
@@ -77,15 +77,15 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
         // Migrate objects
         const oldObjectLookup = new Map(file.objects.map(o => [o.id, o]));
         const newObjectLookup = new Map<string, DiagramObjectExport>();
-        for(const obj of file.objects) {
-            
+        for (const obj of file.objects) {
+
             // Migrate Object
             let migratedObj: DiagramObjectExport;
-            switch(obj.template) {
+            switch (obj.template) {
 
                 // Migrate flow
                 case "flow":
-                    migratedObj = { 
+                    migratedObj = {
                         id         : obj.template,
                         instance   : obj.id,
                         properties : obj.properties,
@@ -101,7 +101,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
                 case "@__builtin__anchor":
                 case "false_anchor":
                 case "true_anchor":
-                    migratedObj = { 
+                    migratedObj = {
                         id       : "",
                         instance : obj.id,
                         latches  : obj.children
@@ -120,17 +120,17 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
                         roundNearestMultiple(obj.y, gridSize[1])
                     ];
                     break;
-                
+
                 // Migrate handles
                 case "@__builtin__line_handle":
                     migratedObj = {
                         id       : "generic_handle",
-                        
+
                         instance : obj.id
                     };
                     // Set position, if configured by user
                     const sby = obj.attrs & PositionSetByUserMask;
-                    if(sby === PositionSetByUser.True) {
+                    if (sby === PositionSetByUser.True) {
                         migratedFile.layout![obj.id] = [
                             roundNearestMultiple(obj.x, gridSize[0]),
                             roundNearestMultiple(obj.y, gridSize[1])
@@ -148,9 +148,9 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
                         target: "",
                         handles  : []
                     };
-                    for(const childId of obj.children) {
+                    for (const childId of obj.children) {
                         const childObj = oldObjectLookup.get(childId);
-                        switch(childObj?.template ?? "") {
+                        switch (childObj?.template ?? "") {
                             case "@__builtin__line_source":
                                 migratedObj.source = childId;
                                 continue;
@@ -165,7 +165,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
                         }
                     }
                     break;
-                
+
                 // Migrate blocks
                 case "action":
                     // Convert tactic / technique properties
@@ -174,7 +174,8 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
                         "ttp", [
                             [
                                 "tactic",
-                                ap.get("tactic_id") ?? null],
+                                ap.get("tactic_id") ?? null
+                            ],
                             [
                                 "technique",
                                 ap.get("technique_id") ?? null
@@ -185,7 +186,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
 
                 default:
                     const id = LegacyV2TemplateMap[obj.template] ?? obj.template;
-                    migratedObj = { 
+                    migratedObj = {
                         id         : id,
                         instance   : obj.id,
                         properties : obj.properties,
@@ -199,7 +200,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
                     const anchors = [];
                     for (const childId of obj.children) {
                         const childObj = oldObjectLookup.get(childId);
-                        switch(childObj?.template ?? "") {
+                        switch (childObj?.template ?? "") {
                             case "@__builtin__anchor":
                             case "true_anchor":
                             case "false_anchor":
@@ -224,7 +225,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
             newObjectLookup.set(migratedObj.instance, migratedObj);
         }
 
-        // Now that anchors are associated to nodes, update their ID to 
+        // Now that anchors are associated to nodes, update their ID to
         // differentiate horizontal from vertical.
         for (const migratedObj of newObjectLookup.values()) {
             if (!("anchors" in migratedObj)) {
@@ -244,7 +245,7 @@ export class AttackFlowFilePreprocessor implements FilePreprocessor {
         migratedFile.objects = [...newObjectLookup.values()];
         return migratedFile;
     }
-    
+
 }
 
 export default AttackFlowFilePreprocessor;

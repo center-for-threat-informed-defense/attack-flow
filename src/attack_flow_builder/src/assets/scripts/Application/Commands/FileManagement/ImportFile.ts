@@ -1,8 +1,8 @@
 import { AppCommand } from "../AppCommand";
 import { DiagramViewFile } from "@OpenChart/DiagramView";
 import { roundNearestMultiple } from "@OpenChart/Utilities";
-import { 
-    addGroupToGroup, DiagramViewEditor, 
+import {
+    addGroupToGroup, DiagramViewEditor,
     GroupCommand, selectObject, unselectAllObjects
 } from "@OpenChart/DiagramEditor";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
@@ -41,7 +41,7 @@ export class ImportFile extends AppCommand {
         // Validate import
         const trgId = file.factory.id;
         const srcId = this.editor.file.factory.id;
-        if(srcId !== trgId) {
+        if (srcId !== trgId) {
             throw new Error(
                 `Destination file schema '${trgId}' ` +
                 `does not match import schema '${srcId}'.`
@@ -59,7 +59,7 @@ export class ImportFile extends AppCommand {
 
         // Position file
         const canvas = this.editor.file.canvas;
-        if(this.file.canvas.instance === canvas.instance) {
+        if (this.file.canvas.instance === canvas.instance) {
             // If import is from the same file, insert it at an offset
             const offset = this.solvePlacement(this.editor.file, this.file);
             this.file.canvas.moveBy(
@@ -79,13 +79,13 @@ export class ImportFile extends AppCommand {
         const cmd = new GroupCommand();
         cmd.do(addGroupToGroup(this.file.canvas, this.editor.file.canvas));
         cmd.do(unselectAllObjects(this.editor));
-        for(const object of this.file.canvas.objects) {
+        for (const object of this.file.canvas.objects) {
             cmd.do(selectObject(this.editor, object));
         }
         this.editor.execute(cmd);
-    
+
     }
-    
+
     /**
      * Determines `src` file's best offset in `dst` file.
      * @param dst
@@ -97,23 +97,23 @@ export class ImportFile extends AppCommand {
      */
     private solvePlacement(dst: DiagramViewFile, src: DiagramViewFile): [number, number] {
         const objects = [...src.canvas.objects];
-        if(!objects.length) {
-            return [0,0];
+        if (!objects.length) {
+            return [0, 0];
         }
         // Compile placements
         const placements = new Set<string>();
-        for(const object of dst.canvas.objects) {
+        for (const object of dst.canvas.objects) {
             placements.add(`${object.x}:${object.y}`);
         }
         // Locate collisions
         const grid = dst.canvas.grid;
-        const offset: [number, number] = [0,0];
+        const offset: [number, number] = [0, 0];
         const offsetUnits = this.context.settings.edit.clone_offset;
         const leader = objects[0];
-        for(let x = leader.x, y = leader.y;;) {
+        for (let x = leader.x, y = leader.y; ;) {
             x = leader.x + offset[0];
             y = leader.y + offset[1];
-            if(!placements.has(`${x}:${y}`)) {
+            if (!placements.has(`${x}:${y}`)) {
                 return offset;
             }
             offset[0] += offsetUnits[0] * grid[0];

@@ -8,4 +8,4 @@ export type TuplePropertyOptions = PropertyOptions & {
      */
     combinations?: CombinationIndex;
 
-}
+};

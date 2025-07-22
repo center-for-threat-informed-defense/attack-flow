@@ -319,7 +319,7 @@ export class HandleView extends Handle implements ViewObject {
     //  7. Cloning  ///////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
 
-    
+
     /**
      * Returns a complete clone of the object.
      * @param instance

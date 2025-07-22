@@ -15,7 +15,7 @@ export interface DomainName extends StixObservableObjectBase<"domain-name"> {
     /**
      * Specifies a list of references to one or more IP addresses or domain
      * names that the domain name resolves to.
-     * 
+     *
      * The objects referenced in this list MUST be of type ipv4-addr or
      * ipv6-addr or domain-name (for cases such as CNAME records).
      */

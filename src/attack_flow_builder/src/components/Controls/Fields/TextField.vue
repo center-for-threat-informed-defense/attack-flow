@@ -151,8 +151,8 @@ export default defineComponent({
       if(field.selectionStart !== field.selectionEnd) {
         return;
       }
-      let options = this.options;
-      let optionsList = this.$refs.optionsList as any;
+      const options = this.options;
+      const optionsList = this.$refs.optionsList as any;
       let canAcceptSuggestion;
       let idx = options.findIndex(o => o.value === this.select);
       switch(event.key) {

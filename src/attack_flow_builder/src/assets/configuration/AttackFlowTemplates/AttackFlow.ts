@@ -22,7 +22,7 @@ export const AttackFlow: CanvasTemplate = {
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 },
                 identity_class: {
@@ -73,7 +73,7 @@ export const AttackFlow: CanvasTemplate = {
                         metadata: {
                             validator: {
                                 is_required: true
-                            }       
+                            }
                         }
                     },
                     description: {

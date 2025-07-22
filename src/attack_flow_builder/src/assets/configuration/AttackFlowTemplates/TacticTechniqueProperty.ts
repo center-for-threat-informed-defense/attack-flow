@@ -5,7 +5,7 @@ import type { TuplePropertyDescriptor, ValueCombinations } from "@OpenChart/Diag
 export const TacticTechniqueProperty: TuplePropertyDescriptor = {
     type: PropertyType.Tuple,
     form: {
-        "tactic": {
+        tactic: {
             type: PropertyType.String,
             options: {
                 type: PropertyType.List,
@@ -13,7 +13,7 @@ export const TacticTechniqueProperty: TuplePropertyDescriptor = {
                 default: Enums.tactics as [string, string][]
             }
         },
-        "technique": {
+        technique: {
             type: PropertyType.String,
             options: {
                 type: PropertyType.List,
@@ -24,4 +24,4 @@ export const TacticTechniqueProperty: TuplePropertyDescriptor = {
         }
     },
     validValueCombinations: Enums.relationships as ValueCombinations
-}
+};

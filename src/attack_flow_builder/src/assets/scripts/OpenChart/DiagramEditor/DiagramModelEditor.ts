@@ -117,7 +117,7 @@ export class DiagramModelEditor<
         this.reindexFile();
     }
 
-    
+
     ///////////////////////////////////////////////////////////////////////////
     //  1. Command Streams  ///////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -133,8 +133,8 @@ export class DiagramModelEditor<
      *  The stream's identifier.
      */
     public beginCommandStream(id: string) {
-        if(this._streams.has(id)) {
-            throw new Error(`Command stream '${id}' already exists.`)
+        if (this._streams.has(id)) {
+            throw new Error(`Command stream '${id}' already exists.`);
         } else {
             this._streams.set(id, new GroupCommand());
         }
@@ -147,9 +147,9 @@ export class DiagramModelEditor<
      */
     public endCommandStream(id: string) {
         const cmd = this._streams.get(id);
-        if(!cmd) {
+        if (!cmd) {
             throw new Error(`Command stream '${id}' does not exist.`);
-        } else if(!cmd.isEmpty) {
+        } else if (!cmd.isEmpty) {
             this._redoStack = [];
             this._undoStack.push(cmd);
         }
@@ -159,13 +159,13 @@ export class DiagramModelEditor<
     /**
      * Records a command to a command stream.
      * @param id
-     *  The stream's identifier. 
+     *  The stream's identifier.
      * @param command
      *  The command.
      */
     private recordCommandToStream(id: string, command: SynchronousEditorCommand) {
         const group = this._streams.get(id);
-        if(!group) {
+        if (!group) {
             throw new Error(`Command stream '${id}' does not exist.`);
         } else {
             group.do(command);
@@ -199,7 +199,7 @@ export class DiagramModelEditor<
         this.executeDirectives(args);
         // Update command history
         if (args.directives & EditorDirective.Record) {
-            if(stream) {
+            if (stream) {
                 this.recordCommandToStream(stream, cmd);
             } else {
                 this._redoStack = [];
@@ -268,7 +268,7 @@ export class DiagramModelEditor<
         // Emit 'beforeEdit' hook
         this.emit("beforeEdit", this, cmd);
         // Execute undo
-        if(cmd instanceof SynchronousEditorCommand) {
+        if (cmd instanceof SynchronousEditorCommand) {
             cmd.undo(issuer);
         } else {
             await cmd.undo(issuer);
@@ -302,7 +302,7 @@ export class DiagramModelEditor<
         // Emit 'beforeEdit' hook
         this.emit("beforeEdit", this, cmd);
         // Execute redo
-        if(cmd instanceof SynchronousEditorCommand) {
+        if (cmd instanceof SynchronousEditorCommand) {
             cmd.redo(issuer);
         } else {
             await cmd.redo(issuer);
@@ -396,8 +396,8 @@ export class DiagramModelEditor<
      *  The {@link DiagramObject}.
      */
     public lookup(id: string): DiagramObject | undefined {
-        for(const obj of traverse(this.file.canvas)) {
-            if(obj.instance === id) {
+        for (const obj of traverse(this.file.canvas)) {
+            if (obj.instance === id) {
                 return obj;
             }
         }

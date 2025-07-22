@@ -5,6 +5,6 @@ export type DatePropertyOptions = PropertyOptions & {
     /**
      * The property's default timezone.
      */
-    zone?: string
+    zone?: string;
 
-}
+};

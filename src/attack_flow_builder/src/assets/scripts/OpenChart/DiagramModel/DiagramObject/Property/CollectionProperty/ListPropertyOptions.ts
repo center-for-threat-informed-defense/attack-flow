@@ -8,4 +8,4 @@ export type ListPropertyOptions = PropertyOptions & {
      */
     template: Property;
 
-}
+};

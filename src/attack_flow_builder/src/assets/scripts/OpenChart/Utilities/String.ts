@@ -50,5 +50,5 @@ export function titleCase(text: string): string {
  *  The filename stripped of its extension.
  */
 export function stripExtension(text: string): string {
-    return text.replace(/\.\w+?$/, "")
+    return text.replace(/\.\w+?$/, "");
 }

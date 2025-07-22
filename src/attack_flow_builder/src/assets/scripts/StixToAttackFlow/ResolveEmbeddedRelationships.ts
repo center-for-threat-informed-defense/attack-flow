@@ -13,11 +13,11 @@ export function resolveEmbeddedRelationships(stix: StixObject): string[] {
         stix.object_marking_refs
     ];
     // Created By
-    if("created_by_ref" in stix) {
+    if ("created_by_ref" in stix) {
         common.push(stix.created_by_ref);
     }
     // Type Specific
-    switch(stix.type) {
+    switch (stix.type) {
         case "note":
         case "grouping":
         case "observed-data":
@@ -46,7 +46,7 @@ export function resolveEmbeddedRelationships(stix: StixObject): string[] {
                 stix.sighting_of_ref,
                 stix.observed_data_refs,
                 stix.where_sighted_refs
-            )
+            );
         case "directory":
             return compileIdentifiers(
                 ...common,
@@ -67,7 +67,7 @@ export function resolveEmbeddedRelationships(stix: StixObject): string[] {
                 stix.bcc_refs,
                 stix.raw_email_ref
             );
-    case "file":
+        case "file":
             return compileIdentifiers(
                 ...common,
                 stix.parent_directory_ref,
@@ -104,13 +104,13 @@ export function resolveEmbeddedRelationships(stix: StixObject): string[] {
                 stix.command_ref,
                 stix.asset_refs,
                 stix.effect_refs
-            )
+            );
         case "attack-condition":
             return compileIdentifiers(
                 ...common,
                 stix.on_true_refs,
                 stix.on_false_refs
-            )
+            );
         case "attack-asset":
             return compileIdentifiers(
                 ...common,
@@ -120,11 +120,11 @@ export function resolveEmbeddedRelationships(stix: StixObject): string[] {
             return compileIdentifiers(
                 ...common,
                 stix.effect_refs
-            )
+            );
         default:
             return compileIdentifiers(
                 ...common
-            )
+            );
     }
 }
 

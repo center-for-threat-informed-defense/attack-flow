@@ -42,8 +42,8 @@ export abstract class Property {
      * The property's fully-qualified name.
      */
     public get fqn(): string {
-        if(this._parent) {
-            return `${ this._parent?.fqn }.${ this.id }`
+        if (this._parent) {
+            return `${this._parent?.fqn}.${this.id}`;
         } else {
             return this.id;
         }

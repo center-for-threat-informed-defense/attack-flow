@@ -15,7 +15,7 @@ export class LayoutBox {
 
     /**
      * The box's root layout.
-     * @returns 
+     * @returns
      */
     public get rootLayout(): LayoutBox | null {
         return this.parent?.rootLayout ?? null;
@@ -44,7 +44,7 @@ export class LayoutBox {
     /**
      * Adds an element to the layout box.
      * @param element
-     *  The element. 
+     *  The element.
      */
     public add(element: LayoutBox | GraphNode) {
         this._elements.push(element);

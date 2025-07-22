@@ -49,7 +49,7 @@ export class CopySelectedChildrenToClipboard extends AppCommand {
             e.padding,
             d.display_shadows,
             d.display_debug_info,
-            e.include_background            
+            e.include_background
         );
         const canvas = image.capture([...virtualCanvas.objects]);
 
@@ -59,27 +59,27 @@ export class CopySelectedChildrenToClipboard extends AppCommand {
                 canvas.toBlob((blob) => {
                     blob ? res(blob) : rej(new Error("Unable to create blob."));
                 }, "image/png");
-            } catch(err) {
+            } catch (err) {
                 rej(err);
             }
         });
-        
+
         // Convert image to PNG base64
         const pngUrl = canvas.toDataURL("image/png");
 
         /**
          * Developer's Note:
          * An HTML image is copied to the clipboard. This allows the selection
-         * to pasted as an image into WYSIWYG editors. 
-         * 
+         * to pasted as an image into WYSIWYG editors.
+         *
          * The selection's JSON file is also base64-encoded as an additional
          * HTML attribute. This allows the selection to be pasted as editable
-         * objects into Attack Flow editors. 
+         * objects into Attack Flow editors.
          */
         const json = JSON.stringify(virtualFile.toExport());
         const htmlBlob = new Blob([
             `<img id="attack-flow-file" src="${pngUrl}" json-data="${Base64.encode(json)}">`
-        ], { type:"text/html" })
+        ], { type:"text/html" });
 
         // Write image to device's clipboard
         const clipboardData = [
@@ -98,5 +98,5 @@ export class CopySelectedChildrenToClipboard extends AppCommand {
         }
 
     }
-    
+
 }

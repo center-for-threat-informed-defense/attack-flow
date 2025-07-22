@@ -46,10 +46,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./src/attack_flow_builder/
         run: npm ci
-    # Temporarily disable tests and linting
-    # - name: Lint
-    #   working-directory: ./src/attack_flow_builder/
-    #   run: npm run lint
+      - name: Lint
+        working-directory: ./src/attack_flow_builder/
+        run: npm run lint
       - name: Run unit tests
         working-directory: ./src/attack_flow_builder/
         run: npm run test:unit

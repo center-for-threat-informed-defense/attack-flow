@@ -6,6 +6,6 @@ export type StringPropertyOptions = PropertyOptions & {
     /**
      * The property's suggested options.
      */
-    options?: ListProperty
+    options?: ListProperty;
 
-}
+};

@@ -2,13 +2,13 @@ import { GroupCommand } from "../GroupCommand";
 import { DiagramViewEditor } from "../../DiagramViewEditor";
 import { SelectionAnimation } from "./Animations";
 import { SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
-import { 
+import {
     MoveCameraToObjects,
     SpawnObject
 } from "../ViewFile/index.commands";
-import { 
+import {
     RemoveSelectedChildren,
-    RunAnimation, 
+    RunAnimation,
     SelectObjects,
     StopContinuousAnimation
 } from "../View/index.commands";
