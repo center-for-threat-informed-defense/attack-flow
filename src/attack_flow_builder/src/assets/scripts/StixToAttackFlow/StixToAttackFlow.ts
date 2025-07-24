@@ -143,7 +143,7 @@ export class StixToAttackFlowConverter {
      */
     private translateStix<T extends DiagramObject>(stix: StixObject, type?: Constructor<T>): T | null {
         // Resolve template
-        const template = StixToTemplate[stix.type];
+        const template = StixToTemplate[stix.type as keyof typeof StixToTemplate];
         if (template === null) {
             return null;
         }

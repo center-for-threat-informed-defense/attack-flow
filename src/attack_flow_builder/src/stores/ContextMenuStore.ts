@@ -795,7 +795,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
  */
 function prepareCreateMenu(
     templates: ReadonlyMap<string, DiagramObjectTemplate>,
-    spawn: (id: string) => SpawnObject
+    spawn: (id: string) => EditorCommands.GroupCommand
 ): ContextMenuSubmenu<CommandEmitter> {
     type MenuMap<T> = {
         menu: T;

@@ -22,12 +22,14 @@ export class AutomaticLayoutEngine implements DiagramLayoutEngine {
         const nodes = new Set<DiagramObjectView>();
         const lines = new Set<LineView>();
 
+        // @ts-expect-error: this is a work in progress
         for (const block of objects[0]._blocks) {
             if (block instanceof BlockView) {
                 nodes.add(block);
             }
         }
 
+        // @ts-expect-error: this is a work in progress
         for (const line of objects[0]._lines) {
             if (line instanceof LineView) {
                 lines.add(line);

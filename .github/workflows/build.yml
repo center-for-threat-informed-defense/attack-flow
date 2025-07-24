@@ -68,9 +68,7 @@ jobs:
         run: npm ci
       - name: Build
         working-directory: ./src/attack_flow_builder/
-        # Temporarily disable type checking
-        # run: npm run build
-        run: npm run build-only
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

@@ -281,8 +281,8 @@ describe("OpenChart", () => {
         it("exports valid import", async () => {
             const file = await createTestingFile();
             const expected = file.toExport();
-            expected.layout["1dd3ff00-4931-4005-9e7b-b6511e9cd246"] = [5, 5];
-            expected.layout["9aee95bb-6c28-48ad-9ad1-1042ff3e0aaf"] = [7.5, 7.5];
+            expected.layout!["1dd3ff00-4931-4005-9e7b-b6511e9cd246"] = [5, 5];
+            expected.layout!["9aee95bb-6c28-48ad-9ad1-1042ff3e0aaf"] = [7.5, 7.5];
             for (const obj of expected.objects) {
                 if (typeof obj.properties === "undefined") {
                     delete obj.properties;

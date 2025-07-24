@@ -6,9 +6,10 @@ import {
     EnumProperty, ListProperty, Property, SemanticAnalyzer,
     SemanticGraphNode, StringProperty
 } from "@OpenChart/DiagramModel";
-import type { GraphExport } from "@OpenChart/DiagramModel";
+import type { GraphExport, JsonValue } from "@OpenChart/DiagramModel";
 import type { FilePublisher } from "@/assets/scripts/Application";
 import Enums from "../AttackFlowTemplates/MitreAttack";
+import type { Prop } from "vue";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -192,17 +193,19 @@ class AttackFlowPublisher implements FilePublisher {
         for (let [key, prop] of property.value) {
             switch (key) {
                 case "ttp":
-                    const json = prop.toJson();
-                    if (json.tactic) {
-                        node["tactic_id"] = json.tactic;
-                        if (json.tactic in Enums.stixIds) {
-                            node["tactic_ref"] = Enums.stixIds[json.tactic];
+                    const json = prop.toJson() as { [x: string]: JsonValue };
+                    const tactic = json?.tactic as null | string;
+                    if (tactic) {
+                        node["tactic_id"] = tactic;
+                        if (tactic in Enums.stixIds) {
+                            node["tactic_ref"] = Enums.stixIds[tactic as keyof typeof Enums.stixIds];
                         }
                     }
-                    if (json.technique) {
-                        node["technique_id"] = json.technique;
-                        if (json.technique in Enums.stixIds) {
-                            node["technique_ref"] = Enums.stixIds[json.technique];
+                    const technique = json?.technique as null | string;
+                    if (technique) {
+                        node["technique_id"] = technique;
+                        if (technique in Enums.stixIds) {
+                            node["technique_ref"] = Enums.stixIds[technique as keyof typeof Enums.stixIds];
                         }
                     }
                     break;
@@ -324,7 +327,14 @@ class AttackFlowPublisher implements FilePublisher {
                     }
                 }
                 if (hashList.length > 0) {
-                    const hashes = hashList.map(hash => [hash.hash_type, hash.hash_value]); // Drop the property labels
+                    const hashes = hashList.map(hash => {
+                        const hashJson = hash as { [x: string]: JsonValue };
+                        if (hashJson) {
+                            return [hashJson.hash_type, hashJson.hash_value];
+                        } else {
+                            return [];
+                        }
+                    }); // Drop the property labels
                     node[key] = Object.fromEntries(hashes);
                 }
         }
@@ -728,10 +738,13 @@ class AttackFlowPublisher implements FilePublisher {
                         if (!(ref instanceof DictionaryProperty)) {
                             throw new Error(`'${key}' is improperly defined.`);
                         }
-                        const entries = Object
-                            .entries(this.toStixValue(ref))
-                            .filter(o => o[1] !== null);
-                        extRefs.push(Object.fromEntries(entries));
+                        const stixVal = this.toStixValue(ref);
+                        if (stixVal) {
+                            const entries = Object
+                                .entries(stixVal)
+                                .filter(o => o[1] !== null);
+                            extRefs.push(Object.fromEntries(entries));
+                        }
                     }
                     if (extRefs.length > 0) {
                         flow[key] = extRefs;
@@ -993,7 +1006,7 @@ class AttackFlowPublisher implements FilePublisher {
      * @returns
      *  A STIX-formatted JSON property
      */
-    public toStixValue(prop: Property) {
+    public toStixValue(prop: Property): JsonValue {
         if (prop instanceof DateProperty) {
             return prop.toUtcIso();
         } else {
