@@ -18,6 +18,7 @@ globally. The project is funded by our `research participants
     introduction
     example_flows
     builder
+    training
     usage_guides/index
     visualization
     language
