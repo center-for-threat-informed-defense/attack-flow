@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "test:unit": "vitest run",
     "test:watch": "vitest",
+    "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
