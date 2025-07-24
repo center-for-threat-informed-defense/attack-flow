@@ -7,7 +7,6 @@ import { titleCase } from "@OpenChart/Utilities";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { useApplicationStore } from "./ApplicationStore";
-import type { SpawnObject } from "@OpenChart/DiagramEditor/Commands/ViewFile/index.commands";
 import type { CommandEmitter } from "@/assets/scripts/Application";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
 import type { ContextMenu, ContextMenuItem, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
