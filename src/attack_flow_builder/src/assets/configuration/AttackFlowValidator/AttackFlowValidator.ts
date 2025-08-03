@@ -1,14 +1,14 @@
 import { FileValidator } from "@/assets/scripts/Application";
-import { 
+import {
     DiagramModelFile, DictionaryProperty,
     ListProperty, Property, SemanticAnalyzer
 } from "@OpenChart/DiagramModel";
 import {
-    EmailRegex, HashRegexes, IPv4Regex, IPv6Regex, 
+    EmailRegex, HashRegexes, IPv4Regex, IPv6Regex,
     MacAddressRegex, MimeTypeRegex, PayloadRegex,
     StixObservables, StixRegex, WindowsRegistryRegex
 } from "./AttackFlowRegex";
-import type { 
+import type {
     GraphExport, SemanticGraphNode, SemanticGraphEdge
 } from "@OpenChart/DiagramModel";
 
@@ -258,20 +258,20 @@ class AttackFlowValidator extends FileValidator {
      */
     protected validateProperty(instance: string, name: string, property: Property) {
         const metadata = property.metadata?.validator ?? {};
-        if(property instanceof DictionaryProperty) {
+        if (property instanceof DictionaryProperty) {
             for (const [k, v] of property.value) {
                 this.validateProperty(instance, `${name}.${k}`, v);
             }
-        } else if(property instanceof ListProperty) {
+        } else if (property instanceof ListProperty) {
             const min_items = metadata.min_items ?? null;
             if (min_items != null && property.value.size < min_items) {
                 const suffix = min_items === 1 ? "" : "s";
                 this.addError(instance, `${name}: Requires at least ${min_items} item${suffix}`);
             }
             for (const v of property.value.values()) {
-                if(v instanceof DictionaryProperty) {
+                if (v instanceof DictionaryProperty) {
                     this.validateProperty(instance, name, v);
-                } else if(v instanceof ListProperty) {
+                } else if (v instanceof ListProperty) {
                     throw new Error("Unexpected list property.");
                 } else if (!v.isDefined()) {
                     this.addError(instance, `Empty item in "${name}" list.`);

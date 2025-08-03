@@ -13,7 +13,7 @@ export class RootProperty extends DictionaryProperty {
      * Creates a new {@link RootProperty}.
      */
     constructor() {
-        super({ id: Crypto.randomUUID(), editable: true});
+        super({ id: Crypto.randomUUID(), editable: true });
         this.listeners = new Map();
     }
 

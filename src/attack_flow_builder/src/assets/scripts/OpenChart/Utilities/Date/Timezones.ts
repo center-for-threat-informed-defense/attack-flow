@@ -7,12 +7,12 @@ import { DateTime } from "luxon";
  */
 export function getDeviceTimezones() {
     // Cast `supportedValuesOf` support
-    const _Intl = Intl as unknown as { 
-        supportedValuesOf(str: string): string []
+    const _Intl = Intl as unknown as {
+        supportedValuesOf(str: string): string [];
     };
     // Collect timezone offsets
     const timeZones = new Map<string, DateTime>();
-    for(const zone of _Intl.supportedValuesOf("timeZone")) {
+    for (const zone of _Intl.supportedValuesOf("timeZone")) {
         const timeZone = DateTime.local({ zone });
         timeZones.set(zone, timeZone);
     }

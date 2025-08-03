@@ -28,7 +28,7 @@ export interface Identity extends BaseStixDomainObject<"identity"> {
     /**
      * The type of entity that this Identity describes, e.g., an individual or
      * organization.
-     * 
+     *
      * The value for this property SHOULD come from the identity-class-ov open
      * vocabulary.
      */
@@ -36,7 +36,7 @@ export interface Identity extends BaseStixDomainObject<"identity"> {
 
     /**
      * The list of industry sectors that this Identity belongs to.
-     * 
+     *
      * The values for this property SHOULD come from the industry-sector-ov open
      * vocabulary.
      */

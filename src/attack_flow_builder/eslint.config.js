@@ -46,7 +46,7 @@ export default [
       // Commas
       "@stylistic/ts/comma-dangle": ["error", "never"],
       "@stylistic/js/comma-style": ["error", "last"],
-      
+
       // Semi-colons
       "@stylistic/ts/semi": ["error", "always"],
       "@stylistic/js/semi-style": ["error", "last"],
@@ -108,7 +108,7 @@ export default [
       // Spacing: Functions
       "@stylistic/ts/function-call-spacing": ["error", "never"],
       "@stylistic/ts/space-before-function-paren": ["error", {
-          "named": "never",  
+          "named": "never",
           "anonymous": "never",
           "asyncArrow": "always"
       }],
@@ -123,8 +123,7 @@ export default [
       // Spacing: Commas
       "@stylistic/ts/comma-spacing": ["error", { "before": false, "after": true }],
       // Spacing: Strings
-      "@stylistic/js/template-curly-spacing": "error"
-
+      "@stylistic/js/template-curly-spacing": "error",
     }
   },
   ...pluginVue.configs['flat/strongly-recommended'],

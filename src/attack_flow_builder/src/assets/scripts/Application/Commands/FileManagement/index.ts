@@ -5,9 +5,9 @@ import { AppCommand } from "../index.commands";
 import { stripExtension } from "@OpenChart/Utilities";
 import { StixToAttackFlowConverter } from "@/assets/scripts/StixToAttackFlow";
 import { DiagramObjectViewFactory, DiagramViewFile } from "@OpenChart/DiagramView";
-import { 
-    ClearFileRecoveryBank, 
-    ImportFile, 
+import {
+    ClearFileRecoveryBank,
+    ImportFile,
     LoadFile,
     PrepareEditorWithFile,
     PublishDiagramFileToDevice,
@@ -59,7 +59,7 @@ export async function loadExistingFile(
 ): Promise<LoadFile> {
     let jsonFile = JSON.parse(file) as DiagramViewExport;
     // Preprocess file
-    if(context.activeFilePreprocessor) {
+    if (context.activeFilePreprocessor) {
         jsonFile = context.activeFilePreprocessor.process(jsonFile);
     }
     // Construct factory
@@ -108,7 +108,7 @@ export async function loadFileFromUrl(
     const path = new URL(url).pathname.split(/\//g);
     // Parse filename
     let filename = path[path.length - 1];
-    if(filename) {
+    if (filename) {
         filename = stripExtension(decodeURI(filename));
     } else {
         filename = "Untitled File";
@@ -132,7 +132,7 @@ export async function loadExistingStixFile(
 ): Promise<LoadFile> {
     const stixBundle = JSON.parse(file) as StixBundle;
     // Construct factory
-    const factory = await getObjectFactory(context)
+    const factory = await getObjectFactory(context);
     // Translate STIX
     const jsonFile = new StixToAttackFlowConverter(factory).convert(stixBundle);
     // Construct file
@@ -167,7 +167,7 @@ export async function loadStixFileFromFileSystem(
  * @param id
  *  The requested schema.
  *  (Default: The Primary Application Schema)
- * @returns 
+ * @returns
  */
 async function getObjectFactory(
     context: ApplicationStore, id?: string
@@ -207,7 +207,7 @@ export async function importExistingFile(
     // Parse file
     let jsonFile = JSON.parse(file) as DiagramViewExport;
     // Preprocess file
-    if(context.activeFilePreprocessor) {
+    if (context.activeFilePreprocessor) {
         jsonFile = context.activeFilePreprocessor.process(jsonFile);
     }
     // Construct factory
@@ -256,7 +256,7 @@ export async function importExistingStixFile(
 ): Promise<AppCommand> {
     const stixBundle = JSON.parse(file) as StixBundle;
     // Construct factory
-    const factory = await getObjectFactory(context)
+    const factory = await getObjectFactory(context);
     // Translate STIX
     const jsonFile = new StixToAttackFlowConverter(factory).convert(stixBundle);
     // Construct file

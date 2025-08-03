@@ -54,7 +54,7 @@ export abstract class SynchronousEditorCommand {
      * @returns
      *  The merged command. `null` if a merge is not possible.
      */
-    public merge(command: SynchronousEditorCommand): SynchronousEditorCommand | null {
+    public merge(_command: SynchronousEditorCommand): SynchronousEditorCommand | null {
         return null;
     }
 

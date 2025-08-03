@@ -25,7 +25,7 @@ export class NodeContext implements DeviceContext {
      *  The text file's extension.
      *  (Default: 'txt')
      */
-    downloadTextFile(filename: string, text: string, ext?: string): void {
+    downloadTextFile(_filename: string, _text: string, _ext?: string): void {
         throw new Error("Method not implemented.");
     }
 
@@ -36,7 +36,7 @@ export class NodeContext implements DeviceContext {
      * @param canvas
      *  The image file's contents.
      */
-    public downloadImageFile(filename: string, canvas: HTMLCanvasElement) {
+    public downloadImageFile(_filename: string, _canvas: HTMLCanvasElement) {
         throw new Error("Method not implemented.");
     }
 
@@ -53,7 +53,7 @@ export class NodeContext implements DeviceContext {
      * @returns
      *  A Promise that resolves with the chosen text file.
      */
-    public openTextFileDialog(...fileTypes: string[]): Promise<TextFile | void> {
+    public openTextFileDialog(..._fileTypes: string[]): Promise<TextFile | void> {
         throw new Error("Method not implemented.");
     }
 
@@ -69,7 +69,7 @@ export class NodeContext implements DeviceContext {
      *  The element to fullscreen.
      *  (Default: `document.body`)
      */
-    public fullscreen(el: HTMLElement = document.body) {
+    public fullscreen(_el: HTMLElement = document.body) {
         throw new Error("Method not implemented.");
     }
 

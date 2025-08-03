@@ -13,14 +13,14 @@ export const StandardAnchorPositionMap = [
     AnchorPosition.D30,
     AnchorPosition.D0,
     AnchorPosition.D330,
-    
+
     AnchorPosition.D300,
     AnchorPosition.D270,
     AnchorPosition.D240,
-    
+
     AnchorPosition.D210,
     AnchorPosition.D180,
-    AnchorPosition.D150,
+    AnchorPosition.D150
 ];
 
 /**

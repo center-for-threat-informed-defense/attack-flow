@@ -17,7 +17,7 @@ export class DateProperty extends Property {
      * The property's timezone.
      */
     public readonly timezone: EnumProperty;
-    
+
     /**
      * The internal property's value.
      */
@@ -41,7 +41,7 @@ export class DateProperty extends Property {
     constructor(options: DatePropertyOptions, value?: JsonValue) {
         super(options);
         this._time = null;
-        this.timezone = new EnumProperty({ 
+        this.timezone = new EnumProperty({
             id       : "tz",
             editable : true,
             options  : DateProperty.timezones
@@ -74,7 +74,7 @@ export class DateProperty extends Property {
     public setValue(value: JsonValue, update: boolean = true) {
         if (value === null) {
             this.setTime(null, update);
-        } else if(typeof value === "string") {
+        } else if (typeof value === "string") {
             this.setTime(DateTime.fromISO(value), update);
         } else if (this.isJsonDateValue(value)) {
             this.setTime(DateTime.fromISO(value.time), update);
@@ -94,18 +94,18 @@ export class DateProperty extends Property {
      */
     public setTime(value: DateTime | Date | null, update: boolean = true) {
         const tz = this.timezone.value ?? Settings.defaultZone.name;
-        if(value === null) {
+        if (value === null) {
             this._time = null;
-        } else if(value instanceof DateTime) {
+        } else if (value instanceof DateTime) {
             this._time = value.setZone(tz, {
                 keepLocalTime: true
             });
         } else if (value instanceof Date) {
-            this._time = DateTime.fromJSDate(value).setZone(tz, { 
+            this._time = DateTime.fromJSDate(value).setZone(tz, {
                 keepLocalTime: true
             });
         }
-        if(update) {
+        if (update) {
             this.updateParentProperty();
         }
     }
@@ -115,7 +115,7 @@ export class DateProperty extends Property {
      * @remarks
      *  Expected format: [+-]00:00
      * @param tz
-     *  The timezone's offset.  
+     *  The timezone's offset.
      * @param update
      *  Whether to update the parent or not.
      *  (Default: `true`)
@@ -125,10 +125,10 @@ export class DateProperty extends Property {
         // Set timezone
         this.timezone.setValue(tz);
         // Update date object
-        if(this._time) {
+        if (this._time) {
             this._time = this._time.setZone(tz, { keepLocalTime: true });
         }
-        if(update) {
+        if (update) {
             this.updateParentProperty();
         }
     }
@@ -139,15 +139,15 @@ export class DateProperty extends Property {
      *  The property's JSON value.
      */
     public toJson(): DateJsonValue | null {
-        if(this._time === null) {
-            return null
+        if (this._time === null) {
+            return null;
         } else {
             return {
                 time: this._time.toISO() ?? this._time.invalidExplanation!,
                 zone: this.timezone.value ?? Settings.defaultZone.name
             };
         }
-        
+
     }
 
     /**
@@ -156,8 +156,8 @@ export class DateProperty extends Property {
      *  An ISO date string in UTC.
      */
     public toUtcIso(): string | null {
-        if(this._time === null) {
-            return null
+        if (this._time === null) {
+            return null;
         } else {
             return this._time.toUTC().toISO();
         }
@@ -169,7 +169,7 @@ export class DateProperty extends Property {
      *  The property as a string.
      */
     public toString(): string {
-        if(this._time) {
+        if (this._time) {
             const zone = this._time.toFormat("ZZ");
             const time = this._time.toLocaleString(DateTime.DATETIME_SHORT);
             return `${time} ${zone}`;
@@ -218,11 +218,11 @@ export class DateProperty extends Property {
      *  True if it can be cast, false otherwise.
      */
     private isJsonDateValue(value?: JsonValue): value is DateJsonValue {
-        if(value && typeof value === "object") {
+        if (value && typeof value === "object") {
             return "time" in value && "zone" in value;
         } else {
             return false;
         }
-    } 
+    }
 
 }

@@ -1,15 +1,34 @@
 <template>
   <div class="datetime-field-control">
-    <div class="datetime-segment" tabindex="0" @focus="enterEditMode()">
-      <ClockIcon class="clock-icon"></ClockIcon>
+    <div
+      class="datetime-segment"
+      tabindex="0"
+      @focus="enterEditMode()"
+    >
+      <ClockIcon class="clock-icon" />
       <div class="grid-container">
-        <div class="value" v-show="!showEditor">
-          <p v-if="time === null" class="null-value">
+        <div
+          class="value"
+          v-show="!showEditor"
+        >
+          <p
+            v-if="time === null"
+            class="null-value"
+          >
             None
           </p>
-          <p v-else class="date-value">{{ timeString }}</p>
+          <p
+            v-else
+            class="date-value"
+          >
+            {{ timeString }}
+          </p>
         </div>
-        <div ref="editorDiv" class="editor" v-show="showEditor">
+        <div
+          ref="editorDiv"
+          class="editor"
+          v-show="showEditor"
+        >
           <input
             ref="dateInput"  
             type="date"
@@ -29,16 +48,15 @@
         </div>
       </div>
     </div>
-    <div class="separator horizontal"></div>
+    <div class="separator horizontal" />
     <div class="timezone-segment">
-      <TimezoneIcon class="timezone-icon"></TimezoneIcon>
+      <TimezoneIcon class="timezone-icon" />
       <EnumField
         class="timezone-field"
         :property="property.timezone"
         @execute="updateTimezoneProperty"
       />
     </div>
-    
   </div>
 </template>
 

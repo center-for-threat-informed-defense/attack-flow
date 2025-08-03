@@ -21,7 +21,7 @@ export interface Infrastructure extends BaseStixDomainObject<"infrastructure"> {
 
     /**
      * The type of infrastructure being described.
-     * 
+     *
      * The values for this property SHOULD come from the infrastructure-type-ov
      * open vocabulary.
      */
@@ -46,7 +46,7 @@ export interface Infrastructure extends BaseStixDomainObject<"infrastructure"> {
     /**
      * The time that this Infrastructure was last seen performing malicious
      * activities.
-     * 
+     *
      * If this property and the first_seen property are both defined, then this
      * property MUST be greater than or equal to the timestamp in the first_seen
      * property.

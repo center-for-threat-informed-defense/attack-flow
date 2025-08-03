@@ -55,10 +55,10 @@ export class GroupCommand extends SynchronousEditorCommand {
      */
     public do(commands: SynchronousEditorCommand | SynchronousEditorCommand[]): GroupCommand {
         commands = Array.isArray(commands) ? commands : [commands];
-        for(const cmd of commands) {
+        for (const cmd of commands) {
             const index = this._commands.length - 1;
             const cmdMerge = this._commands[index]?.merge(cmd);
-            if(cmdMerge) {
+            if (cmdMerge) {
                 this._commands.pop();
                 this._commands.push(cmdMerge);
             } else {

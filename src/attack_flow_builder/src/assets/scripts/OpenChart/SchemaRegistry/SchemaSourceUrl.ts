@@ -36,7 +36,7 @@ export class SchemaSourceUrl extends SchemaSource {
         if (this.file === undefined) {
             try {
                 this.file = await (await fetch(this.url)).json() as DiagramSchemaConfiguration;
-            } catch (err) {
+            } catch (_err) {
                 throw new Error(`Failed to download schema '${this.url}'.`);
             }
             if (this.id !== this.file.id) {

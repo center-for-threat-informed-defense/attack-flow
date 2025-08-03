@@ -61,9 +61,11 @@ export class HotkeyObserver<T> {
      */
     constructor(
         callback: (command: T | undefined) => void,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         reactive?: <T extends object>(obj: T) => any);
     constructor(
         callback: (command: T | undefined) => void,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         reactive: <T extends object>(obj: T) => any = o => o
     ) {
         this._boundOnKeyDown = this.onKeyDown.bind(reactive(this));
@@ -155,7 +157,7 @@ export class HotkeyObserver<T> {
     private onKeyDown(e: KeyboardEvent) {
 
         // If inside input field, ignore hotkeys
-        if ((e.target as any).tagName === "INPUT") {
+        if ((e.target as Element).tagName === "INPUT") {
             return;
         }
 

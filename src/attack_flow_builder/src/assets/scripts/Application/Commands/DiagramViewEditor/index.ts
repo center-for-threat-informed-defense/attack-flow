@@ -1,4 +1,4 @@
-import { 
+import {
     CopySelectedChildrenToClipboard,
     CutSelectedChildrenToClipboard,
     PasteFileFromClipboard,

@@ -84,7 +84,7 @@ export class SemanticGraphNode {
      */
     public addNextEdge(position: string, edge: SemanticGraphEdge) {
         // Configure node
-        if(!this.next.has(position)) {
+        if (!this.next.has(position)) {
             this.next.set(position, []);
         }
         this.next.get(position)!.push(edge);
@@ -103,7 +103,7 @@ export class SemanticGraphNode {
      */
     public addPrevEdge(position: string, edge: SemanticGraphEdge) {
         // Configure node
-        if(!this.prev.has(position)) {
+        if (!this.prev.has(position)) {
             this.prev.set(position, []);
         }
         this.prev.get(position)!.push(edge);

@@ -21,7 +21,7 @@ type BasePropertyDescriptor<K extends PropertyType> = {
     /**
      * The property's human-readable name.
      */
-    name?: string,
+    name?: string;
 
     /**
      * Whether the property appears, and is editable within, the interface.
@@ -43,7 +43,7 @@ type BasePropertyDescriptor<K extends PropertyType> = {
     /**
      * The property's auxiliary metadata.
      */
-    metadata?: { [key: string]: any }
+    metadata?: { [key: string]: any };
 
 };
 
@@ -206,7 +206,7 @@ export type TuplePropertyDescriptor = BasePropertyDescriptor<PropertyType.Tuple>
      */
     form: {
         [key: string]: AtomicPropertyDescriptors;
-    },
+    };
 
     /**
      * The tuple's valid value combinations.
@@ -214,9 +214,9 @@ export type TuplePropertyDescriptor = BasePropertyDescriptor<PropertyType.Tuple>
      *  This allows you to limit the options/suggestions of one field based on
      *  the value of the others.
      */
-    validValueCombinations?: ValueCombinations
+    validValueCombinations?: ValueCombinations;
 
-}
+};
 
 
 ///////////////////////////////////////////////////////////////////////////////

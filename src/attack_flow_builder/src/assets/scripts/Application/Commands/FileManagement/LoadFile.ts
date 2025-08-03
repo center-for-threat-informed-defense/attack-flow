@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { AppCommand } from "../AppCommand";
 import { EditorDirective } from "@OpenChart/DiagramEditor/EditorDirectives";
 import { SaveDiagramFileToRecoveryBank } from "./SaveDiagramFileToRecoveryBank";
-import { 
+import {
     DarkThemeMarquee, DiagramViewEditor, LightThemeMarquee,
     PowerEditPlugin, RectangleSelectPlugin
 } from "@OpenChart/DiagramEditor";
@@ -54,16 +54,16 @@ export class LoadFile extends AppCommand {
         });
         this.editor.on("edit", (editor, _, args) => {
             // If command will result in an auto-save...
-            if(args.directives & EditorDirective.Autosave) {
+            if (args.directives & EditorDirective.Autosave) {
                 // ...run the validator.
                 context.activeValidator?.run(editor.file);
             }
         });
         // TODO: Move into application configuration
         const marqueeThemes = {
-            "dark_theme"  : DarkThemeMarquee,
-            "blog_theme"  : LightThemeMarquee,
-            "light_theme" : LightThemeMarquee,
+            dark_theme  : DarkThemeMarquee,
+            blog_theme  : LightThemeMarquee,
+            light_theme : LightThemeMarquee
         };
         // Configure interface plugins
         if (!context.readOnlyMode) {
@@ -73,7 +73,7 @@ export class LoadFile extends AppCommand {
                 factory           : this.editor.file.factory,
                 lineTemplate      : settings.edit.anchor_line_template,
                 multiselectHotkey : hotkeys.select_many
-            }
+            };
             // Install plugins
             this.editor.interface.installPlugin(
                 new RectangleSelectPlugin(this.editor, marqueeThemes, hotkeys.select_marquee),

@@ -7,7 +7,7 @@
   >
     <div class="options-container">
       <OptionsList
-        ref="optionsList" 
+        ref="optionsList"
         class="options-list"
         :option="select"
         :options="options"
@@ -45,7 +45,7 @@ import OptionsList from "./OptionsList.vue";
 export default defineComponent({
   name: "TextField",
   setup() {
-    return { 
+    return {
       field: ref<HTMLElement | null>(null),
       optionsList: ref<HTMLElement | null>(null)
     };
@@ -112,7 +112,7 @@ export default defineComponent({
     execute: (cmd: SynchronousEditorCommand) => cmd
   },
   methods: {
-    
+
     /**
      * Field focus in behavior.
      */
@@ -151,8 +151,9 @@ export default defineComponent({
       if(field.selectionStart !== field.selectionEnd) {
         return;
       }
-      let options = this.options;
-      let optionsList = this.$refs.optionsList as any;
+      const options = this.options;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const optionsList = this.$refs.optionsList as any;
       let canAcceptSuggestion;
       let idx = options.findIndex(o => o.value === this.select);
       switch(event.key) {
@@ -269,7 +270,7 @@ export default defineComponent({
       // Update height
       this.$nextTick(() => {
         this.refreshHeight();
-      }); 
+      });
     },
 
     /**

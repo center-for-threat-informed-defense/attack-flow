@@ -2,13 +2,13 @@ import { GroupCommand } from "../GroupCommand";
 import { DiagramViewEditor } from "../../DiagramViewEditor";
 import { SelectionAnimation } from "./Animations";
 import { SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
-import { 
+import {
     MoveCameraToObjects,
     SpawnObject
 } from "../ViewFile/index.commands";
-import { 
+import {
     RemoveSelectedChildren,
-    RunAnimation, 
+    RunAnimation,
     SelectObjects,
     StopContinuousAnimation
 } from "../View/index.commands";
@@ -137,10 +137,7 @@ export function spawnObject(
 export function spawnObjectAtInterfaceCenter(
     editor: DiagramViewEditor, id: string
 ): GroupCommand {
-    const ui = editor.interface;
-    const camera = editor.file.camera;
-    const x = ((ui.width / 2) - camera.x) / camera.k;
-    const y = ((ui.height / 2) - camera.y) / camera.k;
+    const { x, y } = editor.file.camera;
     return spawnObject(editor, id, x, y);
 }
 

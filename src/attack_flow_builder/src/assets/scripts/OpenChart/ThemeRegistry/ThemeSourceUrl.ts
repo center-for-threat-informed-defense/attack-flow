@@ -41,7 +41,7 @@ export class ThemeSourceUrl extends ThemeSource {
             try {
                 this.file = await (await fetch(this.url)).json() as DiagramThemeConfiguration;
                 this.name = this.file.name;
-            } catch (err) {
+            } catch (_err) {
                 throw new Error(`Failed to download theme '${this.url}'.`);
             }
             if (this.id !== this.file.id) {

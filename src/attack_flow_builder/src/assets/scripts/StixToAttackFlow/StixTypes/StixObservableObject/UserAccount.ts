@@ -30,7 +30,7 @@ export interface UserAccount extends StixObservableObjectBase<"user-account"> {
      * Specifies the account login string, used in cases where the user_id
      * property specifies something other than what a user would type when they
      * login.
-     * 
+     *
      * For example, in the case of a Unix account with user_id 0, the
      * account_login might be "root".
      */
@@ -38,7 +38,7 @@ export interface UserAccount extends StixObservableObjectBase<"user-account"> {
 
     /**
      * Specifies the type of the account.
-     * 
+     *
      * This is an open vocabulary and values SHOULD come from the
      * account-type-ov open vocabulary.
      */
@@ -47,7 +47,7 @@ export interface UserAccount extends StixObservableObjectBase<"user-account"> {
     /**
      * Specifies the display name of the account, to be shown in user
      * interfaces, if applicable.
-     * 
+     *
      * On Unix, this is equivalent to the GECOS field.
      */
     display_name?: string;

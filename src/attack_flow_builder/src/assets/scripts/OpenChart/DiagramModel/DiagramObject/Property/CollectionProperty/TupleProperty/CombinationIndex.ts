@@ -1,7 +1,7 @@
 import type { ValueCombinations } from "./ValueCombinations";
 
 export class CombinationIndex {
-    
+
     /**
      * The properties and values registered with the index.
      */
@@ -15,7 +15,7 @@ export class CombinationIndex {
     /**
      * The relationship lookup table.
      */
-    private lookup: number[][]; 
+    private lookup: number[][];
 
 
     /**
@@ -27,24 +27,24 @@ export class CombinationIndex {
         this.props = new Map();
         this.values = new Map<string, number>();
         this.lookup = [];
-        for(const [prop1, value1, prop2, value2] of combos) {
+        for (const [prop1, value1, prop2, value2] of combos) {
             const valueId1 = `${prop1}.${value1}`;
             const valueId2 = `${prop2}.${value2}`;
             // Register properties and values
-            if(!this.props.has(prop1)) {
+            if (!this.props.has(prop1)) {
                 this.props.set(prop1, new Set());
             }
-            if(!this.props.has(prop2)) {
+            if (!this.props.has(prop2)) {
                 this.props.set(prop2, new Set());
             }
             this.props.get(prop1)!.add(value1);
             this.props.get(prop2)!.add(value2);
             // Map values to index
-            if(!this.values.has(valueId1)) {
+            if (!this.values.has(valueId1)) {
                 this.values.set(valueId1, this.values.size);
                 this.lookup.push([]);
             }
-            if(!this.values.has(valueId2)) {
+            if (!this.values.has(valueId2)) {
                 this.values.set(valueId2, this.values.size);
                 this.lookup.push([]);
             }
@@ -66,7 +66,7 @@ export class CombinationIndex {
      */
     public getValidOptions(values?: Map<string, string>): ReadonlyMap<string, ReadonlySet<string>> {
         // If no values...
-        if(!values || values.size === 0) {
+        if (!values || values.size === 0) {
             // ...return all registered values
             return this.props;
         }
@@ -79,17 +79,17 @@ export class CombinationIndex {
             )
         );
         let i = 0;
-        for(const [prop, value] of new Map(values)) {
+        for (const [prop, value] of new Map(values)) {
             // Add complete set of values to results matrix
             matrix.get(prop)![i] = this.props.get(prop) ?? new Set();
             // Look up its relationships
             const valueId = `${prop}.${value}`;
-            if(!this.values.has(valueId)) {
+            if (!this.values.has(valueId)) {
                 continue;
             }
             // Add relationships to results matrix
             const valueIdx = this.values.get(valueId)!;
-            for(const rel of this.lookup[valueIdx]) {
+            for (const rel of this.lookup[valueIdx]) {
                 const [prop, value] = idxToId[rel].split(/\./g);
                 matrix.get(prop)![i].add(value);
             }
@@ -112,7 +112,7 @@ export class CombinationIndex {
      */
     private intersection<T>(sets: Set<T>[]): Set<T> {
         let result = sets[0] ?? new Set();
-        for(let i = 1; i < sets.length; i++) {
+        for (let i = 1; i < sets.length; i++) {
             result = new Set([...result].filter(e => sets[i].has(e)));
         }
         return result;

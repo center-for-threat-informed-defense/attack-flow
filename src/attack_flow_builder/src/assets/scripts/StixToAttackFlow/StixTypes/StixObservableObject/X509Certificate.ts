@@ -19,7 +19,7 @@ export interface X509Certificate extends StixObservableObjectBase<"x509-certific
     /**
      * Specifies any hashes that were calculated for the entire contents of the
      * certificate.
-     * 
+     *
      * Dictionary keys MUST come from the hash-algorithm-ov open vocabulary.
      */
     hashes?: Hashes;
@@ -28,7 +28,7 @@ export interface X509Certificate extends StixObservableObjectBase<"x509-certific
      * Specifies the version of the encoded certificate.
      */
     version?: string;
-    
+
     /**
      * Specifies the unique identifier for the certificate, as issued by a
      * specific Certificate Authority.

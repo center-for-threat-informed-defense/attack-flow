@@ -76,7 +76,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             name: {
@@ -99,7 +99,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             path_enc: {
@@ -127,7 +127,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -143,7 +143,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             display_name: {
@@ -162,7 +162,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             date: {
@@ -265,7 +265,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -281,7 +281,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -297,7 +297,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -313,7 +313,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -348,13 +348,13 @@ export const StixObservables: DiagramObjectTemplate[] = [
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 },
                 metadata: {
                     validator: {
                         min_items: 1
-                    }       
+                    }
                 }
             },
             src_byte_count: {
@@ -400,7 +400,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             environment_variables: {
@@ -420,7 +420,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             cpe: {
@@ -449,7 +449,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -478,7 +478,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             is_service_account: BoolEnum,
@@ -571,7 +571,7 @@ export const StixObservables: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             is_self_signed: BoolEnum,

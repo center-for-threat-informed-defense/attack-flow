@@ -414,7 +414,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
             // Calculate layout
             object.calculateLayout();
             // Apply position
-            if(face.userSetPosition) {
+            if (face.userSetPosition) {
                 object.moveTo(x, y);
             }
         }

@@ -250,7 +250,7 @@ export class Line extends DiagramObject {
      *  (Default: Random UUID)
      * @param instanceMap
      *  An empty map that, if provided, will be populated with object instance
-     *  ID to clone instance ID associations. 
+     *  ID to clone instance ID associations.
      * @returns
      *  A clone of the object.
      */
@@ -286,20 +286,20 @@ export class Line extends DiagramObject {
      *  The object to transfer the clones to.
      * @param instanceMap
      *  An empty map that, if provided, will be populated with object instance
-     *  ID to clone instance ID associations. 
+     *  ID to clone instance ID associations.
      * @returns
      *  The provided `object`.
      */
     protected replicateChildrenTo<T extends Line>(object: T, instanceMap?: Map<string, string>): T {
         // Clone handles
-        for(const handle of this.handles) {
+        for (const handle of this.handles) {
             object.addHandle(handle.clone(undefined, instanceMap));
         }
         // Clone latches
-        if(this._sourceLatch) {
+        if (this._sourceLatch) {
             object.setSource(this.source.clone(undefined, instanceMap));
         }
-        if(this._targetLatch) {
+        if (this._targetLatch) {
             object.setTarget(this.target.clone(undefined, instanceMap));
         }
         return object;

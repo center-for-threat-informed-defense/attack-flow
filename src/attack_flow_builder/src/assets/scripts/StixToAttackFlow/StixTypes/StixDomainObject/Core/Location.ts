@@ -25,7 +25,7 @@ export interface Location extends BaseStixDomainObject<"location"> {
      * describe latitudes north of the equator, and negative numbers describe
      * latitudes south of the equator. The value of this property MUST be
      * between -90.0 and 90.0, inclusive.
-     * 
+     *
      * If the longitude property is present, this property MUST be present.
      */
     latitude?: number;
@@ -35,7 +35,7 @@ export interface Location extends BaseStixDomainObject<"location"> {
      * describe longitudes east of the prime meridian and negative numbers
      * describe longitudes west of the prime meridian. The value of this
      * property MUST be between -180.0 and 180.0, inclusive.
-     * 
+     *
      * If the latitude property is present, this property MUST be present.
      */
     longitude?: number;
@@ -44,9 +44,9 @@ export interface Location extends BaseStixDomainObject<"location"> {
      * Defines the precision of the coordinates specified by the latitude and
      * longitude properties. This is measured in meters. The actual Location may
      * be anywhere up to precision meters from the defined point.
-     * 
+     *
      * If this property is not present, then the precision is unspecified.
-     * 
+     *
      * If this property is present, the latitude and longitude properties MUST
      * be present.
      */
@@ -54,7 +54,7 @@ export interface Location extends BaseStixDomainObject<"location"> {
 
     /**
      * The region that this Location describes.
-     * 
+     *
      * The value for this property SHOULD come from the region-ov open
      * vocabulary.
      */
@@ -69,7 +69,7 @@ export interface Location extends BaseStixDomainObject<"location"> {
     /**
      * The state, province, or other sub-national administrative area that this
      * Location describes.
-     * 
+     *
      * This property SHOULD contain a valid ISO 3166-2 Code [ISO3166-2].
      */
     administrative_area?: string;

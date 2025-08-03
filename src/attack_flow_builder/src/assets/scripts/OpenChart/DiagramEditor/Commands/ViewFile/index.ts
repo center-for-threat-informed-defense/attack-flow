@@ -89,5 +89,5 @@ export function stopAnimation(
 export function setDefaultTimezone(
     file: DiagramModelFile, zone: string
 ): SetDefaultTimezone {
-    return new SetDefaultTimezone(file, zone)
+    return new SetDefaultTimezone(file, zone);
 }

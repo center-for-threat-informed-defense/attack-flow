@@ -5,7 +5,6 @@ import { DiagramObjectSerializer } from "@OpenChart/DiagramModel";
 import { resolveEmbeddedRelationships } from "./ResolveEmbeddedRelationships";
 import { Canvas, Block, DiagramObject, Line } from "../OpenChart/DiagramModel/DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
-import type { DiagramViewExport } from "@OpenChart/DiagramView";
 import type { StixBundle, StixObject } from "./StixTypes";
 import type { DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
 
@@ -46,7 +45,7 @@ export class StixToAttackFlowConverter {
 
         // Randomize node positions
 
-        for(const o of nodes) {
+        for (const _o of nodes) {
             // const x = Math.floor(Math.random() * 10000);
             // const y = Math.floor(Math.random() * 10000);
             // o.object.moveTo(x, y);
@@ -54,18 +53,18 @@ export class StixToAttackFlowConverter {
 
 
         // Add objects to canvas
-        for(const o of [...nodes, ...edges]) {
+        for (const o of [...nodes, ...edges]) {
             canvas.addObject(o.object);
         }
         // Prepare export
         return {
             schema  : this.factory.id,
-            objects : DiagramObjectSerializer.exportObjects([canvas]),
-            // layout  : ManualLayoutEngine.generatePositionMap([canvas]) 
+            objects : DiagramObjectSerializer.exportObjects([canvas])
+            // layout  : ManualLayoutEngine.generatePositionMap([canvas])
         };
     }
 
-    
+
     ////////////////////////////////////////////////////////////////////////////
     //  1. Graph Construction  /////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -75,7 +74,7 @@ export class StixToAttackFlowConverter {
      * Converts a STIX bundle to an abstract graph of diagram {@link Block}s and
      * {@link Lines}.
      * @param bundle
-     *  The STIX bundle. 
+     *  The STIX bundle.
      * @returns
      *  The graph's nodes and edges.
      */
@@ -83,24 +82,24 @@ export class StixToAttackFlowConverter {
         // Generate node map
         const nodes = new Map<string, GraphNode>();
         const edges = [];
-        for(const obj of bundle.objects) {
-            switch(obj.type) {
+        for (const obj of bundle.objects) {
+            switch (obj.type) {
                 case "relationship":
                 case "sighting":
                     continue;
                 default:
                     const object = this.translateStix(obj, Block);
-                    if(object) {
+                    if (object) {
                         nodes.set(obj.id, new GraphNode(object));
                     }
             }
         }
         // Generate relationship edges
-        for(const rel of bundle.objects) {
-            switch(rel.type) {
+        for (const rel of bundle.objects) {
+            switch (rel.type) {
                 case "relationship":
                     const object = this.translateStix(rel, Line);
-                    if(object) {
+                    if (object) {
                         const edge = new GraphEdge(object);
                         nodes.get(rel.source_ref)?.addOutEdge(edge);
                         nodes.get(rel.target_ref)?.addInEdge(edge);
@@ -112,16 +111,16 @@ export class StixToAttackFlowConverter {
             }
         }
         // Generate embedded relationship edges
-        for(const srcObj of bundle.objects) {
+        for (const srcObj of bundle.objects) {
             // Skip relationships
-            switch(srcObj.type) {
+            switch (srcObj.type) {
                 case "relationship":
                 case "sighting":
                     continue;
             }
             // Process objects
             const objectIds = resolveEmbeddedRelationships(srcObj);
-            for(const dstObj of objectIds) {
+            for (const dstObj of objectIds) {
                 const line = this.factory.createNewDiagramObject("dynamic_line", Line);
                 const edge = new GraphEdge(line);
                 nodes.get(srcObj.id)?.addOutEdge(edge);
@@ -133,7 +132,7 @@ export class StixToAttackFlowConverter {
     }
 
     /**
-     * Translates a {@link StixObject} to a {@link DiagramObject}. 
+     * Translates a {@link StixObject} to a {@link DiagramObject}.
      * @param stix
      *  The {@link StixObject}.
      * @param type
@@ -144,19 +143,19 @@ export class StixToAttackFlowConverter {
      */
     private translateStix<T extends DiagramObject>(stix: StixObject, type?: Constructor<T>): T | null {
         // Resolve template
-        const template = StixToTemplate[stix.type];
-        if(template === null) {
+        const template = StixToTemplate[stix.type as keyof typeof StixToTemplate];
+        if (template === null) {
             return null;
         }
         // Create object
         const object = this.factory.createNewDiagramObject(template, type);
         // Set properties
-        populateProperties(stix, object.properties)
+        populateProperties(stix, object.properties);
         // Return
         return object;
     }
 
-    
+
     ////////////////////////////////////////////////////////////////////////////
     //  2. Mirror Connections  /////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -188,7 +187,7 @@ export class StixToAttackFlowConverter {
     //                 visitedEdges.add(edge.id);
     //                 // Link nodes
     //                 this.connectBlocks(
-    //                     node.object, 
+    //                     node.object,
     //                     edge.target.object,
     //                     edge.object
     //                 );
@@ -215,7 +214,7 @@ export class StixToAttackFlowConverter {
     //                     unvisitedNodes.delete(edge.source.id);
     //                     queue.push(edge.source);
     //                 }
-                    
+
     //             }
     //         }
     //     }
@@ -228,7 +227,7 @@ export class StixToAttackFlowConverter {
     //  * @param child
     //  *  The child block.
     //  * @param line
-    //  *  The line. 
+    //  *  The line.
     //  */
     // private connectBlocks(parent: Block, child: Block, line: Line) {
     //     parent.anchors.get(AnchorPosition.D270)?.link(line.source);
@@ -237,4 +236,3 @@ export class StixToAttackFlowConverter {
 
 
 }
-

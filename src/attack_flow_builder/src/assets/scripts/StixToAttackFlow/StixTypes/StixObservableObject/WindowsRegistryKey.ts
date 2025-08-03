@@ -11,7 +11,7 @@ export interface WindowsRegistryKey extends StixObservableObjectBase<"windows-re
 
     /**
      * Specifies the full registry key including the hive.
-     * 
+     *
      * The value of the key, including the hive portion, SHOULD be
      * case-preserved. The hive portion of the key MUST be fully expanded and
      * not truncated; e.g., HKEY_LOCAL_MACHINE must be used instead of HKLM.
@@ -30,7 +30,7 @@ export interface WindowsRegistryKey extends StixObservableObjectBase<"windows-re
 
     /**
      * Specifies a reference to the user account that created the registry key.
-     * 
+     *
      * The object referenced in this property MUST be of type user-account.
      */
     creator_user_ref?: string;
@@ -38,6 +38,6 @@ export interface WindowsRegistryKey extends StixObservableObjectBase<"windows-re
     /**
      * Specifies the number of subkeys contained under the registry key.
      */
-    number_of_subkeys?: number;    
+    number_of_subkeys?: number;
 
 }

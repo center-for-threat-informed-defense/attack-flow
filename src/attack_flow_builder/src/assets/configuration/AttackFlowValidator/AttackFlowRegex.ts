@@ -62,7 +62,7 @@ export const HashRegexes = new Map<string, RegExp>([
  */
 export const StixObservables
     = new Set<string>([
-        "artifact", "directory", "file", "mutex", "process", "software", 
+        "artifact", "directory", "file", "mutex", "process", "software",
         "user_account", "windows_registry_key", "x509_certificate",
         "autonomous_system", "domain_name", "email_address", "email_message",
         "ipv4_addr", "ipv6_addr", "mac_addr", "network_traffic", "url"

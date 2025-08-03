@@ -19,33 +19,33 @@ export class SemanticAnalyzer {
         const edges: Map<string, SemanticGraphEdge> = new Map();
         // Build graph
         for (const obj of traverse(canvas as DiagramObject)) {
-            if(obj instanceof Group || obj instanceof Block) {
+            if (obj instanceof Group || obj instanceof Block) {
                 nodes.set(obj.instance, new SemanticGraphNode(obj));
-            } else if(obj instanceof Line) {
+            } else if (obj instanceof Line) {
                 edges.set(obj.instance, new SemanticGraphEdge(obj));
             }
         }
         // Connect graph
         for (const block of traverse(canvas)) {
-            if(!(block instanceof Block)) {
+            if (!(block instanceof Block)) {
                 continue;
             }
             const node = nodes.get(block.instance)!;
-            for(const [position, anchor] of block.anchors) {
-                for(const latch of anchor.latches) {
+            for (const [position, anchor] of block.anchors) {
+                for (const latch of anchor.latches) {
                     // Select line
                     const line = latch.parent;
-                    if(!(line instanceof Line)) {
+                    if (!(line instanceof Line)) {
                         continue;
                     }
                     const edge = edges.get(line.instance)!;
                     // Resolve direction
                     const source = line.source.anchor?.instance;
                     const target = line.target.anchor?.instance;
-                    if(source === anchor.instance) {
+                    if (source === anchor.instance) {
                         node.addNextEdge(position, edge);
                     }
-                    if(target === anchor.instance) {
+                    if (target === anchor.instance) {
                         node.addPrevEdge(position, edge);
                     }
                 }
@@ -82,7 +82,7 @@ export class SemanticAnalyzer {
      * @param object
      *  The starting object.
      * @param direction
-     *  The direction of traversal. 
+     *  The direction of traversal.
      * @returns
      *  All adjacent blocks.
      */
@@ -91,11 +91,11 @@ export class SemanticAnalyzer {
         direction: "ingoing" | "outgoing"
     ): B[] {
         const blocks = new Map<string, B>();
-        
+
         // Resolve direction
         let dirSource: "source" | "target";
         let dirTarget: "source" | "target";
-        if(direction === "outgoing") {
+        if (direction === "outgoing") {
             dirSource = "source";
             dirTarget = "target";
         } else {
@@ -105,32 +105,32 @@ export class SemanticAnalyzer {
 
         // Collect lines
         let lines: Line[] = [];
-        if(object instanceof Block) {
+        if (object instanceof Block) {
             const latches = [...object.anchors.values()]
                 .flatMap(a => a.latches);
-            for(const latch of latches) {
+            for (const latch of latches) {
                 const line = latch.parent;
-                if(!(line instanceof Line)) {
+                if (!(line instanceof Line)) {
                     continue;
                 }
-                if(line[dirSource] === latch) {
+                if (line[dirSource] === latch) {
                     lines.push(line);
                 }
             }
-        } else if(object instanceof Line){
+        } else if (object instanceof Line) {
             lines = [object];
         } else {
             return [];
         }
-        
+
         // Collect blocks
-        for(const line of lines) {
+        for (const line of lines) {
             const target = line[dirTarget].anchor?.parent;
-            if(target instanceof Block) {
+            if (target instanceof Block) {
                 blocks.set(target.instance, target as B);
             }
         }
-        
+
         // Return blocks
         return [...blocks.values()];
     }

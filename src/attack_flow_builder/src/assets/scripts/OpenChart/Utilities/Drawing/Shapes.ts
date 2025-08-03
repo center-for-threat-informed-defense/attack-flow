@@ -319,8 +319,7 @@ export function getAbsoluteMultiElbowPath(
         dy = (vertices[ty] - vertices[sy]) >> 1;
         rad = Math.min(Math.abs(dx), Math.abs(dy), r);
         // Calculate segment
-        // @ts-ignore
-        mask = (vertices[mx] - vertices[sx] !== 0) * -1;
+        mask = vertices[mx] - vertices[sx] === 0 ? 0 : -1;
         rx = rad & mask;
         ry = rad & ~mask;
         dx = Math.sign(dx);
@@ -329,7 +328,7 @@ export function getAbsoluteMultiElbowPath(
         v[i++] = vertices[my] - dy * ry;
         v[i++] = vertices[mx];
         v[i++] = vertices[my];
-        v[i++] = vertices[mx] + dx * ry,
+        v[i++] = vertices[mx] + dx * ry;
         v[i++] = vertices[my] + dy * rx;
     }
     v[i++] = vertices[mx];
@@ -391,8 +390,7 @@ export function drawMultiElbowPath(
         dy = (vertices[ty] - vertices[sy]) >> 1;
         rad = Math.min(Math.abs(dx), Math.abs(dy), r);
         // Calculate segment
-        // @ts-ignore
-        mask = (vertices[mx] - vertices[sx] !== 0) * -1;
+        mask = vertices[mx] - vertices[sx] === 0 ? 0 : -1;
         rx = rad & mask;
         ry = rad & ~mask;
         dx = Math.sign(dx);

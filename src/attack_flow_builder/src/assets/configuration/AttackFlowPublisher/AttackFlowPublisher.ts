@@ -4,9 +4,9 @@ import { Crypto } from "@OpenChart/Utilities";
 import {
     CollectionProperty, DateProperty, DiagramModelFile, DictionaryProperty,
     EnumProperty, ListProperty, Property, SemanticAnalyzer,
-    SemanticGraphNode, StringProperty,
+    SemanticGraphNode, StringProperty
 } from "@OpenChart/DiagramModel";
-import type { GraphExport } from "@OpenChart/DiagramModel";
+import type { GraphExport, JsonValue } from "@OpenChart/DiagramModel";
 import type { FilePublisher } from "@/assets/scripts/Application";
 import Enums from "../AttackFlowTemplates/MitreAttack";
 
@@ -126,7 +126,7 @@ class AttackFlowPublisher implements FilePublisher {
             const src = edge.source;
             const trg = edge.target;
             // Skip edges that don't connect two nodes
-            if (!src|| !trg) {
+            if (!src || !trg) {
                 continue;
             }
             // Register link
@@ -192,17 +192,19 @@ class AttackFlowPublisher implements FilePublisher {
         for (let [key, prop] of property.value) {
             switch (key) {
                 case "ttp":
-                    const json = prop.toJson();
-                    if (json.tactic) {
-                        node["tactic_id"] = json.tactic;
-                        if (json.tactic in Enums.stixIds) {
-                            node["tactic_ref"] = Enums.stixIds[json.tactic];
+                    const json = prop.toJson() as { [x: string]: JsonValue };
+                    const tactic = json?.tactic as null | string;
+                    if (tactic) {
+                        node["tactic_id"] = tactic;
+                        if (tactic in Enums.stixIds) {
+                            node["tactic_ref"] = Enums.stixIds[tactic as keyof typeof Enums.stixIds];
                         }
                     }
-                    if (json.technique) {
-                        node["technique_id"] = json.technique;
-                        if (json.technique in Enums.stixIds) {
-                            node["technique_ref"] = Enums.stixIds[json.technique];
+                    const technique = json?.technique as null | string;
+                    if (technique) {
+                        node["technique_id"] = technique;
+                        if (technique in Enums.stixIds) {
+                            node["technique_ref"] = Enums.stixIds[technique as keyof typeof Enums.stixIds];
                         }
                     }
                     break;
@@ -241,12 +243,12 @@ class AttackFlowPublisher implements FilePublisher {
      */
     private mergeBasicDictProperty(node: Sdo, property: DictionaryProperty) {
         for (const [key, prop] of property.value) {
-            if(!prop.isDefined()) {
+            if (!prop.isDefined()) {
                 continue;
             }
-            if(prop instanceof DictionaryProperty) {
+            if (prop instanceof DictionaryProperty) {
                 throw new Error("Basic dictionaries cannot contain dictionaries.");
-            } else if(prop instanceof EnumProperty) {
+            } else if (prop instanceof EnumProperty) {
                 const value = this.toStixValue(prop)!;
                 if (["true", "false"].includes(value.toString())) {
                     // case(BoolEnum)
@@ -256,13 +258,13 @@ class AttackFlowPublisher implements FilePublisher {
                     // case(String | List | Dictionary | null)
                     node[key] = value;
                 }
-            } else if(prop instanceof ListProperty) {
+            } else if (prop instanceof ListProperty) {
                 if (key === "hashes") {
                     this.mergeComplexListProperty(node, key, prop as ListProperty);
                     break;
                 }
                 this.mergeBasicListProperty(node, key, prop as ListProperty);
-            } else if(prop instanceof StringProperty) {
+            } else if (prop instanceof StringProperty) {
                 node[key] = prop.toString().trim();
             } else {
                 if (node.type === "mac-addr") {
@@ -286,17 +288,17 @@ class AttackFlowPublisher implements FilePublisher {
     private mergeBasicListProperty(node: Sdo, key: string, property: ListProperty) {
         node[key] = [];
         for (const prop of property.value.values()) {
-            if(!prop.isDefined()) {
+            if (!prop.isDefined()) {
                 continue;
-            } else if(prop instanceof DictionaryProperty) {
+            } else if (prop instanceof DictionaryProperty) {
                 const obj = {} as Sdo;
                 this.mergeBasicDictProperty(obj, prop as DictionaryProperty);
                 node[key].push(obj);
-            } else if(prop instanceof ListProperty) {
+            } else if (prop instanceof ListProperty) {
                 throw new Error("Basic lists cannot contain lists.");
-            } else if(prop instanceof EnumProperty) {
+            } else if (prop instanceof EnumProperty) {
                 throw new Error("Basic lists cannot contain enums.");
-            } else if(prop instanceof StringProperty) {
+            } else if (prop instanceof StringProperty) {
                 // Remove trailing whitespace on StringProperties
                 node[key].push(prop.toString().trim());
             } else {
@@ -319,12 +321,19 @@ class AttackFlowPublisher implements FilePublisher {
             case "hashes":
                 const hashList = [];
                 for (const prop of property.value.values()) {
-                    if(prop instanceof DictionaryProperty && prop.isDefined()) {
+                    if (prop instanceof DictionaryProperty && prop.isDefined()) {
                         hashList.push(this.toStixValue(prop));
                     }
                 }
                 if (hashList.length > 0) {
-                    const hashes = hashList.map(hash => [hash.hash_type, hash.hash_value]); // Drop the property labels
+                    const hashes = hashList.map(hash => {
+                        const hashJson = hash as { [x: string]: JsonValue };
+                        if (hashJson) {
+                            return [hashJson.hash_type, hashJson.hash_value];
+                        } else {
+                            return [];
+                        }
+                    }); // Drop the property labels
                     node[key] = Object.fromEntries(hashes);
                 }
         }
@@ -725,13 +734,16 @@ class AttackFlowPublisher implements FilePublisher {
                     }
                     const extRefs = [];
                     for (const ref of prop.value.values()) {
-                        if(!(ref instanceof DictionaryProperty)) {
+                        if (!(ref instanceof DictionaryProperty)) {
                             throw new Error(`'${key}' is improperly defined.`);
                         }
-                        const entries = Object
-                            .entries(this.toStixValue(ref))
-                            .filter(o => o[1] !== null);
-                        extRefs.push(Object.fromEntries(entries));
+                        const stixVal = this.toStixValue(ref);
+                        if (stixVal) {
+                            const entries = Object
+                                .entries(stixVal)
+                                .filter(o => o[1] !== null);
+                            extRefs.push(Object.fromEntries(entries));
+                        }
                     }
                     if (extRefs.length > 0) {
                         flow[key] = extRefs;
@@ -778,7 +790,7 @@ class AttackFlowPublisher implements FilePublisher {
         const getChildNodes = (nodeInstance: string) => {
             const children: string[] = [];
             const node = graph.nodes.get(nodeInstance);
-            for(const child of node?.nextNodes ?? []) {
+            for (const child of node?.nextNodes ?? []) {
                 children.push(child.instance);
             }
             return children;
@@ -993,9 +1005,9 @@ class AttackFlowPublisher implements FilePublisher {
      * @returns
      *  A STIX-formatted JSON property
      */
-    public toStixValue(prop: Property) {
+    public toStixValue(prop: Property): JsonValue {
         if (prop instanceof DateProperty) {
-            return prop.toUtcIso()
+            return prop.toUtcIso();
         } else {
             return prop.toJson();
         }

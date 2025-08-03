@@ -24,7 +24,7 @@ export class BoxTree {
      */
     constructor(nodes: GraphNode[], root: LayoutBox = new ColumnLayoutBox()) {
         this._nodes = new Map();
-        for(const node of nodes) {
+        for (const node of nodes) {
             // Register node
             this._nodes.set(node.id, node);
             // Clear layout
@@ -41,16 +41,13 @@ export class BoxTree {
      *  The box tree's nodes.
      */
     private buildBoxTree(nodes: GraphNode[]) {
-        const visitedEdges = new Set<string>();
         const unvisitedNodes = new Map(nodes.map(o => [o.id, o]));
         // Build layout segments
-        const segmentRoots = nodes.filter(o => o.inDegree !== 1);
 
-
-        while(unvisitedNodes.size) {
+        while (unvisitedNodes.size) {
             // Select node with smallest in-degree
             const root = [...unvisitedNodes.values()].reduce(
-                (a,b) => b.inDegree < a.inDegree ? b : a
+                (a, b) => b.inDegree < a.inDegree ? b : a
             );
             // Traverse graph
             this.addNode(root, this._rootBox, unvisitedNodes);
@@ -58,10 +55,10 @@ export class BoxTree {
     }
 
     /**
-     * 
-     * @param node 
+     *
+     * @param node
      */
-    private buildLayoutSegment(node: GraphNode) {
+    private buildLayoutSegment(_node: GraphNode) {
 
     }
 
@@ -79,18 +76,18 @@ export class BoxTree {
     private addNode(
         node: GraphNode,
         layout: LayoutBox,
-        unvisitedNodes: Map<string, GraphNode>,
+        unvisitedNodes: Map<string, GraphNode>
     ) {
-        if(!unvisitedNodes.has(node.id)) {
+        if (!unvisitedNodes.has(node.id)) {
             return;
         }
         // Collect horizontal and vertical out degree.
         const v = [...node.next].filter(o => o.orientation = "vertical");
         const h = [...node.next].filter(o => o.orientation = "horizontal");
-        // 
-        if(h.length === 1) {
+        //
+        if (h.length === 1) {
             let _layout: LayoutBox;
-            if(layout instanceof ColumnLayoutBox) {
+            if (layout instanceof ColumnLayoutBox) {
                 _layout = new RowLayoutBox(node);
                 layout.add(_layout);
             } else {
@@ -98,13 +95,13 @@ export class BoxTree {
                 layout.add(node);
             }
             const targetNode = h[0].target;
-            if(targetNode) {
+            if (targetNode) {
                 this.addNode(targetNode, _layout, unvisitedNodes);
             }
         }
-        if(v.length === 1) {
+        if (v.length === 1) {
             let _layout: LayoutBox;
-            if(layout instanceof RowLayoutBox) {
+            if (layout instanceof RowLayoutBox) {
                 _layout = new ColumnLayoutBox(node);
                 layout.add(_layout);
             } else {
@@ -112,7 +109,7 @@ export class BoxTree {
                 layout.add(node);
             }
             const targetNode = h[0].target;
-            if(targetNode) {
+            if (targetNode) {
                 this.addNode(targetNode, _layout, unvisitedNodes);
             }
         }

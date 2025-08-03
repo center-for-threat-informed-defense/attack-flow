@@ -1,3 +1,3 @@
 import type { SynchronousEditorCommand } from "../../Commands";
 
-export type CommandExecutor = (cmd: SynchronousEditorCommand) => void; 
+export type CommandExecutor = (cmd: SynchronousEditorCommand) => void;

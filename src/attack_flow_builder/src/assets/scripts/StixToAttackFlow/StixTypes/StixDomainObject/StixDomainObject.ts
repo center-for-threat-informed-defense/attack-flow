@@ -38,4 +38,4 @@ export type AttackFlowStixDomainObject
     | Asset
     | Condition
     | Flow
-    | Operator
+    | Operator;

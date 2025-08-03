@@ -94,7 +94,7 @@ export type AppSettings = {
     file: {
         image_export: {
             padding: number;
-            include_background: boolean
+            include_background: boolean;
         };
     };
     edit: {
@@ -161,7 +161,7 @@ export type EditHotkeys = {
     find_previous: string;
     select_all: string;
     unselect_all: string;
-    select_many: string,
+    select_many: string;
     select_marquee: string;
 };
 

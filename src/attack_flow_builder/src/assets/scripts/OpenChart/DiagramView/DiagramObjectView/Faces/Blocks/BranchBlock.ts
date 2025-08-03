@@ -138,10 +138,10 @@ export class BranchBlock extends BlockFace {
             if (!property.isDefined() || id === props.representativeKey) {
                 continue;
             }
-            if(property instanceof TupleProperty) {
+            if (property instanceof TupleProperty) {
                 // Unwrap tuples
-                for(const prop of property.value.values()) {
-                    if(!prop.isDefined()) {
+                for (const prop of property.value.values()) {
+                    if (!prop.isDefined()) {
                         continue;
                     }
                     fields.push([
@@ -198,7 +198,7 @@ export class BranchBlock extends BlockFace {
             title.font,
             title.color,
             title.units * blockGrid[1],
-            title.alignTop,
+            title.alignTop
         );
 
         // Calculate subtitle

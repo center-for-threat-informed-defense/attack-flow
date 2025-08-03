@@ -5,9 +5,15 @@
         <span>{{ application.hasSelection }} Selected</span>
       </p>
       <Transition name="fade">
-        <div :class="['metric', { error: hasAutosaveFailed }]" v-if="lastAutosave">
-          <FloppyDisk class="icon"/>
-          <Transition name="fade" mode="out-in">
+        <div
+          :class="['metric', { error: hasAutosaveFailed }]"
+          v-if="lastAutosave"
+        >
+          <FloppyDisk class="icon" />
+          <Transition
+            name="fade"
+            mode="out-in"
+          >
             <span v-if="showAutosaveTime">{{ lastAutosave }}</span>
             <span v-else-if="hasAutosaveFailed">FAILED TO AUTOSAVE</span>
             <span v-else>Autosaved</span>
@@ -16,15 +22,27 @@
       </Transition>
     </div>
     <div class="right-align">
-      <div class="metric validity valid" v-if="!displayProblems">
+      <div
+        class="metric validity valid"
+        v-if="!displayProblems"
+      >
         <span class="icon">✓</span>Valid Attack Flow
       </div>
-      <div class="metric validity" v-else>
-        <span class="warning" v-if="warnings">
+      <div
+        class="metric validity"
+        v-else
+      >
+        <span
+          class="warning"
+          v-if="warnings"
+        >
           <span class="icon">⚠</span><span>{{ warnings }}</span>
         </span>
-        <span class="spacer"></span>
-        <span class="error" v-if="errors">
+        <span class="spacer" />
+        <span
+          class="error"
+          v-if="errors"
+        >
           <span class="icon">⚠</span><span>{{ errors }}</span>
         </span>
       </div>

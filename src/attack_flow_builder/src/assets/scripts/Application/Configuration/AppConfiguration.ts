@@ -87,11 +87,11 @@ export interface AppConfiguration {
         /**
          * The application's validator.
          * @remarks
-         *  `create` should return a new validator. 
+         *  `create` should return a new validator.
          */
-        create: () => FileValidator
-    
-    },
+        create: () => FileValidator;
+
+    };
 
     /**
      * The application's publisher.
@@ -101,16 +101,16 @@ export interface AppConfiguration {
         /**
          * The publisher's menu text.
          */
-        menuText?: string,
+        menuText?: string;
 
         /**
          * The application's publisher.
          * @remarks
          *  `create` should return a new migrator.
          */
-        create: () => FilePublisher
-        
-    },
+        create: () => FilePublisher;
+
+    };
 
     /**
      * The application's file preprocessor.
@@ -122,17 +122,17 @@ export interface AppConfiguration {
          * @remarks
          *  `create` should return a new file preprocessor.
          */
-        create: () => FilePreprocessor,
-    
-    },
+        create: () => FilePreprocessor;
+
+    };
 
     /**
      * The application's command processor.
      */
     cmdProcessor?: {
 
-        create: () => SynchronousCommandProcessor,
+        create: () => SynchronousCommandProcessor;
 
-    }
+    };
 
 }

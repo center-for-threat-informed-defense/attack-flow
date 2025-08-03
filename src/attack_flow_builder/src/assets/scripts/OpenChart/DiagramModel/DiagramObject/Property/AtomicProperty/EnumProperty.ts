@@ -59,7 +59,7 @@ export class EnumProperty extends Property {
     public setValue(value: JsonValue, update: boolean = true) {
         if (value === null) {
             this._value = null;
-        } else if(typeof value === "string") {
+        } else if (typeof value === "string") {
             if (this.options.value.has(value)) {
                 this._value = value;
             } else {
@@ -68,7 +68,7 @@ export class EnumProperty extends Property {
         } else {
             this._value = null;
         }
-        if(update) {
+        if (update) {
             this.updateParentProperty();
         }
     }

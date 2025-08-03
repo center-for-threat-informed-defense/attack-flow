@@ -7,7 +7,6 @@ import { titleCase } from "@OpenChart/Utilities";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { useApplicationStore } from "./ApplicationStore";
-import type { SpawnObject } from "@OpenChart/DiagramEditor/Commands/ViewFile/index.commands";
 import type { CommandEmitter } from "@/assets/scripts/Application";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
 import type { ContextMenu, ContextMenuItem, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
@@ -208,7 +207,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             const app = useApplicationStore();
             const editor = app.activeEditor;
             const file = app.settings.hotkeys.file;
-            const menuText = Configuration.publisher?.menuText 
+            const menuText = Configuration.publisher?.menuText
                 ?? `Publish ${Configuration.file_type_name}`;
             return {
                 id: "publish_options",
@@ -795,7 +794,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
  */
 function prepareCreateMenu(
     templates: ReadonlyMap<string, DiagramObjectTemplate>,
-    spawn: (id: string) => SpawnObject
+    spawn: (id: string) => EditorCommands.GroupCommand
 ): ContextMenuSubmenu<CommandEmitter> {
     type MenuMap<T> = {
         menu: T;

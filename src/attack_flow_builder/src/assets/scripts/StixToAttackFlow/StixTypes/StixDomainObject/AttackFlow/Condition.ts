@@ -9,7 +9,7 @@ export interface Condition extends BaseStixDomainObject<"attack-condition"> {
      * A description that provides more details and context about the condition.
      */
     description: string;
-    
+
     /**
      * The condition's pattern.
      */

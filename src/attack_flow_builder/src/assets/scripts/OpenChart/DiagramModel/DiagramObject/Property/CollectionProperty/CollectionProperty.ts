@@ -58,7 +58,7 @@ export abstract class CollectionProperty extends Property {
             this.value.set(id, property);
         }
         // Update property
-        if(update) {
+        if (update) {
             this.updateParentProperty();
         }
         // Return
@@ -92,7 +92,7 @@ export abstract class CollectionProperty extends Property {
      */
     public get<T extends Property>(id: string, type?: Constructor<T>): T | undefined {
         const property = this.value.get(id);
-        if(type && !(property instanceof type)) {
+        if (type && !(property instanceof type)) {
             throw new Error(`Property '${id}' is not a '${type.name}'.`);
         }
         return property as T | undefined;

@@ -15,7 +15,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -43,7 +43,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -76,7 +76,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -106,7 +106,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -129,7 +129,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -144,7 +144,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             sectors: {
@@ -171,12 +171,12 @@ export const StixObjects: DiagramObjectTemplate[] = [
             },
             indicator_types: {
                 type: PropertyType.List,
-                form: { 
+                form: {
                     type: PropertyType.String,
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 }
             },
@@ -185,7 +185,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             pattern_type: {
@@ -193,7 +193,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             pattern_version: {
@@ -204,7 +204,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             valid_until: {
@@ -228,7 +228,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -236,12 +236,12 @@ export const StixObjects: DiagramObjectTemplate[] = [
             },
             infrastructure_types: {
                 type: PropertyType.List,
-                form: { 
+                form: {
                     type: PropertyType.String,
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 }
             },
@@ -273,7 +273,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -286,7 +286,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 }
             },
@@ -373,21 +373,21 @@ export const StixObjects: DiagramObjectTemplate[] = [
             },
             malware_types: {
                 type: PropertyType.List,
-                form: { 
+                form: {
                     type: PropertyType.String,
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 }
             },
-            is_family: { 
+            is_family: {
                 ...BoolEnum,
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             aliases: {
@@ -434,7 +434,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             version: {
@@ -495,7 +495,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             authors: {
@@ -515,7 +515,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             last_observed: {
@@ -523,7 +523,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             number_observed: {
@@ -532,7 +532,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -569,7 +569,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -586,7 +586,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -599,7 +599,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 }
             },
@@ -608,7 +608,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             }
         },
@@ -625,7 +625,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -638,7 +638,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 }
             },
@@ -691,7 +691,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {
@@ -704,7 +704,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                     metadata: {
                         validator: {
                             is_required: true
-                        }       
+                        }
                     }
                 }
             },
@@ -733,7 +733,7 @@ export const StixObjects: DiagramObjectTemplate[] = [
                 metadata: {
                     validator: {
                         is_required: true
-                    }       
+                    }
                 }
             },
             description: {

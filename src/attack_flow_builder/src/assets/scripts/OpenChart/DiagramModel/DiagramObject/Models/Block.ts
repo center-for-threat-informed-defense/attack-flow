@@ -108,7 +108,7 @@ export class Block extends DiagramObject {
      *  (Default: Random UUID)
      * @param instanceMap
      *  An empty map that, if provided, will be populated with object instance
-     *  ID to clone instance ID associations. 
+     *  ID to clone instance ID associations.
      * @returns
      *  A clone of the object.
      */
@@ -144,12 +144,12 @@ export class Block extends DiagramObject {
      *  The object to transfer the clones to.
      * @param instanceMap
      *  An empty map that, if provided, will be populated with object instance
-     *  ID to clone instance ID associations. 
+     *  ID to clone instance ID associations.
      * @returns
      *  The provided `object`.
      */
     protected replicateChildrenTo<T extends Block>(object: T, instanceMap?: Map<string, string>): T {
-        for(const [position, anchor] of this._anchors) {
+        for (const [position, anchor] of this._anchors) {
             object.addAnchor(position, anchor.clone(undefined, instanceMap));
         }
         return object;

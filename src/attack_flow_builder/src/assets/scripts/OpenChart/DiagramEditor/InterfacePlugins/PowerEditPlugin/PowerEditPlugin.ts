@@ -122,7 +122,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      * @returns
      *  The topmost object.
      */
-    protected smartHover(x: number, y: number, event: MouseEvent): DiagramObjectView | undefined {
+    protected smartHover(x: number, y: number, _event: MouseEvent): DiagramObjectView | undefined {
         const lines = this.editor.file.canvas.lines;
         const blocks = this.editor.file.canvas.blocks;
         let object: DiagramObjectView | undefined;
@@ -344,7 +344,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      * @param event
      *  The mouse event.
      */
-    protected handleSelectDrag(track: SubjectTrack, event: MouseEvent): void {
+    protected handleSelectDrag(track: SubjectTrack, _event: MouseEvent): void {
         this.mover!.moveSubject(track);
     }
 
@@ -353,7 +353,7 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      * @param event
      *  The mouse event.
      */
-    protected handleSelectEnd(event: MouseEvent): void {
+    protected handleSelectEnd(_event: MouseEvent): void {
         this.mover!.releaseSubject();
         this.mover = null;
         this.editor.endCommandStream(this.stream!);
@@ -384,7 +384,11 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
             execute(EditorCommands.unselectAllObjects(this.editor));
         }
         if (obj) {
-            execute(EditorCommands.selectObject(this.editor, obj));
+            if (obj.focused && multiSelect) {
+                execute(EditorCommands.unselectObject(this.editor, obj));
+            } else {
+                execute(EditorCommands.selectObject(this.editor, obj));
+            }
         }
     }
 

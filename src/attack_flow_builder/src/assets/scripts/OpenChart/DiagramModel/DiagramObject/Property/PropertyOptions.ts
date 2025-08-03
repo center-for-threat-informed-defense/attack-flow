@@ -22,4 +22,4 @@ export type PropertyOptions = {
      */
     editable: boolean;
 
-}
+};

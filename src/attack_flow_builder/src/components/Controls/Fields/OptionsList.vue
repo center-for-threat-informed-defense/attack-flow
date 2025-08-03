@@ -1,8 +1,14 @@
 <template>
   <div :class="['options-list-field-control', { flip }]">
-    <div ref="scrollbox" :style="style">
+    <div
+      ref="scrollbox"
+      :style="style"
+    >
       <div ref="content">
-        <ul class="options" v-if="hasOptions">
+        <ul
+          class="options"
+          v-if="hasOptions"
+        >
           <li 
             ref="items"
             v-for="opt in options"
@@ -108,7 +114,7 @@ export default defineComponent({
      *  The value to bring into focus.
      */
     focusItemTop(value: string | null) {
-      let item = this.getItemElement(value);
+      const item = this.getItemElement(value);
       // Update scroll position
       if(item) {
         // -6px for the <ul>'s padding
@@ -122,14 +128,14 @@ export default defineComponent({
      *  The value to bring into focus.
      */
     focusItemBottom(value: string | null) {
-      let item = this.getItemElement(value);
-      let scrollbox = this.$refs.scrollbox as HTMLElement;
+      const item = this.getItemElement(value);
+      const scrollbox = this.$refs.scrollbox as HTMLElement;
       // Update scroll position
       if(item) {
-        let { top: itTop, bottom: itBottom } = item.getBoundingClientRect();
-        let { top: elTop, bottom: elBottom } = scrollbox.getBoundingClientRect();
+        const { top: itTop, bottom: itBottom } = item.getBoundingClientRect();
+        const { top: elTop, bottom: elBottom } = scrollbox.getBoundingClientRect();
         // -6px for the <ul>'s padding
-        let offsetHeight = (elBottom - elTop) - (itBottom - itTop) - 6;
+        const offsetHeight = (elBottom - elTop) - (itBottom - itTop) - 6;
           this.scrollbox.moveScrollPosition(item.offsetTop - offsetHeight);
       }
     },
@@ -143,8 +149,8 @@ export default defineComponent({
      *  (Default: Whichever side is closest to the element.)
      */
     bringItemIntoFocus(value: string | null, prefer?: "top" | "bottom") {
-      let item = this.getItemElement(value);
-      let scrollbox = this.$refs.scrollbox as HTMLElement;
+      const item = this.getItemElement(value);
+      const scrollbox = this.$refs.scrollbox as HTMLElement;
       // Update scroll position
       if(item) {
         const { top: itTop, bottom: itBottom } = item.getBoundingClientRect();
@@ -180,7 +186,7 @@ export default defineComponent({
       if(!this.$refs.items) {
         return item;
       }
-      for(let el of this.$refs.items as HTMLElement[]) {
+      for(const el of this.$refs.items as HTMLElement[]) {
         if(value === el.getAttribute("list-id")) {
           item = el as HTMLElement;
           break;

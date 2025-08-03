@@ -12,7 +12,7 @@ import type { Mutex } from "./Mutex";
 import type { NetworkTraffic } from "./NetworkTraffic";
 import type { Process } from "./Process";
 import type { Software } from "./Software";
-import type { Url } from "./URL";
+import type { Url } from "./Url";
 import type { UserAccount } from "./UserAccount";
 import type { WindowsRegistryKey } from "./WindowsRegistryKey";
 import type { X509Certificate } from "./X509Certificate";

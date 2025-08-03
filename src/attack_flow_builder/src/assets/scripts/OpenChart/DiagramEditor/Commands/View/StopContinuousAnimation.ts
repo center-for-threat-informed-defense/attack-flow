@@ -38,7 +38,7 @@ export class StopContinuousAnimation extends SynchronousEditorCommand {
      * Executes the editor command.
      */
     public execute(): void {
-        if(this.wasAnimationRunning) {
+        if (this.wasAnimationRunning) {
             this.interface.stopAnimation(this.animation.id);
         }
     }
@@ -47,7 +47,7 @@ export class StopContinuousAnimation extends SynchronousEditorCommand {
      * Undoes the editor command.
      */
     public undo(): void {
-        if(this.wasAnimationRunning) {
+        if (this.wasAnimationRunning) {
             this.interface.runAnimation(this.animation);
         }
     }

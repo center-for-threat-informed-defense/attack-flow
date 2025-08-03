@@ -52,7 +52,7 @@ export class DiagramImage {
         padding: number = 30,
         showShadows: boolean = true,
         showDebug: boolean = false,
-        showBackground: boolean = true,
+        showBackground: boolean = true
     ) {
         this._canvas = canvas;
         this._padding = padding;
@@ -135,11 +135,11 @@ export class DiagramImage {
         // Configure render settings
         const settings: RenderSettings = {
             shadowsEnabled: this._showShadows,
-            animationsEnabled: false,
-        }
+            animationsEnabled: false
+        };
 
         // Render image
-        if(this._showBackground) {
+        if (this._showBackground) {
             this._canvas.renderSurfaceTo(ctx, viewport);
         }
         this._canvas.renderTo(ctx, viewport, settings);

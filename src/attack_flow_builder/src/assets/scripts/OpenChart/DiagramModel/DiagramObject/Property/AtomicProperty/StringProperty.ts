@@ -57,14 +57,14 @@ export class StringProperty extends Property {
      *  (Default: `true`)
      */
     public setValue(value: JsonValue, update: boolean = true) {
-        if(value === null) {
+        if (value === null) {
             this._value = null;
-        } else if(typeof value === "string") {
+        } else if (typeof value === "string") {
             this._value = value;
         } else {
-            this._value = `${ value }`;
+            this._value = `${value}`;
         }
-        if(update) {
+        if (update) {
             this.updateParentProperty();
         }
     }
@@ -85,9 +85,9 @@ export class StringProperty extends Property {
      */
     public toString(): string {
         const options = this.options?.value;
-        if(this._value === null) {
+        if (this._value === null) {
             return "None";
-        } else if(options?.has(this._value)) {
+        } else if (options?.has(this._value)) {
             return options.get(this._value)!.toString();
         } else {
             return this._value;

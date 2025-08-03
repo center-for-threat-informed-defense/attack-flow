@@ -65,11 +65,11 @@ export function calculateBranchAnchorPositions(
 ) {
     const positions = new Map<string, [number, number]>();
     const branchWidth = box.width / branches.length;
-    
+
     // Calculate initial position
     let x = box.xMin + branchWidth / 2;
     const y = box.yMax - (markerOffset * 2);
-    
+
     // Iterate branches
     for (const branch of branches) {
         positions.set(branch.id, [roundNearestMultiple(x, grid[0]), y]);

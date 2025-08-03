@@ -18,7 +18,7 @@ export class DictionaryProperty extends CollectionProperty {
         super(options);
         this.representativeKey = null;
     }
-    
+
 
     /**
      * Tests if the primary property is defined.

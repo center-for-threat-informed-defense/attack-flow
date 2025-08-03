@@ -47,7 +47,7 @@ export interface Process extends StixObservableObjectBase<"process"> {
     /**
      * Specifies the list of network connections opened by the process, as a
      * reference to one or more Network Traffic objects.
-     * 
+     *
      * The objects referenced in this list MUST be of type network-traffic.
      */
     opened_connection_refs?: string[];
@@ -55,7 +55,7 @@ export interface Process extends StixObservableObjectBase<"process"> {
     /**
      * Specifies the user that created the process, as a reference to a User
      * Account object.
-     * 
+     *
      * The object referenced in this property MUST be of type user-account.
      */
     creator_user_ref?: string;
@@ -63,7 +63,7 @@ export interface Process extends StixObservableObjectBase<"process"> {
     /**
      * Specifies the executable binary that was executed as the process image,
      * as a reference to a File object.
-     * 
+     *
      * The object referenced in this property MUST be of type file.
      */
     image_ref?: string;
@@ -71,7 +71,7 @@ export interface Process extends StixObservableObjectBase<"process"> {
     /**
      * Specifies the other process that spawned (i.e. is the parent of) this
      * one, as a reference to a Process object.
-     * 
+     *
      * The object referenced in this property MUST be of type process.
      */
     parent_ref?: string;
@@ -79,7 +79,7 @@ export interface Process extends StixObservableObjectBase<"process"> {
     /**
      * Specifies the other processes that were spawned by (i.e. children of)
      * this process, as a reference to one or more other Process objects.
-     * 
+     *
      * The objects referenced in this list MUST be of type process.
      */
     child_refs?: string[];

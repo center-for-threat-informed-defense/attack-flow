@@ -23,7 +23,7 @@ export interface Campaign extends BaseStixDomainObject<"campaign"> {
 
     /**
      * The time that this Campaign was first seen.
-     * 
+     *
      * A summary property of data from sightings and other data that may or may
      * not be available in STIX. If new sightings are received that are earlier
      * than the first seen timestamp, the object may be updated to account for
@@ -33,12 +33,12 @@ export interface Campaign extends BaseStixDomainObject<"campaign"> {
 
     /**
      * The time that this Campaign was last seen.
-     * 
+     *
      * A summary property of data from sightings and other data that may or may
      * not be available in STIX. If new sightings are received that are later
      * than the last seen timestamp, the object may be updated to account for
      * the new data.
-     * 
+     *
      * If this property and the first_seen property are both defined, then this
      * property MUST be greater than or equal to the timestamp in the first_seen
      * property.

@@ -1,6 +1,5 @@
 import { titleCase } from "@OpenChart/Utilities";
 import type { JsonValue } from "./JsonTypes";
-import type { DiagramObject } from "../DiagramObject";
 import type { PropertyOptions } from "./PropertyOptions";
 import type { PropertyMetadata } from "./PropertyMetadata";
 
@@ -42,8 +41,8 @@ export abstract class Property {
      * The property's fully-qualified name.
      */
     public get fqn(): string {
-        if(this._parent) {
-            return `${ this._parent?.fqn }.${ this.id }`
+        if (this._parent) {
+            return `${this._parent?.fqn}.${this.id}`;
         } else {
             return this.id;
         }

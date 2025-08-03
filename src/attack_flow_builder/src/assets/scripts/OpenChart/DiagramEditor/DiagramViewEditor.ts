@@ -57,7 +57,7 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
         file: DiagramViewFile,
         name?: string,
         processor?: SynchronousCommandProcessor,
-        autosave?: AutosaveController,
+        autosave?: AutosaveController
     ) {
         super(file, name, processor, autosave);
         this.pointer = [0, 0];
@@ -112,8 +112,8 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
             this.selection.set(obj.instance, obj);
         }
     }
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////
     //  3. Search  ////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -127,8 +127,8 @@ export class DiagramViewEditor extends DiagramModelEditor<DiagramViewFile, ViewE
      *  The {@link DiagramObject}.
      */
     public lookup(id: string): DiagramObjectView | undefined {
-        for(const obj of traverse<DiagramObjectView>(this.file.canvas)) {
-            if(obj.instance === id) {
+        for (const obj of traverse<DiagramObjectView>(this.file.canvas)) {
+            if (obj.instance === id) {
                 return obj;
             }
         }

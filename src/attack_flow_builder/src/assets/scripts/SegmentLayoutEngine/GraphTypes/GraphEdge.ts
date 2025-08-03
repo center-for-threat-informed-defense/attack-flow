@@ -9,7 +9,7 @@ export class GraphEdge {
     public readonly object: Line;
 
     /**
-     * The edge's source node. 
+     * The edge's source node.
      */
     public source: GraphNode | null;
 
@@ -30,8 +30,8 @@ export class GraphEdge {
     public get id(): string {
         return this.object.instance;
     }
-    
-    
+
+
     /**
      * Creates a new {@link GraphEdge}.
      * @param object

@@ -1,6 +1,6 @@
 import { EventEmitter } from "../Utilities";
 
-export class AutosaveController extends EventEmitter<{ "autosave": () => void }> {
+export class AutosaveController extends EventEmitter<{ autosave: () => void }> {
 
     /**
      * The controller's autosave interval.
@@ -42,7 +42,7 @@ export class AutosaveController extends EventEmitter<{ "autosave": () => void }>
         this._lastAutosave = null;
     }
 
-    
+
     /**
      * Forces the dispatch of any outstanding save action.
      */

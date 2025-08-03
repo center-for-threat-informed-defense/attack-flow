@@ -17,11 +17,11 @@ export interface WindowsRegistryValue {
     /**
      * Specifies the data contained in the registry value.
      */
-    data?: string; 
+    data?: string;
 
     /**
      * Specifies the registry (REG_*) data type used in the registry value.
-     * 
+     *
      * The values of this property MUST come from the
      * windows-registry-datatype-enum enumeration.
      */

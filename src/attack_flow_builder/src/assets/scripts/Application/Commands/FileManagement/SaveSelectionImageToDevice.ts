@@ -21,7 +21,7 @@ export class SaveSelectionImageToDevice extends AppCommand {
     /**
      * The object's to capture.
      */
-    public readonly objects: DiagramObjectView[]
+    public readonly objects: DiagramObjectView[];
 
 
     /**
