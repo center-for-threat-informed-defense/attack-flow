@@ -90,7 +90,10 @@ export class CombinationIndex {
             // Add relationships to results matrix
             const valueIdx = this.values.get(valueId)!;
             for (const rel of this.lookup[valueIdx]) {
-                const [prop, value] = idxToId[rel].split(/\./g);
+                const id = idxToId[rel];
+                const splitIdx = id.indexOf(".");
+                const prop = id.substring(0, splitIdx);
+                const value = id.substring(splitIdx + 1);
                 matrix.get(prop)![i].add(value);
             }
             i++;
