@@ -20,11 +20,10 @@
         <span class="icon">✓</span>Valid Attack Flow
       </div>
       <div class="metric validity" v-else>
-        <span class="warning" v-if="warnings">
+        <span class="problem warning" v-if="warnings">
           <span class="icon">⚠</span><span>{{ warnings }}</span>
         </span>
-        <span class="spacer"></span>
-        <span class="error" v-if="errors">
+        <span class="problem error" v-if="errors">
           <span class="icon">⚠</span><span>{{ errors }}</span>
         </span>
       </div>
@@ -211,10 +210,6 @@ export default defineComponent({
   opacity: 0;
 }
 
-.spacer {
-  padding-left: 12px;
-}
-
 /** === Info Right === */
 
 .info.right {
@@ -242,6 +237,13 @@ export default defineComponent({
 .page-check.valid {
   color: #bfbfbf;
   background: #333333;
+}
+
+.problem {
+  margin-right: 12px;
+}
+.problem:last-child {
+  margin-right: 0px;
 }
 
 </style>

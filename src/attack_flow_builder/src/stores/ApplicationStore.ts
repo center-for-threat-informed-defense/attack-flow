@@ -1,5 +1,4 @@
 import Configuration from "@/assets/configuration/app.configuration";
-import { DateTime } from "luxon";
 import { FileStore } from "@/assets/scripts/Browser";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
@@ -44,8 +43,7 @@ export const useApplicationStore = defineStore("applicationStore", {
         activeRecommender: new BasicRecommender(),
         activeFinder: new OpenChartFinder<DiagramViewEditor, DiagramObjectView>(),
         settings: BaseAppSettings,
-        readOnlyMode: false,
-        recentTimezone: DateTime.local().toFormat("ZZ")
+        readOnlyMode: false
     }),
     getters: {
 
@@ -60,7 +58,7 @@ export const useApplicationStore = defineStore("applicationStore", {
          *  The number of items selected.
          */
         hasSelection(): number {
-            return this.getSelection.length;
+            return this.selection.length;
         },
 
         /**
@@ -68,7 +66,7 @@ export const useApplicationStore = defineStore("applicationStore", {
          * @returns
          *  The selected objects.
          */
-        getSelection(): DiagramObjectView[] {
+        selection(): DiagramObjectView[] {
             return [...this.activeEditor.selection.values()];
         },
 
@@ -170,17 +168,6 @@ export const useApplicationStore = defineStore("applicationStore", {
          */
         isShowingSplash(state): boolean {
             return state.settings.view.splash_menu.display_menu;
-        },
-
-        /**
-         * Get recently used timezone to pre-populate DateTime fields
-         * @param state
-         * the Vuex state
-         * @returns
-         * the UTC offset last used
-         */
-        stickyTimezone(state): string {
-            return state.recentTimezone;
         }
 
     },
@@ -201,14 +188,6 @@ export const useApplicationStore = defineStore("applicationStore", {
             } else {
                 command.execute();
             }
-        },
-        
-        /**
-         * Updates sticky timezone with most recently used timezone offset
-         * @param utc new value to save
-         */
-        setStickyTimezone(utc: string) {
-            this.recentTimezone = utc;
         }
 
     }

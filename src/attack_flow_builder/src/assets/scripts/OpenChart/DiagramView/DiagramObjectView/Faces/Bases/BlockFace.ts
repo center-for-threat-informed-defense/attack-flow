@@ -120,12 +120,7 @@ export abstract class BlockFace extends DiagramFace {
      */
     public moveBy(dx: number, dy: number): void {
         // Move self
-        this.boundingBox.x += dx;
-        this.boundingBox.y += dy;
-        this.boundingBox.xMin += dx;
-        this.boundingBox.xMax += dx;
-        this.boundingBox.yMin += dy;
-        this.boundingBox.yMax += dy;
+        this.boundingBox.moveBy(dx, dy);
         // Move children
         for (const anchor of this.view.anchors.values()) {
             anchor.face.moveBy(dx, dy);

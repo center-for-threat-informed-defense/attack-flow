@@ -46,7 +46,7 @@ export class DiagramViewFile extends DiagramModelFile {
         this.canvas.calculateLayout();
         // Run layout engine
         if (diagram && !(diagram instanceof Canvas) && diagram.layout) {
-            new ManualLayoutEngine(diagram.layout).run([this.canvas]);
+            new ManualLayoutEngine(diagram.layout).run(this.canvas);
         }
         // Set camera
         this.camera = diagram?.camera ?? { x: 0, y: 0, k: 1 };
@@ -71,7 +71,7 @@ export class DiagramViewFile extends DiagramModelFile {
      *  The layout engine to apply.
      */
     public runLayout(layout: DiagramLayoutEngine) {
-        layout.run([this.canvas]);
+        layout.run(this.canvas);
     }
 
     /**
@@ -96,7 +96,7 @@ export class DiagramViewFile extends DiagramModelFile {
                 ([i, p]) => [instanceMap.get(i)!, p]
             )
         );
-        new ManualLayoutEngine(remappedLayout).run([canvas]);
+        new ManualLayoutEngine(remappedLayout).run(canvas);
 
         /**
          * Developer's Note:

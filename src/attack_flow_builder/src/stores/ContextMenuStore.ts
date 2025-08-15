@@ -7,10 +7,15 @@ import { titleCase } from "@OpenChart/Utilities";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { useApplicationStore } from "./ApplicationStore";
+import { AutomaticLayoutEngine } from "@OpenChart/DiagramView";
 import type { SpawnObject } from "@OpenChart/DiagramEditor/Commands/ViewFile/index.commands";
 import type { CommandEmitter } from "@/assets/scripts/Application";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
-import type { ContextMenu, ContextMenuItem, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
+import type { 
+    ContextMenu, ContextMenuItem,
+    ContextMenuSection, ContextMenuSubmenu
+} from "@/assets/scripts/Browser";
+
 
 export const useContextMenuStore = defineStore("contextMenuStore", {
     getters: {
@@ -255,7 +260,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     this.undoRedoMenu,
                     this.clipboardMenu,
                     this.deleteMenu,
-                    // this.duplicateMenu,
+                    this.layoutMenu,
                     this.findMenu,
                     this.createMenu,
                     this.selectAllMenu,
@@ -355,28 +360,53 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
             };
         },
 
-        // /**
-        //  * Returns the duplicate menu section.
-        //  * @returns
-        //  *  The duplicate menu section.
-        //  */
-        // duplicateMenu(): ContextMenuSection<CommandEmitter> {
-        //     const ctx = useApplicationStore();
-        //     const page = ctx.activePage.page;
-        //     const edit = ctx.settings.hotkeys.edit;
-        //     return {
-        //         id: "duplicate_options",
-        //         items: [
-        //             {
-        //                 text: "Duplicate",
-        //                 type: MenuType.Action,
-        //                 data: () => new Page.DuplicateSelectedChildren(ctx, page),
-        //                 shortcut: edit.duplicate,
-        //                 disabled: !ctx.hasSelection
-        //             }
-        //         ]
-        //     };
-        // },
+        /**
+         * Returns the layout menu section.
+         * @returns
+         *  The duplicate menu section.
+         */
+        layoutMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const canvas = app.activeEditor.file.canvas;
+            // Get selection
+            let selection: Set<string> | undefined;
+            if(app.hasSelection) {
+                selection = new Set(app.selection.map(o => o.id));
+            }
+            return {
+                id: "layout_options",
+                items: [
+                    {
+                        text: "Format Layout",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.runLayout(
+                            new AutomaticLayoutEngine({ 
+                                optimizeOrder   : true,
+                                optimizeLines   : false,
+                                layoutAlgorithm : "advanced",
+                                spacing         : 4
+                            }),
+                            canvas,
+                            selection
+                        ),
+                    },
+                    {
+                        text: "Format Layout and Lines",
+                        type: MenuType.Action,
+                        data: () => EditorCommands.runLayout(
+                            new AutomaticLayoutEngine({ 
+                                optimizeOrder   : true,
+                                optimizeLines   : true,
+                                layoutAlgorithm : "simple",
+                                spacing         : 4
+                            }),
+                            canvas,
+                            selection
+                        ),
+                    }
+                ]
+            };
+        },
 
         /**
          * Returns the find menu section.
@@ -795,7 +825,7 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
  */
 function prepareCreateMenu(
     templates: ReadonlyMap<string, DiagramObjectTemplate>,
-    spawn: (id: string) => SpawnObject
+    spawn: (id: string) => EditorCommands.SynchronousEditorCommand
 ): ContextMenuSubmenu<CommandEmitter> {
     type MenuMap<T> = {
         menu: T;

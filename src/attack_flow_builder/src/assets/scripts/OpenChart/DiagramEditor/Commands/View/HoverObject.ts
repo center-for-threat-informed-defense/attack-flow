@@ -31,8 +31,6 @@ export class HoverObject extends SynchronousEditorCommand {
 
     /**
      * Executes the editor command.
-     * @param issueDirective
-     *  A function that can issue one or more editor directives.
      */
     public execute(): void {
         let obj: DiagramObjectView | null = this.object;

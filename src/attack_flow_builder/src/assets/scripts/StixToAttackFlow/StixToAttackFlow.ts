@@ -1,20 +1,30 @@
 import { StixToTemplate } from "./StixToTemplate";
 import { populateProperties } from "./PopulateBlockProperties";
-import { GraphEdge, GraphNode } from "../SegmentLayoutEngine";
-import { DiagramObjectSerializer } from "@OpenChart/DiagramModel";
 import { resolveEmbeddedRelationships } from "./ResolveEmbeddedRelationships";
-import { Canvas, Block, DiagramObject, Line } from "../OpenChart/DiagramModel/DiagramObject";
+import { 
+    LayoutEdge, LayoutNode, 
+    BlockView, CanvasView, LineView,
+    ManualLayoutEngine, AutomaticLayoutEngine,
+    SourceSide
+} from "@OpenChart/DiagramView";
+import { 
+    DiagramObject, DiagramObjectSerializer, 
+    DictionaryProperty, StringProperty, EnumProperty
+} from "@OpenChart/DiagramModel";
+import type { Flow } from "./StixTypes/StixDomainObject/AttackFlow";
 import type { Constructor } from "@OpenChart/Utilities";
-import type { DiagramViewExport } from "@OpenChart/DiagramView";
 import type { StixBundle, StixObject } from "./StixTypes";
-import type { DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
+import type { 
+    DiagramObjectView, 
+    DiagramObjectViewFactory, DiagramViewExport
+} from "@OpenChart/DiagramView";
 
 export class StixToAttackFlowConverter {
 
     /**
      * The diagram factory to use.
      */
-    private factory: DiagramObjectFactory;
+    private factory: DiagramObjectViewFactory;
 
 
     /**
@@ -24,7 +34,7 @@ export class StixToAttackFlowConverter {
      * @param factory
      *  The diagram factory to use.
      */
-    constructor(factory: DiagramObjectFactory) {
+    constructor(factory: DiagramObjectViewFactory) {
         this.factory = factory;
     }
 
@@ -36,62 +46,174 @@ export class StixToAttackFlowConverter {
      * @returns
      *  The converted Attack Flow diagram.
      */
-    public convert(stix: StixBundle): DiagramModelExport {
-        // Create canvas
-        const canvas = this.factory.createNewDiagramObject(this.factory.canvas, Canvas);
+    public convert(stix: StixBundle): DiagramViewExport {
+        // Remove extension definitions from STIX
+        this.removeExtensionDefinitions(stix);
+        // Extract canvas from STIX
+        const canvas = this.tryExtractCanvas(stix);
         // Create graph of diagram objects from STIX
         const [nodes, edges] = this.parseStixGraph(stix);
-        // Mirror graph structure onto nodes
-        // this.mirrorConnections(nodes);
-
-        // Randomize node positions
-
-        for(const o of nodes) {
-            // const x = Math.floor(Math.random() * 10000);
-            // const y = Math.floor(Math.random() * 10000);
-            // o.object.moveTo(x, y);
-        }
-
-
         // Add objects to canvas
         for(const o of [...nodes, ...edges]) {
             canvas.addObject(o.object);
         }
+        // Calculate initial layout
+        canvas.calculateLayout();
+        // Connect lines and calculate layout
+        new AutomaticLayoutEngine({
+            optimizeOrder : true,
+            optimizeLines  : true,
+            clustering     : "structural",
+            spacing        : 4,
+        }).runOnGraph(canvas, nodes);
         // Prepare export
         return {
             schema  : this.factory.id,
+            theme   : this.factory.theme.id,
             objects : DiagramObjectSerializer.exportObjects([canvas]),
-            // layout  : ManualLayoutEngine.generatePositionMap([canvas]) 
+            layout  : ManualLayoutEngine.generatePositionMap([canvas])
         };
     }
 
-    
     ////////////////////////////////////////////////////////////////////////////
-    //  1. Graph Construction  /////////////////////////////////////////////////
+    //  1. Object Extraction  //////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
 
 
     /**
-     * Converts a STIX bundle to an abstract graph of diagram {@link Block}s and
-     * {@link Lines}.
+     * Attempts to extract a canvas from the bundle.
+     * @param bundle
+     *  The STIX bundle.
+     * @returns
+     *  The parsed canvas.
+     */
+    private tryExtractCanvas(bundle: StixBundle): CanvasView {
+        
+        // Attempt to extract flow
+        let flows: Flow[] = [];
+        this.removeObjects(bundle, o => {
+            if(o.type === "attack-flow") {
+                flows.push(o);
+                return true;
+            }
+            return false;
+        });
+        
+        // If no canvas, return a blank one
+        if(flows.length === 0) {
+            const fac = this.factory;
+            const can = this.factory.canvas;
+            return fac.createNewDiagramObject(can, CanvasView);
+        } else if(1 < flows.length) {
+            throw new Error("Bundle must only contain one flow object.");
+        }
+        
+        // Otherwise, create canvas from flow
+        const flow = flows[0];
+        const canvas = this.translateStix(flow, CanvasView)!;
+        
+        // Attempt to extract identity
+        let identity: StixObject | undefined;
+        this.removeObjects(bundle, o => {
+            if(flow.created_by_ref === o.id) {
+                identity = o;
+                return true;
+            }
+            return false;
+        });
+        if(identity?.type !== "identity") {
+            return canvas;
+        }
+        
+        // Assign identity information to canvas
+        const props = canvas.properties;
+        const author = props.get("author", DictionaryProperty);
+        
+        // Gather fields
+        const name = author?.get("name", StringProperty);
+        const type = author?.get("identity_class", EnumProperty);
+        const cont = author?.get("contact_information", StringProperty);
+        
+        // Assign fields
+        name?.setValue(identity.name);
+        if(identity.identity_class) {
+            type?.setValue(identity.identity_class);
+        }
+        if(identity.contact_information) {
+            cont?.setValue(identity.contact_information);
+        }
+        
+        return canvas;
+    
+    }
+
+    /**
+     * Removes extension definitions from the bundle.
+     * @param bundle
+     *  The STIX bundle.
+     */
+    private removeExtensionDefinitions(bundle: StixBundle) {
+        const refs = new Set<string>();
+        // Remove extension definitions
+        this.removeObjects(bundle, o => {
+            if(o.type === "extension-definition") {
+                refs.add(o.created_by_ref);
+                return true;
+            }
+            return false;
+        })
+        // Remove created_by_refs
+        this.removeObjects(bundle, o => refs.has(o.id));
+    }
+
+    /**
+     * Removes all objects from a {@link StixBundle} that match a specified
+     * predicate.
+     * @param bundle
+     *  The STIX Bundle.
+     * @param match
+     *  A predicate which is applied to each object of the bundle. If the 
+     *  predicate returns true, the object is removed from the bundle.
+     */
+    private removeObjects(bundle: StixBundle, match: (o: StixObject) => boolean) {
+        let index = 0;
+        for(const object of bundle.objects) {
+            if(match(object)) {
+                bundle.objects.splice(index, 1);
+            } else {
+                index++;
+            }
+        }
+    }
+    
+
+    ////////////////////////////////////////////////////////////////////////////
+    //  2. Graph Construction  /////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Converts a STIX bundle to an abstract graph of diagram {@link BlockView}s
+     * and {@link LineView}s.
      * @param bundle
      *  The STIX bundle. 
      * @returns
-     *  The graph's nodes and edges.
+     *  The graph's canvas, nodes, and edges.
      */
-    private parseStixGraph(bundle: StixBundle): [GraphNode[], GraphEdge[]] {
+    private parseStixGraph(bundle: StixBundle): [LayoutNode[], LayoutEdge[]] {
         // Generate node map
-        const nodes = new Map<string, GraphNode>();
+        const nodes = new Map<string, LayoutNode>();
         const edges = [];
         for(const obj of bundle.objects) {
             switch(obj.type) {
                 case "relationship":
                 case "sighting":
+                case "attack-flow":
                     continue;
                 default:
-                    const object = this.translateStix(obj, Block);
+                    const object = this.translateStix(obj, BlockView);
                     if(object) {
-                        nodes.set(obj.id, new GraphNode(object));
+                        nodes.set(obj.id, new LayoutNode(object));
                     }
             }
         }
@@ -99,9 +221,9 @@ export class StixToAttackFlowConverter {
         for(const rel of bundle.objects) {
             switch(rel.type) {
                 case "relationship":
-                    const object = this.translateStix(rel, Line);
+                    const object = this.translateStix(rel, LineView);
                     if(object) {
-                        const edge = new GraphEdge(object);
+                        const edge = new LayoutEdge(object);
                         nodes.get(rel.source_ref)?.addOutEdge(edge);
                         nodes.get(rel.target_ref)?.addInEdge(edge);
                         edges.push(edge);
@@ -117,18 +239,35 @@ export class StixToAttackFlowConverter {
             switch(srcObj.type) {
                 case "relationship":
                 case "sighting":
+                case "attack-flow":
                     continue;
             }
             // Process objects
             const objectIds = resolveEmbeddedRelationships(srcObj);
             for(const dstObj of objectIds) {
-                const line = this.factory.createNewDiagramObject("dynamic_line", Line);
-                const edge = new GraphEdge(line);
+                const line = this.factory.createNewDiagramObject("dynamic_line", LineView);
+                const edge = new LayoutEdge(line);
                 nodes.get(srcObj.id)?.addOutEdge(edge);
                 nodes.get(dstObj)?.addInEdge(edge);
                 edges.push(edge);
             }
         }
+        // Orient lines
+        for(const edge of edges) {
+            // Identify relationship
+            const src = edge.source?.object.id ?? '';
+            const trg = edge.target?.object.id ?? '';
+            const rel = `${ src }.${ trg }`;
+            // Set orientation
+            switch(rel) {
+                case "action.action":
+                    edge.orientation = SourceSide.East | SourceSide.West;
+                    break;
+                default:
+                    edge.orientation = SourceSide.South | SourceSide.North;
+            }
+        }
+        // Return components
         return [[...nodes.values()], edges];
     }
 
@@ -142,7 +281,9 @@ export class StixToAttackFlowConverter {
      * @returns
      *  The translate {@link DiagramObject}.
      */
-    private translateStix<T extends DiagramObject>(stix: StixObject, type?: Constructor<T>): T | null {
+    private translateStix<T extends DiagramObjectView>(
+        stix: StixObject, type?: Constructor<T>
+    ): T | null {
         // Resolve template
         const template = StixToTemplate[stix.type];
         if(template === null) {
@@ -156,85 +297,4 @@ export class StixToAttackFlowConverter {
         return object;
     }
 
-    
-    ////////////////////////////////////////////////////////////////////////////
-    //  2. Mirror Connections  /////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-
-
-    // /**
-    //  * Mirrors a graph's structure onto the underlying {@link DiagramObject}s.
-    //  * @param nodes
-    //  *  The graph's nodes.
-    //  */
-    // private mirrorConnections(nodes: GraphNode[]) {
-    //     const visitedEdges = new Set();
-    //     const unvisitedNodes = new Map(nodes.map(o => [o.id, o]));
-    //     while(unvisitedNodes.size) {
-    //         // Select node with smallest in-degree
-    //         const root = [...unvisitedNodes.values()].reduce(
-    //             (a,b) => b.inDegree < a.inDegree ? b : a
-    //         );
-    //         // Traverse graph
-    //         const queue = [root];
-    //         unvisitedNodes.delete(root.id);
-    //         while(queue.length) {
-    //             const node = queue.shift()!;
-    //             // Traverse forward
-    //             for(const edge of node.next) {
-    //                 if(!edge.target || visitedEdges.has(edge.id)) {
-    //                     continue;
-    //                 }
-    //                 visitedEdges.add(edge.id);
-    //                 // Link nodes
-    //                 this.connectBlocks(
-    //                     node.object, 
-    //                     edge.target.object,
-    //                     edge.object
-    //                 );
-    //                 // Traverse
-    //                 if(unvisitedNodes.has(edge.target.id)) {
-    //                     unvisitedNodes.delete(edge.target.id);
-    //                     queue.push(edge.target);
-    //                 }
-    //             }
-    //             // Traverse backward
-    //             for(const edge of node.prev) {
-    //                 if(!edge.source || visitedEdges.has(edge.id)) {
-    //                     continue;
-    //                 }
-    //                 visitedEdges.add(edge.id);
-    //                 // Link nodes
-    //                 this.connectBlocks(
-    //                     edge.source.object,
-    //                     node.object,
-    //                     edge.object
-    //                 );
-    //                 if(unvisitedNodes.has(edge.source.id)) {
-    //                     // Traverse
-    //                     unvisitedNodes.delete(edge.source.id);
-    //                     queue.push(edge.source);
-    //                 }
-                    
-    //             }
-    //         }
-    //     }
-    // }
-
-    // /**
-    //  * Connects a parent and child block with a line.
-    //  * @param parent
-    //  *  The parent block.
-    //  * @param child
-    //  *  The child block.
-    //  * @param line
-    //  *  The line. 
-    //  */
-    // private connectBlocks(parent: Block, child: Block, line: Line) {
-    //     parent.anchors.get(AnchorPosition.D270)?.link(line.source);
-    //     child.anchors.get(AnchorPosition.D90)?.link(line.target);
-    // }
-
-
 }
-

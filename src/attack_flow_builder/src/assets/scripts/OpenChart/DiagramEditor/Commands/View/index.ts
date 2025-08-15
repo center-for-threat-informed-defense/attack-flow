@@ -5,9 +5,13 @@ import {
     MoveObjectsBy,
     MoveObjectsTo,
     SetTangibility,
-    UserSetObjectPosition
+    UserSetObjectPosition,
+    RunLayout
 } from "./index.commands";
-import type { BlockView, CanvasView, DiagramObjectView, GroupView, LineView } from "@OpenChart/DiagramView";
+import type { 
+    BlockView, CanvasView, DiagramLayoutEngine,
+    DiagramObjectView, GroupView, LineView
+} from "@OpenChart/DiagramView";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -78,7 +82,7 @@ export function routeLinesThroughBlock(
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  2. Movement ///////////////////////////////////////////////////////////////
+//  2. Movement  //////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -127,4 +131,27 @@ export function userSetObjectPosition(
     object: DiagramObjectView
 ): UserSetObjectPosition {
     return new UserSetObjectPosition(object);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  3. Layout  ////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+
+
+/**
+ * Runs a layout engine on a {@link CanvasView}. 
+ * @param engine
+ *  The layout engine to use.
+ * @param canvas
+ *  The canvas to operate on.
+ * @param objects
+ *  The objects to position. If unspecified, all objects are positioned.
+ * @returns
+ *  A command that represents the action.
+ */
+export function runLayout(
+    engine: DiagramLayoutEngine, canvas: CanvasView, objects?: Set<string>
+) {
+   return new RunLayout(engine, canvas, objects); 
 }

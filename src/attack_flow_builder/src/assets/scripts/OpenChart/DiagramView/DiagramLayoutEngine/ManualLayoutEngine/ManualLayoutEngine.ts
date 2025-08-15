@@ -1,6 +1,7 @@
-import { Group, Handle, Latch, traverse } from "@OpenChart/DiagramModel";
-import type { PositionMap } from "./PositionMap";
-import { PositionSetByUser, type DiagramObjectView } from "../../DiagramObjectView";
+import { Handle, traverse } from "@OpenChart/DiagramModel";
+import { CanvasView, PositionSetByUser } from "../../DiagramObjectView";
+import type { PositionMap } from "../PositionMap";
+import type { DiagramObjectView } from "../../DiagramObjectView";
 import type { DiagramLayoutEngine } from "../DiagramLayoutEngine";
 
 export class ManualLayoutEngine implements DiagramLayoutEngine {
@@ -22,14 +23,24 @@ export class ManualLayoutEngine implements DiagramLayoutEngine {
 
 
     /**
-     * Runs the layout engine on a set of objects.
-     * @param objects
-     *  The objects.
+     * Runs the layout engine on a {@link CanvasView}.
+     * @param canvas
+     *  The canvas to layout. 
      */
-    public run(objects: DiagramObjectView[]): void {
-        for (const object of traverse(objects)) {
+    public run(canvas: CanvasView): void;
+
+    /**
+     * Runs the layout engine on a set of objects.
+     * @param canvas
+     *  The canvas the objects belong to.
+     * @param objects
+     *  The objects to layout specified by instance id.
+     */
+    public run(canvas: CanvasView, objects?: Set<string>): void;
+    public run(canvas: CanvasView, objects?: Set<string>): void {
+        for (const object of traverse(canvas)) {
             const coords = this.layout[object.instance];
-            if(!coords) {
+            if(!coords || (objects && !objects.has(object.instance))) {
                 continue;
             } 
             if(object instanceof Handle) {

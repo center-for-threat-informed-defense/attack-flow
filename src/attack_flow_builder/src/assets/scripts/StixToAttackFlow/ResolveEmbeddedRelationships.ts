@@ -67,7 +67,7 @@ export function resolveEmbeddedRelationships(stix: StixObject): string[] {
                 stix.bcc_refs,
                 stix.raw_email_ref
             );
-    case "file":
+        case "file":
             return compileIdentifiers(
                 ...common,
                 stix.parent_directory_ref,

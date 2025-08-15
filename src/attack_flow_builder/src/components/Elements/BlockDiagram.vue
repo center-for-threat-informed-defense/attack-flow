@@ -109,7 +109,7 @@ export default defineComponent({
         return [
           this.contextMenus.deleteMenu,
           this.contextMenus.clipboardMenu,
-          // this.contextMenus.duplicateMenu,
+          this.contextMenus.layoutMenu,
           this.contextMenus.jumpMenu
         ];
       } else {
@@ -118,6 +118,7 @@ export default defineComponent({
           this.contextMenus.createAtMenu,
           this.contextMenus.selectAllMenu,
           this.contextMenus.unselectAllMenu,
+          this.contextMenus.layoutMenu,
           this.contextMenus.zoomMenu,
           this.contextMenus.diagramViewMenu
         ];

@@ -30,12 +30,7 @@ export abstract class HandleFace extends DiagramFace {
      *  The change in y.
      */
     public moveBy(dx: number, dy: number): void {
-        this.boundingBox.x += dx;
-        this.boundingBox.y += dy;
-        this.boundingBox.xMin += dx;
-        this.boundingBox.xMax += dx;
-        this.boundingBox.yMin += dy;
-        this.boundingBox.yMax += dy;
+        this.boundingBox.moveBy(dx, dy);
     }
 
 

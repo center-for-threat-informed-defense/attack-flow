@@ -209,20 +209,7 @@ export abstract class DiagramFace {
      *  The views that compose the face's bounding box.
      */
     public calculateBoundingBoxFromViews(views: Iterable<DiagramObjectView>) {
-        const bb = this.boundingBox;
-        // Reset bounding box
-        bb.xMin = Infinity;
-        bb.yMin = Infinity;
-        bb.xMax = -Infinity;
-        bb.yMax = -Infinity;
-        // Update bounding box
-        for (const obj of views) {
-            const objBox = obj.face.boundingBox;
-            bb.xMin = Math.min(bb.xMin, objBox.xMin);
-            bb.yMin = Math.min(bb.yMin, objBox.yMin);
-            bb.xMax = Math.max(bb.xMax, objBox.xMax);
-            bb.yMax = Math.max(bb.yMax, objBox.yMax);
-        }
+        this.boundingBox.setEnclosure([...views].map(o => o.face.boundingBox));
     }
 
     /**

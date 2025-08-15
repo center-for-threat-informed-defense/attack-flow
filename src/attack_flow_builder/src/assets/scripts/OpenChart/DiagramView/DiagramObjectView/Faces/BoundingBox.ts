@@ -115,6 +115,33 @@ export class BoundingBox {
 
 
     /**
+     * Moves the bounding box to a specific coordinate.
+     * @param x
+     *  The x coordinate.
+     * @param y
+     *  The y coordinate.
+     */
+    public moveTo(x: number, y: number) {
+        this.moveBy(x - this.x, y - this.y); 
+    }
+
+    /**
+     * Moves the bounding box relative to its current position.
+     * @param dx
+     *  The change in x.
+     * @param dy
+     *  The change in y.
+     */
+    public moveBy(dx: number, dy: number) {
+        this.x += dx;
+        this.y += dy;
+        this.xMin += dx;
+        this.xMax += dx;
+        this.yMin += dy;
+        this.yMax += dy;
+    }
+
+    /**
      * Tests if the bounding box overlaps the specified region.
      * @param region
      *  The region's bounding box.
@@ -129,6 +156,9 @@ export class BoundingBox {
     /**
      * Tests if the bounding region is inside the specified region.
      * @param region
+     *  The region's bounding box.
+     * @returns
+     *  True if this bounding region is inside `region`, false otherwise.
      */
     public inside(region: BoundingBox): boolean {
         return region.xMin <= this.xMin && this.xMax <= region.xMax
@@ -147,6 +177,26 @@ export class BoundingBox {
     public contains(x: number, y: number): boolean {
         return this.xMin <= x && x <= this.xMax
             && this.yMin <= y && y <= this.yMax;
+    }
+
+    /**
+     * Set the bounding box to enclose the specified regions.
+     * @param regions
+     *  The regions to enclose.
+     */
+    public setEnclosure(regions: Iterable<BoundingBox>) {
+        // Reset bounding box
+        this.xMin = Infinity;
+        this.yMin = Infinity;
+        this.xMax = -Infinity;
+        this.yMax = -Infinity;
+        // Update bounding box
+        for (const region of regions) {
+            this.xMin = Math.min(this.xMin, region.xMin);
+            this.yMin = Math.min(this.yMin, region.yMin);
+            this.xMax = Math.max(this.xMax, region.xMax);
+            this.yMax = Math.max(this.yMax, region.yMax);
+        }
     }
 
 }

@@ -71,6 +71,10 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
     public override createNewDiagramObject<T extends DiagramObjectView>(
         template: DiagramObjectTemplate | string,
         type?: Constructor<T>
+    ): T;
+    public override createNewDiagramObject<T extends DiagramObjectView>(
+        template: DiagramObjectTemplate | string,
+        type?: Constructor<T>
     ): T {
         return super.createNewDiagramObject(template, type);
     }

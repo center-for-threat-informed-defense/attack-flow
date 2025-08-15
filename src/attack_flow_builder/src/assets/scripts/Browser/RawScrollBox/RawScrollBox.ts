@@ -323,7 +323,7 @@ export class RawScrollBox {
         if (content.scrollTop !== this._scrollTop) {
             this._scrollTop = content.scrollTop;
             this._handle.pos = this.topToHandleTop(this._scrollTop);
-            this._handle.el.style.transform = `translateY(${this._handle.pos}px)`;
+            this._handle.el.style.transform = `translateY(${Math.round(this._handle.pos)}px)`;
         }
         this._eventHandlers.emitScroll(this._scrollTop);
     }
@@ -395,7 +395,7 @@ export class RawScrollBox {
             event?.stopPropagation();
         }
         // Update DOM
-        this._handle.el.style.transform = `translateY(${this._handle.pos}px)`;
+        this._handle.el.style.transform = `translateY(${Math.round(this._handle.pos)}px)`;
         this._content.el.scrollTop = this._scrollTop;
     }
 

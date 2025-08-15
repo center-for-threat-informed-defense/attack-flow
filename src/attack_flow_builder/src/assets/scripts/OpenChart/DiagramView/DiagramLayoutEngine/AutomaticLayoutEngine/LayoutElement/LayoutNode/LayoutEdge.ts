@@ -1,27 +1,27 @@
-import type { Line } from "@OpenChart/DiagramModel";
-import type { GraphNode } from "./GraphNode";
+import type { LineView } from "../../../../DiagramObjectView";
+import type { LayoutNode } from "./LayoutNode";
 
-export class GraphEdge {
+export class LayoutEdge {
 
     /**
      * The edge's diagram object.
      */
-    public readonly object: Line;
+    public readonly object: LineView;
 
     /**
      * The edge's source node. 
      */
-    public source: GraphNode | null;
+    public source: LayoutNode | null;
 
     /**
      * The edge's target node.
      */
-    public target: GraphNode | null;
+    public target: LayoutNode | null;
 
     /**
      * The edge's orientation.
      */
-    public orientation: "vertical" | "horizontal";
+    public orientation: number;
 
 
     /**
@@ -33,15 +33,15 @@ export class GraphEdge {
     
     
     /**
-     * Creates a new {@link GraphEdge}.
+     * Creates a new {@link LayoutEdge}.
      * @param object
      *  The edge's diagram object.
      */
-    constructor(object: Line) {
+    constructor(object: LineView) {
         this.object = object;
         this.source = null;
         this.target = null;
-        this.orientation = "vertical";
+        this.orientation = 0;
     }
 
 }

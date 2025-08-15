@@ -55,7 +55,7 @@ export default defineComponent({
       if(hasSelection === 0) {
         return this.application.activeEditor.file.canvas.properties;
       } else if(hasSelection === 1) {
-        return this.application.getSelection[0].properties;
+        return this.application.selection[0].properties;
       }
       return undefined;
     }
