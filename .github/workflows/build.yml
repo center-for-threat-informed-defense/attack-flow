@@ -56,6 +56,8 @@ jobs:
   attack_flow_builder:
     needs: ["test_attack_flow_builder"]
     runs-on: ubuntu-latest
+    env:
+      AFB_BASE_URL: "/attack-flow/ui/"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
@@ -76,6 +78,8 @@ jobs:
   attack_flow_builder_v2:
     needs: ["test_attack_flow_builder"]
     runs-on: ubuntu-latest
+    env:
+      AFB_BASE_URL: "/attack-flow/ui-v2/"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -182,7 +186,7 @@ jobs:
         run: poetry run make validate
       - name: Copy corpus into docs
         env:
-          DOCS_BASE_URL: "${{ github.ref == 'refs/heads/main' && 'https://ctid.mitre.org/attack-flow/' || '.' }}"
+          DOCS_BASE_URL: "${{ github.ref == 'refs/heads/main' && 'ctid.mitre.org/attack-flow/' || '.' }}"
         run: poetry run make docs-examples
       - name: Copy matrix-viz code into docs
         run: poetry run make docs-matrix
