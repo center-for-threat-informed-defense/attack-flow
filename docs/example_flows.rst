@@ -22,7 +22,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Black%20Basta%20Ransomware.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Black%20Basta%20Ransomware.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Black%20Basta%20Ransomware.afb" download>Attack Flow</a> | <a href="../corpus/Black%20Basta%20Ransomware.json" download>STIX</a> | <a href="../corpus/Black%20Basta%20Ransomware.dot" download>GraphViz</a> (<a href="../corpus/Black%20Basta%20Ransomware.dot.png">PNG</a>) | <a href="../corpus/Black%20Basta%20Ransomware.mmd" download>Mermaid</a></p>
 
 ----
@@ -35,7 +35,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28Alt%29.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28Alt%29.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28Alt%29.afb" download>Attack Flow</a> | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28Alt%29.json" download>STIX</a> | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28Alt%29.dot" download>GraphViz</a> (<a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28Alt%29.dot.png">PNG</a>) | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28Alt%29.mmd" download>Mermaid</a></p>
 
 ----
@@ -48,7 +48,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA1%29.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA1%29.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA1%29.afb" download>Attack Flow</a> | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA1%29.json" download>STIX</a> | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA1%29.dot" download>GraphViz</a> (<a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA1%29.dot.png">PNG</a>) | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA1%29.mmd" download>Mermaid</a></p>
 
 ----
@@ -61,7 +61,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA2%29.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA2%29.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA2%29.afb" download>Attack Flow</a> | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA2%29.json" download>STIX</a> | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA2%29.dot" download>GraphViz</a> (<a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA2%29.dot.png">PNG</a>) | <a href="../corpus/CISA%20AA22-138B%20VMWare%20Workspace%20%28TA2%29.mmd" download>Mermaid</a></p>
 
 ----
@@ -74,7 +74,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/CISA%20Iranian%20APT.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/CISA%20Iranian%20APT.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/CISA%20Iranian%20APT.afb" download>Attack Flow</a> | <a href="../corpus/CISA%20Iranian%20APT.json" download>STIX</a> | <a href="../corpus/CISA%20Iranian%20APT.dot" download>GraphViz</a> (<a href="../corpus/CISA%20Iranian%20APT.dot.png">PNG</a>) | <a href="../corpus/CISA%20Iranian%20APT.mmd" download>Mermaid</a></p>
 
 ----
@@ -87,7 +87,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Cobalt%20Kitty%20Campaign.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Cobalt%20Kitty%20Campaign.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Cobalt%20Kitty%20Campaign.afb" download>Attack Flow</a> | <a href="../corpus/Cobalt%20Kitty%20Campaign.json" download>STIX</a> | <a href="../corpus/Cobalt%20Kitty%20Campaign.dot" download>GraphViz</a> (<a href="../corpus/Cobalt%20Kitty%20Campaign.dot.png">PNG</a>) | <a href="../corpus/Cobalt%20Kitty%20Campaign.mmd" download>Mermaid</a></p>
 
 ----
@@ -100,7 +100,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Conti%20CISA%20Alert.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Conti%20CISA%20Alert.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Conti%20CISA%20Alert.afb" download>Attack Flow</a> | <a href="../corpus/Conti%20CISA%20Alert.json" download>STIX</a> | <a href="../corpus/Conti%20CISA%20Alert.dot" download>GraphViz</a> (<a href="../corpus/Conti%20CISA%20Alert.dot.png">PNG</a>) | <a href="../corpus/Conti%20CISA%20Alert.mmd" download>Mermaid</a></p>
 
 ----
@@ -113,7 +113,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Conti%20PWC.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Conti%20PWC.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Conti%20PWC.afb" download>Attack Flow</a> | <a href="../corpus/Conti%20PWC.json" download>STIX</a> | <a href="../corpus/Conti%20PWC.dot" download>GraphViz</a> (<a href="../corpus/Conti%20PWC.dot.png">PNG</a>) | <a href="../corpus/Conti%20PWC.mmd" download>Mermaid</a></p>
 
 ----
@@ -126,7 +126,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Conti%20Ransomware.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Conti%20Ransomware.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Conti%20Ransomware.afb" download>Attack Flow</a> | <a href="../corpus/Conti%20Ransomware.json" download>STIX</a> | <a href="../corpus/Conti%20Ransomware.dot" download>GraphViz</a> (<a href="../corpus/Conti%20Ransomware.dot.png">PNG</a>) | <a href="../corpus/Conti%20Ransomware.mmd" download>Mermaid</a></p>
 
 ----
@@ -135,11 +135,11 @@ List of Examples
 
 *Author:* Kevin Lo
 
-*Description:* A documented BumbleBee Malware intrusion by the DFIR Report occurring in May 2022 
+*Description:* A documented BumbleBee Malware intrusion by the DFIR Report occurring in May 2022
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/DFIR%20-%20BumbleBee%20Round%202.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/DFIR%20-%20BumbleBee%20Round%202.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/DFIR%20-%20BumbleBee%20Round%202.afb" download>Attack Flow</a> | <a href="../corpus/DFIR%20-%20BumbleBee%20Round%202.json" download>STIX</a> | <a href="../corpus/DFIR%20-%20BumbleBee%20Round%202.dot" download>GraphViz</a> (<a href="../corpus/DFIR%20-%20BumbleBee%20Round%202.dot.png">PNG</a>) | <a href="../corpus/DFIR%20-%20BumbleBee%20Round%202.mmd" download>Mermaid</a></p>
 
 ----
@@ -152,7 +152,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Equifax%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Equifax%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Equifax%20Breach.afb" download>Attack Flow</a> | <a href="../corpus/Equifax%20Breach.json" download>STIX</a> | <a href="../corpus/Equifax%20Breach.dot" download>GraphViz</a> (<a href="../corpus/Equifax%20Breach.dot.png">PNG</a>) | <a href="../corpus/Equifax%20Breach.mmd" download>Mermaid</a></p>
 
 ----
@@ -165,7 +165,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Example%20Attack%20Tree.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Example%20Attack%20Tree.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Example%20Attack%20Tree.afb" download>Attack Flow</a> | <a href="../corpus/Example%20Attack%20Tree.json" download>STIX</a> | <a href="../corpus/Example%20Attack%20Tree.dot" download>GraphViz</a> (<a href="../corpus/Example%20Attack%20Tree.dot.png">PNG</a>) | <a href="../corpus/Example%20Attack%20Tree.mmd" download>Mermaid</a></p>
 
 ----
@@ -178,7 +178,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/FIN13%20Case%201.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/FIN13%20Case%201.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/FIN13%20Case%201.afb" download>Attack Flow</a> | <a href="../corpus/FIN13%20Case%201.json" download>STIX</a> | <a href="../corpus/FIN13%20Case%201.dot" download>GraphViz</a> (<a href="../corpus/FIN13%20Case%201.dot.png">PNG</a>) | <a href="../corpus/FIN13%20Case%201.mmd" download>Mermaid</a></p>
 
 ----
@@ -187,11 +187,11 @@ List of Examples
 
 *Author:* Mia Sanchez
 
-*Description:* Attack flow for the FIN13 campaign targeting a bank in Peru. 
+*Description:* Attack flow for the FIN13 campaign targeting a bank in Peru.
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/FIN13%20Case%202.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/FIN13%20Case%202.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/FIN13%20Case%202.afb" download>Attack Flow</a> | <a href="../corpus/FIN13%20Case%202.json" download>STIX</a> | <a href="../corpus/FIN13%20Case%202.dot" download>GraphViz</a> (<a href="../corpus/FIN13%20Case%202.dot.png">PNG</a>) | <a href="../corpus/FIN13%20Case%202.mmd" download>Mermaid</a></p>
 
 ----
@@ -204,7 +204,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Gootloader.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Gootloader.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Gootloader.afb" download>Attack Flow</a> | <a href="../corpus/Gootloader.json" download>STIX</a> | <a href="../corpus/Gootloader.dot" download>GraphViz</a> (<a href="../corpus/Gootloader.dot.png">PNG</a>) | <a href="../corpus/Gootloader.mmd" download>Mermaid</a></p>
 
 ----
@@ -217,7 +217,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Hancitor%20DLL.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Hancitor%20DLL.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Hancitor%20DLL.afb" download>Attack Flow</a> | <a href="../corpus/Hancitor%20DLL.json" download>STIX</a> | <a href="../corpus/Hancitor%20DLL.dot" download>GraphViz</a> (<a href="../corpus/Hancitor%20DLL.dot.png">PNG</a>) | <a href="../corpus/Hancitor%20DLL.mmd" download>Mermaid</a></p>
 
 ----
@@ -230,7 +230,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Ivanti%20Vulnerabilities.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Ivanti%20Vulnerabilities.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Ivanti%20Vulnerabilities.afb" download>Attack Flow</a> | <a href="../corpus/Ivanti%20Vulnerabilities.json" download>STIX</a> | <a href="../corpus/Ivanti%20Vulnerabilities.dot" download>GraphViz</a> (<a href="../corpus/Ivanti%20Vulnerabilities.dot.png">PNG</a>) | <a href="../corpus/Ivanti%20Vulnerabilities.mmd" download>Mermaid</a></p>
 
 ----
@@ -243,7 +243,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/JP%20Morgan%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/JP%20Morgan%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/JP%20Morgan%20Breach.afb" download>Attack Flow</a> | <a href="../corpus/JP%20Morgan%20Breach.json" download>STIX</a> | <a href="../corpus/JP%20Morgan%20Breach.dot" download>GraphViz</a> (<a href="../corpus/JP%20Morgan%20Breach.dot.png">PNG</a>) | <a href="../corpus/JP%20Morgan%20Breach.mmd" download>Mermaid</a></p>
 
 ----
@@ -256,7 +256,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/MITRE%20NERVE.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/MITRE%20NERVE.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/MITRE%20NERVE.afb" download>Attack Flow</a> | <a href="../corpus/MITRE%20NERVE.json" download>STIX</a> | <a href="../corpus/MITRE%20NERVE.dot" download>GraphViz</a> (<a href="../corpus/MITRE%20NERVE.dot.png">PNG</a>) | <a href="../corpus/MITRE%20NERVE.mmd" download>Mermaid</a></p>
 
 ----
@@ -269,7 +269,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Maastricht%20University%20Ransomware.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Maastricht%20University%20Ransomware.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Maastricht%20University%20Ransomware.afb" download>Attack Flow</a> | <a href="../corpus/Maastricht%20University%20Ransomware.json" download>STIX</a> | <a href="../corpus/Maastricht%20University%20Ransomware.dot" download>GraphViz</a> (<a href="../corpus/Maastricht%20University%20Ransomware.dot.png">PNG</a>) | <a href="../corpus/Maastricht%20University%20Ransomware.mmd" download>Mermaid</a></p>
 
 ----
@@ -282,7 +282,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Mac%20Malware%20Steals%20Crypto.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Mac%20Malware%20Steals%20Crypto.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Mac%20Malware%20Steals%20Crypto.afb" download>Attack Flow</a> | <a href="../corpus/Mac%20Malware%20Steals%20Crypto.json" download>STIX</a> | <a href="../corpus/Mac%20Malware%20Steals%20Crypto.dot" download>GraphViz</a> (<a href="../corpus/Mac%20Malware%20Steals%20Crypto.dot.png">PNG</a>) | <a href="../corpus/Mac%20Malware%20Steals%20Crypto.mmd" download>Mermaid</a></p>
 
 ----
@@ -295,7 +295,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Marriott%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Marriott%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Marriott%20Breach.afb" download>Attack Flow</a> | <a href="../corpus/Marriott%20Breach.json" download>STIX</a> | <a href="../corpus/Marriott%20Breach.dot" download>GraphViz</a> (<a href="../corpus/Marriott%20Breach.dot.png">PNG</a>) | <a href="../corpus/Marriott%20Breach.mmd" download>Mermaid</a></p>
 
 ----
@@ -308,7 +308,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Muddy%20Water.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Muddy%20Water.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Muddy%20Water.afb" download>Attack Flow</a> | <a href="../corpus/Muddy%20Water.json" download>STIX</a> | <a href="../corpus/Muddy%20Water.dot" download>GraphViz</a> (<a href="../corpus/Muddy%20Water.dot.png">PNG</a>) | <a href="../corpus/Muddy%20Water.mmd" download>Mermaid</a></p>
 
 ----
@@ -321,7 +321,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/NotPetya.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/NotPetya.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/NotPetya.afb" download>Attack Flow</a> | <a href="../corpus/NotPetya.json" download>STIX</a> | <a href="../corpus/NotPetya.dot" download>GraphViz</a> (<a href="../corpus/NotPetya.dot.png">PNG</a>) | <a href="../corpus/NotPetya.mmd" download>Mermaid</a></p>
 
 ----
@@ -330,11 +330,11 @@ List of Examples
 
 *Author:* Maggie MacAlpine
 
-*Description:* OceanLotus Operations Flow 
+*Description:* OceanLotus Operations Flow
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/OceanLotus.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/OceanLotus.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/OceanLotus.afb" download>Attack Flow</a> | <a href="../corpus/OceanLotus.json" download>STIX</a> | <a href="../corpus/OceanLotus.dot" download>GraphViz</a> (<a href="../corpus/OceanLotus.dot.png">PNG</a>) | <a href="../corpus/OceanLotus.mmd" download>Mermaid</a></p>
 
 ----
@@ -347,7 +347,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/REvil.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/REvil.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/REvil.afb" download>Attack Flow</a> | <a href="../corpus/REvil.json" download>STIX</a> | <a href="../corpus/REvil.dot" download>GraphViz</a> (<a href="../corpus/REvil.dot.png">PNG</a>) | <a href="../corpus/REvil.mmd" download>Mermaid</a></p>
 
 ----
@@ -360,7 +360,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Ragnar%20Locker.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Ragnar%20Locker.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Ragnar%20Locker.afb" download>Attack Flow</a> | <a href="../corpus/Ragnar%20Locker.json" download>STIX</a> | <a href="../corpus/Ragnar%20Locker.dot" download>GraphViz</a> (<a href="../corpus/Ragnar%20Locker.dot.png">PNG</a>) | <a href="../corpus/Ragnar%20Locker.mmd" download>Mermaid</a></p>
 
 ----
@@ -373,7 +373,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/SWIFT%20Heist.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/SWIFT%20Heist.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/SWIFT%20Heist.afb" download>Attack Flow</a> | <a href="../corpus/SWIFT%20Heist.json" download>STIX</a> | <a href="../corpus/SWIFT%20Heist.dot" download>GraphViz</a> (<a href="../corpus/SWIFT%20Heist.dot.png">PNG</a>) | <a href="../corpus/SWIFT%20Heist.mmd" download>Mermaid</a></p>
 
 ----
@@ -386,7 +386,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/SearchAwesome%20Adware.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/SearchAwesome%20Adware.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/SearchAwesome%20Adware.afb" download>Attack Flow</a> | <a href="../corpus/SearchAwesome%20Adware.json" download>STIX</a> | <a href="../corpus/SearchAwesome%20Adware.dot" download>GraphViz</a> (<a href="../corpus/SearchAwesome%20Adware.dot.png">PNG</a>) | <a href="../corpus/SearchAwesome%20Adware.mmd" download>Mermaid</a></p>
 
 ----
@@ -399,7 +399,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Shamoon.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Shamoon.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Shamoon.afb" download>Attack Flow</a> | <a href="../corpus/Shamoon.json" download>STIX</a> | <a href="../corpus/Shamoon.dot" download>GraphViz</a> (<a href="../corpus/Shamoon.dot.png">PNG</a>) | <a href="../corpus/Shamoon.mmd" download>Mermaid</a></p>
 
 ----
@@ -412,7 +412,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/SolarWinds.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/SolarWinds.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/SolarWinds.afb" download>Attack Flow</a> | <a href="../corpus/SolarWinds.json" download>STIX</a> | <a href="../corpus/SolarWinds.dot" download>GraphViz</a> (<a href="../corpus/SolarWinds.dot.png">PNG</a>) | <a href="../corpus/SolarWinds.mmd" download>Mermaid</a></p>
 
 ----
@@ -425,7 +425,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Sony%20Malware.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Sony%20Malware.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Sony%20Malware.afb" download>Attack Flow</a> | <a href="../corpus/Sony%20Malware.json" download>STIX</a> | <a href="../corpus/Sony%20Malware.dot" download>GraphViz</a> (<a href="../corpus/Sony%20Malware.dot.png">PNG</a>) | <a href="../corpus/Sony%20Malware.mmd" download>Mermaid</a></p>
 
 ----
@@ -438,7 +438,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Target%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Target%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Target%20Breach.afb" download>Attack Flow</a> | <a href="../corpus/Target%20Breach.json" download>STIX</a> | <a href="../corpus/Target%20Breach.dot" download>GraphViz</a> (<a href="../corpus/Target%20Breach.dot.png">PNG</a>) | <a href="../corpus/Target%20Breach.mmd" download>Mermaid</a></p>
 
 ----
@@ -451,7 +451,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Tesla%20Kubernetes%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Tesla%20Kubernetes%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Tesla%20Kubernetes%20Breach.afb" download>Attack Flow</a> | <a href="../corpus/Tesla%20Kubernetes%20Breach.json" download>STIX</a> | <a href="../corpus/Tesla%20Kubernetes%20Breach.dot" download>GraphViz</a> (<a href="../corpus/Tesla%20Kubernetes%20Breach.dot.png">PNG</a>) | <a href="../corpus/Tesla%20Kubernetes%20Breach.mmd" download>Mermaid</a></p>
 
 ----
@@ -464,7 +464,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Turla%20-%20Carbon%20Emulation%20Plan.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Turla%20-%20Carbon%20Emulation%20Plan.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Turla%20-%20Carbon%20Emulation%20Plan.afb" download>Attack Flow</a> | <a href="../corpus/Turla%20-%20Carbon%20Emulation%20Plan.json" download>STIX</a> | <a href="../corpus/Turla%20-%20Carbon%20Emulation%20Plan.dot" download>GraphViz</a> (<a href="../corpus/Turla%20-%20Carbon%20Emulation%20Plan.dot.png">PNG</a>) | <a href="../corpus/Turla%20-%20Carbon%20Emulation%20Plan.mmd" download>Mermaid</a></p>
 
 ----
@@ -477,7 +477,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Turla%20-%20Snake%20Emulation%20Plan.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Turla%20-%20Snake%20Emulation%20Plan.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Turla%20-%20Snake%20Emulation%20Plan.afb" download>Attack Flow</a> | <a href="../corpus/Turla%20-%20Snake%20Emulation%20Plan.json" download>STIX</a> | <a href="../corpus/Turla%20-%20Snake%20Emulation%20Plan.dot" download>GraphViz</a> (<a href="../corpus/Turla%20-%20Snake%20Emulation%20Plan.dot.png">PNG</a>) | <a href="../corpus/Turla%20-%20Snake%20Emulation%20Plan.mmd" download>Mermaid</a></p>
 
 ----
@@ -490,7 +490,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/Uber%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/Uber%20Breach.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/Uber%20Breach.afb" download>Attack Flow</a> | <a href="../corpus/Uber%20Breach.json" download>STIX</a> | <a href="../corpus/Uber%20Breach.dot" download>GraphViz</a> (<a href="../corpus/Uber%20Breach.dot.png">PNG</a>) | <a href="../corpus/Uber%20Breach.mmd" download>Mermaid</a></p>
 
 ----
@@ -503,7 +503,7 @@ List of Examples
 
 .. raw:: html
 
-    <p><em>Open:</em> <a href="../ui/?src=https%3A//center-for-threat-informed-defense.github.io/attack-flow/corpus/WhisperGate.afb" target="_blank">Attack Flow Builder</a></p>
+    <p><em>Open:</em> <a href="../ui/?src=https%3A//ctid.mitre.org/attack-flow/corpus/WhisperGate.afb" target="_blank">Attack Flow Builder</a></p>
     <p><em>Download:</em> <a href="../corpus/WhisperGate.afb" download>Attack Flow</a> | <a href="../corpus/WhisperGate.json" download>STIX</a> | <a href="../corpus/WhisperGate.dot" download>GraphViz</a> (<a href="../corpus/WhisperGate.dot.png">PNG</a>) | <a href="../corpus/WhisperGate.mmd" download>Mermaid</a></p>
 
 ----
