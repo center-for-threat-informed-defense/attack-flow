@@ -35,7 +35,7 @@ const AttackFlowDocsExternalReference =
     {
         source_name: "Documentation",
         description: "Documentation for Attack Flow",
-        url: "https://center-for-threat-informed-defense.github.io/attack-flow"
+        url: "https://ctid.mitre.org/attack-flow"
     };
 
 const AttackFlowGitHubExternalReference =
