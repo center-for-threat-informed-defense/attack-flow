@@ -79,7 +79,7 @@ export const AttackFlow: CanvasTemplate = {
                             ["tlp-green", "TLP:GREEN"],
                             ["tlp-clear", "TLP:CLEAR"],
                             ["unclassified", "UNCLASSIFIED"],
-                            ["fouo", "FOUO"]
+                            ["cui", "CUI"]
                         ]
                     }
                 },
