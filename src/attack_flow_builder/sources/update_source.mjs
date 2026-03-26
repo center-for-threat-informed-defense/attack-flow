@@ -1,8 +1,8 @@
 import { writeFileSync } from "fs";
 import { dirname, resolve } from "path";
-import { STIX_SOURCES } from "./download_sources.mjs";
+import { STIX_SOURCES } from "./sources.mjs";
 import { fileURLToPath } from 'url';
-import { fetchAttackData } from "./download_attack.mjs"
+import { fetchSourceData } from "./download_source.mjs";
 
 /**
  * The intel file's export key.
@@ -10,19 +10,16 @@ import { fetchAttackData } from "./download_attack.mjs"
 const EXPORT_KEY = "enums";
 
 /**
- * The MITRE attack enumeration file.
- */
-const ENUM_FILE = `MitreAttack.ts`;
-
-/**
- * The MITRE attack enumeration file's directory.
+ * The enumeration file's directory.
  */
 const ENUM_DIR  = `../src/assets/configuration/AttackFlowTemplates`;
 
 /**
- * The MITRE attack enumeration file's path.
+ * The matrix prefix for tactics and techniques from sources without this information.
  */
-const ENUM_PATH = `${ ENUM_DIR }/${ ENUM_FILE }`;
+const DOMAINS = {
+    MitreAtlas: "ATL"
+}
 
 /**
  * JavaScript variable regex.
@@ -31,13 +28,11 @@ const JS_VAR_REGEX = /^[a-z_$][a-z0-9_$]*$/i;
 
 /**
  * Updates the specified enum file.
- * @param {string} path
- *  The enum file's path.
- * @param  {...string} urls
- *  A list of STIX manifests specified by url.
+ * @param {string} fileName
+ *  The enum file's name.
  */
-async function updateApplicationAttackEnums(path, ...urls) {
-    path = resolve(dirname(fileURLToPath(import.meta.url)), path);
+export default async function updateApplicationSourceEnums(fileName) {
+    const path = resolve(dirname(fileURLToPath(import.meta.url)), `${ ENUM_DIR }/${ fileName }.ts`);
 
     // Validate export key
     if(!JS_VAR_REGEX.test(EXPORT_KEY)) {
@@ -45,9 +40,9 @@ async function updateApplicationAttackEnums(path, ...urls) {
     }
 
     // Collect data
-    const types = await fetchAttackData(...urls);
+    const types = await fetchSourceData(...STIX_SOURCES[fileName]);
 
-    console.log("→ Generating enumerations file...");
+    console.log(`→ Generating enumerations file...`);
 
     // Organize tactics and relationships
     const tactics = [];
@@ -57,10 +52,12 @@ async function updateApplicationAttackEnums(path, ...urls) {
         if(tact.deprecated) {
             continue;
         }
+
         // Format matrix
-        const matrix = tact.domains.map(
+        const matrix = tact.domains ? tact.domains.map(
             o => o.substring(0,3).toLocaleUpperCase()
-        ).join(", ");
+        ).join(", ") : DOMAINS[fileName];
+
         // Format tactic
         tactics.push([
             tact.id, `[${matrix}] ${tact.id} ${tact.name}`
@@ -78,9 +75,9 @@ async function updateApplicationAttackEnums(path, ...urls) {
         if(tech.deprecated) {
             continue;
         }
-        const matrix = tech.domains.map(
+        const matrix = tech.domains ? tech.domains.map(
             o => o.substring(0,3).toLocaleUpperCase()
-        ).join(", ");
+        ).join(", ") : DOMAINS[fileName];
         techniques.push([tech.id, `[${matrix}] ${tech.id} ${tech.name}`]);
         stixIds[tech.id] = tech.stixId;
     }
@@ -94,11 +91,6 @@ async function updateApplicationAttackEnums(path, ...urls) {
     writeFileSync(path, file);
 
     // Done
-    console.log("\nMITRE ATT&CK enumerations updated successfully.\n");
+    console.log("\nSource enumerations updated successfully.\n");
 
 }
-
-/**
- * Main
- */
-updateApplicationAttackEnums(ENUM_PATH, ...STIX_SOURCES);
