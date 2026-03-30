@@ -1,4 +1,4 @@
-import { traverse } from "../../DiagramModel";
+import { traverse, TupleProperty, EnumProperty, StringProperty } from "../../DiagramModel";
 import { Focus, Hover, ViewportRegion } from "../DiagramObjectView";
 import type { CanvasView } from "@OpenChart/DiagramView";
 import type { DiagramObjectView, RenderSettings } from "../DiagramObjectView";
@@ -145,6 +145,56 @@ export class DiagramImage {
         this._canvas.renderTo(ctx, viewport, settings);
         if (this._showDebug) {
             this._canvas.renderDebugTo(ctx, viewport);
+        }
+
+
+        // Add classification markings to image export
+        const classification = this._canvas.properties.get<TupleProperty>("classification");
+        const marking = classification?.get<EnumProperty>("marking");
+        const group = classification?.get<StringProperty>("group");
+        const markingText = marking?.value?.toLocaleUpperCase() ?? null;
+        if (markingText) {
+            const groupText = group?.value ?? null;
+            const fullText = groupText ? `${markingText} - ${groupText}` : markingText;
+
+            // Reset transform to draw in image space
+            ctx.save();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+            // Styling similar to classification markings in AppTitleBar.vue. Change both together.
+            ctx.textBaseline = "top";
+            const paddingX = 5;
+            const paddingY = 2;
+            const metrics = ctx.measureText(fullText);
+            const textWidth = metrics.width;
+            const textHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+            const rectWidth = Math.ceil(textWidth + paddingX * 2);
+            const rectHeight = Math.ceil(textHeight + paddingY * 2);
+            const rectX = Math.round((can.width - rectWidth) / 2);
+            const rectY = 0;
+            // Background
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+            // Text color based on marking key
+            let textColor = "#FFFFFF";
+            switch (markingText) {
+                case "tlp-red":
+                    textColor = "#FF2B2B";
+                    break;
+                case "tlp-amber":
+                case "tlp-amber-strict":
+                    textColor = "#FFC000";
+                    break;
+                case "tlp-green":
+                    textColor = "#33FF00";
+                    break;
+                case "tlp-clear":
+                    textColor = "#FFFFFF";
+                    break;
+            }
+            ctx.fillStyle = textColor;
+            ctx.fillText(fullText, rectX + paddingX, rectY + paddingY);
+            ctx.restore();
         }
 
         // Restore visual attributes
