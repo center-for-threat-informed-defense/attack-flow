@@ -152,8 +152,8 @@ export class DiagramImage {
         const classification = this._canvas.properties.get<TupleProperty>("classification");
         const marking = classification?.get<EnumProperty>("marking");
         const group = classification?.get<StringProperty>("group");
-        const markingText = marking?.value?.toLocaleUpperCase() ?? null;
-        if (markingText) {
+        if (marking?.value) {
+            const markingText = marking?.toString() ?? null;
             const groupText = group?.value ?? null;
             const fullText = groupText ? `${markingText} - ${groupText}` : markingText;
 
@@ -178,18 +178,15 @@ export class DiagramImage {
             // Text color based on marking key
             let textColor = "#FFFFFF";
             switch (markingText) {
-                case "tlp-red":
+                case "TLP:RED":
                     textColor = "#FF2B2B";
                     break;
-                case "tlp-amber":
-                case "tlp-amber-strict":
+                case "TLP:AMBER":
+                case "TLP:AMBER+STRICT":
                     textColor = "#FFC000";
                     break;
-                case "tlp-green":
+                case "TLP:GREEN":
                     textColor = "#33FF00";
-                    break;
-                case "tlp-clear":
-                    textColor = "#FFFFFF";
                     break;
             }
             ctx.fillStyle = textColor;
