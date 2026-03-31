@@ -1,4 +1,4 @@
-import * as https from "https";
+import { fetchJson } from "./source_utils.mjs";
 
 /**
  * @typedef {Object} SourceObject
@@ -43,34 +43,6 @@ const MITRE_SOURCES = new Set([
     "mitre-atlas"
 ])
 
-/**
- * Fetches JSON data from a url.
- * @param {string} url
- *  The url.
- * @param {Object} options
- *  The request's options.
- * @returns {Promise<Object>}
- *  A Promise that resolves with the JSON data.
- */
-function fetchJson(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        https.get(url, options, res => {
-            let json = "";
-            res.on("data", chunk => {
-                json += chunk;
-            });
-            res.on("end", () => {
-                try {
-                    resolve(JSON.parse(json));
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        }).on("error", (err) => {
-            reject(err);
-        });
-    })
-}
 
 /**
  * Parses a source object from a STIX object.

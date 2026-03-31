@@ -1,5 +1,6 @@
 import AttackEnums from "../AttackFlowTemplates/MitreAttack";
 import AtlasEnums from "../AttackFlowTemplates/MitreAtlas";
+import DefendEnums from "../AttackFlowTemplates/MitreDefend";
 
 interface SourceEnums {
     tactics: string[][];
@@ -10,7 +11,8 @@ interface SourceEnums {
 
 const sources: SourceEnums[] = [
     AttackEnums,
-    AtlasEnums
+    AtlasEnums,
+    DefendEnums
 ];
 
 const enums: SourceEnums = sources.reduce<SourceEnums>((acc, src) => {

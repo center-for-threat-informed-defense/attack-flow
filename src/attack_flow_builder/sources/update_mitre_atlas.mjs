@@ -1,3 +1,3 @@
-import updateApplicationSourceEnums from "./update_source.mjs";
+import updateApplicationSourceEnums from "./update_stix_source.mjs";
 
 updateApplicationSourceEnums("MitreAtlas");

@@ -2,12 +2,8 @@ import { writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 import { STIX_SOURCES } from "./sources.mjs";
 import { fileURLToPath } from 'url';
-import { fetchSourceData } from "./download_source.mjs";
-
-/**
- * The intel file's export key.
- */
-const EXPORT_KEY = "enums";
+import { fetchSourceData } from "./download_stix_source.mjs";
+import { EXPORT_KEY } from "./source_utils.mjs";
 
 /**
  * The enumeration file's directory.

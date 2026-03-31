@@ -26,7 +26,7 @@ export default [
   },
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-cli/**', '**/dist-ssr/**', '**/coverage/**', '**/MitreAttack.ts', '**/MitreAtlas.ts'],
+    ignores: ['**/dist/**', '**/dist-cli/**', '**/dist-ssr/**', '**/coverage/**', '**/MitreAttack.ts', '**/MitreAtlas.ts', '**/MitreDefend.ts'],
   },
   {
     name: "app/ctid-typescript-formatting",
