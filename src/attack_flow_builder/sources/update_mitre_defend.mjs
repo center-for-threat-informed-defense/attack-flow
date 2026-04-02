@@ -194,8 +194,11 @@ export default async function updateMitreDefend() {
     .map(([code, label]) => [code, `[D3F] ${code} ${label}`])
     .sort(([a], [b]) => a.localeCompare(b));
 
-  // Generate a UUIDv4 for each tactic id (D3FEND is not STIX, but these are required)
-  const stixIds = Object.fromEntries(tactics.map(([id]) => [id, randomUUID()]));
+  // Generate UUIDv4 refs for all tactics and techniques (no STIX, but we need these anyway)
+  const stixIds = Object.fromEntries([
+    ...tactics.map(([id]) => [id, `x-mitre-tactic--${randomUUID()}`]),
+    ...techniques.map(([id]) => [id, `attack-pattern--${randomUUID()}`])
+  ]);
 
   // Generate enums file
   let file = "";
