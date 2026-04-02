@@ -3,6 +3,7 @@ import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
 import { MITRE_DEFEND_URL } from "./sources.mjs";
 import { EXPORT_KEY, fetchJson } from "./source_utils.mjs";
+import { randomUUID } from "crypto";
 
 /**
  * The enumeration file's directory.
@@ -193,8 +194,8 @@ export default async function updateMitreDefend() {
     .map(([code, label]) => [code, `[D3F] ${code} ${label}`])
     .sort(([a], [b]) => a.localeCompare(b));
 
-  // Remains empty as this is not STIX
-  const stixIds = {};
+  // Generate a UUIDv4 for each tactic id (D3FEND is not STIX, but these are required)
+  const stixIds = Object.fromEntries(tactics.map(([id]) => [id, randomUUID()]));
 
   // Generate enums file
   let file = "";
