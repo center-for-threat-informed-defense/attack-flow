@@ -16,7 +16,8 @@
         "lint:fix": "eslint . --fix",
         "update-attack": "node ./sources/update_mitre_attack.mjs",
         "update-atlas": "node ./sources/update_mitre_atlas.mjs",
-        "update-defend": "node ./sources/update_mitre_defend.mjs"
+        "update-defend": "node ./sources/update_mitre_defend.mjs",
+        "update-f3": "node ./sources/update_mitre_f3.mjs"
     },
     "author": "mcarenzo",
     "dependencies": {

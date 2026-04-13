@@ -14,6 +14,9 @@ export const STIX_SOURCES = {
     ],
     MitreAtlas: [
         "https://raw.githubusercontent.com/mitre-atlas/atlas-navigator-data/refs/heads/main/dist/stix-atlas.json"
+    ],
+    MitreF3: [
+        "https://raw.githubusercontent.com/center-for-threat-informed-defense/fight-fraud-framework/refs/heads/main/public/f3-stix.json"
     ]
 };
 

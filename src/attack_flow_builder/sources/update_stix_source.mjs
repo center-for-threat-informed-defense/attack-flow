@@ -14,7 +14,8 @@ const ENUM_DIR  = `../src/assets/configuration/AttackFlowTemplates`;
  * The matrix prefix for tactics and techniques from sources without this information.
  */
 const DOMAINS = {
-    MitreAtlas: "ATL"
+    MitreAtlas: "ATL",
+    MitreF3: "F3"
 }
 
 /**
