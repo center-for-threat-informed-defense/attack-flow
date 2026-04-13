@@ -1,6 +1,7 @@
 import { AnchorConfiguration } from "./AnchorFormat";
 import { AnchorPosition, Branch } from "@OpenChart/DiagramView";
 import { TacticTechniqueProperty } from "./TacticTechniqueProperty";
+import { TagsProperty } from "./TagsProperty";
 import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
 
@@ -59,7 +60,8 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
             },
             execution_end: {
                 type: PropertyType.Date
-            }
+            },
+            tags: TagsProperty
         },
         anchors: AnchorConfiguration
     },
@@ -79,7 +81,8 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
             },
             description: {
                 type: PropertyType.String
-            }
+            },
+            tags: TagsProperty
         },
         anchors: AnchorConfiguration
     },
@@ -108,7 +111,8 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
             },
             date: {
                 type: PropertyType.Date
-            }
+            },
+            tags: TagsProperty
         },
         anchors: {
             [AnchorPosition.D0]   : "horizontal_anchor",

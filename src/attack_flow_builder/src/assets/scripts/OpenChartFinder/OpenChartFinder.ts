@@ -2,8 +2,8 @@ import { unsignedMod } from "@OpenChart/Utilities";
 import {
     Block, DateProperty, DiagramObject, DictionaryProperty,
     EnumProperty, FloatProperty, IntProperty, ListProperty,
-    Property, RootProperty, StringProperty, traverse,
-    TupleProperty
+    Property, RootProperty, StringProperty, ColorProperty,
+    traverse, TupleProperty
 } from "@OpenChart/DiagramModel";
 import type { SearchResult } from "./SearchResult";
 import type { DiagramModelEditor } from "@OpenChart/DiagramEditor/index.model";
@@ -157,6 +157,8 @@ export class OpenChartFinder<
             case FloatProperty.name:
                 // Falls through
             case StringProperty.name:
+                // Falls through
+            case ColorProperty.name:
                 // Falls through
             case DateProperty.name:
                 // Falls through

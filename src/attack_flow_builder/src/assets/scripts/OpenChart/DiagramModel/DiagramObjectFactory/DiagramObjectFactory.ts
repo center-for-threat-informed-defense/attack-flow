@@ -7,7 +7,7 @@ import {
     Anchor, Block, Canvas, DateProperty, DictionaryProperty,
     EnumProperty, FloatProperty, Group, Handle, IntProperty,
     Latch, Line, ListProperty, Property, RootProperty,
-    StringProperty, TupleProperty
+    StringProperty, ColorProperty, TupleProperty
 } from "../DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
 import type {
@@ -414,6 +414,7 @@ export class DiagramObjectFactory {
             case PropertyType.Float:
             case PropertyType.Date:
             case PropertyType.Enum:
+            case PropertyType.Color:
                 if (Array.isArray(value)) {
                     throw new Error(`Invalid JSON primitive: '${value}'.`);
                 }
@@ -623,6 +624,18 @@ export class DiagramObjectFactory {
                     options = this.getCachedListProperty(descriptor.options);
                 }
                 return new StringProperty({
+                    id       : id,
+                    name     : descriptor.name,
+                    editable : editable,
+                    metadata : meta,
+                    options  : options
+                }, value);
+
+            case PropertyType.Color:
+                if (descriptor.options) {
+                    options = this.getCachedListProperty(descriptor.options);
+                }
+                return new ColorProperty({
                     id       : id,
                     name     : descriptor.name,
                     editable : editable,

@@ -18,4 +18,5 @@ export * from "./AtomicProperty/EnumProperty";
 export * from "./AtomicProperty/FloatProperty";
 export * from "./AtomicProperty/IntProperty";
 export * from "./AtomicProperty/StringProperty";
+export * from "./AtomicProperty/ColorProperty";
 export * from "./JsonTypes";

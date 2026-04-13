@@ -24,12 +24,13 @@ import { defineAsyncComponent, defineComponent, type PropType } from "vue";
 import { 
   DateProperty, DictionaryProperty, EnumProperty, 
   FloatProperty, IntProperty, ListProperty, StringProperty,
-  TupleProperty
+  ColorProperty, TupleProperty
 } from "@OpenChart/DiagramModel";
 import type { Property } from "@OpenChart/DiagramModel";
 import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import TextField from "./TextField.vue";
+import ColorField from "./ColorField.vue";
 import ListField from "./ListField.vue";
 import EnumField from "./EnumField.vue";
 import TupleField from "./TupleField.vue";
@@ -76,6 +77,8 @@ export default defineComponent({
       switch(type.constructor.name) {
         case StringProperty.name:
           return "TextField";
+        case ColorProperty.name:
+          return "ColorField";
         case IntProperty.name:
         case FloatProperty.name:
           return "NumberField";
@@ -95,6 +98,7 @@ export default defineComponent({
   },
   components: {
     TextField,
+    ColorField,
     ListField,
     EnumField,
     TupleField,

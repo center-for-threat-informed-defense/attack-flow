@@ -61,7 +61,8 @@ type AtomicType
     | PropertyType.Float
     | PropertyType.String
     | PropertyType.Date
-    | PropertyType.Enum;
+    | PropertyType.Enum
+    | PropertyType.Color;
 
 /**
  * Resolves the JSON type of an {@link AtomicType}.
@@ -72,6 +73,7 @@ type AtomicTypeToJsonType = {
     [PropertyType.String]: string | null;
     [PropertyType.Date]: Date | null;
     [PropertyType.Enum]: string | null;
+    [PropertyType.Color]: string | null;
 };
 
 /**
@@ -90,6 +92,15 @@ type AtomicPropertyDescriptor<K extends AtomicType> = BasePropertyDescriptor<K> 
  * String Property Descriptor.
  */
 export type StringPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.String> & {
+
+    /**
+     * The property's suggested options.
+     */
+    options?: ListPropertyDescriptor;
+
+};
+
+export type ColorPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Color> & {
 
     /**
      * The property's suggested options.
@@ -157,7 +168,8 @@ export type AtomicPropertyDescriptors
     | IntPropertyDescriptor
     | FloatPropertyDescriptor
     | DatePropertyDescriptor
-    | EnumPropertyDescriptor;
+    | EnumPropertyDescriptor
+    | ColorPropertyDescriptor;
 
 
 ///////////////////////////////////////////////////////////////////////////////

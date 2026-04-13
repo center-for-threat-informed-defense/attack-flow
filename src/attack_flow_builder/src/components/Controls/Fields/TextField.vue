@@ -22,6 +22,7 @@
         v-model="value"
         ref="field"
         placeholder="None"
+        :maxlength="maxLength"
         @input="onInput"
         @keyup.stop=""
         @keydown.stop="onKeyDown"
@@ -41,6 +42,9 @@ import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";
+
+// Maximum number of characters allowed in a tag field
+const TAG_MAX_LENGTH = 20;
 
 export default defineComponent({
   name: "TextField",
@@ -107,6 +111,22 @@ export default defineComponent({
       return options;
     },
 
+    /**
+     * Checks if this field is specifically for 'tags'.
+     */
+    isTagField(): boolean {
+        // Optional chaining to safely check the nested parent structure
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (this.property as any)._parent?._parent?.id === 'tags';
+    },
+
+    /**
+     * Returns the character limit for the textarea.
+     */
+    maxLength(): number | undefined {
+      return this.isTagField ? TAG_MAX_LENGTH : undefined;
+    },
+
   },
   emits: {
     execute: (cmd: SynchronousEditorCommand) => cmd
@@ -137,6 +157,11 @@ export default defineComponent({
      * Field input behavior.
      */
     onInput() {
+      // Safety truncation (useful for paste events)
+      if (this.maxLength && this.value.length > this.maxLength) {
+        this.value = this.value.substring(0, this.maxLength);
+      }
+
       this.updateProperty(this.value);
       this.promptSuggestions();
     },
@@ -147,6 +172,15 @@ export default defineComponent({
      *  The keydown event.
      */
     onKeyDown(event: KeyboardEvent) {
+      // If at limit, prevent new characters unless text is selected or it's a control key
+      const isControlKey = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "Escape", "Enter"].includes(event.key);
+      if (this.maxLength && this.value.length >= this.maxLength && !isControlKey) {
+        const field = event.target as HTMLTextAreaElement;
+        if (field.selectionStart === field.selectionEnd) {
+          event.preventDefault();
+          return;
+        }
+      }
       const field = event.target as HTMLInputElement;
       if(field.selectionStart !== field.selectionEnd) {
         return;

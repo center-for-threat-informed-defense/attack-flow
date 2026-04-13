@@ -9,5 +9,6 @@ export enum PropertyType {
     Enum       = "enum",
     List       = "list",
     Dictionary = "dict",
-    Tuple      = "tuple"
+    Tuple      = "tuple",
+    Color      = "color"
 }

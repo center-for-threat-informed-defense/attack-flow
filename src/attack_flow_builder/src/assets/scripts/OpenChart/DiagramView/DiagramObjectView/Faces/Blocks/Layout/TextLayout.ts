@@ -83,7 +83,8 @@ export function addStackedTextCells(
     text: string[],
     textFont: Font,
     textColor: string,
-    cellHeight: number
+    cellHeight: number,
+    tagColor?: string
 ): number {
     // Get text instructions
     const fontInstructions = instructions.getInstructionsWithFont(
@@ -96,7 +97,8 @@ export function addStackedTextCells(
         fontInstructions.push({
             x: x,
             y: y,
-            text: line
+            text: line,
+            tagColor
         });
     }
 

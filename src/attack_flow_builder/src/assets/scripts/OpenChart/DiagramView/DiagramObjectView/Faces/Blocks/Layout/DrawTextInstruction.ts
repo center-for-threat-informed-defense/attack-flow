@@ -18,4 +18,9 @@ export type DrawTextInstruction = {
      */
     text: string;
 
+    /**
+     * If defined, this instruction will be used to draw a tag for the text, with the specified color.
+     */
+    tagColor?: string;
+
 };

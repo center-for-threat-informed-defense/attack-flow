@@ -1,16 +1,32 @@
 import { BlockFace } from "../Bases";
-import { TupleProperty } from "@OpenChart/DiagramModel";
+import { DictionaryProperty, ListProperty, TupleProperty } from "@OpenChart/DiagramModel";
 import { drawRect, drawChip, ceilNearestMultiple } from "@OpenChart/Utilities";
 import {
     addTextCell,
     addStackedTextCells,
     calculateAnchorPositions,
-    DrawTextInstructionSet
+    DrawTextInstructionSet,
+    type DrawTextInstruction
 } from "./Layout";
 import type { Enumeration } from "../Enumeration";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
 import type { DictionaryBlockStyle } from "../Styles";
+
+/**
+ * Global configuration for Tag/Chip styling.
+ * These constants are used both for layout calculations (positioning)
+ * and for the final Canvas rendering.
+ */
+const TAG_CONFIG = {
+    circleRadius: 4,              // The radius (half-width) of the colored status dot
+    gapBetweenCircleAndText: 6,   // Horizontal spacing between the dot and the start of the tag text
+    paddingX: 8,                  // Internal horizontal space from the chip edge to the content
+    paddingY: 4,                  // Internal vertical space from the chip edge to the content
+    horizontalSpacing: 4,         // The "gutter" or gap between two tags sitting side-by-side
+    verticalSpacing: 10,          // Extra vertical buffer added to each row's height for breathing room
+    borderRadius: 6               // The corner roundness of the background chip/rectangle
+};
 
 
 export class DictionaryBlock extends BlockFace {
@@ -123,6 +139,10 @@ export class DictionaryBlock extends BlockFace {
             if (!property.isDefined() || id === props.representativeKey) {
                 continue;
             }
+            // Skip tags field because they are handled separately
+            if (id === "tags") {
+                continue;
+            }
             if (property instanceof TupleProperty) {
                 // Unwrap tuples
                 for (const prop of property.value.values()) {
@@ -203,8 +223,11 @@ export class DictionaryBlock extends BlockFace {
         // Add head's bottom padding
         y += yHeadPadding;
 
-        // Calculate body layout
-        if (fields.length) {
+        // Determine whether or not there are tags
+        const hasTags = this.view.properties.value.get("tags")?.isDefined();
+
+        // If we have fields OR tags, we treat the top part as a header
+        if (fields.length || hasTags) {
             // Set head height
             this.headHeight = y;
             // Set body color
@@ -251,9 +274,89 @@ export class DictionaryBlock extends BlockFace {
         // Round content width up to nearest multiple of the grid size
         this.width = ceilNearestMultiple(this.width, blockGrid[0]);
 
-        // Calculate block width and height
+        // Add the margins/padding to get the final "Outer Width" of the block
         this.width += 2 * (markerOffset + xPadding);
-        this.height = y + markerOffset;
+
+        // Handle tags if they are set
+        if (hasTags) {
+            // Get the `tags` property as a ListProperty (which we know it must be, if it exists)
+            // then get the property value (a Map of values) and pull the values() from it
+            const tagDictionaryProperties = (this.view.properties.value.get("tags") as ListProperty).value.values();
+
+            // This is the actual horizontal space tags are allowed to occupy
+            const innerContentWidth = this.width - (2 * (markerOffset + xPadding));
+
+            // Draw tag property header
+            y = addTextCell(
+                this.text,
+                x, y,
+                "TAGS",
+                fieldName.font,
+                fieldName.color,
+                fieldName.units * blockGrid[1],
+                fieldName.alignTop
+            );
+            y += 4;
+
+            let currentLineX = 0;                // Our "virtual cursor"
+            const rowHeight = yBodyPadding + 10; // Approximate height of one row of tags
+            let drawX = x;                       // Start at the block's left padding
+            let drawY = y;                       // Start at the current vertical position
+
+            function computeTotalTagWidth(tagName: string): number {
+                const circleDiameter = TAG_CONFIG.circleRadius * 2;
+                const textWidth = fieldValue.font.measureWidth(tagName);
+                return TAG_CONFIG.paddingX + circleDiameter + TAG_CONFIG.gapBetweenCircleAndText + textWidth + TAG_CONFIG.paddingX;
+            }
+
+            for (const tag of tagDictionaryProperties) {
+                const tagDict = tag as DictionaryProperty;
+                const tagName = tagDict.value.get("name")?.toString() || "";
+                const tagColor = tagDict.value.get("color")?.toString() || "";
+
+                const totalTagWidth = computeTotalTagWidth(tagName);
+
+                // Determine if we need a spacer before this tag
+                const horizontalSpaceBeforeTag = (currentLineX === 0) ? 0 : TAG_CONFIG.horizontalSpacing;
+
+                // CHECK: Does current width + spacer + this tag exceed the limit?
+                if (currentLineX + horizontalSpaceBeforeTag + totalTagWidth > innerContentWidth) {
+                    // WRAP: Move to next line
+                    drawX = x;
+                    drawY += rowHeight;
+                    currentLineX = totalTagWidth; // Reset line width to just this tag
+                } else {
+                    // STAY: Add spacer if not at start
+                    if (currentLineX !== 0) {
+                        drawX += TAG_CONFIG.horizontalSpacing;
+                    }
+                    currentLineX += (horizontalSpaceBeforeTag + totalTagWidth);
+                }
+
+                // Place the tag at the calculated drawX
+                addStackedTextCells(
+                    this.text,
+                    drawX,
+                    drawY,
+                    [tagName],
+                    fieldValue.font,
+                    fieldValue.color,
+                    fieldValue.units * blockGrid[1],
+                    tagColor
+                );
+
+                // Advance drawX for the NEXT tag calculation
+                drawX += totalTagWidth;
+            }
+
+            const finalY = drawY + rowHeight;
+
+            // Assign this back to the main 'y' so the block height
+            // calculation at the bottom of the function uses it.
+            y = finalY;
+        }
+
+        this.height = y + markerOffset + 4;
 
         // Calculate block's bounding box
         const bb = this.boundingBox;
@@ -283,6 +386,76 @@ export class DictionaryBlock extends BlockFace {
         // Update parent's bounding box
         return true;
 
+    }
+
+    private renderTag(ctx: CanvasRenderingContext2D, instruction: DrawTextInstruction, x: number, y: number) {
+        const {
+            circleRadius,
+            gapBetweenCircleAndText,
+            paddingX,
+            paddingY
+        } = TAG_CONFIG; // Destructure config for easier access to constants
+
+        // Measure text
+        const textMetrics = ctx.measureText(instruction.text);
+
+        // Calculate the actual height of the glyphs
+        const textHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+        const circleDiameter = circleRadius * 2;
+
+        // Height of the chip should be the tallest element (text or circle) + padding on both sides
+        const contentHeight = Math.max(textHeight, circleDiameter);
+        const boxHeight = contentHeight + (paddingY * 2);
+        const boxWidth = paddingX + circleDiameter + gapBetweenCircleAndText + textMetrics.width + paddingX;
+
+        // Determine Coordinates
+        const boxX = x;
+
+        /**
+         * VERTICAL ALIGNMENT LOGIC:
+         * instruction.y is the baseline.
+         * To center the box:
+         * Start at baseline, go up by the ascent to reach the visual top of text,
+         * then go up by paddingY.
+         */
+        const boxY = instruction.y + y - textMetrics.actualBoundingBoxAscent - paddingY;
+
+        function renderTagBorder(color: string | CanvasGradient | CanvasPattern) {
+            // Draw the background chip
+            ctx.beginPath();
+            drawRect(ctx, boxX, boxY, boxWidth, boxHeight, TAG_CONFIG.borderRadius);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+        }
+
+        function renderTagCircle() {
+            // Center the circle vertically relative to the box
+            const circleCenterX = boxX + TAG_CONFIG.paddingX + circleRadius;
+            const circleCenterY = boxY + (boxHeight / 2);
+
+            // Draw the circle
+            ctx.beginPath();
+            const originalFillStyle = ctx.fillStyle;
+            ctx.fillStyle = instruction.tagColor ?? "#000000";
+            ctx.arc(circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = originalFillStyle;
+        }
+
+        function renderTagText() {
+            // Compute text coordinates
+            const textX = boxX + TAG_CONFIG.paddingX + circleDiameter + gapBetweenCircleAndText;
+            const textY = instruction.y + y; // Keep baseline consistent
+
+            // Draw the text
+            ctx.fillText(instruction.text, textX, textY);
+        }
+
+        // Draw the border, circle, and text
+        renderTagBorder(this.strokeColor);
+        renderTagCircle();
+        renderTagText();
     }
 
     /**
@@ -339,11 +512,15 @@ export class DictionaryBlock extends BlockFace {
             ctx.font = font;
             ctx.fillStyle = color;
             for (const instruction of instructions) {
-                ctx.fillText(
-                    instruction.text,
-                    instruction.x + x,
-                    instruction.y + y
-                );
+                if (instruction.tagColor) {
+                    this.renderTag(ctx, instruction, instruction.x + x, y);
+                } else {
+                    ctx.fillText(
+                        instruction.text,
+                        instruction.x + x,
+                        instruction.y + y
+                    );
+                }
             }
         }
 
