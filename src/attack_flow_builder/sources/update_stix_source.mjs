@@ -11,10 +11,17 @@ import { EXPORT_KEY } from "./source_utils.mjs";
 const ENUM_DIR  = `../src/assets/configuration/AttackFlowTemplates`;
 
 /**
- * The matrix prefix for tactics and techniques from sources without this information.
+ * The domain prefix for tactics and techniques from sources without this information.
  */
-const DOMAINS = {
+const DOMAIN_PREFIXES = {
     MitreAtlas: "ATL",
+    MitreF3: "F3"
+}
+
+/**
+ * The ID prefix for tactics and techniques from sources without this information.
+ */
+const ID_PREFIXES = {
     MitreF3: "F3"
 }
 
@@ -50,19 +57,24 @@ export default async function updateApplicationSourceEnums(fileName) {
             continue;
         }
 
-        // Format matrix
         const matrix = tact.domains ? tact.domains.map(
             o => o.substring(0,3).toLocaleUpperCase()
-        ).join(", ") : DOMAINS[fileName];
+        ).join(", ") : DOMAIN_PREFIXES[fileName];
 
-        // Format tactic
-        tactics.push([
-            tact.id, `[${matrix}] ${tact.id} ${tact.name}`
-        ]);
+        const tacticId = ID_PREFIXES[fileName]
+            ? `${ID_PREFIXES[fileName]}.${tact.id}`
+            : tact.id;
+
+        tactics.push([tacticId, `[${matrix}] ${tacticId} ${tact.name}`]);
+
         for(const tech of tact.techniques) {
-            relationships.push(["tactic", tact.id, "technique", tech.id]);
+            const techniqueId = ID_PREFIXES[fileName]
+                ? `${ID_PREFIXES[fileName]}.${tech.id}`
+                : tech.id;
+            relationships.push(["tactic", tacticId, "technique", techniqueId]);
         }
-        stixIds[tact.id] = tact.stixId;
+
+        stixIds[tacticId] = tact.stixId;
     }
     tactics.sort(([a],[b]) => a.localeCompare(b));
 
@@ -74,9 +86,15 @@ export default async function updateApplicationSourceEnums(fileName) {
         }
         const matrix = tech.domains ? tech.domains.map(
             o => o.substring(0,3).toLocaleUpperCase()
-        ).join(", ") : DOMAINS[fileName];
-        techniques.push([tech.id, `[${matrix}] ${tech.id} ${tech.name}`]);
-        stixIds[tech.id] = tech.stixId;
+        ).join(", ") : DOMAIN_PREFIXES[fileName];
+
+        const techniqueId = ID_PREFIXES[fileName]
+            ? `${ID_PREFIXES[fileName]}.${tech.id}`
+            : tech.id;
+
+        techniques.push([techniqueId, `[${matrix}] ${techniqueId} ${tech.name}`]);
+
+        stixIds[techniqueId] = tech.stixId;
     }
     techniques.sort(([a],[b]) => a.localeCompare(b));
 
