@@ -11,7 +11,7 @@ interface SourceEnums {
 }
 
 const sources: SourceEnums[] = [
-    // AttackEnums,
+    AttackEnums,
     AtlasEnums,
     DefendEnums,
     F3Enums
