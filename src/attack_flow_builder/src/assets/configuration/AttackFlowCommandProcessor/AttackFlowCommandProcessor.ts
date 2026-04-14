@@ -95,10 +95,15 @@ export class AttackFlowCommandProcessor implements SynchronousCommandProcessor {
         }
         // Remove bracketed domain prefix like [ENT], [ATL], [D3F]
         const strippedText = tactText.replace(/^\[[^\]]+\]\s*/, "");
-        // Match ATT&CK/ATLAS tactic ID format (has a TA), capture trailing name if present
+        // Match ATT&CK/ATLAS tactic ID format (has a leading 'TA'), capture trailing name if present
         const taTactText = strippedText.match(/TA\d+\s+(.*)$/);
         if (taTactText) {
             return taTactText[1].trim();
+        }
+        // Match F3 tactic ID format (has a leading 'F3.'), capture trailing name if present
+        const f3TactText = strippedText.match(/F3\.[A-Z]\d+(?:\.\d+)?\s+(.*)$/);
+        if (f3TactText) {
+            return f3TactText[1].trim();
         }
         // D3FEND tactics do not have an explicit ID format, return remaining text
         return strippedText.trim();
@@ -130,15 +135,20 @@ export class AttackFlowCommandProcessor implements SynchronousCommandProcessor {
         }
         // Remove bracketed domain prefix like [ENT], [ATL], [D3F]
         const strippedText = techText.replace(/^\[[^\]]+\]\s*/, "");
-        // Match ATT&CK/ATLAS technique ID format (has a T), capture trailing name if present
+        // Match ATT&CK/ATLAS technique ID format (has a leading 'T'), capture trailing name if present
         const tTechText = strippedText.match(/T\d+(?:\.\d+)?\s+(.*)$/);
         if (tTechText) {
             return tTechText[1].trim();
         }
-        // Match D3FEND technique ID format (has a D3), capture trailing name if present
+        // Match D3FEND technique ID format (has a leading 'D3'), capture trailing name if present
         const d3TechText = strippedText.match(/D3-[A-Z0-9.-]+\s+(.*)$/);
         if (d3TechText) {
             return d3TechText[1].trim();
+        }
+        // Match F3 technique ID format (has a leading 'F3.), capture trailing name if present
+        const f3TechText = strippedText.match(/F3\.[A-Z]\d+(?:\.\d+)?\s+(.*)$/);
+        if (f3TechText) {
+            return f3TechText[1].trim();
         }
         // Fallback: return remaining text
         return strippedText.trim();
