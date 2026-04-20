@@ -303,10 +303,10 @@ Update Intelligence File
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 The *Intelligence File* (`builder.config.intel.ts`) drives the application's autocomplete features.
-This file is generated automatically by a set of scripts which download and organize relevant ATT&CK
+This file is generated automatically by a set of scripts which download and organize relevant source
 information into a format the application can leverage.
 
-To update the Intelligence File, simply invoke:
+To update the Intelligence File for a given source, simply invoke its npm script as in `package.json`:
 
 .. code:: shell
 
@@ -323,7 +323,7 @@ To update the Intelligence File, simply invoke:
 
     MITRE ATT&CK enumerations updated successfully.
 
-The configured list of sources can be modified at any time from `download_sources.js`.
+The configured list of sources can be modified at any time from `sources.mjs`.
 
 Preload a Flow
 ~~~~~~~~~~~~~~

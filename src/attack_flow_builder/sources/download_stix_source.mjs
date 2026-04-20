@@ -1,26 +1,26 @@
-import * as https from "https";
+import { fetchJson } from "./source_utils.mjs";
 
 /**
- * @typedef {Object} AttackObject
- *  An ATT&CK Object.
+ * @typedef {Object} SourceObject
+ *  A Source Object.
  * @property {string} id
- *  The object's ATT&CK id.
+ *  The object's id.
  * @property {string} name
- *  The object's ATT&CK name.
+ *  The object's name.
  * @property {string} type
  *  The object's type.
  * @property {string} description
  *  The object's description.
  * @property {string} url
- *  The object's ATT&CK url.
+ *  The object's url.
  * @property {string} stixId
  *  The object's STIX id.
  * @property {boolean} deprecated
- *  True if the ATT&CK object has been deprecated, false otherwise.
+ *  True if the object has been deprecated, false otherwise.
  */
 
 /**
- * A map that relates STIX types to ATT&CK types.
+ * A map that relates STIX types to source types.
  */
 const STIX_TO_ATTACK = {
     "campaign": "campaign",
@@ -39,46 +39,20 @@ const STIX_TO_ATTACK = {
 const MITRE_SOURCES = new Set([
     "mitre-attack",
     "mitre-ics-attack",
-    "mitre-mobile-attack"
+    "mitre-mobile-attack",
+    "mitre-atlas",
+    "mitre-f3"
 ])
 
-/**
- * Fetches JSON data from a url.
- * @param {string} url
- *  The url.
- * @param {Object} options
- *  The request's options.
- * @returns {Promise<Object>}
- *  A Promise that resolves with the JSON data.
- */
-function fetchJson(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        https.get(url, options, res => {
-            let json = "";
-            res.on("data", chunk => {
-                json += chunk;
-            });
-            res.on("end", () => {
-                try {
-                    resolve(JSON.parse(json));
-                } catch (err) {
-                    reject(err)
-                }
-            })
-        }).on("error", (err) => {
-            reject(err);
-        });
-    })
-}
 
 /**
- * Parses an ATT&CK object from a STIX object.
+ * Parses a source object from a STIX object.
  * @param {Object} obj
  *  The STIX object.
- * @returns {AttackObject}
- *  The parsed ATT&CK object.
+ * @returns {SourceObject}
+ *  The parsed source object.
  */
-function parseStixToAttackObject(obj) {
+function parseStixToSourceObject(obj) {
 
     // Parse STIX id, name, and type directly
     let parse = {
@@ -119,13 +93,13 @@ function parseStixToAttackObject(obj) {
 }
 
 /**
- * Parses a set of ATT&CK objects from a STIX manifest.
+ * Parses a set of source objects from a STIX manifest.
  * @param {Object} data
  *  The STIX manifest.
- * @returns {AttackObject[]}
- *  The parsed ATT&CK objects.
+ * @returns {SourceObject[]}
+ *  The parsed source objects.
  */
-function parseAttackObjectsFromManifest(data) {
+function parseSourceObjectsFromManifest(data) {
 
     // Parse objects and relationships
     const relationships = new Map();
@@ -145,7 +119,7 @@ function parseAttackObjectsFromManifest(data) {
         if (!(obj.type in STIX_TO_ATTACK)) {
             continue;
         }
-        const parse = parseStixToAttackObject(obj);
+        const parse = parseStixToSourceObject(obj);
         objects.set(parse.stixId, parse);
     }
 
@@ -202,20 +176,20 @@ function parseAttackObjectsFromManifest(data) {
 }
 
 /**
- * Fetches ATT&CK data from a set of STIX manifests.
+ * Fetches source data from a set of STIX manifests.
  * @param  {...string} urls
  *  A list of STIX manifests specified by url.
- * @returns {Promise<Map<string, AttackObject>>}
- *  A Promise that resolves with the parsed ATT&CK data.
+ * @returns {Promise<Map<string, SourceObject>>}
+ *  A Promise that resolves with the parsed source data.
  */
-export async function fetchAttackData(...urls) {
-    console.log("→ Downloading ATT&CK Data...");
+export async function fetchSourceData(...urls) {
+    console.log("→ Downloading Source Data...");
 
     // Parse objects
     let catalog = new Map();
     for (let url of urls) {
         console.log(` → ${url.length > 70 ? '...' : ''}${url.substring(url.length - 70)}`);
-        let objs = parseAttackObjectsFromManifest(await fetchJson(url));
+        let objs = parseSourceObjectsFromManifest(await fetchJson(url));
         for (let obj of objs) {
             catalog.set(obj.stixId, obj);
         }

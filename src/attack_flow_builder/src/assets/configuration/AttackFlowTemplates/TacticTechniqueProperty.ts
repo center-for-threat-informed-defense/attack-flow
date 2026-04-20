@@ -1,4 +1,4 @@
-import Enums from "./MitreAttack";
+import Enums from "./SourceEnumeration";
 import { PropertyType } from "@OpenChart/DiagramModel";
 import type { TuplePropertyDescriptor, ValueCombinations } from "@OpenChart/DiagramModel";
 

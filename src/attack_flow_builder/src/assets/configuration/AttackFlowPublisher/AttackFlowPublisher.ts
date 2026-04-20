@@ -8,7 +8,7 @@ import {
 } from "@OpenChart/DiagramModel";
 import type { GraphExport, JsonValue } from "@OpenChart/DiagramModel";
 import type { FilePublisher } from "@/assets/scripts/Application";
-import Enums from "../AttackFlowTemplates/MitreAttack";
+import Enums from "../AttackFlowTemplates/SourceEnumeration";
 
 
 ///////////////////////////////////////////////////////////////////////////////
