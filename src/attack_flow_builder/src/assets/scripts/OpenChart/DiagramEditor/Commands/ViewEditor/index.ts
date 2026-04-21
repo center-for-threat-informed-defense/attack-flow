@@ -1,7 +1,7 @@
 import { GroupCommand } from "../GroupCommand";
 import { DiagramViewEditor } from "../../DiagramViewEditor";
 import { SelectionAnimation } from "./Animations";
-import { SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
+import { DictionaryProperty, ListProperty, SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
 import {
     MoveCameraToObjects,
     SpawnObject
@@ -14,6 +14,7 @@ import {
 } from "../View/index.commands";
 import type { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { BlockView, DiagramObjectView } from "@OpenChart/DiagramView";
+import { useTagStore } from "@/stores/TagStore";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -50,6 +51,11 @@ export function unselectAllObjects(
 ): SynchronousEditorCommand {
     const canvas = editor.file.canvas;
     const cmd = new GroupCommand();
+
+    // Reset the tag highlight state whenever we unselect everything
+    const tagStore = useTagStore();
+    tagStore.setActiveTag(null, null);
+
     cmd.do(new SelectObjects([...canvas.objects], false));
     cmd.do(new StopContinuousAnimation(editor.interface, SelectionAnimation));
     return cmd;
@@ -281,5 +287,65 @@ export function moveCameraToChildren(
         const ui = editor.interface;
         cmd.do(new MoveCameraToObjects(ui, [...children.values()]));
     }
+    return cmd;
+}
+
+/**
+ * Selects all objects that have a specific tag and moves the camera to them.
+ * @param editor The editor instance.
+ * @param tagText The text of the tag to search for.
+ */
+export function moveCameraToObjectsWithTags(
+    editor: DiagramViewEditor,
+    tagText: string,
+    tagColor: string
+): SynchronousEditorCommand {
+    const cmd = new GroupCommand();
+    const canvas = editor.file.canvas;
+
+    // 1. Find all objects that contain the specified tag
+    const matchingObjects = [...traverse<DiagramObjectView>(canvas, (obj) => {
+        const root = obj.properties;
+        if (!root || !(root.value instanceof Map)) { return false; }
+
+        // Get the "tags" property (which is a ListProperty)
+        const tagsProperty = root.value.get("tags") as ListProperty;
+
+        // Check if it exists and has values
+        if (tagsProperty && tagsProperty.value instanceof Map) {
+            // Iterate through the items in the list
+            for (const tagEntry of tagsProperty.value.values()) {
+                const tagDict = tagEntry as DictionaryProperty;
+
+                // Get the name and color from the dictionary
+                const currentTagName = tagDict.value.get("name")?.toString() || "";
+                const currentTagColor = tagDict.value.get("color")?.toString() || "";
+
+                // Match both name AND color
+                const isNameMatch = currentTagName.toLowerCase() === tagText.toLowerCase();
+                const isColorMatch = currentTagColor === tagColor;
+
+                if (isNameMatch && isColorMatch) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    })];
+
+    if (matchingObjects.length > 0) {
+        // 2. Clear current selection
+        cmd.do(unselectAllObjects(editor));
+
+        // 3. Select all matching objects
+        for (const obj of matchingObjects) {
+            cmd.do(selectObject(editor, obj));
+        }
+
+        // 4. Move camera to encapsulate all matching objects
+        cmd.do(new MoveCameraToObjects(editor.interface, matchingObjects));
+    }
+
     return cmd;
 }

@@ -16,6 +16,7 @@ import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
 import type { BranchBlockStyle } from "../Styles";
 import type { BranchDescriptor } from "./BranchDescriptor";
+import { useTagStore } from "@/stores/TagStore";
 
 /**
  * Global configuration for Tag/Chip styling.
@@ -485,8 +486,8 @@ export class BranchBlock extends BlockFace {
             // Draw the background chip
             ctx.beginPath();
             drawRect(ctx, boxX, boxY, boxWidth, boxHeight, TAG_CONFIG.borderRadius);
+
             ctx.strokeStyle = color;
-            ctx.lineWidth = 1;
             ctx.stroke();
         }
 
@@ -513,8 +514,15 @@ export class BranchBlock extends BlockFace {
             ctx.fillText(instruction.text, textX, textY);
         }
 
+        // CHECK: Is this the specific tag we are looking for?
+        const tagStore = useTagStore();
+        const isHighlighted =
+            tagStore.activeTagName?.toLowerCase() === instruction.text.toLowerCase() &&
+            tagStore.activeTagColor === instruction.tagColor;
+
         // Draw the border, circle, and text
-        renderTagBorder(this.strokeColor);
+        const borderColor = isHighlighted ? this.style.selectOutline.color : this.strokeColor;
+        renderTagBorder(borderColor);
         renderTagCircle();
         renderTagText();
     }

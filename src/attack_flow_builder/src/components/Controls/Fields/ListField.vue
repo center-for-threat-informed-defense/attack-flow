@@ -19,6 +19,14 @@
           >
             ✗
           </button>
+          <button
+            v-if="property.id === 'tags'"
+            class="delete-button"
+            @pointerdown="onSelectTag(key)"
+            tabindex="-1"
+          >
+            ⧉
+          </button>
         </component>
       </template>
       <!-- Primitive Fields -->
@@ -54,7 +62,7 @@ import {
   DateProperty, DictionaryProperty, EnumProperty, 
   FloatProperty, IntProperty, ListProperty, StringProperty
 } from "@OpenChart/DiagramModel";
-import type { Property } from "@OpenChart/DiagramModel";
+import type { ColorProperty, Property } from "@OpenChart/DiagramModel";
 import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import PlusIcon from "@/components/Icons/PlusIcon.vue";
@@ -64,6 +72,9 @@ import NumberField from "./NumberField.vue";
 import DateTimeField from "./DateTimeField.vue";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DictionaryField = defineAsyncComponent(() => import("./DictionaryField.vue")) as any;
+
+import { useApplicationStore } from "@/stores/ApplicationStore";
+import { useTagStore } from "@/stores/TagStore";
 
 export default defineComponent({
   name: "ListField",
@@ -116,6 +127,45 @@ export default defineComponent({
     onDelete(id: string) {
       const cmd = EditorCommands.deleteSubproperty(this.property, id);
       this.$emit("execute", cmd);
+    },
+
+    /**
+     * Finds the tag value and triggers the selection command.
+     * @param key The key in the property.value map.
+     */
+    onSelectTag(key: string) {
+        const app = useApplicationStore();
+        const editor = app.activeEditor;
+        const subProperty = this.property.value.get(key);
+
+        if (editor && editor.id !== "PhantomEditor" && subProperty) {
+            let tagText = "";
+            let tagColor = "";
+
+            if (subProperty instanceof DictionaryProperty) {
+                const textProp = (subProperty.value.get("name") || subProperty.value.get("text")) as StringProperty;
+                if (textProp) {
+                    tagText = textProp.value ?? "";
+                }
+
+                const colorProp = subProperty.value.get("color") as ColorProperty;
+                if (colorProp) {
+                    tagColor = colorProp.value ?? "";
+                }
+            } else if (subProperty instanceof StringProperty) {
+                tagText = subProperty.value ?? "";
+            }
+
+            if (tagText && tagText.trim() !== "") {
+                const cmd = EditorCommands.moveCameraToObjectsWithTags(editor, tagText, tagColor);
+                this.$emit("execute", cmd);
+
+                const tagStore = useTagStore();
+                tagStore.setActiveTag(tagText, tagColor);
+            } else {
+                console.warn(`Tag text is empty for key ${key}. Make sure the 'name' field is filled out.`);
+            }
+        }
     }
 
   },
