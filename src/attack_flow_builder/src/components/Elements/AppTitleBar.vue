@@ -150,4 +150,9 @@ export default defineComponent({
   background-color: black;
   color: #FFFFFF;
 }
+
+.classification-marking[data-value="unclassified"] {
+  background-color: black;
+  color: #33FF00;
+}
 </style>

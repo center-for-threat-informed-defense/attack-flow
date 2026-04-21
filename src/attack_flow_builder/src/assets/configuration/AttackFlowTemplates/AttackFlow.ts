@@ -63,6 +63,7 @@ export const AttackFlow: CanvasTemplate = {
             default: "incident"
         },
         classification: {
+            name: "Banner Marking",
             type: PropertyType.Tuple,
             form: {
                 marking: {

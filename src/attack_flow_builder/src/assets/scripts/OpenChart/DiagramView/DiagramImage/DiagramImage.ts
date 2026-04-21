@@ -186,6 +186,7 @@ export class DiagramImage {
                     textColor = "#FFC000";
                     break;
                 case "TLP:GREEN":
+                case "UNCLASSIFIED":
                     textColor = "#33FF00";
                     break;
             }
