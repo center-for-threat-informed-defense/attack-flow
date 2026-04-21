@@ -19,7 +19,9 @@ from slugify import slugify
 
 project = "Attack Flow"
 slug = slugify(project)
-googleanalytics_id= "G-G4TFP56139" # find google analytics id from old analytics_id variable
+googleanalytics_id = (
+    "G-G4TFP56139"  # find google analytics id from old analytics_id variable
+)
 
 
 copyright = "2025, Center for Threat-Informed Defense"
@@ -28,7 +30,7 @@ copyright_years = "2025"
 prs_numbers = "CT0122, 25-2036"
 
 # The full version, including alpha/beta/rc tags
-version = "v3.0.0"
+version = "v3.2.0"
 release = version
 
 
@@ -84,13 +86,18 @@ html_context = {
 footer_links = [
     ["CTI Blueprints", "https://ctid.mitre.org/projects/cti-blueprints/"],
     ["Sightings Ecosystem", "https://ctid.mitre.org/projects/sightings-ecosystem/"],
-    ["Adversary Emulation Library", "https://ctid.mitre.org/resources/adversary-emulation-library/"],
+    [
+        "Adversary Emulation Library",
+        "https://ctid.mitre.org/resources/adversary-emulation-library/",
+    ],
 ]
 
 html_theme_options = {
-    "logo" : "ctid_logo_white.png",
+    "logo": "ctid_logo_white.png",
     "logo_alt": "The Center for Threat-Informed Defense",
     "logo_width": 250,
     "project_name": "Attack Flow",
-    "footer_links": ",".join([f"{link[0]}|{link[1]}?utm_source={slug}" for link in footer_links]),
+    "footer_links": ",".join(
+        [f"{link[0]}|{link[1]}?utm_source={slug}" for link in footer_links]
+    ),
 }
