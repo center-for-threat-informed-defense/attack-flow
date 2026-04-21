@@ -28,7 +28,7 @@ Attack Flow offers several tools for visualizing sequences of behaviors. The :do
                 <h4>Matrix View</h4>
             </div>
         </a>
-        <a class="gallery-item" href="#tactic-table">
+        <a class="gallery-item" href="#timeline-view">
             <div class="image" style="background: url(../_static/attack-timeline.svg) center center;">
             </div>
             <div class="desc" >
