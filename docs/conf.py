@@ -30,7 +30,7 @@ copyright_years = "2025"
 prs_numbers = "CT0122, 25-2036"
 
 # The full version, including alpha/beta/rc tags
-version = "v3.1.0"
+version = "v3.2.0"
 release = version
 
 
