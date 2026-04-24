@@ -330,7 +330,7 @@ List of Examples
 
 *Author:* Maggie MacAlpine
 
-*Description:* OceanLotus Operations Flow 
+*Description:* OceanLotus Operations Flow
 
 .. raw:: html
 
@@ -343,7 +343,13 @@ List of Examples
 
 *Author:* Ivy Oeltjenbruns
 
-*Description:* Incident Date: February 3, 2026. Actor: HiddenLayer | Target: OpenClaw. Researchers at HiddenLayer demonstrated how a webpage can embed an indirect prompt injection that causes OpenClaw to silently execute a malicious script. Once executed, the script plants persistent malicious instructions into future system prompts, allowing the attacker to issue new commands, turning OpenClaw into a command and control agent. What makes this attack unique is that, through a simple indirect prompt injection attack into an agentic lifecycle, untrusted content can be used to spoof the model's control scheme and induce unapproved tool invocation for execution. Through this single inject, an LLM can become a persistent, automated command and control implant.
+*Incident Date:* February 3, 2026
+
+*Actor:* HiddenLayer
+
+*Target:* OpenClaw
+
+*Description:* Researchers at HiddenLayer demonstrated how a webpage can embed an indirect prompt injection that causes OpenClaw to silently execute a malicious script. Once executed, the script plants persistent malicious instructions into future system prompts, allowing the attacker to issue new commands, turning OpenClaw into a command and control agent. What makes this attack unique is that, through a simple indirect prompt injection attack into an agentic lifecycle, untrusted content can be used to spoof the model's control scheme and induce unapproved tool invocation for execution. Through this single inject, an LLM can become a persistent, automated command and control implant.
 
 .. raw:: html
 

@@ -1,6 +1,5 @@
 {
     "schema": "attack_flow_v2",
-    "theme": "dark_theme",
     "objects": [
         {
             "id": "flow",
@@ -12,7 +11,7 @@
                 ],
                 [
                     "description",
-                    "Incident Date: February 3, 2026. Actor: HiddenLayer | Target: OpenClaw. Researchers at HiddenLayer demonstrated how a webpage can embed an indirect prompt injection that causes OpenClaw to silently execute a malicious script. Once executed, the script plants persistent malicious instructions into future system prompts, allowing the attacker to issue new commands, turning OpenClaw into a command and control agent. What makes this attack unique is that, through a simple indirect prompt injection attack into an agentic lifecycle, untrusted content can be used to spoof the model's control scheme and induce unapproved tool invocation for execution. Through this single inject, an LLM can become a persistent, automated command and control implant."
+                    "Incident Date:  February 3, 2026 \nActor:  HiddenLayer  | Target:  OpenClaw\nResearchers at HiddenLayer demonstrated how a webpage can embed an indirect prompt injection that causes OpenClaw to silently execute a malicious script. Once executed, the script plants persistent malicious instructions into future system prompts, allowing the attacker to issue new commands, turning OpenClaw into a command and control agent.\n\nWhat makes this attack unique is that, through a simple indirect prompt injection attack into an agentic lifecycle, untrusted content can be used to spoof the model’s control scheme and induce unapproved tool invocation for execution. Through this single inject, an LLM can become a persistent, automated command & control implant."
                 ],
                 [
                     "author",
@@ -34,6 +33,19 @@
                 [
                     "scope",
                     "incident"
+                ],
+                [
+                    "classification",
+                    [
+                        [
+                            "marking",
+                            null
+                        ],
+                        [
+                            "group",
+                            null
+                        ]
+                    ]
                 ],
                 [
                     "external_references",
@@ -92,7 +104,6 @@
                 "b935decd-3d58-4e48-8050-111a7586267f",
                 "61a3503c-e290-4ce3-a4b0-dd7135e9fa8c",
                 "7b5d709e-4749-44db-b4c0-ef6af4745182",
-                "135cd2b6-7332-424f-8d8b-fc37c91058bb",
                 "eb4f61ac-9375-4146-8637-30b8a6d3f38d",
                 "117d6d1f-42dc-469a-89db-7f6a3c01a7f0",
                 "5a0bb63f-b712-4c4a-9463-8e0f9a7fe21a",
@@ -102,7 +113,6 @@
                 "5be61712-f79b-446d-93b6-2bce36cafe3f",
                 "2189e429-b1d5-4d2f-a021-627697c10359",
                 "fa6bb79c-6a69-4445-9bf3-7056a06290cd",
-                "1456fb2f-4a24-4684-b5ef-077ff0e5aee9",
                 "017d13fd-b585-44d8-99c0-b9a2608f5077",
                 "6cd36093-6810-4992-a604-02365384d9fd",
                 "88bf4ed9-2428-435c-9991-af3236f72df3",
@@ -115,7 +125,6 @@
                 "864c1cda-1f74-40e1-a8f8-e1782ec9cbf9",
                 "21a8d45c-917d-40c7-a18b-ccc9146134da",
                 "7bb5278f-9656-44b2-ae3a-3c2b122ee54b",
-                "f4ecb97a-73dd-4b83-b0da-3d21adf6fc11",
                 "866fad8f-402a-40aa-8425-6df6ac5d6e2c",
                 "7e1b363b-5438-45ed-b977-339517dce09f",
                 "ef2a5a21-d8fd-48a4-9d97-2dad86f25241",
@@ -342,27 +351,6 @@
         },
         {
             "id": "dynamic_line",
-            "instance": "135cd2b6-7332-424f-8d8b-fc37c91058bb",
-            "source": "3c558e83-6cc9-40ca-a4a5-47edb19dc1df",
-            "target": "f8514739-3a56-418d-ad8b-c20ff86b8eb4",
-            "handles": [
-                "16fbaf6c-df08-4fe8-9f45-6d3dd2eac24b"
-            ]
-        },
-        {
-            "id": "generic_latch",
-            "instance": "3c558e83-6cc9-40ca-a4a5-47edb19dc1df"
-        },
-        {
-            "id": "generic_latch",
-            "instance": "f8514739-3a56-418d-ad8b-c20ff86b8eb4"
-        },
-        {
-            "id": "generic_handle",
-            "instance": "16fbaf6c-df08-4fe8-9f45-6d3dd2eac24b"
-        },
-        {
-            "id": "dynamic_line",
             "instance": "eb4f61ac-9375-4146-8637-30b8a6d3f38d",
             "source": "c1c580af-6d68-44b7-a2f8-4f1a1a50e21f",
             "target": "18a747e4-c945-44f3-8890-0849efcf1dbb",
@@ -549,27 +537,6 @@
         {
             "id": "generic_handle",
             "instance": "0c32d5bc-7ffd-4331-9521-e24dacfd98d9"
-        },
-        {
-            "id": "dynamic_line",
-            "instance": "1456fb2f-4a24-4684-b5ef-077ff0e5aee9",
-            "source": "1c549f9d-8fa4-47b3-86b6-6ad2bbab4347",
-            "target": "89310c74-ad55-43d2-905e-e766502ea706",
-            "handles": [
-                "d28ac956-fec6-4d24-8286-bcf89b1f9442"
-            ]
-        },
-        {
-            "id": "generic_latch",
-            "instance": "1c549f9d-8fa4-47b3-86b6-6ad2bbab4347"
-        },
-        {
-            "id": "generic_latch",
-            "instance": "89310c74-ad55-43d2-905e-e766502ea706"
-        },
-        {
-            "id": "generic_handle",
-            "instance": "d28ac956-fec6-4d24-8286-bcf89b1f9442"
         },
         {
             "id": "dynamic_line",
@@ -825,27 +792,6 @@
         },
         {
             "id": "dynamic_line",
-            "instance": "f4ecb97a-73dd-4b83-b0da-3d21adf6fc11",
-            "source": "735693f2-a7f9-4ef5-83a8-bf1e72ef89ee",
-            "target": "66ea9251-9ba9-4681-977d-b85f7bc13b67",
-            "handles": [
-                "8ea2f5bf-608c-4604-abfc-aad564ac0723"
-            ]
-        },
-        {
-            "id": "generic_latch",
-            "instance": "735693f2-a7f9-4ef5-83a8-bf1e72ef89ee"
-        },
-        {
-            "id": "generic_latch",
-            "instance": "66ea9251-9ba9-4681-977d-b85f7bc13b67"
-        },
-        {
-            "id": "generic_handle",
-            "instance": "8ea2f5bf-608c-4604-abfc-aad564ac0723"
-        },
-        {
-            "id": "dynamic_line",
             "instance": "866fad8f-402a-40aa-8425-6df6ac5d6e2c",
             "source": "9e7fe012-c645-4f09-a6a0-80fa769667a8",
             "target": "17e05eab-ad50-4908-9675-3754d89382a3",
@@ -964,6 +910,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1079,6 +1029,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1196,6 +1150,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1313,6 +1271,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1430,6 +1392,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1547,6 +1513,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1664,6 +1634,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1781,6 +1755,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -1900,6 +1878,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2019,6 +2001,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2136,6 +2122,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2168,9 +2158,7 @@
         {
             "id": "vertical_anchor",
             "instance": "134db6be-c6e3-4089-9213-3d325a32fbc8",
-            "latches": [
-                "89310c74-ad55-43d2-905e-e766502ea706"
-            ]
+            "latches": []
         },
         {
             "id": "vertical_anchor",
@@ -2208,7 +2196,6 @@
             "id": "vertical_anchor",
             "instance": "994ad043-1516-4e8c-ada3-19a73d927e9e",
             "latches": [
-                "3c558e83-6cc9-40ca-a4a5-47edb19dc1df",
                 "1244af89-7740-40e9-aabf-8e5b964360d1"
             ]
         },
@@ -2258,6 +2245,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2377,6 +2368,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2497,6 +2492,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2614,6 +2613,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2733,6 +2736,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -2960,6 +2967,10 @@
                 [
                     "capabilities",
                     []
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3055,6 +3066,10 @@
                 [
                     "description",
                     "OpenClaw (formerly Clawdbot, Moltbot, and Molty) is a free and open-source autonomous artificial intelligence agent that can execute tasks via large language models (LLMs), using messaging platforms as its main user interface."
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3170,6 +3185,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3287,6 +3306,10 @@
                 [
                     "execution_end",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3379,6 +3402,10 @@
                 [
                     "value",
                     "https://openclaw.aisystem.tech"
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3481,6 +3508,10 @@
                 [
                     "date",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3579,6 +3610,10 @@
                 [
                     "date",
                     null
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3890,6 +3925,10 @@
                 [
                     "capabilities",
                     []
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -3980,6 +4019,10 @@
                 [
                     "value",
                     "https://openclaw.aisystem.tech/todo"
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -4066,6 +4109,10 @@
                 [
                     "value",
                     "https://openclaw.aisystem.tech/install.sh"
+                ],
+                [
+                    "tags",
+                    []
                 ]
             ],
             "anchors": {
@@ -4271,34 +4318,18 @@
             -560,
             600
         ],
-        "f8514739-3a56-418d-ad8b-c20ff86b8eb4": [
-            -615,
-            4350
-        ],
         "68400683-ce1f-4e7f-b5a7-0dfe4933d20a": [
-            -558,
+            -557,
             5990
         ],
         "7c0bd364-6666-4d75-8896-88625ae490c5": [
             -280,
             45
-        ],
-        "1c549f9d-8fa4-47b3-86b6-6ad2bbab4347": [
-            -645,
-            4410
-        ],
-        "735693f2-a7f9-4ef5-83a8-bf1e72ef89ee": [
-            -1635,
-            2450
-        ],
-        "66ea9251-9ba9-4681-977d-b85f7bc13b67": [
-            -1635,
-            2450
         ]
     },
     "camera": {
-        "x": -1906,
-        "y": 3116,
-        "k": 0.13098740479688373
+        "x": -937,
+        "y": 5470,
+        "k": 0.5574686191616309
     }
 }
