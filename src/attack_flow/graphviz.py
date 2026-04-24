@@ -30,6 +30,37 @@ def dot_label_escape(text):
     return graphviz.escape("" if text is None else str(text))
 
 
+def html_label_wrap(text, width):
+    """
+    Wrap raw text first, then HTML-escape each wrapped line before joining
+    with <br/>. This avoids breaking HTML entities like &lt; and &gt; across
+    lines, which makes Graphviz reject the label as malformed.
+    """
+    text = "" if text is None else str(text)
+
+    paragraphs = text.splitlines() or [""]
+    wrapped_lines = []
+
+    for paragraph in paragraphs:
+        if not paragraph:
+            wrapped_lines.append("")
+            continue
+
+        lines = textwrap.wrap(
+            paragraph,
+            width=width,
+            break_long_words=False,
+            break_on_hyphens=False,
+        )
+
+        if not lines:
+            lines = [paragraph]
+
+        wrapped_lines.extend(lines)
+
+    return "<br/>".join(html_label_escape(line) for line in wrapped_lines)
+
+
 def convert_attack_flow(bundle):
     """
     Convert an Attack Flow STIX bundle into Graphviz format.
@@ -177,11 +208,9 @@ def _get_body_label(bundle):
     flow = get_flow_object(bundle)
     author = bundle.get_obj(flow.created_by_ref)[0]
 
-    description = "<br/>".join(
-        textwrap.wrap(
-            html_label_escape(flow.get("description", "(missing description)")),
-            width=100,
-        )
+    description = html_label_wrap(
+        flow.get("description", "(missing description)"),
+        width=100,
     )
     lines = [
         f'<font point-size="24">{html_label_escape(flow["name"])}</font>',
@@ -206,9 +235,7 @@ def _get_action_label(action):
         heading = html_label_escape(f"Action: {tid}")
     else:
         heading = "Action"
-    description = "<br/>".join(
-        textwrap.wrap(html_label_escape(action.get("description", "")), width=40)
-    )
+    description = html_label_wrap(action.get("description", ""), width=40)
     confidence = html_label_escape(
         confidence_num_to_label(action.get("confidence", 95))
     )
@@ -235,9 +262,7 @@ def _get_attack_tree_action_label(action):
         heading = html_label_escape(f"Action: {tid}")
     else:
         heading = "Action"
-    description = "<br/>".join(
-        textwrap.wrap(html_label_escape(action.get("description", "")), width=40)
-    )
+    description = html_label_wrap(action.get("description", ""), width=40)
     confidence = html_label_escape(
         confidence_num_to_label(action.get("confidence", 95))
     )
@@ -261,9 +286,7 @@ def _get_asset_label(asset):
     :rtype: str
     """
     name = html_label_escape(asset.name)
-    description = "<br/>".join(
-        textwrap.wrap(html_label_escape(asset.get("description", "")), width=40)
-    )
+    description = html_label_wrap(asset.get("description", ""), width=40)
     return "".join(
         [
             '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
@@ -307,9 +330,7 @@ def _get_condition_label(condition):
     :param condition:
     :rtype: str
     """
-    description = "<br/>".join(
-        textwrap.wrap(html_label_escape(condition.description), width=40)
-    )
+    description = html_label_wrap(condition.description, width=40)
     return "".join(
         [
             '<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">',
@@ -331,9 +352,7 @@ def _get_operator_label(action, operator_type):
         heading = html_label_escape(f"{operator_type} {tid}")
     else:
         heading = html_label_escape(operator_type)
-    description = "<br/>".join(
-        textwrap.wrap(html_label_escape(action.get("description", "")), width=40)
-    )
+    description = html_label_wrap(action.get("description", ""), width=40)
     confidence = html_label_escape(
         confidence_num_to_label(action.get("confidence", 95))
     )
