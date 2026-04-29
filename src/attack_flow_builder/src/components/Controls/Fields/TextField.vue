@@ -27,6 +27,12 @@
         @keyup.stop=""
         @keydown.stop="onKeyDown"
       />
+      <div
+        v-if="isTagField"
+        class="character-counter"
+      >
+        {{ charactersLeft }} {{ charactersLeft === 1 ? 'character' : 'characters' }} left
+      </div>
     </div>
   </FocusBox>
 </template>
@@ -125,6 +131,13 @@ export default defineComponent({
      */
     maxLength(): number | undefined {
       return this.isTagField ? TAG_MAX_LENGTH : undefined;
+    },
+
+    /**
+     * Calculates remaining characters for tag fields.
+     */
+    charactersLeft(): number {
+      return (this.maxLength ?? TAG_MAX_LENGTH) - this.value.length;
     },
 
   },
@@ -409,4 +422,21 @@ textarea:focus {
   margin: 3px 6px;
 }
 
+.value {
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Stack textarea and counter */
+  grid-area: 1 / 1;
+  cursor: text;
+}
+
+.character-counter {
+  position: absolute;
+  bottom: -18px;
+  right: 12px;
+  font-size: 10px;
+  color: var(--af-text-color-disabled);
+  pointer-events: none; /* Ensure it doesn't block clicks to the textarea */
+  user-select: none;
+}
 </style>
