@@ -44,7 +44,7 @@ Attack Flow is designed to support many different use cases.
 **Threat Intelligence**
 
 CTI analysts can use Attack Flow to create highly detailed, behavior-based threat
-intelligence products. The langauge is machine-readable to provide for interoperability
+intelligence products. The language is machine-readable to provide for interoperability
 across organizations and commercial tools. Users can track adversary behavior at the
 incident level, campaign level, or threat actor level. Instead of focusing on indicators
 of compromise (IOCs), which are notoriously inexpensive for the adversary to change,
@@ -71,7 +71,7 @@ that executives do not need to make a business decision. Defenders can use flows
 communicate the impact of an attack in business terms (i.e. money) and make a convincing
 case for new tools, personnel, or security controls to prioritize.
 
-**Incident Reponse**
+**Incident Response**
 
 Incident responders can use Attack Flow to improve their incident response (IR) planning
 and after-action review. After a security incident has occurred, responders can create
@@ -99,13 +99,13 @@ detailed timelines. Attack Flow can showcase the adversary tools and TTPs that a
 used, which can help aid in writing detections against common behaviors and/or adversary
 toolsets, as well as prioritizing those detections.
 
-**Malaware Analysis**
+**Malware Analysis**
 
-Malware analysts typically use Attack Flow after they have analyzed samples to document behaviors they observed. 
+Malware analysts typically use Attack Flow after they have analyzed samples to document behaviors they observed.
 They start with static analysis to examine the file's structure and potential obfuscation.
-Next, they execute the sample in a controlled environment for dynamic analysis, observing its behavior and identifying 
-potential indicators of compromise. They then disassemble the code to understand its low-level operations and decode any 
-encrypted components. Finally, through detailed code reversing and behavioral analysis, analysts document their findings and 
+Next, they execute the sample in a controlled environment for dynamic analysis, observing its behavior and identifying
+potential indicators of compromise. They then disassemble the code to understand its low-level operations and decode any
+encrypted components. Finally, through detailed code reversing and behavioral analysis, analysts document their findings and
 could generate reports with recommendations for enhancing defenses against similar cyber threats.
 
 Get Started
