@@ -150,6 +150,20 @@ export class BranchBlock extends BlockFace {
         const yFieldPadding = blockGrid[1] * body.fieldVerticalPaddingUnits;
         const xPadding = blockGrid[0] * this.style.horizontalPaddingUnits;
 
+        // Collect tags
+        const hasTags = this.view.properties.value.get("tags")?.isDefined() ?? false;
+        const tags: { name: string, color: string }[] = [];
+        if (hasTags) {
+            const tagDictionaryProperties = (this.view.properties.value.get("tags") as ListProperty).value.values();
+            for (const tag of tagDictionaryProperties) {
+                const tagDict = tag as DictionaryProperty;
+                tags.push({
+                    name: tagDict.value.get("name")?.toString() || "",
+                    color: tagDict.value.get("color")?.toString() || ""
+                });
+            }
+        }
+
         // Collect visible fields
         const fields: [string, string][] = [];
         const properties = this.properties?.include ?? props.value.keys();
@@ -198,6 +212,12 @@ export class BranchBlock extends BlockFace {
         const fieldName = body.fieldNameText;
         const fieldValue = body.fieldValueText;
 
+        const computeTotalTagWidth = (tagName: string): number => {
+            const circleDiameter = TAG_CONFIG.circleRadius * 2;
+            const textWidth = fieldValue.font.measureWidth(tagName);
+            return TAG_CONFIG.paddingX + circleDiameter + TAG_CONFIG.gapBetweenCircleAndText + textWidth + TAG_CONFIG.paddingX;
+        };
+
         // Calculate max content width from titles
         let maxWidth = blockGrid[0] * this.style.maxUnitWidth;
         this.width = title.font.measureWidth(titleText);
@@ -212,6 +232,14 @@ export class BranchBlock extends BlockFace {
         const branchLength = branch.minWidth * blockGrid[0];
         this.width = Math.max(this.width, branchLength * branchCount);
         maxWidth = Math.max(this.width, maxWidth);
+        if (hasTags) {
+            this.width = Math.max(this.width, fieldName.font.measureWidth("TAGS"));
+            maxWidth = Math.max(this.width, maxWidth);
+            for (const tag of tags) {
+                this.width = Math.max(this.width, computeTotalTagWidth(tag.name));
+                maxWidth = Math.max(this.width, maxWidth);
+            }
+        }
 
         // Calculate title and subtitle positions
         let x = xPadding + markerOffset;
@@ -253,9 +281,6 @@ export class BranchBlock extends BlockFace {
 
         // Set head height
         this.headHeight = y;
-
-        // Determine whether or not there are tags
-        const hasTags = this.view.properties.value.get("tags")?.isDefined();
 
         // Calculate body layout
         if (fields.length || hasTags) {
@@ -299,10 +324,6 @@ export class BranchBlock extends BlockFace {
 
         // Handle tags if they are set
         if (hasTags) {
-            // Get the `tags` property as a ListProperty (which we know it must be, if it exists)
-            // then get the property value (a Map of values) and pull the values() from it
-            const tagDictionaryProperties = (this.view.properties.value.get("tags") as ListProperty).value.values();
-
             // This is the actual horizontal space tags are allowed to occupy
             const innerContentWidth = this.width - (2 * (markerOffset + xPadding));
 
@@ -323,24 +344,14 @@ export class BranchBlock extends BlockFace {
             let drawX = x;                       // Start at the block's left padding
             let drawY = y;                       // Start at the current vertical position
 
-            function computeTotalTagWidth(tagName: string): number {
-                const circleDiameter = TAG_CONFIG.circleRadius * 2;
-                const textWidth = fieldValue.font.measureWidth(tagName);
-                return TAG_CONFIG.paddingX + circleDiameter + TAG_CONFIG.gapBetweenCircleAndText + textWidth + TAG_CONFIG.paddingX;
-            }
-
-            for (const tag of tagDictionaryProperties) {
-                const tagDict = tag as DictionaryProperty;
-                const tagName = tagDict.value.get("name")?.toString() || "";
-                const tagColor = tagDict.value.get("color")?.toString() || "";
-
+            for (const { name: tagName, color: tagColor } of tags) {
                 const totalTagWidth = computeTotalTagWidth(tagName);
 
                 // Determine if we need a spacer before this tag
                 const horizontalSpaceBeforeTag = (currentLineX === 0) ? 0 : TAG_CONFIG.horizontalSpacing;
 
                 // CHECK: Does current width + spacer + this tag exceed the limit?
-                if (currentLineX + horizontalSpaceBeforeTag + totalTagWidth > innerContentWidth) {
+                if (currentLineX !== 0 && currentLineX + horizontalSpaceBeforeTag + totalTagWidth > innerContentWidth) {
                     // WRAP: Move to next line
                     drawX = x;
                     drawY += rowHeight;
