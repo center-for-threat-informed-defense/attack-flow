@@ -45,12 +45,43 @@
         </button>
       </template>
     </div>
-    <button
-      class="create-button"
-      @pointerdown="onCreate()"
-    >
-      <span><PlusIcon /></span>Add
-    </button>
+    <div class="list-actions">
+      <button
+        class="create-button"
+        @pointerdown="onCreate()"
+      >
+        <span><PlusIcon /></span>Add
+      </button>
+
+      <div
+        v-if="property.id === 'tags' && existingTags.length > 0"
+        class="existing-tags-wrapper"
+      >
+        <button
+          class="create-button secondary"
+          @click="showDropdown = !showDropdown"
+        >
+          Add Existing Tag...
+        </button>
+            
+        <ul
+          v-if="showDropdown"
+          class="custom-dropdown-list"
+        >
+          <li 
+            v-for="(tag, index) in existingTags" 
+            :key="index" 
+            @click="onSelectExisting(tag)"
+          >
+            <span
+              class="tag-color-circle"
+              :style="{ backgroundColor: tag.color }"
+            />
+            {{ tag.text }}
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -82,6 +113,59 @@ export default defineComponent({
     property: {
       type: Object as PropType<ListProperty>,
       required: true
+    }
+  },
+  data() {
+    return {
+        showDropdown: false
+    }
+  },
+  computed: {
+    /**
+     * A list of existing tags on the canvas that this object does NOT currently have.
+     */
+    existingTags(): { text: string; color: string }[] {
+        const app = useApplicationStore();
+        const editor = app.activeEditor;
+        if (!editor || !editor.file?.canvas) return [];
+
+        // 1. Create a Set of keys for tags already present in THIS property
+        const currentTagKeys = new Set<string>();
+        if (this.property.value instanceof Map) {
+            for (const tagEntry of this.property.value.values()) {
+                const tagDict = tagEntry as DictionaryProperty;
+                const name = tagDict.value.get("name")?.toString() || "";
+                const color = tagDict.value.get("color")?.toString() || "";
+                if (name) {
+                    currentTagKeys.add(`${name.toLowerCase()}-${color}`);
+                }
+            }
+        }
+
+        const registry = new Map<string, { text: string; color: string }>();
+
+        // 2. Iterate through all objects to find all unique tags
+        for (const obj of editor.file.canvas.objects) {
+            const tagsProperty = obj.properties?.value?.get("tags") as ListProperty;
+            if (tagsProperty && tagsProperty.value instanceof Map) {
+                for (const tagEntry of tagsProperty.value.values()) {
+                    const tagDict = tagEntry as DictionaryProperty;
+                    const name = tagDict.value.get("name")?.toString() || "";
+                    const color = tagDict.value.get("color")?.toString() || "";
+
+                    if (name) {
+                        const key = `${name.toLowerCase()}-${color}`;
+
+                        // 3. Only add to registry if it's NOT already in our currentTagKeys
+                        if (!currentTagKeys.has(key) && !registry.has(key)) {
+                            registry.set(key, { text: name, color: color });
+                        }
+                    }
+                }
+            }
+        }
+
+        return Array.from(registry.values()).sort((a, b) => a.text.localeCompare(b.text));
     }
   },
   methods: {
@@ -166,7 +250,13 @@ export default defineComponent({
                 console.warn(`Tag text is empty for key ${key}. Make sure the 'name' field is filled out.`);
             }
         }
-    }
+    },
+
+    onSelectExisting(tag: { text: string, color: string }) {
+        const cmd = EditorCommands.addExistingTag(this.property, tag);
+        this.$emit("execute", cmd);
+        this.showDropdown = false; // Close after selection
+    },
 
   },
   emits: {
@@ -240,4 +330,47 @@ export default defineComponent({
   margin-right: 9px;
 }
 
+.existing-tags-wrapper {
+  position: relative;
+  margin-top: 8px;
+}
+
+.custom-dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--af-border-color-tertiary);
+  border-radius: 4px;
+  background: var(--af-bg-color-secondary);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.custom-dropdown-list li {
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 9pt;
+  color: var(--af-text-color-primary);
+}
+
+.custom-dropdown-list li:hover {
+  background: var(--af-border-color-secondary);
+}
+
+.tag-color-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.1); /* Helps circles stand out on dark bgs */
+}
 </style>

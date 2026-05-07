@@ -16,6 +16,8 @@ import type { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { BlockView, DiagramObjectView } from "@OpenChart/DiagramView";
 import { useTagStore } from "@/stores/TagStore";
 
+import { createSubproperty, ApplyTagDataCommand } from "../Property";
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //  1. Selection  /////////////////////////////////////////////////////////////
@@ -346,6 +348,27 @@ export function moveCameraToObjectsWithTags(
         // 4. Move camera to encapsulate all matching objects
         cmd.do(new MoveCameraToObjects(editor.interface, matchingObjects));
     }
+
+    return cmd;
+}
+
+/**
+ * Creates a new tag sub-property and populates it with existing data.
+ * @param property The list property (tags) to add to.
+ * @param tag The tag data (text and color) to apply.
+ */
+export function addExistingTag(
+    property: ListProperty,
+    tag: { text: string, color: string }
+): SynchronousEditorCommand {
+    const cmd = new GroupCommand();
+
+    // 1. Schedule the creation of the empty DictionaryProperty
+    cmd.do(createSubproperty(property));
+
+    // 2. Schedule the population of that dictionary
+    // This will run immediately AFTER the property is created in the Editor queue
+    cmd.do(new ApplyTagDataCommand(property, tag));
 
     return cmd;
 }
