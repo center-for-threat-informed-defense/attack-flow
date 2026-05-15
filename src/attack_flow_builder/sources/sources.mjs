@@ -8,9 +8,9 @@ const ATTACK_BASE_URL = "https://raw.githubusercontent.com/mitre-attack/attack-s
  */
 export const STIX_SOURCES = {
     MitreAttack: [
-        `${ATTACK_BASE_URL}/enterprise-attack/enterprise-attack-19.0.json`,
-        `${ATTACK_BASE_URL}/ics-attack/ics-attack-19.0.json`,
-        `${ATTACK_BASE_URL}/mobile-attack/mobile-attack-19.0.json`
+        `${ATTACK_BASE_URL}/enterprise-attack/enterprise-attack-19.1.json`,
+        `${ATTACK_BASE_URL}/ics-attack/ics-attack-19.1.json`,
+        `${ATTACK_BASE_URL}/mobile-attack/mobile-attack-19.1.json`
     ],
     MitreAtlas: [
         "https://raw.githubusercontent.com/mitre-atlas/atlas-navigator-data/refs/heads/main/dist/stix-atlas.json"
