@@ -30,12 +30,12 @@ To get started, we suggest skimming the documentation to get familiar with the p
 your own attack flows using the Attack Flow Builder, which is an easy-to-use GUI tool. When you are ready to dive deep,
 review the Example Flows and JSON Schema for the language.
 
-| Resource                                                                                    | Description                                            |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| [Documentation](https://center-for-threat-informed-defense.github.io/attack-flow/)          | Complete documentation for the Attack Flow project.    |
-| [Attack Flow Builder](https://center-for-threat-informed-defense.github.io/attack-flow/ui/) | An online GUI tool for building Attack Flows.          |
-| [JSON Schema](/stix/attack-flow-schema-2.0.0.json)                                          | The language specification expressed as a JSON Schema. |
-| [Example Flows](/corpus/)                                                                   | A corpus of example Attack Flows.                      |
+| Resource                                                      | Description                                            |
+| ------------------------------------------------------------- | ------------------------------------------------------ |
+| [Documentation](https://ctid.mitre.org/attack-flow/)          | Complete documentation for the Attack Flow project.    |
+| [Attack Flow Builder](https://ctid.mitre.org/attack-flow/ui/) | An online GUI tool for building Attack Flows.          |
+| [JSON Schema](/stix/attack-flow-schema-2.0.0.json)            | The language specification expressed as a JSON Schema. |
+| [Example Flows](/corpus/)                                     | A corpus of example Attack Flows.                      |
 
 ## Getting Involved
 

@@ -132,7 +132,7 @@ setup and commands `here
 
 For example, the Turla (Snake) is publicy available via the adversary emulation
 library and has already been converted to a flow diagram, here: `here
-<https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`__
+<https://ctid.mitre.org/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`__
 
 At a high level, we can observe the total count of each technique in the plan:
 
@@ -157,7 +157,7 @@ Then, begin constructing the flow by mapping in the identified techniques. Gradu
 
   5. **Add indicators where applicable**: to provide additional context, either for planning purposes or post-emulation reporting, you can include relevant STIX objects that map back to indicators (either of interest or that were successfully accessed)
 
-Red teams can choose to represent each scenario in its own flow or combine them into a single, comprehensive flow. A prebuilt Attack Flow based on this plan is already available `here: <https://center-for-threat-informed-defense.github.io/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_
+Red teams can choose to represent each scenario in its own flow or combine them into a single, comprehensive flow. A prebuilt Attack Flow based on this plan is already available `here: <https://ctid.mitre.org/attack-flow/ui/?src=..%2fcorpus%2fTurla%20-%20Snake%20Emulation%20Plan.afb>`_
 
 .. figure:: ../_static/turla-flow.png
    :alt: Turla Flow

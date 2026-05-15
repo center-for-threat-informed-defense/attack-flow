@@ -58,12 +58,12 @@ const configuration: AppConfiguration = {
             {
                 title: "Example Flows",
                 description: "Visit a list of example Flows.",
-                url: "https://center-for-threat-informed-defense.github.io/attack-flow/example_flows/"
+                url: "https://ctid.mitre.org/attack-flow/example_flows/"
             },
             {
                 title: "Builder Help",
                 description: "Read the builder's user guide.",
-                url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
+                url: "https://ctid.mitre.org/attack-flow/builder/"
             }
         ]
     },
@@ -99,11 +99,11 @@ const configuration: AppConfiguration = {
             help_links: [
                 {
                     text: "Attack Flow Website",
-                    url: "https://center-for-threat-informed-defense.github.io/attack-flow/"
+                    url: "https://ctid.mitre.org/attack-flow/"
                 },
                 {
                     text: "Attack Flow Builder Help",
-                    url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
+                    url: "https://ctid.mitre.org/attack-flow/builder/"
                 },
                 {
                     text: "MITRE ATT&CK Framework",
@@ -115,7 +115,7 @@ const configuration: AppConfiguration = {
                 },
                 {
                     text: "Change Log",
-                    url: "https://center-for-threat-informed-defense.github.io/attack-flow/builder/"
+                    url: "https://ctid.mitre.org/attack-flow/builder/"
                 }
             ]
         }
