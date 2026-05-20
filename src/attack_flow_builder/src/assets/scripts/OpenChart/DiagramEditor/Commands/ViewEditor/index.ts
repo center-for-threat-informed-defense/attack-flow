@@ -1,7 +1,14 @@
 import { GroupCommand } from "../GroupCommand";
 import { DiagramViewEditor } from "../../DiagramViewEditor";
 import { SelectionAnimation } from "./Animations";
-import { DictionaryProperty, ListProperty, SemanticAnalyzer, traverse } from "@OpenChart/DiagramModel";
+import {
+    DictionaryProperty,
+    ListProperty,
+    MultiSelectProperty,
+    SemanticAnalyzer,
+    StringProperty,
+    traverse
+} from "@OpenChart/DiagramModel";
 import {
     MoveCameraToObjects,
     SpawnObject
@@ -17,6 +24,87 @@ import type { BlockView, DiagramObjectView } from "@OpenChart/DiagramView";
 import { useTagStore } from "@/stores/TagStore";
 
 import { createSubproperty, ApplyTagDataCommand } from "../Property";
+import { EditorDirective } from "../../EditorDirectives";
+import { SynchronousEditorCommand as BaseSynchronousEditorCommand } from "../SynchronousEditorCommand";
+import type { DirectiveIssuer } from "../../EditorDirectives";
+
+class SelectLastCreatedTagCommand extends BaseSynchronousEditorCommand {
+
+    /**
+     * The selected object's tag property.
+     */
+    private readonly property: MultiSelectProperty;
+
+    /**
+     * The canvas-level tag registry.
+     */
+    private readonly tagRegistry: ListProperty;
+
+    /**
+     * The property's previous selected tag ids.
+     */
+    private readonly prevValues: string[];
+
+    /**
+     * Creates a command that selects the most recently created shared tag.
+     * @param property
+     *  The selected object's tag property.
+     * @param tagRegistry
+     *  The canvas-level tag registry.
+     */
+    constructor(property: MultiSelectProperty, tagRegistry: ListProperty) {
+        super();
+        this.property = property;
+        this.tagRegistry = tagRegistry;
+        this.prevValues = [...property.values];
+    }
+
+    /**
+     * Executes the editor command.
+     * @param issueDirective
+     *  A function that can issue one or more editor directives.
+     */
+    public execute(issueDirective: DirectiveIssuer = () => {}): void {
+        const createdTagId = this.getLastCreatedTagId();
+        if (!createdTagId) {
+            return;
+        }
+
+        this.property.setSelections([...this.prevValues, createdTagId]);
+        issueDirective(EditorDirective.Record | EditorDirective.Autosave);
+    }
+
+    /**
+     * Undoes the editor command.
+     * @param issueDirective
+     *  A function that can issue one or more editor directives.
+     */
+    public undo(issueDirective: DirectiveIssuer = () => {}): void {
+        this.property.setSelections(this.prevValues);
+        issueDirective(EditorDirective.Autosave);
+    }
+
+    /**
+     * Returns the id of the last created tag in the shared registry.
+     * @returns
+     *  The tag id, or undefined if it cannot be resolved.
+     */
+    private getLastCreatedTagId(): string | undefined {
+        const entries = Array.from(this.tagRegistry.value.values());
+        const tag = entries[entries.length - 1];
+        if (!(tag instanceof DictionaryProperty)) {
+            return undefined;
+        }
+
+        const idProperty = tag.value.get("id");
+        if (!(idProperty instanceof StringProperty)) {
+            return tag.id;
+        }
+
+        return idProperty.value ?? tag.id;
+    }
+
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -58,7 +146,7 @@ export function unselectAllObjects(
     const tagStore = useTagStore();
     tagStore.setActiveTag(null, null);
 
-    cmd.do(new SelectObjects([...canvas.objects], false));
+    cmd.do(new SelectObjects([...traverse<DiagramObjectView>(canvas)], false));
     cmd.do(new StopContinuousAnimation(editor.interface, SelectionAnimation));
     return cmd;
 }
@@ -295,45 +383,19 @@ export function moveCameraToChildren(
 /**
  * Selects all objects that have a specific tag and moves the camera to them.
  * @param editor The editor instance.
- * @param tagText The text of the tag to search for.
+ * @param tagId The id of the tag to search for.
  */
 export function moveCameraToObjectsWithTags(
     editor: DiagramViewEditor,
-    tagText: string,
-    tagColor: string
+    tagId: string
 ): SynchronousEditorCommand {
     const cmd = new GroupCommand();
     const canvas = editor.file.canvas;
 
     // 1. Find all objects that contain the specified tag
     const matchingObjects = [...traverse<DiagramObjectView>(canvas, (obj) => {
-        const root = obj.properties;
-        if (!root || !(root.value instanceof Map)) { return false; }
-
-        // Get the "tags" property (which is a ListProperty)
-        const tagsProperty = root.value.get("tags") as ListProperty;
-
-        // Check if it exists and has values
-        if (tagsProperty && tagsProperty.value instanceof Map) {
-            // Iterate through the items in the list
-            for (const tagEntry of tagsProperty.value.values()) {
-                const tagDict = tagEntry as DictionaryProperty;
-
-                // Get the name and color from the dictionary
-                const currentTagName = tagDict.value.get("name")?.toString() || "";
-                const currentTagColor = tagDict.value.get("color")?.toString() || "";
-
-                // Match both name AND color
-                const isNameMatch = currentTagName.toLowerCase() === tagText.toLowerCase();
-                const isColorMatch = currentTagColor === tagColor;
-
-                if (isNameMatch && isColorMatch) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        const tagsProperty = obj.properties.value.get("tags");
+        return tagsProperty instanceof MultiSelectProperty && tagsProperty.values.has(tagId);
     })];
 
     if (matchingObjects.length > 0) {
@@ -370,5 +432,28 @@ export function addExistingTag(
     // This will run immediately AFTER the property is created in the Editor queue
     cmd.do(new ApplyTagDataCommand(property, tag));
 
+    return cmd;
+}
+
+/**
+ * Creates a new shared tag and assigns it to the selected object.
+ * @param tagRegistry
+ *  The canvas-level tag registry.
+ * @param property
+ *  The selected object's tag property.
+ * @param tag
+ *  The initial tag data to apply.
+ * @returns
+ *  A command that represents the action.
+ */
+export function createAndAssignTag(
+    tagRegistry: ListProperty,
+    property: MultiSelectProperty,
+    tag: { text: string, color: string }
+): SynchronousEditorCommand {
+    const cmd = new GroupCommand();
+    cmd.do(createSubproperty(tagRegistry));
+    cmd.do(new ApplyTagDataCommand(tagRegistry, tag));
+    cmd.do(new SelectLastCreatedTagCommand(property, tagRegistry));
     return cmd;
 }

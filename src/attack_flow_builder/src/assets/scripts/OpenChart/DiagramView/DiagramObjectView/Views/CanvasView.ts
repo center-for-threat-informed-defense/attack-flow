@@ -229,7 +229,7 @@ export class CanvasView extends Canvas implements ViewObject {
         // Recalculate layout on property updates
         this.properties.subscribe(
             this.instance,
-            () => this.handleUpdate(ViewUpdateReason.PropUpdate)
+            () => this.calculateLayout()
         );
     }
 

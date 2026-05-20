@@ -5,6 +5,11 @@ import type { StringPropertyOptions } from "./StringPropertyOptions";
 export class StringProperty extends Property {
 
     /**
+     * Whether the property should auto-generate a UUID when requested.
+     */
+    public readonly autoGenerate: boolean;
+
+    /**
      * The property's suggested options.
      */
     public options: ListProperty | undefined;
@@ -32,6 +37,7 @@ export class StringProperty extends Property {
      */
     constructor(options: StringPropertyOptions, value?: JsonValue) {
         super(options);
+        this.autoGenerate = options.autoGenerate ?? false;
         this.options = options.options;
         this._value = null;
         // Set value
@@ -120,6 +126,7 @@ export class StringProperty extends Property {
             name     : this.name,
             metadata : this.metadata,
             editable : this.isEditable,
+            autoGenerate : this.autoGenerate,
             options  : this.options
         }, this._value);
     }

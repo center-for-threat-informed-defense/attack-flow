@@ -1,7 +1,42 @@
 import { EditorDirective } from "../../EditorDirectives";
 import { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { DirectiveIssuer } from "../../EditorDirectives";
-import type { ListProperty, Property } from "@OpenChart/DiagramModel";
+import { ListProperty, Property, StringProperty } from "@OpenChart/DiagramModel";
+import type { JsonValue } from "@OpenChart/DiagramModel";
+
+/**
+ * A property whose runtime shape exposes child properties in a Map.
+ */
+type PropertyMapValue = Property & { value: Map<string, Property> };
+
+/**
+ * A property whose runtime shape supports direct value assignment.
+ */
+type SettableProperty = Property & {
+    setValue(value: JsonValue, update?: boolean): void;
+};
+
+/**
+ * Tests whether a property exposes a Map-backed child-property collection.
+ * @param property
+ *  The property to inspect.
+ * @returns
+ *  True when the property has a `value` Map of child properties.
+ */
+function hasPropertyMapValue(property: Property): property is PropertyMapValue {
+    return "value" in property && property.value instanceof Map;
+}
+
+/**
+ * Tests whether a property supports direct value assignment.
+ * @param property
+ *  The property to inspect.
+ * @returns
+ *  True when the property exposes a callable `setValue()` method.
+ */
+function isSettableProperty(property: Property): property is SettableProperty {
+    return "setValue" in property && typeof property.setValue === "function";
+}
 
 export class CreateSubproperty extends SynchronousEditorCommand {
 
@@ -25,8 +60,26 @@ export class CreateSubproperty extends SynchronousEditorCommand {
         super();
         this.property = property;
         this.subproperty = property.createListItem();
+        this.autoPopulateGeneratedFields(this.subproperty);
     }
 
+    /**
+     * Populates any descendant fields marked for automatic generation.
+     * @param property
+     *  The property to inspect.
+     */
+    private autoPopulateGeneratedFields(property: Property): void {
+        if (hasPropertyMapValue(property)) {
+            for (const childProperty of property.value.values()) {
+                this.autoPopulateGeneratedFields(childProperty);
+            }
+            return;
+        }
+
+        if (property instanceof StringProperty && property.autoGenerate && isSettableProperty(property)) {
+            property.setValue(crypto.randomUUID());
+        }
+    }
 
     /**
      * Executes the editor command.
@@ -49,4 +102,3 @@ export class CreateSubproperty extends SynchronousEditorCommand {
     }
 
 }
-

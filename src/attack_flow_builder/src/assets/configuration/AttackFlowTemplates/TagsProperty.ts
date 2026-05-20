@@ -1,24 +1,16 @@
 import { PropertyType } from "@OpenChart/DiagramModel";
+import type { MultiSelectPropertyDescriptor } from "@OpenChart/DiagramModel";
 
 /**
  * Shared property definition for tags.
- * * We use 'as const' at the end to ensure TypeScript treats the 'type' fields
- * as literal values (e.g., exactly PropertyType.List) rather than general
- * enum types. This prevents "not assignable" errors when used inside
- * the DiagramObjectTemplate array.
  */
-export const TagsProperty = {
-    type: PropertyType.List,
-    form: {
-        type: PropertyType.Dictionary,
-        form: {
-            name: {
-                type: PropertyType.String,
-                is_representative: true
-            },
-            color: {
-                type: PropertyType.Color
-            }
-        }
-    }
-} as const;
+export const TagsProperty: MultiSelectPropertyDescriptor = {
+    name: "Tags",
+    type: PropertyType.MultiSelect,
+    options: {
+        type: PropertyType.List,
+        form: { type: PropertyType.String },
+        default: []
+    },
+    default: {} // Stores { "tag-uuid-1": true, "tag-uuid-2": true }
+};

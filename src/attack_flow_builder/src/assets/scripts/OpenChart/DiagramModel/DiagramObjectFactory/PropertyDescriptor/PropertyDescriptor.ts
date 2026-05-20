@@ -98,6 +98,12 @@ export type StringPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Str
      */
     options?: ListPropertyDescriptor;
 
+    /**
+     * If true, the editor will generate a unique value for this
+     * property when a new item is created in a list.
+     */
+    auto_generate?: boolean;
+
 };
 
 export type ColorPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Color> & {

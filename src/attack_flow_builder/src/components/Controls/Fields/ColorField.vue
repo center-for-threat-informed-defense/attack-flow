@@ -21,7 +21,7 @@ import "vue3-colorpicker/style.css";
 import * as EditorCommands from "@OpenChart/DiagramEditor"
 // Dependencies
 import { defineComponent, type PropType, ref } from "vue";
-import type { StringProperty } from "@OpenChart/DiagramModel";
+import type { ColorProperty } from "@OpenChart/DiagramModel";
 import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
@@ -35,7 +35,7 @@ export default defineComponent({
   },
   props: {
     property: {
-      type: Object as PropType<StringProperty>,
+      type: Object as PropType<ColorProperty>,
       required: true
     }
   },
@@ -60,7 +60,7 @@ export default defineComponent({
       const v = value || null;
       if(this.property.toJson() !== v) {
         // Update property
-        const cmd = EditorCommands.setStringProperty(this.property, v);
+        const cmd = EditorCommands.setColorProperty(this.property, v);
         this.$emit("execute", cmd);
       } else {
         // Refresh value

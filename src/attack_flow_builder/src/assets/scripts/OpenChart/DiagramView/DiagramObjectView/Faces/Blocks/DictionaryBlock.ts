@@ -1,5 +1,5 @@
 import { BlockFace } from "../Bases";
-import { DictionaryProperty, ListProperty, TupleProperty } from "@OpenChart/DiagramModel";
+import { TupleProperty } from "@OpenChart/DiagramModel";
 import { drawRect, drawChip, ceilNearestMultiple } from "@OpenChart/Utilities";
 import {
     addTextCell,
@@ -13,6 +13,7 @@ import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
 import type { DictionaryBlockStyle } from "../Styles";
 import { useTagStore } from "@/stores/TagStore";
+import { getResolvedTagsHash, resolveSelectedTags, type ResolvedTag } from "./TagRendering";
 
 /**
  * Global configuration for Tag/Chip styling.
@@ -107,10 +108,13 @@ export class DictionaryBlock extends BlockFace {
         const head = this.style.head;
         const body = this.style.body;
         const props = this.view.properties;
+        const resolvedTags: ResolvedTag[] = resolveSelectedTags(this.view);
 
         // Recalculate content hash
         const lastContentHash = this.contentHash;
-        const nextContentHash = props.toHashValue();
+        // Combine the base property hash with resolved tag content so layout
+        // reruns when either field values or rendered tag labels/colors change.
+        const nextContentHash = props.toHashValue() ^ getResolvedTagsHash(resolvedTags);
         this.contentHash = nextContentHash;
 
         // If content hasn't changed, bail.
@@ -130,18 +134,7 @@ export class DictionaryBlock extends BlockFace {
         const xPadding = blockGrid[0] * this.style.horizontalPaddingUnits;
 
         // Collect tags
-        const hasTags = this.view.properties.value.get("tags")?.isDefined() ?? false;
-        const tags: { name: string, color: string }[] = [];
-        if (hasTags) {
-            const tagDictionaryProperties = (this.view.properties.value.get("tags") as ListProperty).value.values();
-            for (const tag of tagDictionaryProperties) {
-                const tagDict = tag as DictionaryProperty;
-                tags.push({
-                    name: tagDict.value.get("name")?.toString() || "",
-                    color: tagDict.value.get("color")?.toString() || ""
-                });
-            }
-        }
+        const hasTags = resolvedTags.length > 0;
 
         // Collect visible fields
         const fields: [string, string][] = [];
@@ -208,7 +201,7 @@ export class DictionaryBlock extends BlockFace {
         if (hasTags) {
             this.width = Math.max(this.width, fieldName.font.measureWidth("TAGS"));
             maxWidth = Math.max(this.width, maxWidth);
-            for (const tag of tags) {
+            for (const tag of resolvedTags) {
                 this.width = Math.max(this.width, computeTotalTagWidth(tag.name));
                 maxWidth = Math.max(this.width, maxWidth);
             }
@@ -325,7 +318,7 @@ export class DictionaryBlock extends BlockFace {
             let drawX = x;                       // Start at the block's left padding
             let drawY = y;                       // Start at the current vertical position
 
-            for (const { name: tagName, color: tagColor } of tags) {
+            for (const { name: tagName, color: tagColor } of resolvedTags) {
                 const totalTagWidth = computeTotalTagWidth(tagName);
 
                 // Determine if we need a spacer before this tag

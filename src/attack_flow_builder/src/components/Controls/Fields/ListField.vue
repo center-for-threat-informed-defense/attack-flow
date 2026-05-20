@@ -121,6 +121,7 @@ export default defineComponent({
     }
   },
   computed: {
+
     /**
      * A list of existing tags on the canvas that this object does NOT currently have.
      */
@@ -225,8 +226,14 @@ export default defineComponent({
         if (editor && editor.id !== "PhantomEditor" && subProperty) {
             let tagText = "";
             let tagColor = "";
+            let tagId = key;
 
             if (subProperty instanceof DictionaryProperty) {
+                const idProp = subProperty.value.get("id") as StringProperty;
+                if (idProp) {
+                    tagId = idProp.value ?? key;
+                }
+
                 const textProp = (subProperty.value.get("name") || subProperty.value.get("text")) as StringProperty;
                 if (textProp) {
                     tagText = textProp.value ?? "";
@@ -241,7 +248,7 @@ export default defineComponent({
             }
 
             if (tagText && tagText.trim() !== "") {
-                const cmd = EditorCommands.moveCameraToObjectsWithTags(editor, tagText, tagColor);
+                const cmd = EditorCommands.moveCameraToObjectsWithTags(editor, tagId);
                 this.$emit("execute", cmd);
 
                 const tagStore = useTagStore();

@@ -13,6 +13,22 @@ export const AttackFlow: CanvasTemplate = {
         description: {
             type: PropertyType.String
         },
+        tags: {
+            name: "Tags",
+            type: PropertyType.List,
+            form: {
+                type: PropertyType.Dictionary,
+                form: {
+                    id: {
+                        type: PropertyType.String,
+                        auto_generate: true,
+                        is_editable: false
+                    },
+                    name: { type: PropertyType.String, is_representative: true },
+                    color: { type: PropertyType.Color }
+                }
+            }
+        },
         author: {
             type: PropertyType.Dictionary,
             form: {
