@@ -9,9 +9,17 @@
           class="icon"
           :collapsed="collapsed"
         />
-        <p class="text">
-          {{ property.toString() }}
-        </p>
+        <div class="dictionary-header-label">
+          <span
+            v-if="isCanvasTag"
+            class="tag-color-circle"
+            :style="{ backgroundColor: tagColor }"
+            aria-hidden="true"
+          />
+          <p class="text">
+            {{ property.toString() }}
+          </p>
+        </div>
       </div>
       <slot />
     </div>
@@ -43,6 +51,8 @@ import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 import CollapseArrowIcon from "@/components/Icons/CollapseArrowIcon.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
 
+const DEFAULT_TAG_COLOR = "#000000";
+
 export default defineComponent({
   name: "DictionaryField",
   props: {
@@ -57,6 +67,15 @@ export default defineComponent({
     }
   },
   computed: {
+    isCanvasTag(): boolean {
+      // Tag entries are dictionary items nested directly under the canvas-level tags list.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (this.property as any)._parent?.id === "tags";
+    },
+
+    tagColor(): string {
+      return this.property.value.get("color")?.toString() || DEFAULT_TAG_COLOR;
+    },
 
     /**
      * Tests if the property has visible subproperties.
@@ -109,12 +128,29 @@ export default defineComponent({
   margin-right: 9px;
 }
 
+.dictionary-header-label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
 .dictionary-header .text {
   flex: 1;
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.tag-color-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .dictionary-contents {
