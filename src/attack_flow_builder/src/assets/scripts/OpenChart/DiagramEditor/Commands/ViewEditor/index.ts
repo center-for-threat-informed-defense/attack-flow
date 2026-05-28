@@ -23,7 +23,7 @@ import type { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { BlockView, DiagramObjectView } from "@OpenChart/DiagramView";
 import { useTagStore } from "@/stores/TagStore";
 
-import { createSubproperty, ApplyTagDataCommand } from "../Property";
+import { createSubproperty, ApplyTagDataCommand, setMultiSelectProperty } from "../Property";
 import { EditorDirective } from "../../EditorDirectives";
 import { SynchronousEditorCommand as BaseSynchronousEditorCommand } from "../SynchronousEditorCommand";
 import type { DirectiveIssuer } from "../../EditorDirectives";
@@ -409,6 +409,33 @@ export function moveCameraToObjectsWithTags(
 
         // 4. Move camera to encapsulate all matching objects
         cmd.do(new MoveCameraToObjects(editor.interface, matchingObjects));
+    }
+
+    return cmd;
+}
+
+/**
+ * Applies an existing shared tag to every selected taggable object.
+ * @param editor
+ *  The editor whose selection should be updated.
+ * @param tagId
+ *  The shared tag id to add.
+ * @returns
+ *  A command that represents the action.
+ */
+export function applyExistingTagToSelection(
+    editor: DiagramViewEditor,
+    tagId: string
+): SynchronousEditorCommand {
+    const cmd = new GroupCommand();
+
+    for (const object of editor.selection.values()) {
+        const tagsProperty = object.properties.value.get("tags");
+        if (!(tagsProperty instanceof MultiSelectProperty) || tagsProperty.values.has(tagId)) {
+            continue;
+        }
+
+        cmd.do(setMultiSelectProperty(tagsProperty, [...tagsProperty.values, tagId]));
     }
 
     return cmd;

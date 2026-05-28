@@ -8,8 +8,16 @@ import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
 import { useApplicationStore } from "./ApplicationStore";
 import type { CommandEmitter } from "@/assets/scripts/Application";
-import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
+import {
+    DictionaryProperty,
+    ListProperty,
+    MultiSelectProperty,
+    StringProperty,
+    type DiagramObjectTemplate
+} from "@OpenChart/DiagramModel";
 import type { ContextMenu, ContextMenuItem, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
+import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
+import LocalStorageManager from "@/LocalStorageManager";
 
 export const useContextMenuStore = defineStore("contextMenuStore", {
     getters: {
@@ -326,6 +334,46 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         data: () => AppCommands.pasteFileFromClipboard(app),
                         shortcut: edit.paste,
                         disabled: editor.id === PhantomEditor.id
+                    }
+                ]
+            };
+        },
+
+        /**
+         * Returns the apply-tag menu section.
+         * @returns
+         *  The apply-tag menu section, or null when it is not relevant.
+         */
+        applyTagMenu(): ContextMenuSection<CommandEmitter> | null {
+            const app = useApplicationStore();
+            const editor = app.activeEditor;
+            const selection = getSelectedTagProperties(editor);
+            const tags = getCanvasTags(editor);
+
+            if (!selection.length || !tags.length) {
+                return null;
+            }
+
+            const items: ContextMenuItem<CommandEmitter>[] = tags.map(tag => ({
+                text: tag.name,
+                type: MenuType.Action,
+                data: () => EditorCommands.applyExistingTagToSelection(editor, tag.id),
+                disabled: selection.every(property => property.values.has(tag.id))
+            }));
+
+            return {
+                id: "tag_options",
+                items: [
+                    {
+                        text: "Apply Tag",
+                        type: MenuType.Submenu,
+                        disabled: items.every(item => item.disabled),
+                        sections: [
+                            {
+                                id: "apply_tag_options",
+                                items
+                            }
+                        ]
                     }
                 ]
             };
@@ -869,4 +917,64 @@ function prepareCreateMenu(
         });
     }
     return main.menu;
+}
+
+type ExistingTag = {
+    id: string;
+    name: string;
+};
+
+/**
+ * Returns the selected objects' tag multiselect properties.
+ * @param editor
+ *  The active editor.
+ * @returns
+ *  The selected tag properties.
+ */
+function getSelectedTagProperties(editor: DiagramViewEditor): MultiSelectProperty[] {
+    const properties: MultiSelectProperty[] = [];
+
+    for (const object of editor.selection.values()) {
+        const tagsProperty = object.properties.value.get("tags");
+        if (tagsProperty instanceof MultiSelectProperty) {
+            properties.push(tagsProperty);
+        }
+    }
+
+    return properties;
+}
+
+/**
+ * Returns the existing shared canvas tags available for assignment.
+ * @param editor
+ *  The active editor.
+ * @returns
+ *  The normalized canvas tags.
+ */
+function getCanvasTags(editor: DiagramViewEditor): ExistingTag[] {
+    const tagsProperty = editor.file.canvas.properties.value.get("tags");
+    if (!(tagsProperty instanceof ListProperty)) {
+        return [];
+    }
+
+    const tags: ExistingTag[] = [];
+
+    for (const [fallbackId, tagProperty] of tagsProperty.value) {
+        if (!(tagProperty instanceof DictionaryProperty)) {
+            continue;
+        }
+
+        const idProperty = tagProperty.value.get("id");
+        const nameProperty = tagProperty.value.get("name") ?? tagProperty.value.get("text");
+        const id = idProperty instanceof StringProperty ? (idProperty.value ?? fallbackId) : fallbackId;
+        const name = nameProperty?.toString().trim() ?? "";
+
+        if (!name) {
+            continue;
+        }
+
+        tags.push({ id, name });
+    }
+
+    return tags.sort((left, right) => left.name.localeCompare(right.name));
 }
