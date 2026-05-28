@@ -1,7 +1,7 @@
 <template>
   <svg
-    width="16"
-    height="16"
+    :width="width"
+    :height="height"
     viewBox="0 0 384 512"
     :fill="color"
     xmlns="http://www.w3.org/2000/svg"
@@ -20,6 +20,14 @@ export default defineComponent({
         color: {
             type: String,
             default: "#737373"
+        },
+        width: {
+            type: Number,
+            default: 16
+        },
+        height: {
+            type: Number,
+            default: 16
         }
     }
 });

@@ -2,6 +2,7 @@ export * from "./OpenHyperlink";
 export * from "./SwitchToFullscreen";
 export * from "./ShowSearchMenu";
 export * from "./ShowSplashMenu";
+export * from "./ShowVisualizationModal";
 export * from "./HideSearchMenu";
 export * from "./HideSplashMenu";
 export * from "./ToNextSearchResult";

@@ -6,6 +6,7 @@ import {
     SetReadonlyMode,
     ShowSearchMenu,
     ShowSplashMenu,
+    ShowVisualizationModal,
     SwitchToFullscreen,
     ToNextSearchResult,
     ToPreviousSearchResult
@@ -157,4 +158,10 @@ export function setReadonlyMode(
     context: ApplicationStore, value: boolean
 ): SetReadonlyMode {
     return new SetReadonlyMode(context, value);
+}
+
+export function showVisualizationModal(
+    context: ApplicationStore, visualizationId = ""
+): ShowVisualizationModal {
+    return new ShowVisualizationModal(context, visualizationId);
 }

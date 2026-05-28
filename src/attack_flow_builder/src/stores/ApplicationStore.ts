@@ -1,15 +1,16 @@
 import Configuration from "@/assets/configuration/app.configuration";
 import { DateTime } from "luxon";
 import { FileStore } from "@/assets/scripts/Browser";
+import type { AppCommand, ValidationErrorResult, ValidationWarningResult } from "@/assets/scripts/Application";
+import { BaseAppSettings } from "@/assets/scripts/Application/Configuration/AppSettings";
+import { BasicVisualizationModal } from "@/assets/scripts/Application/Visualization";
 import { defineStore } from "pinia";
 import { PhantomEditor } from "./PhantomEditor";
-import { BaseAppSettings } from "@/assets/scripts/Application";
 import { OpenChartFinder } from "@/assets/scripts/OpenChartFinder";
 import { ThemeRegistry, ThemeSourceFile } from "@OpenChart/ThemeRegistry";
 import { AsynchronousEditorCommand, BasicRecommender, DiagramViewEditor, SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 import type { EditorCommand } from "@OpenChart/DiagramEditor";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
-import type { AppCommand, ValidationErrorResult, ValidationWarningResult } from "@/assets/scripts/Application";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -20,6 +21,9 @@ import type { AppCommand, ValidationErrorResult, ValidationWarningResult } from 
 const Publisher = Configuration.publisher?.create();
 const Validator = Configuration.validator?.create();
 const FilePreprocessor = Configuration.filePreprocessor?.create();
+const Recommender = Configuration.recommender?.create();
+const Visualizations = Configuration.visualizations ?? [];
+const VisualizationModal = Configuration.visualizationModal?.create(Visualizations);
 
 // Configure theme registry
 const themeRegistry = new ThemeRegistry();
@@ -41,7 +45,9 @@ export const useApplicationStore = defineStore("applicationStore", {
         activeValidator: Validator,
         activePublisher: Publisher,
         activeFilePreprocessor: FilePreprocessor,
-        activeRecommender: new BasicRecommender(),
+        activeRecommender: Recommender ?? new BasicRecommender(),
+        activeVisualizationModal: VisualizationModal
+            ?? new BasicVisualizationModal(Visualizations),
         activeFinder: new OpenChartFinder<DiagramViewEditor, DiagramObjectView>(),
         settings: BaseAppSettings,
         readOnlyMode: false,

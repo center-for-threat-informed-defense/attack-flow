@@ -520,7 +520,8 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                     this.jumpMenu,
                     this.themeMenu,
                     this.fullscreenMenu,
-                    this.developerViewMenu
+                    this.developerViewMenu,
+                    this.visualizationsMenu
                 ]
             };
         },
@@ -734,6 +735,33 @@ export const useContextMenuStore = defineStore("contextMenuStore", {
                         keepMenuOpenOnSelect: true
                     }
                 ]
+            };
+        },
+
+        visualizationsMenu(): ContextMenuSection<CommandEmitter> {
+            const app = useApplicationStore();
+            const editor = app.activeEditor;
+            const visualizations = app.activeVisualizationModal.visualizations;
+            return {
+                id: "visualizations",
+                items: [{
+                    text: "Visualizations",
+                    type: MenuType.Submenu,
+                    sections: [
+                        {
+                            id: "visualizations_options",
+                            items: visualizations.map(visualization => ({
+                                text: visualization.title,
+                                type: MenuType.Action,
+                                data: () => AppCommands.showVisualizationModal(
+                                    app,
+                                    visualization.id
+                                )
+                            }))
+                        }
+                    ],
+                    disabled: editor.id === PhantomEditor.id || !visualizations.length
+                }]
             };
         },
 

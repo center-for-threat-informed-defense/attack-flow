@@ -41,6 +41,7 @@
         <AppFooterBar id="app-footer-bar" />
       </div>
     </div>
+    <VisualizationModal />
   </AppHotkeyBox>
 </template>
 
@@ -59,6 +60,8 @@ import AppHotkeyBox from "@/components/Elements/AppHotkeyBox.vue";
 import BlockDiagram from "@/components/Elements/BlockDiagram.vue";
 import AppFooterBar from "@/components/Elements/AppFooterBar.vue";
 import EditorSidebar from "@/components/Elements/EditorSidebar.vue";
+import LocalStorageManager from "./LocalStorageManager";
+import VisualizationModal from "./components/Elements/VisualizationModal.vue";
 
 const Handle = {
   None   : 0,
@@ -199,7 +202,7 @@ export default defineComponent({
   },
   async created() {
     const ctx = this.application;
-    
+
     // Import settings
     const os = Device.getOperatingSystemClass();
     let settings;
@@ -208,13 +211,13 @@ export default defineComponent({
     } else {
       settings = await (await fetch("./settings_win.json")).json();
     }
-    
+
     // Load settings
     this.execute(AppCommand.loadSettings(ctx, settings));
-    
+
     // Process query parameters
     const params = new URLSearchParams(window.location.search);
-    
+
     // Set default theme
     const theme = params.get("theme");
     if(theme) {
@@ -261,7 +264,8 @@ export default defineComponent({
     AppFooterBar,
     EditorSidebar,
     FindDialog,
-    SplashMenu
+    SplashMenu,
+    VisualizationModal
   },
 });
 </script>
