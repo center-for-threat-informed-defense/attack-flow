@@ -17,21 +17,19 @@ import type { RenderSettings } from "../../RenderSettings";
 import type { BranchBlockStyle } from "../Styles";
 import type { BranchDescriptor } from "./BranchDescriptor";
 import { useTagStore } from "@/stores/TagStore";
-import { getResolvedTagsHash, resolveSelectedTags, type ResolvedTag } from "./TagRendering";
+import { getResolvedTagsHash, getTagTextColor, resolveSelectedTags, type ResolvedTag } from "./TagRendering";
 
 /**
- * Global configuration for Tag/Chip styling.
+ * Global configuration for tag pill styling.
  * These constants are used both for layout calculations (positioning)
  * and for the final Canvas rendering.
  */
 const TAG_CONFIG = {
-    circleRadius: 4,              // The radius (half-width) of the colored status dot
-    gapBetweenCircleAndText: 6,   // Horizontal spacing between the dot and the start of the tag text
-    paddingX: 8,                  // Internal horizontal space from the chip edge to the content
-    paddingY: 4,                  // Internal vertical space from the chip edge to the content
-    horizontalSpacing: 4,         // The "gutter" or gap between two tags sitting side-by-side
-    verticalSpacing: 10,          // Extra vertical buffer added to each row's height for breathing room
-    borderRadius: 6               // The corner roundness of the background chip/rectangle
+    paddingX: 8,          // Internal horizontal space from the pill edge to the text
+    paddingY: 4,          // Internal vertical space from the pill edge to the text
+    horizontalSpacing: 4, // The gap between two tags sitting side-by-side
+    verticalSpacing: 10,  // Extra vertical buffer added to each row's height
+    borderRadius: 6       // The corner roundness of the pill
 };
 
 export class BranchBlock extends BlockFace {
@@ -206,9 +204,8 @@ export class BranchBlock extends BlockFace {
         const fieldValue = body.fieldValueText;
 
         const computeTotalTagWidth = (tagName: string): number => {
-            const circleDiameter = TAG_CONFIG.circleRadius * 2;
             const textWidth = fieldValue.font.measureWidth(tagName);
-            return TAG_CONFIG.paddingX + circleDiameter + TAG_CONFIG.gapBetweenCircleAndText + textWidth + TAG_CONFIG.paddingX;
+            return TAG_CONFIG.paddingX + textWidth + TAG_CONFIG.paddingX;
         };
 
         // Calculate max content width from titles
@@ -333,7 +330,7 @@ export class BranchBlock extends BlockFace {
             y += 4;
 
             let currentLineX = 0;                // Our "virtual cursor"
-            const rowHeight = yBodyPadding + 10; // Approximate height of one row of tags
+            const rowHeight = yBodyPadding + TAG_CONFIG.verticalSpacing; // Approximate height of one row of tags
             let drawX = x;                       // Start at the block's left padding
             let drawY = y;                       // Start at the current vertical position
 
@@ -455,67 +452,44 @@ export class BranchBlock extends BlockFace {
     }
 
     private renderTag(ctx: CanvasRenderingContext2D, instruction: DrawTextInstruction, x: number, y: number) {
-        const {
-            circleRadius,
-            gapBetweenCircleAndText,
-            paddingX,
-            paddingY
-        } = TAG_CONFIG; // Destructure config for easier access to constants
+        const { paddingX, paddingY } = TAG_CONFIG;
 
         // Measure text
         const textMetrics = ctx.measureText(instruction.text);
 
         // Calculate the actual height of the glyphs
         const textHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
-        const circleDiameter = circleRadius * 2;
-
-        // Height of the chip should be the tallest element (text or circle) + padding on both sides
-        const contentHeight = Math.max(textHeight, circleDiameter);
-        const boxHeight = contentHeight + (paddingY * 2);
-        const boxWidth = paddingX + circleDiameter + gapBetweenCircleAndText + textMetrics.width + paddingX;
-
-        // Determine Coordinates
+        const boxHeight = textHeight + (paddingY * 2);
+        const boxWidth = paddingX + textMetrics.width + paddingX;
         const boxX = x;
-
-        /**
-         * VERTICAL ALIGNMENT LOGIC:
-         * instruction.y is the baseline.
-         * To center the box:
-         * Start at baseline, go up by the ascent to reach the visual top of text,
-         * then go up by paddingY.
-         */
         const boxY = instruction.y + y - textMetrics.actualBoundingBoxAscent - paddingY;
+        const tagColor = instruction.tagColor ?? "#000000";
 
-        function renderTagBorder(color: string | CanvasGradient | CanvasPattern) {
-            // Draw the background chip
+        function renderTagPill(borderColor?: string | CanvasGradient | CanvasPattern) {
+            const originalFillStyle = ctx.fillStyle;
+            const originalStrokeStyle = ctx.strokeStyle;
+
             ctx.beginPath();
             drawRect(ctx, boxX, boxY, boxWidth, boxHeight, TAG_CONFIG.borderRadius);
-
-            ctx.strokeStyle = color;
-            ctx.stroke();
-        }
-
-        function renderTagCircle() {
-            // Center the circle vertically relative to the box
-            const circleCenterX = boxX + TAG_CONFIG.paddingX + circleRadius;
-            const circleCenterY = boxY + (boxHeight / 2);
-
-            // Draw the circle
-            ctx.beginPath();
-            const originalFillStyle = ctx.fillStyle;
-            ctx.fillStyle = instruction.tagColor ?? "#000000";
-            ctx.arc(circleCenterX, circleCenterY, circleRadius, 0, Math.PI * 2);
+            ctx.fillStyle = tagColor;
             ctx.fill();
+            if (borderColor) {
+                ctx.strokeStyle = borderColor;
+                ctx.stroke();
+            }
+
             ctx.fillStyle = originalFillStyle;
+            ctx.strokeStyle = originalStrokeStyle;
         }
 
         function renderTagText() {
-            // Compute text coordinates
-            const textX = boxX + TAG_CONFIG.paddingX + circleDiameter + gapBetweenCircleAndText;
-            const textY = instruction.y + y; // Keep baseline consistent
+            const textX = boxX + paddingX;
+            const textY = instruction.y + y;
+            const originalFillStyle = ctx.fillStyle;
 
-            // Draw the text
+            ctx.fillStyle = getTagTextColor(tagColor);
             ctx.fillText(instruction.text, textX, textY);
+            ctx.fillStyle = originalFillStyle;
         }
 
         // CHECK: Is this the specific tag we are looking for?
@@ -524,10 +498,8 @@ export class BranchBlock extends BlockFace {
             tagStore.activeTagName?.toLowerCase() === instruction.text.toLowerCase() &&
             tagStore.activeTagColor === instruction.tagColor;
 
-        // Draw the border, circle, and text
-        const borderColor = isHighlighted ? this.style.selectOutline.color : this.strokeColor;
-        renderTagBorder(borderColor);
-        renderTagCircle();
+        const borderColor = isHighlighted ? this.style.selectOutline.color : undefined;
+        renderTagPill(borderColor);
         renderTagText();
     }
 

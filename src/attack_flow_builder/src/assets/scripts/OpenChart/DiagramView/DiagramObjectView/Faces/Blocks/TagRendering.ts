@@ -154,6 +154,67 @@ function stringify(value: unknown): string {
 }
 
 /**
+ * Returns the most legible tag text color for a given tag background.
+ * @param backgroundColor
+ *  The tag pill's background color.
+ * @returns
+ *  Black or white, whichever has higher contrast.
+ */
+export function getTagTextColor(backgroundColor: string): "#000000" | "#ffffff" {
+    const rgb = parseHexColor(backgroundColor);
+    if (!rgb) {
+        return "#ffffff";
+    }
+
+    const backgroundLuminance = getRelativeLuminance(...rgb);
+    const blackContrast = getContrastRatio(backgroundLuminance, 0);
+    const whiteContrast = getContrastRatio(backgroundLuminance, 1);
+
+    return blackContrast >= whiteContrast ? "#000000" : "#ffffff";
+}
+
+function parseHexColor(color: string): [number, number, number] | undefined {
+    const normalized = color.trim().replace(/^#/, "");
+    if (normalized.length === 3 || normalized.length === 4) {
+        const rgb: [number, number, number] = [
+            Number.parseInt(`${normalized[0]}${normalized[0]}`, 16),
+            Number.parseInt(`${normalized[1]}${normalized[1]}`, 16),
+            Number.parseInt(`${normalized[2]}${normalized[2]}`, 16)
+        ];
+        return rgb.some(channel => Number.isNaN(channel)) ? undefined : rgb;
+    }
+
+    if (normalized.length === 6 || normalized.length === 8) {
+        const rgb: [number, number, number] = [
+            Number.parseInt(normalized.slice(0, 2), 16),
+            Number.parseInt(normalized.slice(2, 4), 16),
+            Number.parseInt(normalized.slice(4, 6), 16)
+        ];
+        return rgb.some(channel => Number.isNaN(channel)) ? undefined : rgb;
+    }
+
+    return undefined;
+}
+
+function getRelativeLuminance(red: number, green: number, blue: number): number {
+    const channels = [red, green, blue].map(channel => {
+        const normalized = channel / 255;
+        if (normalized <= 0.03928) {
+            return normalized / 12.92;
+        }
+        return ((normalized + 0.055) / 1.055) ** 2.4;
+    });
+
+    return (0.2126 * channels[0]) + (0.7152 * channels[1]) + (0.0722 * channels[2]);
+}
+
+function getContrastRatio(first: number, second: number): number {
+    const lighter = Math.max(first, second);
+    const darker = Math.min(first, second);
+    return (lighter + 0.05) / (darker + 0.05);
+}
+
+/**
  * Computes a deterministic 32-bit hash for a string.
  * @param string
  *  The string to hash.

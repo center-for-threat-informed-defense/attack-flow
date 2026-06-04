@@ -7,6 +7,7 @@
       <TextField
         class="field-value"
         :property="draftTagNameProperty"
+        :character-limit="tagNameCharacterLimit"
         @execute="executeDraftCommand"
       />
     </div>
@@ -53,6 +54,7 @@ import {
 import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 import TextField from "./TextField.vue";
 import ColorField from "./ColorField.vue";
+import { TAG_NAME_CHARACTER_LIMIT } from "./TagFieldLimits";
 
 const DEFAULT_TAG_COLOR = "#000000";
 
@@ -119,6 +121,10 @@ export default defineComponent({
 
     draftTagColor(): string {
       return this.draftTagColorProperty.value ?? DEFAULT_TAG_COLOR;
+    },
+
+    tagNameCharacterLimit(): number {
+      return TAG_NAME_CHARACTER_LIMIT;
     }
   },
   methods: {
@@ -178,6 +184,9 @@ export default defineComponent({
   border-radius: 4px;
   background: var(--af-bg-color-secondary);
   overflow: hidden;
+}
+.field-value.text-field-control {
+  overflow: visible;
 }
 .create-tag-actions {
   display: flex;

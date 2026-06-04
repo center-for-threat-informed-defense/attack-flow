@@ -1,36 +1,13 @@
 <template>
-  <FocusBox
-    class="text-field-control"
-    pointer-event="click"
-    @focusin="onFocusIn"
-    @focusout="onFocusOut"
-  >
+  <FocusBox class="text-field-control" pointer-event="click" @focusin="onFocusIn" @focusout="onFocusOut">
     <div class="options-container">
-      <OptionsList
-        ref="optionsList"
-        class="options-list"
-        :option="select"
-        :options="options"
-        :max-height="maxHeight"
-        @select="updatePropertyFromSuggestion"
-        @hover="value => select = value"
-        v-if="select !== null"
-      />
+      <OptionsList ref="optionsList" class="options-list" :option="select" :options="options" :max-height="maxHeight"
+        @select="updatePropertyFromSuggestion" @hover="value => select = value" v-if="select !== null" />
     </div>
     <div class="value">
-      <textarea
-        v-model="value"
-        ref="field"
-        placeholder="None"
-        :maxlength="maxLength"
-        @input="onInput"
-        @keyup.stop=""
-        @keydown.stop="onKeyDown"
-      />
-      <div
-        v-if="isTagField"
-        class="character-counter"
-      >
+      <textarea v-model="value" ref="field" placeholder="None" :maxlength="maxLength" @input="onInput" @keyup.stop=""
+        @keydown.stop="onKeyDown" />
+      <div v-if="hasCharacterLimit" class="character-counter">
         {{ charactersLeft }} {{ charactersLeft === 1 ? 'character' : 'characters' }} left
       </div>
     </div>
@@ -48,9 +25,7 @@ import type { SynchronousEditorCommand } from "@OpenChart/DiagramEditor";
 // Components
 import FocusBox from "@/components/Containers/FocusBox.vue";
 import OptionsList from "./OptionsList.vue";
-
-// Maximum number of characters allowed in a tag field
-const TAG_MAX_LENGTH = 20;
+import { TAG_NAME_CHARACTER_LIMIT } from "./TagFieldLimits";
 
 export default defineComponent({
   name: "TextField",
@@ -72,6 +47,14 @@ export default defineComponent({
     featuredOptions: {
       type: Set as PropType<Set<string>>,
       required: false
+    },
+    visibleOptions: {
+      type: Set as PropType<Set<string>>,
+      required: false
+    },
+    characterLimit: {
+      type: Number,
+      required: false
     }
   },
   data() {
@@ -90,25 +73,25 @@ export default defineComponent({
      */
     options(): OptionItem<string>[] {
       const optionsProp = this.property.options;
-      if(!optionsProp) {
+      if (!optionsProp) {
         return [];
       }
       const options: OptionItem<string>[] = [];
       // Create suggestions
       const fo = this.featuredOptions;
       const v = this.value.toLocaleLowerCase();
-      for(const [value, prop] of optionsProp.value) {
+      for (const [value, prop] of optionsProp.value) {
         const text = prop.toString();
         const feat = fo ? fo.has(value) : true;
-        if(text.toLocaleLowerCase().includes(v)) {
+        if (text.toLocaleLowerCase().includes(v)) {
           options.push({ value, text, feature: feat });
         }
       }
       // Sort suggestions
-      options.sort((a,b) => {
-        if(a.feature && !b.feature) {
+      options.sort((a, b) => {
+        if (a.feature && !b.feature) {
           return -1;
-        } else if(!a.feature && b.feature) {
+        } else if (!a.feature && b.feature) {
           return 1;
         } else {
           return 0;
@@ -121,23 +104,30 @@ export default defineComponent({
      * Checks if this field is specifically for 'tags'.
      */
     isTagField(): boolean {
-        // Optional chaining to safely check the nested parent structure
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return (this.property as any)._parent?._parent?.id === 'tags';
+      // Optional chaining to safely check the nested parent structure
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (this.property as any)._parent?._parent?.id === 'tags';
     },
 
     /**
      * Returns the character limit for the textarea.
      */
     maxLength(): number | undefined {
-      return this.isTagField ? TAG_MAX_LENGTH : undefined;
+      return this.characterLimit ?? (this.isTagField ? TAG_NAME_CHARACTER_LIMIT : undefined);
+    },
+
+    /**
+     * Checks if this field has a character limit.
+     */
+    hasCharacterLimit(): boolean {
+      return this.maxLength !== undefined;
     },
 
     /**
      * Calculates remaining characters for tag fields.
      */
     charactersLeft(): number {
-      return (this.maxLength ?? TAG_MAX_LENGTH) - this.value.length;
+      return (this.maxLength ?? 0) - this.value.length;
     },
 
   },
@@ -153,7 +143,7 @@ export default defineComponent({
       // Focus field
       this.field!.focus();
       // Prompt suggestions
-      if(this.value === "") {
+      if (this.value === "") {
         this.promptSuggestions();
       }
     },
@@ -195,7 +185,7 @@ export default defineComponent({
         }
       }
       const field = event.target as HTMLInputElement;
-      if(field.selectionStart !== field.selectionEnd) {
+      if (field.selectionStart !== field.selectionEnd) {
         return;
       }
       const options = this.options;
@@ -203,13 +193,13 @@ export default defineComponent({
       const optionsList = this.$refs.optionsList as any;
       let canAcceptSuggestion;
       let idx = options.findIndex(o => o.value === this.select);
-      switch(event.key) {
+      switch (event.key) {
         case "Escape":
           this.stopSuggestions();
           event.preventDefault();
           break;
         case "ArrowUp":
-          if(!options.length) {
+          if (!options.length) {
             return;
           }
           event.preventDefault();
@@ -220,7 +210,7 @@ export default defineComponent({
           optionsList?.bringItemIntoFocus(this.select);
           break;
         case "ArrowDown":
-          if(!options.length) {
+          if (!options.length) {
             return;
           }
           event.preventDefault();
@@ -234,7 +224,7 @@ export default defineComponent({
           canAcceptSuggestion = idx !== -1;
           canAcceptSuggestion &&= this.value !== "";
           canAcceptSuggestion &&= this.value !== options[idx].text;
-          if(canAcceptSuggestion) {
+          if (canAcceptSuggestion) {
             this.updatePropertyFromSuggestion(options[idx].value);
             this.stopSuggestions();
             event.preventDefault();
@@ -243,7 +233,7 @@ export default defineComponent({
         case "Enter":
           canAcceptSuggestion = idx !== -1;
           canAcceptSuggestion &&= this.value !== options[idx].text;
-          if(canAcceptSuggestion) {
+          if (canAcceptSuggestion) {
             this.updatePropertyFromSuggestion(options[idx].value);
             this.stopSuggestions();
             event.preventDefault();
@@ -258,14 +248,14 @@ export default defineComponent({
     promptSuggestions() {
       const isExactTextMatch = this.value === this.options[0]?.text;
       const isSingleSuggestion = this.options.length === 1;
-      if(isExactTextMatch && isSingleSuggestion) {
+      if (isExactTextMatch && isSingleSuggestion) {
         this.select = null;
         return;
       }
       this.select = null;
       const v = this.value.toLocaleLowerCase();
-      for(const o of this.options) {
-        if(o.text.toLocaleLowerCase().includes(v)) {
+      for (const o of this.options) {
+        if (o.text.toLocaleLowerCase().includes(v)) {
           this.select = o.value;
           return;
         }
@@ -286,7 +276,7 @@ export default defineComponent({
      */
     updatePropertyFromSuggestion(hash: string) {
       const option = this.options.find(o => o.value === hash);
-      if(option) {
+      if (option) {
         this.updateProperty(option.value);
       }
     },
@@ -298,7 +288,7 @@ export default defineComponent({
      */
     updateProperty(value: string) {
       const v = value || null;
-      if(this.property.toJson() !== v) {
+      if (this.property.toJson() !== v) {
         // Update property
         const cmd = EditorCommands.setStringProperty(this.property, v);
         this.$emit("execute", cmd);
@@ -325,12 +315,12 @@ export default defineComponent({
      */
     refreshHeight() {
       // If no field, bail
-      if(this.field === null) {
+      if (this.field === null) {
         return;
       }
       // Collapse and calculate height
       this.field.style.height = "0px";
-      this.field.style.height = `${ this.field.scrollHeight }px`
+      this.field.style.height = `${this.field.scrollHeight}px`
     }
 
   },
@@ -362,7 +352,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 /** === Main Field === */
 
 .text-field-control {
@@ -381,7 +370,7 @@ export default defineComponent({
   position: relative;
   display: flex;
   grid-area: 1 / 1;
-  cursor:text
+  cursor: text
 }
 
 textarea {
@@ -415,7 +404,7 @@ textarea:focus {
   grid-area: 1 / 1;
 }
 
-.options-list :deep(li:not(.dim) + li.dim:before)  {
+.options-list :deep(li:not(.dim) + li.dim:before) {
   content: "";
   display: block;
   border-top: dotted 1px #4d4d4d;
@@ -425,7 +414,8 @@ textarea:focus {
 .value {
   position: relative;
   display: flex;
-  flex-direction: column; /* Stack textarea and counter */
+  flex-direction: column;
+  /* Stack textarea and counter */
   grid-area: 1 / 1;
   cursor: text;
 }
@@ -436,7 +426,8 @@ textarea:focus {
   right: 12px;
   font-size: 10px;
   color: var(--af-text-color-disabled);
-  pointer-events: none; /* Ensure it doesn't block clicks to the textarea */
+  pointer-events: none;
+  /* Ensure it doesn't block clicks to the textarea */
   user-select: none;
 }
 </style>
