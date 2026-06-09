@@ -17,7 +17,6 @@ import {
 } from "@OpenChart/DiagramModel";
 import type { ContextMenu, ContextMenuItem, ContextMenuSection, ContextMenuSubmenu } from "@/assets/scripts/Browser";
 import type { DiagramViewEditor } from "@OpenChart/DiagramEditor";
-import LocalStorageManager from "@/LocalStorageManager";
 
 export const useContextMenuStore = defineStore("contextMenuStore", {
     getters: {

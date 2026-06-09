@@ -1,13 +1,36 @@
 <template>
-  <FocusBox class="text-field-control" pointer-event="click" @focusin="onFocusIn" @focusout="onFocusOut">
+  <FocusBox
+    class="text-field-control"
+    pointer-event="click"
+    @focusin="onFocusIn"
+    @focusout="onFocusOut"
+  >
     <div class="options-container">
-      <OptionsList ref="optionsList" class="options-list" :option="select" :options="options" :max-height="maxHeight"
-        @select="updatePropertyFromSuggestion" @hover="value => select = value" v-if="select !== null" />
+      <OptionsList
+        ref="optionsList"
+        class="options-list"
+        :option="select"
+        :options="options"
+        :max-height="maxHeight"
+        @select="updatePropertyFromSuggestion"
+        @hover="value => select = value"
+        v-if="select !== null"
+      />
     </div>
     <div class="value">
-      <textarea v-model="value" ref="field" placeholder="None" :maxlength="maxLength" @input="onInput" @keyup.stop=""
-        @keydown.stop="onKeyDown" />
-      <div v-if="hasCharacterLimit" class="character-counter">
+      <textarea
+        v-model="value"
+        ref="field"
+        placeholder="None"
+        :maxlength="maxLength"
+        @input="onInput"
+        @keyup.stop=""
+        @keydown.stop="onKeyDown"
+      />
+      <div
+        v-if="hasCharacterLimit"
+        class="character-counter"
+      >
         {{ charactersLeft }} {{ charactersLeft === 1 ? 'character' : 'characters' }} left
       </div>
     </div>

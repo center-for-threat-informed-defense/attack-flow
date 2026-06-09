@@ -1,14 +1,25 @@
 <template>
   <div class="app-title-bar-container">
-    <TitleBar class="app-title-bar-element" :menus="menus" @select="onItemSelect">
+    <TitleBar
+      class="app-title-bar-element"
+      :menus="menus"
+      @select="onItemSelect"
+    >
       <template #icon>
         <span class="logo">
-          <img alt="Logo" title="Logo" :src="icon">
+          <img
+            alt="Logo"
+            title="Logo"
+            :src="icon"
+          >
         </span>
       </template>
     </TitleBar>
-    <div class="classification-marking" v-if="classificationMarking && classificationMarking.value"
-      :data-value="classificationMarking.value">
+    <div
+      class="classification-marking"
+      v-if="classificationMarking && classificationMarking.value"
+      :data-value="classificationMarking.value"
+    >
       {{ classificationMarking?.toString() }}
       <span v-if="classificationGroup?.value">:{{ classificationGroup.value }}</span>
     </div>

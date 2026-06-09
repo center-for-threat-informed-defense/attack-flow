@@ -8,7 +8,6 @@ import {
     SetDatePropertyTime,
     SetDatePropertyTimezone,
     SetTupleSubproperty,
-    SetMultiSelectProperty,
     ApplyTagDataCommand
 } from "./index.commands";
 import type { DateTime } from "luxon";
@@ -20,8 +19,7 @@ import type {
     ListProperty,
     StringProperty,
     ColorProperty,
-    TupleProperty,
-    MultiSelectProperty
+    TupleProperty
 } from "@OpenChart/DiagramModel";
 import type { SynchronousEditorCommand } from "../SynchronousEditorCommand";
 
