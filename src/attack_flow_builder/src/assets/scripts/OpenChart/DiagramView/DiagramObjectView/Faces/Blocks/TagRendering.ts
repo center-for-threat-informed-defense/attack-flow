@@ -1,7 +1,12 @@
-import { DictionaryProperty, ListProperty, MultiSelectProperty, type Property } from "@OpenChart/DiagramModel";
+import { DictionaryProperty, ListProperty, type Property } from "@OpenChart/DiagramModel";
 import type { DiagramObjectView } from "../../Views";
 
 const DEFAULT_TAG_COLOR = "#cccccc";
+
+type TagSelectionProperty = {
+    values?: Iterable<string>;
+    isDefined: () => boolean;
+};
 
 export type ResolvedTag = {
     id: string;
@@ -17,8 +22,11 @@ export type ResolvedTag = {
  *  The selected tags with normalized id, name, and color values.
  */
 export function resolveSelectedTags(view: DiagramObjectView): ResolvedTag[] {
-    const property = view.properties.value.get("tags");
-    if (!(property instanceof MultiSelectProperty) || !property.isDefined()) {
+    const property = view.properties.value.get("tags") as TagSelectionProperty | undefined;
+    if (!property?.isDefined()) {
+        return [];
+    }
+    if (!property.values) {
         return [];
     }
 
