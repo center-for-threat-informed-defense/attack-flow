@@ -25,7 +25,8 @@
     "flexsearch": "^0.8.167",
     "luxon": "3.5",
     "pinia": "^2.3.0",
-    "vue": "^3.5.13"
+    "vue": "^3.5.13",
+    "vue3-colorpicker": "^2.3.0"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin-js": "^3.0.0",

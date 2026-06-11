@@ -62,7 +62,8 @@ type AtomicType
     | PropertyType.String
     | PropertyType.Date
     | PropertyType.Enum
-    | PropertyType.Color;
+    | PropertyType.Color
+    | PropertyType.MultiSelect;
 
 /**
  * Resolves the JSON type of an {@link AtomicType}.
@@ -74,6 +75,7 @@ type AtomicTypeToJsonType = {
     [PropertyType.Date]: Date | null;
     [PropertyType.Enum]: string | null;
     [PropertyType.Color]: string | null;
+    [PropertyType.MultiSelect]: { [id: string]: boolean } | null;
 };
 
 /**
@@ -162,6 +164,18 @@ export type EnumPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Enum>
 };
 
 /**
+ * MultiSelect Property Descriptor.
+ */
+export type MultiSelectPropertyDescriptor = AtomicPropertyDescriptor<PropertyType.MultiSelect> & {
+
+    /**
+     * The property's list of permitted options.
+     */
+    options: ListPropertyDescriptor;
+
+};
+
+/**
  * Date Property Descriptor.
  */
 export type DatePropertyDescriptor = AtomicPropertyDescriptor<PropertyType.Date>;
@@ -175,7 +189,8 @@ export type AtomicPropertyDescriptors
     | FloatPropertyDescriptor
     | DatePropertyDescriptor
     | EnumPropertyDescriptor
-    | ColorPropertyDescriptor;
+    | ColorPropertyDescriptor
+    | MultiSelectPropertyDescriptor;
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -304,11 +319,27 @@ type SimpleDictionaryListPropertyDescriptor = BasePropertyDescriptor<PropertyTyp
  * Standard Property Descriptor:
  * Allows recursive definitions of both arrays and dictionaries.
  */
+export type TTPTuplePropertyDescriptor = BasePropertyDescriptor<PropertyType.TTPTuple> & {
+
+    /**
+     * The tuple property's form.
+     */
+    form: {
+        [key: string]: AtomicPropertyDescriptors;
+    };
+
+    /**
+     * The tuple's valid value combinations.
+     */
+    validValueCombinations?: ValueCombinations;
+};
+
 export type PropertyDescriptor
     = AtomicPropertyDescriptors
     | ListPropertyDescriptor
     | DictionaryPropertyDescriptor
-    | TuplePropertyDescriptor;
+    | TuplePropertyDescriptor
+    | TTPTuplePropertyDescriptor;
 
 
 /**
@@ -320,7 +351,8 @@ export type SimplePropertyDescriptor
     | SimpleListPropertyDescriptor
     | SimpleDictionaryPropertyDescriptor
     | SimpleDictionaryListPropertyDescriptor
-    | TuplePropertyDescriptor;
+    | TuplePropertyDescriptor
+    | TTPTuplePropertyDescriptor;
 
 
 ///////////////////////////////////////////////////////////////////////////////

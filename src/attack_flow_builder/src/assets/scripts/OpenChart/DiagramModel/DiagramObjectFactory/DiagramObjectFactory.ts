@@ -7,7 +7,7 @@ import {
     Anchor, Block, Canvas, DateProperty, DictionaryProperty,
     EnumProperty, FloatProperty, Group, Handle, IntProperty,
     Latch, Line, ListProperty, Property, RootProperty,
-    StringProperty, ColorProperty, TupleProperty
+    StringProperty, ColorProperty, TupleProperty, MultiSelectProperty, TTPTupleProperty
 } from "../DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
 import type {
@@ -18,7 +18,7 @@ import type {
     AtomicPropertyDescriptors, CanvasTemplate, DiagramObjectTemplate,
     DiagramSchemaConfiguration, DictionaryPropertyDescriptor,
     ListPropertyDescriptor, PropertyDescriptor, RootPropertyDescriptor,
-    TuplePropertyDescriptor
+    TuplePropertyDescriptor, TTPTuplePropertyDescriptor
 } from ".";
 
 export class DiagramObjectFactory {
@@ -359,7 +359,6 @@ export class DiagramObjectFactory {
         return property;
     }
 
-
     ///////////////////////////////////////////////////////////////////////////
     //  2. Property Creation  /////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////
@@ -402,11 +401,20 @@ export class DiagramObjectFactory {
                 throw new Error(`Invalid JSON entries: '${value}'.`);
             case PropertyType.Tuple:
                 if (value === undefined || Array.isArray(value)) {
-                    return this.createTupleProperty(id, descriptor, value);
+                    return this.createTupleProperty(id, descriptor as TuplePropertyDescriptor, value);
                 }
                 if (value && typeof value === "object") {
                     value = Object.entries(value);
-                    return this.createTupleProperty(id, descriptor, value);
+                    return this.createTupleProperty(id, descriptor as TuplePropertyDescriptor, value);
+                }
+                throw new Error(`Invalid JSON entries: '${value}'.`);
+            case PropertyType.TTPTuple:
+                if (value === undefined || Array.isArray(value)) {
+                    return this.createTTPTupleProperty(id, descriptor as TTPTuplePropertyDescriptor, value);
+                }
+                if (value && typeof value === "object") {
+                    value = Object.entries(value);
+                    return this.createTTPTupleProperty(id, descriptor as TTPTuplePropertyDescriptor, value);
                 }
                 throw new Error(`Invalid JSON entries: '${value}'.`);
             case PropertyType.String:
@@ -415,6 +423,7 @@ export class DiagramObjectFactory {
             case PropertyType.Date:
             case PropertyType.Enum:
             case PropertyType.Color:
+            case PropertyType.MultiSelect:
                 if (Array.isArray(value)) {
                     throw new Error(`Invalid JSON primitive: '${value}'.`);
                 }
@@ -548,6 +557,56 @@ export class DiagramObjectFactory {
     }
 
     /**
+     * Creates a new {@link TTPTupleProperty}.
+     * Currently behaves identically to TupleProperty but allows for future variation.
+     * @param id
+     *  The property's id.
+     * @param descriptor
+     *  The property's descriptor.
+     * @param values
+     *  The property's values.
+     * @returns
+     *  The tuple property.
+     */
+    public createTTPTupleProperty(
+        id: string,
+        descriptor: TTPTuplePropertyDescriptor,
+        values?: JsonEntries
+    ): TTPTupleProperty {
+        // Resolve combination index
+        let combinations;
+        if (descriptor.validValueCombinations) {
+            combinations = this.getCachedCombinationIndex(
+                descriptor.validValueCombinations
+            );
+        }
+        // Create property
+        const property = new TTPTupleProperty({
+            id       : id,
+            name     : descriptor.name,
+            metadata : descriptor.metadata,
+            editable : descriptor.is_editable ?? true,
+            combinations
+        });
+        // Create sub-properties
+        for (const [id, desc] of Object.entries(descriptor.form)) {
+            // Add property
+            property.addProperty(
+                this.createProperty(id, desc), id, undefined, false
+            );
+            // Set representative key
+            if (desc.is_representative) {
+                property.representativeKey = id;
+            }
+        }
+        // Set value
+        if (values) {
+            property.setValue(values as [string, JsonValue][]);
+        }
+        return property;
+    }
+
+    /**
      * Creates an atomic property.
      * @param id
      *  The property's id.
@@ -611,6 +670,17 @@ export class DiagramObjectFactory {
             case PropertyType.Enum:
                 options = this.getCachedListProperty(descriptor.options);
                 return new EnumProperty({
+                    id       : id,
+                    name     : descriptor.name,
+                    editable : editable,
+                    metadata : descriptor.metadata,
+                    options  : options
+                }, value);
+
+            // MultiSelect property
+            case PropertyType.MultiSelect:
+                options = this.getCachedListProperty(descriptor.options);
+                return new MultiSelectProperty({
                     id       : id,
                     name     : descriptor.name,
                     editable : editable,

@@ -10,5 +10,7 @@ export enum PropertyType {
     List       = "list",
     Dictionary = "dict",
     Tuple      = "tuple",
-    Color      = "color"
+    Color      = "color",
+    MultiSelect = "multiselect",
+    TTPTuple   = "ttptuple"
 }
