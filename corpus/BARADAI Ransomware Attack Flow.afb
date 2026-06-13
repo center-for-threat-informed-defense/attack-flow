@@ -1,0 +1,1540 @@
+{
+    "schema": "attack_flow_v2",
+    "theme": "dark_theme",
+    "objects": [
+        {
+            "id": "flow",
+            "instance": "961757bd-c56f-44f3-ab06-e094f9597ca3",
+            "properties": [
+                [
+                    "name",
+                    "BARADAI Ransomware Attack Flow"
+                ],
+                [
+                    "description",
+                    "Defensive high-level attack flow for BARADAI ransomware based on variant-specific public reporting from PCrisk and CYFIRMA. Public sources do not confirm the initial-access vector or publish a complete BARADAI binary-level reverse-engineering analysis. The modeled sequence therefore begins with the earliest reported post-compromise behavior. Reported but not independently binary-verified actions are marked Probable. The final file-encryption impact is marked Very Probable because it is directly documented by public BARADAI reporting. Sibling-variant BAVACAI and BabyLockerKZ behaviors are intentionally excluded unless independently confirmed for BARADAI."
+                ],
+                [
+                    "author",
+                    [
+                        [
+                            "name",
+                            "Deniz Tektek"
+                        ],
+                        [
+                            "identity_class",
+                            "individual"
+                        ],
+                        [
+                            "contact_information",
+                            "tektekdeniz74@gmail.com"
+                        ]
+                    ]
+                ],
+                [
+                    "scope",
+                    "malware"
+                ],
+                [
+                    "classification",
+                    [
+                        [
+                            "marking",
+                            null
+                        ],
+                        [
+                            "group",
+                            null
+                        ]
+                    ]
+                ],
+                [
+                    "external_references",
+                    [
+                        [
+                            "0a390b6251af4c07a72ea9777f18bf31",
+                            [
+                                [
+                                    "source_name",
+                                    "PCrisk — BARADAI Ransomware Analysis"
+                                ],
+                                [
+                                    "description",
+                                    "Variant-specific public reporting documenting the .BARADAI extension, HTML ransom note, victim communication instructions, and ransomware impact behavior."
+                                ],
+                                [
+                                    "url",
+                                    "https://www.pcrisk.com/removal-guides/35238-baradai-ransomware"
+                                ]
+                            ]
+                        ],
+                        [
+                            "1ae95c93a42a4fdd8b13654e8c3a01c0",
+                            [
+                                [
+                                    "source_name",
+                                    "CYFIRMA — Weekly Intelligence Report: BARADAI Ransomware"
+                                ],
+                                [
+                                    "description",
+                                    "Variant-specific public threat-intelligence reporting describing BARADAI behaviors, including registry-based autorun, HKCU\\SOFTWARE state storage, cmd.exe execution, service disruption, broad file-system reach, Restart Manager-related handling, cleanup activity, file encryption, and ransom-note delivery."
+                                ],
+                                [
+                                    "url",
+                                    "https://www.cyfirma.com/news/weekly-intelligence-report-08-may-2026/"
+                                ]
+                            ]
+                        ],
+                        [
+                            "e6d5de3b9468452dbd1f8f85a7480b25",
+                            [
+                                [
+                                    "source_name",
+                                    "CISA — #StopRansomware: MedusaLocker (AA22-181A)"
+                                ],
+                                [
+                                    "description",
+                                    "Official family-level advisory used only as broader MedusaLocker ecosystem context. It is not used as standalone proof of BARADAI-specific behavior."
+                                ],
+                                [
+                                    "url",
+                                    "https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-181a"
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    "created",
+                    {
+                        "time": "2026-06-13T12:00:00.000+03:00",
+                        "zone": "Europe/Istanbul"
+                    }
+                ]
+            ],
+            "objects": [
+                "2d0c41d4-15d5-4e2c-a603-d6e61863076d",
+                "399010c9-d54f-4fc6-ba87-394386956df1",
+                "6206ece3-c2a7-492a-b659-cceee128db03",
+                "d7a50b69-d295-4967-8fec-0fe9d282a2a3",
+                "2b68c52e-95c6-482d-8421-6fb0512d2608",
+                "7a66a6c5-1ebc-480c-ac6f-d090dd845d4b",
+                "87d0c450-371e-4368-b30e-3f543c71d7f6",
+                "8f9c9663-ce35-462c-9026-9418706b4043",
+                "d661a214-5391-4d0c-b006-3be8f9cadcb4",
+                "7b5b3d1f-4f32-427c-923c-bc22dcc6d4c5",
+                "2456ec56-3f94-4470-8088-007a94034e48",
+                "c09e8d69-095e-4c58-babd-ec006c3a37f3",
+                "9bb9a370-be03-4a9b-840e-8ec0a53abf80",
+                "d4469649-b637-4c82-8631-4b83aa4a05c1",
+                "faf34b2a-55ce-4712-a938-f6ebd27052b7",
+                "360ba1b1-0533-4e33-8f09-376102169fe0",
+                "d5cae09e-6f53-4171-a2d9-d2961fb09eea",
+                "3142a102-27b1-4bb3-a14c-a5fba2a61485",
+                "6cefcdc3-8709-4a4d-954d-b2aa4b69f49a"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "660256cf-6da1-445c-ae3f-6e3b72f5b7ff",
+            "latches": [
+                "7d74ae1c-14c0-4c1d-a890-648724ec54d9"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "6fda693b-1c20-4f97-8995-905889d0c677",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "0ac4ce1f-3f21-4c89-89cc-6355fd211ddf",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "24508b95-06d6-4bb1-8eee-58b9d1e29b40",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "a6961d28-c4bb-42d8-b5c3-c873e4861466",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "7634a8d0-85ac-417f-8e6d-6150368f461a",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "33e471ed-9ac1-48a7-bf00-be1999f81c1a",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "fc1fb3af-7cd6-4cb2-967b-fdc1f1aa4202",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "4985a7fd-e404-43d5-8fde-9603d461808c",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "b6512602-de45-45a3-a6ef-f88586308c27",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "96c0583c-28e1-40aa-aff6-2268170a6441",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "e16f0ba3-db70-4927-9324-9dcea785a786",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "f172728c-19e4-4416-84da-b4fa72c771d5",
+            "latches": [
+                "5f2f17ac-c72a-4314-97d4-b887e4335542"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "130cf6e1-5ffd-4aed-8fb2-5a0aa5e70bc0",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "b0dc61b0-6f43-4cc4-936e-9d292284d618",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "5e9364b4-c9fb-4964-a802-6dc433569562",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "6dac94d7-c169-4fb7-bb2e-4dc8ae5a96df",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "d254e9fe-cda8-49c5-a0b8-fa08b63e6b28",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "8124dba8-6257-4dee-9b73-434370c56c14",
+            "latches": [
+                "c532348f-8951-482b-a765-a2577344bf82"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "8d7e6e89-828e-4c3d-b1c9-1f834fcf2280",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "b6b4c8d7-2fcd-4bce-9a47-43ad14fbf62c",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "27ddef0e-dabe-47a5-9b02-5421c4fb31ef",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "158624f0-fc61-4ff5-9d10-8f429a766ad0",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "9eb14b7b-4f16-4601-86d2-d1fb0617c49a",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "5482561f-c02f-4241-8bd4-7883afd2c054",
+            "latches": [
+                "3e95e139-b6d3-49c6-a4b5-c0dfec9def8b"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "ccd8ec7f-ea8a-4f6f-b7a2-6cf6dbfef4ad",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "81f56c60-3f3e-4da6-964d-ab626da6094b",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "f3feb7fc-1c54-4ac0-b611-1259baf09618",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "6a1633a8-d89f-40f4-bab9-e43130469d3d",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "28fcfb36-0e20-4dcb-856c-6a48947bdecd",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "618f0714-42ca-42b0-b675-65f8f1af21f1",
+            "latches": [
+                "3301dcf1-59e0-436d-9b62-12617e795ee0"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "d17c0a74-6f46-4b91-9433-88664ba51750",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "fa2623e9-2866-4233-8cd6-a054ebdc66dd",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "5cfcbf3b-2fa2-4f49-a54e-f8f176a9c6cf",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "51292b69-a99b-47b5-b716-e72ed33f850b",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "5b50a86b-65f5-4265-ac75-f2a03922fa19",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "2bbe51a2-d1eb-4656-bb51-9e9075a436d5",
+            "latches": [
+                "b10ac299-3c7a-4e05-8beb-93cfd2b2e25d"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "92598538-973b-4391-bfb0-fc98eb3d30dc",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "9551b709-265d-46a4-87ae-4b5b615380fc",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "6b13f833-7023-44be-af3e-2f655360163b",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "20146be7-38e2-482a-a201-fbb8943a8d8f",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "204a0ce7-e6e9-4463-9523-7d288450ca41",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "b224a534-a65e-4be9-bce9-672a08b24e6f",
+            "latches": [
+                "ead6a7d7-fb15-4765-a920-4a9a468ca3c2"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "9c41e5e2-2011-4755-9274-27087ae401b3",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "5dea7a04-af24-4c67-b807-379cc3ced6bd",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "4891c6ac-5cfc-4937-8428-5eee4a384bbb",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "b9899904-b88c-4945-8542-7605d69c104d",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "8986ac1a-b484-4ee6-867a-2026133edcff",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "abb6ad6c-97a1-49ad-9ad2-3ff93b838df0",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "918b12fc-da1e-4c1c-b1f4-2d85e196cc73",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "184afaab-d634-432b-b722-afc892aaac50",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "f9eadd6c-3a3a-4581-bfe0-1c2f17ace020",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "41b02122-d003-4de1-9f03-094c90afd76c",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "dff40aad-e59f-4c7a-93b0-fa2400bc0d08",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "87abacff-4450-41a1-9ab0-9253f5a0a75e",
+            "latches": [
+                "87028070-500d-4338-9cfd-ae8ac941795c"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "d4c1d932-a7c3-4d6b-9433-8716b64b1e3b",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "537dcf1e-c391-4fe4-8791-492d445f713a",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "76b87960-c904-4b24-a5bb-8b258e3d8d36",
+            "latches": [
+                "e9dc56e5-1a59-444c-8f37-1b37d2fe0392"
+            ]
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "5acbe1c1-e11b-4d94-bc35-ed2f00d0c72b",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "d505f249-5969-4a1f-978c-941b20b52a27",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "19ad05e3-f4f6-4f73-8a06-e1a449ad4207",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "eaec12aa-0c3f-4cb6-b56b-536d409fcec0",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "ced9ab6a-2879-4fb7-b2dd-33ba13dba980",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "da3d7f87-3ef0-4371-9b74-bf78b4fb33e0",
+            "latches": [
+                "2d0573a0-5447-4960-8046-d48c8e24942e"
+            ]
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "2b3c58b9-a6f4-4a7c-a71e-c99ddef24281",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "3f016b50-6ec5-4c41-b167-990a4535f431",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "d93b5a1f-85f8-43ff-92b6-93d73fc372c8",
+            "latches": [
+                "e686d343-d21e-42f0-a450-f13f18abaa83"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "fa75311b-f356-4e55-80d5-020d1cff3a73",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "cdb7d6f5-7646-44ae-b6cc-f67c21cb3c54",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "c7c812c7-8cc2-49a4-9c7b-37f8a4f18442",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "dc9cf0c5-4fbe-4443-882a-7e21ffc5055b",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "112a5c94-ceb8-44bb-ba14-7c2de501197d",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "6dc20128-46af-498b-a6d9-cab05275be0d",
+            "latches": [
+                "53e53491-3e43-4536-acd7-84e277864363"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "b762c079-8085-4094-8755-68ae6e841cee",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "2513d104-3b40-4ba0-aaa8-131c2a9aee37",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "6ff987e9-d1f6-45c2-aede-e5a10b6ee2a5",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "8501054a-67aa-4f13-8191-c7b358961fda",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "2590388a-1d47-418b-91e7-495a2680aefc",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "2e687428-63e0-483a-8bb7-720c2c69fd47",
+            "latches": [
+                "d439f9c0-6708-4e12-9119-44fdab32b39f"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "35542577-54f7-43da-b0af-61bc3f44e8ad",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "ce654574-e214-4424-a224-76bf825efef2",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "65909a51-26a0-45eb-85b5-38b6272c5c37",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "35e1ca51-7466-4747-9aa0-898a5f77b99d",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "5e75408e-f041-4e30-bf98-67671bb1045e",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "6beb1315-2c5e-4521-b409-039d8d7f40e0",
+            "latches": [
+                "e05aad86-ae30-42f2-8e61-8052ec108780"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "8dd387f6-2630-4ee0-aaa7-20a187f63ae0",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "e40065cb-2b79-44cf-b717-2c9f3b723e64",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "1eced734-27e0-4d8a-9f37-41d7a972233b",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "ab5b5e5f-b1c7-4fce-ac7f-f5a3ad5bfa63",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "1aa9f992-8552-4045-8350-b8a7f7d678e4",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "0d7f56a1-a901-4be7-a043-da9e5eb895bb",
+            "latches": [
+                "3fde5506-8a4d-4822-8d71-6fed7babf919"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "3618c4bb-2c8c-4be5-973d-4d664b956189",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "dc587df0-7b74-4d9f-a131-0b37389d21a9",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "ce1a57f7-8e1d-45ef-a9aa-f81284941a0b",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "a4890d4d-25c6-4803-8a78-48731332651b",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "1226e57f-b062-4850-8f38-8cc3cd17ce17",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "4620801e-538f-4241-a833-2ff9cf82bd9e",
+            "latches": [
+                "60a47bf9-a5b8-4b22-854e-135692d47114"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "692fcc7b-209b-4507-97d9-4edc4d85986c",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "057ad51c-8d97-4ed2-a48b-033c398c3e93",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "4f26cccd-1a2d-4317-a798-ae2c3aec08b6",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "46eacd06-45dd-452f-b331-ff97b61c8100",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "c49ddd48-00c9-4dc1-b428-c43393c10da3",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "0fdc6392-998e-4d17-a8b6-cb3a61c8d47f",
+            "latches": [
+                "75921a54-bfc7-4dfa-8d47-c197860e47f4"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "94e70ffa-cd2c-45c9-9c0e-a74e520cd0ae",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "65834b4d-6f33-47ec-85af-70c682797513",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "4f038cfe-6593-4a2e-bc54-314b5f5e3fdc",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "f8dc0688-fd1c-4771-bd84-8046bf5ac78f",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "47205eb0-1143-4ea9-8db3-f3d6d584e0f5",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "1b8993b1-5148-4eb1-a427-6969357ec513",
+            "latches": [
+                "bcb22f37-39a2-4935-8ca1-2fd012534811"
+            ]
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "6d9d4d33-8171-492b-87d0-200312bdc1f8",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "7db9cf6d-8edc-433f-b6c1-6287bd89a7ea",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "471611e4-d072-4375-b94d-736c7d7d1865",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "cea10eb0-f845-4f43-8e77-18fbc0d2f1b0",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "50907c43-b96c-4764-a59a-71a0de9d3ef8",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "93d6bd3a-c729-46cd-905b-c145c9f88f8b",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "5ab63e8b-d55f-4458-8f96-14aff1f3e2cb",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "feb9409b-9c4e-4c16-9a9d-9a821b0efda1",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "9ad5596c-7116-4646-8077-192eb932d30e",
+            "latches": []
+        },
+        {
+            "id": "vertical_anchor",
+            "instance": "a3e0f6e7-51df-4f7a-a602-f365779015be",
+            "latches": []
+        },
+        {
+            "id": "horizontal_anchor",
+            "instance": "1621d77b-675c-4316-bde2-17314f60f069",
+            "latches": []
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "2d0c41d4-15d5-4e2c-a603-d6e61863076d",
+            "source": "7d74ae1c-14c0-4c1d-a890-648724ec54d9",
+            "target": "c532348f-8951-482b-a765-a2577344bf82",
+            "handles": [
+                "eb80640d-db58-443a-9b8f-8fafd14018d9"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "7d74ae1c-14c0-4c1d-a890-648724ec54d9"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "c532348f-8951-482b-a765-a2577344bf82"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "eb80640d-db58-443a-9b8f-8fafd14018d9"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "399010c9-d54f-4fc6-ba87-394386956df1",
+            "source": "5f2f17ac-c72a-4314-97d4-b887e4335542",
+            "target": "3301dcf1-59e0-436d-9b62-12617e795ee0",
+            "handles": [
+                "d0f9abb3-0cbd-41c8-87de-8932fd789c6c"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "5f2f17ac-c72a-4314-97d4-b887e4335542"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "3301dcf1-59e0-436d-9b62-12617e795ee0"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "d0f9abb3-0cbd-41c8-87de-8932fd789c6c"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "6206ece3-c2a7-492a-b659-cceee128db03",
+            "source": "3e95e139-b6d3-49c6-a4b5-c0dfec9def8b",
+            "target": "ead6a7d7-fb15-4765-a920-4a9a468ca3c2",
+            "handles": [
+                "db0c9e5b-314e-4c25-a115-dd196eb24b33"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "3e95e139-b6d3-49c6-a4b5-c0dfec9def8b"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "ead6a7d7-fb15-4765-a920-4a9a468ca3c2"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "db0c9e5b-314e-4c25-a115-dd196eb24b33"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "d7a50b69-d295-4967-8fec-0fe9d282a2a3",
+            "source": "b10ac299-3c7a-4e05-8beb-93cfd2b2e25d",
+            "target": "87028070-500d-4338-9cfd-ae8ac941795c",
+            "handles": [
+                "adc3ddd7-3a03-4c9e-b3ce-3a94a9197d64"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "b10ac299-3c7a-4e05-8beb-93cfd2b2e25d"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "87028070-500d-4338-9cfd-ae8ac941795c"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "adc3ddd7-3a03-4c9e-b3ce-3a94a9197d64"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "2b68c52e-95c6-482d-8421-6fb0512d2608",
+            "source": "e9dc56e5-1a59-444c-8f37-1b37d2fe0392",
+            "target": "2d0573a0-5447-4960-8046-d48c8e24942e",
+            "handles": [
+                "e67837a2-2f83-4b59-9375-0f77ad987da9"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "e9dc56e5-1a59-444c-8f37-1b37d2fe0392"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "2d0573a0-5447-4960-8046-d48c8e24942e"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "e67837a2-2f83-4b59-9375-0f77ad987da9"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "7a66a6c5-1ebc-480c-ac6f-d090dd845d4b",
+            "source": "e686d343-d21e-42f0-a450-f13f18abaa83",
+            "target": "53e53491-3e43-4536-acd7-84e277864363",
+            "handles": [
+                "f8e4458c-4af4-4951-ad9b-f375442edd67"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "e686d343-d21e-42f0-a450-f13f18abaa83"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "53e53491-3e43-4536-acd7-84e277864363"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "f8e4458c-4af4-4951-ad9b-f375442edd67"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "87d0c450-371e-4368-b30e-3f543c71d7f6",
+            "source": "d439f9c0-6708-4e12-9119-44fdab32b39f",
+            "target": "e05aad86-ae30-42f2-8e61-8052ec108780",
+            "handles": [
+                "e8a98f35-ad57-4aa7-a248-77a4508c4216"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "d439f9c0-6708-4e12-9119-44fdab32b39f"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "e05aad86-ae30-42f2-8e61-8052ec108780"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "e8a98f35-ad57-4aa7-a248-77a4508c4216"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "8f9c9663-ce35-462c-9026-9418706b4043",
+            "source": "3fde5506-8a4d-4822-8d71-6fed7babf919",
+            "target": "60a47bf9-a5b8-4b22-854e-135692d47114",
+            "handles": [
+                "7ab6b664-8316-47ad-b9b1-ff5d9988a40a"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "3fde5506-8a4d-4822-8d71-6fed7babf919"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "60a47bf9-a5b8-4b22-854e-135692d47114"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "7ab6b664-8316-47ad-b9b1-ff5d9988a40a"
+        },
+        {
+            "id": "dynamic_line",
+            "instance": "d661a214-5391-4d0c-b006-3be8f9cadcb4",
+            "source": "75921a54-bfc7-4dfa-8d47-c197860e47f4",
+            "target": "bcb22f37-39a2-4935-8ca1-2fd012534811",
+            "handles": [
+                "68781c2d-bf31-43ee-83a5-40c47b3e83dc"
+            ]
+        },
+        {
+            "id": "generic_latch",
+            "instance": "75921a54-bfc7-4dfa-8d47-c197860e47f4"
+        },
+        {
+            "id": "generic_latch",
+            "instance": "bcb22f37-39a2-4935-8ca1-2fd012534811"
+        },
+        {
+            "id": "generic_handle",
+            "instance": "68781c2d-bf31-43ee-83a5-40c47b3e83dc"
+        },
+        {
+            "id": "action",
+            "instance": "7b5b3d1f-4f32-427c-923c-bc22dcc6d4c5",
+            "properties": [
+                [
+                    "name",
+                    "Executes scripted commands through cmd.exe"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            "TA0002"
+                        ],
+                        [
+                            "technique",
+                            "T1059.003"
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports that BARADAI leverages cmd.exe for scripted execution of infection and control commands. This action is based on variant-specific public reporting and has not been independently validated through a public BARADAI binary-level reverse-engineering analysis."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "660256cf-6da1-445c-ae3f-6e3b72f5b7ff",
+                "30": "6fda693b-1c20-4f97-8995-905889d0c677",
+                "60": "0ac4ce1f-3f21-4c89-89cc-6355fd211ddf",
+                "90": "24508b95-06d6-4bb1-8eee-58b9d1e29b40",
+                "120": "a6961d28-c4bb-42d8-b5c3-c873e4861466",
+                "150": "7634a8d0-85ac-417f-8e6d-6150368f461a",
+                "180": "33e471ed-9ac1-48a7-bf00-be1999f81c1a",
+                "210": "fc1fb3af-7cd6-4cb2-967b-fdc1f1aa4202",
+                "240": "4985a7fd-e404-43d5-8fde-9603d461808c",
+                "270": "b6512602-de45-45a3-a6ef-f88586308c27",
+                "300": "96c0583c-28e1-40aa-aff6-2268170a6441",
+                "330": "e16f0ba3-db70-4927-9324-9dcea785a786"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "2456ec56-3f94-4470-8088-007a94034e48",
+            "properties": [
+                [
+                    "name",
+                    "Establishes autorun through CurrentVersion\\Run registry keys"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            "TA0003"
+                        ],
+                        [
+                            "technique",
+                            "T1547.001"
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports that BARADAI establishes autorun through CurrentVersion\\Run registry keys to maintain execution across reboots. This action is based on variant-specific public reporting and has not been independently validated through a public BARADAI binary-level reverse-engineering analysis."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "f172728c-19e4-4416-84da-b4fa72c771d5",
+                "30": "130cf6e1-5ffd-4aed-8fb2-5a0aa5e70bc0",
+                "60": "b0dc61b0-6f43-4cc4-936e-9d292284d618",
+                "90": "5e9364b4-c9fb-4964-a802-6dc433569562",
+                "120": "6dac94d7-c169-4fb7-bb2e-4dc8ae5a96df",
+                "150": "d254e9fe-cda8-49c5-a0b8-fa08b63e6b28",
+                "180": "8124dba8-6257-4dee-9b73-434370c56c14",
+                "210": "8d7e6e89-828e-4c3d-b1c9-1f834fcf2280",
+                "240": "b6b4c8d7-2fcd-4bce-9a47-43ad14fbf62c",
+                "270": "27ddef0e-dabe-47a5-9b02-5421c4fb31ef",
+                "300": "158624f0-fc61-4ff5-9d10-8f429a766ad0",
+                "330": "9eb14b7b-4f16-4601-86d2-d1fb0617c49a"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "c09e8d69-095e-4c58-babd-ec006c3a37f3",
+            "properties": [
+                [
+                    "name",
+                    "Stores operational or state data under HKCU\\SOFTWARE"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            "TA0003"
+                        ],
+                        [
+                            "technique",
+                            "T1112"
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports that BARADAI uses registry paths under HKCU\\SOFTWARE to store operational or state data. The precise keys and stored values are not disclosed in the public report. This action records the reported registry behavior without importing sibling-variant PAIDMEMES artefacts as BARADAI facts."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "5482561f-c02f-4241-8bd4-7883afd2c054",
+                "30": "ccd8ec7f-ea8a-4f6f-b7a2-6cf6dbfef4ad",
+                "60": "81f56c60-3f3e-4da6-964d-ab626da6094b",
+                "90": "f3feb7fc-1c54-4ac0-b611-1259baf09618",
+                "120": "6a1633a8-d89f-40f4-bab9-e43130469d3d",
+                "150": "28fcfb36-0e20-4dcb-856c-6a48947bdecd",
+                "180": "618f0714-42ca-42b0-b675-65f8f1af21f1",
+                "210": "d17c0a74-6f46-4b91-9433-88664ba51750",
+                "240": "fa2623e9-2866-4233-8cd6-a054ebdc66dd",
+                "270": "5cfcbf3b-2fa2-4f49-a54e-f8f176a9c6cf",
+                "300": "51292b69-a99b-47b5-b716-e72ed33f850b",
+                "330": "5b50a86b-65f5-4265-ac75-f2a03922fa19"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "9bb9a370-be03-4a9b-840e-8ec0a53abf80",
+            "properties": [
+                [
+                    "name",
+                    "Interacts with Internet Settings and policy keys"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            null
+                        ],
+                        [
+                            "technique",
+                            null
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports interactions with Internet Settings and policy keys, indicating potential security-configuration manipulation. This action records the reported interaction only. The precise keys, values, and resulting defensive impact have not been independently validated through a public BARADAI binary-level analysis."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "2bbe51a2-d1eb-4656-bb51-9e9075a436d5",
+                "30": "92598538-973b-4391-bfb0-fc98eb3d30dc",
+                "60": "9551b709-265d-46a4-87ae-4b5b615380fc",
+                "90": "6b13f833-7023-44be-af3e-2f655360163b",
+                "120": "20146be7-38e2-482a-a201-fbb8943a8d8f",
+                "150": "204a0ce7-e6e9-4463-9523-7d288450ca41",
+                "180": "b224a534-a65e-4be9-bce9-672a08b24e6f",
+                "210": "9c41e5e2-2011-4755-9274-27087ae401b3",
+                "240": "5dea7a04-af24-4c67-b807-379cc3ced6bd",
+                "270": "4891c6ac-5cfc-4937-8428-5eee4a384bbb",
+                "300": "b9899904-b88c-4945-8542-7605d69c104d",
+                "330": "8986ac1a-b484-4ee6-867a-2026133edcff"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "d4469649-b637-4c82-8631-4b83aa4a05c1",
+            "properties": [
+                [
+                    "name",
+                    "Reaches multiple local drives and directories"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            "TA0007"
+                        ],
+                        [
+                            "technique",
+                            "T1083"
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports broad file-system reach across multiple drives and directories. This action represents reported file and directory access preceding impact. The exact traversal implementation is not publicly documented."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "abb6ad6c-97a1-49ad-9ad2-3ff93b838df0",
+                "30": "918b12fc-da1e-4c1c-b1f4-2d85e196cc73",
+                "60": "184afaab-d634-432b-b722-afc892aaac50",
+                "90": "f9eadd6c-3a3a-4581-bfe0-1c2f17ace020",
+                "120": "41b02122-d003-4de1-9f03-094c90afd76c",
+                "150": "dff40aad-e59f-4c7a-93b0-fa2400bc0d08",
+                "180": "87abacff-4450-41a1-9ab0-9253f5a0a75e",
+                "210": "d4c1d932-a7c3-4d6b-9433-8716b64b1e3b",
+                "240": "537dcf1e-c391-4fe4-8791-492d445f713a",
+                "270": "76b87960-c904-4b24-a5bb-8b258e3d8d36",
+                "300": "5acbe1c1-e11b-4d94-bc35-ed2f00d0c72b",
+                "330": "d505f249-5969-4a1f-978c-941b20b52a27"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "faf34b2a-55ce-4712-a938-f6ebd27052b7",
+            "properties": [
+                [
+                    "name",
+                    "May affect potentially accessible network resources"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            null
+                        ],
+                        [
+                            "technique",
+                            null
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports that BARADAI targets local file systems and potentially accessible network resources. This action records reported reach only; it does not claim a specific network-share enumeration mechanism or import sibling-variant behavior without BARADAI-specific evidence."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "19ad05e3-f4f6-4f73-8a06-e1a449ad4207",
+                "30": "eaec12aa-0c3f-4cb6-b56b-536d409fcec0",
+                "60": "ced9ab6a-2879-4fb7-b2dd-33ba13dba980",
+                "90": "da3d7f87-3ef0-4371-9b74-bf78b4fb33e0",
+                "120": "2b3c58b9-a6f4-4a7c-a71e-c99ddef24281",
+                "150": "3f016b50-6ec5-4c41-b167-990a4535f431",
+                "180": "d93b5a1f-85f8-43ff-92b6-93d73fc372c8",
+                "210": "fa75311b-f356-4e55-80d5-020d1cff3a73",
+                "240": "cdb7d6f5-7646-44ae-b6cc-f67c21cb3c54",
+                "270": "c7c812c7-8cc2-49a4-9c7b-37f8a4f18442",
+                "300": "dc9cf0c5-4fbe-4443-882a-7e21ffc5055b",
+                "330": "112a5c94-ceb8-44bb-ba14-7c2de501197d"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "360ba1b1-0533-4e33-8f09-376102169fe0",
+            "properties": [
+                [
+                    "name",
+                    "Uses Restart Manager-related handling to manage file locks"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            null
+                        ],
+                        [
+                            "technique",
+                            null
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports Restart Manager-related handling to manage file locks and improve encryption success. This behavior is included as variant-specific public reporting and has not been independently binary-verified."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "6dc20128-46af-498b-a6d9-cab05275be0d",
+                "30": "b762c079-8085-4094-8755-68ae6e841cee",
+                "60": "2513d104-3b40-4ba0-aaa8-131c2a9aee37",
+                "90": "6ff987e9-d1f6-45c2-aede-e5a10b6ee2a5",
+                "120": "8501054a-67aa-4f13-8191-c7b358961fda",
+                "150": "2590388a-1d47-418b-91e7-495a2680aefc",
+                "180": "2e687428-63e0-483a-8bb7-720c2c69fd47",
+                "210": "35542577-54f7-43da-b0af-61bc3f44e8ad",
+                "240": "ce654574-e214-4424-a224-76bf825efef2",
+                "270": "65909a51-26a0-45eb-85b5-38b6272c5c37",
+                "300": "35e1ca51-7466-4747-9aa0-898a5f77b99d",
+                "330": "5e75408e-f041-4e30-bf98-67671bb1045e"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "d5cae09e-6f53-4171-a2d9-d2961fb09eea",
+            "properties": [
+                [
+                    "name",
+                    "Terminates SQL and related services using taskkill or net stop"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            "TA0040"
+                        ],
+                        [
+                            "technique",
+                            "T1489"
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports that BARADAI terminates SQL and related services using taskkill or net stop to unlock files for encryption and increase operational disruption. This action is based on public reporting and has not been independently validated through a public BARADAI binary-level analysis."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "6beb1315-2c5e-4521-b409-039d8d7f40e0",
+                "30": "8dd387f6-2630-4ee0-aaa7-20a187f63ae0",
+                "60": "e40065cb-2b79-44cf-b717-2c9f3b723e64",
+                "90": "1eced734-27e0-4d8a-9f37-41d7a972233b",
+                "120": "ab5b5e5f-b1c7-4fce-ac7f-f5a3ad5bfa63",
+                "150": "1aa9f992-8552-4045-8350-b8a7f7d678e4",
+                "180": "0d7f56a1-a901-4be7-a043-da9e5eb895bb",
+                "210": "3618c4bb-2c8c-4be5-973d-4d664b956189",
+                "240": "dc587df0-7b74-4d9f-a131-0b37389d21a9",
+                "270": "ce1a57f7-8e1d-45ef-a9aa-f81284941a0b",
+                "300": "a4890d4d-25c6-4803-8a78-48731332651b",
+                "330": "1226e57f-b062-4850-8f38-8cc3cd17ce17"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "3142a102-27b1-4bb3-a14c-a5fba2a61485",
+            "properties": [
+                [
+                    "name",
+                    "Deletes files and artefacts to hinder recovery and reduce forensic traces"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            null
+                        ],
+                        [
+                            "technique",
+                            null
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "CYFIRMA reports cleanup and anti-forensic activity involving deletion of files and artefacts to hinder recovery and reduce forensic traces. The precise deletion routine is not disclosed in the public report."
+                ],
+                [
+                    "confidence",
+                    "probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "4620801e-538f-4241-a833-2ff9cf82bd9e",
+                "30": "692fcc7b-209b-4507-97d9-4edc4d85986c",
+                "60": "057ad51c-8d97-4ed2-a48b-033c398c3e93",
+                "90": "4f26cccd-1a2d-4317-a798-ae2c3aec08b6",
+                "120": "46eacd06-45dd-452f-b331-ff97b61c8100",
+                "150": "c49ddd48-00c9-4dc1-b428-c43393c10da3",
+                "180": "0fdc6392-998e-4d17-a8b6-cb3a61c8d47f",
+                "210": "94e70ffa-cd2c-45c9-9c0e-a74e520cd0ae",
+                "240": "65834b4d-6f33-47ec-85af-70c682797513",
+                "270": "4f038cfe-6593-4a2e-bc54-314b5f5e3fdc",
+                "300": "f8dc0688-fd1c-4771-bd84-8046bf5ac78f",
+                "330": "47205eb0-1143-4ea9-8db3-f3d6d584e0f5"
+            }
+        },
+        {
+            "id": "action",
+            "instance": "6cefcdc3-8709-4a4d-954d-b2aa4b69f49a",
+            "properties": [
+                [
+                    "name",
+                    "Encrypts files, appends the .BARADAI extension, and drops ransom notes"
+                ],
+                [
+                    "ttp",
+                    [
+                        [
+                            "tactic",
+                            "TA0040"
+                        ],
+                        [
+                            "technique",
+                            "T1486"
+                        ]
+                    ]
+                ],
+                [
+                    "description",
+                    "PCrisk and CYFIRMA report that BARADAI encrypts victim files, appends the .BARADAI extension, and drops the read_to_decrypt_files.html ransom note across directories. The note presents victim contact instructions and extortion-related claims, including urgency around payment. This final action records directly observed impact behavior. It does not treat cryptographic claims in the ransom note as verified binary-level evidence."
+                ],
+                [
+                    "confidence",
+                    "very-probable"
+                ],
+                [
+                    "execution_start",
+                    null
+                ],
+                [
+                    "execution_end",
+                    null
+                ]
+            ],
+            "anchors": {
+                "0": "1b8993b1-5148-4eb1-a427-6969357ec513",
+                "30": "6d9d4d33-8171-492b-87d0-200312bdc1f8",
+                "60": "7db9cf6d-8edc-433f-b6c1-6287bd89a7ea",
+                "90": "471611e4-d072-4375-b94d-736c7d7d1865",
+                "120": "cea10eb0-f845-4f43-8e77-18fbc0d2f1b0",
+                "150": "50907c43-b96c-4764-a59a-71a0de9d3ef8",
+                "180": "93d6bd3a-c729-46cd-905b-c145c9f88f8b",
+                "210": "5ab63e8b-d55f-4458-8f96-14aff1f3e2cb",
+                "240": "feb9409b-9c4e-4c16-9a9d-9a821b0efda1",
+                "270": "9ad5596c-7116-4646-8077-192eb932d30e",
+                "300": "a3e0f6e7-51df-4f7a-a602-f365779015be",
+                "330": "1621d77b-675c-4316-bde2-17314f60f069"
+            }
+        }
+    ],
+    "layout": {
+        "7b5b3d1f-4f32-427c-923c-bc22dcc6d4c5": [
+            -980,
+            -420
+        ],
+        "2456ec56-3f94-4470-8088-007a94034e48": [
+            -510,
+            -420
+        ],
+        "c09e8d69-095e-4c58-babd-ec006c3a37f3": [
+            -40,
+            -420
+        ],
+        "9bb9a370-be03-4a9b-840e-8ec0a53abf80": [
+            430,
+            -420
+        ],
+        "d4469649-b637-4c82-8631-4b83aa4a05c1": [
+            900,
+            -420
+        ],
+        "faf34b2a-55ce-4712-a938-f6ebd27052b7": [
+            900,
+            120
+        ],
+        "360ba1b1-0533-4e33-8f09-376102169fe0": [
+            430,
+            120
+        ],
+        "d5cae09e-6f53-4171-a2d9-d2961fb09eea": [
+            -40,
+            120
+        ],
+        "3142a102-27b1-4bb3-a14c-a5fba2a61485": [
+            -510,
+            120
+        ],
+        "6cefcdc3-8709-4a4d-954d-b2aa4b69f49a": [
+            -980,
+            120
+        ]
+    },
+    "camera": {
+        "x": 50,
+        "y": 20,
+        "k": 0.55
+    }
+}
