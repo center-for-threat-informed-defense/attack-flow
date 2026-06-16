@@ -1,6 +1,7 @@
 <template>
   <dialog
     ref="dialog"
+    :class="{ fullscreen: isFullscreen }"
     @close="closeModal"
     @cancel.prevent="closeModal"
   >
@@ -13,6 +14,24 @@
           title="Download Image"
         >
           <DownloadIcon
+            :width="iconSize"
+            :height="iconSize"
+            :color="iconColor"
+          />
+        </button>
+        <button
+          type="button"
+          @click="toggleFullscreen"
+          :title="isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'"
+        >
+          <ExitFullscreenIcon
+            v-if="isFullscreen"
+            :width="iconSize"
+            :height="iconSize"
+            :color="iconColor"
+          />
+          <FullscreenIcon
+            v-else
             :width="iconSize"
             :height="iconSize"
             :color="iconColor"
@@ -46,9 +65,11 @@
 import { exportVisualization } from "@/assets/scripts/Application";
 import type { VisualizationRegistration } from "@/assets/scripts/Application/Visualization";
 import { useApplicationStore } from "@/stores/ApplicationStore";
-import { computed, onMounted, useTemplateRef, watch } from "vue";
+import { computed, onMounted, ref, useTemplateRef, watch } from "vue";
 import CloseIcon from "../Icons/CloseIcon.vue";
 import DownloadIcon from "../Icons/DownloadIcon.vue";
+import ExitFullscreenIcon from "../Icons/ExitFullscreenIcon.vue";
+import FullscreenIcon from "../Icons/FullscreenIcon.vue";
 
 const dialog = useTemplateRef('dialog');
 const visContainer = useTemplateRef('vis-container');
@@ -56,6 +77,7 @@ const visContainer = useTemplateRef('vis-container');
 const app = useApplicationStore();
 
 const iconSize = 20;
+const isFullscreen = ref(false);
 
 const iconColor = computed<string>(() => {
     let result = "#737373";
@@ -81,6 +103,7 @@ const visTitle = computed<string>(() => {
 });
 
 function closeModal() {
+    isFullscreen.value = false;
     app.activeVisualizationModal.close();
 }
 
@@ -95,6 +118,10 @@ async function exportVis() {
         visualization,
         root
     });
+}
+
+function toggleFullscreen() {
+    isFullscreen.value = !isFullscreen.value;
 }
 
 function updateModalDisplay() {
@@ -132,6 +159,15 @@ dialog[open] {
 dialog::backdrop {
     backdrop-filter: blur(2px);
     background-color: rgba(0, 0, 0, 0.3);
+}
+
+dialog[open].fullscreen {
+    border: none;
+    height: 100vh;
+    margin: 0;
+    max-height: none;
+    max-width: none;
+    width: 100vw;
 }
 
 .controls {
