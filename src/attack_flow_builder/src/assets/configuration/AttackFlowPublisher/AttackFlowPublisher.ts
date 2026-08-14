@@ -262,6 +262,10 @@ class AttackFlowPublisher implements FilePublisher {
      */
     private mergeBasicDictProperty(node: Sdo, property: DictionaryProperty) {
         for (const [key, prop] of property.value) {
+            if (node.type === "attack-condition" && key === "orientation") {
+                // Explicitly exclude the orientation of condition nodes from STIX exports.
+                continue;
+            }
             if (!prop.isDefined()) {
                 continue;
             }

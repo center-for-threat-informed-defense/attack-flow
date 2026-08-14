@@ -1,6 +1,8 @@
 # Tree Contour Layout Engine
 
-This algorithm generates an initial 2D layout for an attack flow when no layout is present. It is primarily intended for top-down flows, but may also support other orientations because placement is driven by anchor direction rather than by a fixed global flow direction alone.
+This algorithm generates an initial 2D layout for an attack flow when no layout is present. It is primarily intended for top-down flows, but it essentially supports orientations in all four cardinal directions. Node positioning is determined by the directionality of existing latch-anchor relationships rather than an overarching directional force.
+
+This algorithm does not define how a flow should be constructed, only how it is laid out once it is. To support configurable flow orientations, a latch-anchor assignment pass may be implemented to reassign existing line latches to the desired sides of their source and target blocks.
 
 The input may be a directed graph with cycles and nodes with multiple incoming edges. For layout purposes, the graph is transformed into a rooted, tree-like structure plus a set of deferred non-tree edges. Layout is then performed bottom-up using subtree arrangement, contour comparison, and group movement.
 

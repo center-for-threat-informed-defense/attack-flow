@@ -80,3 +80,33 @@ export function calculateBranchAnchorPositions(
     return Object.fromEntries([...positions]);
 
 }
+
+/**
+ * Calculates branch anchor positions along a bounding box's right edge.
+ * @param box
+ *  The bounding box.
+ * @param grid
+ *  The bounding box's grid.
+ * @param markerOffset
+ *  The offset needed to align faces with the grid's markers.
+ * @param branches
+ *  A set of {@link BranchDescriptor}s.
+ * @returns
+ *  The anchor positions.
+ */
+export function calculateRightBranchAnchorPositions(
+    box: BoundingBox, grid: [number, number], markerOffset: number, branches: BranchDescriptor[]
+) {
+    const positions = new Map<string, [number, number]>();
+    const markerSpace = markerOffset * 2;
+    const availableHeight = box.height - markerSpace;
+    const x = box.xMax - markerSpace;
+
+    for (let i = 0; i < branches.length; i++) {
+        const y = box.yMin + availableHeight * (i + 1) / (branches.length + 1);
+        positions.set(branches[i].id, [x, roundNearestMultiple(y, grid[1])]);
+    }
+
+    return Object.fromEntries([...positions]);
+
+}

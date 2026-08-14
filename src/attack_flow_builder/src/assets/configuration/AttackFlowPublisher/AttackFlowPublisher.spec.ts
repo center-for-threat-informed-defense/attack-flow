@@ -103,6 +103,19 @@ function publish(file: DiagramModelFile) {
 }
 
 describe("AttackFlowPublisher - condition branch mapping", () => {
+    it("does not export condition orientation", () => {
+        const factory = buildFactory();
+        const file = new DiagramModelFile(factory);
+        const condition = createBlock(factory, file, "condition");
+
+        const bundle = publish(file);
+        const conditionId = `attack-condition--${condition.instance}`;
+        const condSdo = bundle.objects.find(o => o.id === conditionId);
+
+        expect(condSdo).toBeDefined();
+        expect(condSdo.orientation).toBeUndefined();
+    });
+
     it("embeds child action under on_true_refs when connected via branch:True", () => {
         const factory = buildFactory();
         const file = new DiagramModelFile(factory);

@@ -140,6 +140,23 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                     }
                 }
             },
+            orientation: {
+                type: PropertyType.Enum,
+                options: {
+                    type: PropertyType.List,
+                    form: { type: PropertyType.String },
+                    default: [
+                        ["top-down", "Top-down"],
+                        ["left-to-right", "Left-to-right"]
+                    ]
+                },
+                default: "left-to-right",
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }
+                }
+            },
             pattern: {
                 type: PropertyType.String
             },

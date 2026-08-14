@@ -81,6 +81,7 @@ const AttackObjects = {
     condition: {
         type: FaceType.BranchBlock,
         attributes: Alignment.Grid,
+        properties: { exclude: ["orientation"] },
         style: LightStyle.BranchBlock({ head: Colors.LightThemeGreen })
     },
     OR_operator: {
