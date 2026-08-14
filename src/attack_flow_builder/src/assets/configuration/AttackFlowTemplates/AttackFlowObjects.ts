@@ -5,6 +5,7 @@ import { TacticTechniqueProperty } from "./TacticTechniqueProperty";
 import { TagsProperty } from "./TagsProperty";
 import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
 import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
+import { defendTechniques } from "./SourceEnumeration";
 
 export const AttackFlowObjects: DiagramObjectTemplate[] = [
     {
@@ -100,6 +101,36 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                     default: []
                 },
                 default: {}
+            },
+            tags: TagsProperty
+        },
+        anchors: AnchorConfiguration
+    },
+    {
+        name: "countermeasure",
+        namespace: ["attack_flow", "countermeasure"],
+        type: DiagramObjectType.Block,
+        properties: {
+            countermeasure_id: {
+                name: "ID",
+                type: PropertyType.String,
+                options: {
+                    type: PropertyType.List,
+                    form: { type: PropertyType.String },
+                    default: defendTechniques as [string, string][]
+                }
+            },
+            name: {
+                type: PropertyType.String,
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }
+                }
+            },
+            description: {
+                type: PropertyType.String
             },
             tags: TagsProperty
         },

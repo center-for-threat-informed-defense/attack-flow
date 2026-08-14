@@ -34,6 +34,7 @@
         "luxon": "3.5",
         "pdfjs-dist": "4.10.38",
         "pinia": "^2.3.0",
+        "uuid": "^14.0.1",
         "vectorious": "6.1.14",
         "vue": "^3.5.13",
         "vue3-colorpicker": "^2.3.0"

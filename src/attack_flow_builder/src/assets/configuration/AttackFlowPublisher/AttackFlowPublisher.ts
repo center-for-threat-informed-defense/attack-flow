@@ -60,7 +60,8 @@ const AttackFlowSdos
 const CustomSdos
     = new Set<string>([
         "x-detection",
-        "x-mitigation"
+        "x-mitigation",
+        "x-countermeasure"
     ]);
 
 const AttackFlowTemplatesMap: Map<string, string>
@@ -73,7 +74,8 @@ const AttackFlowTemplatesMap: Map<string, string>
         ["AND_operator", "attack-operator"],
         ["email_address", "email-addr"],
         ["detection", "x-detection"],
-        ["mitigation", "x-mitigation"]
+        ["mitigation", "x-mitigation"],
+        ["countermeasure", "x-countermeasure"]
     ]);
 
 
@@ -185,6 +187,7 @@ class AttackFlowPublisher implements FilePublisher {
                 break;
             case "x-detection":
             case "x-mitigation":
+            case "x-countermeasure":
                 this.mergeCustomObjectProperty(obj, node.props);
                 break;
             default:

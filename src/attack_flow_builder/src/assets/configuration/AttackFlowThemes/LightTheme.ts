@@ -73,6 +73,11 @@ const AttackObjects = {
         properties: { include: ["detection_id", "description", "log_sources"] },
         style: LightStyle.DictionaryBlock({ head: Colors.LightThemeGray })
     },
+    countermeasure: {
+        type: FaceType.DictionaryBlock,
+        attributes: Alignment.Grid,
+        style: LightStyle.DictionaryBlock({ head: Colors.LightThemeGray })
+    },
     asset: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,

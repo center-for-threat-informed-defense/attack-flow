@@ -63,7 +63,6 @@ interface SourceEnums {
 const sources: SourceData[] = [
     AttackEnums,
     AtlasEnums,
-    DefendEnums,
     F3Enums
 ];
 
@@ -140,5 +139,7 @@ const enums: SourceEnums = {
     relationships: toRelationshipRows(sourceData.relationships),
     stixIds: toStixIds(sourceData)
 };
+
+export const defendTechniques = toOptionList(DefendEnums.techniques);
 
 export default enums;

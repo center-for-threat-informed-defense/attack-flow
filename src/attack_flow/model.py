@@ -160,6 +160,22 @@ class XMitigation:
     pass
 
 
+@CustomObject(
+    "x-countermeasure",
+    [
+        ("countermeasure_id", StringProperty()),
+        ("name", StringProperty()),
+        ("description", StringProperty()),
+        (
+            "labels",
+            ListProperty(StringProperty(required=True)),
+        ),
+    ],
+)
+class XCountermeasure:
+    pass
+
+
 def load_attack_flow_bundle(path):
     """
     Load an Attack Flow STIX bundle from a given path.
