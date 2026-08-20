@@ -16,7 +16,7 @@
         ref="scrollbox"
         class="recommendations"
         :items="items"
-        :item-display-count="7"
+        :item-display-count="10"
         @scroll="onScroll"
       >
         <template #up>

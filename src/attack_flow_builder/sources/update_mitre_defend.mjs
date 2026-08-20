@@ -216,7 +216,7 @@ export default async function updateMitreDefend() {
         code,
         label,
         `[D3F] ${code} ${label}`,
-        "technique",
+        "countermeasure",
         getCountermeasureStixId(code)
       )])
   );

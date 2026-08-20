@@ -6,15 +6,14 @@ import { sourceData, type SourceObject } from "../AttackFlowTemplates/SourceEnum
 import type { DiagramViewEditor, ObjectRecommendation, ObjectRecommendations } from "@OpenChart/DiagramEditor";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
 import type { TieEngine, TiePrediction } from "tie-inference-web";
+import type { DefensiveObjectType, DefensiveSourceObject } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/index.commands";
+import { enums as DefendEnums } from "../AttackFlowTemplates/MitreDefend.ts";
 
 type TechniqueInfo = {
     techniqueId: string;
     technique: StringProperty;
     framework: string;
 };
-
-type DefensiveObjectType = "mitigation" | "detection";
-type DefensiveSourceObject = SourceObject & { type: DefensiveObjectType };
 
 const ENTERPRISE_FRAMEWORK = "ENT";
 const ENTERPRISE_LABEL_PREFIX = "[ENT]";
@@ -84,6 +83,7 @@ export class AttackFlowRecommender extends BasicRecommender {
         await this.insertTieRecommendationRows(items, techniqueInfo);
         this.insertDefensiveObjectRecommendationRows(items, techniqueInfo, "mitigation");
         this.insertDefensiveObjectRecommendationRows(items, techniqueInfo, "detection");
+        this.insertDefensiveObjectRecommendationRows(items, techniqueInfo, "countermeasure");
         return { items };
     }
 
@@ -252,16 +252,45 @@ export class AttackFlowRecommender extends BasicRecommender {
         techniqueInfo: TechniqueInfo,
         defensiveObjectType: DefensiveObjectType
     ): DefensiveSourceObject[] {
-        const defensiveObjectIds = defensiveObjectType === "mitigation"
-            ? sourceData.relationships.techniqueMitigations
-                .filter(rel => rel.techniqueId === techniqueInfo.techniqueId)
-                .map(rel => rel.mitigationId)
-            : sourceData.relationships.techniqueDetections
-                .filter(rel => rel.techniqueId === techniqueInfo.techniqueId)
-                .map(rel => rel.detectionId);
-        const defensiveObjectsById = defensiveObjectType === "mitigation"
-            ? sourceData.mitigations
-            : sourceData.detections;
+
+        /** The set of defensive object IDs related to the given technique. */
+        let defensiveObjectIds : string[] | null = null;
+        /** Defensive objects keyed by their ids. */
+        let defensiveObjectsById : Record<string, SourceObject> | null = null;
+
+        switch (defensiveObjectType) {
+            case "detection":
+                defensiveObjectIds = sourceData.relationships.techniqueDetections
+                    .filter(rel => rel.techniqueId === techniqueInfo.techniqueId)
+                    .map(rel => rel.detectionId);
+                defensiveObjectsById = sourceData.detections;
+                break;
+            case "mitigation":
+                defensiveObjectIds = sourceData.relationships.techniqueMitigations
+                    .filter(rel => rel.techniqueId === techniqueInfo.techniqueId)
+                    .map(rel => rel.mitigationId);
+                defensiveObjectsById = sourceData.mitigations;
+                break;
+            case "countermeasure": {
+                const defendTechniques = DefendEnums.techniques as Record<string, SourceObject>;
+                const countermeasuresByTechnique = DefendEnums.relationships.offensiveTechniquesToCountermeasures as Record<string, string[]>;
+                const countermeasureIds = countermeasuresByTechnique[techniqueInfo.techniqueId];
+                defensiveObjectIds = countermeasureIds ?? [];
+                defensiveObjectsById = {};
+                for (const c of defensiveObjectIds) {
+                    const countermeasure = defendTechniques[c];
+                    if (!countermeasure) { continue; }
+                    defensiveObjectsById[c] = countermeasure;
+                }
+
+                break;
+            }
+        }
+
+        if (!defensiveObjectIds || !defensiveObjectsById) {
+            throw new Error("defensiveObjectIds and defensiveObejctsById should not be null.");
+        }
+
         const defensiveObjects: DefensiveSourceObject[] = [];
         const seen = new Set<string>();
 

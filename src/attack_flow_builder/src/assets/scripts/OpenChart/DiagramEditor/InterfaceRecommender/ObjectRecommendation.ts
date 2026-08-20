@@ -1,3 +1,5 @@
+import type { DefensiveObjectType } from "../Commands/index.commands";
+
 export type ObjectRecommendation = {
     id: string;
     color: string;
@@ -5,5 +7,5 @@ export type ObjectRecommendation = {
     subtitle: string;
     parentId?: string;
     isTieRecommendation?: boolean;
-    defensiveObjectType?: "mitigation" | "detection";
+    defensiveObjectType?: DefensiveObjectType;
 };

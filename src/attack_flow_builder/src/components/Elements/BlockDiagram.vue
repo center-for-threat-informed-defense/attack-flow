@@ -39,6 +39,7 @@ import ContextMenu from "@/components/Controls/ContextMenu.vue";
 import ObjectRecommenderMenu from "@/components/Controls/ObjectRecommenderMenu.vue";
 import { SpawnAction, SpawnDetection, SpawnMitigation, SpawnObject } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/index.commands";
 import { SpawnObjectConnectedToLatch } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/ViewFile/SpawnObjectConnectedToLatch";
+import { SpawnCountermeasure } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/ViewFile/SpawnCountermeasure";
 
 export default defineComponent({
   name: 'BlockDiagram',
@@ -165,6 +166,13 @@ export default defineComponent({
             );
         } else if (item.defensiveObjectType === "detection") {
             spawnCommand = new SpawnDetection(
+                this.editor.file,
+                item.id,
+                this.lastRecommenderObject.x,
+                this.lastRecommenderObject.y
+            );
+        } else if (item.defensiveObjectType === "countermeasure") {
+            spawnCommand = new SpawnCountermeasure(
                 this.editor.file,
                 item.id,
                 this.lastRecommenderObject.x,

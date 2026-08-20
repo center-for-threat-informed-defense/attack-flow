@@ -12,12 +12,13 @@ import {
 } from "@/assets/configuration/AttackFlowTemplates/logSourceOptions";
 import type { DiagramViewFile } from "@OpenChart/DiagramView";
 
-export type DefensiveObjectType = "mitigation" | "detection";
+export type DefensiveObjectType = "mitigation" | "detection" | "countermeasure";
 export type DefensiveSourceObject = SourceObject & { type: DefensiveObjectType };
 
 const DefensiveObjectIdProperties: Record<DefensiveObjectType, string> = {
     mitigation: "mitigation_id",
-    detection: "detection_id"
+    detection: "detection_id",
+    countermeasure: "countermeasure_id"
 };
 
 export abstract class SpawnDefensiveObject extends SpawnObject {

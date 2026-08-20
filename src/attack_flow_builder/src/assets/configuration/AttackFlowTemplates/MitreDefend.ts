@@ -5,7 +5,7 @@ export const enums = {
             "id": "D3-AA",
             "name": "Agent Authentication",
             "label": "[D3F] D3-AA Agent Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -16,7 +16,7 @@ export const enums = {
             "id": "D3-ABPI",
             "name": "Application-based Process Isolation",
             "label": "[D3F] D3-ABPI Application-based Process Isolation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -27,7 +27,7 @@ export const enums = {
             "id": "D3-ACA",
             "name": "Active Certificate Analysis",
             "label": "[D3F] D3-ACA Active Certificate Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -38,7 +38,7 @@ export const enums = {
             "id": "D3-ACH",
             "name": "Application Configuration Hardening",
             "label": "[D3F] D3-ACH Application Configuration Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -49,7 +49,7 @@ export const enums = {
             "id": "D3-AEM",
             "name": "Application Exception Monitoring",
             "label": "[D3F] D3-AEM Application Exception Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -60,7 +60,7 @@ export const enums = {
             "id": "D3-AH",
             "name": "Application Hardening",
             "label": "[D3F] D3-AH Application Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -71,7 +71,7 @@ export const enums = {
             "id": "D3-AI",
             "name": "Asset Inventory",
             "label": "[D3F] D3-AI Asset Inventory",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -82,7 +82,7 @@ export const enums = {
             "id": "D3-AL",
             "name": "Account Locking",
             "label": "[D3F] D3-AL Account Locking",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -93,7 +93,7 @@ export const enums = {
             "id": "D3-ALLM",
             "name": "Active Logical Link Mapping",
             "label": "[D3F] D3-ALLM Active Logical Link Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -104,7 +104,7 @@ export const enums = {
             "id": "D3-AM",
             "name": "Access Modeling",
             "label": "[D3F] D3-AM Access Modeling",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -115,7 +115,7 @@ export const enums = {
             "id": "D3-AMED",
             "name": "Access Mediation",
             "label": "[D3F] D3-AMED Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -126,7 +126,7 @@ export const enums = {
             "id": "D3-ANAA",
             "name": "Administrative Network Activity Analysis",
             "label": "[D3F] D3-ANAA Administrative Network Activity Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -137,7 +137,7 @@ export const enums = {
             "id": "D3-ANCI",
             "name": "Authentication Cache Invalidation",
             "label": "[D3F] D3-ANCI Authentication Cache Invalidation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -148,7 +148,7 @@ export const enums = {
             "id": "D3-ANET",
             "name": "Authentication Event Thresholding",
             "label": "[D3F] D3-ANET Authentication Event Thresholding",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -159,7 +159,7 @@ export const enums = {
             "id": "D3-APA",
             "name": "Access Policy Administration",
             "label": "[D3F] D3-APA Access Policy Administration",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -170,7 +170,7 @@ export const enums = {
             "id": "D3-APCA",
             "name": "Application Protocol Command Analysis",
             "label": "[D3F] D3-APCA Application Protocol Command Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -181,7 +181,7 @@ export const enums = {
             "id": "D3-APLM",
             "name": "Active Physical Link Mapping",
             "label": "[D3F] D3-APLM Active Physical Link Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -192,7 +192,7 @@ export const enums = {
             "id": "D3-APM",
             "name": "Application Performance Monitoring",
             "label": "[D3F] D3-APM Application Performance Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -203,7 +203,7 @@ export const enums = {
             "id": "D3-AVE",
             "name": "Asset Vulnerability Enumeration",
             "label": "[D3F] D3-AVE Asset Vulnerability Enumeration",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -214,7 +214,7 @@ export const enums = {
             "id": "D3-AZET",
             "name": "Authorization Event Thresholding",
             "label": "[D3F] D3-AZET Authorization Event Thresholding",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -225,7 +225,7 @@ export const enums = {
             "id": "D3-BA",
             "name": "Bootloader Authentication",
             "label": "[D3F] D3-BA Bootloader Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -236,7 +236,7 @@ export const enums = {
             "id": "D3-BAN",
             "name": "Biometric Authentication",
             "label": "[D3F] D3-BAN Biometric Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -247,7 +247,7 @@ export const enums = {
             "id": "D3-BDI",
             "name": "Broadcast Domain Isolation",
             "label": "[D3F] D3-BDI Broadcast Domain Isolation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -258,7 +258,7 @@ export const enums = {
             "id": "D3-BMA",
             "name": "Bus Message Authentication",
             "label": "[D3F] D3-BMA Bus Message Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -269,7 +269,7 @@ export const enums = {
             "id": "D3-BSE",
             "name": "Byte Sequence Emulation",
             "label": "[D3F] D3-BSE Byte Sequence Emulation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -280,7 +280,7 @@ export const enums = {
             "id": "D3-CA",
             "name": "Certificate Analysis",
             "label": "[D3F] D3-CA Certificate Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -291,7 +291,7 @@ export const enums = {
             "id": "D3-CAA",
             "name": "Connection Attempt Analysis",
             "label": "[D3F] D3-CAA Connection Attempt Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -302,7 +302,7 @@ export const enums = {
             "id": "D3-CBAN",
             "name": "Certificate-based Authentication",
             "label": "[D3F] D3-CBAN Certificate-based Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -313,7 +313,7 @@ export const enums = {
             "id": "D3-CCSA",
             "name": "Credential Compromise Scope Analysis",
             "label": "[D3F] D3-CCSA Credential Compromise Scope Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -324,7 +324,7 @@ export const enums = {
             "id": "D3-CDP",
             "name": "Change Default Password",
             "label": "[D3F] D3-CDP Change Default Password",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -335,7 +335,7 @@ export const enums = {
             "id": "D3-CE",
             "name": "Credential Eviction",
             "label": "[D3F] D3-CE Credential Eviction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -346,7 +346,7 @@ export const enums = {
             "id": "D3-CERO",
             "name": "Certificate Rotation",
             "label": "[D3F] D3-CERO Certificate Rotation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -357,7 +357,7 @@ export const enums = {
             "id": "D3-CF",
             "name": "Content Filtering",
             "label": "[D3F] D3-CF Content Filtering",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -368,7 +368,7 @@ export const enums = {
             "id": "D3-CFC",
             "name": "Content Format Conversion",
             "label": "[D3F] D3-CFC Content Format Conversion",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -379,7 +379,7 @@ export const enums = {
             "id": "D3-CFI",
             "name": "Control Flow Integrity",
             "label": "[D3F] D3-CFI Control Flow Integrity",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -390,7 +390,7 @@ export const enums = {
             "id": "D3-CH",
             "name": "Credential Hardening",
             "label": "[D3F] D3-CH Credential Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -401,7 +401,7 @@ export const enums = {
             "id": "D3-CHN",
             "name": "Connected Honeynet",
             "label": "[D3F] D3-CHN Connected Honeynet",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -412,7 +412,7 @@ export const enums = {
             "id": "D3-CI",
             "name": "Configuration Inventory",
             "label": "[D3F] D3-CI Configuration Inventory",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -423,7 +423,7 @@ export const enums = {
             "id": "D3-CIA",
             "name": "Container Image Analysis",
             "label": "[D3F] D3-CIA Container Image Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -434,7 +434,7 @@ export const enums = {
             "id": "D3-CM",
             "name": "Content Modification",
             "label": "[D3F] D3-CM Content Modification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -445,7 +445,7 @@ export const enums = {
             "id": "D3-CNE",
             "name": "Content Excision",
             "label": "[D3F] D3-CNE Content Excision",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -456,7 +456,7 @@ export const enums = {
             "id": "D3-CNR",
             "name": "Content Rebuild",
             "label": "[D3F] D3-CNR Content Rebuild",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -467,7 +467,7 @@ export const enums = {
             "id": "D3-CNS",
             "name": "Content Substitution",
             "label": "[D3F] D3-CNS Content Substitution",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -478,7 +478,7 @@ export const enums = {
             "id": "D3-CP",
             "name": "Certificate Pinning",
             "label": "[D3F] D3-CP Certificate Pinning",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -489,7 +489,7 @@ export const enums = {
             "id": "D3-CQ",
             "name": "Content Quarantine",
             "label": "[D3F] D3-CQ Content Quarantine",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -500,7 +500,7 @@ export const enums = {
             "id": "D3-CR",
             "name": "Credential Revocation",
             "label": "[D3F] D3-CR Credential Revocation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -511,7 +511,7 @@ export const enums = {
             "id": "D3-CRO",
             "name": "Credential Rotation",
             "label": "[D3F] D3-CRO Credential Rotation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -522,7 +522,7 @@ export const enums = {
             "id": "D3-CS",
             "name": "Credential Scrubbing",
             "label": "[D3F] D3-CS Credential Scrubbing",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -533,7 +533,7 @@ export const enums = {
             "id": "D3-CSPP",
             "name": "Client-server Payload Profiling",
             "label": "[D3F] D3-CSPP Client-server Payload Profiling",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -544,7 +544,7 @@ export const enums = {
             "id": "D3-CTS",
             "name": "Credential Transmission Scoping",
             "label": "[D3F] D3-CTS Credential Transmission Scoping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -555,7 +555,7 @@ export const enums = {
             "id": "D3-CV",
             "name": "Content Validation",
             "label": "[D3F] D3-CV Content Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -566,7 +566,7 @@ export const enums = {
             "id": "D3-DA",
             "name": "Dynamic Analysis",
             "label": "[D3F] D3-DA Dynamic Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -577,7 +577,7 @@ export const enums = {
             "id": "D3-DAM",
             "name": "Domain Account Monitoring",
             "label": "[D3F] D3-DAM Domain Account Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -588,7 +588,7 @@ export const enums = {
             "id": "D3-DCE",
             "name": "Dead Code Elimination",
             "label": "[D3F] D3-DCE Dead Code Elimination",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -599,7 +599,7 @@ export const enums = {
             "id": "D3-DE",
             "name": "Decoy Environment",
             "label": "[D3F] D3-DE Decoy Environment",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -610,7 +610,7 @@ export const enums = {
             "id": "D3-DEM",
             "name": "Data Exchange Mapping",
             "label": "[D3F] D3-DEM Data Exchange Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -621,7 +621,7 @@ export const enums = {
             "id": "D3-DENCR",
             "name": "Disk Encryption",
             "label": "[D3F] D3-DENCR Disk Encryption",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -632,7 +632,7 @@ export const enums = {
             "id": "D3-DF",
             "name": "Decoy File",
             "label": "[D3F] D3-DF Decoy File",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -643,7 +643,7 @@ export const enums = {
             "id": "D3-DI",
             "name": "Data Inventory",
             "label": "[D3F] D3-DI Data Inventory",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -654,7 +654,7 @@ export const enums = {
             "id": "D3-DKE",
             "name": "Disk Erasure",
             "label": "[D3F] D3-DKE Disk Erasure",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -665,7 +665,7 @@ export const enums = {
             "id": "D3-DKF",
             "name": "Disk Formatting",
             "label": "[D3F] D3-DKF Disk Formatting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -676,7 +676,7 @@ export const enums = {
             "id": "D3-DKP",
             "name": "Disk Partitioning",
             "label": "[D3F] D3-DKP Disk Partitioning",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -687,7 +687,7 @@ export const enums = {
             "id": "D3-DLIC",
             "name": "Driver Load Integrity Checking",
             "label": "[D3F] D3-DLIC Driver Load Integrity Checking",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -698,7 +698,7 @@ export const enums = {
             "id": "D3-DLV",
             "name": "Domain Logic Validation",
             "label": "[D3F] D3-DLV Domain Logic Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -709,7 +709,7 @@ export const enums = {
             "id": "D3-DNL",
             "name": "Directional Network Link",
             "label": "[D3F] D3-DNL Directional Network Link",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -720,7 +720,7 @@ export const enums = {
             "id": "D3-DNR",
             "name": "Decoy Network Resource",
             "label": "[D3F] D3-DNR Decoy Network Resource",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -731,7 +731,7 @@ export const enums = {
             "id": "D3-DNRA",
             "name": "Domain Name Reputation Analysis",
             "label": "[D3F] D3-DNRA Domain Name Reputation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -742,7 +742,7 @@ export const enums = {
             "id": "D3-DNSAL",
             "name": "DNS Allowlisting",
             "label": "[D3F] D3-DNSAL DNS Allowlisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -753,7 +753,7 @@ export const enums = {
             "id": "D3-DNSCE",
             "name": "DNS Cache Eviction",
             "label": "[D3F] D3-DNSCE DNS Cache Eviction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -764,7 +764,7 @@ export const enums = {
             "id": "D3-DNSDL",
             "name": "DNS Denylisting",
             "label": "[D3F] D3-DNSDL DNS Denylisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -775,7 +775,7 @@ export const enums = {
             "id": "D3-DNSTA",
             "name": "DNS Traffic Analysis",
             "label": "[D3F] D3-DNSTA DNS Traffic Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -786,7 +786,7 @@ export const enums = {
             "id": "D3-DO",
             "name": "Decoy Object",
             "label": "[D3F] D3-DO Decoy Object",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -797,7 +797,7 @@ export const enums = {
             "id": "D3-DP",
             "name": "Decoy Persona",
             "label": "[D3F] D3-DP Decoy Persona",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -808,7 +808,7 @@ export const enums = {
             "id": "D3-DPLM",
             "name": "Direct Physical Link Mapping",
             "label": "[D3F] D3-DPLM Direct Physical Link Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -819,7 +819,7 @@ export const enums = {
             "id": "D3-DPR",
             "name": "Decoy Public Release",
             "label": "[D3F] D3-DPR Decoy Public Release",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -830,7 +830,7 @@ export const enums = {
             "id": "D3-DQSA",
             "name": "Database Query String Analysis",
             "label": "[D3F] D3-DQSA Database Query String Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -841,7 +841,7 @@ export const enums = {
             "id": "D3-DRA",
             "name": "Disable Remote Access",
             "label": "[D3F] D3-DRA Disable Remote Access",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -852,7 +852,7 @@ export const enums = {
             "id": "D3-DRT",
             "name": "Domain Registration Takedown",
             "label": "[D3F] D3-DRT Domain Registration Takedown",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -863,7 +863,7 @@ export const enums = {
             "id": "D3-DST",
             "name": "Decoy Session Token",
             "label": "[D3F] D3-DST Decoy Session Token",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -874,7 +874,7 @@ export const enums = {
             "id": "D3-DTP",
             "name": "Domain Trust Policy",
             "label": "[D3F] D3-DTP Domain Trust Policy",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -885,7 +885,7 @@ export const enums = {
             "id": "D3-DUC",
             "name": "Decoy User Credential",
             "label": "[D3F] D3-DUC Decoy User Credential",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -896,7 +896,7 @@ export const enums = {
             "id": "D3-EAL",
             "name": "Executable Allowlisting",
             "label": "[D3F] D3-EAL Executable Allowlisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -907,7 +907,7 @@ export const enums = {
             "id": "D3-EBWSAM",
             "name": "Endpoint-based Web Server Access Mediation",
             "label": "[D3F] D3-EBWSAM Endpoint-based Web Server Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -918,7 +918,7 @@ export const enums = {
             "id": "D3-EDL",
             "name": "Executable Denylisting",
             "label": "[D3F] D3-EDL Executable Denylisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -929,7 +929,7 @@ export const enums = {
             "id": "D3-EF",
             "name": "Email Filtering",
             "label": "[D3F] D3-EF Email Filtering",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -940,7 +940,7 @@ export const enums = {
             "id": "D3-EFA",
             "name": "Emulated File Analysis",
             "label": "[D3F] D3-EFA Emulated File Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -951,7 +951,7 @@ export const enums = {
             "id": "D3-EHB",
             "name": "Endpoint Health Beacon",
             "label": "[D3F] D3-EHB Endpoint Health Beacon",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -962,7 +962,7 @@ export const enums = {
             "id": "D3-EHPV",
             "name": "Exception Handler Pointer Validation",
             "label": "[D3F] D3-EHPV Exception Handler Pointer Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -973,7 +973,7 @@ export const enums = {
             "id": "D3-EI",
             "name": "Execution Isolation",
             "label": "[D3F] D3-EI Execution Isolation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -984,7 +984,7 @@ export const enums = {
             "id": "D3-ELM",
             "name": "Electronic Lock Monitoring",
             "label": "[D3F] D3-ELM Electronic Lock Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -995,7 +995,7 @@ export const enums = {
             "id": "D3-EMH",
             "name": "Electromagnetic Radiation Hardening",
             "label": "[D3F] D3-EMH Electromagnetic Radiation Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1006,7 +1006,7 @@ export const enums = {
             "id": "D3-EPL",
             "name": "Physical Locking",
             "label": "[D3F] D3-EPL Physical Locking",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1017,7 +1017,7 @@ export const enums = {
             "id": "D3-ER",
             "name": "Email Removal",
             "label": "[D3F] D3-ER Email Removal",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1028,7 +1028,7 @@ export const enums = {
             "id": "D3-ET",
             "name": "Encrypted Tunnels",
             "label": "[D3F] D3-ET Encrypted Tunnels",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1039,7 +1039,7 @@ export const enums = {
             "id": "D3-FA",
             "name": "File Analysis",
             "label": "[D3F] D3-FA File Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1050,7 +1050,7 @@ export const enums = {
             "id": "D3-FAPA",
             "name": "File Access Pattern Analysis",
             "label": "[D3F] D3-FAPA File Access Pattern Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1061,7 +1061,7 @@ export const enums = {
             "id": "D3-FBA",
             "name": "Firmware Behavior Analysis",
             "label": "[D3F] D3-FBA Firmware Behavior Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1072,7 +1072,7 @@ export const enums = {
             "id": "D3-FC",
             "name": "File Carving",
             "label": "[D3F] D3-FC File Carving",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1083,7 +1083,7 @@ export const enums = {
             "id": "D3-FCA",
             "name": "File Creation Analysis",
             "label": "[D3F] D3-FCA File Creation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1094,7 +1094,7 @@ export const enums = {
             "id": "D3-FCDC",
             "name": "File Content Decompression Checking",
             "label": "[D3F] D3-FCDC File Content Decompression Checking",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1105,7 +1105,7 @@ export const enums = {
             "id": "D3-FCOA",
             "name": "File Content Analysis",
             "label": "[D3F] D3-FCOA File Content Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1116,7 +1116,7 @@ export const enums = {
             "id": "D3-FCR",
             "name": "File Content Rules",
             "label": "[D3F] D3-FCR File Content Rules",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1127,7 +1127,7 @@ export const enums = {
             "id": "D3-FE",
             "name": "File Encryption",
             "label": "[D3F] D3-FE File Encryption",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1138,7 +1138,7 @@ export const enums = {
             "id": "D3-FEMC",
             "name": "Firmware Embedded Monitoring Code",
             "label": "[D3F] D3-FEMC Firmware Embedded Monitoring Code",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1149,7 +1149,7 @@ export const enums = {
             "id": "D3-FEV",
             "name": "File Eviction",
             "label": "[D3F] D3-FEV File Eviction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1160,7 +1160,7 @@ export const enums = {
             "id": "D3-FFV",
             "name": "File Format Verification",
             "label": "[D3F] D3-FFV File Format Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1171,7 +1171,7 @@ export const enums = {
             "id": "D3-FH",
             "name": "File Hashing",
             "label": "[D3F] D3-FH File Hashing",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1182,7 +1182,7 @@ export const enums = {
             "id": "D3-FHRA",
             "name": "File Hash Reputation Analysis",
             "label": "[D3F] D3-FHRA File Hash Reputation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1193,7 +1193,7 @@ export const enums = {
             "id": "D3-FIM",
             "name": "File Integrity Monitoring",
             "label": "[D3F] D3-FIM File Integrity Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1204,7 +1204,7 @@ export const enums = {
             "id": "D3-FISV",
             "name": "File Internal Structure Verification",
             "label": "[D3F] D3-FISV File Internal Structure Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1215,7 +1215,7 @@ export const enums = {
             "id": "D3-FMBV",
             "name": "File Magic Byte Verification",
             "label": "[D3F] D3-FMBV File Magic Byte Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1226,7 +1226,7 @@ export const enums = {
             "id": "D3-FMCV",
             "name": "File Metadata Consistency Validation",
             "label": "[D3F] D3-FMCV File Metadata Consistency Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1237,7 +1237,7 @@ export const enums = {
             "id": "D3-FMVV",
             "name": "File Metadata Value Verification",
             "label": "[D3F] D3-FMVV File Metadata Value Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1248,7 +1248,7 @@ export const enums = {
             "id": "D3-FRDDL",
             "name": "Forward Resolution Domain Denylisting",
             "label": "[D3F] D3-FRDDL Forward Resolution Domain Denylisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1259,7 +1259,7 @@ export const enums = {
             "id": "D3-FRIDL",
             "name": "Forward Resolution IP Denylisting",
             "label": "[D3F] D3-FRIDL Forward Resolution IP Denylisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1270,7 +1270,7 @@ export const enums = {
             "id": "D3-FV",
             "name": "Firmware Verification",
             "label": "[D3F] D3-FV Firmware Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1281,7 +1281,7 @@ export const enums = {
             "id": "D3-HBPI",
             "name": "Hardware-based Process Isolation",
             "label": "[D3F] D3-HBPI Hardware-based Process Isolation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1292,7 +1292,7 @@ export const enums = {
             "id": "D3-HBWP",
             "name": "Hardware-based Write Protection",
             "label": "[D3F] D3-HBWP Hardware-based Write Protection",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1303,7 +1303,7 @@ export const enums = {
             "id": "D3-HCI",
             "name": "Hardware Component Inventory",
             "label": "[D3F] D3-HCI Hardware Component Inventory",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1314,7 +1314,7 @@ export const enums = {
             "id": "D3-HD",
             "name": "Homoglyph Detection",
             "label": "[D3F] D3-HD Homoglyph Detection",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1325,7 +1325,7 @@ export const enums = {
             "id": "D3-HDDL",
             "name": "Hierarchical Domain Denylisting",
             "label": "[D3F] D3-HDDL Hierarchical Domain Denylisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1336,7 +1336,7 @@ export const enums = {
             "id": "D3-HDL",
             "name": "Homoglyph Denylisting",
             "label": "[D3F] D3-HDL Homoglyph Denylisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1347,7 +1347,7 @@ export const enums = {
             "id": "D3-HR",
             "name": "Host Reboot",
             "label": "[D3F] D3-HR Host Reboot",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1358,7 +1358,7 @@ export const enums = {
             "id": "D3-HS",
             "name": "Host Shutdown",
             "label": "[D3F] D3-HS Host Shutdown",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1369,7 +1369,7 @@ export const enums = {
             "id": "D3-IAA",
             "name": "Identifier Activity Analysis",
             "label": "[D3F] D3-IAA Identifier Activity Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1380,7 +1380,7 @@ export const enums = {
             "id": "D3-IBCA",
             "name": "Indirect Branch Call Analysis",
             "label": "[D3F] D3-IBCA Indirect Branch Call Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1391,7 +1391,7 @@ export const enums = {
             "id": "D3-ID",
             "name": "Identifier Analysis",
             "label": "[D3F] D3-ID Identifier Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1402,7 +1402,7 @@ export const enums = {
             "id": "D3-IDA",
             "name": "Input Device Analysis",
             "label": "[D3F] D3-IDA Input Device Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1413,7 +1413,7 @@ export const enums = {
             "id": "D3-IHN",
             "name": "Integrated Honeynet",
             "label": "[D3F] D3-IHN Integrated Honeynet",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1424,7 +1424,7 @@ export const enums = {
             "id": "D3-IOPR",
             "name": "IO Port Restriction",
             "label": "[D3F] D3-IOPR IO Port Restriction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1435,7 +1435,7 @@ export const enums = {
             "id": "D3-IPCTA",
             "name": "IPC Traffic Analysis",
             "label": "[D3F] D3-IPCTA IPC Traffic Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1446,7 +1446,7 @@ export const enums = {
             "id": "D3-IPRA",
             "name": "IP Reputation Analysis",
             "label": "[D3F] D3-IPRA IP Reputation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1457,7 +1457,7 @@ export const enums = {
             "id": "D3-IRA",
             "name": "Identifier Reputation Analysis",
             "label": "[D3F] D3-IRA Identifier Reputation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1468,7 +1468,7 @@ export const enums = {
             "id": "D3-IRV",
             "name": "Integer Range Validation",
             "label": "[D3F] D3-IRV Integer Range Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1479,7 +1479,7 @@ export const enums = {
             "id": "D3-ISVA",
             "name": "Inbound Session Volume Analysis",
             "label": "[D3F] D3-ISVA Inbound Session Volume Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1490,7 +1490,7 @@ export const enums = {
             "id": "D3-ITF",
             "name": "Inbound Traffic Filtering",
             "label": "[D3F] D3-ITF Inbound Traffic Filtering",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1501,7 +1501,7 @@ export const enums = {
             "id": "D3-JFAPA",
             "name": "Job Function Access Pattern Analysis",
             "label": "[D3F] D3-JFAPA Job Function Access Pattern Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1512,7 +1512,7 @@ export const enums = {
             "id": "D3-KBPI",
             "name": "Kernel-based Process Isolation",
             "label": "[D3F] D3-KBPI Kernel-based Process Isolation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1523,7 +1523,7 @@ export const enums = {
             "id": "D3-LAM",
             "name": "Local Account Monitoring",
             "label": "[D3F] D3-LAM Local Account Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1534,7 +1534,7 @@ export const enums = {
             "id": "D3-LAMED",
             "name": "LAN Access Mediation",
             "label": "[D3F] D3-LAMED LAN Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1545,7 +1545,7 @@ export const enums = {
             "id": "D3-LFAM",
             "name": "Local File Access Mediation",
             "label": "[D3F] D3-LFAM Local File Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1556,7 +1556,7 @@ export const enums = {
             "id": "D3-LFP",
             "name": "Local File Permissions",
             "label": "[D3F] D3-LFP Local File Permissions",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1567,7 +1567,7 @@ export const enums = {
             "id": "D3-LLM",
             "name": "Logical Link Mapping",
             "label": "[D3F] D3-LLM Logical Link Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1578,7 +1578,7 @@ export const enums = {
             "id": "D3-MA",
             "name": "Message Analysis",
             "label": "[D3F] D3-MA Message Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1589,7 +1589,7 @@ export const enums = {
             "id": "D3-MAN",
             "name": "Message Authentication",
             "label": "[D3F] D3-MAN Message Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1600,7 +1600,7 @@ export const enums = {
             "id": "D3-MBSV",
             "name": "Memory Block Start Validation",
             "label": "[D3F] D3-MBSV Memory Block Start Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1611,7 +1611,7 @@ export const enums = {
             "id": "D3-MBT",
             "name": "Memory Boundary Tracking",
             "label": "[D3F] D3-MBT Memory Boundary Tracking",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1622,7 +1622,7 @@ export const enums = {
             "id": "D3-MENCR",
             "name": "Message Encryption",
             "label": "[D3F] D3-MENCR Message Encryption",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1633,7 +1633,7 @@ export const enums = {
             "id": "D3-MFA",
             "name": "Multi-factor Authentication",
             "label": "[D3F] D3-MFA Multi-factor Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1644,7 +1644,7 @@ export const enums = {
             "id": "D3-MH",
             "name": "Message Hardening",
             "label": "[D3F] D3-MH Message Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1655,7 +1655,7 @@ export const enums = {
             "id": "D3-MSM",
             "name": "Motion Sensor Monitoring",
             "label": "[D3F] D3-MSM Motion Sensor Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1666,7 +1666,7 @@ export const enums = {
             "id": "D3-NAM",
             "name": "Network Access Mediation",
             "label": "[D3F] D3-NAM Network Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1677,7 +1677,7 @@ export const enums = {
             "id": "D3-NI",
             "name": "Network Isolation",
             "label": "[D3F] D3-NI Network Isolation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1688,7 +1688,7 @@ export const enums = {
             "id": "D3-NM",
             "name": "Network Mapping",
             "label": "[D3F] D3-NM Network Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1699,7 +1699,7 @@ export const enums = {
             "id": "D3-NNI",
             "name": "Network Node Inventory",
             "label": "[D3F] D3-NNI Network Node Inventory",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1710,7 +1710,7 @@ export const enums = {
             "id": "D3-NPC",
             "name": "Null Pointer Checking",
             "label": "[D3F] D3-NPC Null Pointer Checking",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1721,7 +1721,7 @@ export const enums = {
             "id": "D3-NRAM",
             "name": "Network Resource Access Mediation",
             "label": "[D3F] D3-NRAM Network Resource Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1732,7 +1732,7 @@ export const enums = {
             "id": "D3-NTA",
             "name": "Network Traffic Analysis",
             "label": "[D3F] D3-NTA Network Traffic Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1743,7 +1743,7 @@ export const enums = {
             "id": "D3-NTCD",
             "name": "Network Traffic Community Deviation",
             "label": "[D3F] D3-NTCD Network Traffic Community Deviation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1754,7 +1754,7 @@ export const enums = {
             "id": "D3-NTF",
             "name": "Network Traffic Filtering",
             "label": "[D3F] D3-NTF Network Traffic Filtering",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1765,7 +1765,7 @@ export const enums = {
             "id": "D3-NTPM",
             "name": "Network Traffic Policy Mapping",
             "label": "[D3F] D3-NTPM Network Traffic Policy Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1776,7 +1776,7 @@ export const enums = {
             "id": "D3-NTSA",
             "name": "Network Traffic Signature Analysis",
             "label": "[D3F] D3-NTSA Network Traffic Signature Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1787,7 +1787,7 @@ export const enums = {
             "id": "D3-NVA",
             "name": "Network Vulnerability Assessment",
             "label": "[D3F] D3-NVA Network Vulnerability Assessment",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1798,7 +1798,7 @@ export const enums = {
             "id": "D3-OAM",
             "name": "Operational Activity Mapping",
             "label": "[D3F] D3-OAM Operational Activity Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1809,7 +1809,7 @@ export const enums = {
             "id": "D3-ODM",
             "name": "Operational Dependency Mapping",
             "label": "[D3F] D3-ODM Operational Dependency Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1820,7 +1820,7 @@ export const enums = {
             "id": "D3-OE",
             "name": "Object Eviction",
             "label": "[D3F] D3-OE Object Eviction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1831,7 +1831,7 @@ export const enums = {
             "id": "D3-OLV",
             "name": "Operational Logic Validation",
             "label": "[D3F] D3-OLV Operational Logic Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1842,7 +1842,7 @@ export const enums = {
             "id": "D3-OM",
             "name": "Organization Mapping",
             "label": "[D3F] D3-OM Organization Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1853,7 +1853,7 @@ export const enums = {
             "id": "D3-OMM",
             "name": "Operating Mode Monitoring",
             "label": "[D3F] D3-OMM Operating Mode Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1864,7 +1864,7 @@ export const enums = {
             "id": "D3-OPM",
             "name": "Operational Process Monitoring",
             "label": "[D3F] D3-OPM Operational Process Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1875,7 +1875,7 @@ export const enums = {
             "id": "D3-OPR",
             "name": "Operating Mode Restriction",
             "label": "[D3F] D3-OPR Operating Mode Restriction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1886,7 +1886,7 @@ export const enums = {
             "id": "D3-ORA",
             "name": "Operational Risk Assessment",
             "label": "[D3F] D3-ORA Operational Risk Assessment",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1897,7 +1897,7 @@ export const enums = {
             "id": "D3-OSM",
             "name": "Operating System Monitoring",
             "label": "[D3F] D3-OSM Operating System Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1908,7 +1908,7 @@ export const enums = {
             "id": "D3-OTF",
             "name": "Outbound Traffic Filtering",
             "label": "[D3F] D3-OTF Outbound Traffic Filtering",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1919,7 +1919,7 @@ export const enums = {
             "id": "D3-OTP",
             "name": "One-time Password",
             "label": "[D3F] D3-OTP One-time Password",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1930,7 +1930,7 @@ export const enums = {
             "id": "D3-OVAR",
             "name": "OT Variable Access Restriction",
             "label": "[D3F] D3-OVAR OT Variable Access Restriction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1941,7 +1941,7 @@ export const enums = {
             "id": "D3-PA",
             "name": "Process Analysis",
             "label": "[D3F] D3-PA Process Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1952,7 +1952,7 @@ export const enums = {
             "id": "D3-PAM",
             "name": "Physical Access Mediation",
             "label": "[D3F] D3-PAM Physical Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1963,7 +1963,7 @@ export const enums = {
             "id": "D3-PAN",
             "name": "Pointer Authentication",
             "label": "[D3F] D3-PAN Pointer Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1974,7 +1974,7 @@ export const enums = {
             "id": "D3-PBWSAM",
             "name": "Proxy-based Web Server Access Mediation",
             "label": "[D3F] D3-PBWSAM Proxy-based Web Server Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1985,7 +1985,7 @@ export const enums = {
             "id": "D3-PCA",
             "name": "Passive Certificate Analysis",
             "label": "[D3F] D3-PCA Passive Certificate Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -1996,7 +1996,7 @@ export const enums = {
             "id": "D3-PCSV",
             "name": "Process Code Segment Verification",
             "label": "[D3F] D3-PCSV Process Code Segment Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2007,7 +2007,7 @@ export const enums = {
             "id": "D3-PE",
             "name": "Process Eviction",
             "label": "[D3F] D3-PE Process Eviction",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2018,7 +2018,7 @@ export const enums = {
             "id": "D3-PEH",
             "name": "Physical Enclosure Hardening",
             "label": "[D3F] D3-PEH Physical Enclosure Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2029,7 +2029,7 @@ export const enums = {
             "id": "D3-PFV",
             "name": "Peripheral Firmware Verification",
             "label": "[D3F] D3-PFV Peripheral Firmware Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2040,7 +2040,7 @@ export const enums = {
             "id": "D3-PH",
             "name": "Platform Hardening",
             "label": "[D3F] D3-PH Platform Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2051,7 +2051,7 @@ export const enums = {
             "id": "D3-PHAM",
             "name": "Physical Access Monitoring",
             "label": "[D3F] D3-PHAM Physical Access Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2062,7 +2062,7 @@ export const enums = {
             "id": "D3-PHDURA",
             "name": "Per Host Download-Upload Ratio Analysis",
             "label": "[D3F] D3-PHDURA Per Host Download-Upload Ratio Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2073,7 +2073,7 @@ export const enums = {
             "id": "D3-PLA",
             "name": "Process Lineage Analysis",
             "label": "[D3F] D3-PLA Process Lineage Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2084,7 +2084,7 @@ export const enums = {
             "id": "D3-PLLM",
             "name": "Passive Logical Link Mapping",
             "label": "[D3F] D3-PLLM Passive Logical Link Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2095,7 +2095,7 @@ export const enums = {
             "id": "D3-PLM",
             "name": "Physical Link Mapping",
             "label": "[D3F] D3-PLM Physical Link Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2106,7 +2106,7 @@ export const enums = {
             "id": "D3-PM",
             "name": "Platform Monitoring",
             "label": "[D3F] D3-PM Platform Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2117,7 +2117,7 @@ export const enums = {
             "id": "D3-PMAD",
             "name": "Protocol Metadata Anomaly Detection",
             "label": "[D3F] D3-PMAD Protocol Metadata Anomaly Detection",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2128,7 +2128,7 @@ export const enums = {
             "id": "D3-PR",
             "name": "Password Rotation",
             "label": "[D3F] D3-PR Password Rotation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2139,7 +2139,7 @@ export const enums = {
             "id": "D3-PS",
             "name": "Process Suspension",
             "label": "[D3F] D3-PS Process Suspension",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2150,7 +2150,7 @@ export const enums = {
             "id": "D3-PSA",
             "name": "Process Spawn Analysis",
             "label": "[D3F] D3-PSA Process Spawn Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2161,7 +2161,7 @@ export const enums = {
             "id": "D3-PSEP",
             "name": "Process Segment Execution Prevention",
             "label": "[D3F] D3-PSEP Process Segment Execution Prevention",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2172,7 +2172,7 @@ export const enums = {
             "id": "D3-PSM",
             "name": "Proximity Sensor Monitoring",
             "label": "[D3F] D3-PSM Proximity Sensor Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2183,7 +2183,7 @@ export const enums = {
             "id": "D3-PSMD",
             "name": "Process Self-Modification Detection",
             "label": "[D3F] D3-PSMD Process Self-Modification Detection",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2194,7 +2194,7 @@ export const enums = {
             "id": "D3-PT",
             "name": "Process Termination",
             "label": "[D3F] D3-PT Process Termination",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2205,7 +2205,7 @@ export const enums = {
             "id": "D3-PUM",
             "name": "Platform Uptime Monitoring",
             "label": "[D3F] D3-PUM Platform Uptime Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2216,7 +2216,7 @@ export const enums = {
             "id": "D3-PV",
             "name": "Pointer Validation",
             "label": "[D3F] D3-PV Pointer Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2227,7 +2227,7 @@ export const enums = {
             "id": "D3-PWA",
             "name": "Password Authentication",
             "label": "[D3F] D3-PWA Password Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2238,7 +2238,7 @@ export const enums = {
             "id": "D3-RA",
             "name": "Restore Access",
             "label": "[D3F] D3-RA Restore Access",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2249,7 +2249,7 @@ export const enums = {
             "id": "D3-RAM",
             "name": "Routing Access Mediation",
             "label": "[D3F] D3-RAM Routing Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2260,7 +2260,7 @@ export const enums = {
             "id": "D3-RAPA",
             "name": "Resource Access Pattern Analysis",
             "label": "[D3F] D3-RAPA Resource Access Pattern Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2271,7 +2271,7 @@ export const enums = {
             "id": "D3-RC",
             "name": "Restore Configuration",
             "label": "[D3F] D3-RC Restore Configuration",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2282,7 +2282,7 @@ export const enums = {
             "id": "D3-RD",
             "name": "Restore Database",
             "label": "[D3F] D3-RD Restore Database",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2293,7 +2293,7 @@ export const enums = {
             "id": "D3-RDI",
             "name": "Restore Disk Image",
             "label": "[D3F] D3-RDI Restore Disk Image",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2304,7 +2304,7 @@ export const enums = {
             "id": "D3-RE",
             "name": "Restore Email",
             "label": "[D3F] D3-RE Restore Email",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2315,7 +2315,7 @@ export const enums = {
             "id": "D3-RF",
             "name": "Restore File",
             "label": "[D3F] D3-RF Restore File",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2326,7 +2326,7 @@ export const enums = {
             "id": "D3-RFAM",
             "name": "Remote File Access Mediation",
             "label": "[D3F] D3-RFAM Remote File Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2337,7 +2337,7 @@ export const enums = {
             "id": "D3-RFS",
             "name": "RF Shielding",
             "label": "[D3F] D3-RFS RF Shielding",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2348,7 +2348,7 @@ export const enums = {
             "id": "D3-RFUM",
             "name": "Remote Firmware Update Monitoring",
             "label": "[D3F] D3-RFUM Remote Firmware Update Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2359,7 +2359,7 @@ export const enums = {
             "id": "D3-RH",
             "name": "Radiation Hardening",
             "label": "[D3F] D3-RH Radiation Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2370,7 +2370,7 @@ export const enums = {
             "id": "D3-RIC",
             "name": "Reissue Credential",
             "label": "[D3F] D3-RIC Reissue Credential",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2381,7 +2381,7 @@ export const enums = {
             "id": "D3-RKD",
             "name": "Registry Key Deletion",
             "label": "[D3F] D3-RKD Registry Key Deletion",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2392,7 +2392,7 @@ export const enums = {
             "id": "D3-RN",
             "name": "Reference Nullification",
             "label": "[D3F] D3-RN Reference Nullification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2403,7 +2403,7 @@ export const enums = {
             "id": "D3-RNA",
             "name": "Restore Network Access",
             "label": "[D3F] D3-RNA Restore Network Access",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2414,7 +2414,7 @@ export const enums = {
             "id": "D3-RO",
             "name": "Restore Object",
             "label": "[D3F] D3-RO Restore Object",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2425,7 +2425,7 @@ export const enums = {
             "id": "D3-RPA",
             "name": "Relay Pattern Analysis",
             "label": "[D3F] D3-RPA Relay Pattern Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2436,7 +2436,7 @@ export const enums = {
             "id": "D3-RRID",
             "name": "Reverse Resolution IP Denylisting",
             "label": "[D3F] D3-RRID Reverse Resolution IP Denylisting",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2447,7 +2447,7 @@ export const enums = {
             "id": "D3-RS",
             "name": "Restore Software",
             "label": "[D3F] D3-RS Restore Software",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2458,7 +2458,7 @@ export const enums = {
             "id": "D3-RTA",
             "name": "RPC Traffic Analysis",
             "label": "[D3F] D3-RTA RPC Traffic Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2469,7 +2469,7 @@ export const enums = {
             "id": "D3-RTSD",
             "name": "Remote Terminal Session Detection",
             "label": "[D3F] D3-RTSD Remote Terminal Session Detection",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2480,7 +2480,7 @@ export const enums = {
             "id": "D3-RUAA",
             "name": "Restore User Account Access",
             "label": "[D3F] D3-RUAA Restore User Account Access",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2491,7 +2491,7 @@ export const enums = {
             "id": "D3-SAOR",
             "name": "Segment Address Offset Randomization",
             "label": "[D3F] D3-SAOR Segment Address Offset Randomization",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2502,7 +2502,7 @@ export const enums = {
             "id": "D3-SBV",
             "name": "Service Binary Verification",
             "label": "[D3F] D3-SBV Service Binary Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2513,7 +2513,7 @@ export const enums = {
             "id": "D3-SCA",
             "name": "System Call Analysis",
             "label": "[D3F] D3-SCA System Call Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2524,7 +2524,7 @@ export const enums = {
             "id": "D3-SCF",
             "name": "System Call Filtering",
             "label": "[D3F] D3-SCF System Call Filtering",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2535,7 +2535,7 @@ export const enums = {
             "id": "D3-SCH",
             "name": "Source Code Hardening",
             "label": "[D3F] D3-SCH Source Code Hardening",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2546,7 +2546,7 @@ export const enums = {
             "id": "D3-SCP",
             "name": "System Configuration Permissions",
             "label": "[D3F] D3-SCP System Configuration Permissions",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2557,7 +2557,7 @@ export const enums = {
             "id": "D3-SDA",
             "name": "Session Duration Analysis",
             "label": "[D3F] D3-SDA Session Duration Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2568,7 +2568,7 @@ export const enums = {
             "id": "D3-SDM",
             "name": "System Daemon Monitoring",
             "label": "[D3F] D3-SDM System Daemon Monitoring",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2579,7 +2579,7 @@ export const enums = {
             "id": "D3-SEA",
             "name": "Script Execution Analysis",
             "label": "[D3F] D3-SEA Script Execution Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2590,7 +2590,7 @@ export const enums = {
             "id": "D3-SFA",
             "name": "System File Analysis",
             "label": "[D3F] D3-SFA System File Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2601,7 +2601,7 @@ export const enums = {
             "id": "D3-SFCV",
             "name": "Stack Frame Canary Validation",
             "label": "[D3F] D3-SFCV Stack Frame Canary Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2612,7 +2612,7 @@ export const enums = {
             "id": "D3-SFV",
             "name": "System Firmware Verification",
             "label": "[D3F] D3-SFV System Firmware Verification",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2623,7 +2623,7 @@ export const enums = {
             "id": "D3-SHN",
             "name": "Standalone Honeynet",
             "label": "[D3F] D3-SHN Standalone Honeynet",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2634,7 +2634,7 @@ export const enums = {
             "id": "D3-SICA",
             "name": "System Init Config Analysis",
             "label": "[D3F] D3-SICA System Init Config Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2645,7 +2645,7 @@ export const enums = {
             "id": "D3-SJA",
             "name": "Scheduled Job Analysis",
             "label": "[D3F] D3-SJA Scheduled Job Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2656,7 +2656,7 @@ export const enums = {
             "id": "D3-SMRA",
             "name": "Sender MTA Reputation Analysis",
             "label": "[D3F] D3-SMRA Sender MTA Reputation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2667,7 +2667,7 @@ export const enums = {
             "id": "D3-SPP",
             "name": "Strong Password Policy",
             "label": "[D3F] D3-SPP Strong Password Policy",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2678,7 +2678,7 @@ export const enums = {
             "id": "D3-SRA",
             "name": "Sender Reputation Analysis",
             "label": "[D3F] D3-SRA Sender Reputation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2689,7 +2689,7 @@ export const enums = {
             "id": "D3-SSC",
             "name": "Shadow Stack Comparisons",
             "label": "[D3F] D3-SSC Shadow Stack Comparisons",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2700,7 +2700,7 @@ export const enums = {
             "id": "D3-ST",
             "name": "Session Termination",
             "label": "[D3F] D3-ST Session Termination",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2711,7 +2711,7 @@ export const enums = {
             "id": "D3-SU",
             "name": "Software Update",
             "label": "[D3F] D3-SU Software Update",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2722,7 +2722,7 @@ export const enums = {
             "id": "D3-SVCDM",
             "name": "Service Dependency Mapping",
             "label": "[D3F] D3-SVCDM Service Dependency Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2733,7 +2733,7 @@ export const enums = {
             "id": "D3-SWI",
             "name": "Software Inventory",
             "label": "[D3F] D3-SWI Software Inventory",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2744,7 +2744,7 @@ export const enums = {
             "id": "D3-SYSDM",
             "name": "System Dependency Mapping",
             "label": "[D3F] D3-SYSDM System Dependency Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2755,7 +2755,7 @@ export const enums = {
             "id": "D3-SYSM",
             "name": "System Mapping",
             "label": "[D3F] D3-SYSM System Mapping",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2766,7 +2766,7 @@ export const enums = {
             "id": "D3-SYSVA",
             "name": "System Vulnerability Assessment",
             "label": "[D3F] D3-SYSVA System Vulnerability Assessment",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2777,7 +2777,7 @@ export const enums = {
             "id": "D3-TAAN",
             "name": "Transfer Agent Authentication",
             "label": "[D3F] D3-TAAN Transfer Agent Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2788,7 +2788,7 @@ export const enums = {
             "id": "D3-TB",
             "name": "Token Binding",
             "label": "[D3F] D3-TB Token Binding",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2799,7 +2799,7 @@ export const enums = {
             "id": "D3-TBA",
             "name": "Token-based Authentication",
             "label": "[D3F] D3-TBA Token-based Authentication",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2810,7 +2810,7 @@ export const enums = {
             "id": "D3-TBI",
             "name": "TPM Boot Integrity",
             "label": "[D3F] D3-TBI TPM Boot Integrity",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2821,7 +2821,7 @@ export const enums = {
             "id": "D3-TL",
             "name": "Trusted Library",
             "label": "[D3F] D3-TL Trusted Library",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2832,7 +2832,7 @@ export const enums = {
             "id": "D3-UA",
             "name": "URL Analysis",
             "label": "[D3F] D3-UA URL Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2843,7 +2843,7 @@ export const enums = {
             "id": "D3-UAP",
             "name": "User Account Permissions",
             "label": "[D3F] D3-UAP User Account Permissions",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2854,7 +2854,7 @@ export const enums = {
             "id": "D3-UBA",
             "name": "User Behavior Analysis",
             "label": "[D3F] D3-UBA User Behavior Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2865,7 +2865,7 @@ export const enums = {
             "id": "D3-UDTA",
             "name": "User Data Transfer Analysis",
             "label": "[D3F] D3-UDTA User Data Transfer Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2876,7 +2876,7 @@ export const enums = {
             "id": "D3-UGLPA",
             "name": "User Geolocation Logon Pattern Analysis",
             "label": "[D3F] D3-UGLPA User Geolocation Logon Pattern Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2887,7 +2887,7 @@ export const enums = {
             "id": "D3-UGPH",
             "name": "User Group Permissions",
             "label": "[D3F] D3-UGPH User Group Permissions",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2898,7 +2898,7 @@ export const enums = {
             "id": "D3-ULA",
             "name": "Unlock Account",
             "label": "[D3F] D3-ULA Unlock Account",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2909,7 +2909,7 @@ export const enums = {
             "id": "D3-URA",
             "name": "URL Reputation Analysis",
             "label": "[D3F] D3-URA URL Reputation Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2920,7 +2920,7 @@ export const enums = {
             "id": "D3-USICA",
             "name": "User Session Init Config Analysis",
             "label": "[D3F] D3-USICA User Session Init Config Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2931,7 +2931,7 @@ export const enums = {
             "id": "D3-VI",
             "name": "Variable Initialization",
             "label": "[D3F] D3-VI Variable Initialization",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2942,7 +2942,7 @@ export const enums = {
             "id": "D3-VS",
             "name": "Video Surveillance",
             "label": "[D3F] D3-VS Video Surveillance",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2953,7 +2953,7 @@ export const enums = {
             "id": "D3-VTV",
             "name": "Variable Type Validation",
             "label": "[D3F] D3-VTV Variable Type Validation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2964,7 +2964,7 @@ export const enums = {
             "id": "D3-WSAA",
             "name": "Web Session Activity Analysis",
             "label": "[D3F] D3-WSAA Web Session Activity Analysis",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
@@ -2975,7 +2975,7 @@ export const enums = {
             "id": "D3-WSAM",
             "name": "Web Session Access Mediation",
             "label": "[D3F] D3-WSAM Web Session Access Mediation",
-            "type": "technique",
+            "type": "countermeasure",
             "source": "D3FEND",
             "domains": [
                 "d3fend"
