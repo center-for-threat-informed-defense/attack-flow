@@ -191,7 +191,7 @@ The output of the command will look something like this:
     :alt: A Navigator layer with the the Tesla flow rendered as an overlay.
     :align: center
 
-    A Navigator layer with the the Tesa flow rendered as an overlay.
+    A Navigator layer with the the Tesla flow rendered as an overlay.
 
 Generate schema documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -413,7 +413,7 @@ The subcommand ``export-stix`` converts one or more ``.afb`` files to a STIX bun
     ...
 
 The subcommand ``upgrade-v2`` converts one or more ``.afb`` files from Attack
-Flow v2 format to v3 format. It renameds the existing file ``.afb`` file with an
+Flow v2 format to v3 format. It renames the existing file ``.afb`` file with an
 ``.afb-v2`` extension so that you have a copy of the original. Then it upgrades
 the file to v3 format and saves it back to its original path.
 
