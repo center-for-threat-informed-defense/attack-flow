@@ -7,6 +7,19 @@
     package here, without paraphrasing or semantic rewriting.
   -->
   <div class="ai-generation">
+    <div>
+      <button
+        class="back-button"
+        @click="onClickBack"
+      >
+        <ArrowLeftIcon
+          :width="10"
+          :height="10"
+          :color="iconColor"
+        />
+        Back
+      </button>
+    </div>
     <h2 class="generation-title">
       Generate Attack Flow
     </h2>
@@ -380,6 +393,7 @@ import {
 import { prepareEditorFromExistingFile } from "@/assets/scripts/Application/index.ts";
 import LoadingSpinner from "./LoadingSpinner.vue";
 import AIGenerationProviderType from "./AIGenerationProviderType.vue";
+import ArrowLeftIcon from "../Icons/ArrowLeftIcon.vue";
 
 type SourceType = "upload" | "url" | "text" | null;
 
@@ -393,6 +407,7 @@ interface DirectProviderStructuredGenerationOutputLite {
 
 export default defineComponent({
   name: "AIGenerationSplashScreen",
+  emits: ['onClickBack'],
   setup() {
     return {
         applicationStore: useApplicationStore(),
@@ -651,6 +666,21 @@ export default defineComponent({
 
     directProviderType(): SupportedRuntimeProviderType {
       return this.activeProviderType;
+    },
+
+    iconColor(){
+        let result = "#737373";
+        const theme_id = this.applicationStore.activeEditor.file.factory.theme.id;
+        switch (theme_id) {
+            case "dark_theme":
+                result = "#89a0ec";
+                break;
+            case "light_theme":
+            case "blog_theme":
+                result = "#2E5FAD";
+                break;
+        }
+        return result;
     }
 
   },
@@ -1007,6 +1037,10 @@ export default defineComponent({
         this.generationStatus = "error";
         this.generationMessage = error instanceof Error ? error.message : "Failed to open generated flow.";
       }
+    },
+
+    onClickBack() {
+        this.$emit('onClickBack');
     }
 
   },
@@ -1015,7 +1049,8 @@ export default defineComponent({
     FolderIcon,
     LinkIcon,
     LoadingSpinner,
-    AIGenerationProviderType
+    AIGenerationProviderType,
+    ArrowLeftIcon
   }
 });
 </script>
@@ -1046,7 +1081,8 @@ export default defineComponent({
   color: var(--af-text-color-primary);
   font-size: 13.5pt;
   font-weight: 700;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
+  margin-top: -10px;
 }
 
 .ai-generation .section {
@@ -1387,5 +1423,15 @@ details[open] summary::after {
 
 .generation-message[data-status="error"] {
   color: var(--af-color-error);
+}
+
+.back-button {
+    border: none;
+    background: none;
+    color: var(--af-color-info);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: -5px;
 }
 </style>

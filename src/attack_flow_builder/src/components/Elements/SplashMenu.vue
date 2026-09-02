@@ -15,156 +15,176 @@
         :src="organization"
       >
     </div>
-    <div
-      class="menu-body"
-      v-if="application.splashMenuMode === 'home'"
+
+    <ScrollBox
+      class="menu-body-scrollbox"
+      :reset-scroll-on-change="true"
     >
       <div
-        class="section open-recovered-file"
-        v-if="files.size"
+        class="menu-body"
+        v-if="application.splashMenuMode === 'home'"
       >
-        <p class="section-title">
-          RECOVER FILE
-        </p>
-        <ScrollBox class="file-scrollbox">
-          <div :class="['file-grid', { 'has-scrollbar': 4 < files.size }]">
-            <div
-              class="file-entry"
-              v-for="[k, p] of files"
-              :key="k"
-            >
+        <div
+          class="section open-recovered-file"
+          v-if="files.size"
+        >
+          <p class="section-title">
+            RECOVER FILE
+          </p>
+          <ScrollBox class="file-scrollbox">
+            <div :class="['file-grid', { 'has-scrollbar': 4 < files.size }]">
               <div
-                class="file"
-                @click="onRecoverFile(p.contents, p.name)"
+                class="file-entry"
+                v-for="[k, p] of files"
+                :key="k"
               >
-                <div class="file-header">
-                  <FullPageIcon class="file-icon" />
-                  <p class="file-title">
-                    {{ p.name }}
+                <div
+                  class="file"
+                  @click="onRecoverFile(p.contents, p.name)"
+                >
+                  <div class="file-header">
+                    <FullPageIcon class="file-icon" />
+                    <p class="file-title">
+                      {{ p.name }}
+                    </p>
+                  </div>
+                  <p class="file-date">
+                    {{ p.date.toLocaleString() }}
                   </p>
                 </div>
-                <p class="file-date">
-                  {{ p.date.toLocaleString() }}
+                <div
+                  class="delete-file"
+                  @click="onDeleteFile(k)"
+                >
+                  Delete ✗
+                </div>
+              </div>
+            </div>
+          </ScrollBox>
+        </div>
+
+        <div class="section open-file">
+          <p class="section-title">
+            OPEN FILE
+          </p>
+          <div class="button-grid">
+            <div
+              class="button"
+              @click="onNewFile"
+            >
+              <div class="button-header">
+                <span class="button-icon">
+                  <EmptyPageIcon />
+                </span>
+                <p class="button-title">
+                  {{ newFile.title }}
                 </p>
               </div>
-              <div
-                class="delete-file"
-                @click="onDeleteFile(k)"
-              >
-                Delete ✗
+              <p class="button-description">
+                {{ newFile.description }}
+              </p>
+            </div>
+
+            <div
+              class="button"
+              @click="onOpenFile"
+            >
+              <div class="button-header">
+                <span class="button-icon">
+                  <FolderIcon />
+                </span>
+                <p class="button-title">
+                  {{ openFile.title }}
+                </p>
               </div>
-            </div>
-          </div>
-        </ScrollBox>
-      </div>
-      <div class="section open-file">
-        <p class="section-title">
-          OPEN FILE
-        </p>
-        <div class="button-grid">
-          <div
-            class="button"
-            @click="onNewFile"
-          >
-            <div class="button-header">
-              <span class="button-icon"><EmptyPageIcon /></span>
-              <p class="button-title">
-                {{ newFile.title }}
+              <p class="button-description">
+                {{ openFile.description }}
               </p>
             </div>
-            <p class="button-description">
-              {{ newFile.description }}
-            </p>
-          </div>
-          <div
-            class="button"
-            @click="onOpenFile"
-          >
-            <div class="button-header">
-              <span class="button-icon"><FolderIcon /></span>
-              <p class="button-title">
-                {{ openFile.title }}
+
+            <div
+              class="button"
+              @click="onGenerateFlow"
+            >
+              <div class="button-header">
+                <span class="button-icon">
+                  <FolderIcon />
+                </span>
+                <p class="button-title">
+                  {{ generateFlow.title }}
+                </p>
+              </div>
+              <p class="button-description">
+                {{ generateFlow.description }}
               </p>
             </div>
-            <p class="button-description">
-              {{ openFile.description }}
-            </p>
-          </div>
-          <div
-            class="button"
-            @click="onGenerateFlow"
-          >
-            <div class="button-header">
-              <span class="button-icon"><FolderIcon /></span>
-              <p class="button-title">
-                {{ generateFlow.title }}
+
+            <div
+              class="button"
+              @click="onImportStix"
+            >
+              <div class="button-header">
+                <span class="button-icon">
+                  <FolderIcon />
+                </span>
+                <p class="button-title">
+                  {{ importStix.title }}
+                </p>
+              </div>
+              <p class="button-description">
+                {{ importStix.description }}
               </p>
             </div>
-            <p class="button-description">
-              {{ generateFlow.description }}
-            </p>
           </div>
-          <div
-            class="button"
-            @click="onImportStix"
-          >
-            <div class="button-header">
-              <span class="button-icon"><FolderIcon /></span>
-              <p class="button-title">
-                {{ importStix.title }}
+        </div>
+
+        <div
+          class="section resources"
+          v-if="helpLinks.length"
+        >
+          <p class="section-title">
+            RESOURCES
+          </p>
+          <div class="button-grid">
+            <div
+              class="button"
+              v-for="l of helpLinks"
+              :key="l.url"
+              @click="onOpenHelp(l.url!)"
+            >
+              <div class="button-header">
+                <span class="button-icon">
+                  <LinkIcon />
+                </span>
+                <p class="button-title">
+                  {{ l.title }}
+                </p>
+              </div>
+              <p class="button-description">
+                {{ l.description }}
               </p>
             </div>
-            <p class="button-description">
-              {{ importStix.description }}
-            </p>
           </div>
         </div>
       </div>
+
       <div
-        class="section resources"
-        v-if="helpLinks.length"
+        class="menu-body"
+        v-else
       >
-        <p class="section-title">
-          RESOURCES
-        </p>
-        <div class="button-grid">
-          <div
-            class="button"
-            v-for="l of helpLinks"
-            :key="l.url"
-            @click="onOpenHelp(l.url!)"
-          >
-            <div class="button-header">
-              <span class="button-icon"><LinkIcon /></span>
-              <p class="button-title">
-                {{ l.title }}
-              </p>
-            </div>
-            <p class="button-description">
-              {{ l.description }}
-            </p>
-          </div>
-        </div>
+        <AIGenerationSplashScreen @on-click-back="onGenerationClickBack" />
       </div>
-    </div>
-    <div
-      class="menu-body"
-      v-else
-    >
-      <AIGenerationSplashScreen />
-    </div>
+    </ScrollBox>
   </div>
 </template>
 
 <script lang="ts">
 import * as AppCommands from "@/assets/scripts/Application/Commands";
 import Configuration from "@/assets/configuration/app.configuration";
-// Dependencies
 import { version } from "@/../package.json";
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 import { useApplicationStore } from "@/stores/ApplicationStore";
 import { AppCommand } from "@/assets/scripts/Application";
-// Components
 import LinkIcon from "@/components/Icons/LinkIcon.vue";
 import FolderIcon from "@/components/Icons/FolderIcon.vue";
 import FullPageIcon from "@/components/Icons/FullPageIcon.vue";
@@ -175,7 +195,7 @@ import AIGenerationSplashScreen from "./AIGenerationSplashScreen.vue";
 const displayVersion = version.split(".").slice(0, 2).join(".");
 
 export default defineComponent({
-  name: 'SplashMenu',
+  name: "SplashMenu",
   data() {
     return {
       application: useApplicationStore(),
@@ -187,7 +207,7 @@ export default defineComponent({
       generateFlow: Configuration.splash.generate_flow,
       importStix: Configuration.splash.import_stix,
       helpLinks: Configuration.splash.help_links
-    }
+    };
   },
   computed: {
 
@@ -198,14 +218,13 @@ export default defineComponent({
      */
     files(): Map<string, { name: string, date: Date, contents: string }> {
       const files = new Map();
-      for(const [id, file] of this.application.fileRecoveryBank.files) {
-        if(id !== this.application.activeEditor.id) {
+      for (const [id, file] of this.application.fileRecoveryBank.files) {
+        if (id !== this.application.activeEditor.id) {
           files.set(id, file);
         }
       }
       return files;
     }
-    
   },
   methods: {
 
@@ -239,6 +258,10 @@ export default defineComponent({
      */
     onGenerateFlow() {
       this.application.splashMenuMode = "ai-generation";
+    },
+
+    onGenerationClickBack() {
+      this.application.splashMenuMode = "home";
     },
 
     /**
@@ -279,14 +302,15 @@ export default defineComponent({
     onOpenHelp(url: string) {
       this.execute(AppCommands.openHyperlink(url));
     }
-
   },
-  components: { 
+  components: {
     AIGenerationSplashScreen,
-    LinkIcon, FolderIcon, 
-    FullPageIcon, EmptyPageIcon,
+    LinkIcon,
+    FolderIcon,
+    FullPageIcon,
+    EmptyPageIcon,
     ScrollBox
-  },
+  }
 });
 </script>
 
@@ -299,10 +323,11 @@ export default defineComponent({
   flex-direction: column;
   min-width: 640px;
   max-width: 740px;
+  height: 70vh;
   border: solid 1px var(--af-border-color-primary);
   border-radius: 5px;
   background: var(--af-bg-color-primary);
-  box-shadow: 0 0 10px 0 rgba(0,0,0,0.35);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.35);
   overflow: hidden;
 }
 
@@ -325,7 +350,7 @@ export default defineComponent({
 
 *[data-theme="blog_theme"] .application-info,
 *[data-theme="light_theme"] .application-info {
-    color: #000;
+  color: #000;
 }
 
 .application-info .application-name {
@@ -333,6 +358,7 @@ export default defineComponent({
   font-weight: 700;
   white-space: nowrap;
 }
+
 .application-info .application-version {
   font-size: 9.5pt;
   white-space: nowrap;
@@ -344,13 +370,14 @@ export default defineComponent({
 
 *[data-theme="blog_theme"] .organization,
 *[data-theme="light_theme"] .organization {
-    filter: invert(1);
+  filter: invert(1);
 }
 
 /** === Body === */
 
 .menu-body {
   padding: 30px;
+  box-sizing: border-box;
 }
 
 .section {
@@ -370,10 +397,10 @@ export default defineComponent({
 }
 
 .section-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 25px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 25px;
 }
 
 /** === Files & Buttons === */
@@ -381,9 +408,6 @@ export default defineComponent({
 .file-entry {
   display: flex;
   height: 36px;
-}
-
-.file-entry {
   margin-bottom: 6px;
 }
 
@@ -439,7 +463,7 @@ export default defineComponent({
 }
 
 .button-icon svg {
-    fill: var(--af-color-info);
+  fill: var(--af-color-info);
 }
 
 .file-title,
@@ -525,5 +549,4 @@ export default defineComponent({
   border: 1px solid var(--af-border-color-primary);
   border-radius: 5px;
 }
-
 </style>
