@@ -1,13 +1,14 @@
 import pytest
 
 from attack_flow_api.config import ProviderConfig, ProvidersConfig
-from attack_flow_api.providers.adapter import ProviderAdapter, ProviderAdapterInvocationError
+from attack_flow_api.providers.adapter import (
+    ProviderAdapter,
+    ProviderAdapterInvocationError,
+)
 from attack_flow_api.providers.contracts import ProviderInvocationMode
 from attack_flow_api.providers.contracts import ProviderValidationRequest
 from attack_flow_api.providers.contracts import RuntimeProviderOverride
-from attack_flow_api.providers.anthropic_adapter import AnthropicProviderAdapter
-from attack_flow_api.providers.gemini_adapter import GeminiProviderAdapter
-from attack_flow_api.providers.openai_adapter import OpenAIProviderAdapter
+from attack_flow_api.providers.litellm_adapter import LiteLLMProviderAdapter
 from attack_flow_api.providers.registry import (
     ProviderDisabledError,
     ProviderNotFoundError,
@@ -70,7 +71,7 @@ def test_registry_resolves_enabled_provider_adapter() -> None:
     adapter = registry.resolve_adapter("default-openai")
 
     assert isinstance(adapter, ProviderAdapter)
-    assert isinstance(adapter, OpenAIProviderAdapter)
+    assert isinstance(adapter, LiteLLMProviderAdapter)
     assert adapter.provider_id == "default-openai"
     assert adapter.provider_type == "openai"
 
@@ -81,7 +82,7 @@ def test_registry_resolves_azure_provider_adapter() -> None:
     adapter = registry.resolve_adapter("azure-openai")
 
     assert isinstance(adapter, ProviderAdapter)
-    assert isinstance(adapter, OpenAIProviderAdapter)
+    assert isinstance(adapter, LiteLLMProviderAdapter)
     assert adapter.provider_id == "azure-openai"
     assert adapter.provider_type == "azure_openai"
 
@@ -92,7 +93,7 @@ def test_registry_resolves_anthropic_provider_adapter() -> None:
     adapter = registry.resolve_adapter("anthropic-primary")
 
     assert isinstance(adapter, ProviderAdapter)
-    assert isinstance(adapter, AnthropicProviderAdapter)
+    assert isinstance(adapter, LiteLLMProviderAdapter)
     assert adapter.provider_id == "anthropic-primary"
     assert adapter.provider_type == "anthropic"
 
@@ -103,7 +104,7 @@ def test_registry_resolves_gemini_provider_adapter() -> None:
     adapter = registry.resolve_adapter("gemini-primary")
 
     assert isinstance(adapter, ProviderAdapter)
-    assert isinstance(adapter, GeminiProviderAdapter)
+    assert isinstance(adapter, LiteLLMProviderAdapter)
     assert adapter.provider_id == "gemini-primary"
     assert adapter.provider_type == "gemini"
 
@@ -189,7 +190,7 @@ def test_registry_optional_invocation_requested_and_resolved() -> None:
     assert plan.mode == ProviderInvocationMode.REQUESTED_AND_RESOLVED
     assert plan.provider_id == "default-openai"
     assert plan.provider_type == "openai"
-    assert isinstance(plan.adapter, OpenAIProviderAdapter)
+    assert isinstance(plan.adapter, LiteLLMProviderAdapter)
 
 
 def test_registry_openai_adapter_requires_runtime_credentials() -> None:
@@ -219,7 +220,7 @@ def test_registry_resolves_ephemeral_runtime_openai_adapter() -> None:
         allowed_provider_types={"openai", "openai_compatible", "azure_openai"},
     )
 
-    assert isinstance(adapter, OpenAIProviderAdapter)
+    assert isinstance(adapter, LiteLLMProviderAdapter)
     assert adapter.provider_id == "runtime-openai_compatible"
     assert adapter.provider_type == "openai_compatible"
     assert registry.get_default_enabled_provider_id() == "default-openai"
@@ -264,7 +265,7 @@ def test_registry_resolves_ephemeral_runtime_anthropic_adapter() -> None:
         allowed_provider_types={"anthropic"},
     )
 
-    assert isinstance(adapter, AnthropicProviderAdapter)
+    assert isinstance(adapter, LiteLLMProviderAdapter)
     assert adapter.provider_id == "runtime-anthropic"
     assert adapter.provider_type == "anthropic"
 
@@ -283,7 +284,7 @@ def test_registry_resolves_ephemeral_runtime_gemini_adapter() -> None:
         allowed_provider_types={"gemini"},
     )
 
-    assert isinstance(adapter, GeminiProviderAdapter)
+    assert isinstance(adapter, LiteLLMProviderAdapter)
     assert adapter.provider_id == "runtime-gemini"
     assert adapter.provider_type == "gemini"
 
@@ -293,7 +294,9 @@ def test_registry_rejects_runtime_override_when_disabled() -> None:
 
     with pytest.raises(RuntimeProviderOverrideDisabledError):
         registry.resolve_runtime_adapter(
-            runtime_override=RuntimeProviderOverride(provider_type="openai", api_key="runtime-secret"),
+            runtime_override=RuntimeProviderOverride(
+                provider_type="openai", api_key="runtime-secret"
+            ),
             allow_runtime_provider_override=False,
             allowed_provider_types={"openai"},
         )
@@ -304,7 +307,9 @@ def test_registry_rejects_disallowed_runtime_provider_type() -> None:
 
     with pytest.raises(RuntimeProviderTypeNotAllowedError) as exc:
         registry.resolve_runtime_adapter(
-            runtime_override=RuntimeProviderOverride(provider_type="azure_openai", api_key="runtime-secret"),
+            runtime_override=RuntimeProviderOverride(
+                provider_type="azure_openai", api_key="runtime-secret"
+            ),
             allow_runtime_provider_override=True,
             allowed_provider_types={"openai"},
         )

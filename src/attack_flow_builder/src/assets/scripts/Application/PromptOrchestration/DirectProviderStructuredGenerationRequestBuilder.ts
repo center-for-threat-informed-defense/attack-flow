@@ -1,4 +1,7 @@
-import type { RuntimeProviderConfig } from "../Configuration";
+import {
+    DEFAULT_DIRECT_PROVIDER_MAX_OUTPUT_TOKENS,
+    type RuntimeProviderConfig
+} from "../Configuration";
 import type { InputNormalizedSourceType } from "../InputNormalization";
 import type { StructuredGenerationRequest } from "../Providers";
 import { STRUCTURED_EXTRACTION_RESULT_SCHEMA_VERSION } from "../StructuredExtraction/StructuredExtractionContracts";
@@ -63,7 +66,7 @@ export function buildDirectProviderStructuredGenerationRequest(
         prompt: composeDirectProviderPrompt(promptBundle),
         responseFormat: requestModel.responseSchema?.format ?? "json_object",
         temperature: params.temperature ?? DIRECT_PROVIDER_REQUEST_TEMPERATURE,
-        maxOutputTokens: params.maxOutputTokens,
+        maxOutputTokens: params.maxOutputTokens ?? DEFAULT_DIRECT_PROVIDER_MAX_OUTPUT_TOKENS,
         timeoutSeconds: params.timeoutSeconds ?? DIRECT_PROVIDER_REQUEST_TIMEOUT_SECONDS,
         extraHeaders: params.provider.extraHeaders,
         metadata: {

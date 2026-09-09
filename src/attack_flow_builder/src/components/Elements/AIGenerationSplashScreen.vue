@@ -279,7 +279,7 @@
               @keydown.stop
             >
             <small class="field-hint">
-              For Gemini or Azure OpenAI, enter the model name.
+              For Claude, Gemini, or Azure OpenAI, enter the model name.
             </small>
           </label>
           <div
@@ -385,7 +385,7 @@ import {
   type StructuredExtractionRepairResult
 } from "@/assets/scripts/Application/StructuredExtraction";
 import { prepareEditorFromValidatedStructuredExtraction } from "@/assets/scripts/Application/Commands";
-import { OpenAICompatibleProviderAdapter, type StructuredGenerationRequest } from "@/assets/scripts/Application/Providers";
+import { AiSdkProviderAdapter, type StructuredGenerationRequest } from "@/assets/scripts/Application/Providers";
 import {
   SUPPORTED_RUNTIME_PROVIDER_TYPES,
   type SupportedRuntimeProviderType
@@ -661,6 +661,10 @@ export default defineComponent({
         return "openai_compatible";
       }
 
+      if (this.llmType === "anthropic") {
+        return "anthropic";
+      }
+
       return this.runtimeProviderStore.runtimeProviderConfig?.providerType || "openai_compatible";
     },
 
@@ -934,7 +938,7 @@ export default defineComponent({
                 };
 
                 const request = buildDirectProviderRequestPipeline(directProviderRequestParams);
-                const adapter = new OpenAICompatibleProviderAdapter({
+                const adapter = new AiSdkProviderAdapter({
                     providerType: this.directProviderType,
                     endpoint: this.llmEndpoint.trim(),
                     apiKey: this.llmToken.trim(),
@@ -958,7 +962,8 @@ export default defineComponent({
 
                 const command = await prepareEditorFromValidatedStructuredExtraction(this.applicationStore, extraction);
                 await this.applicationStore.execute(command);
-                this.generationStatus = 'success'
+                this.generationStatus = 'success';
+                this.generationMessage = "Generated flow opened in the editor.";
 
                 // On success, save direct-provider inputs to local storage.
                 this.runtimeProviderStore.setRuntimeProviderConfig({
@@ -986,57 +991,6 @@ export default defineComponent({
       this.directProviderStructuredGenerationOutput = output;
       this.generationMessage = "";
       this.generationStatus = "idle";
-    },
-
-    /**
-     * Opens the validated direct-provider output in the editor.
-     */
-    async generateAttackFlow() {
-      const request = this.directProviderStructuredGenerationRequest;
-      const runtimeProviderConfig = this.runtimeProviderStore.runtimeProviderConfig;
-      const model = this.llmModel.trim();
-      const providerEndpoint = this.llmEndpoint.trim();
-      const providerApiKey = this.llmToken.trim();
-
-      if (!request || !model) {
-        this.generationStatus = "error";
-        this.generationMessage = this.llmUseAzure && !this.llmAzureApiVersion.trim()
-          ? "Azure API version is required when Azure is enabled."
-          : "Provider model / deployment is required.";
-        return;
-      }
-
-      this.generationStatus = "loading";
-      this.generationMessage = "Generating flow...";
-      try {
-        const adapter = new OpenAICompatibleProviderAdapter({
-          endpoint: providerEndpoint,
-          apiKey: providerApiKey,
-          model,
-          providerType: this.directProviderType,
-          useAzure: this.llmUseAzure,
-          azureApiVersion: this.llmAzureApiVersion.trim() || undefined,
-          extraHeaders: runtimeProviderConfig?.extraHeaders
-        });
-        const output = await adapter.generateStructured(request);
-        this.setDirectProviderStructuredGenerationOutput(output);
-
-        const extraction = this.directProviderValidatedStructuredExtractionOutput;
-        if (!extraction) {
-          this.generationStatus = "error";
-          this.generationMessage = this.directProviderStructuredExtractionFailureDisplayState?.message
-            ?? "Validated structured extraction output is not available.";
-          return;
-        }
-
-        const command = await prepareEditorFromValidatedStructuredExtraction(this.applicationStore, extraction);
-        await this.applicationStore.execute(command);
-        this.generationStatus = "success";
-        this.generationMessage = "Generated flow opened in the editor.";
-      } catch (error) {
-        this.generationStatus = "error";
-        this.generationMessage = error instanceof Error ? error.message : "Failed to open generated flow.";
-      }
     },
 
     onClickBack() {

@@ -62,7 +62,6 @@
             </div>
           </ScrollBox>
         </div>
-
         <div class="section open-file">
           <p class="section-title">
             OPEN FILE
@@ -84,7 +83,6 @@
                 {{ newFile.description }}
               </p>
             </div>
-
             <div
               class="button"
               @click="onOpenFile"
@@ -101,7 +99,6 @@
                 {{ openFile.description }}
               </p>
             </div>
-
             <div
               class="button"
               @click="onGenerateFlow"
@@ -118,7 +115,6 @@
                 {{ generateFlow.description }}
               </p>
             </div>
-
             <div
               class="button"
               @click="onImportStix"
@@ -137,7 +133,6 @@
             </div>
           </div>
         </div>
-
         <div
           class="section resources"
           v-if="helpLinks.length"
@@ -323,12 +318,12 @@ export default defineComponent({
   flex-direction: column;
   min-width: 640px;
   max-width: 740px;
-  height: 70vh;
   border: solid 1px var(--af-border-color-primary);
   border-radius: 5px;
   background: var(--af-bg-color-primary);
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.35);
   overflow: hidden;
+  max-height: 90vh;
 }
 
 /** === Header === */
@@ -548,5 +543,9 @@ export default defineComponent({
 .file-scrollbox:deep(.scroll-bar) {
   border: 1px solid var(--af-border-color-primary);
   border-radius: 5px;
+}
+
+.menu-body-scrollbox {
+    flex-basis: auto;
 }
 </style>

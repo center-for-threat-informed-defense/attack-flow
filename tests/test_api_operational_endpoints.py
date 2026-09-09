@@ -13,7 +13,9 @@ from attack_flow_api.providers.contracts import (
 )
 
 
-def _build_client(monkeypatch, tmp_path: Path, *, raise_server_exceptions: bool = True) -> TestClient:
+def _build_client(
+    monkeypatch, tmp_path: Path, *, raise_server_exceptions: bool = True
+) -> TestClient:
     data_dir = tmp_path / "data"
     providers_path = tmp_path / "providers.yml"
     providers_path.write_text(
@@ -56,7 +58,9 @@ def test_health_endpoint_returns_200_with_request_id(monkeypatch, tmp_path: Path
     assert payload["request_id"]
 
 
-def test_status_endpoint_returns_200_with_lightweight_operational_fields(monkeypatch, tmp_path: Path):
+def test_status_endpoint_returns_200_with_lightweight_operational_fields(
+    monkeypatch, tmp_path: Path
+):
     with _build_client(monkeypatch, tmp_path) as client:
         response = client.get("/api/v1/status")
 
@@ -91,10 +95,12 @@ def test_providers_endpoint_returns_safe_provider_metadata(monkeypatch, tmp_path
     assert "base_url" not in provider
 
 
-def test_provider_models_endpoint_returns_accessible_model_ids(monkeypatch, tmp_path: Path):
+def test_provider_models_endpoint_returns_accessible_model_ids(
+    monkeypatch, tmp_path: Path
+):
     monkeypatch.setattr(
-        "attack_flow_api.providers.openai_adapter.OpenAIProviderAdapter.list_model_ids",
-        lambda self: ["gpt-5.5", "gpt-5.5-pro"],
+        "attack_flow_api.routes.health.list_openai_model_ids",
+        lambda provider: ["gpt-5.5", "gpt-5.5-pro"],
     )
 
     with _build_client(monkeypatch, tmp_path) as client:
@@ -110,7 +116,9 @@ def test_provider_models_endpoint_returns_accessible_model_ids(monkeypatch, tmp_
     }
 
 
-def test_provider_models_endpoint_falls_back_when_azure_discovery_fails(monkeypatch, tmp_path: Path, capsys):
+def test_provider_models_endpoint_falls_back_when_azure_discovery_fails(
+    monkeypatch, tmp_path: Path, capsys
+):
     providers_path = tmp_path / "providers.yml"
     providers_path.write_text(
         """
@@ -150,8 +158,8 @@ providers:
         )
 
     monkeypatch.setattr(
-        "attack_flow_api.providers.openai_adapter.OpenAIProviderAdapter.list_model_ids",
-        raiser,
+        "attack_flow_api.routes.health.list_openai_model_ids",
+        lambda provider: raiser(None),
     )
 
     with TestClient(create_app()) as client:
@@ -172,7 +180,9 @@ providers:
     assert "error_code=provider_request_invalid" in message
 
 
-def test_provider_models_endpoint_returns_empty_list_for_non_openai_provider(monkeypatch, tmp_path: Path):
+def test_provider_models_endpoint_returns_empty_list_for_non_openai_provider(
+    monkeypatch, tmp_path: Path
+):
     providers_path = tmp_path / "providers.yml"
     providers_path.write_text(
         """
@@ -241,7 +251,9 @@ def test_status_reflects_database_readiness(monkeypatch, tmp_path: Path):
     assert payload["request_id"]
 
 
-def test_openapi_includes_operational_endpoints_and_response_models(monkeypatch, tmp_path: Path):
+def test_openapi_includes_operational_endpoints_and_response_models(
+    monkeypatch, tmp_path: Path
+):
     with _build_client(monkeypatch, tmp_path) as client:
         response = client.get("/openapi.json")
 
@@ -259,8 +271,11 @@ def test_openapi_includes_operational_endpoints_and_response_models(monkeypatch,
     assert "ProviderModelsResponse" in schemas
 
 
-def test_unhandled_exception_returns_structured_500_with_request_id(monkeypatch, tmp_path: Path):
+def test_unhandled_exception_returns_structured_500_with_request_id(
+    monkeypatch, tmp_path: Path
+):
     with _build_client(monkeypatch, tmp_path, raise_server_exceptions=False) as client:
+
         async def boom():
             raise RuntimeError("boom")
 
@@ -325,7 +340,9 @@ providers:
     monkeypatch.setenv("ARTIFACT_DIR", str(data_dir / "artifacts"))
     monkeypatch.setenv("PROVIDERS_CONFIG_PATH", str(providers_path))
     monkeypatch.setenv("CORS_ENABLED", "true")
-    monkeypatch.setenv("CORS_ALLOW_ORIGINS", "https://example.com, https://admin.example.com")
+    monkeypatch.setenv(
+        "CORS_ALLOW_ORIGINS", "https://example.com, https://admin.example.com"
+    )
     monkeypatch.setenv("CORS_ALLOW_CREDENTIALS", "true")
     monkeypatch.setenv("CORS_ALLOW_METHODS", "GET,POST")
     monkeypatch.setenv("CORS_ALLOW_HEADERS", "Authorization,Content-Type")

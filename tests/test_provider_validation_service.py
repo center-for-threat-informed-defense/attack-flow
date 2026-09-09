@@ -1,13 +1,22 @@
 from dataclasses import dataclass
+from types import SimpleNamespace
 
 from attack_flow_api.config import ProviderConfig, ProvidersConfig
 from attack_flow_api.providers.adapter import ProviderAdapter
-from attack_flow_api.providers.anthropic_adapter import AnthropicHttpResponse
 from attack_flow_api.providers.contracts import RuntimeProviderOverride
-from attack_flow_api.providers.gemini_adapter import GeminiHttpResponse
-from attack_flow_api.providers.openai_adapter import OpenAIProviderAdapter
+from attack_flow_api.providers.litellm_adapter import LiteLLMProviderAdapter
 from attack_flow_api.providers.registry import ProviderRegistry
-from attack_flow_api.services.provider_validation_service import ProviderValidationService
+from attack_flow_api.services.provider_validation_service import (
+    ProviderValidationService,
+)
+
+
+def _litellm_response() -> SimpleNamespace:
+    return SimpleNamespace(
+        choices=[
+            SimpleNamespace(message=SimpleNamespace(content="{}"), finish_reason="stop")
+        ]
+    )
 
 
 def _registry_with_openai() -> ProviderRegistry:
@@ -55,12 +64,13 @@ def test_validate_provider_success(monkeypatch) -> None:
         api_key_env="OPENAI_API_KEY",
         default_model="gpt-4.1-mini",
     )
-    adapter = OpenAIProviderAdapter(
-        provider_config,
-        request_executor=lambda request: __import__("attack_flow_api.providers.openai_adapter", fromlist=["OpenAIHttpResponse"]).OpenAIHttpResponse(status_code=200, json_body={"ok": True}),
+    adapter = LiteLLMProviderAdapter(
+        provider_config, completion_fn=lambda **_: _litellm_response()
     )
 
-    service = ProviderValidationService(_FakeRegistry(config=provider_config, adapter=adapter))
+    service = ProviderValidationService(
+        _FakeRegistry(config=provider_config, adapter=adapter)
+    )
     result = service.validate_provider("default-openai")
 
     assert result.valid is True
@@ -117,8 +127,10 @@ def test_validate_provider_normalizes_adapter_failures(monkeypatch) -> None:
         api_key_env="OPENAI_API_KEY",
         default_model="gpt-4.1-mini",
     )
-    adapter = OpenAIProviderAdapter(provider_config)
-    service = ProviderValidationService(_FakeRegistry(config=provider_config, adapter=adapter))
+    adapter = LiteLLMProviderAdapter(provider_config)
+    service = ProviderValidationService(
+        _FakeRegistry(config=provider_config, adapter=adapter)
+    )
 
     result = service.validate_provider("default-openai")
 
@@ -134,8 +146,8 @@ def test_validate_provider_normalizes_adapter_failures(monkeypatch) -> None:
 def test_validate_configured_anthropic_provider(monkeypatch) -> None:
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
     monkeypatch.setattr(
-        "attack_flow_api.providers.anthropic_adapter._default_anthropic_request_executor",
-        lambda request: AnthropicHttpResponse(status_code=200, json_body={"ok": True}),
+        "attack_flow_api.providers.litellm_adapter.litellm.completion",
+        lambda **_: _litellm_response(),
     )
     registry = ProviderRegistry(
         ProvidersConfig(
@@ -165,8 +177,8 @@ def test_validate_configured_anthropic_provider(monkeypatch) -> None:
 def test_validate_configured_gemini_provider(monkeypatch) -> None:
     monkeypatch.setenv("GEMINI_API_KEY", "test-key")
     monkeypatch.setattr(
-        "attack_flow_api.providers.gemini_adapter._default_gemini_request_executor",
-        lambda request: GeminiHttpResponse(status_code=200, json_body={"ok": True}),
+        "attack_flow_api.providers.litellm_adapter.litellm.completion",
+        lambda **_: _litellm_response(),
     )
     registry = ProviderRegistry(
         ProvidersConfig(
@@ -195,8 +207,8 @@ def test_validate_configured_gemini_provider(monkeypatch) -> None:
 
 def test_validate_runtime_anthropic_provider(monkeypatch) -> None:
     monkeypatch.setattr(
-        "attack_flow_api.providers.anthropic_adapter._default_anthropic_request_executor",
-        lambda request: AnthropicHttpResponse(status_code=200, json_body={"ok": True}),
+        "attack_flow_api.providers.litellm_adapter.litellm.completion",
+        lambda **_: _litellm_response(),
     )
     service = ProviderValidationService(_registry_with_openai())
 
@@ -222,8 +234,8 @@ def test_validate_runtime_anthropic_provider(monkeypatch) -> None:
 
 def test_validate_runtime_gemini_provider(monkeypatch) -> None:
     monkeypatch.setattr(
-        "attack_flow_api.providers.gemini_adapter._default_gemini_request_executor",
-        lambda request: GeminiHttpResponse(status_code=200, json_body={"ok": True}),
+        "attack_flow_api.providers.litellm_adapter.litellm.completion",
+        lambda **_: _litellm_response(),
     )
     service = ProviderValidationService(_registry_with_openai())
 

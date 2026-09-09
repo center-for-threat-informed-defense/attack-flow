@@ -27,6 +27,11 @@ RUN if [ -d /app/certs ]; then \
       update-ca-certificates; \
     fi
 
+# LiteLLM provider clients commonly use certifi. Point them at the Linux
+# bundle so they retain public roots and include certificates from /app/certs.
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt \
+    REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --no-deps .
 

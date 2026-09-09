@@ -1,3 +1,4 @@
 export * from "./ProviderContracts";
 export * from "./ProviderAdapter";
-export * from "./OpenAICompatibleProviderAdapter";
+export * from "./AiSdkProviderAdapter";
+export * from "./AiSdkProviderFactory";

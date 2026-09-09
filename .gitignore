@@ -136,3 +136,4 @@ dmypy.json
 /*-afb.afb
 
 TODO.*
+config/providers.yml

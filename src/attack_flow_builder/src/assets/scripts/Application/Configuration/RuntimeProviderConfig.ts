@@ -1,4 +1,7 @@
-export const SUPPORTED_RUNTIME_PROVIDER_TYPES = ["openai_compatible", "gemini"] as const;
+export const SUPPORTED_RUNTIME_PROVIDER_TYPES = ["openai_compatible", "anthropic", "gemini"] as const;
+
+/** Default response ceiling for every direct-provider Attack Flow extraction. */
+export const DEFAULT_DIRECT_PROVIDER_MAX_OUTPUT_TOKENS = 32_000;
 
 export type SupportedRuntimeProviderType =
     typeof SUPPORTED_RUNTIME_PROVIDER_TYPES[number];

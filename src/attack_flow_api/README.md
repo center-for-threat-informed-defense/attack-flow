@@ -141,6 +141,14 @@ Optional environment variables:
 
 The API now treats AI providers through a shared provider abstraction and a registry built from `PROVIDERS_CONFIG_PATH`.
 
+### Compatibility libraries
+
+The Python API uses LiteLLM to invoke configured providers. The Builder's
+browser-direct generation path uses Vercel AI SDK instead, because it runs in
+TypeScript and sends requests from the user's browser. Both paths map provider
+responses and errors into the application's provider contract, but they cannot
+share a single compatibility package across the two runtimes.
+
 - Provider configuration is loaded into internal models (`ProviderConfig`, `ProvidersConfig`) and registered once at startup.
 - Provider adapters are resolved by `provider_id` via the registry instead of direct vendor-specific calls.
 - Public/safe provider metadata is separated from secret-bearing configuration.

@@ -1,0 +1,57 @@
+# Copy this file to config/providers.yml and configure only the providers your
+# API deployment is allowed to use. config/providers.yml is intentionally not
+# tracked because it identifies deployment-specific provider endpoints.
+#
+# Set enabled: true on at least one configured provider. The first enabled
+# provider is used when an API job does not explicitly select a provider.
+# Keep credentials out of this file: api_key_env and azure_api_key_env name
+# environment variables containing the actual secret values.
+providers:
+  # OpenAI's API. Replace MODEL_ID with a model available to your account.
+  - provider_id: openai
+    provider_type: openai
+    enabled: false
+    api_key_env: OPENAI_API_KEY
+    default_model: MODEL_ID
+    allowed_models:
+      - MODEL_ID
+
+  # A provider that implements the OpenAI-compatible chat-completions API.
+  - provider_id: openai-compatible
+    provider_type: openai_compatible
+    enabled: false
+    base_url: https://provider.example/v1
+    api_key_env: COMPATIBLE_PROVIDER_API_KEY
+    default_model: MODEL_ID
+    allowed_models:
+      - MODEL_ID
+
+  # Azure OpenAI. MODEL_ID is the Azure deployment name, not necessarily the
+  # underlying OpenAI model name.
+  - provider_id: azure-openai
+    provider_type: azure_openai
+    enabled: false
+    base_url: https://YOUR_RESOURCE.openai.azure.com/openai
+    api_version: YYYY-MM-DD-preview
+    azure_api_key_env: AZURE_OPENAI_API_KEY
+    default_model: MODEL_ID
+    allowed_models:
+      - MODEL_ID
+
+  # Anthropic's Messages API. Claude is an Anthropic model family.
+  - provider_id: anthropic
+    provider_type: anthropic
+    enabled: false
+    api_key_env: ANTHROPIC_API_KEY
+    default_model: MODEL_ID
+    allowed_models:
+      - MODEL_ID
+
+  # Google's Gemini API. This configuration supports API-key authentication.
+  - provider_id: gemini
+    provider_type: gemini
+    enabled: false
+    api_key_env: GEMINI_API_KEY
+    default_model: MODEL_ID
+    allowed_models:
+      - MODEL_ID

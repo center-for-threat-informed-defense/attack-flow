@@ -1,11 +1,19 @@
 from dataclasses import dataclass
 
-from attack_flow_api.config import ProviderConfig, ProviderPublicMetadata, ProvidersConfig
-from attack_flow_api.providers.adapter import ProviderAdapter, ProviderNotImplementedAdapter
-from attack_flow_api.providers.contracts import ProviderInvocationMode, RuntimeProviderOverride
-from attack_flow_api.providers.anthropic_adapter import AnthropicProviderAdapter
-from attack_flow_api.providers.gemini_adapter import GeminiProviderAdapter
-from attack_flow_api.providers.openai_adapter import OpenAIProviderAdapter
+from attack_flow_api.config import (
+    ProviderConfig,
+    ProviderPublicMetadata,
+    ProvidersConfig,
+)
+from attack_flow_api.providers.adapter import (
+    ProviderAdapter,
+    ProviderNotImplementedAdapter,
+)
+from attack_flow_api.providers.contracts import (
+    ProviderInvocationMode,
+    RuntimeProviderOverride,
+)
+from attack_flow_api.providers.litellm_adapter import LiteLLMProviderAdapter
 
 
 class ProviderRegistryError(RuntimeError):
@@ -126,14 +134,18 @@ class ProviderRegistry:
         retry_max_attempts: int | None = None,
     ) -> ProviderAdapter:
         if not allow_runtime_provider_override:
-            raise RuntimeProviderOverrideDisabledError("runtime provider override is disabled")
+            raise RuntimeProviderOverrideDisabledError(
+                "runtime provider override is disabled"
+            )
 
         provider_type = runtime_override.provider_type
         if provider_type not in allowed_provider_types:
             raise RuntimeProviderTypeNotAllowedError(provider_type)
 
         if runtime_override.extra_headers and not allow_extra_headers:
-            raise RuntimeProviderExtraHeadersNotAllowedError("runtime provider extra headers are disabled")
+            raise RuntimeProviderExtraHeadersNotAllowedError(
+                "runtime provider extra headers are disabled"
+            )
 
         return self._build_adapter(
             self._build_runtime_provider_config(
@@ -166,7 +178,9 @@ class ProviderRegistry:
             timeout_seconds=timeout_seconds,
             retry_max_attempts=1,
         )
-        self._registrations[config.provider_id] = _ProviderRegistration(config=config, adapter=adapter)
+        self._registrations[config.provider_id] = _ProviderRegistration(
+            config=config, adapter=adapter
+        )
         return config.provider_id
 
     def unregister_runtime_provider(self, provider_id: str) -> None:
@@ -236,29 +250,29 @@ class ProviderRegistry:
         *,
         runtime_override: RuntimeProviderOverride | None = None,
     ) -> ProviderAdapter:
-        if provider.provider_type in {"openai", "openai_compatible", "azure_openai"}:
+        if provider.provider_type in {
+            "openai",
+            "openai_compatible",
+            "azure_openai",
+            "anthropic",
+            "gemini",
+        }:
             if runtime_override is None:
-                return OpenAIProviderAdapter(provider)
-            runtime_api_key = runtime_override.api_key.get_secret_value() if runtime_override.api_key else None
+                return LiteLLMProviderAdapter(provider)
+            runtime_api_key = (
+                runtime_override.api_key.get_secret_value()
+                if runtime_override.api_key
+                else None
+            )
             runtime_extra_headers = {
                 key: value.get_secret_value()
                 for key, value in runtime_override.extra_headers.items()
             }
-            return OpenAIProviderAdapter(
+            return LiteLLMProviderAdapter(
                 provider,
                 runtime_api_key=runtime_api_key,
                 runtime_extra_headers=runtime_extra_headers,
             )
-        if provider.provider_type == "anthropic":
-            if runtime_override is None:
-                return AnthropicProviderAdapter(provider)
-            runtime_api_key = runtime_override.api_key.get_secret_value() if runtime_override.api_key else None
-            return AnthropicProviderAdapter(provider, runtime_api_key=runtime_api_key)
-        if provider.provider_type == "gemini":
-            if runtime_override is None:
-                return GeminiProviderAdapter(provider)
-            runtime_api_key = runtime_override.api_key.get_secret_value() if runtime_override.api_key else None
-            return GeminiProviderAdapter(provider, runtime_api_key=runtime_api_key)
         return ProviderNotImplementedAdapter(
             provider_id=provider.provider_id,
             provider_type=provider.provider_type,

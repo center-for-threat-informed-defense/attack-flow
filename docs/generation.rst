@@ -41,10 +41,40 @@ Copy ``.env.example`` to ``.env`` and update values for your environment.
 
     $ cp .env.example .env
 
+Configure an API Provider
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The API does not include a default LLM provider. Copy the provider template
+and edit it for the provider and model your deployment is authorized to use.
+
+.. code:: bash
+
+    $ cp config/providers.yml.example config/providers.yml
+
+Set ``enabled: true`` for at least one provider and replace each ``MODEL_ID``
+placeholder with a model (or Azure deployment name) available to that
+provider. The first enabled provider is the default for API jobs that do not
+select a provider explicitly.
+
+Keep API keys out of ``providers.yml``. Instead, set the environment variable
+named by ``api_key_env`` or ``azure_api_key_env`` in ``.env`` or your deployment
+secret manager. For example, an OpenAI entry with ``api_key_env:
+OPENAI_API_KEY`` requires ``OPENAI_API_KEY`` to contain the key.
+
+``config/providers.yml`` is ignored by Git because its endpoint choices are
+deployment-specific. ``config/providers.yml.example`` contains commented
+templates for OpenAI, OpenAI-compatible providers, Azure OpenAI, Anthropic
+(Claude), and Gemini.
+
 Docker
 ~~~~~~~
 
-Running the UI and the API together in Docker is the easiest way to spin up the Attack Flow Builder. Simply run the following command to run both together.
+Running the UI and the API together in Docker is the easiest way to spin up the Attack Flow Builder.
+
+Create and configure ``config/providers.yml`` before building the API image so
+Docker can copy it into the container.
+
+Then, run the following command to run both together.
 
 .. code:: bash
 
