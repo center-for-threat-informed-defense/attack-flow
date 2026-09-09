@@ -85,7 +85,7 @@ vi.mock("@/assets/scripts/Application/PdfExtraction", () => {
 });
 
 vi.mock("@/assets/scripts/Application/Providers", () => ({
-    OpenAICompatibleProviderAdapter: class {
+    AiSdkProviderAdapter: class {
         generateStructured = generateStructuredMock;
     }
 }));
@@ -162,6 +162,7 @@ describe("AIGenerationSplashScreen", () => {
             "Provider type",
             "(none)",
             "openai_compatible",
+            "anthropic",
             "gemini"
         ]);
     });
@@ -426,7 +427,7 @@ describe("AIGenerationSplashScreen", () => {
         wrapper.vm.sourceText = "Alpha";
         wrapper.vm.llmEndpoint = "https://example.com";
         wrapper.vm.llmToken = "token";
-        await wrapper.vm.generateAttackFlow();
+        await wrapper.vm.onClickGenerate();
         await wrapper.vm.$nextTick();
 
         expect(wrapper.vm.normalizedInputPackage).toMatchObject({
@@ -776,7 +777,7 @@ describe("AIGenerationSplashScreen", () => {
         wrapper.vm.llmToken = "secret";
         wrapper.vm.llmModel = "gpt-4o-mini";
 
-        await wrapper.vm.generateAttackFlow();
+        await wrapper.vm.onClickGenerate();
 
         expect(generateStructuredMock).toHaveBeenCalledTimes(1);
         expect(prepareEditorMock).toHaveBeenCalledTimes(1);

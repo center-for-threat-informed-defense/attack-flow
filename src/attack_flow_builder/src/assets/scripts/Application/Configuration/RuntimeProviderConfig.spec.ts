@@ -30,4 +30,8 @@ describe("RuntimeProviderConfig", () => {
     it("includes gemini as a supported runtime provider type", () => {
         expect(SUPPORTED_RUNTIME_PROVIDER_TYPES).toContain("gemini");
     });
+
+    it("includes anthropic as a supported runtime provider type", () => {
+        expect(SUPPORTED_RUNTIME_PROVIDER_TYPES).toContain("anthropic");
+    });
 });

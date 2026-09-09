@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { DIRECT_PROVIDER_REQUEST_TIMEOUT_SECONDS, buildDirectProviderStructuredGenerationRequest } from "./DirectProviderStructuredGenerationRequestBuilder";
+import {
+    DIRECT_PROVIDER_REQUEST_TIMEOUT_SECONDS,
+    buildDirectProviderStructuredGenerationRequest
+} from "./DirectProviderStructuredGenerationRequestBuilder";
+import { DEFAULT_DIRECT_PROVIDER_MAX_OUTPUT_TOKENS } from "../Configuration";
 
 describe("DirectProviderStructuredGenerationRequestBuilder", () => {
     it("builds a deterministic structured generation request", () => {
@@ -73,6 +77,7 @@ describe("DirectProviderStructuredGenerationRequestBuilder", () => {
             model: "gpt-4o-mini",
             responseFormat: "json_object",
             temperature: 0,
+            maxOutputTokens: DEFAULT_DIRECT_PROVIDER_MAX_OUTPUT_TOKENS,
             timeoutSeconds: 15,
             metadata: {
                 request_version: "v1",

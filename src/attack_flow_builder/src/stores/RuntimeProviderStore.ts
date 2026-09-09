@@ -56,6 +56,7 @@ function readPersistedRuntimeProviderConfig(): PersistedRuntimeProviderConfig | 
         if (
             (
                 parsed.providerType !== "openai_compatible"
+                && parsed.providerType !== "anthropic"
                 && parsed.providerType !== "gemini"
             )
             || typeof parsed.endpoint !== "string"

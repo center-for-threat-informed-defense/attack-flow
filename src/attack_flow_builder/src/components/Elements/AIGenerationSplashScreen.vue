@@ -7,6 +7,19 @@
     package here, without paraphrasing or semantic rewriting.
   -->
   <div class="ai-generation">
+    <div>
+      <button
+        class="back-button"
+        @click="onClickBack"
+      >
+        <ArrowLeftIcon
+          :width="10"
+          :height="10"
+          :color="iconColor"
+        />
+        Back
+      </button>
+    </div>
     <h2 class="generation-title">
       Generate Attack Flow
     </h2>
@@ -266,7 +279,7 @@
               @keydown.stop
             >
             <small class="field-hint">
-              For Gemini or Azure OpenAI, enter the model name.
+              For Claude, Gemini, or Azure OpenAI, enter the model name.
             </small>
           </label>
           <div
@@ -372,7 +385,7 @@ import {
   type StructuredExtractionRepairResult
 } from "@/assets/scripts/Application/StructuredExtraction";
 import { prepareEditorFromValidatedStructuredExtraction } from "@/assets/scripts/Application/Commands";
-import { OpenAICompatibleProviderAdapter, type StructuredGenerationRequest } from "@/assets/scripts/Application/Providers";
+import { AiSdkProviderAdapter, type StructuredGenerationRequest } from "@/assets/scripts/Application/Providers";
 import {
   SUPPORTED_RUNTIME_PROVIDER_TYPES,
   type SupportedRuntimeProviderType
@@ -380,6 +393,7 @@ import {
 import { prepareEditorFromExistingFile } from "@/assets/scripts/Application/index.ts";
 import LoadingSpinner from "./LoadingSpinner.vue";
 import AIGenerationProviderType from "./AIGenerationProviderType.vue";
+import ArrowLeftIcon from "../Icons/ArrowLeftIcon.vue";
 
 type SourceType = "upload" | "url" | "text" | null;
 
@@ -393,6 +407,7 @@ interface DirectProviderStructuredGenerationOutputLite {
 
 export default defineComponent({
   name: "AIGenerationSplashScreen",
+  emits: ['onClickBack'],
   setup() {
     return {
         applicationStore: useApplicationStore(),
@@ -646,11 +661,30 @@ export default defineComponent({
         return "openai_compatible";
       }
 
+      if (this.llmType === "anthropic") {
+        return "anthropic";
+      }
+
       return this.runtimeProviderStore.runtimeProviderConfig?.providerType || "openai_compatible";
     },
 
     directProviderType(): SupportedRuntimeProviderType {
       return this.activeProviderType;
+    },
+
+    iconColor(){
+        let result = "#737373";
+        const theme_id = this.applicationStore.activeEditor.file.factory.theme.id;
+        switch (theme_id) {
+            case "dark_theme":
+                result = "#89a0ec";
+                break;
+            case "light_theme":
+            case "blog_theme":
+                result = "#2E5FAD";
+                break;
+        }
+        return result;
     }
 
   },
@@ -904,7 +938,7 @@ export default defineComponent({
                 };
 
                 const request = buildDirectProviderRequestPipeline(directProviderRequestParams);
-                const adapter = new OpenAICompatibleProviderAdapter({
+                const adapter = new AiSdkProviderAdapter({
                     providerType: this.directProviderType,
                     endpoint: this.llmEndpoint.trim(),
                     apiKey: this.llmToken.trim(),
@@ -928,7 +962,8 @@ export default defineComponent({
 
                 const command = await prepareEditorFromValidatedStructuredExtraction(this.applicationStore, extraction);
                 await this.applicationStore.execute(command);
-                this.generationStatus = 'success'
+                this.generationStatus = 'success';
+                this.generationMessage = "Generated flow opened in the editor.";
 
                 // On success, save direct-provider inputs to local storage.
                 this.runtimeProviderStore.setRuntimeProviderConfig({
@@ -958,55 +993,8 @@ export default defineComponent({
       this.generationStatus = "idle";
     },
 
-    /**
-     * Opens the validated direct-provider output in the editor.
-     */
-    async generateAttackFlow() {
-      const request = this.directProviderStructuredGenerationRequest;
-      const runtimeProviderConfig = this.runtimeProviderStore.runtimeProviderConfig;
-      const model = this.llmModel.trim();
-      const providerEndpoint = this.llmEndpoint.trim();
-      const providerApiKey = this.llmToken.trim();
-
-      if (!request || !model) {
-        this.generationStatus = "error";
-        this.generationMessage = this.llmUseAzure && !this.llmAzureApiVersion.trim()
-          ? "Azure API version is required when Azure is enabled."
-          : "Provider model / deployment is required.";
-        return;
-      }
-
-      this.generationStatus = "loading";
-      this.generationMessage = "Generating flow...";
-      try {
-        const adapter = new OpenAICompatibleProviderAdapter({
-          endpoint: providerEndpoint,
-          apiKey: providerApiKey,
-          model,
-          providerType: this.directProviderType,
-          useAzure: this.llmUseAzure,
-          azureApiVersion: this.llmAzureApiVersion.trim() || undefined,
-          extraHeaders: runtimeProviderConfig?.extraHeaders
-        });
-        const output = await adapter.generateStructured(request);
-        this.setDirectProviderStructuredGenerationOutput(output);
-
-        const extraction = this.directProviderValidatedStructuredExtractionOutput;
-        if (!extraction) {
-          this.generationStatus = "error";
-          this.generationMessage = this.directProviderStructuredExtractionFailureDisplayState?.message
-            ?? "Validated structured extraction output is not available.";
-          return;
-        }
-
-        const command = await prepareEditorFromValidatedStructuredExtraction(this.applicationStore, extraction);
-        await this.applicationStore.execute(command);
-        this.generationStatus = "success";
-        this.generationMessage = "Generated flow opened in the editor.";
-      } catch (error) {
-        this.generationStatus = "error";
-        this.generationMessage = error instanceof Error ? error.message : "Failed to open generated flow.";
-      }
+    onClickBack() {
+        this.$emit('onClickBack');
     }
 
   },
@@ -1015,7 +1003,8 @@ export default defineComponent({
     FolderIcon,
     LinkIcon,
     LoadingSpinner,
-    AIGenerationProviderType
+    AIGenerationProviderType,
+    ArrowLeftIcon
   }
 });
 </script>
@@ -1046,7 +1035,8 @@ export default defineComponent({
   color: var(--af-text-color-primary);
   font-size: 13.5pt;
   font-weight: 700;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
+  margin-top: -10px;
 }
 
 .ai-generation .section {
@@ -1387,5 +1377,15 @@ details[open] summary::after {
 
 .generation-message[data-status="error"] {
   color: var(--af-color-error);
+}
+
+.back-button {
+    border: none;
+    background: none;
+    color: var(--af-color-info);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: -5px;
 }
 </style>

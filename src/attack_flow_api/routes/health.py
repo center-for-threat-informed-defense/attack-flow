@@ -9,7 +9,7 @@ from attack_flow_api.errors import BadRequestError
 from attack_flow_api.config import ProviderPublicMetadata
 from attack_flow_api.providers.adapter import ProviderAdapterInvocationError
 from attack_flow_api.providers.contracts import RuntimeProviderOverride
-from attack_flow_api.providers.openai_adapter import OpenAIProviderAdapter
+from attack_flow_api.providers.openai_model_discovery import list_openai_model_ids
 from attack_flow_api.services.provider_validation_service import (
     ProviderValidationService,
     ProviderValidationServiceResult,
@@ -65,7 +65,9 @@ class ProviderValidateRequest(BaseModel):
         default=None,
         description="Configured provider id to validate. Mutually exclusive with provider_override.",
     )
-    model: str | None = Field(default=None, description="Optional model/deployment to validate.")
+    model: str | None = Field(
+        default=None, description="Optional model/deployment to validate."
+    )
     provider_override: dict[str, Any] | None = Field(
         default=None,
         description=(
@@ -135,7 +137,8 @@ def service_status(request: Request) -> StatusResponse:
         storage=storage_status,
         providers=ProvidersSummary(configured_count=len(providers_config.providers)),
         queue=QueueSummary(
-            active_jobs=queue_counts["active_jobs"], pending_jobs=queue_counts["pending_jobs"]
+            active_jobs=queue_counts["active_jobs"],
+            pending_jobs=queue_counts["pending_jobs"],
         ),
         request_id=request.state.request_id,
     )
@@ -158,7 +161,9 @@ def list_providers(request: Request) -> ProvidersResponse:
 
 
 @router.post("/providers/validate", response_model=ProviderValidateResponse)
-def validate_provider(request: Request, payload: ProviderValidateRequest) -> ProviderValidateResponse:
+def validate_provider(
+    request: Request, payload: ProviderValidateRequest
+) -> ProviderValidateResponse:
     """Validate a configured provider or an ephemeral runtime provider override.
 
     Requests must include exactly one of `provider_id` or `provider_override`.
@@ -171,7 +176,9 @@ def validate_provider(request: Request, payload: ProviderValidateRequest) -> Pro
     provider_registry = request.app.state.provider_registry
     validation_service = ProviderValidationService(provider_registry)
 
-    provider_id = payload.provider_id.strip() if isinstance(payload.provider_id, str) else None
+    provider_id = (
+        payload.provider_id.strip() if isinstance(payload.provider_id, str) else None
+    )
     has_provider_id = bool(provider_id)
     has_provider_override = payload.provider_override is not None
     if has_provider_id == has_provider_override:
@@ -183,7 +190,9 @@ def validate_provider(request: Request, payload: ProviderValidateRequest) -> Pro
 
     if payload.provider_override is not None:
         try:
-            runtime_override = RuntimeProviderOverride.model_validate(payload.provider_override)
+            runtime_override = RuntimeProviderOverride.model_validate(
+                payload.provider_override
+            )
         except ValidationError:
             raise BadRequestError(
                 code="invalid_provider_override",
@@ -210,7 +219,7 @@ def validate_provider(request: Request, payload: ProviderValidateRequest) -> Pro
 def list_provider_models(request: Request, provider_id: str) -> ProviderModelsResponse:
     provider_registry = request.app.state.provider_registry
     adapter = provider_registry.resolve_adapter(provider_id)
-    if not isinstance(adapter, OpenAIProviderAdapter):
+    if adapter.provider_type not in {"openai", "openai_compatible", "azure_openai"}:
         return ProviderModelsResponse(
             provider_id=provider_id,
             provider_type=adapter.provider_type,
@@ -219,7 +228,12 @@ def list_provider_models(request: Request, provider_id: str) -> ProviderModelsRe
         )
 
     try:
-        model_ids = adapter.list_model_ids()
+        # LiteLLM normalizes generation calls, but it does not provide a
+        # provider-independent model-discovery API. Keep the existing OpenAI
+        # protocol discovery here for providers which implement that endpoint.
+        model_ids = list_openai_model_ids(
+            provider_registry.get_provider_config(provider_id)
+        )
     except ProviderAdapterInvocationError as exc:
         error = exc.error
         _logger.warning(

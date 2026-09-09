@@ -3,7 +3,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { createPinia, setActivePinia } from "pinia";
 import { useRuntimeProviderStore } from "./RuntimeProviderStore";
-import { ProviderAdapterInvocationError } from "@/assets/scripts/Application/Providers/OpenAICompatibleProviderAdapter";
+import { ProviderAdapterInvocationError } from "@/assets/scripts/Application/Providers/ProviderAdapter";
 
 const providerConfig = {
     providerType: "openai_compatible" as const,
@@ -200,6 +200,33 @@ describe("RuntimeProviderStore", () => {
             useAzure: undefined,
             azureApiVersion: undefined,
             extraHeaders: undefined
+        });
+    });
+
+    it("persists anthropic runtime provider configs", () => {
+        const store = useRuntimeProviderStore();
+
+        store.setRuntimeProviderConfig({
+            providerType: "anthropic",
+            endpoint: "https://api.anthropic.com/v1",
+            apiKey: "secret-key",
+            model: "claude-sonnet-4-6"
+        });
+
+        expect(JSON.parse(localStorage.getItem("AFB:RUNTIME_PROVIDER_CONFIG")!)).toEqual({
+            providerType: "anthropic",
+            endpoint: "https://api.anthropic.com/v1",
+            model: "claude-sonnet-4-6"
+        });
+
+        setActivePinia(createPinia());
+        const reloaded = useRuntimeProviderStore();
+
+        expect(reloaded.runtimeProviderConfig).toMatchObject({
+            providerType: "anthropic",
+            endpoint: "https://api.anthropic.com/v1",
+            apiKey: "",
+            model: "claude-sonnet-4-6"
         });
     });
 

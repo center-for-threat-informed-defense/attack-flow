@@ -32,24 +32,8 @@ from attack_flow_api.providers.registry import (
     RuntimeProviderOverrideDisabledError,
     RuntimeProviderTypeNotAllowedError,
 )
-from attack_flow_api.providers.openai_adapter import (
-    OpenAIHttpError,
-    OpenAIHttpRequest,
-    OpenAIHttpResponse,
-    OpenAIProviderAdapter,
-)
-from attack_flow_api.providers.anthropic_adapter import (
-    AnthropicHttpError,
-    AnthropicHttpRequest,
-    AnthropicHttpResponse,
-    AnthropicProviderAdapter,
-)
-from attack_flow_api.providers.gemini_adapter import (
-    GeminiHttpError,
-    GeminiHttpRequest,
-    GeminiHttpResponse,
-    GeminiProviderAdapter,
-)
+
+from attack_flow_api.providers.litellm_adapter import LiteLLMProviderAdapter
 
 __all__ = [
     "ProviderAdapter",
@@ -63,19 +47,8 @@ __all__ = [
     "RuntimeProviderOverrideDisabledError",
     "RuntimeProviderTypeNotAllowedError",
     "ProviderInvocationPlan",
-    "OpenAIProviderAdapter",
     "ProviderAdapterInvocationError",
-    "OpenAIHttpRequest",
-    "OpenAIHttpResponse",
-    "OpenAIHttpError",
-    "AnthropicProviderAdapter",
-    "AnthropicHttpRequest",
-    "AnthropicHttpResponse",
-    "AnthropicHttpError",
-    "GeminiProviderAdapter",
-    "GeminiHttpRequest",
-    "GeminiHttpResponse",
-    "GeminiHttpError",
+    "LiteLLMProviderAdapter",
     "DEFAULT_ERROR_RETRYABLE",
     "NormalizedProviderError",
     "ProviderErrorCategory",
