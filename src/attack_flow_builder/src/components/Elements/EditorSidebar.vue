@@ -17,6 +17,12 @@
       </PropertyEditor>
     </AccordionPane>
     <AccordionPane
+      name="Chat"
+      :units="1"
+    >
+      <ChatPane />
+    </AccordionPane>
+    <AccordionPane
       name="Problems"
       :units="1"
     >
@@ -33,6 +39,7 @@ import type { DictionaryProperty } from "@OpenChart/DiagramModel";
 // Components
 import AccordionBox from "@/components/Containers/AccordionBox.vue";
 import AccordionPane from "@/components/Containers/AccordionPane.vue";
+import ChatPane from "@/components/Elements/ChatPane.vue";
 import PropertyEditor from "@/components/Elements/PropertyEditor.vue";
 import ValidatorProblems from "@/components/Elements/ValidatorProblems.vue";
 
@@ -64,6 +71,7 @@ export default defineComponent({
   components: { 
     AccordionBox,
     AccordionPane,
+    ChatPane,
     PropertyEditor,
     ValidatorProblems
   }

@@ -400,6 +400,14 @@ export class RawScrollBox {
     }
 
     /**
+     * Scrolls the content to its current maximum position.
+     */
+    public scrollToBottom() {
+        this.recalculateScrollState(false);
+        this.moveScrollPosition(Number.MAX_SAFE_INTEGER);
+    }
+
+    /**
      * Calculates the scroll handle position from the scroll position.
      * @param top
      *  The current scroll position.
