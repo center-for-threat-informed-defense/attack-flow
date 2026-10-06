@@ -86,7 +86,7 @@ export function stopRecommender(
 
 
 /**
- * Sets the active editor's theme.
+ * Sets the active editor's theme and the application's default theme.
  * @param context
  *  The application context.
  * @param theme

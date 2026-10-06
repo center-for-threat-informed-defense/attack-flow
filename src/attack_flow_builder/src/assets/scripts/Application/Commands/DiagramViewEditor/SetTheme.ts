@@ -15,7 +15,7 @@ export class SetTheme extends AppCommand {
 
 
     /**
-     * Sets the active editor's theme.
+     * Sets the active editor's theme and the application's default theme.
      * @param context
      *  The application context.
      * @param theme
@@ -40,6 +40,7 @@ export class SetTheme extends AppCommand {
         const theme = await themeRegistry.getTheme(this.theme);
         // Set theme
         factory.theme = theme;
+        this.context.settings.view.diagram.theme = this.theme;
         // Restyle file
         factory.restyleDiagramObject([file.canvas]);
         // Re-render
