@@ -1,6 +1,8 @@
 from attack_flow_api.config import ProviderConfig, ProvidersConfig
 from attack_flow_api.providers.adapter import ProviderAdapter
 from attack_flow_api.providers.contracts import (
+    ChatGenerationRequest,
+    ChatGenerationResult,
     ProviderErrorCategory,
     ProviderOperation,
     ProviderValidationRequest,
@@ -42,6 +44,14 @@ class _FakeSuccessAdapter(ProviderAdapter):
             model=request.model,
             output_json={"attack_actions": []},
             output_text='{"attack_actions":[]}',
+        )
+
+    def generate_chat(self, request: ChatGenerationRequest) -> ChatGenerationResult:
+        return ChatGenerationResult(
+            provider_id=request.provider_id,
+            provider_type=request.provider_type,
+            model=request.model,
+            text="pancakes",
         )
 
 

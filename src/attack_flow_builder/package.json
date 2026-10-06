@@ -32,6 +32,7 @@
         "flexsearch": "^0.8.167",
         "html-to-image": "^1.11.13",
         "luxon": "3.5",
+        "markdown-it": "^15.0.2",
         "pdfjs-dist": "4.10.38",
         "pinia": "^2.3.0",
         "uuid": "^14.0.1",

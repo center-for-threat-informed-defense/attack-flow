@@ -17,6 +17,7 @@ RuntimeProviderOverrideType = Literal[
 class ProviderOperation(str, Enum):
     VALIDATE = "validate"
     STRUCTURED_GENERATION = "structured_generation"
+    CHAT_GENERATION = "chat_generation"
 
 
 class ProviderInvocationMode(str, Enum):
@@ -136,6 +137,34 @@ class StructuredGenerationResult(BaseModel):
     finish_reason: StructuredFinishReason = StructuredFinishReason.UNKNOWN
     output_text: str | None = None
     output_json: dict[str, object] | None = None
+    usage: ProviderTokenUsage = Field(default_factory=ProviderTokenUsage)
+    latency_ms: int | None = Field(default=None, ge=0)
+    metadata: dict[str, str] = Field(default_factory=dict)
+
+
+class ChatMessage(BaseModel):
+    role: Literal["system", "user", "assistant"]
+    content: str = Field(min_length=1)
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class ChatGenerationRequest(BaseModel):
+    provider_id: str
+    provider_type: str
+    model: str | None = None
+    messages: list[ChatMessage] = Field(min_length=1, max_length=64)
+    temperature: float | None = Field(default=None, ge=0.0, le=2.0)
+    max_output_tokens: int | None = Field(default=None, gt=0)
+    timeout_seconds: float = Field(default=30.0, gt=0)
+
+
+class ChatGenerationResult(BaseModel):
+    provider_id: str
+    provider_type: str
+    model: str
+    finish_reason: StructuredFinishReason = StructuredFinishReason.UNKNOWN
+    output_text: str = ""
     usage: ProviderTokenUsage = Field(default_factory=ProviderTokenUsage)
     latency_ms: int | None = Field(default=None, ge=0)
     metadata: dict[str, str] = Field(default_factory=dict)

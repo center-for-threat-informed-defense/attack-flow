@@ -9,6 +9,7 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "paths": {
       "@/*": ["./src/*"],
+      "@afb-ai-prompts": ["../../config/ai-prompts.json"],
       "~/*": ["./*"],
       "@OpenChart/*": ["./src/assets/scripts/OpenChart/*"]
     }

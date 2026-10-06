@@ -22,6 +22,8 @@ from attack_flow_api.providers.adapter import (
     ProviderAdapterInvocationError,
 )
 from attack_flow_api.providers.contracts import (
+    ChatGenerationRequest,
+    ChatGenerationResult,
     ProviderErrorCategory,
     ProviderOperation,
     ProviderTokenUsage,
@@ -122,6 +124,30 @@ class LiteLLMProviderAdapter(ProviderAdapter):
             metadata=_metadata(response),
         )
 
+    def generate_chat(self, request: ChatGenerationRequest) -> ChatGenerationResult:
+        """Generate a plain-text conversation response without JSON mode."""
+        model = self._resolve_model(
+            request.model, operation=ProviderOperation.CHAT_GENERATION
+        )
+        response = self._complete(
+            model=model,
+            messages=[message.model_dump() for message in request.messages],
+            max_output_tokens=request.max_output_tokens or _DEFAULT_MAX_OUTPUT_TOKENS,
+            timeout_seconds=request.timeout_seconds,
+            operation=ProviderOperation.CHAT_GENERATION,
+            temperature=request.temperature,
+            response_format=None,
+        )
+        return ChatGenerationResult(
+            provider_id=self.provider_id,
+            provider_type=self.provider_type,
+            model=model,
+            finish_reason=_finish_reason(response),
+            output_text=_response_text(response) or "",
+            usage=_usage(response),
+            metadata=_metadata(response),
+        )
+
     def _complete(
         self,
         *,
@@ -131,6 +157,7 @@ class LiteLLMProviderAdapter(ProviderAdapter):
         timeout_seconds: float,
         operation: ProviderOperation,
         temperature: float | None = None,
+        response_format: dict[str, str] | None = {"type": "json_object"},
     ) -> Any:
         """Call LiteLLM with the resolved settings and AFB retry policy."""
         api_key = self._resolve_api_key(operation=operation, model=model)
@@ -143,8 +170,9 @@ class LiteLLMProviderAdapter(ProviderAdapter):
             # AFB owns retries so callers get its configured attempt count,
             # backoff, and normalized errors rather than layered retries.
             "num_retries": 0,
-            "response_format": {"type": "json_object"},
         }
+        if response_format is not None:
+            kwargs["response_format"] = response_format
         if self._provider.base_url:
             kwargs["api_base"] = self._provider.base_url
         if (

@@ -4,6 +4,8 @@ from pathlib import Path
 from attack_flow_api.config import ProviderConfig, ProvidersConfig
 from attack_flow_api.providers.adapter import ProviderAdapter
 from attack_flow_api.providers.contracts import (
+    ChatGenerationRequest,
+    ChatGenerationResult,
     ProviderValidationRequest,
     ProviderValidationResult,
     StructuredGenerationRequest,
@@ -100,6 +102,14 @@ class _EmptyThenPopulatedAdapter(ProviderAdapter):
                 "attack_assets": [],
             },
             output_text='{"attack_actions": [{"id": "attack-action--1"}]}',
+        )
+
+    def generate_chat(self, request: ChatGenerationRequest) -> ChatGenerationResult:
+        return ChatGenerationResult(
+            provider_id=request.provider_id,
+            provider_type=request.provider_type,
+            model=request.model,
+            text="pancakes",
         )
 
 

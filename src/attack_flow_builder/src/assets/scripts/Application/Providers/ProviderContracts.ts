@@ -3,7 +3,7 @@ import type {
     SupportedRuntimeProviderType
 } from "../Configuration";
 
-export type ProviderOperation = "validate" | "structured_generation";
+export type ProviderOperation = "validate" | "structured_generation" | "chat_generation";
 
 export type ProviderErrorCategory =
     | "auth_failure"
@@ -105,6 +105,43 @@ export interface StructuredGenerationResult {
     finishReason: StructuredFinishReason;
     outputText?: string;
     outputJson?: StructuredJsonValue;
+    usage?: ProviderTokenUsage;
+    latencyMs?: number;
+    metadata?: Record<string, string>;
+}
+
+/** A plain-text conversation message accepted by the direct-provider adapter. */
+export interface ChatMessage {
+    role: "user" | "assistant";
+    content: string;
+}
+
+/** Configuration and context for a direct-provider chat completion. */
+export interface ChatGenerationRequest {
+    providerId?: string;
+    providerType: SupportedRuntimeProviderType;
+    endpoint: string;
+    apiKey?: string;
+    model: string;
+    useAzure?: boolean;
+    azureApiVersion?: string;
+    systemInstruction: string;
+    purpose?: "chat" | "summary";
+    messages: ChatMessage[];
+    temperature?: number;
+    maxOutputTokens?: number;
+    timeoutSeconds?: number;
+    extraHeaders?: RuntimeProviderHeaders;
+    metadata?: Record<string, string>;
+}
+
+/** Plain-text completion returned by a direct provider. */
+export interface ChatGenerationResult {
+    providerId: string;
+    providerType: SupportedRuntimeProviderType;
+    model: string;
+    text: string;
+    finishReason: StructuredFinishReason;
     usage?: ProviderTokenUsage;
     latencyMs?: number;
     metadata?: Record<string, string>;

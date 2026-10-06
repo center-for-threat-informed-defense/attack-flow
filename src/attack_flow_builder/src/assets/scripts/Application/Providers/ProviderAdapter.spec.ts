@@ -41,6 +41,13 @@ describe("ProviderAdapter", () => {
                 finishReason: "stop",
                 outputText: request.prompt,
                 outputJson: undefined
+            }),
+            generateChat: async request => ({
+                providerId: request.providerId ?? "runtime-openai_compatible",
+                providerType: request.providerType,
+                model: request.model,
+                text: request.messages.at(-1)?.content ?? "",
+                finishReason: "stop"
             })
         };
 
@@ -63,6 +70,18 @@ describe("ProviderAdapter", () => {
         })).resolves.toMatchObject({
             finishReason: "stop",
             outputText: "hello"
+        });
+
+        await expect(adapter.generateChat({
+            providerType: "openai_compatible",
+            endpoint: "https://example.com/v1",
+            apiKey: "secret",
+            model: "gpt-4o-mini",
+            systemInstruction: "Be concise.",
+            messages: [{ role: "user", content: "hello" }]
+        })).resolves.toMatchObject({
+            finishReason: "stop",
+            text: "hello"
         });
     });
 });
