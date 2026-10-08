@@ -14,6 +14,7 @@ import type { RenderSettings } from "../../RenderSettings";
 import type { DictionaryBlockStyle } from "../Styles";
 import { useTagStore } from "@/stores/TagStore";
 import { getResolvedTagsHash, getTagTextColor, resolveSelectedTags, type ResolvedTag } from "./TagRendering";
+import type { InlineBlockLinkResolver } from "./InlineBlockLink";
 
 /**
  * Global configuration for tag pill styling.
@@ -26,6 +27,25 @@ const TAG_CONFIG = {
     horizontalSpacing: 4, // The gap between two tags sitting side-by-side
     verticalSpacing: 10,  // Extra vertical buffer added to each row's height
     borderRadius: 6       // The corner roundness of the pill
+};
+
+const DEFAULT_INLINE_LINK_COLOR = "#89a0ec";
+
+type BlockHyperlink = {
+    url: string;
+    text: string;
+    color: string;
+    x: number;
+    yMin: number;
+    yMax: number;
+    width: number;
+    baseline: number;
+};
+
+type BlockField = {
+    id: string;
+    name: string;
+    value: string;
 };
 
 
@@ -61,6 +81,12 @@ export class DictionaryBlock extends BlockFace {
      */
     private headHeight: number;
 
+    /** The resolver for contextual links rendered after block fields. */
+    private readonly inlineLinkResolver: InlineBlockLinkResolver | undefined;
+
+    /** The inline links and their block-local hit regions. */
+    private hyperlinks: BlockHyperlink[];
+
 
     /**
      * Creates a new {@link DictionaryBlock}.
@@ -72,12 +98,15 @@ export class DictionaryBlock extends BlockFace {
      *  The block's scale.
      * @param properties
      *  The block's enumerated properties.
+     * @param inlineLinkResolver
+     *  Resolves contextual links rendered after named properties.
      */
     constructor(
         style: DictionaryBlockStyle,
         grid: [number, number],
         scale: number,
-        properties?: Enumeration
+        properties?: Enumeration,
+        inlineLinkResolver?: InlineBlockLinkResolver
     ) {
         super(grid, scale);
         this.style = style;
@@ -86,6 +115,23 @@ export class DictionaryBlock extends BlockFace {
         this.fillColor = this.style.body.fillColor;
         this.strokeColor = this.style.body.strokeColor;
         this.headHeight = 0;
+        this.inlineLinkResolver = inlineLinkResolver;
+        this.hyperlinks = [];
+    }
+
+    /** Returns the URL at an inline-link hit region, if any. */
+    public override getHyperlinkAt(x: number, y: number): string | undefined {
+        const originX = this.boundingBox.xMin + this.xOffset;
+        const originY = this.boundingBox.yMin + this.yOffset;
+        for (const link of this.hyperlinks) {
+            if (
+                originX + link.x <= x && x <= originX + link.x + link.width
+                && originY + link.yMin <= y && y <= originY + link.yMax
+            ) {
+                return link.url;
+            }
+        }
+        return undefined;
     }
 
 
@@ -124,6 +170,7 @@ export class DictionaryBlock extends BlockFace {
         this.width = 0;
         this.height = 0;
         this.text.eraseAllInstructions();
+        this.hyperlinks = [];
 
         // Calculate padding
         const yHeadPadding = blockGrid[1] * head.verticalPaddingUnits;
@@ -135,7 +182,7 @@ export class DictionaryBlock extends BlockFace {
         const hasTags = resolvedTags.length > 0;
 
         // Collect visible fields
-        const fields: [string, string][] = [];
+        const fields: BlockField[] = [];
         const properties = this.properties?.include ?? props.value.keys();
         for (const id of properties) {
             if (this.properties?.exclude?.has(id) || !props.value.has(id)) {
@@ -151,20 +198,14 @@ export class DictionaryBlock extends BlockFace {
             }
             if (property instanceof TupleProperty) {
                 // Unwrap tuples
-                for (const prop of property.value.values()) {
+                for (const [fieldId, prop] of property.value) {
                     if (!prop.isDefined()) {
                         continue;
                     }
-                    fields.push([
-                        prop.name.toLocaleUpperCase(),
-                        prop.toString()
-                    ]);
+                    fields.push({ id: fieldId, name: prop.name.toLocaleUpperCase(), value: prop.toString() });
                 }
             } else {
-                fields.push([
-                    property.name.toLocaleUpperCase(),
-                    property.toString()
-                ]);
+                fields.push({ id, name: property.name.toLocaleUpperCase(), value: property.toString() });
             }
         }
 
@@ -181,6 +222,7 @@ export class DictionaryBlock extends BlockFace {
         // Get field fonts
         const fieldName = body.fieldNameText;
         const fieldValue = body.fieldValueText;
+        const inlineLinks = [...(this.inlineLinkResolver?.(this.view) ?? [])];
 
         const computeTotalTagWidth = (tagName: string): number => {
             const textWidth = fieldValue.font.measureWidth(tagName);
@@ -191,8 +233,12 @@ export class DictionaryBlock extends BlockFace {
         let maxWidth = blockGrid[0] * this.style.maxUnitWidth;
         this.width = title.font.measureWidth(titleText);
         maxWidth = Math.max(this.width, maxWidth);
-        for (const [key] of fields) {
-            this.width = Math.max(this.width, fieldName.font.measureWidth(key));
+        for (const field of fields) {
+            this.width = Math.max(this.width, fieldName.font.measureWidth(field.name));
+            maxWidth = Math.max(this.width, maxWidth);
+        }
+        for (const link of inlineLinks) {
+            this.width = Math.max(this.width, fieldValue.font.measureWidth(link.text));
             maxWidth = Math.max(this.width, maxWidth);
         }
         if (hasTags) {
@@ -251,10 +297,10 @@ export class DictionaryBlock extends BlockFace {
             this.strokeColor = body.strokeColor;
             // Calculate body layout
             y += yBodyPadding - yFieldPadding;
-            for (const [key, value] of fields) {
+            for (const field of fields) {
                 y += yFieldPadding;
                 // Update content width
-                const lines = fieldValue.font.wordWrap(value, maxWidth);
+                const lines = fieldValue.font.wordWrap(field.value, maxWidth);
                 for (let i = 0, width; i < lines.length; i++) {
                     width = fieldValue.font.measureWidth(lines[i]);
                     this.width = Math.max(this.width, width);
@@ -263,7 +309,7 @@ export class DictionaryBlock extends BlockFace {
                 y = addTextCell(
                     this.text,
                     x, y,
-                    key,
+                    field.name,
                     fieldName.font,
                     fieldName.color,
                     fieldName.units * blockGrid[1],
@@ -277,6 +323,22 @@ export class DictionaryBlock extends BlockFace {
                     fieldValue.color,
                     fieldValue.units * blockGrid[1]
                 );
+                for (const link of inlineLinks.filter(link => link.afterField === field.id)) {
+                    const linkHeight = fieldValue.units * blockGrid[1];
+                    const linkTop = y;
+                    const linkWidth = fieldValue.font.measureWidth(link.text);
+                    y += linkHeight;
+                    this.hyperlinks.push({
+                        url: link.url,
+                        text: link.text,
+                        color: link.color ?? DEFAULT_INLINE_LINK_COLOR,
+                        x,
+                        yMin: linkTop,
+                        yMax: y,
+                        width: linkWidth,
+                        baseline: y
+                    });
+                }
             }
             y += yBodyPadding;
         } else {
@@ -508,6 +570,19 @@ export class DictionaryBlock extends BlockFace {
             }
         }
 
+        for (const hyperlink of this.hyperlinks) {
+            ctx.font = this.style.body.fieldValueText.font.css;
+            ctx.fillStyle = hyperlink.color;
+            const linkX = x + hyperlink.x;
+            const linkY = y + hyperlink.baseline;
+            ctx.fillText(hyperlink.text, linkX, linkY);
+            ctx.beginPath();
+            ctx.moveTo(linkX, linkY + 2);
+            ctx.lineTo(linkX + hyperlink.width, linkY + 2);
+            ctx.strokeStyle = hyperlink.color;
+            ctx.stroke();
+        }
+
         // Draw focus and hover markers
         if (this.view.focused) {
             const outline = this.style.selectOutline;
@@ -562,7 +637,7 @@ export class DictionaryBlock extends BlockFace {
      *  A clone of the face.
      */
     public clone(): DictionaryBlock {
-        return new DictionaryBlock(this.style, this.grid, this.scale, this.properties);
+        return new DictionaryBlock(this.style, this.grid, this.scale, this.properties, this.inlineLinkResolver);
     }
 
 }

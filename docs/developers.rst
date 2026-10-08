@@ -304,7 +304,10 @@ Update Intelligence File
 
 The *Intelligence File* (`builder.config.intel.ts`) drives the application's autocomplete features.
 This file is generated automatically by a set of scripts which download and organize relevant source
-information into a format the application can leverage.
+information into a format the application can leverage. The ATT&CK update also refreshes the generated
+Atomic Red Team coverage manifest used to link action techniques to available Atomic tests.
+The Atomic Red Team revision is deliberately pinned in ``sources/update_atomic_red_team.mjs``; update that
+commit before regenerating coverage.
 
 To update the Intelligence File for a given source, simply invoke its npm script as in `package.json`:
 
@@ -320,8 +323,10 @@ To update the Intelligence File for a given source, simply invoke its npm script
     → ...m/mitre-attack/attack-stix-data/master/ics-attack/ics-attack-16.0.json
     → ...e-attack/attack-stix-data/master/mobile-attack/mobile-attack-16.0.json
     → Generating enumerations file...
+    → Downloading Atomic Red Team coverage...
+    → Generated Atomic Red Team coverage for ... techniques at ...
 
-    MITRE ATT&CK enumerations updated successfully.
+    MITRE ATT&CK enumerations and Atomic Red Team coverage updated successfully.
 
 The configured list of sources can be modified at any time from `sources.mjs`.
 

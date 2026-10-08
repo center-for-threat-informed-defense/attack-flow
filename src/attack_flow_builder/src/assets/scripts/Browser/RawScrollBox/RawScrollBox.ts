@@ -243,7 +243,8 @@ export class RawScrollBox {
         this._resizeObserver = new ResizeObserver(() =>
             this.recalculateScrollState(false)
         );
-        this._resizeObserver.observe(el);
+        this._resizeObserver.observe(el); // Observe scrollbox root for manual resizes.
+        this._resizeObserver.observe(content); // Observe scrollbox content for internal resizes.
         this._mutateObserver.observe(this._content.el, mutateOptions);
 
         // Configure emit scroll handler

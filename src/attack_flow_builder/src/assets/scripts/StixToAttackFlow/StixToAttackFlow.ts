@@ -188,6 +188,8 @@ export class StixToAttackFlowConverter {
                 return "mitigation";
             case "x-countermeasure":
                 return "countermeasure";
+            case "x-red-team-test":
+                return "red-team-test";
             case "attack-operator":
                 const op = (stix as { operator?: string }).operator;
                 if (op == "AND") {
@@ -222,6 +224,8 @@ export class StixToAttackFlowConverter {
                 return this.denormalizeCustomObject(stix, "mitigation") as StixObject;
             case "x-countermeasure":
                 return this.denormalizeCustomObject(stix, "countermeasure") as StixObject;
+            case "x-red-team-test":
+                return this.denormalizeCustomObject(stix, "red-team-test") as StixObject;
             default:
                 return stix;
         }

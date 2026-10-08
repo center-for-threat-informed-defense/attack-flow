@@ -2,13 +2,17 @@
 import { describe, it, expect } from "vitest";
 import AttackFlowPublisher from "./AttackFlowPublisher";
 import { AttackFlow, AttackFlowObjects, BaseObjects } from "../AttackFlowTemplates";
+import { StixToAttackFlowConverter } from "../../scripts/StixToAttackFlow/StixToAttackFlow";
 import { Branch, AnchorPosition } from "@OpenChart/DiagramView";
 import {
     Block,
+    DictionaryProperty,
     Line,
     DiagramModelFile,
     DiagramObjectFactory,
-    StringProperty
+    ListProperty,
+    StringProperty,
+    TTPTupleProperty
 } from "@OpenChart/DiagramModel";
 
 /**
@@ -244,6 +248,43 @@ describe("AttackFlowPublisher - defensive object IDs", () => {
         expect(detectionSdo).toBeDefined();
         expect(detectionSdo.id).toBe(`x-detection--${detection.instance}`);
         expect(detectionSdo.detection_id).toBe("DET0516");
+    });
+});
+
+describe("AttackFlowPublisher - Red-team Test", () => {
+    it("exports nested test properties as a custom STIX object", () => {
+        const factory = buildFactory();
+        const file = new DiagramModelFile(factory);
+        createBlock(factory, file, "action");
+        const redTeamTest = createBlock(factory, file, "red-team-test");
+        const ttp = redTeamTest.properties.get("ttp", TTPTupleProperty)!;
+        ttp.get("technique", StringProperty)?.setValue("T1059");
+        redTeamTest.properties.get("name", StringProperty)?.setValue("PowerShell test");
+
+        const dependencies = redTeamTest.properties.get("dependencies", ListProperty)!;
+        const dependency = dependencies.createListItem() as DictionaryProperty;
+        dependency.get("description", StringProperty)?.setValue("A test dependency");
+        dependencies.addProperty(dependency, dependency.id);
+
+        const bundle = publish(file);
+        const sdo = bundle.objects.find(object => object.type === "x-red-team-test");
+
+        expect(sdo).toMatchObject({
+            id: `x-red-team-test--${redTeamTest.instance}`,
+            name: "PowerShell test",
+            x_ttp: { x_technique: "[ENT] T1059 Command and Scripting Interpreter" },
+            x_dependencies: [{ x_description: "A test dependency" }]
+        });
+
+        const importedTest = new StixToAttackFlowConverter(factory)["translateStix"](sdo, Block);
+
+        expect(importedTest).toBeDefined();
+        expect(importedTest?.id).toBe("red-team-test");
+        expect(importedTest?.properties.get("name", StringProperty)?.value).toBe("PowerShell test");
+        expect(
+            importedTest?.properties.get("ttp", TTPTupleProperty)
+                ?.get("technique", StringProperty)?.value
+        ).toBe("[ENT] T1059 Command and Scripting Interpreter");
     });
 });
 

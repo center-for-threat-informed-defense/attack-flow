@@ -1,4 +1,5 @@
 import { StixObjects, StixObservables } from "../AttackFlowTemplates";
+import { atomicRedTeamActionLinks } from "../AttackFlowTemplates/AtomicRedTeamInlineLinks";
 import { BlogStyle, Colors } from "@OpenChart/ThemeLoader";
 import { Alignment, FaceType, Orientation } from "@OpenChart/DiagramView";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
@@ -61,6 +62,7 @@ const AttackObjects = {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
         properties: { include: ["description"] },
+        inlineLinks: atomicRedTeamActionLinks,
         style: BlogStyle.DictionaryBlock({ head: Colors.SimpleBlue })
     },
     mitigation: {
@@ -79,6 +81,12 @@ const AttackObjects = {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
         style: BlogStyle.DictionaryBlock({ head: Colors.SimpleGray })
+    },
+    ["red-team-test"]: {
+        type: FaceType.DictionaryBlock,
+        attributes: Alignment.Grid,
+        properties: { include: ["description", "platforms", "executor"] },
+        style: BlogStyle.DictionaryBlock({ head: Colors.SimpleRedTeam })
     },
     asset: {
         type: FaceType.DictionaryBlock,

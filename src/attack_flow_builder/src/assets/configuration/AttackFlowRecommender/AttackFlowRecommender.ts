@@ -2,6 +2,7 @@ import { BasicRecommender } from "@OpenChart/DiagramEditor";
 import { CanvasView, LatchView, LineView } from "@OpenChart/DiagramView";
 import { MultiSelectProperty, StringProperty, TTPTupleProperty } from "@OpenChart/DiagramModel";
 import { getDomainCodeFromLabel, getTechniqueNameFromLabel } from "../AttackFlowTemplates";
+import { getAtomicRedTeamTests } from "../AttackFlowTemplates/AtomicRedTeamTests";
 import { sourceData, type SourceObject } from "../AttackFlowTemplates/SourceEnumeration";
 import type { DiagramViewEditor, ObjectRecommendation, ObjectRecommendations } from "@OpenChart/DiagramEditor";
 import type { DiagramObjectView } from "@OpenChart/DiagramView";
@@ -80,7 +81,18 @@ export class AttackFlowRecommender extends BasicRecommender {
         }
 
         const items = [...recommendations.items];
-        await this.insertTieRecommendationRows(items, techniqueInfo);
+        const actionRecommendation = items.find(item => item.id === "action");
+        const redTeamTestRecommendation = items.find(item => item.id === "red-team-test");
+        const [tieRows, atomicTestRows] = await Promise.all([
+            actionRecommendation
+                ? this.getTieRecommendationRows(techniqueInfo, actionRecommendation)
+                : [],
+            redTeamTestRecommendation
+                ? this.getAtomicTestRecommendationRows(techniqueInfo, redTeamTestRecommendation)
+                : []
+        ]);
+        this.insertRecommendationRows(items, "action", tieRows);
+        this.insertRecommendationRows(items, "red-team-test", atomicTestRows);
         this.insertDefensiveObjectRecommendationRows(items, techniqueInfo, "mitigation");
         this.insertDefensiveObjectRecommendationRows(items, techniqueInfo, "detection");
         this.insertDefensiveObjectRecommendationRows(items, techniqueInfo, "countermeasure");
@@ -161,22 +173,51 @@ export class AttackFlowRecommender extends BasicRecommender {
      * @param techniqueInfo
      *  The technique information.
      */
-    private async insertTieRecommendationRows(
-        items: ObjectRecommendation[],
-        techniqueInfo: TechniqueInfo
-    ) {
+    private async getTieRecommendationRows(
+        techniqueInfo: TechniqueInfo,
+        actionRecommendation: ObjectRecommendation
+    ): Promise<ObjectRecommendation[]> {
         if (techniqueInfo.framework !== ENTERPRISE_FRAMEWORK) {
-            return;
+            return [];
         }
 
-        const actionIndex = items.findIndex(item => item.id === "action");
-        if (actionIndex === -1) {
-            return;
+        return this.getPredictionRows(techniqueInfo, actionRecommendation);
+    }
+
+    /** Gets Atomic Red Team test rows for an Enterprise ATT&CK technique. */
+    private async getAtomicTestRecommendationRows(
+        techniqueInfo: TechniqueInfo,
+        redTeamTestRecommendation: ObjectRecommendation
+    ): Promise<ObjectRecommendation[]> {
+        if (techniqueInfo.framework !== ENTERPRISE_FRAMEWORK) {
+            return [];
         }
 
-        const predictionRows = await this.getPredictionRows(techniqueInfo, items[actionIndex]);
-        if (predictionRows.length) {
-            items.splice(actionIndex + 1, 0, ...predictionRows);
+        try {
+            const tests = await getAtomicRedTeamTests(techniqueInfo.techniqueId);
+            return tests.map((test, index) => ({
+                id: `atomic:${techniqueInfo.techniqueId}:${index}`,
+                color: redTeamTestRecommendation.color,
+                name: test.name,
+                subtitle: "Atomic Red Team test",
+                parentId: redTeamTestRecommendation.id,
+                atomicRedTeamTest: test
+            }));
+        } catch (error) {
+            console.warn("Unable to load Atomic Red Team recommendations.", error);
+            return [];
+        }
+    }
+
+    /** Inserts child recommendations directly after their parent recommendation. */
+    private insertRecommendationRows(
+        items: ObjectRecommendation[],
+        parentId: string,
+        rows: ObjectRecommendation[]
+    ): void {
+        const parentIndex = items.findIndex(item => item.id === parentId);
+        if (parentIndex !== -1 && rows.length) {
+            items.splice(parentIndex + 1, 0, ...rows);
         }
     }
 

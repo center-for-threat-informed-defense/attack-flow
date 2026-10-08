@@ -37,7 +37,7 @@ import type { DiagramViewEditor, ObjectRecommendation, ObjectRecommender } from 
 // Components
 import ContextMenu from "@/components/Controls/ContextMenu.vue";
 import ObjectRecommenderMenu from "@/components/Controls/ObjectRecommenderMenu.vue";
-import { SpawnAction, SpawnDetection, SpawnMitigation, SpawnObject } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/index.commands";
+import { SpawnAction, SpawnDetection, SpawnMitigation, SpawnObject, SpawnRedTeamTest } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/index.commands";
 import { SpawnObjectConnectedToLatch } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/ViewFile/SpawnObjectConnectedToLatch";
 import { SpawnCountermeasure } from "@/assets/scripts/OpenChart/DiagramEditor/Commands/ViewFile/SpawnCountermeasure";
 
@@ -150,7 +150,14 @@ export default defineComponent({
         if (!this.lastRecommenderObject) return;
 
         let spawnCommand: SpawnObject;
-        if (item.isTieRecommendation === true) {
+        if (item.atomicRedTeamTest) {
+            spawnCommand = new SpawnRedTeamTest(
+                this.editor.file,
+                item.atomicRedTeamTest,
+                this.lastRecommenderObject.x,
+                this.lastRecommenderObject.y
+            );
+        } else if (item.isTieRecommendation === true) {
             spawnCommand = new SpawnAction(
                 this.editor.file,
                 item.id,

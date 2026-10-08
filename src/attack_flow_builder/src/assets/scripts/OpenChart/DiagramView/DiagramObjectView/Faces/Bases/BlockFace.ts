@@ -105,6 +105,14 @@ export abstract class BlockFace extends DiagramFace {
         }
     }
 
+    /**
+     * Returns the URL of an interactive block region at the given coordinate.
+     * Faces without interactive content return undefined.
+     */
+    public getHyperlinkAt(_x: number, _y: number): string | undefined {
+        return undefined;
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////
     //  2. Movement  //////////////////////////////////////////////////////////

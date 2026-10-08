@@ -255,7 +255,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                 face = new BranchBlock(design.style, grid, scale, design.properties);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.DictionaryBlock:
-                face = new DictionaryBlock(design.style, grid, scale, design.properties);
+                face = new DictionaryBlock(design.style, grid, scale, design.properties, design.inlineLinks);
                 return new BlockView(template.name, instance, attrs, props, face);
             case FaceType.TextBlock:
                 face = new TextBlock(design.style, grid, scale);
@@ -379,7 +379,7 @@ export class DiagramObjectViewFactory extends DiagramObjectFactory {
                     object.replaceFace(face);
                     break;
                 case FaceType.DictionaryBlock:
-                    face = new DictionaryBlock(design.style, grid, scale, design.properties);
+                    face = new DictionaryBlock(design.style, grid, scale, design.properties, design.inlineLinks);
                     object.replaceFace(face);
                     break;
                 case FaceType.TextBlock:

@@ -38,7 +38,8 @@
         "uuid": "^14.0.1",
         "vectorious": "6.1.14",
         "vue": "^3.5.13",
-        "vue3-colorpicker": "^2.3.0"
+        "vue3-colorpicker": "^2.3.0",
+        "yaml": "^2.9.1"
     },
     "devDependencies": {
         "@stylistic/eslint-plugin-js": "^3.0.0",

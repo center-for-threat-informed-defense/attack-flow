@@ -100,12 +100,21 @@ export class PowerEditPlugin extends DiagramInterfacePlugin {
      */
     public handleHoverStart(x: number, y: number, event: MouseEvent): void {
         const s = this.smartHover(x, y, event);
-        if (this.selection === s) {
-            return undefined;
-        }
         let hoverTarget = s;
         if (s instanceof AnchorView) {
             hoverTarget = s.latches.find(o => o.parent?.focused) ?? s;
+        }
+        if (this.selection === s) {
+            // A more specific hover interaction (such as an inline hyperlink)
+            // may have temporarily changed the cursor while the same block
+            // remained selected. Restore this object's normal cursor.
+            if (!hoverTarget) {
+                this.setCursor(Cursor.Default);
+            } else {
+                const cursor = PowerEditPlugin.CursorMap[hoverTarget.constructor.name];
+                this.setCursor(cursor ? cursor(hoverTarget) : Cursor.NotAllowed);
+            }
+            return undefined;
         }
         this.hover(c => this.editor.execute(c), hoverTarget);
         this.selection = s;
