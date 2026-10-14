@@ -9,6 +9,8 @@ import {
 } from "@OpenChart/DiagramEditor";
 import type { DiagramViewFile } from "@OpenChart/DiagramView";
 import type { ApplicationStore } from "@/stores/ApplicationStore";
+import { AtomicRedTeamLinkPlugin } from "@/assets/scripts/Application/AtomicRedTeamLinkPlugin";
+import { openHyperlink } from "@/assets/scripts/Application/Commands/ViewManagement";
 
 export class LoadFile extends AppCommand {
 
@@ -65,6 +67,9 @@ export class LoadFile extends AppCommand {
             blog_theme  : LightThemeMarquee,
             light_theme : LightThemeMarquee
         };
+        this.editor.interface.installPlugin(
+            new AtomicRedTeamLinkPlugin(this.editor, url => context.execute(openHyperlink(url)))
+        );
         // Configure interface plugins
         if (!context.readOnlyMode) {
             const hotkeys = settings.hotkeys.edit;

@@ -5,4 +5,5 @@ export * from "./SpawnDetection";
 export * from "./SpawnDefensiveObject";
 export * from "./SpawnMitigation";
 export * from "./SpawnObject";
+export * from "./SpawnRedTeamTest";
 export * from "./SetDefaultTimezone";

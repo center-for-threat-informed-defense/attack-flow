@@ -158,84 +158,17 @@
             </span>
           </summary>
           <div class="llm-container">
-            <label
-              class="form-field"
-              style="flex: 1;"
-            >
-              <span>TYPE:</span>
-              <AIGenerationProviderType
-                v-model="llmType"
-                :provider-types="RUNTIME_PROVIDER_OVERRIDE_TYPES"
-              />
-            </label>
-            <label
-              class="form-field"
-              style="flex: 2;"
-            >
-              <span>ENDPOINT:</span>
-              <input
-                v-model="llmEndpoint"
-                type="text"
-                placeholder="LLM endpoint override"
-                @keydown.stop
-              >
-            </label>
-            <label
-              class="form-field"
-              style="flex: 2;"
-            >
-              <span>TOKEN:</span>
-              <input
-                v-model="llmToken"
-                type="password"
-                placeholder="LLM token override"
-                @keydown.stop
-              >
-            </label>
-          </div>
-          <div
-            v-if="llmType"
-            class="llm-container llm-override-details"
-          >
-            <label
-              v-if="llmType !== 'azure_openai'"
-              class="form-field"
-              style="flex: 1;"
-            >
-              <span>MODEL:</span>
-              <input
-                v-model="llmModel"
-                type="text"
-                placeholder="Provider model"
-                @keydown.stop
-              >
-            </label>
-            <template v-else>
-              <label
-                class="form-field"
-                style="flex: 1;"
-              >
-                <span>AZURE DEPLOYMENT:</span>
-                <input
-                  v-model="llmAzureDeployment"
-                  type="text"
-                  placeholder="Azure deployment name"
-                  @keydown.stop
-                >
-              </label>
-              <label
-                class="form-field"
-                style="flex: 1;"
-              >
-                <span>AZURE API VERSION:</span>
-                <input
-                  v-model="llmAzureApiVersion"
-                  type="text"
-                  placeholder="2025-04-01-preview"
-                  @keydown.stop
-                >
-              </label>
-            </template>
+            <ProviderConnectionSettings
+              v-model:provider-type="llmType"
+              v-model:endpoint="llmEndpoint"
+              v-model:token="llmToken"
+              v-model:model="llmModel"
+              v-model:azure-deployment="llmAzureDeployment"
+              v-model:azure-api-version="llmAzureApiVersion"
+              :provider-types="RUNTIME_PROVIDER_OVERRIDE_TYPES"
+              layout="splash-override"
+              api-override
+            />
           </div>
         </details>
       </div>
@@ -246,75 +179,15 @@
         <p class="section-title">
           LLM INFORMATION
         </p>
-        <div class="llm-grid">
-          <label class="form-field">
-            <span>PROVIDER TYPE:</span>
-            <AIGenerationProviderType
-              v-model="llmType"
-              :provider-types="SUPPORTED_RUNTIME_PROVIDER_TYPES"
-            />
-          </label>
-          <label class="form-field">
-            <span>ENDPOINT:</span>
-            <input
-              v-model="llmEndpoint"
-              type="text"
-              @keydown.stop
-            >
-          </label>
-          <label class="form-field">
-            <span>TOKEN:</span>
-            <input
-              v-model="llmToken"
-              type="password"
-              @keydown.stop
-            >
-          </label>
-          <label class="form-field">
-            <span>MODEL / DEPLOYMENT:</span>
-            <input
-              v-model="llmModel"
-              type="text"
-              placeholder="gpt-4o-mini"
-              @keydown.stop
-            >
-            <small class="field-hint">
-              For Claude, Gemini, or Azure OpenAI, enter the model name.
-            </small>
-          </label>
-          <div
-            v-if="supportsAzureSettings"
-            class="form-field azure-toggle-field"
-          >
-            <span>AZURE:</span>
-            <label class="switch-row">
-              <span class="switch-label">Use Azure settings</span>
-              <span class="switch-control">
-                <input
-                  v-model="llmUseAzure"
-                  class="switch-input"
-                  type="checkbox"
-                >
-                <span
-                  class="switch-track"
-                  aria-hidden="true"
-                />
-              </span>
-            </label>
-          </div>
-          <label
-            v-if="supportsAzureSettings && llmUseAzure"
-            class="form-field"
-          >
-            <span>AZURE API VERSION:</span>
-            <input
-              v-model="llmAzureApiVersion"
-              type="text"
-              placeholder="2025-04-01-preview"
-              @keydown.stop
-            >
-          </label>
-        </div>
+        <ProviderConnectionSettings
+          v-model:provider-type="llmType"
+          v-model:endpoint="llmEndpoint"
+          v-model:token="llmToken"
+          v-model:model="llmModel"
+          v-model:use-azure="llmUseAzure"
+          v-model:azure-api-version="llmAzureApiVersion"
+          :provider-types="SUPPORTED_RUNTIME_PROVIDER_TYPES"
+        />
       </div>
       <button
         class="generate-button"
@@ -359,7 +232,7 @@ import {
     runJobToResult,
     type RuntimeProviderOverrideType,
 } from "@/api/jobs";
-import { fetchHealthCheck } from "@/api/health.ts";
+import { useApiAvailability } from "@/composables/useApiAvailability";
 import {
   BrowserPdfExtractionService,
   PdfExtractionServiceError,
@@ -392,7 +265,7 @@ import {
 } from "@/assets/scripts/Application/Configuration";
 import { prepareEditorFromExistingFile } from "@/assets/scripts/Application/index.ts";
 import LoadingSpinner from "./LoadingSpinner.vue";
-import AIGenerationProviderType from "./AIGenerationProviderType.vue";
+import ProviderConnectionSettings from "./ProviderConnectionSettings.vue";
 import ArrowLeftIcon from "../Icons/ArrowLeftIcon.vue";
 
 type SourceType = "upload" | "url" | "text" | null;
@@ -412,6 +285,8 @@ export default defineComponent({
     return {
         applicationStore: useApplicationStore(),
         runtimeProviderStore: useRuntimeProviderStore(),
+        apiAvailabilityStatus: useApiAvailability().status,
+        ensureApiAvailabilityChecked: useApiAvailability().ensureChecked,
         RUNTIME_PROVIDER_OVERRIDE_TYPES,
         SUPPORTED_RUNTIME_PROVIDER_TYPES
     }
@@ -433,8 +308,7 @@ export default defineComponent({
       llmType: "" as RuntimeProviderOverrideType | "",
       llmEndpoint: "",
       llmToken: "",
-      apiHealthCheckInProgress: false,
-      apiHealthCheckSucceeded: false,
+      apiHealthCheckOverride: null as boolean | null,
       llmModel: "",
       llmUseAzure: false,
       llmAzureDeployment: "",
@@ -442,6 +316,22 @@ export default defineComponent({
     }
   },
   computed: {
+
+    apiHealthCheckInProgress(): boolean {
+      return this.apiAvailabilityStatus === "checking" || this.apiAvailabilityStatus === "idle";
+    },
+
+    apiHealthCheckSucceeded: {
+      get(): boolean {
+        if(this.apiHealthCheckOverride !== null) {
+          return this.apiHealthCheckOverride;
+        }
+        return this.apiAvailabilityStatus === "available";
+      },
+      set(succeeded: boolean) {
+        this.apiHealthCheckOverride = succeeded;
+      }
+    },
 
     /**
      * Returns the normalized input package for the current direct-provider
@@ -703,17 +593,7 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.apiHealthCheckInProgress = true;
-    try {
-        const res = await fetchHealthCheck();
-
-        if (res.status === "ok") {
-            this.apiHealthCheckSucceeded = true;
-        }
-    } catch (e) {
-        console.error(e);
-    }
-    this.apiHealthCheckInProgress = false;
+    await this.ensureApiAvailabilityChecked(true);
 
     if (this.apiHealthCheckSucceeded) {
         console.log("API health check succeeded. Using AFB API.");
@@ -1003,7 +883,7 @@ export default defineComponent({
     FolderIcon,
     LinkIcon,
     LoadingSpinner,
-    AIGenerationProviderType,
+    ProviderConnectionSettings,
     ArrowLeftIcon
   }
 });

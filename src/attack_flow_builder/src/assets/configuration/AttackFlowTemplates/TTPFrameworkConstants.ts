@@ -6,7 +6,6 @@ export const TTP_FRAMEWORKS: FrameworkEntry[] = [
     ["MOB", "MITRE ATT&CK Mobile (MOB)"],
     ["ICS", "MITRE ATT&CK ICS (ICS)"],
     ["ATL", "MITRE ATLAS (ATL)"],
-    ["D3F", "MITRE D3FEND (D3F)"],
     ["F3", "MITRE F3 (F3)"]
 ];
 

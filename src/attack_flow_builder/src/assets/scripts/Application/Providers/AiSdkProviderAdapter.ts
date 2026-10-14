@@ -8,6 +8,8 @@ import { ProviderAdapterInvocationError } from "./ProviderAdapter";
 import type { ProviderAdapter } from "./ProviderAdapter";
 import type {
     BrowserProviderError,
+    ChatGenerationRequest,
+    ChatGenerationResult,
     ProviderTokenUsage,
     ProviderValidationRequest,
     ProviderValidationResult,
@@ -89,9 +91,39 @@ export class AiSdkProviderAdapter implements ProviderAdapter {
         };
     }
 
+    /** Generates a plain-text response from ordered conversation messages. */
+    async generateChat(request: ChatGenerationRequest): Promise<ChatGenerationResult> {
+        const started = Date.now();
+        const context = this.resolveRequestContext(request, "chat_generation");
+
+        try {
+            const result = await generateText({
+                model: createAiSdkLanguageModel(context),
+                instructions: request.systemInstruction,
+                messages: request.messages,
+                maxOutputTokens: request.maxOutputTokens ?? DEFAULT_DIRECT_PROVIDER_MAX_OUTPUT_TOKENS,
+                temperature: request.temperature,
+                timeout: { totalMs: 1000 * (request.timeoutSeconds ?? DEFAULT_TIMEOUT_SECONDS) }
+            });
+
+            return {
+                providerId: context.providerId,
+                providerType: context.providerType,
+                model: context.model,
+                text: result.text,
+                finishReason: this.mapFinishReason(result.finishReason),
+                usage: this.mapUsage(result.usage),
+                latencyMs: Date.now() - started,
+                metadata: result.response.id ? { request_id: result.response.id } : undefined
+            };
+        } catch (error) {
+            throw this.mapError(error, context, "chat_generation");
+        }
+    }
+
     /** Merges request overrides with configuration and rejects incomplete settings. */
     private resolveRequestContext(
-        request: ProviderValidationRequest | StructuredGenerationRequest,
+        request: ProviderValidationRequest | StructuredGenerationRequest | ChatGenerationRequest,
         operation: BrowserProviderError["operation"]
     ): RequestContext {
         const endpoint = (request.endpoint || this.provider.endpoint).trim();
@@ -211,12 +243,15 @@ export class AiSdkProviderAdapter implements ProviderAdapter {
         context: RequestContext,
         operation: BrowserProviderError["operation"]
     ): ProviderAdapterInvocationError {
+        // An earlier adapter step already normalized this failure for the caller.
         if (error instanceof ProviderAdapterInvocationError) {
             return error;
         }
 
+        // The provider returned an HTTP error response that AI SDK exposed as APICallError.
         if (APICallError.isInstance(error)) {
             const statusCode = error.statusCode;
+            // The configured credential was rejected before generation could begin.
             if (statusCode === 401 || statusCode === 403) {
                 return this.createError({
                     operation,
@@ -229,12 +264,13 @@ export class AiSdkProviderAdapter implements ProviderAdapter {
                 });
             }
 
-            if (statusCode === 408 || statusCode === 429 || (statusCode !== undefined && statusCode >= 500)) {
+            // The provider is rate-limiting requests or an upstream service returned a 5xx response.
+            if (statusCode === 429 || (statusCode !== undefined && statusCode >= 500)) {
                 return this.createError({
                     operation,
-                    category: statusCode === 408 ? "timeout" : "unavailable",
-                    code: statusCode === 408 ? "provider_timeout" : "provider_unavailable",
-                    message: statusCode === 408 ? "provider request timed out" : "provider is unavailable",
+                    category: "unavailable",
+                    code: "provider_unavailable",
+                    message: "provider is unavailable",
                     retryable: true,
                     context,
                     statusCode
@@ -242,17 +278,24 @@ export class AiSdkProviderAdapter implements ProviderAdapter {
             }
         }
 
-        if (error instanceof DOMException && error.name === "AbortError") {
+        // Either the provider explicitly returned HTTP 408, or the browser/SDK timed out locally.
+        if (
+            (APICallError.isInstance(error) && error.statusCode === 408)
+            || (error instanceof DOMException && error.name === "AbortError")
+            || (error instanceof Error && error.name === "TimeoutError")
+        ) {
             return this.createError({
                 operation,
                 category: "timeout",
                 code: "provider_timeout",
                 message: "provider request timed out",
                 retryable: true,
-                context
+                context,
+                statusCode: APICallError.isInstance(error) ? error.statusCode : undefined
             });
         }
 
+        // Any remaining error occurred before a usable provider response, such as a network or CORS failure.
         return this.createError({
             operation,
             category: "network_error",

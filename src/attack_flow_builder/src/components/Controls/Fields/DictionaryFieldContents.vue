@@ -14,6 +14,10 @@
         :property="value"
         @execute="(cmd: SynchronousEditorCommand) => $emit('execute', cmd)"
       />
+      <slot
+        v-if="key === 'ttp'"
+        name="after-ttp"
+      />
     </div>
   </div>
 </template>

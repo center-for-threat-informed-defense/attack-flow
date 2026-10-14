@@ -1,9 +1,10 @@
 import { writeFileSync } from "fs";
 import { dirname, resolve } from "path";
 import { fileURLToPath } from "url";
-import { MITRE_DEFEND_URL } from "./sources.mjs";
+import { v5 as uuidv5 } from "uuid";
+import { MITRE_DEFEND_ATTACK_EXTRACTOR_URL, MITRE_DEFEND_URL, STIX_SOURCES } from "./sources.mjs";
+import { fetchSourceData } from "./download_stix_source.mjs";
 import { EXPORT_KEY, fetchJson } from "./source_utils.mjs";
-import { randomUUID } from "crypto";
 
 /**
  * The enumeration file's directory.
@@ -21,9 +22,28 @@ const SOURCE_NAME = "D3FEND";
 const SOURCE_DOMAIN = "d3fend";
 
 /**
- * @typedef {Object} ChildRef
- * @property {string} ['@id']
+ * The maximum number of ATT&CK technique lookups to make concurrently.
  */
+const ATTACK_EXTRACTOR_BATCH_SIZE = 100;
+
+/**
+ * Stable UUID v5 namespace for Builder-generated D3FEND countermeasure IDs.
+ * This value should not change after generated IDs are published.
+ */
+const D3FEND_COUNTERMEASURE_NAMESPACE = "e73d9ba3-57f1-4a63-a474-fd2e937853b8";
+
+/**
+ * Produces a stable STIX-compatible identifier for a D3FEND countermeasure.
+ * The D3FEND technique ID is stable, while D3FEND does not publish native
+ * STIX object identifiers for these techniques.
+ * @param {string} techniqueId
+ *  The D3FEND technique ID.
+ * @returns {string}
+ *  The custom STIX countermeasure object ID.
+ */
+function getCountermeasureStixId(techniqueId) {
+  return `x-countermeasure--${uuidv5(techniqueId, D3FEND_COUNTERMEASURE_NAMESPACE)}`;
+}
 
 /**
  * @typedef {Object} SourceObject
@@ -31,7 +51,6 @@ const SOURCE_DOMAIN = "d3fend";
  * @property {Array<string>} ['@type']
  * @property {Array<string>} ['rdfs:label']
  * @property {Array<string>} ['d3f:d3fend-id']
- * @property {Array<ChildRef>} ['d3f:children']
  */
 
 /**
@@ -47,34 +66,16 @@ function asArray(value) {
 }
 
 /**
- * Loads the D3FEND matrix graph from a remote source and indexes nodes by @id.
+ * Loads the D3FEND matrix graph.
  * @param {string} url
  *  The remote graph JSON url.
- * @returns {{ graph: SourceObject[], byId: Map<string, SourceObject> }}
- *  The graph array and an index of nodes by @id.
+ * @returns {Promise<SourceObject[]>}
+ *  The graph array.
  */
 async function loadGraph(url) {
   const json = await fetchJson(url);
   /** @type {SourceObject[]} */
-  const graph = asArray(json["@graph"]);
-  /** @type {Map<string, SourceObject>} */
-  const byId = new Map();
-  for (const node of graph) {
-    if (node && node["@id"]) byId.set(node["@id"], node);
-  }
-  return { graph, byId };
-}
-
-/**
- * Determines if a node is a D3FEND tactic.
- * @param {SourceObject} node
- *  The node to evaluate.
- * @returns {boolean}
- *  True if the node represents a defensive tactic; false otherwise.
- */
-function isTactic(node) {
-  const types = asArray(node?.["@type"]);
-  return types.includes("d3f:DefensiveTactic");
+  return asArray(json["@graph"]);
 }
 
 /**
@@ -99,21 +100,6 @@ function getLabel(node) {
 function getTechniqueCode(node) {
   const code = asArray(node?.["d3f:d3fend-id"])?.[0];
   return code || null;
-}
-
-/**
- * Returns the child @id values for a node.
- * @param {SourceObject} node
- *  The node.
- * @returns {string[]}
- *  The child identifiers.
- */
-function getChildrenIds(node) {
-  const children = asArray(node?.["d3f:children"]);
-  // Children are objects with { "@id": "..." }
-  return children
-    .map(k => (typeof k === "string" ? k : k?.["@id"]))
-    .filter(Boolean);
 }
 
 /**
@@ -144,58 +130,44 @@ function createSourceObject(id, name, label, type, stixId) {
 }
 
 /**
- * Sorts an object record by key.
- * @param {Record<string, Object>} record
- *  The object record.
- * @returns {Record<string, Object>}
- *  The sorted object record.
+ * Retrieves ATT&CK-to-D3FEND countermeasure mappings from the D3FEND ATT&CK
+ * Extractor. The extractor exposes one JSON result per ATT&CK technique, so
+ * requests are issued in bounded concurrent batches.
+ * @param {string[]} attackTechniqueIds
+ *  The active ATT&CK technique IDs.
+ * @returns {Record<string, string[]>}
+ *  Sorted, de-duplicated countermeasure IDs keyed by ATT&CK technique ID.
  */
-function sortRecord(record) {
-  return Object.fromEntries(
-    Object.entries(record).sort(([a], [b]) => a.localeCompare(b))
-  );
-}
+async function fetchAttackCountermeasureMappings(attackTechniqueIds) {
+  /** @type {Map<string, Set<string>>} */
+  const mappings = new Map();
+  for (let start = 0; start < attackTechniqueIds.length; start += ATTACK_EXTRACTOR_BATCH_SIZE) {
+    const batch = attackTechniqueIds.slice(start, start + ATTACK_EXTRACTOR_BATCH_SIZE);
+    console.log(` → Extracting mappings for ${start + 1}-${start + batch.length} of ${attackTechniqueIds.length} ATT&CK techniques...`);
+    const results = await Promise.all(batch.map(async attackTechniqueId => {
+      const endpoint = `${MITRE_DEFEND_ATTACK_EXTRACTOR_URL}/${encodeURIComponent(attackTechniqueId)}.json`;
+      return [attackTechniqueId, await fetchJson(endpoint)];
+    }));
 
-/**
- * Collects all descendant techniques for a tactic node.
- * This performs a DFS through d3f:children links to arbitrary depth.
- * @param {SourceObject} rootNode
- *  The tactic node to traverse from.
- * @param {Map<string, SourceObject>} byId
- *  Index of nodes by @id.
- * @returns {{ techniqueIds: Set<string>, techniqueLabels: Map<string,string> }}
- *  The set of technique codes and a mapping to their labels.
- */
-function collectDescendantTechniques(rootNode, byId) {
-  const stack = [...getChildrenIds(rootNode)];
-  const visited = new Set();
-  /** @type {Set<string>} */
-  const techniqueIds = new Set(); // stores technique code like D3-AMED
-  /** @type {Map<string, string>} */
-  const techniqueLabels = new Map(); // code -> label
-
-  while (stack.length) {
-    const id = stack.pop();
-    if (!id || visited.has(id)) continue;
-    visited.add(id);
-
-    const node = byId.get(id);
-    if (!node) continue;
-
-    // If this node is a technique (has d3f:d3fend-id and label), record it
-    const code = getTechniqueCode(node);
-    const label = getLabel(node);
-    if (code && label) {
-      techniqueIds.add(code);
-      if (!techniqueLabels.has(code)) techniqueLabels.set(code, label);
+    for (const [attackTechniqueId, result] of results) {
+      const bindings = result.off_to_def?.results?.bindings ?? [];
+      for (const binding of bindings) {
+        const countermeasureId = binding.def_tech_id?.value;
+        if (!countermeasureId) continue;
+        if (!mappings.has(attackTechniqueId)) mappings.set(attackTechniqueId, new Set());
+        mappings.get(attackTechniqueId).add(countermeasureId);
+      }
     }
-
-    // Always traverse children to reach deeper techniques
-    const children = getChildrenIds(node);
-    for (const cid of children) stack.push(cid);
   }
 
-  return { techniqueIds, techniqueLabels };
+  return Object.fromEntries(
+    [...mappings.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([attackId, countermeasureIds]) => [
+        attackId,
+        [...countermeasureIds].sort((a, b) => a.localeCompare(b))
+      ])
+  );
 }
 
 /**
@@ -205,51 +177,37 @@ export default async function updateMitreDefend() {
   const __dirname = dirname(fileURLToPath(import.meta.url));
   const outPath = resolve(__dirname, `${ENUM_DIR}/MitreDefend.ts`);
 
-  // Download and index graph
-  console.log("→ Downloading D3FEND matrix graph...");
+  // Download the D3FEND matrix graph and current ATT&CK technique catalog.
+  console.log("→ Downloading D3FEND matrix graph and ATT&CK technique catalog...");
   console.log(` → ${MITRE_DEFEND_URL}`);
-  const { graph, byId } = await loadGraph(MITRE_DEFEND_URL);
+  const [graph, attackTypes] = await Promise.all([
+    loadGraph(MITRE_DEFEND_URL),
+    fetchSourceData(...STIX_SOURCES.MitreAttack)
+  ]);
 
-  // Identify tactics
-  const tacticsNodes = graph.filter(isTactic);
+  // D3FEND techniques are independent countermeasures; do not emit D3FEND
+  // tactics or tactic-to-technique relationships.
+  const techniqueLabelByCode = new Map(); // code -> label
 
-  // Organize tactics and relationships
-  const tactics = {};
+  for (const node of graph) {
+    const code = getTechniqueCode(node);
+    const label = getLabel(node);
+    if (code && label && !techniqueLabelByCode.has(code)) {
+      techniqueLabelByCode.set(code, label);
+    }
+  }
+
+  const attackTechniqueIds = attackTypes.get("technique")
+    .filter(technique => !technique.deprecated)
+    .map(technique => technique.id)
+    .sort((a, b) => a.localeCompare(b));
+
   const relationships = {
     tacticTechniques: [],
     techniqueMitigations: [],
-    techniqueDetections: []
+    techniqueDetections: [],
+    offensiveTechniquesToCountermeasures: await fetchAttackCountermeasureMappings(attackTechniqueIds)
   };
-  const techniqueLabelByCode = new Map(); // code -> label
-
-  for (const t of tacticsNodes) {
-    const tacticId = t["@id"];
-    if (!tacticId) continue;
-
-    // Remove the leading "d3f:" namespace from tactic identifiers for output
-    const cleanTacticId = tacticId.replace(/^d3f:/, "");
-
-    tactics[cleanTacticId] = createSourceObject(
-      cleanTacticId,
-      cleanTacticId,
-      `[D3F] ${cleanTacticId}`,
-      "tactic",
-      `x-mitre-tactic--${randomUUID()}`
-    );
-
-    const { techniqueIds, techniqueLabels } = collectDescendantTechniques(t, byId);
-
-    for (const [code, label] of techniqueLabels.entries()) {
-      if (!techniqueLabelByCode.has(code)) techniqueLabelByCode.set(code, label);
-    }
-    for (const code of techniqueIds) {
-      // Relationship uses tactic id without d3f: prefix
-      relationships.tacticTechniques.push({
-        tacticId: cleanTacticId,
-        techniqueId: code
-      });
-    }
-  }
 
   const techniques = Object.fromEntries(
     Array.from(techniqueLabelByCode.entries())
@@ -258,8 +216,8 @@ export default async function updateMitreDefend() {
         code,
         label,
         `[D3F] ${code} ${label}`,
-        "technique",
-        `attack-pattern--${randomUUID()}`
+        "countermeasure",
+        getCountermeasureStixId(code)
       )])
   );
 
@@ -267,7 +225,7 @@ export default async function updateMitreDefend() {
   let file = "";
   file += `export const ${EXPORT_KEY} = `;
   file += JSON.stringify({
-    tactics: sortRecord(tactics),
+    tactics: {},
     techniques,
     mitigations: {}, // No mitigation data
     detections: {}, // No detection data

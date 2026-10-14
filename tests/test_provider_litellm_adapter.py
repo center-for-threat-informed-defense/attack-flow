@@ -9,6 +9,8 @@ import pytest
 from attack_flow_api.config import ProviderConfig
 from attack_flow_api.providers.adapter import ProviderAdapterInvocationError
 from attack_flow_api.providers.contracts import (
+    ChatGenerationRequest,
+    ChatMessage,
     ProviderOperation,
     ProviderValidationRequest,
     StructuredGenerationRequest,
@@ -123,6 +125,34 @@ def test_validate_uses_the_default_model_and_small_generation(monkeypatch) -> No
     assert result.checked_model == "model-primary"
     assert calls[0]["model"] == "anthropic/model-primary"
     assert calls[0]["max_tokens"] == 16
+
+
+def test_generate_chat_uses_plain_messages_without_json_mode(monkeypatch) -> None:
+    monkeypatch.setenv("PROVIDER_API_KEY", "test-key")
+    calls: list[dict[str, object]] = []
+    adapter = LiteLLMProviderAdapter(
+        _provider_config("openai"),
+        completion_fn=lambda **kwargs: calls.append(kwargs) or _response("plain answer"),
+    )
+
+    result = adapter.generate_chat(
+        ChatGenerationRequest(
+            provider_id="openai-primary",
+            provider_type="openai",
+            model="model-primary",
+            messages=[
+                ChatMessage(role="system", content="Use plain text."),
+                ChatMessage(role="user", content="What is missing?"),
+            ],
+        )
+    )
+
+    assert calls[0]["messages"] == [
+        {"role": "system", "content": "Use plain text."},
+        {"role": "user", "content": "What is missing?"},
+    ]
+    assert "response_format" not in calls[0]
+    assert result.output_text == "plain answer"
 
 
 def test_maps_litellm_authentication_error(monkeypatch) -> None:

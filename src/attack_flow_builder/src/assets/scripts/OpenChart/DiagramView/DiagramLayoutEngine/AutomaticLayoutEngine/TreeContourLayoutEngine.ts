@@ -17,15 +17,20 @@
  */
 
 import { BlockView, CanvasView, LineView, type DiagramObjectView } from "../../DiagramObjectView";
+import { EnumProperty } from "@OpenChart/DiagramModel";
 import type { DiagramLayoutEngine } from "../DiagramLayoutEngine";
 import {
     buildGraph,
     findRootNodes,
+    getAnchorDirection,
     getIncomingDirectionsWithParents,
+    generalizeSide,
     type CardinalDirection
 } from "../LayoutHelpers";
+import { LatchAnchorAssignmentPass, type FlowDirection } from "./LatchAnchorAssignmentPass";
 
 type GeneralSide = "n" | "s" | "e" | "w";
+type LayoutAxis = "horizontal" | "vertical";
 
 /** A generic numeric interval with min and max. */
 type Interval = {
@@ -44,16 +49,21 @@ type AxisContour = {
 /** A structure representing where a child layout node is placed relative to its parent. */
 type ChildPlacement = {
     node: LayoutNode;
-    direction: CardinalDirection;
+    /** Direction of the anchor on the layout parent that owns the connecting latch. */
+    parentAnchorDirection: CardinalDirection;
     offsetX: number;
     offsetY: number;
 };
 
 /** A bounding box structure. */
 type RelativeBounds = {
+    /** Minimum horizontal coordinate relative to the subtree origin. */
     xMin: number;
+    /** Maximum horizontal coordinate relative to the subtree origin. */
     xMax: number;
+    /** Minimum vertical coordinate relative to the subtree origin. */
     yMin: number;
+    /** Maximum vertical coordinate relative to the subtree origin. */
     yMax: number;
 };
 
@@ -105,6 +115,8 @@ type ComponentPlacement = {
 
 /**  Default spacing between top-level subtrees or provisional components. */
 const ROOT_GAP = 240;
+/** The primary direction in which the flow progresses. */
+const FLOW_DIRECTION: FlowDirection = "left-to-right";
 /** Default horizontal space between parent node and child subtree on east or west side. */
 const NODE_GAP_HORIZONTAL = 120;
 /** Default vertical space between parent node and child subtree on north or south side. */
@@ -147,6 +159,9 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
             return;
         }
 
+        this.updateConditionBlockOrientations(blocks);
+        new LatchAnchorAssignmentPass(FLOW_DIRECTION).run(lines);
+
         const order = new Map<string, number>();
         for (const [index, block] of blocks.entries()) {
             order.set(block.instance, index);
@@ -174,6 +189,30 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
         }
         for (const line of lines) {
             line.calculateLayout();
+        }
+    }
+
+    /**
+     * Align condition face orientations with the current flow direction.
+     *
+     * Recalculating a changed face moves its branch ports before latch-anchor
+     * assignment selects physical sides for the flow.
+     * @param blocks
+     *  The blocks participating in this layout run.
+     */
+    private updateConditionBlockOrientations(blocks: Iterable<BlockView>): void {
+        for (const block of blocks) {
+            if (block.id !== "condition") {
+                continue;
+            }
+
+            const orientation = block.properties.get("orientation", EnumProperty);
+            if (!orientation || orientation.value === FLOW_DIRECTION) {
+                continue;
+            }
+
+            orientation.setValue(FLOW_DIRECTION);
+            block.calculateLayout();
         }
     }
 
@@ -293,10 +332,10 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
                 }
 
                 const childNode = layoutNodes.get(child)!;
-                const direction = this.getPrimaryDirection(block, child, incomingEdges);
+                const parentAnchorDirection = this.getPrimaryDirection(block, child, incomingEdges);
                 const placement: ChildPlacement = {
                     node: childNode,
-                    direction,
+                    parentAnchorDirection,
                     offsetX: 0,
                     offsetY: 0
                 };
@@ -483,10 +522,10 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
             );
         }
 
-        const bounds = groupBounds(sorted);
-        const centerShift = -((bounds.xMin + bounds.xMax) / 2);
+        const alignmentPlacement = getLargestAlignmentPlacement(sorted, "horizontal");
+        const alignmentShift = -alignmentPlacement.offsetX;
         for (const placement of sorted) {
-            placement.offsetX += centerShift;
+            placement.offsetX += alignmentShift;
         }
 
         return groupBounds(sorted);
@@ -530,8 +569,8 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
             );
         }
 
-        const bounds = groupBounds(sorted);
-        const centerShift = -((bounds.yMin + bounds.yMax) / 2);
+        const alignmentPlacement = getLargestAlignmentPlacement(sorted, "vertical");
+        const centerShift = -alignmentPlacement.offsetY;
         for (const placement of sorted) {
             placement.offsetY += centerShift;
         }
@@ -730,25 +769,33 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
     } {
         const components: ComponentNode[] = [];
         const blockToComponent = new Map<BlockView, ComponentNode>();
-        let cursorX = 0;
+        let cursor = 0;
 
         for (const [index, root] of roots.entries()) {
             if (components.length > 0) {
-                cursorX += ROOT_GAP;
+                cursor += ROOT_GAP;
             }
-            cursorX += -root.bounds.xMin;
+
+            const offsetX = FLOW_DIRECTION === "top-down"
+                ? cursor - root.bounds.xMin
+                : 0;
+            const offsetY = FLOW_DIRECTION === "left-to-right"
+                ? cursor - root.bounds.yMin
+                : 0;
 
             const component: ComponentNode = {
                 root,
                 index,
-                offsetX: cursorX,
-                offsetY: 0,
+                offsetX,
+                offsetY,
                 bounds: root.bounds,
                 blocks: new Set()
             };
             this.collectComponentBlocks(root, component, blockToComponent);
             components.push(component);
-            cursorX += root.bounds.xMax;
+            cursor += FLOW_DIRECTION === "top-down"
+                ? root.bounds.xMax
+                : root.bounds.yMax;
         }
 
         return { components, blockToComponent };
@@ -802,7 +849,7 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
                 continue;
             }
 
-            const targetDirection = getAnchorDirection(targetBlock, line.target?.anchor?.instance);
+            const targetDirection = getAnchorDirectionForInstance(targetBlock, line.target?.anchor?.instance);
             if (!targetDirection) {
                 continue;
             }
@@ -980,7 +1027,7 @@ export class TreeContourLayoutEngine implements DiagramLayoutEngine {
  */
 function parentChildAdd(parent: LayoutNode, placement: ChildPlacement): void {
     parent.children.push(placement);
-    const side = generalizeSide(placement.direction);
+    const side = generalizeSide(placement.parentAnchorDirection);
     let sidePlacements = parent.childrenBySide.get(side);
     if (!sidePlacements) {
         sidePlacements = [];
@@ -997,7 +1044,7 @@ function parentChildAdd(parent: LayoutNode, placement: ChildPlacement): void {
  */
 function sortSiblingPlacements(placements: ChildPlacement[]): ChildPlacement[] {
     return [...placements].sort((a, b) => {
-        const biasDelta = directionalBias(a.direction) - directionalBias(b.direction);
+        const biasDelta = directionalBias(a.parentAnchorDirection) - directionalBias(b.parentAnchorDirection);
         if (biasDelta !== 0) {
             return biasDelta;
         }
@@ -1006,21 +1053,30 @@ function sortSiblingPlacements(placements: ChildPlacement[]): ChildPlacement[] {
 }
 
 /**
- * Reduce a detailed anchor direction to one of the four cardinal sides.
- * @param direction A detailed direction such as `nne` or `wsw`.
- * @returns The corresponding cardinal side.
+ * Select the sibling subtree with the greatest extent along a layout axis.
+ * Ties retain the input order, which is already deterministic after sibling
+ * sorting.
+ * @param placements
+ *  The sorted sibling placements to compare.
+ * @param axis
+ *  The layout axis to compare.
+ * @returns
+ *  The placement to use as the group's alignment reference.
  */
-function generalizeSide(direction: CardinalDirection): GeneralSide {
-    if (direction === "n" || direction === "nnw" || direction === "nne") {
-        return "n";
-    }
-    if (direction === "s" || direction === "ssw" || direction === "sse") {
-        return "s";
-    }
-    if (direction === "w" || direction === "wnw" || direction === "wsw") {
-        return "w";
-    }
-    return "e";
+function getLargestAlignmentPlacement(
+    placements: ChildPlacement[], axis: LayoutAxis
+): ChildPlacement {
+    return placements.reduce((largest, placement) => {
+        const largestBounds = largest.node.bounds;
+        const placementBounds = placement.node.bounds;
+        const largestExtent = axis === "vertical"
+            ? largestBounds.xMax - largestBounds.xMin
+            : largestBounds.yMax - largestBounds.yMin;
+        const placementExtent = axis === "vertical"
+            ? placementBounds.xMax - placementBounds.xMin
+            : placementBounds.yMax - placementBounds.yMin;
+        return placementExtent > largestExtent ? placement : largest;
+    });
 }
 
 /**
@@ -1230,44 +1286,20 @@ function boundsCenter(bounds: RelativeBounds): { x: number, y: number } {
  * @param anchorInstance The anchor instance identifier to resolve.
  * @returns The matching direction, if found.
  */
-function getAnchorDirection(block: BlockView, anchorInstance: string | undefined): CardinalDirection | undefined {
+function getAnchorDirectionForInstance(
+    block: BlockView, anchorInstance: string | undefined
+): CardinalDirection | undefined {
     if (!anchorInstance) {
         return undefined;
     }
 
     for (const [key, anchor] of block.anchors) {
         if (anchor.instance === anchorInstance) {
-            return anchorKeyToDirection(key);
+            return getAnchorDirection(block, key);
         }
     }
 
     return undefined;
-}
-
-/**
- * Convert an anchor key used in the view model into a detailed cardinal
- * direction string.
- * @param key The anchor key from the block's anchor map.
- * @returns The corresponding direction, if known.
- */
-function anchorKeyToDirection(key: string): CardinalDirection | undefined {
-    const anchorsToDirections: Record<string, CardinalDirection> = {
-        "0": "e",
-        "30": "ene",
-        "60": "nne",
-        "90": "n",
-        "120": "nnw",
-        "150": "wnw",
-        "180": "w",
-        "210": "wsw",
-        "240": "ssw",
-        "270": "s",
-        "300": "sse",
-        "330": "ese",
-        "branch:True": "ssw",
-        "branch:False": "sse"
-    };
-    return anchorsToDirections[key];
 }
 
 /**

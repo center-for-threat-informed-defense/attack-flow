@@ -10,7 +10,20 @@
             class="contents"
             :property="property"
             @execute="execute"
-          />
+          >
+            <template #after-ttp>
+              <a
+                v-if="atomicRedTeamUrl"
+                class="atomic-red-team-link"
+                :href="atomicRedTeamUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <LinkIcon />
+                red-team this
+              </a>
+            </template>
+          </DictionaryFieldContents>
         </ScrollBox>
       </template>
       <template v-else>
@@ -36,10 +49,13 @@ import { defineComponent, type PropType } from "vue";
 import { SetDatePropertyTimezone } from "@OpenChart/DiagramEditor/Commands/index.commands";
 import type { Command } from "@/assets/scripts/Application";
 import type { DictionaryProperty } from "@OpenChart/DiagramModel";
+import { StringProperty, TTPTupleProperty } from "@OpenChart/DiagramModel";
 import { hasVisibleEditorProperties } from "@/assets/configuration/AttackFlowTemplates/editorPropertyUtils";
+import { getAtomicRedTeamUrl } from "@/assets/configuration/AttackFlowTemplates/AtomicRedTeamUrls";
 // Components
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 import DictionaryFieldContents from "@/components/Controls/Fields/DictionaryFieldContents.vue";
+import LinkIcon from "@/components/Icons/LinkIcon.vue";
 
 export default defineComponent({
   name: "PropertyEditor",
@@ -66,6 +82,21 @@ export default defineComponent({
         return false;
       }
       return hasVisibleEditorProperties(this.property);
+    },
+
+    /** URL for the selected action's exact Atomic Red Team technique, if covered. */
+    atomicRedTeamUrl(): string | undefined {
+      if (!this.property || this.application.hasSelection !== 1) {
+        return undefined;
+      }
+      const selected = this.application.getSelection[0];
+      if (selected?.id !== "action") {
+        return undefined;
+      }
+      const ttp = this.property.get("ttp", TTPTupleProperty);
+      const techniqueId = ttp?.get("technique", StringProperty)?.value;
+      const baseUrl = getAtomicRedTeamUrl(techniqueId ?? undefined);
+      return baseUrl && techniqueId ? `${baseUrl}/${techniqueId}.md` : undefined;
     }
 
   },
@@ -92,7 +123,7 @@ export default defineComponent({
     }
 
   },
-  components: { ScrollBox, DictionaryFieldContents }
+  components: { ScrollBox, DictionaryFieldContents, LinkIcon }
 });
 </script>
 
@@ -106,6 +137,20 @@ export default defineComponent({
 
 .contents {
   padding: 18px 16px;
+}
+
+.atomic-red-team-link {
+  align-items: center;
+  color: var(--af-color-info);
+  display: flex;
+  font-size: 10.5pt;
+  gap: 7px;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.atomic-red-team-link:hover {
+  text-decoration: underline;
 }
 
 .no-prop {

@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from attack_flow_api.providers.contracts import NormalizedProviderError
 
 from attack_flow_api.providers.contracts import (
+    ChatGenerationRequest,
+    ChatGenerationResult,
     ProviderValidationRequest,
     ProviderValidationResult,
     StructuredGenerationRequest,
@@ -30,6 +32,10 @@ class ProviderAdapter(ABC):
         self,
         request: StructuredGenerationRequest,
     ) -> StructuredGenerationResult:
+        raise NotImplementedError
+
+    @abstractmethod
+    def generate_chat(self, request: ChatGenerationRequest) -> ChatGenerationResult:
         raise NotImplementedError
 
 
@@ -74,6 +80,14 @@ class ProviderNotInvokedAdapter(ProviderAdapter):
             metadata={"mode": "not_invoked"},
         )
 
+    def generate_chat(self, request: ChatGenerationRequest) -> ChatGenerationResult:
+        return ChatGenerationResult(
+            provider_id=request.provider_id,
+            provider_type=request.provider_type,
+            model=request.model or "not-invoked",
+            metadata={"mode": "not_invoked"},
+        )
+
 
 class ProviderNotImplementedAdapter(ProviderAdapter):
     """Placeholder adapter for configured providers pending concrete implementation."""
@@ -97,6 +111,9 @@ class ProviderNotImplementedAdapter(ProviderAdapter):
         self,
         request: StructuredGenerationRequest,
     ) -> StructuredGenerationResult:
+        raise NotImplementedError(self._not_implemented_message())
+
+    def generate_chat(self, request: ChatGenerationRequest) -> ChatGenerationResult:
         raise NotImplementedError(self._not_implemented_message())
 
     def _not_implemented_message(self) -> str:

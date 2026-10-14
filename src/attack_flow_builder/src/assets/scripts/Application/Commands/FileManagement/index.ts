@@ -99,7 +99,7 @@ export async function loadExistingFile(
     if (generatedAutoLayout || !isValidLayout(jsonFile.layout)) {
         viewFile.runLayout(autoLayoutEngine);
     }
-    viewFile.compactActionAssetStacks();
+    //viewFile.compactActionAssetStacks();
     if (generatedAutoLayout || !isValidCamera(jsonFile.camera)) {
         viewFile.centerAndZoomCamera();
     }

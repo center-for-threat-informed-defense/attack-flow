@@ -6,7 +6,7 @@ import { resolveEmbeddedRelationships } from "./ResolveEmbeddedRelationships";
 import { Canvas, Block, DiagramObject, Line } from "../OpenChart/DiagramModel/DiagramObject";
 import type { Constructor } from "@OpenChart/Utilities";
 import type { StixBundle, StixObject, StixObjectType } from "./StixTypes";
-import type { Anchor, DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
+import type { DiagramModelExport, DiagramObjectFactory } from "@OpenChart/DiagramModel";
 import { AnchorPosition } from "../OpenChart/DiagramView";
 
 export class StixToAttackFlowConverter {
@@ -186,6 +186,10 @@ export class StixToAttackFlowConverter {
                 return "detection";
             case "x-mitigation":
                 return "mitigation";
+            case "x-countermeasure":
+                return "countermeasure";
+            case "x-red-team-test":
+                return "red-team-test";
             case "attack-operator":
                 const op = (stix as { operator?: string }).operator;
                 if (op == "AND") {
@@ -218,6 +222,10 @@ export class StixToAttackFlowConverter {
                 return this.denormalizeCustomObject(stix, "detection") as StixObject;
             case "x-mitigation":
                 return this.denormalizeCustomObject(stix, "mitigation") as StixObject;
+            case "x-countermeasure":
+                return this.denormalizeCustomObject(stix, "countermeasure") as StixObject;
+            case "x-red-team-test":
+                return this.denormalizeCustomObject(stix, "red-team-test") as StixObject;
             default:
                 return stix;
         }
@@ -390,72 +398,6 @@ export class StixToAttackFlowConverter {
     }
 
     /**
-     * Get an available anchor from a side of a block if possible. If no anchors are available,
-     * the least-overlapped one will be chosen. A priority between middle and neighboring anchors
-     * is established if all else fails.
-     *
-     * Note: Asking for available anchors on the southern side of a condition block will throw an error.
-     * @param block The block to find available anchors on.
-     * @param side The side to look on.
-     * @returns an anchor
-     */
-    private getAvailableAnchor(block: Block, side: "n" | "s" | "e" | "w"): Anchor {
-        let result: Anchor | null = null;
-
-        // Map anchor key to number of latches.
-        const latches_per_anchor : { [K in AnchorPosition]?: number } = {};
-
-        for (const [anchor_key, anchor] of block.anchors.entries()) {
-            latches_per_anchor[anchor_key as AnchorPosition] = anchor.latches.length;
-        }
-
-        /**
-         * Get the best anchor key based on which is most empty. To evaluate ties, the list is assumed
-         * to be in priority order.
-         * @param side_anchor_keys list of anchor keys to evaluate
-         * @returns the winning anchor key
-         */
-        function evaluate_anchors(side_anchor_keys: AnchorPosition[]): AnchorPosition {
-            let best_anchor_key : AnchorPosition;
-
-            const counts : number[] = side_anchor_keys.map(k => latches_per_anchor[k] as number);
-
-            if (counts[0] <= counts[1] && counts[0] <= counts[2]) {
-                best_anchor_key = side_anchor_keys[0];
-            } else if (counts[1] <= counts[2]) {
-                best_anchor_key = side_anchor_keys[1];
-            } else {
-                best_anchor_key = side_anchor_keys[2];
-            }
-
-            return best_anchor_key;
-        }
-
-        let best_key : AnchorPosition = AnchorPosition.D0;
-        switch (side) {
-            case "n":
-                best_key = evaluate_anchors([AnchorPosition.D90, AnchorPosition.D120, AnchorPosition.D60]);
-                break;
-            case "s":
-                if (block.id === "condition") {
-                    throw new Error("Cannot assume true or false anchors on condition blocks.");
-                }
-                best_key = evaluate_anchors([AnchorPosition.D270, AnchorPosition.D240, AnchorPosition.D300]);
-                break;
-            case "e":
-                best_key = evaluate_anchors([AnchorPosition.D0, AnchorPosition.D30, AnchorPosition.D330]);
-                break;
-            case "w":
-                best_key = evaluate_anchors([AnchorPosition.D180, AnchorPosition.D150, AnchorPosition.D210]);
-                break;
-        }
-
-        result = block.anchors.get(best_key) as Anchor;
-
-        return result;
-    }
-
-    /**
      * Connects a parent and child block with a line.
      * @param parent
      *  The parent block.
@@ -467,28 +409,23 @@ export class StixToAttackFlowConverter {
      * The STIX object representation of the parent block.
      */
     private connectBlocks(parent: Block, child: Block, line: Line, parent_stix: StixObject | undefined, child_stix: StixObject | undefined) {
-        const place_below = new Set(["action", "AND_operator", "OR_operator", "condition"]);
+        // Do a simple south-north connection so the auto-layout engine can discern parent-child relationships.
+        let parent_anchor = parent.anchors.get(AnchorPosition.D270);
+        const child_anchor = child.anchors.get(AnchorPosition.D90);
 
-        let parent_anchor = this.getAvailableAnchor(parent, "w");
-        let child_anchor = child.anchors.get(AnchorPosition.D0);
-
-        if (place_below.has(child.id)) {
-            child_anchor = child.anchors.get(AnchorPosition.D90);
-            // Special case: Determine anchors to connect for condition blocks.
-            if (parent.id === "condition") {
-                // Default to a side anchor.
-                parent_anchor = this.getAvailableAnchor(parent, "w");
-                if (parent_stix && child_stix) {
-                    const true_refs : Array<string> | undefined = "on_true_refs" in parent_stix ? parent_stix.on_true_refs : undefined;
-                    const false_refs : Array<string> | undefined = "on_false_refs" in parent_stix ? parent_stix.on_false_refs : undefined;
-                    if (Array.isArray(true_refs) && true_refs.includes(child_stix.id)) {
-                        parent_anchor = parent.anchors.get("branch:True") as Anchor;
-                    } else if (Array.isArray(false_refs) && false_refs.includes(child_stix.id)) {
-                        parent_anchor = parent.anchors.get("branch:False") as Anchor;
-                    }
+        // Conditions use their semantic branch anchors only when STIX
+        // identifies the relationship as true or false. Keep unclassified
+        // relationships on a neutral side anchor rather than assuming a branch.
+        if (parent.id === "condition") {
+            parent_anchor = parent.anchors.get(AnchorPosition.D180);
+            if (parent_stix && child_stix) {
+                const true_refs : Array<string> | undefined = "on_true_refs" in parent_stix ? parent_stix.on_true_refs : undefined;
+                const false_refs : Array<string> | undefined = "on_false_refs" in parent_stix ? parent_stix.on_false_refs : undefined;
+                if (Array.isArray(true_refs) && true_refs.includes(child_stix.id)) {
+                    parent_anchor = parent.anchors.get("branch:True");
+                } else if (Array.isArray(false_refs) && false_refs.includes(child_stix.id)) {
+                    parent_anchor = parent.anchors.get("branch:False");
                 }
-            } else {
-                parent_anchor = this.getAvailableAnchor(parent, "s");
             }
         }
 

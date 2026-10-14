@@ -243,7 +243,8 @@ export class RawScrollBox {
         this._resizeObserver = new ResizeObserver(() =>
             this.recalculateScrollState(false)
         );
-        this._resizeObserver.observe(el);
+        this._resizeObserver.observe(el); // Observe scrollbox root for manual resizes.
+        this._resizeObserver.observe(content); // Observe scrollbox content for internal resizes.
         this._mutateObserver.observe(this._content.el, mutateOptions);
 
         // Configure emit scroll handler
@@ -397,6 +398,14 @@ export class RawScrollBox {
         // Update DOM
         this._handle.el.style.transform = `translateY(${this._handle.pos}px)`;
         this._content.el.scrollTop = this._scrollTop;
+    }
+
+    /**
+     * Scrolls the content to its current maximum position.
+     */
+    public scrollToBottom() {
+        this.recalculateScrollState(false);
+        this.moveScrollPosition(Number.MAX_SAFE_INTEGER);
     }
 
     /**

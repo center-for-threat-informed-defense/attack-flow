@@ -25,6 +25,7 @@ from attack_flow_api.errors import (
 )
 from attack_flow_api.logging_utils import setup_logging
 from attack_flow_api.routes.jobs import router as jobs_router
+from attack_flow_api.routes.chat import router as chat_router
 from attack_flow_api.middleware import RequestContextMiddleware
 from attack_flow_api.providers.registry import ProviderRegistry
 from attack_flow_api.services.audit_retrieval_service import AuditRetrievalService
@@ -38,6 +39,7 @@ from attack_flow_api.storage.filesystem import LocalFileStorage
 def create_api_router() -> APIRouter:
     router = APIRouter()
     router.include_router(health_router)
+    router.include_router(chat_router)
     router.include_router(jobs_router)
     return router
 

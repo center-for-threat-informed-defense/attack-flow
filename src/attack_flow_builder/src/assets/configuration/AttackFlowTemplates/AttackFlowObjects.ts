@@ -1,10 +1,25 @@
 import { AnchorConfiguration } from "./AnchorFormat";
 import { AnchorPosition, Branch } from "@OpenChart/DiagramView";
+import { BoolEnum } from "./BoolEnum";
 import { ConfidenceProperty } from "./ConfidenceProperty";
 import { TacticTechniqueProperty } from "./TacticTechniqueProperty";
 import { TagsProperty } from "./TagsProperty";
 import { DiagramObjectType, PropertyType } from "@OpenChart/DiagramModel";
-import type { DiagramObjectTemplate } from "@OpenChart/DiagramModel";
+import type { DiagramObjectTemplate, ListPropertyDescriptor } from "@OpenChart/DiagramModel";
+import { defendTechniques } from "./SourceEnumeration";
+
+const ExecutorOptions: ListPropertyDescriptor = {
+    type: PropertyType.List,
+    form: { type: PropertyType.String },
+    default: [
+        ["powershell", "PowerShell"],
+        ["command_prompt", "Command Prompt"],
+        ["bash", "Bash"],
+        ["sh", "sh"],
+        ["manual", "Manual"],
+        ["python", "Python"]
+    ]
+};
 
 export const AttackFlowObjects: DiagramObjectTemplate[] = [
     {
@@ -106,6 +121,156 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
         anchors: AnchorConfiguration
     },
     {
+        name: "countermeasure",
+        namespace: ["attack_flow", "countermeasure"],
+        type: DiagramObjectType.Block,
+        properties: {
+            countermeasure_id: {
+                name: "ID",
+                type: PropertyType.String,
+                options: {
+                    type: PropertyType.List,
+                    form: { type: PropertyType.String },
+                    default: defendTechniques as [string, string][]
+                }
+            },
+            name: {
+                type: PropertyType.String,
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }
+                }
+            },
+            description: {
+                type: PropertyType.String
+            },
+            tags: TagsProperty
+        },
+        anchors: AnchorConfiguration
+    },
+    {
+        name: "red-team-test",
+        namespace: ["attack_flow", "red-team-test"],
+        type: DiagramObjectType.Block,
+        properties: {
+            name: {
+                type: PropertyType.String,
+                is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }
+                }
+            },
+            ttp: {
+                name: "TTP Mapping",
+                ...TacticTechniqueProperty
+            },
+            description: {
+                type: PropertyType.String
+            },
+            platforms: {
+                name: "Supported Platforms",
+                type: PropertyType.MultiSelect,
+                options: {
+                    type: PropertyType.List,
+                    form: { type: PropertyType.String },
+                    default: [
+                        ["windows", "Windows"],
+                        ["macos", "macOS"],
+                        ["linux", "Linux"],
+                        ["office-365", "Office 365"],
+                        ["azure-ad", "Azure AD"],
+                        ["google-workspace", "Google Workspace"],
+                        ["saas", "SaaS"],
+                        ["iaas", "IaaS"],
+                        ["iaas:aws", "IaaS: AWS"],
+                        ["iaas:azure", "IaaS: Azure"],
+                        ["iaas:gcp", "IaaS: GCP"],
+                        ["containers", "Containers"],
+                        ["esxi", "ESXi"],
+                        ["other", "Other"]
+                    ]
+                },
+                default: {}
+            },
+            executor: {
+                type: PropertyType.String,
+                options: ExecutorOptions
+            },
+            command: {
+                type: PropertyType.String
+            },
+            cleanup_command: {
+                name: "Cleanup Command",
+                type: PropertyType.String
+            },
+            elevation_required: {
+                name: "Elevation Required",
+                ...BoolEnum,
+                default: "false"
+            },
+            dependency_executor: {
+                name: "Dependency Executor",
+                type: PropertyType.String,
+                options: ExecutorOptions
+            },
+            dependencies: {
+                type: PropertyType.List,
+                form: {
+                    type: PropertyType.Dictionary,
+                    form: {
+                        description: {
+                            type: PropertyType.String,
+                            is_representative: true
+                        },
+                        prereq_command: {
+                            name: "Check Prerequisite Command",
+                            type: PropertyType.String
+                        },
+                        get_prereq_command: {
+                            name: "Get Prerequisite Command",
+                            type: PropertyType.String
+                        }
+                    }
+                },
+                default: []
+            },
+            input_arguments: {
+                name: "Input Arguments",
+                type: PropertyType.List,
+                form: {
+                    type: PropertyType.Dictionary,
+                    form: {
+                        name: {
+                            type: PropertyType.String,
+                            is_representative: true,
+                            metadata: {
+                                validator: {
+                                    is_required: true
+                                }
+                            }
+                        },
+                        description: {
+                            type: PropertyType.String
+                        },
+                        type: {
+                            type: PropertyType.String
+                        },
+                        default: {
+                            type: PropertyType.String
+                        }
+                    }
+                },
+                default: []
+            },
+            tags: TagsProperty
+        },
+        anchors: AnchorConfiguration
+    },
+    {
         name: "asset",
         namespace: ["attack_flow", "asset"],
         type: DiagramObjectType.Block,
@@ -134,6 +299,23 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
             description: {
                 type: PropertyType.String,
                 is_representative: true,
+                metadata: {
+                    validator: {
+                        is_required: true
+                    }
+                }
+            },
+            orientation: {
+                type: PropertyType.Enum,
+                options: {
+                    type: PropertyType.List,
+                    form: { type: PropertyType.String },
+                    default: [
+                        ["top-down", "Top-down"],
+                        ["left-to-right", "Left-to-right"]
+                    ]
+                },
+                default: "left-to-right",
                 metadata: {
                     validator: {
                         is_required: true

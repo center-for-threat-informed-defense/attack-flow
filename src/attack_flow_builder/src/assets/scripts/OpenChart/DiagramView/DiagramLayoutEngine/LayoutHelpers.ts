@@ -3,7 +3,7 @@ import type { LatchView } from "../DiagramObjectView/Views/LatchView";
 
 export type CardinalDirection = "n" | "s" | "e" | "w" | "nnw" | "nne" | "ssw" | "sse" | "ese" | "ene" | "wsw" | "wnw";
 
-const anchors_to_directions : { [key: string] : CardinalDirection } = {
+const anchorsToDirections: Record<string, CardinalDirection> = {
     "0": "e",
     "30": "ene",
     "60": "nne",
@@ -19,6 +19,45 @@ const anchors_to_directions : { [key: string] : CardinalDirection } = {
     "branch:True": "ssw", // Support condition block anchor keys.
     "branch:False": "sse"
 };
+
+/**
+ * Resolves an anchor key to its current physical direction on a block.
+ *
+ * Most blocks use the standard cardinal anchor arrangement. A left-to-right
+ * condition face moves its branch ports to the east edge and its three
+ * ordinary east-side anchors to the south edge, so those keys need a
+ * condition-specific interpretation.
+ * @param block
+ *  The block that owns the anchor.
+ * @param anchorKey
+ *  The anchor's key in the block's anchor map.
+ * @returns
+ *  The anchor's direction, if it is known.
+ */
+export function getAnchorDirection(
+    block: BlockView, anchorKey: string
+): CardinalDirection | undefined {
+    const isLeftToRightCondition =
+        block.id === "condition" &&
+        block.properties.value.get("orientation")?.toJson() === "left-to-right";
+
+    if (isLeftToRightCondition) {
+        switch (anchorKey) {
+            case "branch:True":
+                return "ene";
+            case "branch:False":
+                return "ese";
+            case "30":
+                return "ssw";
+            case "0":
+                return "s";
+            case "330":
+                return "sse";
+        }
+    }
+
+    return anchorsToDirections[anchorKey];
+}
 
 /**
  * Finds root nodes in the graph (nodes with no incoming connections).
@@ -223,7 +262,10 @@ export function getIncomingDirectionsWithParents(
                         line.target.isLinked(childAnchor)
                     ) {
                         // The parent line links to a child anchor.
-                        result.set(parent, anchors_to_directions[anchorKey]);
+                        const direction = getAnchorDirection(parent, anchorKey);
+                        if (direction) {
+                            result.set(parent, direction);
+                        }
                     }
                 }
             }
@@ -234,12 +276,12 @@ export function getIncomingDirectionsWithParents(
 }
 
 /**
- * Convert specific directions such as "ese" to general directions such as "e."
- * @param dir The specific direction
- * @returns The general direction
+ * Reduce a detailed anchor direction to one of the four cardinal sides.
+ * @param direction The detailed direction to reduce.
+ * @returns The corresponding cardinal side.
  */
-function generalizeDir(dir: CardinalDirection) : CardinalDirection {
-    switch (dir) {
+export function generalizeSide(direction: CardinalDirection): "n" | "s" | "e" | "w" {
+    switch (direction) {
         case "nnw":
         case "n":
         case "nne":
@@ -275,7 +317,7 @@ export function getSiblingsOnSameSide(
 ): Set<BlockView> {
     const result = new Set<BlockView>();
 
-    const childDir = generalizeDir(
+    const childDir = generalizeSide(
         getIncomingDirectionsWithParents(child, incomingEdges).get(parent) as CardinalDirection);
 
 
@@ -284,7 +326,7 @@ export function getSiblingsOnSameSide(
         allSiblings.delete(child); // child is not a sibling of itself
 
         for (const s of allSiblings) {
-            const siblingDir = generalizeDir(
+            const siblingDir = generalizeSide(
                 getIncomingDirectionsWithParents(s, incomingEdges).get(parent) as CardinalDirection);
             if (siblingDir === childDir) {
                 result.add(s);

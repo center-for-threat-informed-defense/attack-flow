@@ -74,6 +74,59 @@ describe("AiSdkProviderAdapter", () => {
         });
     });
 
+    it("normalizes TimeoutError failures as provider timeouts", async () => {
+        const timeoutError = new Error("request exceeded deadline");
+        timeoutError.name = "TimeoutError";
+        vi.stubGlobal("fetch", vi.fn(async () => { throw timeoutError; }) as unknown as typeof fetch);
+
+        await expect(new AiSdkProviderAdapter(provider).validate(provider)).rejects.toMatchObject({
+            error: {
+                category: "timeout",
+                code: "provider_timeout",
+                operation: "validate"
+            }
+        });
+    });
+
+    it("sends ordered chat messages as a normal text request", async () => {
+        const fetchMock = vi.fn(async () => new Response(JSON.stringify({
+            id: "chatcmpl_chat",
+            created: 1,
+            model: provider.model,
+            choices: [{
+                index: 0,
+                message: { role: "assistant", content: "The flow has one action." },
+                finish_reason: "stop"
+            }]
+        }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+        }));
+        vi.stubGlobal("fetch", fetchMock as unknown as typeof fetch);
+
+        const result = await new AiSdkProviderAdapter(provider).generateChat({
+            ...provider,
+            systemInstruction: "Help analyze Attack Flows.",
+            messages: [
+                { role: "user", content: "Current Attack Flow: {}" },
+                { role: "assistant", content: "I am ready." },
+                { role: "user", content: "What is missing?" }
+            ]
+        });
+
+        const [, init] = fetchMock.mock.calls[0] as unknown as [unknown, RequestInit];
+        expect(JSON.parse(String(init.body))).toMatchObject({
+            model: provider.model,
+            messages: [
+                { role: "system", content: "Help analyze Attack Flows." },
+                { role: "user", content: "Current Attack Flow: {}" },
+                { role: "assistant", content: "I am ready." },
+                { role: "user", content: "What is missing?" }
+            ]
+        });
+        expect(result).toMatchObject({ text: "The flow has one action.", finishReason: "stop" });
+    });
+
     it("parses JSON wrapped in a Markdown code fence", async () => {
         const fetchMock = vi.fn(async () => new Response(JSON.stringify({
             id: "chatcmpl_fenced",

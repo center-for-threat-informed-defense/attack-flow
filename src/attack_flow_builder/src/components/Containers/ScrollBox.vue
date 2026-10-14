@@ -47,6 +47,14 @@ export default defineComponent({
       this.scrollbox.resetScrollOnChange = this.resetScrollOnChange;
     }
   },
+  methods: {
+    /**
+     * Scrolls the box to the bottom of its current content.
+     */
+    scrollToBottom() {
+      this.scrollbox.scrollToBottom();
+    }
+  },
   mounted() {
     this.scrollbox.mount(
       this.$el,

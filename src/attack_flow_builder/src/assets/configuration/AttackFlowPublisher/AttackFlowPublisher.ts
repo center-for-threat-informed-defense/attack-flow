@@ -60,7 +60,9 @@ const AttackFlowSdos
 const CustomSdos
     = new Set<string>([
         "x-detection",
-        "x-mitigation"
+        "x-mitigation",
+        "x-countermeasure",
+        "x-red-team-test"
     ]);
 
 const AttackFlowTemplatesMap: Map<string, string>
@@ -73,7 +75,9 @@ const AttackFlowTemplatesMap: Map<string, string>
         ["AND_operator", "attack-operator"],
         ["email_address", "email-addr"],
         ["detection", "x-detection"],
-        ["mitigation", "x-mitigation"]
+        ["mitigation", "x-mitigation"],
+        ["countermeasure", "x-countermeasure"],
+        ["red-team-test", "x-red-team-test"]
     ]);
 
 
@@ -185,6 +189,8 @@ class AttackFlowPublisher implements FilePublisher {
                 break;
             case "x-detection":
             case "x-mitigation":
+            case "x-countermeasure":
+            case "x-red-team-test":
                 this.mergeCustomObjectProperty(obj, node.props);
                 break;
             default:
@@ -262,6 +268,10 @@ class AttackFlowPublisher implements FilePublisher {
      */
     private mergeBasicDictProperty(node: Sdo, property: DictionaryProperty) {
         for (const [key, prop] of property.value) {
+            if (node.type === "attack-condition" && key === "orientation") {
+                // Explicitly exclude the orientation of condition nodes from STIX exports.
+                continue;
+            }
             if (!prop.isDefined()) {
                 continue;
             }

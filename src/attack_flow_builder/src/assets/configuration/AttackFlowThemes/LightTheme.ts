@@ -1,6 +1,7 @@
 import { Colors, LightStyle } from "@OpenChart/ThemeLoader";
 import { Alignment, FaceType, Orientation } from "@OpenChart/DiagramView";
 import { StixObjects, StixObservables } from "../AttackFlowTemplates";
+import { atomicRedTeamActionLinks } from "../AttackFlowTemplates/AtomicRedTeamInlineLinks";
 import type { DiagramThemeConfiguration } from "@OpenChart/ThemeLoader";
 
 /**
@@ -60,6 +61,7 @@ const AttackObjects = {
     action: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
+        inlineLinks: atomicRedTeamActionLinks,
         style: LightStyle.DictionaryBlock({ head: Colors.LightThemeBlue })
     },
     mitigation: {
@@ -73,6 +75,17 @@ const AttackObjects = {
         properties: { include: ["detection_id", "description", "log_sources"] },
         style: LightStyle.DictionaryBlock({ head: Colors.LightThemeGray })
     },
+    countermeasure: {
+        type: FaceType.DictionaryBlock,
+        attributes: Alignment.Grid,
+        style: LightStyle.DictionaryBlock({ head: Colors.LightThemeGray })
+    },
+    ["red-team-test"]: {
+        type: FaceType.DictionaryBlock,
+        attributes: Alignment.Grid,
+        properties: { include: ["description", "platforms", "executor"] },
+        style: LightStyle.DictionaryBlock({ head: Colors.LightThemeRedTeam })
+    },
     asset: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
@@ -81,6 +94,7 @@ const AttackObjects = {
     condition: {
         type: FaceType.BranchBlock,
         attributes: Alignment.Grid,
+        properties: { exclude: ["orientation"] },
         style: LightStyle.BranchBlock({ head: Colors.LightThemeGreen })
     },
     OR_operator: {

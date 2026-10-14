@@ -1,5 +1,7 @@
 import type {
     BrowserProviderError,
+    ChatGenerationRequest,
+    ChatGenerationResult,
     ProviderValidationRequest,
     ProviderValidationResult,
     StructuredGenerationRequest,
@@ -33,6 +35,8 @@ export interface ProviderAdapter {
     generateStructured(
         request: StructuredGenerationRequest
     ): Promise<StructuredGenerationResult>;
+
+    generateChat(request: ChatGenerationRequest): Promise<ChatGenerationResult>;
 }
 
 /**
@@ -53,13 +57,17 @@ export class NoopProviderAdapter implements ProviderAdapter {
         throw new ProviderAdapterInvocationError(this.createError("structured_generation"));
     }
 
+    async generateChat(_request: ChatGenerationRequest): Promise<ChatGenerationResult> {
+        throw new ProviderAdapterInvocationError(this.createError("chat_generation"));
+    }
+
     private createError(operation: string): BrowserProviderError {
         return {
             category: "configuration_error",
             code: "provider_configuration_error",
             message: `No provider adapter is configured for ${operation}.`,
             retryable: false,
-            operation: operation as "validate" | "structured_generation",
+            operation: operation as "validate" | "structured_generation" | "chat_generation",
             providerId: this.providerId,
             providerType: this.providerType
         };

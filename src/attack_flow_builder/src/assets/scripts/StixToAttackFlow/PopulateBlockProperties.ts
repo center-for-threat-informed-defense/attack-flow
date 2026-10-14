@@ -204,7 +204,11 @@ function handleNumericEnum(enumProp: EnumProperty, val: number): void {
  * @param obj The STIX object
  */
 function handleTTPTuple(tupleProp: TupleProperty, obj: object): void {
-    if (!("tactic_id" in obj || "technique_id" in obj)) {
+    const ttp = "ttp" in obj && obj.ttp && typeof obj.ttp === "object"
+        ? obj.ttp as Record<string, JsonValue>
+        : undefined;
+
+    if (!("tactic_id" in obj || "technique_id" in obj || ttp)) {
         return;
     }
 
@@ -217,6 +221,13 @@ function handleTTPTuple(tupleProp: TupleProperty, obj: object): void {
 
     if ("technique_id" in obj) {
         techniqueId = obj.technique_id as JsonValue;
+    }
+
+    // Custom objects retain their TTP as a nested dictionary rather than the
+    // attack-action tactic_id/technique_id properties.
+    if (ttp) {
+        tacticId = ttp.tactic ?? tacticId;
+        techniqueId = ttp.technique ?? techniqueId;
     }
 
     const ttpValue : Iterable<[string, JsonValue]> = new Map([

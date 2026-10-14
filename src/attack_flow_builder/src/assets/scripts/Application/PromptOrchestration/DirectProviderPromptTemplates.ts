@@ -1,69 +1,14 @@
-export const DIRECT_PROVIDER_ATTACK_VERSION = "19.1" as const;
+import sharedPrompts from "@afb-ai-prompts";
 
-export const DIRECT_PROVIDER_SUPPORTED_STIX_OBJECT_TYPES = [
-    "attack_pattern",
-    "campaign",
-    "course_of_action",
-    "grouping",
-    "identity",
-    "indicator",
-    "infrastructure",
-    "intrusion_set",
-    "location",
-    "malware",
-    "malware_analysis",
-    "note",
-    "observed_data",
-    "opinion",
-    "report",
-    "threat_actor",
-    "tool",
-    "vulnerability",
-    "marking_definition"
-] as const;
+export const DIRECT_PROVIDER_ATTACK_VERSION = sharedPrompts.flow_generation.attack_version;
 
-export const DIRECT_PROVIDER_SUPPORTED_STIX_OBSERVABLE_TYPES = [
-    "artifact",
-    "autonomous_system",
-    "directory",
-    "domain_name",
-    "email_address",
-    "email_message",
-    "file",
-    "ipv4_addr",
-    "ipv6_addr",
-    "mac_addr",
-    "mutex",
-    "network_traffic",
-    "process",
-    "software",
-    "url",
-    "user_account",
-    "windows_registry_key",
-    "x509_certificate"
-] as const;
+export const DIRECT_PROVIDER_SUPPORTED_STIX_OBJECT_TYPES = sharedPrompts.flow_generation.supported_stix_object_types;
 
-export const DIRECT_PROVIDER_EMPTY_EXTRACTION_REPROMPT_PREFIX =
-    "The previous extraction returned no attack_actions, but this source likely contains attacker behavior that should be captured. " +
-    "Re-read the full normalized text and extract every clearly supported attack action, even if the ATT&CK mapping is coarse or uncertain. " +
-    "Do not return an empty attack_actions array when the report describes execution, persistence, credential access, reconnaissance, lateral movement, C2, or other attacker activity.\n\n";
+export const DIRECT_PROVIDER_SUPPORTED_STIX_OBSERVABLE_TYPES = sharedPrompts.flow_generation.supported_stix_observable_types;
 
-export const DIRECT_PROVIDER_SYSTEM_INSTRUCTION_TEXT =
-    "You are an extraction engine that returns JSON only.\n" +
-    "Follow these requirements exactly:\n" +
-    `1) Map every attack-action to one best-fit technique from an Attack Flow-supported framework only: MITRE ATT&CK Enterprise, Mobile, or ICS; MITRE ATLAS; MITRE D3FEND; or MITRE F3. Do not emit techniques from any other framework or invent custom techniques. Preserve and normalize explicit ATT&CK evidence to ATT&CK v${DIRECT_PROVIDER_ATTACK_VERSION} when possible. An ATT&CK ID, a technique or tactic name, or an ATT&CK external reference is explicit evidence. When the source describes attacker behavior without an explicit ATT&CK reference, infer the closest supported technique from that procedure, set grounded_by to inferred_from_procedure, and use lower confidence than for explicit evidence. Do not omit technique for an attack-action. For every ATT&CK technique, also emit its corresponding ATT&CK tactic in the action's tactic field.\n` +
-    "2) Create an attack-action for every source-grounded procedural attacker step, including when the report does not name an ATT&CK technique. Use a concise action name and make its description the most complete contiguous verbatim source excerpt available for that step. Do not shorten or summarize away material details such as tools, file types, commands, targets, conditions, parameters, or outcomes.\n" +
-    "3) Order attack_actions chronologically. For every non-terminal action, use effect_refs to point to the next source-supported action, condition, or operator. A terminal action has an empty effect_refs list. Merge contiguous substeps only when they describe the same technique and operational outcome. Treat tool setup as part of its runtime action unless the setup itself maps to a distinct ATT&CK technique; create a separate setup action only in that case. Do not merge source-distinct steps when they have different techniques, create an explicit prerequisite or state change, occur concurrently, or have different documented follow-on outcomes. Retain all source-specific detail in each action's description and linked objects.\n" +
-    "4) Treat action links as part of the output: do not leave otherwise sequential source-grounded actions disconnected. When the source order is the only sequencing evidence, connect each action to the next action in that order.\n" +
-    "5) Create attack-condition and attack-operator only for source-grounded flow logic. Create an attack-condition when the source explicitly describes a state or prerequisite that gates a later action, including cues such as upon execution, after, before, when, once, with those credentials, or a documented outcome such as a file being opened or a host being compromised. When an action's effect_refs points to a condition, that condition's on_true_refs must point to the next source-supported action, condition, or operator using its exact emitted ID. Leave on_false_refs empty unless the source documents a false or alternative path. A condition may be terminal only when the source contains no supported next step. Use AND only for documented concurrent activity, parallel requirements, or multiple independent outcomes that all occur after the same source-supported step. Use OR only for documented alternatives. Model a documented split by connecting the predecessor to an operator and the operator to each outcome; model a documented join by connecting each supported predecessor to the shared next action or condition. Do not force supported splits or joins into a sequential chain, and never guess branching.\n" +
-    "6) Every evidence record for an action, condition, operator, or asset must include a nonempty source and an excerpt. For every action, the evidence must contain the verbatim excerpt used for its description.\n" +
-    "7) When an action uses or targets a concrete tool, software, file, URL, IP address, process, user, registry key, domain, or observable, emit a matching deterministic_entity and include its object_id in that action's object_refs. Default to the most specific supported STIX object or observable type (for example software, process, file, user_account, or windows_registry_key), not attack_asset. Do not create a linked entity for a generic category without source-specific identifying data.\n" +
-    "8) Preserve type-specific entity fields from the source, such as value, path, command_line, hashes, display_name, cpe, vendor, version, pattern, subject, number, or rir. Preserve defanged observables exactly as written in the source: never refang indicators such as [.] or [:] in URL, domain, IP, email, or other observable values. Use the most specific source-grounded field as the entity display label.\n" +
-    "9) Prefer linked deterministic_entities over standalone attack_assets. Emit an attack_asset only when it has a specific name or source-grounded description; never use an internal identifier such as software-1 or tool-1 as its name.\n" +
-    "10) Do not create standalone attack-pattern nodes. Record ATT&CK techniques only on attack_actions.\n" +
-    "11) When the source includes an ATT&CK technique table, appendix, or matrix, use it as supplementary authoritative evidence for coverage and mapping. Create an action from a table entry only when its Use text or a referenced source passage describes concrete behavior; do not invent behavior solely from a technique name. Reports without an ATT&CK table must be extracted from their narrative and other source-grounded evidence.\n" +
-    "12) Preserve authors, external references, explicit STIX objects, and explicit STIX relationships. Carry source dates into relevant action metadata, include a source URL in attack_flow.external_references, preserve source-grounded threat-actor, group, or campaign attribution, and capture every lifecycle phase supported by the source.\n" +
-    "13) Technique confidence must be in [0.0, 1.0]. Return one top-level AFB extraction JSON object and no prose, bundle envelope, or legacy fields.\n";
+export const DIRECT_PROVIDER_EMPTY_EXTRACTION_REPROMPT_PREFIX = sharedPrompts.flow_generation.empty_extraction_reprompt_prefix;
+
+export const DIRECT_PROVIDER_SYSTEM_INSTRUCTION_TEXT = sharedPrompts.flow_generation.system_instruction_lines.join("\n") + "\n";
 
 export type DirectProviderPromptMode = "full_extraction" | "enrichment";
 
@@ -217,9 +162,8 @@ function buildPromptPayload(input: DirectProviderPromptInput): Record<string, un
 }
 
 function renderUserPrompt(input: DirectProviderPromptInput): string {
-    return "Build an AFB-compatible extraction JSON output from the following packaged source input. " +
-        "Output must be valid JSON and conform to the provided schema.\n\n" +
-        `PACKAGED_INPUT:\n${pythonCompatibleJsonStringify(buildPromptPayload(input))}`;
+    return sharedPrompts.flow_generation.user_prompt_prefix
+        + pythonCompatibleJsonStringify(buildPromptPayload(input));
 }
 
 export function buildDirectProviderPromptTemplateBundle(
@@ -241,7 +185,9 @@ export function buildDirectProviderEmptyExtractionRepromptBundle(
 ): DirectProviderPromptTemplateBundle {
     const base = buildDirectProviderPromptTemplateBundle(input, outputSchema);
     const cueText = sourceCues?.length
-        ? `Strong source cues to focus on:\n${sourceCues.map((cue) => `- ${cue}`).join("\n")}\n\n`
+        ? sharedPrompts.flow_generation.source_cues_template.replace(
+            "{cues}", sourceCues.map((cue) => `- ${cue}`).join("\n")
+        )
         : "";
     return {
         ...base,

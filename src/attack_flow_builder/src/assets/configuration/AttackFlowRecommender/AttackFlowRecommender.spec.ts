@@ -13,9 +13,15 @@ const tie = vi.hoisted(() => ({
     createEngine: vi.fn(),
     predict: vi.fn()
 }));
+const atomic = vi.hoisted(() => ({
+    getAtomicRedTeamTests: vi.fn()
+}));
 
 vi.mock("tie-inference-web", () => ({
     createEngine: tie.createEngine
+}));
+vi.mock("../AttackFlowTemplates/AtomicRedTeamTests", () => ({
+    getAtomicRedTeamTests: atomic.getAtomicRedTeamTests
 }));
 
 async function createAttackFlowFile(): Promise<DiagramViewFile> {
@@ -84,6 +90,7 @@ describe("AttackFlowRecommender", () => {
     beforeEach(() => {
         tie.createEngine.mockReset();
         tie.predict.mockReset();
+        atomic.getAtomicRedTeamTests.mockReset();
         tie.createEngine.mockResolvedValue({
             warmup: vi.fn(),
             predict: tie.predict
@@ -97,6 +104,7 @@ describe("AttackFlowRecommender", () => {
             { id: "T1027", score: 0.4 },
             { id: "T1003", score: 0.3 }
         ]);
+        atomic.getAtomicRedTeamTests.mockResolvedValue([]);
     });
 
     it("adds top Enterprise TIE recommendations under the generic action recommendation", async () => {
@@ -154,6 +162,36 @@ describe("AttackFlowRecommender", () => {
         });
     });
 
+    it("adds fetched Atomic tests under the Red-team Test recommendation", async () => {
+        tie.predict.mockResolvedValue([]);
+        atomic.getAtomicRedTeamTests.mockResolvedValue([{
+            techniqueId: "T1059",
+            name: "PowerShell test",
+            description: "Runs PowerShell.",
+            platforms: ["windows"],
+            executor: "powershell",
+            command: "Write-Host test",
+            elevationRequired: false,
+            dependencies: [],
+            inputArguments: []
+        }]);
+
+        const recommendations = await recommendationItemsForTechnique("T1059");
+        const rows = childRecommendations(recommendations, "red-team-test");
+
+        expect(atomic.getAtomicRedTeamTests).toHaveBeenCalledWith("T1059");
+        expectRowsUnderParent(recommendations, "red-team-test", rows);
+        expect(rows).toMatchObject([{
+            id: "atomic:T1059:0",
+            name: "PowerShell test",
+            subtitle: "Atomic Red Team test",
+            parentId: "red-team-test",
+            atomicRedTeamTest: {
+                command: "Write-Host test"
+            }
+        }]);
+    });
+
     it("keeps blank mitigation and detection recommendations when no direct mappings exist", async () => {
         tie.predict.mockResolvedValue([]);
         const techniqueId = Object.values(sourceData.techniques).find(sourceObject =>
@@ -172,6 +210,8 @@ describe("AttackFlowRecommender", () => {
             "action",
             "mitigation",
             "detection",
+            "countermeasure",
+            "red-team-test",
             "asset",
             "condition",
             "OR_operator",
@@ -219,6 +259,8 @@ describe("AttackFlowRecommender", () => {
             "action",
             "mitigation",
             "detection",
+            "countermeasure",
+            "red-team-test",
             "asset",
             "condition",
             "OR_operator",

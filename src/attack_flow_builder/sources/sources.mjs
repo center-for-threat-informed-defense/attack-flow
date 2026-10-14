@@ -24,3 +24,9 @@ export const STIX_SOURCES = {
  * The D3FEND source.
  */
 export const MITRE_DEFEND_URL = "https://d3fend.mitre.org/api/matrix-graph.json"
+
+/**
+ * The D3FEND ATT&CK Extractor's per-technique mapping endpoint.
+ */
+export const MITRE_DEFEND_ATTACK_EXTRACTOR_URL =
+    "https://d3fend.mitre.org/api/offensive-technique/attack";

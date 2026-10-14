@@ -4,6 +4,7 @@ import type {
     CanvasStyle,
     DictionaryBlockStyle,
     Enumeration,
+    InlineBlockLinkResolver,
     LineStyle,
     PointStyle,
     TextBlockStyle
@@ -64,6 +65,9 @@ export type DictionaryBlockDesign = BaseFaceDesign<FaceType.DictionaryBlock> & {
      * The properties display.
      */
     properties?: Enumeration;
+
+    /** Contextual links rendered after matching block properties. */
+    inlineLinks?: InlineBlockLinkResolver;
 
     /**
      * The block's style.

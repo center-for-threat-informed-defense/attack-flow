@@ -1,5 +1,6 @@
 import { BlockFace } from "../Bases";
 import { BranchName } from "./Branch";
+import { AnchorPosition } from "./AnchorPosition";
 import { TupleProperty } from "@OpenChart/DiagramModel";
 import { drawRect, drawChip, ceilNearestMultiple } from "@OpenChart/Utilities";
 import {
@@ -7,6 +8,7 @@ import {
     addStackedTextCells,
     calculateAnchorPositions,
     calculateBranchAnchorPositions,
+    calculateRightBranchAnchorPositions,
     DrawTextInstructionSet,
     type LineDescriptor,
     type DrawTextInstruction
@@ -14,6 +16,7 @@ import {
 import type { Enumeration } from "../Enumeration";
 import type { ViewportRegion } from "../../ViewportRegion";
 import type { RenderSettings } from "../../RenderSettings";
+import { Orientation } from "../../ViewAttributes";
 import type { BranchBlockStyle } from "../Styles";
 import type { BranchDescriptor } from "./BranchDescriptor";
 import { useTagStore } from "@/stores/TagStore";
@@ -30,6 +33,13 @@ const TAG_CONFIG = {
     horizontalSpacing: 4, // The gap between two tags sitting side-by-side
     verticalSpacing: 10,  // Extra vertical buffer added to each row's height
     borderRadius: 6       // The corner roundness of the pill
+};
+
+type BranchBadge = {
+    x: number;
+    y: number;
+    size: number;
+    text: string;
 };
 
 export class BranchBlock extends BlockFace {
@@ -64,6 +74,11 @@ export class BranchBlock extends BlockFace {
      */
     private headHeight: number;
 
+    /**
+     * The right-edge branch badges for a left-to-right condition face.
+     */
+    private branchBadges: BranchBadge[];
+
 
     /**
      * The block's branches.
@@ -77,6 +92,13 @@ export class BranchBlock extends BlockFace {
             }
         }
         return branches;
+    }
+
+    /**
+     * Whether branches should be displayed on the block's right edge.
+     */
+    private get hasRightBranches(): boolean {
+        return this.view.properties.value.get("orientation")?.toJson() === "left-to-right";
     }
 
 
@@ -104,6 +126,7 @@ export class BranchBlock extends BlockFace {
         this.strokeColor = this.style.body.strokeColor;
         this.lines = [];
         this.headHeight = 0;
+        this.branchBadges = [];
     }
 
 
@@ -144,6 +167,7 @@ export class BranchBlock extends BlockFace {
         this.width = 0;
         this.height = 0;
         this.lines = [];
+        this.branchBadges = [];
         this.text.eraseAllInstructions();
 
         // Calculate padding
@@ -220,7 +244,10 @@ export class BranchBlock extends BlockFace {
         // Calculate max content width from branches
         const branchCount = branchAnchors.length;
         const branchLength = branch.minWidth * blockGrid[0];
-        this.width = Math.max(this.width, branchLength * branchCount);
+        this.width = Math.max(
+            this.width,
+            branchLength * (this.hasRightBranches ? 1 : branchCount)
+        );
         maxWidth = Math.max(this.width, maxWidth);
         if (hasTags) {
             this.width = Math.max(this.width, fieldName.font.measureWidth("TAGS"));
@@ -390,28 +417,35 @@ export class BranchBlock extends BlockFace {
             });
         }
 
-        // Calculate branch labels and separators
-        const branchWidth = this.width / branchCount;
-        const branchHeight = branch.height * blockGrid[0];
-        const branchLabels = this.text.getInstructionsWithFont(branch.font, branch.color);
-        this.height += branchHeight;
-        x = branchWidth / 2;
-        for (let i = 1; i <= branchCount; i++) {
-            // Configure label
-            const text = branchAnchors[i - 1].name;
-            const { ascent, width } = branch.font.measure(text);
-            const labelX = Math.round(x - (width / 2));
-            const labelY = y + (branchHeight / 2) + (ascent / 2);
-            branchLabels.push({ x: labelX, y: labelY, text });
-            // Configure separator
-            if (i === branchCount) {
-                continue;
+        if (this.hasRightBranches) {
+            this.layoutBranchesOnRight(this.height, branchAnchors);
+            if (!fields.length && !hasTags) {
+                this.headHeight = this.height;
             }
-            this.lines.push({
-                x0: (i * branchWidth) - halfOffset, y0: y,
-                x1: (i * branchWidth) - halfOffset, y1: this.height
-            });
-            x += branchWidth;
+        } else {
+            // Calculate branch labels and separators
+            const branchWidth = this.width / branchCount;
+            const branchHeight = branch.height * blockGrid[0];
+            const branchLabels = this.text.getInstructionsWithFont(branch.font, branch.color);
+            this.height += branchHeight;
+            x = branchWidth / 2;
+            for (let i = 1; i <= branchCount; i++) {
+                // Configure label
+                const text = branchAnchors[i - 1].name;
+                const { ascent, width } = branch.font.measure(text);
+                const labelX = Math.round(x - (width / 2));
+                const labelY = y + (branchHeight / 2) + (ascent / 2);
+                branchLabels.push({ x: labelX, y: labelY, text });
+                // Configure separator
+                if (i === branchCount) {
+                    continue;
+                }
+                this.lines.push({
+                    x0: (i * branchWidth) - halfOffset, y0: y,
+                    x1: (i * branchWidth) - halfOffset, y1: this.height
+                });
+                x += branchWidth;
+            }
         }
 
         // Calculate block's bounding box
@@ -432,11 +466,43 @@ export class BranchBlock extends BlockFace {
             this.view.anchors.get(position)?.face.moveTo(...coords);
         }
 
+        // A left-to-right condition uses its east edge for branch badges.
+        // Its three ordinary east-side anchors are therefore shown along the
+        // bottom edge, preserving three non-branch connection points there.
+        if (this.hasRightBranches) {
+            const bottomAnchorPositions: [AnchorPosition, AnchorPosition][] = [
+                [AnchorPosition.D30, AnchorPosition.D240],
+                [AnchorPosition.D0, AnchorPosition.D270],
+                [AnchorPosition.D330, AnchorPosition.D300]
+            ];
+            for (const [anchor, bottomPosition] of bottomAnchorPositions) {
+                const anchorView = this.view.anchors.get(anchor);
+                if (anchorView) {
+                    anchorView.orientation = Orientation.D90;
+                    anchorView.face.moveTo(...anchors[bottomPosition]);
+                }
+            }
+        } else {
+            for (const anchor of [AnchorPosition.D30, AnchorPosition.D0, AnchorPosition.D330]) {
+                const anchorView = this.view.anchors.get(anchor);
+                if (anchorView) {
+                    anchorView.orientation = Orientation.D0;
+                }
+            }
+        }
+
         // Update branch positions
-        const branches = calculateBranchAnchorPositions(bb, baseGrid, markerOffset, branchAnchors);
-        for (const position in branches) {
-            const coords = branches[position];
-            this.view.anchors.get(position)?.face.moveTo(...coords);
+        if (this.hasRightBranches) {
+            this.positionRightBranchAnchors(bb, branchAnchors);
+        } else {
+            for (const branch of branchAnchors) {
+                branch.anchor.orientation = Orientation.D90;
+            }
+            const branches = calculateBranchAnchorPositions(bb, baseGrid, markerOffset, branchAnchors);
+            for (const position in branches) {
+                const coords = branches[position];
+                this.view.anchors.get(position)?.face.moveTo(...coords);
+            }
         }
 
         // Recalculate bonding box
@@ -449,6 +515,130 @@ export class BranchBlock extends BlockFace {
         // Update parent's bounding box
         return true;
 
+    }
+
+    /**
+     * Reserves space for and lays out branch badges along the block's right edge.
+     *
+     * This is intended for the future left-to-right condition face. The caller
+     * should invoke it after calculating the content dimensions and before
+     * calculating the bounding box and anchor positions.
+     * @param contentHeight
+     *  The height occupied by the block's header and body.
+     * @param branchAnchors
+     *  The branch anchors whose labels will be laid out.
+     */
+    private layoutBranchesOnRight(
+        contentHeight: number, branchAnchors: BranchDescriptor[]
+    ): void {
+        const branch = this.style.branch;
+        const blockGrid = this.blockGrid;
+        const badgeSize = branch.height * blockGrid[1];
+        const markerSpace = BlockFace.markerOffset * 2;
+        const minimumHeight = markerSpace + badgeSize * (branchAnchors.length + 1.5);
+
+        this.height = Math.max(
+            contentHeight,
+            minimumHeight
+        );
+
+        const availableHeight = this.height - markerSpace;
+        for (let i = 0; i < branchAnchors.length; i++) {
+            this.branchBadges.push({
+                x: this.width - BlockFace.markerOffset,
+                y: BlockFace.markerOffset + availableHeight * (i + 1) / (branchAnchors.length + 1),
+                size: badgeSize,
+                text: branchAnchors[i].name.charAt(0).toLocaleUpperCase()
+            });
+        }
+    }
+
+    /**
+     * Moves branch anchors to their corresponding right-edge badge positions.
+     * @param box
+     *  The branch block's calculated bounding box.
+     * @param branchAnchors
+     *  The branch anchors to position.
+     */
+    private positionRightBranchAnchors(
+        box: typeof this.boundingBox, branchAnchors: BranchDescriptor[]
+    ): void {
+        const positions = calculateRightBranchAnchorPositions(
+            box,
+            this.grid,
+            BlockFace.markerOffset,
+            branchAnchors
+        );
+        for (const position in positions) {
+            const anchor = this.view.anchors.get(position);
+            if (anchor) {
+                anchor.orientation = Orientation.D0;
+                anchor.face.moveTo(...positions[position]);
+            }
+        }
+    }
+
+    /**
+     * Renders a badge over each right-edge branch anchor.
+     * @param ctx
+     *  The canvas rendering context.
+     * @param region
+     *  The context's viewport, used to scale the shadow with zoom.
+     * @param x
+     *  The block's render x coordinate.
+     * @param y
+     *  The block's render y coordinate.
+     */
+    private renderRightBranchBadges(
+        ctx: CanvasRenderingContext2D, region: ViewportRegion, x: number, y: number
+    ): void {
+        const branch = this.style.branch;
+        const radius = this.style.borderRadius;
+        const previousFillStyle = ctx.fillStyle;
+        const previousStrokeStyle = ctx.strokeStyle;
+        const previousTextAlign = ctx.textAlign;
+        const previousTextBaseline = ctx.textBaseline;
+        const previousShadowColor = ctx.shadowColor;
+        const previousShadowBlur = ctx.shadowBlur;
+        const previousShadowOffsetX = ctx.shadowOffsetX;
+        const previousShadowOffsetY = ctx.shadowOffsetY;
+        const shadowBlur = 2 * region.scale;
+        const shadowOffsetY = region.scale;
+
+        ctx.font = branch.font.css;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
+        ctx.shadowBlur = shadowBlur;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = shadowOffsetY;
+        for (const badge of this.branchBadges) {
+            const badgeX = x + badge.x - badge.size / 2;
+            const badgeY = y + badge.y - badge.size / 2;
+            drawRect(ctx, badgeX, badgeY, badge.size, badge.size, radius);
+            ctx.fillStyle = this.style.body.fillColor;
+            ctx.strokeStyle = this.style.body.strokeColor;
+            ctx.fill();
+            ctx.shadowColor = "transparent";
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            ctx.stroke();
+            ctx.fillStyle = branch.color;
+            ctx.fillText(badge.text, x + badge.x, y + badge.y);
+            ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
+            ctx.shadowBlur = shadowBlur;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = shadowOffsetY;
+        }
+        ctx.textAlign = previousTextAlign;
+        ctx.textBaseline = previousTextBaseline;
+        ctx.fillStyle = previousFillStyle;
+        ctx.strokeStyle = previousStrokeStyle;
+        ctx.shadowColor = previousShadowColor;
+        ctx.shadowBlur = previousShadowBlur;
+        ctx.shadowOffsetX = previousShadowOffsetX;
+        ctx.shadowOffsetY = previousShadowOffsetY;
     }
 
     private renderTag(ctx: CanvasRenderingContext2D, instruction: DrawTextInstruction, x: number, y: number) {
@@ -550,8 +740,13 @@ export class BranchBlock extends BlockFace {
         }
         ctx.stroke();
 
-        // Draw head
-        drawChip(ctx, x, y, this.width, this.headHeight, borderRadius, strokeWidth);
+        // Draw head. When it fills the block, use the complete rounded shape
+        // rather than a top-only chip so its bottom corners remain rounded.
+        if (this.headHeight === this.height) {
+            drawRect(ctx, x, y, this.width, this.height, borderRadius, strokeWidth);
+        } else {
+            drawChip(ctx, x, y, this.width, this.headHeight, borderRadius, strokeWidth);
+        }
         ctx.fillStyle = head.fillColor;
         ctx.strokeStyle = head.strokeColor;
         ctx.fill();
@@ -574,10 +769,19 @@ export class BranchBlock extends BlockFace {
             }
         }
 
+        if (this.hasRightBranches) {
+            this.renderRightBranchBadges(ctx, region, x, y);
+        }
+
         // Draw focus and hover markers
         if (this.view.focused) {
             const outline = this.style.selectOutline;
             const padding = outline.padding + 1;
+            const badgeOverhang = Math.max(
+                0,
+                ...this.branchBadges.map(badge => badge.x + badge.size / 2 - this.width)
+            );
+            const rightPadding = badgeOverhang ? badgeOverhang : 0;
             // Draw focus border
             if (settings.animationsEnabled) {
                 ctx.setLineDash([5, 2]);
@@ -586,7 +790,7 @@ export class BranchBlock extends BlockFace {
                 ctx,
                 x - padding,
                 y - padding,
-                this.width + padding * 2,
+                this.width + padding * 2 + rightPadding,
                 this.height + padding * 2,
                 outline.borderRadius, strokeWidth
             );
@@ -596,14 +800,20 @@ export class BranchBlock extends BlockFace {
         } else if (this.view.hovered) {
             const { color, size } = this.style.anchorMarkers;
             // Draw anchors
-            for (const anchor of this.view.anchors.values()) {
+            for (const [id, anchor] of this.view.anchors) {
+                if (this.hasRightBranches && BranchName(id)) {
+                    continue;
+                }
                 anchor.renderTo(ctx, region, settings);
             }
             // Draw anchor markers
             ctx.strokeStyle = color;
             ctx.beginPath();
             let x, y;
-            for (const o of this.view.anchors.values()) {
+            for (const [id, o] of this.view.anchors) {
+                if (this.hasRightBranches && BranchName(id)) {
+                    continue;
+                }
                 x = o.x + BlockFace.markerOffset;
                 y = o.y + BlockFace.markerOffset;
                 ctx.moveTo(x - size, y - size);
