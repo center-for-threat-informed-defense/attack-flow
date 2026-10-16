@@ -3,6 +3,16 @@
     v-if="!isShowingSettings"
     class="chat-pane"
   >
+    <div
+      v-if="classificationShouldWarn"
+      class="tlp-warning-message"
+    >
+      <span class="warning-icon">⚠</span>
+      <p style="flex: 1;">
+        Your flow has been labeled {{ classificationMarking }}<span v-if="classificationGroup?.value">:{{ classificationGroup.value }}</span>. Is your endpoint securely provisioned for this data?
+        The endpoint will receive this flow as context for any questions you ask.
+      </p>
+    </div>
     <ScrollBox
       ref="chatLog"
       class="chat-log"
@@ -198,6 +208,8 @@ import GearIcon from "@/components/Icons/GearIcon.vue";
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 import { renderAssistantMarkdown } from "@/components/Elements/ChatMarkdownRenderer";
 import ProviderConnectionSettings from "./ProviderConnectionSettings.vue";
+import { EnumProperty, StringProperty } from "@/assets/scripts/OpenChart/DiagramModel/index.ts";
+import { TupleProperty } from "@/assets/scripts/OpenChart/DiagramModel/index.ts";
 
 const { status: apiAvailabilityStatus, ensureChecked: ensureApiAvailabilityChecked } = useApiAvailability();
 const applicationStore = useApplicationStore();
@@ -242,6 +254,29 @@ const missingDirectProviderParam = computed(() => {
   ].filter((value): value is string => Boolean(value));
 
   return missing.length ? `Missing direct-provider settings: ${missing.join(", ")}.` : "";
+});
+
+const classificationMarking = computed<string | undefined>(() => {
+    const tup : TupleProperty | undefined = applicationStore.activeEditor.file.canvas.properties.get("classification")
+    if (!tup) {
+        return undefined;
+    }
+    const enumProp : EnumProperty | undefined = tup?.value.get("marking") as EnumProperty;
+    return enumProp ? enumProp.toString() : undefined;
+});
+
+const classificationGroup = computed<StringProperty | undefined>( () => {
+    const tup : TupleProperty | undefined = applicationStore.activeEditor.file.canvas.properties.get("classification")
+    if (!tup) {
+        return undefined;
+    }
+    const result : StringProperty | undefined = tup?.value.get("group") as StringProperty;
+    return result
+});
+
+const classificationShouldWarn = computed<boolean>(() => {
+    if (classificationMarking.value === undefined) return false;
+    return ["TLP:RED", "TLP:AMBER", "TLP:AMBER+STRICT"].includes(classificationMarking.value);
 });
 
 const submitQueryTooltip = computed<string>(() => {
@@ -640,6 +675,20 @@ onMounted(() => {
   color: var(--af-text-color-secondary);
   font-size: 9pt;
   line-height: 1.35;
+}
+
+.tlp-warning-message {
+    background-color: var(--af-color-info);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: var(--af-text-color-info-bg);
+    font-size: small;
+}
+
+.tlp-warning-message .warning-icon {
+    margin-right: 10px;
+    font-size: x-large;
 }
 
 </style>
