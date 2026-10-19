@@ -33,7 +33,7 @@ require preconditions in between the actions.
    relationship between is very obvious.
 
 **End a flow with an Impact technique.** If the Impact is unknown, end the flow
-with condition stating that the impact is unknown, along with any other relevant
+with a condition stating that the impact is unknown, along with any other relevant
 details.
 
 Flow Data
