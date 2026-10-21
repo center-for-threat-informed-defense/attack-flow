@@ -4,6 +4,27 @@
     class="diagram-shell"
   >
     <div class="diagram-controls">
+      <label class="diagram-control-label">
+        Theme
+
+        <select
+          v-model="currentThemeOption"
+          name="presentation-theme"
+        >
+          <option
+            v-for="opt of themeOptions"
+            :value="opt.value"
+            :key="opt.value"
+          >{{ opt.text }}</option>
+        </select>
+      </label>
+      <label class="diagram-control-label">
+        <input
+          type="checkbox"
+          v-model="showTags"
+        >
+        Tags
+      </label>
       <label
         class="diagram-scale-control"
         for="presentation-scale"
@@ -39,7 +60,7 @@
         :key="edge.id"
         :d="edge.path"
         fill="none"
-        :stroke="edgeColor"
+        :stroke="currentPresentationTheme.edgeColor"
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
@@ -49,7 +70,7 @@
         v-for="edge of diagramState.layout.edges"
         :key="`${edge.id}-arrow`"
         :points="edge.arrowPoints"
-        :fill="arrowColor"
+        :fill="currentPresentationTheme.arrowColor"
       />
 
       <g
@@ -57,35 +78,93 @@
         :key="node.id"
         :transform="`translate(${node.x}, ${node.y})`"
       >
-        <rect
-          v-if="node.type === 'action' || node.type === 'condition'"
-          :width="node.width"
-          :height="node.height"
-          rx="14"
-          ry="14"
-          :fill="node.type === 'action' ? actionFill : conditionFill"
-          :stroke="node.type === 'action' ? actionStroke : conditionStroke"
-          stroke-width="2"
-        />
-
+        <template v-if="node.type == 'action'">
+          <rect
+            :width="node.width"
+            :height="node.height"
+            :rx="nodeBorderRadius"
+            :ry="nodeBorderRadius"
+            :fill="currentPresentationTheme.actionFill"
+            :stroke="currentPresentationTheme.actionStroke"
+            stroke-width="2"
+          />
+        </template>
+        <template v-else-if="node.type == 'condition'">
+          <rect
+            :width="node.width"
+            :height="node.height"
+            :rx="nodeBorderRadius"
+            :ry="nodeBorderRadius"
+            :fill="currentPresentationTheme.conditionFill"
+            :stroke="currentPresentationTheme.conditionStroke"
+            stroke-width="2"
+          />
+        </template>
         <ellipse
           v-else
           :cx="node.width / 2"
           :cy="node.height / 2"
           :rx="node.width / 2"
           :ry="node.height / 2"
-          :fill="operatorFill"
-          :stroke="operatorStroke"
+          :fill="currentPresentationTheme.operatorFill"
+          :stroke="currentPresentationTheme.operatorStroke"
           stroke-width="2"
         />
+
+        <template v-if="showTags && node.tags.length">
+          <!-- Create the properties section of the block. -->
+          <path
+            :d="`
+                    M 0 ${node.propertiesTopY} 
+                    L ${node.width} ${node.propertiesTopY} 
+                    L ${node.width} ${node.height - nodeBorderRadius} 
+                    Q ${node.width} ${node.height} ${node.width - nodeBorderRadius} ${node.height} 
+                    L ${nodeBorderRadius} ${node.height} 
+                    Q 0 ${node.height} 0 ${node.height - nodeBorderRadius} 
+                    Z
+                `"
+            :fill="currentPresentationTheme.propertiesFill"
+            :stroke="node.type === 'action' ? currentPresentationTheme.actionPropertiesStroke : currentPresentationTheme.conditionPropertiesStroke"
+            stroke-width="2"
+          />
+        </template>
+
+        <template v-if="showTags">
+          <template
+            v-for="tag in node.tags"
+            :key="tag.id"
+          >
+            <rect
+              :width="tag.width"
+              :height="tagHeight"
+              rx="5"
+              ry="5"
+              :x="tag.x"
+              :y="tag.y"
+              :fill="tag.color"
+              stroke="black"
+              stroke-width="1"
+            />
+            <text
+              :x="tag.x + tagHorizontalPadding"
+              :y="tag.textY"
+              :fill="getTagTextColor(tag.color)"
+              :font-size="tagFontSize"
+              :font-family="diagramFontFamily"
+            >
+              {{ tag.name }}
+            </text>
+          </template>
+        </template>
+        
 
         <text
           :x="node.width / 2"
           :y="node.textY"
           text-anchor="middle"
-          :fill="textColor"
+          :fill="currentPresentationTheme.textColor"
           :font-family="diagramFontFamily"
-          font-size="14"
+          :font-size="labelFontSize"
           font-weight="600"
           dominant-baseline="middle"
           pointer-events="none"
@@ -104,16 +183,16 @@
             :cx="getConditionBadgeX(node)"
             :cy="getConditionBadgeY(node.height, true)"
             :r="conditionBadgeRadius"
-            fill="#FFFFFF"
-            :stroke="conditionStroke"
+            :fill="currentPresentationTheme.conditionBadgeFill"
+            :stroke="currentPresentationTheme.conditionStroke"
             stroke-width="2"
           />
           <circle
             :cx="getConditionBadgeX(node)"
             :cy="getConditionBadgeY(node.height, false)"
             :r="conditionBadgeRadius"
-            fill="#FFFFFF"
-            :stroke="conditionStroke"
+            :fill="currentPresentationTheme.conditionBadgeFill"
+            :stroke="currentPresentationTheme.conditionStroke"
             stroke-width="2"
           />
           <text
@@ -121,7 +200,7 @@
             :y="getConditionBadgeY(node.height, true)"
             text-anchor="middle"
             dominant-baseline="middle"
-            :fill="conditionStroke"
+            :fill="currentPresentationTheme.conditionBadgeFontColor"
             :font-family="diagramFontFamily"
             font-size="11"
             font-weight="700"
@@ -134,7 +213,7 @@
             :y="getConditionBadgeY(node.height, false)"
             text-anchor="middle"
             dominant-baseline="middle"
-            :fill="conditionStroke"
+            :fill="currentPresentationTheme.conditionBadgeFontColor"
             :font-family="diagramFontFamily"
             font-size="11"
             font-weight="700"
@@ -158,8 +237,10 @@
 import { computed, onBeforeUnmount, onMounted, ref, useTemplateRef } from 'vue';
 import { useApplicationStore } from '@/stores/ApplicationStore';
 import { BlockView, LineView } from '@/assets/scripts/OpenChart/DiagramView';
-import { Colors } from '@/assets/scripts/OpenChart/ThemeLoader';
 import { buildGraph } from '@/assets/scripts/OpenChart/DiagramView/DiagramLayoutEngine/LayoutHelpers';
+import { resolveSelectedTags, type ResolvedTag, getTagTextColor } from '@/assets/scripts/OpenChart/DiagramView/DiagramObjectView/Faces/Blocks/TagRendering';
+import { BrowserFont } from '@/assets/scripts/OpenChart/Utilities/FontStore/BrowserFont';
+import {type PresentationTheme, darkGrayscaleTheme, lightGrayscaleTheme, lightColorfulTheme, darkColorfulTheme } from './PresentationThemes';
 
 const allowedBlockTypesArray = ['action', 'condition', 'AND_operator', 'OR_operator'] as const;
 const allowedBlockTypesSet = new Set<string>(allowedBlockTypesArray);
@@ -195,10 +276,16 @@ const responsiveRightReserve = 18;
 const laneMergeThreshold = 20;
 /** Tolerance used when comparing edge coordinates during cleanup. */
 const edgeCoordinateEpsilon = 0.01;
+/** Font family used for text elements. */
+const diagramFontFamily = "Inter, Arial, sans-serif";
+/** Font size used for block labels. */
+const labelFontSize = 14;
 /** Horizontal padding added around measured rectangular block labels. */
 const labelPaddingX = 10;
 /** Vertical padding added around measured rectangular block labels. */
 const labelPaddingY = 10;
+/** Border radius of non-operator nodes. */
+const nodeBorderRadius = 14;
 /** Extra width reserved inside condition blocks so labels clear the branch badges. */
 const conditionBadgePaddingRight = 16;
 /** Radius of the true/false badges shown on condition blocks. */
@@ -209,12 +296,40 @@ const conditionBadgeOffset = 0.2;
 const lineHeight = 18;
 /** Maximum number of rendered lines before a label is truncated. */
 const maxLabelLines = 4;
+/** Font size of tags. */
+const tagFontSize = 12;
+/** Padding applied to tags to give more internal space to text. */
+const tagHorizontalPadding = 10;
+/** Horizontal space between tags. */
+const tagHorizontalSpace = 5;
+/** Vertical space between rows of tags. */
+const tagVerticalSpace = 5;
+/** Height of tags. */
+const tagHeight = 20;
+/** Horizontal padding within properties area. */
+const propertiesHorizontalPadding = 10;
+/** Vertical padding within properties area. */
+const propertiesVerticalPadding = 10;
+
+/** BrowserFont instance for tags. */
+const tagFont = new BrowserFont({ size: `${tagFontSize}px`, family: diagramFontFamily });
+/** BrowserFont instance for block labels. */
+const labelFont = new BrowserFont({ size: `${labelFontSize}px`, family: diagramFontFamily });
+
+/** ResolvedTag, plus fields useful for layout (e.g width and position). */
+interface TagWithLayout extends ResolvedTag {
+    width: number;
+    x: number;
+    y: number;
+    textY: number;
+}
 
 /** Graph node data used by the presentation visualization. */
 interface PresentationNode {
     id: string;
     type: AllowedBlockType;
     name: string;
+    tags: TagWithLayout[];
     parentIds: string[];
     childIds: string[];
 }
@@ -238,6 +353,7 @@ interface SizedNode extends PresentationNode {
     lines: string[];
     width: number;
     height: number;
+    propertiesTopY : number;
 }
 
 /** One vertical column of nodes that share the same graph level. */
@@ -299,25 +415,48 @@ interface ComponentLayout {
     edges: EdgeGeometry[];
 }
 
+type ThemeId = "current" | "light_colorful" | "dark_colorful" | "light_grayscale" | "dark_grayscale";
+
+const themeOptions : {
+    value: ThemeId,
+    text: string
+}[] = [
+    { value: "current", text: "Current" },
+    { value: "light_grayscale", text: "Light Grayscale" },
+    { value: "dark_grayscale", text: "Dark Grayscale" },
+    { value: "light_colorful", text: "Light Colorful" },
+    { value: "dark_colorful", text: "Dark Colorful" }
+]
+
+const currentThemeOption = ref<ThemeId>('current');
+
+const currentPresentationTheme = computed<PresentationTheme>(() => {
+    switch (currentThemeOption.value) {
+        case "light_colorful":
+            return lightColorfulTheme;
+        case "dark_colorful":
+            return darkColorfulTheme;
+        case "dark_grayscale":
+            return darkGrayscaleTheme;
+        case "light_grayscale":
+            return lightGrayscaleTheme;
+        case "current": {
+            const appTheme = app.activeEditor.file.factory.theme.id;
+
+            if (appTheme === "dark_theme") return darkGrayscaleTheme;
+            return lightGrayscaleTheme;
+        }
+    }
+    return lightGrayscaleTheme; // makes linter happy :)
+});
+
 const app = useApplicationStore();
 const shell = useTemplateRef('shell');
 const containerWidth = ref(minDiagramWidth);
 const diagramScale = ref(100);
+const showTags = ref(true);
 let resizeObserver: ResizeObserver | null = null;
 
-const edgeColor = Colors.LightThemeBlue.stroke_color;
-const arrowColor = Colors.LightThemeBlue.stroke_color;
-
-const actionFill = Colors.LightThemeBlue.fill_color;
-const conditionFill = Colors.LightThemeGreen.fill_color;
-const operatorFill = Colors.LightThemeRed.fill_color;
-
-const actionStroke = Colors.LightThemeBlue.stroke_color;
-const conditionStroke = Colors.LightThemeGreen.stroke_color;
-const operatorStroke = Colors.LightThemeRed.stroke_color;
-
-const textColor = "#FFFFFF";
-const diagramFontFamily = "Inter, Arial, sans-serif";
 const scaleFactor = computed(() => diagramScale.value / 100);
 const effectiveLayoutWidth = computed(() =>
     Math.max(minDiagramWidth, Math.round(containerWidth.value / scaleFactor.value))
@@ -442,6 +581,57 @@ function collapseDisallowedRelationships(
 }
 
 /**
+ * Calculate tag layout for a SizedNode instance in place.
+ * @param sizedNode A layout node which has a defined size.
+ */
+function calculateTagsLayout(sizedNode: SizedNode): void {
+    const resolvedTags = sizedNode.tags;
+    const tagsWithLayout : TagWithLayout[] = [];
+
+    let currY = sizedNode.propertiesTopY + propertiesVerticalPadding;
+    for (const [index, tag] of resolvedTags.entries()) {
+        const fontMeasurements = tagFont.measure(tag.name);
+        const fontWidth = fontMeasurements.width;
+        const fontHeight = fontMeasurements.ascent + fontMeasurements.descent
+        const tagWidth = fontWidth + tagHorizontalPadding * 2;
+        let tagX = propertiesHorizontalPadding ;
+
+        if (index > 0) {
+            const lastIndex = index - 1;
+            tagX = tagsWithLayout[lastIndex].x + tagsWithLayout[lastIndex].width + tagHorizontalSpace;
+        }
+
+        // Wrap the tag to the next line if row exceeds the width of the container.
+        // Don't wrap if is the only tag in the row.
+        if (tagX + tagWidth > sizedNode.width - propertiesHorizontalPadding &&
+            (index > 0 && tagsWithLayout[index - 1].y == currY)
+        ) {
+            tagX = propertiesHorizontalPadding;
+            currY += tagHeight + tagVerticalSpace;
+        }
+
+        tagsWithLayout.push({
+            ...tag,
+            width: tagWidth,
+            x: tagX,
+            y: currY,
+            textY: currY + tagHeight / 2 + fontHeight / 2
+        });
+    }
+
+    sizedNode.tags = tagsWithLayout;
+}
+
+/**
+ * Get the total height of tag rows for a SizedNode.
+ * @param sizedNode A SizedNode instance whose tag layouts have already been calculated.
+ */
+function getTagsHeight(sizedNode: SizedNode): number {
+    const uniqueYs = new Set(sizedNode.tags.map(t => t.y)); // Each unique Y value represents a row of tags.
+    return uniqueYs.size * tagHeight + Math.max(0, uniqueYs.size - 1) * tagVerticalSpace;
+}
+
+/**
  * Build a presentation-only graph from the current canvas blocks and connections.
  * @returns Presentation graph containing allowed nodes and collapsed edges.
  */
@@ -472,6 +662,8 @@ function createPresentationGraph(): PresentationGraph {
             id: block.instance,
             type: block.id as AllowedBlockType,
             name: getBlockName(block),
+            // Initialize tag layout fields for later calculation.
+            tags: resolveSelectedTags(block).map(tag => { return {...tag, width: 0, x: 0, y: 0, textY: 0}}),
             parentIds: [],
             childIds: []
         });
@@ -673,35 +865,55 @@ function sizeNodes(nodes: PresentationNode[], container: number): SizedNode[] {
     const labelBudget = Math.max(16, Math.floor((container - 120) / 26));
 
     return nodes.map(node => {
+        let sizedNode : SizedNode;
+
         if (node.type === "AND_operator" || node.type === "OR_operator") {
             const lines = [node.type === "AND_operator" ? "AND" : "OR"];
-            return {
+            sizedNode = {
                 ...node,
                 lines,
                 width: 84,
-                height: 84
+                height: 84,
+                propertiesTopY: 84,
             };
+        } else  {
+            const maxCharsPerLine = Math.max(12, Math.min(30, labelBudget));
+            const lines = wrapLabel(node.name, maxCharsPerLine);
+            const widestLine = Math.max(...lines.map(line => estimateLineWidth(line)), 48);
+
+            if (node.type === "condition") {
+                const height = Math.max(104, lines.length * lineHeight + (labelPaddingY * 2));
+                sizedNode = {
+                    ...node,
+                    lines,
+                    width: Math.max(156, widestLine + (labelPaddingX * 2) + conditionBadgePaddingRight),
+                    height,
+                    propertiesTopY: height,
+                };
+            } else {
+                const height = Math.max(76, lines.length * lineHeight + (labelPaddingY * 2))
+                sizedNode = {
+                    ...node,
+                    lines,
+                    width: Math.max(164, widestLine + (labelPaddingX * 2)),
+                    height,
+                    propertiesTopY: height,
+                };
+            }
+
+            if (showTags.value && sizedNode.tags.length) {
+                // Call calculateTagsLayout after width has been calculated above.
+                calculateTagsLayout(sizedNode);
+                const tagsHeight = getTagsHeight(sizedNode);
+                // Calculate properties height after tags layout has been calculated and add
+                // to total height.
+                const propertiesHeight = tagsHeight + propertiesVerticalPadding * 2;
+                sizedNode.height += propertiesHeight;
+            }
+            
         }
 
-        const maxCharsPerLine = Math.max(12, Math.min(30, labelBudget));
-        const lines = wrapLabel(node.name, maxCharsPerLine);
-        const widestLine = Math.max(...lines.map(line => estimateLineWidth(line)), 48);
-
-        if (node.type === "condition") {
-            return {
-                ...node,
-                lines,
-                width: Math.max(156, widestLine + (labelPaddingX * 2) + conditionBadgePaddingRight),
-                height: Math.max(104, lines.length * lineHeight + (labelPaddingY * 2))
-            };
-        }
-
-        return {
-            ...node,
-            lines,
-            width: Math.max(164, widestLine + (labelPaddingX * 2)),
-            height: Math.max(76, lines.length * lineHeight + (labelPaddingY * 2))
-        };
+        return sizedNode;
     });
 }
 
@@ -1519,7 +1731,7 @@ function trimToLength(text: string, length: number): string {
  * @returns Estimated line width in pixels.
  */
 function estimateLineWidth(line: string): number {
-    return Math.max(48, line.length * 7.2);
+    return labelFont.measureWidth(line);
 }
 
 /**
@@ -1529,7 +1741,7 @@ function estimateLineWidth(line: string): number {
  */
 function computeTextY(node: SizedNode): number {
     const totalTextHeight = (node.lines.length - 1) * lineHeight;
-    return ((node.height - totalTextHeight) / 2) + 5;
+    return (((node.height - (node.height - node.propertiesTopY)) - totalTextHeight) / 2) + 5;
 }
 
 /**
@@ -1605,15 +1817,20 @@ onBeforeUnmount(() => {
     gap: 12px;
     min-height: 100%;
     box-sizing: border-box;
-    overflow: auto;
+    overflow: visible;
+    position: relative;
 }
 
 .diagram-controls {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-top: 4px;
-    padding-right: 8px;
+    padding: 8px 8px;
+    gap: 18px;
+    background-color: var(--af-bg-color-tertiary);
+    border: 1px solid var(--af-border-color-tertiary);
+    position: sticky;
+    top: 0;
 }
 
 .diagram-scale-control {
@@ -1622,7 +1839,6 @@ onBeforeUnmount(() => {
     gap: 12px;
     color: var(--af-text-color-primary);
     font-size: 13px;
-    font-weight: 600;
 }
 
 .diagram-scale-label,
@@ -1701,6 +1917,26 @@ onBeforeUnmount(() => {
     color: var(--af-text-color-secondary);
     font-size: 14px;
     box-sizing: border-box;
+}
+
+.diagram-control-label {
+    display: flex;
+    font-size: 13px;
+    align-items: center;
+    gap: 5px;
+    color: var(--af-text-color-primary);
+}
+
+select {
+    background: var(--af-bg-color-secondary);
+    border: 1px solid var(--af-border-color-tertiary);
+    border-radius: 3px;
+    color: var(--af-text-color-primary);
+    padding: 5px;
+}
+
+select:hover {
+    cursor: pointer;
 }
 
 </style>
