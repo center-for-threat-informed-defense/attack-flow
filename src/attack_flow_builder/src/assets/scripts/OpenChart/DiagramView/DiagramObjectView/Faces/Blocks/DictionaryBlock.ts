@@ -192,6 +192,9 @@ export class DictionaryBlock extends BlockFace {
             if (!property.isDefined() || id === props.representativeKey) {
                 continue;
             }
+            if (id === "note" && !property.toString().trim()) {
+                continue;
+            }
             // Skip tags field because they are handled separately
             if (id === "tags") {
                 continue;

@@ -1,3 +1,4 @@
+import re
 from typing import Any, Literal
 from urllib.parse import urlparse
 from uuid import NAMESPACE_URL, uuid5
@@ -1075,10 +1076,16 @@ def _build_canvas_properties(canvas: dict[str, Any], authors: list[str]) -> list
 
     external_references = canvas.get("external_references")
     if isinstance(external_references, list) and external_references:
-        if all(isinstance(item, dict) for item in external_references):
-            properties.append(["external_references", [dict(item) for item in external_references]])
-        else:
-            properties.append(["external_references", _build_external_reference_objects(_coerce_string_list(external_references))])
+        if not all(isinstance(item, dict) for item in external_references):
+            external_references = _build_external_reference_objects(_coerce_string_list(external_references))
+        # AFB lists are keyed entries, not STIX arrays of objects. Each list
+        # item contains the reference dictionary's own property entries.
+        entries = _build_ordered_list_property([
+            [[key, value] for key, value in reference.items()]
+            for reference in external_references
+        ])
+        if entries is not None:
+            properties.append(["external_references", entries])
 
     return properties
 
@@ -1181,12 +1188,18 @@ def _build_block_export(template_id: str, instance: str, properties: list[list[A
 
 def _build_ttp_property(item: dict[str, Any]) -> dict[str, Any] | None:
     ttp: dict[str, Any] = {}
-    tactic_ref = _coerce_non_empty_string(item.get("tactic_ref")) or _coerce_non_empty_string(item.get("tactic_id"))
-    technique_ref = _coerce_non_empty_string(item.get("technique_ref")) or _coerce_non_empty_string(item.get("technique_id"))
-    if tactic_ref is not None:
-        ttp["tactic"] = tactic_ref
-    if technique_ref is not None:
-        ttp["technique"] = technique_ref
+    for field, prefix, pattern in (
+        ("tactic", "x-mitre-tactic--", r"TA[0-9]{4}"),
+        ("technique", "attack-pattern--", r"T[0-9]{4}(?:\.[0-9]{3})?"),
+    ):
+        value = _coerce_non_empty_string(item.get(f"{field}_id")) or _coerce_non_empty_string(item.get(f"{field}_ref"))
+        if value is None:
+            continue
+        # Repair prefixed external IDs, without truncating genuine STIX UUIDs
+        # or identifiers belonging to other supported frameworks.
+        if value.startswith(prefix) and re.fullmatch(pattern, value[len(prefix):]):
+            value = value[len(prefix):]
+        ttp[field] = value
     return ttp or None
 
 
@@ -1994,6 +2007,23 @@ def _normalize_required_support_fields(item: dict[str, Any], kind: Any) -> dict[
         set_fallback("content", "description", "display_name", "name")
     elif kind == "user-account":
         set_fallback("display_name", "account_login", "user_name", "name", "value")
+    elif kind == "windows-registry-key":
+        set_fallback("key", "display_name", "name", "value")
+        key = _coerce_non_empty_string(normalized.get("key"))
+        if key is not None:
+            hives = {
+                "HKCU": "HKEY_CURRENT_USER",
+                "HKLM": "HKEY_LOCAL_MACHINE",
+                "HKCR": "HKEY_CLASSES_ROOT",
+                "HKU": "HKEY_USERS",
+                "HKCC": "HKEY_CURRENT_CONFIG",
+            }
+            normalized["key"] = re.sub(
+                r"^(Computer\\)?(HKCU|HKLM|HKCR|HKU|HKCC|HKEY_CURRENT_USER|HKEY_LOCAL_MACHINE|HKEY_CLASSES_ROOT|HKEY_USERS|HKEY_CURRENT_CONFIG):?(?=\\|$)",
+                lambda match: ("Computer\\" if match[1] else "") + hives.get(match[2].upper(), match[2].upper()),
+                key,
+                flags=re.IGNORECASE,
+            )
     elif kind == "x509-certificate":
         set_fallback("subject", "display_name", "issuer", "serial_number", "name")
 

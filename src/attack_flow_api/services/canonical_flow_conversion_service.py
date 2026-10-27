@@ -397,6 +397,7 @@ def _convert_actions(actions: list[MergedAttackAction]) -> list[CanonicalFlowAct
             description=action.description,
             confidence=action.confidence,
             technique=_convert_technique_mapping(action.technique, action.provenance, action.confidence),
+            tactic_id=_as_str(_mapping_get(action.tactic, "tactic_id")),
             tactic_ref=(
                 _as_str(_mapping_get(action.tactic, "tactic_ref"))
                 or _as_str(_mapping_get(action.tactic, "tactic_id"))
@@ -423,6 +424,7 @@ def _convert_afb_actions(actions: list[AttackActionNode]) -> list[CanonicalFlowA
             tags=list(getattr(action, "tags", []) or []),
             confidence=action.confidence,
             technique=_convert_technique_from_afb(action.technique, action.confidence),
+            tactic_id=_as_str(getattr(action.tactic, "tactic_id", None)),
             tactic_ref=(
                 _as_str(getattr(action.tactic, "tactic_ref", None))
                 or _as_str(getattr(action.tactic, "tactic_id", None))

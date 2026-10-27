@@ -1,0 +1,151 @@
+{
+  "schema": "attack_flow_v2",
+  "objects": [
+    {
+      "id": "flow",
+      "instance": "instance--5845df3d-088f-5124-a025-45742e1b5280",
+      "objects": [
+        "attack-action--1"
+      ],
+      "properties": [
+        [
+          "name",
+          "API import regression"
+        ],
+        [
+          "scope",
+          "incident"
+        ],
+        [
+          "author",
+          [
+            ["name", "Example analyst"]
+          ]
+        ],
+        [
+          "external_references",
+          [
+            [
+              "item-1",
+              [
+                [
+                  "source_name",
+                  "example.com"
+                ],
+                [
+                  "url",
+                  "https://example.com/report"
+                ]
+              ]
+            ],
+            [
+              "item-2",
+              [
+                [
+                  "source_name",
+                  "Example advisory"
+                ],
+                [
+                  "description",
+                  "Example advisory"
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "action",
+      "instance": "attack-action--1",
+      "anchors": {
+        "0": "instance--ad592d05-6969-5b51-98a8-1ad9b6aab896",
+        "30": "instance--6a1fca3c-fdb6-536a-bbea-61ac2349a700",
+        "60": "instance--33a99d1b-dad8-51f6-be74-e1614db9151b",
+        "90": "instance--380c79e9-b1eb-547c-bf01-a011db1201c1",
+        "120": "instance--5850a8f4-8241-5e73-9bf0-dcd376cd5025",
+        "150": "instance--0da1498f-3beb-5916-a249-e0410a4a81e4",
+        "180": "instance--d3632784-7391-5a29-83e2-edab51db56c6",
+        "210": "instance--8bc47ca5-ca73-5a04-a9ea-918608f10871",
+        "240": "instance--6546eef6-c5ad-516e-a417-89916e651648",
+        "270": "instance--244e5a69-f465-564e-9d2c-93d4da44fc57",
+        "300": "instance--043a5b44-2864-5565-abce-1909204e5485",
+        "330": "instance--e10eb918-2b0b-56f4-9c82-f345ce21276c"
+      },
+      "properties": [
+        [
+          "name",
+          "Observed action"
+        ],
+        [
+          "description",
+          "The attacker ran a command."
+        ],
+        [
+          "confidence",
+          0.0
+        ]
+      ]
+    },
+    {
+      "id": "horizontal_anchor",
+      "instance": "instance--ad592d05-6969-5b51-98a8-1ad9b6aab896",
+      "latches": []
+    },
+    {
+      "id": "horizontal_anchor",
+      "instance": "instance--6a1fca3c-fdb6-536a-bbea-61ac2349a700",
+      "latches": []
+    },
+    {
+      "id": "vertical_anchor",
+      "instance": "instance--33a99d1b-dad8-51f6-be74-e1614db9151b",
+      "latches": []
+    },
+    {
+      "id": "vertical_anchor",
+      "instance": "instance--380c79e9-b1eb-547c-bf01-a011db1201c1",
+      "latches": []
+    },
+    {
+      "id": "vertical_anchor",
+      "instance": "instance--5850a8f4-8241-5e73-9bf0-dcd376cd5025",
+      "latches": []
+    },
+    {
+      "id": "horizontal_anchor",
+      "instance": "instance--0da1498f-3beb-5916-a249-e0410a4a81e4",
+      "latches": []
+    },
+    {
+      "id": "horizontal_anchor",
+      "instance": "instance--d3632784-7391-5a29-83e2-edab51db56c6",
+      "latches": []
+    },
+    {
+      "id": "horizontal_anchor",
+      "instance": "instance--8bc47ca5-ca73-5a04-a9ea-918608f10871",
+      "latches": []
+    },
+    {
+      "id": "vertical_anchor",
+      "instance": "instance--6546eef6-c5ad-516e-a417-89916e651648",
+      "latches": []
+    },
+    {
+      "id": "vertical_anchor",
+      "instance": "instance--244e5a69-f465-564e-9d2c-93d4da44fc57",
+      "latches": []
+    },
+    {
+      "id": "vertical_anchor",
+      "instance": "instance--043a5b44-2864-5565-abce-1909204e5485",
+      "latches": []
+    },
+    {
+      "id": "horizontal_anchor",
+      "instance": "instance--e10eb918-2b0b-56f4-9c82-f345ce21276c",
+      "latches": []
+    }
+  ]
+}

@@ -5,6 +5,7 @@ These tests are minimal: checking basic argument parsing and making sure that
 the entrypoints call into the appropriate places in the package.
 """
 import os
+import logging
 from pathlib import Path
 import runpy
 import sys
@@ -261,14 +262,22 @@ def test_doc_examples_bad_dir(insert_mock, generate_mock, exit_mock):
 
 @patch("sys.exit")
 def test_version(exit_mock):
+    logger = logging.getLogger()
+    previous_handlers = list(logger.handlers)
+    previous_level = logger.level
     sys.argv = ["af", "version"]
     runpy.run_module("attack_flow.cli", run_name="__main__")
     exit_mock.assert_called_with(0)
+    assert logger.handlers == previous_handlers
+    assert logger.level == previous_level
 
 
 @patch("sys.exit")
 @patch("importlib.metadata.distribution")
 def test_reraises_in_debug_mode(get_dist_mock, exit_mock):
+    logger = logging.getLogger()
+    previous_handlers = list(logger.handlers)
+    previous_level = logger.level
     def throw(*args, **kwargs):
         raise ValueError("unit test")
 
@@ -277,3 +286,5 @@ def test_reraises_in_debug_mode(get_dist_mock, exit_mock):
     with pytest.raises(ValueError):
         runpy.run_module("attack_flow.cli", run_name="__main__")
     exit_mock.assert_not_called()
+    assert logger.handlers == previous_handlers
+    assert logger.level == previous_level

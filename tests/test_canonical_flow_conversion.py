@@ -1,3 +1,5 @@
+import pytest
+
 from attack_flow_api.services.afb_extraction_contracts import (
     AfbExtractionResult,
     AttackActionNode,
@@ -14,7 +16,10 @@ from attack_flow_api.services.afb_extraction_contracts import (
     TacticGrounding,
     TechniqueGrounding,
 )
-from attack_flow_api.services.afb_fusion_assembler import FusedOutputCandidate
+from attack_flow_api.services.afb_fusion_assembler import (
+    FusedOutputCandidate,
+    build_fused_output_candidate_from_sources,
+)
 from attack_flow_api.services.afb_fusion_contracts import (
     FusionConflictCategory,
     FusionConflictRecord,
@@ -722,7 +727,9 @@ def test_conversion_normalizes_action_to_operator_branch_references() -> None:
     assert assemble_stix_export_bundle(canonical).validation_errors == []
 
 
-def test_conversion_preserves_tactic_id_for_afb_actions() -> None:
+@pytest.mark.parametrize("with_refs", [False, True])
+@pytest.mark.parametrize("fused", [False, True])
+def test_conversion_preserves_tactic_id_for_afb_actions(with_refs: bool, fused: bool) -> None:
     extraction = AfbExtractionResult(
         validation_state=ExtractionValidationState.VALID,
         provider_invoked=True,
@@ -739,18 +746,33 @@ def test_conversion_preserves_tactic_id_for_afb_actions() -> None:
                 name="Execute PowerShell",
                 description="The adversary executed PowerShell.",
                 confidence=0.9,
-                technique=TechniqueGrounding(technique_id="T1059.001", confidence=0.9, grounded_by="report"),
-                tactic=TacticGrounding(tactic_id="TA0002", confidence=0.9, grounded_by="report"),
+                technique=TechniqueGrounding(
+                    technique_id="T1059.001",
+                    technique_ref="attack-pattern--explicit" if with_refs else None,
+                    confidence=0.9,
+                    grounded_by="report",
+                ),
+                tactic=TacticGrounding(
+                    tactic_id="TA0002",
+                    tactic_ref="x-mitre-tactic--explicit" if with_refs else None,
+                    confidence=0.9,
+                    grounded_by="report",
+                ),
                 evidence=[{"source": "report", "excerpt": "The adversary executed PowerShell."}],
             )
         ],
     )
 
-    canonical = build_canonical_flow_output(extraction_output=extraction)
+    if fused:
+        candidate = build_fused_output_candidate_from_sources(normalized_package={}, extraction_result=extraction)
+        canonical = build_canonical_flow_output(fused_output=candidate)
+    else:
+        canonical = build_canonical_flow_output(extraction_output=extraction)
 
     assert canonical is not None
     action = next(node for node in canonical.nodes if node.node_kind == CanonicalFlowNodeKind.ATTACK_ACTION)
-    assert action.tactic_ref == "TA0002"
+    assert action.tactic_id == "TA0002"
+    assert action.tactic_ref == ("x-mitre-tactic--explicit" if with_refs else "TA0002")
     diagram_export = assemble_afb_export_bundle(canonical).to_diagram_export_ready()
     exported_action = next(item for item in diagram_export["objects"] if item["id"] == "action")
     assert ["ttp", {"tactic": "TA0002", "technique": "T1059.001"}] in exported_action["properties"]

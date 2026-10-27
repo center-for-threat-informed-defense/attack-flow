@@ -34,6 +34,12 @@ providers:
     monkeypatch.setenv("UPLOAD_DIR", str(data_dir / "uploads"))
     monkeypatch.setenv("ARTIFACT_DIR", str(data_dir / "artifacts"))
     monkeypatch.setenv("PROVIDERS_CONFIG_PATH", str(providers_path))
+    monkeypatch.setenv("ALLOW_RUNTIME_PROVIDER_OVERRIDE", "false")
+    monkeypatch.setenv("ALLOW_RUNTIME_PROVIDER_EXTRA_HEADERS", "false")
+    monkeypatch.setenv(
+        "ALLOW_RUNTIME_PROVIDER_TYPES",
+        "openai,openai_compatible,azure_openai,anthropic,gemini",
+    )
 
     return TestClient(create_app())
 

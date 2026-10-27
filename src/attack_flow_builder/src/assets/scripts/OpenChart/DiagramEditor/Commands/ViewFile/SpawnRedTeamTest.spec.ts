@@ -23,6 +23,7 @@ describe("SpawnRedTeamTest", () => {
             techniqueId: "T1059.001",
             name: "PowerShell test",
             description: "Runs a test.",
+            note: "Run only on the designated test host.\nRecord the result.",
             platforms: ["windows"],
             executor: "powershell",
             command: "Write-Host test",
@@ -36,6 +37,9 @@ describe("SpawnRedTeamTest", () => {
         const ttp = command.object.properties.get("ttp", TTPTupleProperty)!;
         expect(ttp.get("technique", StringProperty)?.value).toBe("T1059.001");
         expect(command.object.properties.get("name", StringProperty)?.value).toBe("PowerShell test");
+        expect(command.object.properties.get("note", StringProperty)?.value).toBe(
+            "Run only on the designated test host.\nRecord the result."
+        );
         expect(command.object.properties.get("command", StringProperty)?.value).toBe("Write-Host test");
         expect(command.object.properties.get("platforms", MultiSelectProperty)?.values).toEqual(new Set(["windows"]));
         expect(command.object.properties.get("dependencies", ListProperty)?.value).toHaveLength(1);

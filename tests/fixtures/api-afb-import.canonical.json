@@ -1,0 +1,19 @@
+{
+  "metadata": {
+    "flow_id": "attack-flow--import-regression",
+    "name": "API import regression",
+    "scope": "incident",
+    "authors": ["Example analyst"],
+    "external_references": ["https://example.com/report", "Example advisory"],
+    "start_refs": ["attack-action--1"]
+  },
+  "nodes": [
+    {
+      "node_kind": "attack-action",
+      "id": "attack-action--1",
+      "name": "Observed action",
+      "description": "The attacker ran a command."
+    }
+  ],
+  "edges": []
+}

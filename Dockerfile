@@ -1,6 +1,7 @@
 FROM node:20 AS builder
 
 COPY src/attack_flow_builder /attack_flow_builder
+COPY config/ai-prompts.json /config/ai-prompts.json
 WORKDIR /attack_flow_builder
 RUN npm ci
 # TODO temporarily disable type checking

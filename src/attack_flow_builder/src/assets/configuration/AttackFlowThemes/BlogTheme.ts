@@ -85,7 +85,7 @@ const AttackObjects = {
     ["red-team-test"]: {
         type: FaceType.DictionaryBlock,
         attributes: Alignment.Grid,
-        properties: { include: ["description", "platforms", "executor"] },
+        properties: { include: ["description", "platforms", "executor", "note"] },
         style: BlogStyle.DictionaryBlock({ head: Colors.SimpleRedTeam })
     },
     asset: {

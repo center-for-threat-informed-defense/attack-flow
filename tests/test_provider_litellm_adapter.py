@@ -125,6 +125,7 @@ def test_validate_uses_the_default_model_and_small_generation(monkeypatch) -> No
     assert result.checked_model == "model-primary"
     assert calls[0]["model"] == "anthropic/model-primary"
     assert calls[0]["max_tokens"] == 16
+    assert "response_format" not in calls[0]
 
 
 def test_generate_chat_uses_plain_messages_without_json_mode(monkeypatch) -> None:

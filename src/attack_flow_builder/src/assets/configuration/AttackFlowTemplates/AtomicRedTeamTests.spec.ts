@@ -24,6 +24,9 @@ attack_technique: T1059.001
 atomic_tests:
   - name: PowerShell test
     description: Runs a test.
+    note: |
+      Run only on the designated test host.
+      Record the result.
     supported_platforms: [windows]
     executor:
       name: powershell
@@ -52,6 +55,7 @@ atomic_tests:
             techniqueId: "T1059.001",
             name: "PowerShell test",
             description: "Runs a test.",
+            note: "Run only on the designated test host.\nRecord the result.\n",
             platforms: ["windows"],
             executor: "powershell",
             command: "Write-Host test",
@@ -70,5 +74,17 @@ atomic_tests:
                 default: "C:\\Temp"
             }]
         }]);
+    });
+
+    it("defaults a missing note to an empty string", async () => {
+        vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(`
+attack_technique: T1059.001
+atomic_tests:
+  - name: PowerShell test
+`, { status: 200 })));
+
+        const tests = await getAtomicRedTeamTests("T1059.001");
+
+        expect(tests[0].note).toBe("");
     });
 });
