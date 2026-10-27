@@ -22,6 +22,8 @@ describe("DirectProviderPromptTemplates", () => {
         expect(bundle.systemInstruction).toContain("ATT&CK v19.1");
         expect(bundle.systemInstruction).toContain("Do not omit technique for an attack-action");
         expect(bundle.systemInstruction).toContain("corresponding ATT&CK tactic");
+        expect(bundle.systemInstruction).toContain("put external IDs in tactic.tactic_id");
+        expect(bundle.systemInstruction).toContain("Do not fabricate STIX references from external IDs");
         expect(bundle.systemInstruction).toContain("Merge contiguous substeps");
         expect(bundle.systemInstruction).toContain("Treat tool setup as part of its runtime action unless the setup itself maps to a distinct ATT&CK technique");
         expect(bundle.systemInstruction).toContain("that condition's on_true_refs must point to the next source-supported action");

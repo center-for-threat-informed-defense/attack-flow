@@ -3,6 +3,16 @@
     v-if="!isShowingSettings"
     class="chat-pane"
   >
+    <div
+      v-if="classificationShouldWarn"
+      class="tlp-warning-message"
+    >
+      <span class="warning-icon">⚠</span>
+      <p style="flex: 1;">
+        Your flow has been labeled {{ classificationMarking }}<span v-if="classificationGroup?.value">:{{ classificationGroup.value }}</span>. Is your endpoint securely provisioned for this data?
+        The endpoint will receive this flow as context for any questions you ask.
+      </p>
+    </div>
     <ScrollBox
       ref="chatLog"
       class="chat-log"
@@ -96,15 +106,17 @@
         class="chat-message-form"
         @submit.prevent="sendMessage"
       >
-        <input
+        <textarea
           v-model="draftMessage"
           ref="chatMessageInput"
           class="chat-message-input"
-          type="text"
+          rows="1"
           :placeholder="isCheckingApiAvailability ? 'Checking API availability...' : 'Type your question here...'"
           aria-label="Chat message"
           :disabled="isCheckingApiAvailability"
-        >
+          @keydown.stop
+          @keydown.enter="handleComposerEnter"
+        />
         <span
           class="chat-send-button-tooltip"
           :title="submitQueryTooltip"
@@ -181,7 +193,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref, watch, watchPostEffect } from "vue";
 import { RUNTIME_PROVIDER_OVERRIDE_TYPES } from "@/api/jobs";
 import { generateApiChat, type ApiChatProviderOverride } from "@/api/chat";
 import {
@@ -198,19 +210,53 @@ import GearIcon from "@/components/Icons/GearIcon.vue";
 import ScrollBox from "@/components/Containers/ScrollBox.vue";
 import { renderAssistantMarkdown } from "@/components/Elements/ChatMarkdownRenderer";
 import ProviderConnectionSettings from "./ProviderConnectionSettings.vue";
+import { EnumProperty, StringProperty } from "@/assets/scripts/OpenChart/DiagramModel/index.ts";
+import { TupleProperty } from "@/assets/scripts/OpenChart/DiagramModel/index.ts";
 
 const { status: apiAvailabilityStatus, ensureChecked: ensureApiAvailabilityChecked } = useApiAvailability();
 const applicationStore = useApplicationStore();
 const runtimeProviderStore = useRuntimeProviderStore();
 const isShowingSettings = ref(false);
 const chatLog = ref<{ scrollToBottom: () => void } | null>(null);
-const chatMessageInput = ref<HTMLInputElement | null>(null);
+const chatMessageInput = ref<HTMLTextAreaElement | null>(null);
 const draftMessage = ref("");
+
+function resizeMessageInput() {
+  const input = chatMessageInput.value;
+  if(!input) return;
+  input.style.height = "0px";
+  input.style.height = `${input.scrollHeight}px`;
+}
+
+watchPostEffect(() => {
+  // Also resize when sending clears the draft or settings recreates the input.
+  void draftMessage.value;
+  resizeMessageInput();
+});
+
+watch(chatMessageInput, (input, _previousInput, onCleanup) => {
+  if(!input) return;
+  let previousWidth = -1;
+  const observer = new ResizeObserver(([entry]) => {
+    if(entry.contentRect.width === previousWidth) return;
+    previousWidth = entry.contentRect.width;
+    resizeMessageInput();
+  });
+  observer.observe(input);
+  onCleanup(() => observer.disconnect());
+});
+
+function handleComposerEnter(event: KeyboardEvent) {
+  if(event.shiftKey || event.isComposing) return;
+  event.preventDefault();
+  void sendMessage();
+}
+
 const copiedMessageId = ref<number | null>(null);
 const showWelcome = ref(true);
 const suggestedPrompts = [
   "Summarize this flow.",
-  "Generate an adversary emulation plan from this flow.",
+  "Show me a list of ATT&CK mitigations for the techniques in this flow.",
 ];
 const providerType = ref("");
 const endpoint = ref("");
@@ -242,6 +288,29 @@ const missingDirectProviderParam = computed(() => {
   ].filter((value): value is string => Boolean(value));
 
   return missing.length ? `Missing direct-provider settings: ${missing.join(", ")}.` : "";
+});
+
+const classificationMarking = computed<string | undefined>(() => {
+    const tup : TupleProperty | undefined = applicationStore.activeEditor.file.canvas.properties.get("classification")
+    if (!tup) {
+        return undefined;
+    }
+    const enumProp : EnumProperty | undefined = tup?.value.get("marking") as EnumProperty;
+    return enumProp ? enumProp.toString() : undefined;
+});
+
+const classificationGroup = computed<StringProperty | undefined>( () => {
+    const tup : TupleProperty | undefined = applicationStore.activeEditor.file.canvas.properties.get("classification")
+    if (!tup) {
+        return undefined;
+    }
+    const result : StringProperty | undefined = tup?.value.get("group") as StringProperty;
+    return result
+});
+
+const classificationShouldWarn = computed<boolean>(() => {
+    if (classificationMarking.value === undefined) return false;
+    return ["TLP:RED", "TLP:AMBER", "TLP:AMBER+STRICT"].includes(classificationMarking.value);
 });
 
 const submitQueryTooltip = computed<string>(() => {
@@ -427,12 +496,15 @@ onMounted(() => {
 }
 
 .chat-log-message {
+  box-sizing: border-box;
+  min-width: 0;
   max-width: 85%;
   margin: 0;
   padding: 8px 10px;
   color: var(--af-text-color-primary);
   font-size: 9.5pt;
   line-height: 1.35;
+  overflow-wrap: anywhere;
   border-radius: 8px;
 }
 
@@ -526,7 +598,7 @@ onMounted(() => {
 .chat-message-form {
   display: flex;
   flex: 1;
-  align-items: center;
+  align-items: flex-end;
   min-width: 0;
   border: solid 1px var(--af-border-color-primary);
   border-radius: 9px;
@@ -536,10 +608,16 @@ onMounted(() => {
 .chat-message-input {
   flex: 1;
   min-width: 0;
-  height: 38px;
-  padding: 0 10px 0 18px;
+  box-sizing: border-box;
+  min-height: 38px;
+  max-height: calc(3lh + 20px);
+  padding: 10px 10px 10px 18px;
   color: var(--af-text-color-primary);
   font: inherit;
+  font-size: 9.5pt;
+  line-height: 18px;
+  resize: none;
+  overflow-y: auto;
   border: none;
   outline: none;
   background: transparent;
@@ -640,6 +718,20 @@ onMounted(() => {
   color: var(--af-text-color-secondary);
   font-size: 9pt;
   line-height: 1.35;
+}
+
+.tlp-warning-message {
+    background-color: var(--af-color-info);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: var(--af-text-color-info-bg);
+    font-size: small;
+}
+
+.tlp-warning-message .warning-icon {
+    margin-right: 10px;
+    font-size: x-large;
 }
 
 </style>

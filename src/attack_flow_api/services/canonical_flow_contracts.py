@@ -154,6 +154,7 @@ class CanonicalFlowNodeBase(BaseModel):
 class CanonicalFlowActionNode(CanonicalFlowNodeBase):
     node_kind: Literal[CanonicalFlowNodeKind.ATTACK_ACTION] = CanonicalFlowNodeKind.ATTACK_ACTION
     technique: CanonicalFlowTechniqueReference | None = None
+    tactic_id: str | None = None
     tactic_ref: str | None = None
     tactic_name: str | None = None
 

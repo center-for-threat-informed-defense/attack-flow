@@ -30,6 +30,7 @@ export class SpawnRedTeamTest extends SpawnObject {
         this.configureTTP(test.techniqueId);
         this.setString("name", test.name);
         this.setString("description", test.description);
+        this.setString("note", test.note);
         this.setPlatforms(test.platforms);
         this.setString("executor", test.executor);
         this.setString("command", test.command);

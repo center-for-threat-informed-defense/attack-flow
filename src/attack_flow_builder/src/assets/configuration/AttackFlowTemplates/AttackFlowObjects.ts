@@ -266,6 +266,9 @@ export const AttackFlowObjects: DiagramObjectTemplate[] = [
                 },
                 default: []
             },
+            note: {
+                type: PropertyType.String
+            },
             tags: TagsProperty
         },
         anchors: AnchorConfiguration

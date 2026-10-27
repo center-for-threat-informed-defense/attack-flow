@@ -19,6 +19,7 @@ type AtomicYamlTest = {
     dependency_executor_name?: string;
     dependencies?: AtomicDependency[];
     input_arguments?: Record<string, AtomicInputArgument>;
+    note?: string;
 };
 
 export type AtomicDependency = {
@@ -45,6 +46,7 @@ export type AtomicRedTeamTest = {
     dependencyExecutor?: string;
     dependencies: AtomicDependency[];
     inputArguments: Array<AtomicInputArgument & { name: string }>;
+    note: string;
 };
 
 const atomicTestCache = new Map<string, Promise<AtomicRedTeamTest[]>>();
@@ -100,6 +102,7 @@ async function fetchAtomicRedTeamTests(techniqueId: string): Promise<AtomicRedTe
             inputArguments: Object.entries(test.input_arguments ?? {}).map(([name, argument]) => ({
                 name,
                 ...argument
-            }))
+            })),
+            note: test.note ?? ""
         }));
 }

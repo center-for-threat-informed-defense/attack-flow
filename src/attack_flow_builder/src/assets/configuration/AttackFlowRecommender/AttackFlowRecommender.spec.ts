@@ -168,6 +168,7 @@ describe("AttackFlowRecommender", () => {
             techniqueId: "T1059",
             name: "PowerShell test",
             description: "Runs PowerShell.",
+            note: "Record the result.",
             platforms: ["windows"],
             executor: "powershell",
             command: "Write-Host test",
@@ -187,6 +188,7 @@ describe("AttackFlowRecommender", () => {
             subtitle: "Atomic Red Team test",
             parentId: "red-team-test",
             atomicRedTeamTest: {
+                note: "Record the result.",
                 command: "Write-Host test"
             }
         }]);

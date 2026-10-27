@@ -293,6 +293,7 @@ export default defineComponent({
     --af-text-color-hover-action: #fff;
     --af-text-color-disabled: #999;
     --af-text-color-placeholder: #808080;
+    --af-text-color-info-bg: #000000;
 
     --af-color-valid: #2bd463;
     --af-color-warning: #e6d846;
@@ -316,6 +317,7 @@ export default defineComponent({
     --af-text-color-hover-action: #4A4A4A;
     --af-text-color-disabled: #555;
     --af-text-color-placeholder: #757575;
+    --af-text-color-info-bg: #ffffff;
 
     --af-color-valid: #1D7732;
     --af-color-warning: #e5ac00;

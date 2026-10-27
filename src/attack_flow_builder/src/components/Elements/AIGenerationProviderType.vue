@@ -47,7 +47,6 @@ select {
     border-radius: 5px;
     color: var(--af-text-color-primary);
     padding: 5px;
-    color: var(--af-text-color-primary);
 }
 
 select.empty {

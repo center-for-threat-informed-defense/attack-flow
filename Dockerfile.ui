@@ -7,6 +7,7 @@ ENV AFB_BASE_URL=${AFB_BASE_URL}
 ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
 
 COPY src/attack_flow_builder /attack_flow_builder
+COPY config/ai-prompts.json /config/ai-prompts.json
 WORKDIR /attack_flow_builder
 RUN npm ci
 RUN npm run build-only

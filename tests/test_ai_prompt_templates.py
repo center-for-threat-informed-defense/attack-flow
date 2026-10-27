@@ -22,6 +22,8 @@ def test_full_extraction_prompt_contains_required_rules() -> None:
     assert "set grounded_by to inferred_from_procedure" in bundle.system_instruction
     assert "Do not omit technique for an attack-action" in bundle.system_instruction
     assert "also emit its corresponding ATT&CK tactic" in bundle.system_instruction
+    assert "put external IDs in tactic.tactic_id" in bundle.system_instruction
+    assert "Do not fabricate STIX references from external IDs" in bundle.system_instruction
     assert "Use a concise action name and make its description the most complete contiguous verbatim source excerpt available" in bundle.system_instruction
     assert "Do not shorten or summarize away material details" in bundle.system_instruction
     assert "Use AND only for documented concurrent activity, parallel requirements" in bundle.system_instruction

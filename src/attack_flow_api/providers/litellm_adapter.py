@@ -83,6 +83,7 @@ class LiteLLMProviderAdapter(ProviderAdapter):
             max_output_tokens=16,
             timeout_seconds=request.timeout_seconds,
             operation=ProviderOperation.VALIDATE,
+            response_format=None,
         )
         return ProviderValidationResult(
             provider_id=self.provider_id,

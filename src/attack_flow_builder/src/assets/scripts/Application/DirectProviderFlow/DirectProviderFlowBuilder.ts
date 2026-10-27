@@ -293,6 +293,25 @@ function normalizeRequiredEntityFields(
         case "user-account":
             setStringFallback("display_name", "account_login", "user_name", "name", "value");
             break;
+        case "windows-registry-key": {
+            setStringFallback("key", "display_name", "name", "value");
+            const hives: Record<string, string> = {
+                HKCU: "HKEY_CURRENT_USER",
+                HKLM: "HKEY_LOCAL_MACHINE",
+                HKCR: "HKEY_CLASSES_ROOT",
+                HKU: "HKEY_USERS",
+                HKCC: "HKEY_CURRENT_CONFIG"
+            };
+            const key = toTrimmedString(normalized.key);
+            if (key) {
+                normalized.key = key.replace(
+                    /^(Computer\\)?(HKCU|HKLM|HKCR|HKU|HKCC|HKEY_CURRENT_USER|HKEY_LOCAL_MACHINE|HKEY_CLASSES_ROOT|HKEY_USERS|HKEY_CURRENT_CONFIG):?(?=\\|$)/i,
+                    (_match, computer: string | undefined, hive: string) =>
+                        (computer ? "Computer\\" : "") + (hives[hive.toUpperCase()] ?? hive.toUpperCase())
+                );
+            }
+            break;
+        }
         case "x509-certificate":
             setStringFallback("subject", "display_name", "issuer", "serial_number", "name");
             break;
@@ -441,9 +460,28 @@ function setConfidenceProperty(object: DiagramObjectView, confidence: number | u
     setEnumProperty(object, "confidence", confidenceToEditorKey(confidence));
 }
 
+function ttpExternalId(id: unknown, ref: unknown, prefix: string, pattern: RegExp): string | undefined {
+    const value = toTrimmedString(id) ?? toTrimmedString(ref);
+    // Repair prefixed external IDs without truncating genuine STIX UUIDs
+    // or identifiers belonging to other supported frameworks.
+    if (value?.startsWith(prefix)) {
+        const externalId = value.slice(prefix.length);
+        if (pattern.test(externalId)) {
+            return externalId;
+        }
+    }
+    return value;
+}
+
 function setTtpProperty(object: DiagramObjectView, action: StructuredExtractionAttackActionNode): void {
-    const techniqueId = toTrimmedString(action.technique?.technique_id ?? action.technique?.technique_ref);
-    const tacticId = toTrimmedString(action.tactic?.tactic_id ?? action.tactic?.tactic_ref);
+    const techniqueId = ttpExternalId(
+        action.technique?.technique_id, action.technique?.technique_ref,
+        "attack-pattern--", /^T[0-9]{4}(?:\.[0-9]{3})?$/
+    );
+    const tacticId = ttpExternalId(
+        action.tactic?.tactic_id, action.tactic?.tactic_ref,
+        "x-mitre-tactic--", /^TA[0-9]{4}$/
+    );
     const prop = getProperty(object, "ttp", TTPTupleProperty) as TTPTupleProperty | undefined;
     if (!prop || (!techniqueId && !tacticId)) {
         return;

@@ -21,7 +21,9 @@ import attack_flow.schema
 def main():
     """Main entry point for `af` command line."""
     args = _parse_args()
-    _setup_logging(args.log_level)
+    logger = logging.getLogger()
+    previous_log_level = logger.level
+    log_handler = _setup_logging(args.log_level)
     try:
         result = args.command(args)
     except RuntimeError as e:
@@ -30,6 +32,10 @@ def main():
         else:
             sys.stderr.write(f"error: {str(e)}\n")
             result = 1
+    finally:
+        logger.removeHandler(log_handler)
+        log_handler.close()
+        logger.setLevel(previous_log_level)
     sys.exit(result)
 
 
@@ -306,6 +312,7 @@ def _setup_logging(log_level_name):
     logger = logging.getLogger()
     logger.addHandler(log_handler)
     logger.setLevel(log_level)
+    return log_handler
 
 
 if __name__ == "__main__":

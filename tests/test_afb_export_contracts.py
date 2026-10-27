@@ -1,4 +1,7 @@
 import json
+from pathlib import Path
+
+import pytest
 
 from attack_flow_api.services.afb_export_contracts import (
     AFB_PINNED_TARGET_EXTENSION_DEFINITION_ID,
@@ -37,6 +40,49 @@ from attack_flow_api.services.canonical_flow_contracts import (
     CanonicalFlowTechniqueReference,
     CanonicalFlowOperatorNode,
 )
+
+
+@pytest.mark.parametrize("key,expected", [
+    (r"HKCU\Software\Example", r"HKEY_CURRENT_USER\Software\Example"),
+    (r"HKLM\Software\Example", r"HKEY_LOCAL_MACHINE\Software\Example"),
+    (r"HKCR\Software\Example", r"HKEY_CLASSES_ROOT\Software\Example"),
+    (r"HKU\Software\Example", r"HKEY_USERS\Software\Example"),
+    (r"HKCC\Software\Example", r"HKEY_CURRENT_CONFIG\Software\Example"),
+    (r"hkcu:\Software\Example", r"HKEY_CURRENT_USER\Software\Example"),
+    (r"Computer\HKLM:\Software\HKCU", r"Computer\HKEY_LOCAL_MACHINE\Software\HKCU"),
+    (r"HKEY_CURRENT_USER:\Software\Example", r"HKEY_CURRENT_USER\Software\Example"),
+    (r"HKEY_CURRENT_USER\Software\Example", r"HKEY_CURRENT_USER\Software\Example"),
+    ("HKCU", "HKEY_CURRENT_USER"),
+    (r"HKCUSTOM\Software", r"HKCUSTOM\Software"),
+    (r"Software\HKCU\Example", r"Software\HKCU\Example"),
+])
+@pytest.mark.parametrize("include_key", [True, False])
+def test_generated_registry_keys_use_canonical_hives(key: str, expected: str, include_key: bool) -> None:
+    canonical = CanonicalFlowOutput(
+        metadata=CanonicalFlowMetadata(flow_id="attack-flow--registry", name="Registry flow", scope="incident"),
+        nodes=[CanonicalFlowActionNode(
+            id="attack-action--registry",
+            name="Use registry key",
+            description=f"The source uses {key}",
+            object_refs=["windows-registry-key--1"],
+        ), CanonicalFlowAssetNode(
+            id="windows-registry-key--1",
+            name=key,
+            object_ref="windows-registry-key--1",
+            stix_properties={
+                "type": "windows-registry-key", "id": "windows-registry-key--1",
+                **({"key": key} if include_key else {}),
+            },
+        )],
+        edges=[], provenance={}, conflicts=[], validation_errors=[],
+    )
+    diagram = assemble_afb_export_bundle(canonical).to_diagram_export_ready()
+    registry = next(item for item in diagram["objects"] if item["id"] == "windows_registry_key")
+    assert dict(registry["properties"])["key"] == expected
+    assert canonical.nodes[0].description == f"The source uses {key}"
+    assert canonical.nodes[1].name == key
+    if include_key:
+        assert canonical.nodes[1].stix_properties["key"] == key
 
 
 def test_afb_export_target_metadata_defaults_are_pinned() -> None:
@@ -86,7 +132,7 @@ def test_build_afb_export_bundle_canvas_always_has_author_name() -> None:
     bundle = assemble_afb_export_bundle(canonical)
     canvas = bundle.to_diagram_export_ready()["objects"][0]
 
-    assert [item for item in canvas["properties"] if item[0] == "author"][0][1]["name"] == "Unknown"
+    assert dict(canvas["properties"])["author"] == [["name", "Unknown"]]
 
 
 def test_build_afb_export_bundle_canvas_external_references_include_source_name() -> None:
@@ -109,7 +155,21 @@ def test_build_afb_export_bundle_canvas_external_references_include_source_name(
     canvas = bundle.to_diagram_export_ready()["objects"][0]
 
     external_references = [item for item in canvas["properties"] if item[0] == "external_references"][0][1]
-    assert external_references == [{"source_name": "example.com", "url": "https://example.com/report"}]
+    assert external_references == [
+        ["item-1", [["source_name", "example.com"], ["url", "https://example.com/report"]]]
+    ]
+
+
+def test_afb_export_matches_builder_import_fixture() -> None:
+    fixtures = Path(__file__).parent / "fixtures"
+    canonical = CanonicalFlowOutput.model_validate_json(
+        (fixtures / "api-afb-import.canonical.json").read_text()
+    )
+    # This exact export is also loaded by ApiAfbImport.spec.ts using the real
+    # Builder importer, so Python serialization changes cannot drift silently.
+    actual = assemble_afb_export_bundle(canonical).to_diagram_export_ready()
+    expected = json.loads((fixtures / "api-afb-import.afb").read_text())
+    assert actual == expected
 
 
 def test_build_afb_export_bundle_metadata_preserves_context_lists() -> None:
@@ -435,10 +495,9 @@ def test_assemble_afb_export_bundle_builds_builder_diagram_export() -> None:
     action = next(item for item in diagram_export["objects"] if item["id"] == "action")
     assert canvas["id"] == "flow"
     assert [item for item in canvas["properties"] if item[0] == "description"][0][1] == "Example flow description."
-    assert [item for item in canvas["properties"] if item[0] == "external_references"][0][1][0] == {
-        "source_name": "example.com",
-        "url": "https://example.com/report",
-    }
+    assert [item for item in canvas["properties"] if item[0] == "external_references"][0][1][0] == [
+        "item-1", [["source_name", "example.com"], ["url", "https://example.com/report"]]
+    ]
     assert [item for item in action["properties"] if item[0] == "confidence"][0][1] == 0.0
     assert "attack-action--1" in canvas["objects"]
     assert "attack-asset--1" in canvas["objects"]
@@ -789,6 +848,47 @@ def test_assemble_afb_export_bundle_keeps_action_technique_without_attack_patter
     ]
     assert not any(item["id"] == "attack_pattern" for item in diagram_export["objects"])
     assert "T1059" not in diagram_export["objects"][0]["objects"]
+
+
+@pytest.mark.parametrize(
+    "identifiers, expected",
+    [
+        (
+            {"tactic_id": "TA0006", "tactic_ref": "x-mitre-tactic--uuid",
+             "technique_id": "T1003.001", "technique_ref": "attack-pattern--uuid"},
+            {"tactic": "TA0006", "technique": "T1003.001"},
+        ),
+        (
+            {"tactic_ref": "x-mitre-tactic--TA0006", "technique_ref": "attack-pattern--T1003.001"},
+            {"tactic": "TA0006", "technique": "T1003.001"},
+        ),
+        (
+            {"tactic_id": "x-mitre-tactic--TA0006", "technique_id": "attack-pattern--T1003"},
+            {"tactic": "TA0006", "technique": "T1003"},
+        ),
+        (
+            {"technique_id": "AML.T0000"},
+            {"technique": "AML.T0000"},
+        ),
+        (
+            {"technique_ref": "attack-pattern--7d751199-05fa-4a72-920f-85df4506c76c"},
+            {"technique": "attack-pattern--7d751199-05fa-4a72-920f-85df4506c76c"},
+        ),
+        ({}, None),
+    ],
+)
+def test_diagram_ttp_uses_external_ids(identifiers: dict, expected: dict | None) -> None:
+    bundle = build_afb_export_bundle("bundle--ttp")
+    action = {"type": "attack-action", "id": "attack-action--1", "name": "Dump credentials", **identifiers}
+    bundle.objects.objects = [action]
+
+    diagram = json.loads(bundle.to_diagram_export_bytes())
+    exported_action = next(item for item in diagram["objects"] if item["id"] == "action")
+    properties = dict(exported_action["properties"])
+
+    assert properties.get("ttp") == expected
+    # Diagram display normalization must not rewrite source STIX references.
+    assert bundle.objects.objects[0] == action
 
 
 def test_assemble_afb_export_bundle_renders_action_to_action_connector() -> None:

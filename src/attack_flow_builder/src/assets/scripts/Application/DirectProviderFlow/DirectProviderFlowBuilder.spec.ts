@@ -87,6 +87,75 @@ describe("DirectProviderFlowBuilder", () => {
     });
 
     it.each([
+        {
+            name: "external IDs take precedence over references",
+            technique: { technique_id: "T1003.001", technique_ref: "attack-pattern--uuid" },
+            tactic: { tactic_id: "TA0006", tactic_ref: "x-mitre-tactic--uuid" },
+            expected: { technique: "T1003.001", tactic: "TA0006" }
+        },
+        {
+            name: "prefixed references are normalized",
+            technique: { technique_ref: "attack-pattern--T1003.001" },
+            tactic: { tactic_ref: "x-mitre-tactic--TA0006" },
+            expected: { technique: "T1003.001", tactic: "TA0006" }
+        },
+        {
+            name: "prefixed IDs and parent techniques are normalized",
+            technique: { technique_id: "attack-pattern--T1003" },
+            tactic: { tactic_id: "x-mitre-tactic--TA0006" },
+            expected: { technique: "T1003", tactic: "TA0006" }
+        },
+        {
+            name: "empty IDs fall back to references",
+            technique: { technique_id: "", technique_ref: "attack-pattern--T1003.001" },
+            tactic: { tactic_id: "", tactic_ref: "x-mitre-tactic--TA0006" },
+            expected: { technique: "T1003.001", tactic: "TA0006" }
+        },
+        {
+            name: "whitespace IDs fall back to trimmed references",
+            technique: { technique_id: "  ", technique_ref: " attack-pattern--T1003.001 " },
+            tactic: { tactic_id: "  ", tactic_ref: " x-mitre-tactic--TA0006 " },
+            expected: { technique: "T1003.001", tactic: "TA0006" }
+        },
+        {
+            name: "genuine UUID references are preserved",
+            technique: { technique_ref: "attack-pattern--7d751199-05fa-4a72-920f-85df4506c76c" },
+            tactic: { tactic_ref: "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263" },
+            expected: {
+                technique: "attack-pattern--7d751199-05fa-4a72-920f-85df4506c76c",
+                tactic: "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263"
+            }
+        },
+        {
+            name: "other framework IDs are preserved",
+            technique: { technique_id: "AML.T0000" },
+            tactic: { tactic_id: "AML.TA0002" },
+            expected: { technique: "AML.T0000", tactic: "AML.TA0002" }
+        }
+    ])("builds TTP metadata when $name", async ({ technique, tactic, expected }) => {
+        const app = useApplicationStore();
+        app.settings.view.diagram.theme = "light_theme";
+        const extraction = extractionWith({
+            attack_actions: [{
+                id: "attack-action--1",
+                type: "attack-action",
+                spec_version: "2.1",
+                name: "Dump credentials",
+                description: "The attacker dumped credentials.",
+                confidence: 0.9,
+                technique: { ...technique, confidence: 0.9, grounded_by: "report" },
+                tactic: { ...tactic, confidence: 0.9, grounded_by: "report" }
+            }]
+        });
+        const originalExtraction = structuredClone(extraction);
+
+        const file = await buildDirectProviderDiagramFile(app, extraction);
+
+        expect(file.canvas.blocks[0].properties.get("ttp", TTPTupleProperty)?.toJson()).toEqual(expected);
+        expect(extraction).toEqual(originalExtraction);
+    });
+
+    it.each([
         ["adversary profile", "threat-actor"],
         ["ransomware family", "malware"],
         ["purple team exercise", "emulation-plan"],
@@ -328,6 +397,43 @@ describe("DirectProviderFlowBuilder", () => {
         expect(file.canvas.blocks[0].properties.get("name", StringProperty)?.value).toBe("PowerShell");
         expect(file.canvas.blocks[0].properties.get("vendor", StringProperty)?.value).toBe("Microsoft");
         expect(file.canvas.blocks[0].properties.get("version", StringProperty)?.value).toBe("7.4");
+    });
+
+    it.each([
+        ["HKCU\\Software\\Example", "HKEY_CURRENT_USER\\Software\\Example"],
+        ["HKLM\\Software\\Example", "HKEY_LOCAL_MACHINE\\Software\\Example"],
+        ["HKCR\\Software\\Example", "HKEY_CLASSES_ROOT\\Software\\Example"],
+        ["HKU\\Software\\Example", "HKEY_USERS\\Software\\Example"],
+        ["HKCC\\Software\\Example", "HKEY_CURRENT_CONFIG\\Software\\Example"],
+        ["hkcu:\\Software\\Example", "HKEY_CURRENT_USER\\Software\\Example"],
+        ["Computer\\HKLM:\\Software\\HKCU", "Computer\\HKEY_LOCAL_MACHINE\\Software\\HKCU"],
+        ["HKEY_CURRENT_USER:\\Software\\Example", "HKEY_CURRENT_USER\\Software\\Example"],
+        ["HKEY_CURRENT_USER\\Software\\Example", "HKEY_CURRENT_USER\\Software\\Example"],
+        ["HKCU", "HKEY_CURRENT_USER"],
+        ["HKCUSTOM\\Software", "HKCUSTOM\\Software"],
+        ["Software\\HKCU\\Example", "Software\\HKCU\\Example"]
+    ])("normalizes generated registry key %s", async (key, expected) => {
+        const app = useApplicationStore();
+        app.settings.view.diagram.theme = "light_theme";
+        const variants: Record<string, string | { key: string }>[] = [
+            { key }, { stix_properties: { key } }, { display_name: key }
+        ];
+        for (const fields of variants) {
+            const entity = {
+                object_id: "windows-registry-key--1",
+                object_type: "windows_registry_key",
+                ...fields
+            };
+            const file = await buildDirectProviderDiagramFile(app, extractionWith({
+                deterministic_entities: [entity]
+            }));
+            expect(file.canvas.blocks[0].id).toBe("windows_registry_key");
+            expect(file.canvas.blocks[0].properties.get("key", StringProperty)?.value).toBe(expected);
+            // Source extraction is preserved; normalization only changes the generated card.
+            expect(entity).toEqual({
+                object_id: "windows-registry-key--1", object_type: "windows_registry_key", ...fields
+            });
+        }
     });
 
     it("preserves file hashes in the native file block", async () => {

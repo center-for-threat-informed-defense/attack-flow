@@ -3,7 +3,6 @@
  */
 export const WindowsRegistryRegex
     = /^(Computer\\)?((HKEY_LOCAL_MACHINE)|(HKEY_CURRENT_CONFIG)|(HKEY_CLASSES_ROOT)|(HKEY_CURRENT_USER)|(HKEY_USERS))\\(.*)[^\\]/;
-
 /**
  * IPv4 Regex
  */

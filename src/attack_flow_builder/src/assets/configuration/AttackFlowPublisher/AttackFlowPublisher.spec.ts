@@ -260,6 +260,7 @@ describe("AttackFlowPublisher - Red-team Test", () => {
         const ttp = redTeamTest.properties.get("ttp", TTPTupleProperty)!;
         ttp.get("technique", StringProperty)?.setValue("T1059");
         redTeamTest.properties.get("name", StringProperty)?.setValue("PowerShell test");
+        redTeamTest.properties.get("note", StringProperty)?.setValue("Run on a test host.\nRecord the result.");
 
         const dependencies = redTeamTest.properties.get("dependencies", ListProperty)!;
         const dependency = dependencies.createListItem() as DictionaryProperty;
@@ -272,6 +273,7 @@ describe("AttackFlowPublisher - Red-team Test", () => {
         expect(sdo).toMatchObject({
             id: `x-red-team-test--${redTeamTest.instance}`,
             name: "PowerShell test",
+            x_note: "Run on a test host.\nRecord the result.",
             x_ttp: { x_technique: "[ENT] T1059 Command and Scripting Interpreter" },
             x_dependencies: [{ x_description: "A test dependency" }]
         });
@@ -281,6 +283,9 @@ describe("AttackFlowPublisher - Red-team Test", () => {
         expect(importedTest).toBeDefined();
         expect(importedTest?.id).toBe("red-team-test");
         expect(importedTest?.properties.get("name", StringProperty)?.value).toBe("PowerShell test");
+        expect(importedTest?.properties.get("note", StringProperty)?.value).toBe(
+            "Run on a test host.\nRecord the result."
+        );
         expect(
             importedTest?.properties.get("ttp", TTPTupleProperty)
                 ?.get("technique", StringProperty)?.value
