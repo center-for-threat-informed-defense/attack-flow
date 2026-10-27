@@ -1072,7 +1072,7 @@ def _build_canvas_properties(canvas: dict[str, Any], authors: list[str]) -> list
     properties.append(["scope", _best_fit_flow_scope(canvas)])
 
     author_name = authors[0] if authors else "Unknown"
-    properties.append(["author", {"name": author_name}])
+    properties.append(["author", [["name", author_name]]])
 
     external_references = canvas.get("external_references")
     if isinstance(external_references, list) and external_references:

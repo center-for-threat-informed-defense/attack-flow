@@ -132,7 +132,7 @@ def test_build_afb_export_bundle_canvas_always_has_author_name() -> None:
     bundle = assemble_afb_export_bundle(canonical)
     canvas = bundle.to_diagram_export_ready()["objects"][0]
 
-    assert [item for item in canvas["properties"] if item[0] == "author"][0][1]["name"] == "Unknown"
+    assert dict(canvas["properties"])["author"] == [["name", "Unknown"]]
 
 
 def test_build_afb_export_bundle_canvas_external_references_include_source_name() -> None:
