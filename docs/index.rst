@@ -5,7 +5,7 @@ Attack Flow is a language for describing how cyber adversaries combine and seque
 various offensive techniques to achieve their goals. The project helps defenders and
 leaders understand how adversaries operate and improve their own defensive posture. This
 project is created and maintained by the `MITRE Center for Threat-Informed
-Defense <https://ctid.mitre-.org/>`__ in futherance of our mission to advance
+Defense <https://ctid.mitre.org/>`__ in futherance of our mission to advance
 the state of the art and the state of the practice in threat-informed defense
 globally. The project is funded by our `research participants
 <https://ctid.mitre.org/projects/attack-flow#participants-section>`__. The development of these usage guides has been shaped by direct input and feedback from our members—practitioners at large, international organizations with advanced cybersecurity programs. Their real-world experience and operational insights have grounded this work in practical, applicable guidance for defenders around the world.
